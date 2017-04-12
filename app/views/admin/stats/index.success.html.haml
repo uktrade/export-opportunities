@@ -1,0 +1,20 @@
+%h1.heading-xlarge
+  Stats
+
+= render partial: 'stats_search_form', locals: { stats_search_form: @stats_search_form }
+
+%div
+  %p
+    %strong
+      = "Statistics for #{@service_provider.name}"
+      - if @stats_search_form.date_from == @stats_search_form.date_to
+        = "on #{@stats_search_form.date_from.to_s(:admin_date)}"
+      - else
+        = "over the period #{@stats_search_form.date_from.to_s(:admin_date)} to #{@stats_search_form.date_to.to_s(:admin_date)}"
+  = t('admin.stats.opportunities_submitted', count: @stats.opportunities_submitted)
+  %br
+  = t('admin.stats.opportunities_published', count: @stats.opportunities_published)
+  %br
+  = t('admin.stats.enquiries', count: @stats.enquiries)
+  %br
+  = t('admin.stats.average_age_when_published', average_age: @stats.average_age_when_published)

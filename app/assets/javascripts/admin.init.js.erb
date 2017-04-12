@@ -1,0 +1,33 @@
+/* globals ukti, $, jQuery */
+
+$('document').ready(function() {
+  var $opportunityTitle = $('#opportunity_title');
+  if($opportunityTitle.length) {
+    ukti.CharacterCounter.init($opportunityTitle, <%= Opportunity::TITLE_LENGTH_LIMIT %>);
+  }
+  var $opportunityTeaser = $('#opportunity_teaser');
+  if($opportunityTeaser.length) {
+    ukti.CharacterCounter.init($opportunityTeaser, <%= Opportunity::TEASER_LENGTH_LIMIT %>);
+  }
+	var downloadOppsForm = $('.opportunities_download_form');
+	if (downloadOppsForm.length > 0) {
+		ukti.DisableSubmitButton.init(downloadOppsForm);
+		ukti.DateFilterValidation.init(downloadOppsForm);
+		ukti.DateFilterPicker.init(downloadOppsForm);
+	}
+	var downloadEnqForm = $('form[action="/admin/enquiries.csv"]');
+	if (downloadEnqForm.length > 0) {
+		ukti.DisableSubmitButton.init(downloadEnqForm);
+		ukti.DateFilterValidation.init(downloadEnqForm);
+		ukti.DateFilterPicker.init(downloadEnqForm);
+	}
+
+	var oppEditForm = $('form.edit_opportunity');
+	var oppNewForm = $('form.new_opportunity');
+	if (oppEditForm || oppNewForm) {
+		datePickerController.createDatePicker({
+			formElements:{'opportunity_response_due_on_3i': '%j', 'opportunity_response_due_on_2i': '%n', 'opportunity_response_due_on_1i': '%Y'},
+			noFadeEffect:true
+		});
+	}
+});

@@ -1,0 +1,32 @@
+.has-sidebar {
+  @include span-columns(12);
+  @include clearfix;
+
+  @include media($medium-screen) {
+    @include span-columns(7);
+  }
+
+  @include media($xlarge-screen) {
+    @include span-columns(8);
+  }
+
+  .lt-ie9 & {
+    @include span-columns(7);
+  }
+}
+
+.sidebar {
+  @include span-columns(12);
+
+  @include media($medium-screen) {
+    @include span-columns(5);
+  }
+
+  @include media($xlarge-screen) {
+    @include span-columns(4);
+  }
+
+  .lt-ie9 & {
+    @include span-columns(4);
+  }
+}

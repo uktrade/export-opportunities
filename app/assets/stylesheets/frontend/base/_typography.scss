@@ -1,0 +1,129 @@
+body {
+  color: $base-font-color;
+  font-family: $base-font-family;
+  font-feature-settings: 'kern', 'liga', 'pnum';
+  font-size: $base-font-size;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 400;
+  line-height: $base-line-height;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: $header-font-color;
+  font-family: $heading-font-family;
+  font-size: $base-font-size;
+  line-height: $heading-line-height;
+  margin: 0 0 $heading-font-size / 2;
+  text-transform: inherit;
+}
+
+h1 {
+  font-size: 300%; // 48px
+  font-weight: 500;
+  letter-spacing: -1;
+  line-height: 1.2;
+  max-width: 60%;
+
+  span {
+    display: block;
+    font-weight: 200;
+  }
+}
+
+
+h2 {
+  font-size: 225%; // 36px
+  letter-spacing: -1;
+}
+
+h3 {
+  font-size: 150%; // 24px
+
+  span {
+    color: $flag-red;
+    display: block;
+    font-weight: 700;
+    font-size: 22px;
+    text-transform: uppercase;
+  }
+}
+
+h4 {
+  font-size: 112.5%; // 18px
+}
+
+h4,
+h5,
+h6 {
+  font-family: $base-font-family;
+  font-size: $base-font-size;
+  font-weight: 300;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+p {
+  font-size: 112.5%; // 18px
+  line-height: 1.388888889;
+  margin: 0 0 1em;
+}
+
+a,
+a.no-link-styles {
+  color: $mid-blue;
+  text-decoration: none;
+  // transition: color $base-duration $base-timing;
+  border-bottom: 1px solid $mid-blue;
+
+  &:visited {
+    border-bottom: 1px solid $purple;
+    color: $purple;
+  }
+
+  &:active,
+  &:hover,
+  &:focus {
+    border-bottom: 1px dashed $aqua;
+    color: $aqua;
+  }
+
+  &:focus {
+    outline: 3px solid #ffbf47;
+  }
+}
+
+a.external-link {
+  text-decoration: none;
+  word-break: break-all;
+
+  &:after {
+    background: url('external-link.svg') no-repeat;
+    background-size: 12px 12px;
+    content: "";
+    display: inline-block;
+    height: 12px;
+    margin-left: 0.5em;
+    transform: translate(0, 0);
+    transition: transform .1s ease-out;
+    width: 12px;
+  }
+}
+
+hr {
+  border-bottom: $base-border;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  margin: $base-spacing 0;
+}
+
+img,
+picture {
+  margin: 0;
+  max-width: 100%;
+}

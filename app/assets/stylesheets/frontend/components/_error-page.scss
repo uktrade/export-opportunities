@@ -1,0 +1,16 @@
+.error404 {
+
+  .search-form {
+    margin: 0 0 .75em 0;
+    @include span-columns(12);
+
+    @include media($medium-screen) {
+      @include span-columns(7);
+      float: none;
+    }
+
+    &__submit {
+      background-color: $mid-grey;
+    }
+  }
+}

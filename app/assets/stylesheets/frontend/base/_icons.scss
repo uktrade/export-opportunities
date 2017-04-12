@@ -1,0 +1,15 @@
+[class^="icon-"],
+[class*=" icon-"] {
+    display: block;
+    fill: currentColor;
+    height: 1em;
+    width: 1em;
+}
+
+/* ================================================================================
+Example showing how to change the color/size of the icons:
+.icon-name {
+    color: red; // works for single-colored icons, because "fill" was set to "currentColor"
+    font-size: 32px; // works because "width" & "height" were set using em units
+}
+================================================================================*/

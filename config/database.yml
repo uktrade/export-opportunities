@@ -1,0 +1,17 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+  pool: <%= [Figaro.env.db_pool.to_i, Figaro.env.threads.to_i, 5].max %>
+
+development:
+  <<: *default
+  database: ukti_opportunities_dev
+
+test:
+  <<: *default
+  database: ukti_opportunities_test
+
+production:
+  <<: *default
+  database: ukti_opportunities_prod

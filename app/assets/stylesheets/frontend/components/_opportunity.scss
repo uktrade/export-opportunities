@@ -1,0 +1,198 @@
+.new-wrapper {
+  border-top: $panel-border;
+  margin-bottom: 80px;
+
+  @include span-columns(12);
+}
+
+.opportunity__main {
+  @include span-columns(12);
+
+  background-color: $white;
+  padding: $base-spacing $small-spacing;
+
+  @include media($medium-screen) {
+    @include span-columns(8);
+  }
+
+  .lt-ie9 & {
+    @include span-columns(8);
+    @include omega();
+  }
+
+  .opportunity__content {
+    margin-bottom: 3em;
+
+    .opportunity__teaser {
+      font-size: 24px;
+      font-weight: 300;
+      line-height: 1.291666667;
+    }
+
+    p {
+      line-height: 1.45;
+    }
+
+    h1 {
+      margin-left: 0;
+      margin-right: 0;
+
+      span {
+        max-width: 75%;
+      }
+    }
+
+    hr {
+      border-color: $mid-grey;
+    }
+
+    // undo any additional styling the editors have used incorrectly
+    b,
+    strong {
+      font-weight: normal;
+    }
+
+    i,
+    em {
+      font-style: normal;
+    }
+
+    ul {
+      list-style: none;
+      margin-bottom: $base-spacing;
+      margin-left: 1em;
+      padding-left: 0;
+
+      @include media($medium-screen) {
+        margin-left: 0;
+      }
+
+      li {
+        margin-bottom: $small-spacing;
+      }
+
+      li::before {
+        color: $flag-red;
+        content: "\2022";
+        display: inline-block;
+        margin-left: -1em;
+        width: 1em;
+      }
+    }
+
+    ol {
+      counter-reset: li;
+      list-style: none;
+      margin-bottom: $base-spacing;
+      margin-left: 1em;
+      padding-left: 0;
+
+      @include media($medium-screen) {
+        margin-left: 0;
+      }
+
+      li {
+        counter-increment: li;
+        margin-bottom: $small-spacing;
+      }
+
+      li::before {
+        color: $flag-red;
+        content: counter(li);
+        direction: rtl;
+        display: inline-block;
+        margin-left: -1.5em;
+        margin-right: 0.5em;
+        margin-top: 1px;
+        text-align: right;
+        width: 1em;
+      }
+    }
+  }
+}
+
+.opportunity__information {
+  @include span-columns(12);
+
+  background-color: $stone;
+  border-bottom: 0;
+  padding: $base-spacing;
+
+  @include media($medium-screen) {
+    @include span-columns(4);
+    @include omega();
+  }
+
+  .lt-ie9 & {
+    @include span-columns(3);
+    @include omega();
+  }
+
+  .meta {
+    padding: 1em 0;
+
+    @include media($medium-screen) {
+    }
+
+    .button {
+      width: 100%;
+    }
+
+    .meta__item {
+      min-height: 2.0em;
+
+      a {
+        border-bottom: 0
+      }
+
+      .meta__header {
+        display: block;
+        font-size: 1em;
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+
+      .meta__content {
+        font-size: 1em;
+        font-weight: 300;
+      }
+    }
+
+    .meta__icon {
+      &-sector,
+      &-type,
+      &-response,
+      &-value,
+      &-guide,
+      &-enquiries {
+        background-position: 0 50%;
+        background-repeat: no-repeat;
+        padding-left: 3.5em;
+      }
+
+      &-sector {
+        background-image: asset-url('opportunity/sector.png');
+      }
+
+      &-type {
+        background-image: asset-url('opportunity/type.png');
+      }
+
+      &-response {
+        background-image: asset-url('opportunity/response-date.png');
+      }
+
+      &-enquiries {
+        background-image: asset-url('opportunity/enquiries-received.png');
+      }
+
+      &-value {
+        background-image: asset-url('opportunity/value-of-contract.png');
+      }
+
+      &-guide {
+        background-image: asset-url('opportunity/guide-to-exporting.png');
+      }
+    }
+  }
+}

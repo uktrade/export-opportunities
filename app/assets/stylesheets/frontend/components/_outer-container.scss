@@ -1,0 +1,17 @@
+.outer-container {
+  @include outer-container(90%);
+
+  @include media($large-screen) {
+    @include outer-container(90%);
+  }
+
+  @include media($xlarge-screen) {
+    @include outer-container($max-width);
+  }
+
+  .lt-ie9 & {
+    width: $max-width;
+  }
+}
+// IE11 fix
+_:-ms-fullscreen, :root main { display: block; }

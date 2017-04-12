@@ -1,0 +1,35 @@
+/* Tweaking datepicker widget */
+
+.date-picker-control:focus {
+    outline: 3px solid $focus-colour !important;
+}
+
+.date-picker-control:focus,
+.date-picker-control:hover,
+.date-picker-control:active {
+  background-position: initial;
+}
+
+.date-picker td,
+.date-picker tbody th,
+.date-picker tbody td.date-picker-selected-date {
+  font-size: 16px;
+  width: 2em;
+  height: 2em;
+}
+
+@media (min-width: 641px) {
+  .date-picker td,
+  .date-picker tbody th {
+    font-size: 16px;
+  }
+}
+
+/* Override fade effect */
+.date-picker {
+	-webkit-transition:opacity 0s ease-in-out;
+	   -moz-transition:opacity 0s ease-in-out;
+	    -ms-transition:opacity 0s ease-in-out;
+	     -o-transition:opacity 0s ease-in-out;
+	        transition:opacity 0s ease-in-out;
+}

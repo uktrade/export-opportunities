@@ -1,0 +1,20 @@
+.info-list {
+  margin:$small-spacing 0;
+  padding: 0;
+
+  &__item {
+    @include span-columns(12);
+    margin: $small-spacing 0;
+
+    @include media($medium-screen) {
+      @include span-columns(4);
+      @include omega(3n);
+    }
+
+    @include media($large-screen) {
+      @include span-columns(12);
+    }
+
+  }
+
+}

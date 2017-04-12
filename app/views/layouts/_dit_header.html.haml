@@ -1,0 +1,65 @@
+.dit
+  %header{ role: 'banner' }
+    .nav-intro.background--indigo.font-white.font-xxsmall
+      .section
+        .grid-row
+          .column-one-whole.text--right.soft-half--ends
+            %h3.inline.push--right Our services:
+            %ul.nav-intro
+              %li.soft--right
+                %a{ href: opportunities_path } Export opportunities
+              %li.soft--right
+                %a{ href: 'http://find-a-buyer.export.great.gov.uk/' } Find a buyer
+              %li.soft--right
+                %a{ href: 'http://selling-online-overseas.export.great.gov.uk/' } Selling online overseas
+              %li.soft--right
+                %a{ href: 'https://events.trade.gov.uk/' } Events
+              - if current_user
+                %li.soft--right
+                  %a{ href: dashboard_path } Your opportunities
+                %li
+                  %a{ href: destroy_user_session_path } Sign out
+              - else
+                %li
+                  %a{ href: dashboard_path } Your opportunities
+    #global-header
+      .section
+        .grid-row
+          .column-one-third
+            .header-global
+              .header-logo
+                %a{ href: cms_url_for('/'), title: "Go to the #{t('site_name')} homepage" }
+                  %img.header-main-logo{ alt: "#{t('site_name')} logo", src: asset_path('eig-logo.svg'), onerror: "this.src='#{asset_path('eig-logo.png')}';this.onerror=null;" }/
+            %a.header-nav-toggle{ href: '#', title: 'Menu' }
+              menu
+              %i.icon.icon-menu
+          #global-header--right.column-two-thirds
+            .header-nav
+              .background--indigo.soft-half--sides.soft--ends.header-nav--top
+                %nav
+                  %h3.font-white Our services:
+                  %ul
+                    %li.header-nav-link
+                      %a.font-reg{ href: opportunities_path } Export opportunities
+                    %li.header-nav-link
+                      %a.font-reg{ href: 'http://find-a-buyer.export.great.gov.uk/' } Find a buyer
+                    %li.header-nav-link
+                      %a.font-reg{ href: 'http://selling-online-overseas.export.great.gov.uk/' } Selling online overseas
+                    %li.header-nav-link
+                      %a.font-reg{ href: 'https://events.trade.gov.uk/' } Events
+                    %li.header-nav-link
+                      %a.font-reg{ href: dashboard_path } Your opportunities
+                    - if current_user
+                      %li.header-nav-link
+                        %a.font-reg{ href: destroy_user_session_path } Sign out
+
+              .soft-half--left
+                %nav
+                  %h3.font-white.push--top.desktop-only= "#{t('site_name')}:"
+                  %ul
+                    %li.header-nav-link
+                      %a{ href: cms_url_for('/new/') } NEW TO EXPORTING
+                    %li.header-nav-link
+                      %a{ href: cms_url_for('/occasional/') } OCCASIONAL EXPORTER
+                    %li.header-nav-link
+                      %a{ href: cms_url_for('/regular/') } REGULAR EXPORTER

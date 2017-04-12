@@ -1,0 +1,30 @@
+- content_for :message_reason do
+  %p
+    You are receiving this email because you signed up for notifications about
+    %strong= @subscription.description
+
+  = link_to 'Unsubscribe from this alert', unsubscribe_url(@subscription)
+  - unless @subscription.user.stub?
+    %br
+    = link_to 'Manage your alerts', dashboard_url(anchor: 'alerts')
+
+%p
+  This export opportunity has just been published:
+%tr
+  %td.new-opportunity-box{:align => "left", :bgcolor => "#f2eee8", style: "margin-bottom: 10px; padding-top: 10px;"}
+    %table{:border => "0", :cellpadding => "10", :cellspacing => "0", :width => "100%", style: "margin-bottom: 15px;"}
+      %tr
+        %td.opportunity-title
+          %h3= @opportunity.title
+      %tr
+        %td.pad-below= @opportunity.teaser
+      %tr
+        %td.pad-below
+          Response due by
+          = @opportunity.response_due_on
+      %tr
+        %td
+          = link_to 'More details on this opportunity', opportunity_url(@opportunity)
+      %tr
+        %td
+          = link_to 'Search for other export opportunities', opportunities_url

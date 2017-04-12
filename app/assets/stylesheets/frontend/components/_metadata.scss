@@ -1,0 +1,31 @@
+dl.metadata {
+  font-weight: 500;
+  padding-bottom: $small-spacing;
+
+  dt {
+    @include media($medium-screen) {
+      float: left;
+      margin-right: $small-spacing;
+    }
+  }
+
+  dd {
+    font-weight: 400;
+    margin-bottom: $small-spacing;
+    margin-left: 0;
+
+    @include media($medium-screen) {
+      margin-bottom: 0;
+      margin-left: 138px;
+    }
+  }
+
+  &--with-long-keys {
+    dd {
+      @include media($medium-screen) {
+        margin-bottom: 0;
+        margin-left: 180px;
+      }
+    }
+  }
+}

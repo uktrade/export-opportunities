@@ -1,0 +1,12 @@
+= content_for :title do
+  %header.panel.panel--primary
+    %h1 Thank You
+
+.panel
+  %h2 You have been unsubscribed from this alert
+
+  %p Please indicate why you wished to unsubscribe:
+
+  %p= button_to("I no longer want these emails", subscription_path(@subscription, reason: 'not_wanted', format: :html), class: 'button', method: :patch)
+  %p= button_to("I didn't sign up for these emails", subscription_path(@subscription, reason: 'not_signed_up', format: :html), class: 'button', method: :patch)
+  %p= button_to("These emails are spam", subscription_path(@subscription, reason: 'spam', format: :html), class: 'button', method: :patch)

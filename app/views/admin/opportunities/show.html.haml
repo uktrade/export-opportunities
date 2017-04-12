@@ -1,0 +1,121 @@
+= link_to "Back", filtered_admin_opportunities_path, class: 'link-back'
+
+%h1.heading-xlarge
+  = @opportunity.title
+  - if @opportunity.expired?
+    .heading-secondary This opportunity has expired
+
+%p
+  - if policy(@opportunity).edit?
+    = link_to 'Edit opportunity', edit_admin_opportunity_path(@opportunity), class: 'button'
+
+%table.horizontal
+  %tr
+    %th{:scope => 'row'} Title
+    %td= @opportunity.title
+  %tr
+    %th{:scope => 'row'} Slug
+    %td= @opportunity.slug
+  %tr
+    %th{:scope => 'row'} Created at
+    %td= @opportunity.created_at.to_s(:admin_datetime)
+  %tr
+    %th{:scope => 'row'} Updated at
+    %td= @opportunity.updated_at.to_s(:admin_datetime)
+  %tr
+    %th{:scope => 'row'} First published at
+    %td= @opportunity.first_published_at&.to_s(:admin_datetime)
+  %tr
+    %th{:scope => 'row'} Status
+    %td
+      .inline
+        .inline-item
+          =@opportunity.status&.titleize
+        - if @publishing_button_data.show
+          .inline-item
+            =button_to(@publishing_button_data.text, @publishing_button_data.path, method: :patch, params: @publishing_button_data.params, class: "button")
+        - if @show_trash_button
+          .inline-item
+            =button_to('Trash', admin_opportunity_status_path(@opportunity), method: :delete, class: "button button-danger")
+  %tr
+    %th{:scope => 'row'} Countries
+    %td= @opportunity.countries.map(&:name).join(', ')
+  %tr
+    %th{:scope => 'row'} Sectors
+    %td= @opportunity.sectors.map(&:name).join(', ')
+  %tr
+    %th{:scope => 'row'} Types
+    %td= @opportunity.types.map(&:name).join(', ')
+  %tr
+    %th{:scope => 'row'} Values
+    %td= @opportunity.values.map(&:name).join(', ')
+  %tr
+    %th{:scope => 'row'} Teaser
+    %td= @opportunity.teaser
+  %tr
+    %th{:scope => 'row'} Expiry date
+    %td= @opportunity.response_due_on.to_s(:admin_date) if @opportunity.response_due_on
+  %tr
+    %th{:scope => 'row'} Description
+    %td= present_html_or_formatted_text(@opportunity.description).html_safe
+  %tr
+    %th{:scope => 'row'} Contacts
+    %td= @opportunity.contacts.map { |contact| "#{contact.name} <#{contact.email}>" }.join(', ')
+  %tr
+    %th{:scope => 'row'} Service provider
+    %td= @opportunity.service_provider.try(:name)
+  %tr
+    %th{:scope => 'row'} Author
+    %td= @opportunity.author.name
+
+= render 'history'
+= render 'comment_form'
+
+%h2 Enquiries
+- if @opportunity.enquiries.size == 0
+  %p No enquiries have been made about this opportunity.
+- else
+  - @opportunity.enquiries.each do |enquiry|
+    %h3
+      =enquiry.company_name
+    %table.horizontal
+      %tr
+        %th{:scope => 'row'} First name
+        %td= enquiry.first_name
+      %tr
+        %th{:scope => 'row'} Last name
+        %td= enquiry.last_name
+      %tr
+        %th{:scope => 'row'} Email address
+        %td= enquiry.email
+      %tr
+        %th{:scope => 'row'} Company Address
+        %td= enquiry.company_address
+      %tr
+        %th{:scope => 'row'} Company Telephone
+        %td= enquiry.company_telephone
+      %tr
+        %th{:scope => 'row'} Companies House number
+        %td= enquiry.company_house_number
+      %tr
+        %th{:scope => 'row'} Company Postcode
+        %td= enquiry.company_postcode
+      %tr
+        %th{:scope => 'row'} URL
+        %td= enquiry.company_url
+      %tr
+        %th{:scope => 'row'} Existing exporter?
+        %td= enquiry.existing_exporter
+      %tr
+        %th{:scope => 'row'} Company Sector
+        %td= enquiry.company_sector
+      %tr
+        %th{:scope => 'row'} Company Explanation
+        %td= enquiry.company_explanation
+      %tr
+        %th{:scope => 'row'} Data Protection
+        %td= enquiry.data_protection ? 'Yes' : 'No'
+
+
+
+= link_to "Back", filtered_admin_opportunities_path, class: 'link-back'

@@ -1,0 +1,36 @@
+.hero-header {
+  @include clearfix;
+
+  &-wrapper {
+    background-color: $black;
+    background-image: asset-url('backgrounds/export-opps.jpg');
+    background-size: cover;
+    margin-bottom: $base-spacing;
+  }
+
+  &__content {
+    @include span-columns(8);
+    padding-bottom: 52px;
+    padding-top: 52px;
+
+    h1,
+    h2,
+    h3,
+    p {
+      color: $white;
+      max-width: 100%;
+      text-shadow: 0 2px 2px rgba($black, .75);
+    }
+  }
+
+  .lt-ie9 & {
+    height: 309px;
+  }
+
+  br {
+    display: none;
+    @include media($large-screen) {
+      display: block;
+    }
+  }
+}

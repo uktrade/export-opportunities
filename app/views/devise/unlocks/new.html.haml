@@ -1,0 +1,13 @@
+%h1.heading-xlarge Resend unlock instructions
+
+= form_for(resource, as: resource_name, url: unlock_path(resource_name)) do |f|
+  .grid-row
+    .column-one-half
+      .form-group
+        = f.label :email, class: 'form-label-bold'
+        = f.email_field :email, autofocus: true, class: 'form-control', required: true
+
+  .form-group
+    = f.submit 'Resend unlock instructions', class: 'button'
+
+= render 'devise/shared/links'

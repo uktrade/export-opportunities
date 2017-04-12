@@ -1,0 +1,89 @@
+@mixin link-box($main-color, $second-color) {
+  background-color: $main-color;
+  border: none;
+  color: $second-color;
+  cursor: pointer;
+  font-family: $base-font-family;
+  font-size: $base-font-size;
+  line-height: 1;
+  padding: 16px 0.3em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background-color $base-duration $base-timing;
+  -webkit-font-smoothing: antialiased;
+
+  @include media($medium-screen) {
+    padding: 16px;
+  }
+
+  &:after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background: url('arrow-white.svg') no-repeat;
+    background-size: 12px 12px;
+    margin-left: $small-spacing;
+    display: inline-block;
+    transform: translateX(0);
+    transition: transform .1s ease-out;
+
+    .lt-ie10 & {
+      content: '';
+      background: url('arrow.png') no-repeat;
+      height: 14px;
+      margin-left: 10px;
+      margin-bottom: -1px;
+    }
+
+    .lt-ie10 .footer-exporting-guide & {
+      background-image: url('arrow-blue.png');
+    }
+  }
+
+  &:hover,
+  &:focus {
+    background-color: darken($main-color, 10);
+    color: $second-color;
+
+    &:after {
+      background: url('arrow-white.svg') no-repeat;
+      transform: translateX(10px);
+      transition: 0.2s ease-out;
+
+      .lt-ie10 & {
+        background-image: url('arrow.png');
+      }
+    }
+  }
+}
+
+@mixin nav-typography {
+  padding: $small-spacing;
+  text-align: right;
+  text-transform: uppercase;
+  letter-spacing: $wide-letter-spacing;
+  font-family: $heading-font-family;
+  font-size: $small-font-size;
+
+  @include media($large-screen) {
+    padding: $base-spacing;
+  }
+}
+
+@mixin flex-vertical-align {
+  @include display(flex);
+  @include flex-direction(column);
+  @include justify-content(center);
+}
+
+@mixin omega-reset($nth) {
+
+  &:nth-child(#{$nth}) {
+    margin-right: flex-gutter();
+  }
+
+  &:nth-child(#{$nth}+1) {
+    clear: none
+  }
+}

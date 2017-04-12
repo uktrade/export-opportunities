@@ -1,0 +1,56 @@
+.exporting-guide-form {
+  @include clearfix;
+  margin-bottom: $base-spacing;
+
+  .frontpage-list__export-form & {
+    @include media($large-screen) {
+      padding-top: $base-spacing;
+    }
+  }
+
+  &__label {
+    margin: 0;
+
+    .placeholder & {
+      display: none;
+    }
+  }
+
+  &__input {
+    width: 100%;
+    border: 0;
+    color: $blue;
+
+    @include media($medium-screen) {
+      float: left;
+      width: 50%;
+      margin-right: $small-spacing;
+    }
+
+    .frontpage-list__export-form & {
+      width: 100%;
+      margin-right: 0;
+    }
+  }
+
+  &__submit {
+    float: right;
+    padding: $small-spacing;
+    padding-right: 0;
+    color: $blue;
+
+    @include media($medium-screen) {
+      float: left;
+    }
+
+    .frontpage-list__export-form & {
+      float: right;
+      padding-right: 0;
+    }
+
+    .page-template-template-exporting-guide-confirmation &,
+    .frontpage-list__export-form & {
+      color: $blue;
+    }
+  }
+}

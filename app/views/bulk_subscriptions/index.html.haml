@@ -1,0 +1,26 @@
+= content_for :hero do
+  %h1
+    Subscribe to email alerts for all opportunities
+
+.panel
+  %p
+    You'll receive a large amount of emails so if you'd prefer to tailor your
+    subscription, you can filter and search from the
+    = link_to 'opportunities listing page', opportunities_path
+    and subscribe from there.
+
+  #opportunities-subscribe-form
+    = form_for @subscription, url: bulk_subscriptions_path, method: :post do |f|
+      %div
+        %h3 Subscribe to all email alerts
+        - if current_user
+          %p.instructions
+            Receive an email alert whenever we publish an opportunity. It will be sent to
+            %strong= current_user.email
+        - else
+          %p.instructions
+            Receive an email alert whenever we publish an opportunity.
+          %p.instructions
+            You will be asked to sign in or sign up first.
+
+        = f.submit 'Subscribe', class: 'button'

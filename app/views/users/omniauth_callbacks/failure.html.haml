@@ -1,0 +1,8 @@
+= content_for :title do
+  %header.panel.panel--primary
+    %h1 We couldn’t sign you in 
+
+.panel
+  %p
+    Error reason: “#{@error}”
+  %p= link_to "Try again", dashboard_path, class: :button

@@ -1,0 +1,38 @@
+.dashboard {
+  @extend .has-sidebar;
+}
+
+.dashboard-section {
+  margin-bottom: $base-spacing * 2;
+}
+
+.dashboard__list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.dashboard__row {
+  &:first-child { padding-top: 0px; }
+  padding-bottom: $base-spacing;
+  margin-bottom: $base-spacing;
+  border-bottom: 1px solid $stone;
+  &:last-child {
+      border-bottom: 0;
+  }
+}
+
+.dashboard-item {
+  &__title {
+    font-size: 1em;
+  }
+}
+
+.dashboard__button-set {
+  .button {
+    margin-bottom: $small-spacing;
+    &:last-child {
+      margin-bottom: 0px;
+    }
+  }
+}
+

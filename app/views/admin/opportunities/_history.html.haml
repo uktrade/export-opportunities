@@ -1,0 +1,11 @@
+%h2 History and comments
+%ul.history
+  - if @history.any?
+    - @history.each do |event|
+      %li.event
+        = render event
+  - else
+    %li.event
+      = t('admin.opportunity.history.unavailable')
+
+

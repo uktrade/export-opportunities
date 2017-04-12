@@ -1,0 +1,108 @@
+= form_for [:admin, opportunity] do |f|
+  - if opportunity.errors.any?
+    .error-summary{:role => 'group', :tabindex => '-1'}
+      %h2
+        = pluralize(opportunity.errors.count, 'error')
+        prevented this opportunity from being saved:
+      %ul
+        - opportunity.errors.full_messages.each do |message|
+          %li= message
+
+  .grid-row
+    .column-one-quarter
+      .filters
+        .filters-panel
+          %h2 Country
+          .form-group
+            = f.collection_check_boxes :country_ids, @countries, :id, :name do |field|
+              %div
+                = field.check_box
+                = field.label
+
+    .column-one-quarter
+      .filters
+        .filters-panel
+          %h2 Sector
+          .form-group
+            = f.collection_check_boxes :sector_ids, @sectors, :id, :name do |field|
+              %div
+                = field.check_box
+                = field.label
+
+    .column-one-quarter
+      .filters
+        .filters-panel
+          %h2 Type
+          .form-group
+            = f.collection_check_boxes :type_ids, @types, :id, :name do |field|
+              %div
+                = field.check_box
+                = field.label
+
+    .column-one-quarter
+      .filters
+        .filters-panel
+          %h2 Values
+          .form-group
+            = f.collection_check_boxes :value_ids, @values, :id, :name do |field|
+              %div
+                = field.check_box
+                = field.label
+
+  .form-group
+    = f.label :title, class: 'form-label-bold'
+    = f.text_field :title, class: 'form-control', required: true
+    %p.form-hint
+      This must start with the country and describe the opportunity in
+      = Opportunity::TITLE_LENGTH_LIMIT
+      characters or fewer.
+
+  - if opportunity.errors[:slug].any?
+    .form-group
+      = f.label :slug, class: 'form-label-bold'
+      = f.text_field :slug, class: 'form-control', required: true
+
+  .form-group
+    = f.label :description, t('admin.opportunity.description_field'), class: 'form-label-bold'
+    = f.text_area :description, class: 'form-control', required: true
+    %p.form-hint
+      Include details relevant for UK businesses, such as product or service specifications, language
+      requirements, exact value of contract, timescales and potential barriers to trade.
+    %p.form-hint
+      Also include details of the type of UK business that might be able to fulfil this opportunity.
+    %p.form-hint
+      Do not post events, competitions, news or requests for investment.
+
+
+  .form-group
+    = f.label :teaser, t('admin.opportunity.teaser_field'), class: 'form-label-bold'
+    = f.text_field :teaser, class: 'form-control', required: true
+    %p.form-hint
+      This will be the text that appears on email alerts and as the first line of the opportunity online.
+      It must be different to the title and be
+      = Opportunity::TEASER_LENGTH_LIMIT
+      characters or fewer.
+
+  .form-group
+    = f.label :service_provider_id, class: 'form-label-bold'
+    = f.collection_select :service_provider_id, @service_providers, :id, :name, { prompt: '', selected: @selected_service_provider&.id }, { class: 'form-control', required: true }
+
+  .form-group
+    = f.label :response_due_on, class: 'form-label-bold'
+    = f.date_select :response_due_on, { prompt: '' }, { required: true }
+
+  = f.fields_for :contacts do |form|
+    .grid-row
+      .column-one-half
+        %h4.heading-small Contact #{form.index + 1}
+        .form-group
+          = form.label :name, class: 'form-label'
+          = form.text_field :name, class: 'form-control', required: true
+        .form-group
+          = form.label :email, 'Email address', class: 'form-label'
+          = form.text_field :email, class: 'form-control', type: :email, required: true
+
+  .grid-row
+    .column-one-half
+      .form-group
+        = f.submit class: 'button'

@@ -1,0 +1,183 @@
+.panel {
+  padding: $base-spacing;
+
+  @include media($medium-screen) {
+    padding: $big-spacing;
+  }
+
+  fieldset {
+    border: 0;
+    border-bottom: 1px solid $stone;
+    margin-bottom: $base-spacing;
+    padding: 0 0 $base-spacing;
+    width: 100%;
+
+    @include media($medium-screen) {
+      border-bottom: 2px solid $stone;
+      margin-bottom: $big-spacing;
+    }
+
+    &:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .instructions {
+      margin-bottom: 1.5em;
+    }
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+
+    @include media($medium-screen) {
+      margin-bottom: 30px;
+    }
+  }
+
+  label {
+    display: block;
+    font-size: $base-font-size;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0 0 .5em;
+  }
+
+  .lt-ie10 & {
+    textarea,
+    select,
+    input[type="text"],
+    input[type="email"] {
+      background-color: $white;
+      border: 1px solid $stone;
+      font-family: $base-font-family;
+      font-size: $base-font-size;
+      padding: .5em;
+      width: 50%;
+    }
+  }
+
+  #{$all-text-inputs} {
+    background-color: $white;
+    border: 1px solid $stone;
+    font-family: $base-font-family;
+    font-size: $base-font-size;
+    padding: .5em;
+    width: 100%;
+
+    @include media($medium-screen) {
+      width: 50%;
+    }
+
+    .lt-ie9 & {
+      width: 50%;
+    }
+  }
+
+  #{$all-text-inputs-hover} {
+    outline: 2px solid $focus-colour;
+  }
+
+  #{$all-text-inputs-focus},
+  #{$all-text-inputs-active} {
+    outline: 3px solid $focus-colour;
+  }
+
+  select {
+    background-color: $white;
+    border: 2px solid $stone;
+    font-family: $base-font-family;
+    font-size: $base-font-size;
+    margin: 0;
+    overflow: scroll;
+    padding: .5em;
+    width: 100%;
+
+    @include media($medium-screen) {
+      width: 50%;
+    }
+
+    .lt-ie9 & {
+      width: 50%;
+    }
+  }
+
+  textarea {
+    display: block;
+    resize: vertical;
+    width: 100%;
+
+    @include media($medium-screen) {
+      width: 75%;
+    }
+
+    .lt-ie9 & {
+      width: 75%;
+    }
+  }
+
+  input[type="checkbox"],
+  input[type="radio"] {
+    display: inline-block;
+    margin-right: $small-spacing / 2;
+    width: auto;
+
+    + label {
+      display: inline-block;
+    }
+  }
+
+  .companies-house-list {
+    background-color: $stone;
+    list-style: none;
+    margin-bottom: $base-spacing;
+    padding: 0 1em;
+    width: 50%;
+
+    li.companieshouse-result {
+      margin-bottom: $small-spacing;
+      padding-left: 1em;
+
+      &:first-child {
+        padding-top: $base-spacing;
+      }
+
+      &:last-child {
+        padding-bottom: $base-spacing;
+      }
+    }
+
+    li::before {
+      color: $flag-red;
+      content: "\2022";
+      display: inline-block;
+      margin-left: -1em;
+      width: 1em;
+    }
+  }
+
+  .companies-house-search-btn {
+    @extend .button;
+
+    font-size: inherit;
+    margin-top: $small-spacing;
+    padding: 1em 0;
+    width: 100%;
+
+    @include media($medium-screen) {
+      width: 50%;
+    }
+
+    .lt-ie9 & {
+      width: 50%;
+    }
+  }
+
+  .form-hint {
+    color: #656e72;
+  }
+
+  .field_with_errors input {
+    outline: solid red 3px;
+  }
+}

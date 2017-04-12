@@ -1,0 +1,57 @@
+%p
+  The customer below has expressed interest in this export opportunity:
+  %br
+  = link_to @enquiry.opportunity.title, opportunity_url(@enquiry.opportunity)
+%p
+  Customer first name:
+  = @enquiry.first_name
+  %br
+  Customer last name:
+  = @enquiry.last_name
+  %br
+  Email:
+  = @enquiry.email
+  %br
+  Company name:
+  = @enquiry.company_name
+  %br
+  Company URL:
+  = @enquiry.company_url
+  %br
+  Company telephone number:
+  = @enquiry.company_telephone
+  %br
+  Company address:
+  = @enquiry.company_address
+  %br
+  Post code:
+  = @enquiry.company_postcode
+  %br
+  Companies House no:
+  = @enquiry.company_house_number
+  %br
+  Existing exporter:
+  = @enquiry.existing_exporter
+  %br
+  Sector:
+  = @enquiry.company_sector
+  %br
+  ="Details can be used for marketing by #{t('organisation.name')} and trusted partners:"
+  = @enquiry.data_protection ? "Y" : "N"
+%p
+  How you can meet the requirements:
+  %br
+  = @enquiry.company_explanation
+
+%h2
+  Action required within 5 working days:
+%p
+  %strong Respond
+  to the customer with more information
+  %br
+  %strong Use
+  the Export Opportunity response template
+  %br
+  %strong Record
+  a new CDMS Service Delivery : EIG Website - Export Opportunity
+  %br

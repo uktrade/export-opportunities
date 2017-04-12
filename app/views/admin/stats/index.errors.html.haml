@@ -1,0 +1,9 @@
+%h1.heading-xlarge
+  Stats
+
+= render partial: 'stats_search_form', locals: { stats_search_form: @stats_search_form }
+
+%div
+  - @stats_search_form.error_messages.each do |message|
+    %p
+      = message

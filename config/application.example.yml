@@ -1,0 +1,51 @@
+# EXAMPLE FILE
+
+# Enable basic auth with these keys
+# HTTP_USER: user
+# HTTP_PASS: password
+
+# Canonical URL
+DOMAIN: "http://localhost:3000"
+
+# Sending email
+MAILER_HOST: "127.0.0.1"
+MAILER_PORT: "1025"
+MAILER_FROM_ADDRESS: "develop@exportingisgreat.gov.uk"
+
+# Redis
+REDIS_URL: redis://localhost:6379
+
+#use a different database for testing
+test:
+  REDIS_URL: redis://localhost:6379/7
+
+COMPANIES_HOUSE_API_TOKEN: example_token
+
+# Google Tag Manager for analytics, comma-separated
+GOOGLE_TAG_MANAGER_KEYS:
+
+# Single Sign-on
+SSO_CLIENT_ID: ''
+SSO_CLIENT_SECRET: ''
+SSO_ENDPOINT_BASE_URI: 'https://sso.example.org/'
+SUD_PROFILE_PAGE: ''
+
+# Links to CMS domain
+CMS_BASE_URI: 'https://export.great.gov.uk/'
+
+# Enquiry feedback
+FEEDBACK_ENCRYPTION_SECRET: 'secret'
+
+production:
+    ENQUIRIES_CC_EMAIL:
+
+flipper_whitelist: 'email@example.com'
+legacy_domain: 'exportingisgreat.gov.uk'
+
+api_profile_dashboard_shared_secret: 'taki'
+
+# Elasticsearch
+ELASTICSEARCH_URL: 'http://localhost:9200'
+AWS_ACCESS_KEY_ID: ''
+AWS_SECRET_ACCESS_KEY: ''
+AWS_REGION: ''

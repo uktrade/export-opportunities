@@ -1,0 +1,45 @@
+#pager {
+  margin-top: em(36, 36);
+
+  .pager {
+    float: right;
+  }
+
+  li {
+      display: inline-block;
+      margin: 0 5px 5px 0;
+      min-width: 36px;
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      a {
+          display: block;
+          width: auto;
+          margin: 0;
+          padding: 9px 3px;
+          color: $link-colour;
+          font-size: 18px;
+          line-height: 1;
+          text-transform: none;
+          text-align: center;
+          text-decoration: none;
+
+          &:hover {
+              background-color: $link-colour;
+              color: $white;
+          }
+      }
+
+      &.active a {
+          color: $white;
+          background-color: $link-colour;
+      }
+  }
+
+}

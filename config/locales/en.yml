@@ -1,0 +1,79 @@
+en:
+  activerecord:
+    attributes:
+      opportunity:
+        response_due_on: Expiry date
+        teaser: Summary
+    errors:
+      models:
+        editor:
+          attributes:
+            password:
+              too_short: "is too short - it needs to be %{count} characters or longer"
+            password_confirmation:
+              confirmation: "doesn't match your password"
+        opportunity:
+          attributes:
+            title:
+              too_long: "can't be more than %{count} characters"
+            teaser:
+              too_long: "can't be more than %{count} characters"
+            contacts:
+              wrong_length: 'are missing (%{count} are required)'
+      messages:
+        blank: 'is missing'
+  organisation:
+    name: 'DIT'
+    feedback_email: 'exportingisgreat@trade.gsi.gov.uk'
+  site_name: Exporting is GREAT
+  log_in:
+    subheading: 'Please log in to make and view your export enquiries'
+  sign_up:
+    subheading: |
+      Creating an account on Exporting is GREAT
+      allows you to make enquiries about opportunities
+      and stores your details to save time when making future enquiries
+  nav:
+    services:
+      export_opportunities: Export opportunities
+      find_a_buyer: Find a buyer
+      selling_overseas: Selling online overseas
+      finance: Get finance
+      events: Events
+  opportunity:
+    expired: The deadline to apply for this opportunity has passed.
+  subscription:
+    none_present: You have not set up any email alerts yet
+    see_matching_opportunities: See matching opportunities
+  enquiry:
+    view: View your enquiry
+    view_opportunity: View opportunity
+  dashboard:
+    heading: Your opportunities
+    enquiries_section_heading: Your enquiries
+    subscriptions_section_heading: Your email alerts
+    account_section_heading: Your account
+  errors:
+    not_found: Sorry, page not found
+    guessable_password: |
+      is too easy to guess.
+      Consider using a short phrase made up of several unrelated words.
+      Avoid any words which are personal to you or your work.
+  admin:
+    opportunity:
+      create_new: Create a new export opportunity
+      teaser_field: Summarise this export opportunity in a sentence
+      description_field: Describe your export opportunity for UK businesses
+      history:
+        unavailable: No history or comments are recorded for this opportunity
+        status_changed_html: "Status changed from <strong>%{old}</strong> to <strong>%{new}</strong>"
+        attribution: "%{who} on %{when}"
+    stats:
+      opportunities_submitted: "Opportunities submitted: %{count}"
+      opportunities_published: "Opportunities published: %{count}"
+      average_age_when_published: "Average time to publish an opportunity following submission: %{average_age}"
+      enquiries: "Enquiries: %{count}"
+      errors:
+        missing_service_provider: 'Please select a service provider'
+        dates_out_of_order: '"To" date cannot come before "from" date'
+        invalid_date: "\"%{field}\" is not a valid date"

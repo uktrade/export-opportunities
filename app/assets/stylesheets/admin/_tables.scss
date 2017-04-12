@@ -1,0 +1,26 @@
+table.horizontal th {
+  color: $grey-1;
+  text-align: right;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+table .expired, table .deactivated {
+  color: $grey-1;
+  font-size: 80%;
+}
+
+.inline {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  .inline-item {
+    max-width: 50%;
+  }
+
+  .button_to {
+    margin-left: 1em;
+  }
+
+}

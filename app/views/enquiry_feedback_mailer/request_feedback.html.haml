@@ -1,0 +1,19 @@
+%p We'd like to ask you about the Export Opportunities service to make sure it helps UK companies like yours.
+
+%p
+  On #{@enquiry_feedback.enquiry.created_at.strftime('%e %B %Y')} you applied for the export opportunity
+  %strong #{@enquiry_feedback.enquiry.opportunity.title}.
+  What was the outcome?
+
+%ul{ style: 'margin: 0px;' }
+  %li= link_to('I won or expect to win business', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :won)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
+  %li= link_to('I didn’t win business', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :did_not_win)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
+  %li= link_to('I can’t remember', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :cannot_remember)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
+  %li= link_to('I haven’t had a reply', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :never_heard_back)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
+
+- content_for :message_reason do
+  %p
+    You are receiving this email because you applied for an export opportunity on the great.gov.uk website.
+- content_for :footer_links do
+  %div
+    = link_to('Stop asking me for feedback on the export opportunities I apply for', feedback_opt_out_url(q: EncryptedParams.encrypt(user_id: @enquiry_feedback.enquiry.user.id)))

@@ -1,0 +1,54 @@
+.page {
+
+  &__header h1 {
+    margin: 0;
+  }
+
+  &__section {
+    @include clearfix;
+    margin-top: $base-spacing;
+  }
+
+  &__intro {
+    margin-bottom: $big-spacing;
+  }
+
+  &__icon {
+    float: left;
+    width: 15%;
+    max-width: 50px;
+    margin-right: 5%;
+
+    @include media($medium-screen) {
+      margin-right: $base-spacing;
+    }
+  }
+
+  &__image {
+    display: block;
+    margin-bottom: $base-line-height*1em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &--centered {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    &--partner-logos {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  &__content {
+    float: left;
+    width: 80%;
+
+    &--no-icon {
+      width: auto;
+    }
+  }
+}

@@ -1,0 +1,44 @@
+.dit
+  %footer{ role: 'contentinfo' }
+    #footer
+      .footer-wrapper
+        .grid-row
+          .column-one-third.logo
+            .footer-section.footer-section--first
+              %a{ href: 'https://www.gov.uk', title: 'Go to the GOV.UK homepage' }
+                %img.footer-img.footer-img--top{ alt: "Gov.uk logo", src: asset_path('hmg-logo-2x.png') }/
+              %p.font-xxxsmall.font-lighter-grey.font-light.soft--bottom © Crown Copyright 2016
+              %a{ href: cms_url_for('/'), title: "Go to the #{t('site_name')} homepage" }
+                %img.footer-img.footer-img--bottom.footer-img--eig{ alt: "#{t('site_name')} logo", src: asset_path('eig-logo-stacked.svg'), onerror: "this.src='#{asset_path('eig-logo-stacked.png')}';this.onerror=null;" }/
+          .column-one-third.links
+            .footer-section
+              %h3.footer-header Our services
+              %ul
+                %li.footer-links
+                  %a{ href: opportunities_path, title: 'Export opportunities' } Export opportunities
+                %li.footer-links
+                  %a{ href: 'http://find-a-buyer.export.great.gov.uk/', title: 'Find a buyer' } Find a buyer
+                %li.footer-links
+                  %a{ href: 'http://selling-online-overseas.export.great.gov.uk/', title: 'Selling online overseas' } Selling online overseas
+                %li.footer-links
+                  %a{ href: 'https://events.trade.gov.uk/', title: 'Events' } Events
+          .column-one-third.subscribe
+            .footer-section
+              %h3.footer-header= t('site_name')
+              %ul
+                %li.footer-links
+                  %a{ href: cms_url_for('/new/'), title: 'New to exporting' } New to exporting
+                %li.footer-links
+                  %a{ href: cms_url_for('/occasional/'), title: 'Occasional exporter' } Occasional exporter
+                %li.footer-links
+                  %a{ href: cms_url_for('/regular/'), title: 'Regular exporter' } Regular exporter
+                %li.footer-links
+                  %a{ href: cms_url_for('/about/'), title: 'About' } About
+                %li.footer-links
+                  %a{ href: 'https://contact-us.export.great.gov.uk/export_ops', title: 'Contact us' } Contact us
+                %li.footer-links
+                  %a{ href: cms_url_for('/privacy-and-cookies/'), title: 'Privacy and Cookies' } Privacy &amp; cookies
+                %li.footer-links
+                  %a{ href: cms_url_for('/terms-and-conditions/'), title: 'Terms and conditions' } Terms &amp; conditions
+                %li.footer-links
+                  %a{ href: 'https://www.gov.uk/government/organisations/department-for-international-trade', title: 'Department for International Trade' } Department for International Trade

@@ -1,0 +1,24 @@
+%h1.heading-xlarge Enquiries
+
+%div
+  = form_tag admin_enquiries_path(format: :csv), method: :get, format: :csv do
+    = render :partial => "errors/form_validation.html"
+    = label_tag :created_at_from, 'From'
+    = select_date 1.day.ago, prefix: :created_at_from, class: 'form-control', id: 'created_at_from'
+    = label_tag :created_at_to, 'To'
+    = select_date Date.today, prefix: :created_at_to, class: 'form-control', id: 'created_at_to'
+    = submit_tag 'Download as CSV', class: 'button'
+
+%table
+  %thead
+    %th{:width => '40%'} Company
+    %th{:width => '40%'} Opportunity
+    %th.numeric{:width => '10%'} Applied On
+  %tbody
+    - @enquiries.each do |enquiry|
+      %tr
+        %td= link_to enquiry.company_name, admin_enquiry_path(enquiry)
+        %td= enquiry.opportunity.title
+        %td.numeric= enquiry.created_at.to_s(:admin_datetime)
+
+= paginate @enquiries

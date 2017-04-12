@@ -1,0 +1,72 @@
+%h1.heading-xlarge Opportunities
+
+.admin__filter-panel
+  Filter by status:
+  %ul
+    %li{class: (@filters.selected_status.nil? ? 'admin__filter-selected' : '')}
+      - if @filters.hide_expired then
+        = link_to('All', admin_opportunities_path(s: @filters.raw_search_term))
+      - else
+        = link_to('All', admin_opportunities_path(show_expired: true, s: @filters.raw_search_term))
+    - Opportunity.statuses.each do |name, _|
+      %li{class: (name.to_s == @filters.selected_status.to_s ? 'admin__filter-selected' : '')}
+        - if @filters.hide_expired then
+          = link_to(opportunity_status_link(name), admin_opportunities_path(status: name, s: @filters.raw_search_term))
+        - else
+          = link_to(opportunity_status_link(name), admin_opportunities_path(show_expired: true, status: name, s: @filters.raw_search_term))
+
+.grid-row
+  .column-one-half
+    %p
+      :erb
+        Expired opportunities are
+        <% if @filters.hide_expired %>
+          <strong>hidden</strong>.
+          <%= toggle_show_expired_link('Show expired opportunities', show_expired: true) %>
+        <% else %>
+          <strong>shown</strong>.
+          <%= toggle_show_expired_link('Hide expired opportunities', show_expired: false) %>
+        <% end %>
+
+.grid-row
+  .column-one-half
+    %p
+      = link_to 'New opportunity', new_admin_opportunity_path, class: 'button'
+      = link_to 'Download', new_admin_opportunity_download_path, class: 'button'
+
+  .column-one-half
+    = form_tag admin_opportunities_path, method: :get, class: 'admin__search-form' do
+      - if @filters.selected_status
+        = hidden_field_tag 'status', @filters.selected_status
+
+      - if !@filters.hide_expired
+        = hidden_field_tag 'show_expired', true
+
+      = text_field_tag 's', @filters.raw_search_term, placeholder: 'Search', class: 'form-control'
+      = submit_tag 'Search', class: 'button'
+
+%table
+  %thead
+    %th{:scope => 'col'}= sortable(:opportunity_filters, 'title', 'Title', 'asc', @filters.sort)
+    %th{:scope => 'col', :width => '8%'}= sortable(:opportunity_filters, 'status', 'Status', 'asc', @filters.sort)
+    %th{:scope => 'col', :width => '14%'}= sortable(:opportunity_filters, 'service_provider_name', 'Service provider', 'asc', @filters.sort)
+    %th.numeric{:scope => 'col', :width => '3%'}= sortable(:opportunity_filters, 'enquiries_count', 'Enquiries received', 'desc', @filters.sort)
+    %th.numeric{:scope => 'col', :width => '14%'}= sortable(:opportunity_filters, 'created_at', 'Created date', 'desc', @filters.sort)
+    %th.numeric{:scope => 'col', :width => '14%'}= sortable(:opportunity_filters, 'first_published_at', 'First published', 'desc', @filters.sort)
+    %th.numeric{:scope => 'col', :width => '8%'}= sortable(:opportunity_filters, 'response_due_on', 'Expiry date', 'asc', @filters.sort)
+  %tbody
+    - @opportunities.each do |opportunity|
+      %tr.opportunity
+        - opportunity_link_text = opportunity.title.present? ? opportunity.title : '(no title)'
+        %td
+          = link_to opportunity_link_text, admin_opportunity_path(opportunity)
+          - if opportunity.expired?
+            %span.expired Expired
+        %td= opportunity.status&.titleize
+        %td= opportunity.service_provider&.name
+        %td.numeric= opportunity.enquiries.size
+        %td.numeric= opportunity.created_at.to_s(:admin_datetime)
+        %td.numeric.first-published= opportunity.first_published_at&.to_s(:admin_datetime)
+        %td.numeric= opportunity.response_due_on.to_s(:admin_date)
+
+= paginate @opportunities

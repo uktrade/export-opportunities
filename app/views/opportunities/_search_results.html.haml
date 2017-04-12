@@ -1,0 +1,16 @@
+- @opportunities.each do |opportunity|
+  %article.opportunities__item
+    %h3.opportunities__title
+      = link_to opportunity.title.strip, opportunity_path(opportunity)
+    %p
+      = opportunity.teaser
+
+    - if opportunity.response_due_on
+      .opportunities__icon.opportunities__icon--date
+        Opportunity expires:
+        %time{datetime: opportunity.response_due_on.iso8601}= opportunity.response_due_on.to_s(:long)
+      .opportunities__icon.opportunities__icon--enquiries
+        Applications received:
+        = opportunity.enquiries.size
+
+= paginate @opportunities, params: { controller: 'opportunities', action: 'index', format: ''}

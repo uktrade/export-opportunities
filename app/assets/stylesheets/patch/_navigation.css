@@ -1,0 +1,112 @@
+/* Fix up - needs to be done properly */
+
+.dit2017 {
+  -webkit-font-smoothing: auto;
+}
+
+.dit2017 .link--white {
+  color: #ffffff;
+}
+
+.dit2017 .font-light {
+  font-weight: 300;
+}
+
+.dit2017 .font-regular,
+.dit2017 .link {
+  font-weight: 400;
+}
+
+.dit2017 .navigation-strip .list-separators li:nth-child(2) a {
+  padding: 0 15px 0 2px;
+}
+
+.dit2017 .navigation-strip .list-separators li:nth-child(2):after {
+  top: -3px;
+}
+
+.dit2017 .navigation-strip .list-separators li:last-child,
+.dit2017 .navigation-strip .list-separators li:nth-child(3) {
+  padding: 0 0px 0 2px;
+  left: 9px;
+  top: -2px;
+}
+
+.dit2017 .navigation-strip .list-separators li:last-child:after,
+.dit2017 .navigation-strip .list-separators li:nth-child(3):after {
+  content: '';
+}
+
+/* Bring in header login buttons - kludge */
+
+.dit2017 .navigation-strip .navigation-login li:last-child,
+.dit2017 .navigation-strip .navigation-login li:nth-child(2) {
+  top: 0px;
+}
+
+
+.dit2017 .navigation-login {
+  float: right;
+}
+
+.dit2017 .navigation-login .icon {
+  width: auto;
+}
+
+.dit2017 .navigation-login .soft-half--right {
+  padding-right: 10px;
+}
+
+.dit2017 .navigation-login .soft-half--left {
+  padding-left: 10px;
+}
+
+.dit2017 .navigation-login li a {
+  color: white;
+}
+
+@media screen and (max-width: 767px) {
+  .dit2017 .navigation-login li {
+    padding-right: 0; }
+    .dit2017 .navigation-login li .icon {
+      margin-right: 0; }
+    .dit2017 .navigation-login li:after {
+      content: none; }
+  .dit2017 .navigation-login a {
+    padding: 0; }
+}
+
+.dit2017 .navigation-login a:hover:after {
+  border-top: 3px solid #e41f13;
+  content: '';
+  left: 0;
+  position: absolute;
+  top: -8px;
+  width: 100%;
+}
+
+.dit2017 .navigation-login .icon--left {
+    float: left;
+    height: 21px;
+    width: 22px;
+    left: 0;
+    margin-right: 10px;
+    position: relative;
+}
+
+.dit2017 .navigation-login .icon {
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    display: inline-block;
+}
+
+.dit2017 .navigation-login .icon-sign-in {
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjFweCIgaGVpZ2h0PSIyMXB4IiB2aWV3Qm94PSIwIDAgMjEgMjEiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDIxIDIxOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe2ZpbGw6bm9uZTtzdHJva2U6I0ZGRkZGRjtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9LnN0MXtmaWxsOiNGRkZGRkY7fTwvc3R5bGU+PGc+PGNpcmNsZSBjbGFzcz0ic3QwIiBjeD0iMTAuNDUiIGN5PSIxMC41NCIgcj0iOS42MyIvPjxnPjxjaXJjbGUgY2xhc3M9InN0MSIgY3g9IjEwLjQiIGN5PSI4LjAyIiByPSIzLjI5Ii8+PHBhdGggY2xhc3M9InN0MSIgZD0iTTEwLjQ2LDExLjY5Yy0zLjE3LDAtNS44OCwyLjAxLTYuOTUsNC44NGMxLjY1LDIuMDQsNC4xNSwzLjM1LDYuOTUsMy4zNWMyLjgsMCw1LjMxLTEuMyw2Ljk1LTMuMzVDMTYuMzQsMTMuNywxMy42MywxMS42OSwxMC40NiwxMS42OXoiLz48L2c+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjwvc3ZnPg==);
+}
+
+@media screen and (max-width: 767px) {
+  .hide-mobile {
+    display: none;
+  }
+}
+

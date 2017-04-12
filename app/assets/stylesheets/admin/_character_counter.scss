@@ -1,0 +1,7 @@
+.characterCounter {
+  margin-top:5px;
+  display:block;
+  &--exceeded {
+    color: #a94442;
+  }
+}

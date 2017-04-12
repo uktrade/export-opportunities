@@ -1,0 +1,36 @@
+.flash {
+  border-left: 5px solid transparent;
+  margin: 0 auto;
+  padding: 0.75em;
+
+  p {
+    margin-bottom: 0.25em;
+  }
+}
+
+.alert {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #3c763d;
+}
+
+.error {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+}
+
+#error_explanation {
+  border-left: 5px solid #f2dede;
+  color: #a94442;
+  margin: 0 auto 1.5em;
+  padding: 0.75em;
+
+  h2 {
+    margin-top: 0;
+  }
+
+  ul {
+    margin-left: 1.25em;
+  }
+}

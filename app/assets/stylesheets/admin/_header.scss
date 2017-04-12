@@ -1,0 +1,18 @@
+
+// scss-lint:disable IdSelector
+li#logout,
+li#login {
+  float: right;
+}
+
+.phase-banner {
+   @include phase-banner;
+}
+
+.phase-tag {
+   @include phase-tag;
+}
+
+#global-header #logo {
+  margin:0;
+}

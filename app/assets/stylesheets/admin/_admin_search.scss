@@ -1,0 +1,20 @@
+.admin__search-form {
+
+  @include media(desktop){
+    float: right;
+  }
+  @include media($max-width: 400px){
+    float: none;
+    width: 100%;
+  }
+
+  .form-control {
+    display: inline-block;
+    padding: 0.425em;
+    width: 66%;
+  }
+
+  .button {
+    display: inline-block;
+  }
+}

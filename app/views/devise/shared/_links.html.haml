@@ -1,0 +1,11 @@
+- if controller_name != 'admin/sessions'
+  = link_to "Log in", new_editor_session_path
+  %br
+
+- if devise_mapping.recoverable? && controller_name != 'admin/passwords' && controller_name != 'admin/registrations'
+  = link_to "Forgot your password?", new_editor_password_path
+  %br
+
+- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks'
+  = link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name)
+  %br

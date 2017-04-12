@@ -1,0 +1,45 @@
+ul,
+ol {
+
+  &%default-ul {
+    list-style: none;
+    margin-bottom: $base-spacing;
+    padding-left: 0;
+
+    li {
+      margin-bottom: $small-spacing;
+    }
+
+    li::before {
+      color: $flag-red;
+      content: "\2022";
+      display: inline-block;
+      margin-left: -1em;
+      width: 1em;
+    }
+  }
+
+  &%default-ol {
+    counter-reset: li;
+    list-style: none;
+    margin-bottom: $base-spacing;
+    padding-left: 0;
+
+    li {
+      counter-increment: li;
+      margin-bottom: $small-spacing;
+    }
+
+    li::before {
+      color: $flag-red;
+      content: counter(li);
+      direction: rtl;
+      display: inline-block;
+      margin-left: -1.5em;
+      margin-right: 0.5em;
+      margin-top: 1px;
+      text-align: right;
+      width: 1em;
+    }
+  }
+}

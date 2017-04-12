@@ -1,0 +1,63 @@
+body {
+  margin: 0;
+  padding: 0;
+  color: red;
+  font-size: 14px;
+  color: #121212;
+  font-family: Robo, Arial, Helvetica, sans-serif;
+  line-height: 18px;
+}
+
+a {
+  color: #00549f;
+  text-decoration: none;
+}
+
+.content-wrap {
+  padding: 30px;
+}
+
+.content {
+  max-width: 600px;
+  width: 100%;
+}
+
+.pad-below {
+  padding-bottom: 15px;
+}
+
+.pad-above {
+  padding-top: 15px;
+}
+
+.button {
+  padding: 10px 20px;
+  text-transform: uppercase;
+  > a { color: #ffffff; }
+}
+
+.small-print {
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.footer {
+  max-width: 600px;
+  .eig-logo {
+    padding-right: 50px;
+  }
+  .eig-signature {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    @extend .small-print;
+  }
+}
+
+.new-opportunity-box {
+  padding: 5px;
+  .opportunity-title {
+    text-transform: uppercase;
+    font-weight: bold;
+    padding-bottom: 20px;
+  }
+}

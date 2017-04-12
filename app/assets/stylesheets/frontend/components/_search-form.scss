@@ -1,0 +1,66 @@
+.search-form {
+  margin: 0 auto;
+
+  &__wrapper {
+    display: flex;
+  }
+
+  &__input {
+    // undo the default styling to override Webkit & Firefox weirdness
+    -moz-appearance: none;
+    -webkit-appearance: none;
+
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    flex: 1;
+    font-size: 1em;
+    height: 2.625em; // 42px
+    margin: 0 $small-spacing 0 0;
+    padding: .5em;
+    width: 75%;
+
+    &::-webkit-search-cancel-button {
+      // Hide Safari's search cancel button as it won't behave itself
+      -webkit-appearance: none;
+    }
+
+    .lt-ie9 & {
+      height: 22px; // 42px - 10px - 10px
+      padding: 10px 5px;
+      width: 60%;
+    }
+
+    &:hover {
+      outline: 3px solid $focus-colour;
+    }
+
+    &:active {
+      outline: 2px solid $focus-colour;
+    }
+  }
+
+  &__submit {
+    background-color: $flag-red;
+    border: 0;
+    color: $white;
+    font-size: 1em;
+    height: 2.625em; // 42px
+    margin: 0;
+    padding: 0 1em;
+    position: relative;
+
+    .lt-ie10 & {
+      top: 14px;
+    }
+
+    .lt-ie9 & {
+      top: 2px;
+
+      &:before {
+        content: 'Search';
+        width: auto;
+      }
+    }
+  }
+}

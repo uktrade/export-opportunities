@@ -1,0 +1,24 @@
+// Allow uppercase letters in font stack variable names
+// scss-lint:disable NameFormat
+
+// EIG font stack
+$EIG-font: Roboto, Arial, sans-serif;
+
+// No tabular font stack yet
+$EIG-font-tabular: $EIG-font;
+
+$NTA-Light:
+  "nta",
+  Arial,
+  sans-serif;
+
+// New Transport Light with Tabular
+
+$NTA-Light-Tabular:
+  "ntatabularnumbers",
+  "nta",
+  Arial,
+  sans-serif;
+
+// Font reset for print
+$Print-reset: sans-serif;

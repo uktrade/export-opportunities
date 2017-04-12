@@ -1,0 +1,4 @@
+= content_for :errors do
+  %h1= 'Your session timed out'
+
+%p Please #{link_to "try again", request.referer}

@@ -1,0 +1,103 @@
+// Typography
+$base-font-family: Roboto, sans-serif;
+
+$heading-font-family: Roboto, sans-serif;
+
+// Font Sizes
+$small-font-size: 0.875em;
+$base-font-size: 1em;
+$heading-font-size: 1.25em;
+
+// Line height
+$base-line-height: 1.35;
+$heading-line-height: 1.35;
+
+// Other Sizes
+$base-border-radius: 0;
+$base-spacing: $base-line-height * 1em;
+$small-spacing: $base-spacing / 2;
+$big-spacing: $base-spacing * 2;
+$extra-big-spacing: $big-spacing * 2;
+$base-z-index: 0;
+
+$wide-letter-spacing: 0.07em;
+
+$z-top: 9999;
+
+// Colors
+$white: #fff;
+$black: #000;
+
+$stone: #DFD5C5;
+// Great Britain Campaign Tints of Stone 40%:
+$light-grey: #F2EEE8;
+// Great Britain Campaign Tints of Stone 90%:
+$mid-grey: #e2d9cb;
+
+// Great Britain Campaign GREAT Blue:
+// $purple: #1E1348;
+// Great Britain Campaign Mid Blue:
+$blue: #00549F;
+// Great Britain Campaign Flag Red:
+$red: #B00D23;
+// Great Britain Campaign GREAT Red:
+$great-red: #E41F13;
+
+// Redefined colour palette
+
+// GREAT Red should only be used for the GREAT logo.
+// GREAT Blue is used for type where possible, if not black can be used.
+//
+// Flag Red is used for key lines and can be used in type.
+// Stone has been introduced for use as a pale background colour
+// on pages and tables.
+//   – It can be used as tints to create very subtle effects.
+//   – It is deliberately neutral and works well with the core palette,
+//     without undermining the idea of red, white and blue.
+//   – It is useful for defining white-space.
+
+// GREAT brand colours
+$great-red:  rgb(228,31,19);
+$great-blue: rgb(30,19,72);
+$flag-red:   rgb(176,13,35);
+$stone:      rgb(223,213,197);
+
+$black:      rgb(0,0,0);
+$white:      rgb(255,255,255);
+
+$purple:     rgb(79,11,123);
+$mid-blue:   rgb(0,84,159);
+$aqua:       rgb(0,126,163);
+
+// Font Colors
+$base-font-color: #4a4a4a;
+$header-font-color: #4a4a4a;
+$secondary-font-color: shade($stone, 50%);
+$action-color: $black;
+
+// Link Colours
+$link-colour: $mid-blue;
+$focus-colour: $mid-blue;
+
+// Border
+$base-border-color: $mid-grey;
+$base-border: 1px solid $base-border-color;
+$big-border: 3px solid $base-border-color;
+
+// Background Colors
+$base-background-color: $white;
+$secondary-background-color: tint($base-border-color, 75%);
+
+// Forms
+$form-box-shadow: inset 0 1px 3px rgba(#000, 0.06);
+$form-box-shadow-focus: $form-box-shadow, 0 0 5px adjust-color($action-color, $lightness: -5%, $alpha: -0.3);
+
+// Panel borders
+$panel-border: 0;
+
+// Button colour
+$button-colour: $mid-blue;
+
+// Animations
+$base-duration: 150ms;
+$base-timing: ease;

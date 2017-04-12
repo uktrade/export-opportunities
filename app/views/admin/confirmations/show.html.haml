@@ -1,0 +1,21 @@
+%h1.heading-xlarge= t("devise.confirmations.password_instructions")
+
+= form_for(resource, as: resource_name, url: admin_update_editor_confirmation_path, method: :patch) do |f|
+  = devise_error_messages!
+  = f.hidden_field :confirmation_token, as: :hidden, value: params.fetch(:confirmation_token) { params[:editor][:confirmation_token] }
+
+  .form-group
+    = f.label :password, class: "form-label"
+
+    - if @minimum_password_length
+      %em
+        (#{@minimum_password_length} characters or longer)
+      %br
+    = f.password_field :password, autofocus: true, autocomplete: "off", class: "form-control"
+
+  .form-group
+    = f.label :password_confirmation, class: "form-label"
+    = f.password_field :password_confirmation, class: "form-control"
+
+  .form-group
+    = f.submit "Set my password"

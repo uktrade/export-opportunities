@@ -1,0 +1,59 @@
+.filters {
+  @extend .sidebar;
+  &__status {
+    color: $secondary-font-color;
+    display: inline;
+    font-size: .75em;
+    text-transform: inherit;
+  }
+
+  &__panel.filters__panel--closed {
+    padding-bottom: 0;
+  }
+
+  &__panel--closed &__list {
+    max-height: 0;
+    transition: max-height .3s ease-out;
+  }
+
+  &__panel--closed .search-form__wrapper {
+    max-height: 0;
+    overflow: hidden;
+  }
+
+  &__title {
+    font-size: $base-font-size;
+    text-transform: none;
+
+    .has-js & {
+      background: asset-url('arrow-blue-up@2x.png') right 3px no-repeat;
+      background-size: 12px 12px;
+      cursor: pointer;
+      padding-right: 20px;
+      position: relative;
+
+      &--closed {
+        background-image: asset-url('arrow-blue-down@2x.png');
+      }
+    }
+
+    // NB: Nested like this because 'has-js' and 'lt-ie9' are both on body element
+    .has-js.lt-ie9 & {
+      background: asset-url('arrow-blue-up.png') right 3px no-repeat;
+
+      &--closed {
+        background-image: asset-url('arrow-blue-down.png');
+      }
+    }
+  }
+
+  &__link {
+    &--active:before {
+      background-color: $mid-blue;
+    }
+
+    &:focus {
+      outline-offset: -3px;
+    }
+  }
+}

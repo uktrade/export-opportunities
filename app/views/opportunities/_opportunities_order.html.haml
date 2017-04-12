@@ -1,0 +1,12 @@
+.opportunities__order.opportunities__description
+  %form
+    Ordered by:
+    %br
+    %input{ name: 'sort_order', id: 'order_expiry_date', type: 'radio', value: 'response_due_on', checked: @sort.column == 'response_due_on' }
+    %label{ for: 'order_expiry_date' } expiry date
+    %br
+    %input{ name: 'sort_order', id: 'order_published_date', type: 'radio', value: 'first_published_at', checked: @sort.column == 'first_published_at' }
+    %label{ for: 'order_published_date' } published date
+    %br
+    %input{ name: 'sort_order', class: 'order_relevance', id: 'order_relevance', type: 'radio', value: 'relevance' }
+    %label{ class: 'order_relevance', for: 'order_relevance' } relevance

@@ -1,0 +1,58 @@
+// Helpers
+// ==========================================================================
+// GOV.UK front end toolkit dependencies
+@import "govuk_frontend_toolkit/colours";
+@import "govuk_frontend_toolkit/shims";
+@import "govuk_frontend_toolkit/measurements";
+@import "govuk_frontend_toolkit/typography";
+@import "govuk_frontend_toolkit/css3";
+
+// Path to assets for use with file-url() is not already defined
+@if ($path == false) {
+  $path: "/public/images/";
+}
+
+// Return ems from a pixel value
+// This assumes a base of 16px
+@function em($px, $base: 16) {
+  @return ($px / $base) + em;
+}
+
+// Want to see how the grid works?
+// add this class to the body to see how grid padding is set
+.example-highlight-grid {
+  .grid-row {
+    background: $grey-2;
+  }
+
+  .column-highlight {
+    background: $grey-3;
+    width: 100%;
+  }
+
+}
+
+// Hide, but not for screenreaders
+.visually-hidden,
+.visuallyhidden {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+}
+
+// Make sure long strings don't break the layout
+.wrap {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}

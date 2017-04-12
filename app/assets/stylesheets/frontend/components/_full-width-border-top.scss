@@ -1,0 +1,12 @@
+%full-width-border-top,
+.full-width-border-top {
+  width: 100%;
+  border-top: $base-border;
+  padding-top: $small-spacing;
+  margin-top: $small-spacing;
+  
+  @include media($medium-screen) {
+    padding-top: $base-spacing;
+    margin-top: $base-spacing;
+  }
+}
