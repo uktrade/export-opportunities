@@ -36,3 +36,7 @@ Configure your editor's syntax checker to flag up rubocop rules.
   * **Uploaders** can add new opportunities and edit ones they created
   * **Publishers** can additionally publish opportunities so they appear on the site.
   * **Administrators** can also manage editor accounts.
+
+### License
+
+MIT licensed. See the bundled LICENSE file for more details.
