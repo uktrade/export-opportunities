@@ -1,4 +1,5 @@
 [![CircleCI](https://circleci.com/gh/uktrade/export-opportunities.svg?style=svg&circle-token=520908ff27611bb49c52f39e47eae77db6133718)](https://circleci.com/gh/uktrade/export-opportunities)
+
 [![Dependency Status](https://gemnasium.com/badges/github.com/uktrade/export-opportunities.svg)](https://gemnasium.com/github.com/uktrade/export-opportunities)
 
 # DIT Exporting is GREAT
