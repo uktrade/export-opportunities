@@ -1,11 +1,12 @@
 require 'rails_helper'
 
-feature 'Filtering opportunities', js: true do
+feature 'Filtering opportunities', :elasticsearch, :commit, js: true do
   scenario 'users can filter opportunities by sector' do
     sector = create(:sector, name: 'Airports')
     opportunity = create(:opportunity, :published)
     opportunity_with_sector = create(:opportunity, :published, sectors: [sector])
-
+    stub_request(:get, '/ditelasticsearch.com/').to_return(status: 200, body: JSON.generate(create_elastic_search_opportunity(_source: { sectors: [slug: sector.slug] })))
+    sleep 1
     visit opportunities_path
 
     within('.filters') do
@@ -22,6 +23,7 @@ feature 'Filtering opportunities', js: true do
     opportunity = create(:opportunity, :published)
     opportunity_with_market = create(:opportunity, :published, countries: [country])
 
+    sleep 1
     visit opportunities_path
 
     within('.filters') do
@@ -38,6 +40,7 @@ feature 'Filtering opportunities', js: true do
     opportunity = create(:opportunity, :published)
     opportunity_with_type = create(:opportunity, :published, types: [type])
 
+    sleep 1
     visit opportunities_path
 
     within('.filters') do
@@ -55,7 +58,9 @@ feature 'Filtering opportunities', js: true do
     create(:opportunity, status: 'publish', sectors: [sector])
     create(:opportunity, status: 'publish', countries: [country], sectors: [sector])
 
+    sleep 1
     visit(opportunities_path)
+
     expect(page).to have_selector('.opportunities__item', count: 3)
     page.find('a[data-term=' + country.slug + ']').trigger('click')
     expect(page).to have_selector('.opportunities__item', count: 2)
@@ -72,6 +77,7 @@ feature 'Filtering opportunities', js: true do
     ignored_country = create(:country, name: 'Not Selected')
     create_list(:opportunity, 4, status: 'publish', countries: [ignored_country])
 
+    sleep 1
     visit(opportunities_path)
 
     page.find('.filters').click_on(country1.name)

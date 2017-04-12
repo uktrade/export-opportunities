@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Basic auth', type: :request do
+RSpec.describe 'Basic auth', :elasticsearch, :commit, type: :request do
   PUBLIC_VIEW_ROUTES = [
     '/',
     '/opportunities.atom',

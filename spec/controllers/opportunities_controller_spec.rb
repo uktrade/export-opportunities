@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe OpportunitiesController, type: :controller do
+RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controller do
   describe 'GET index' do
     subject(:get_index) { get :index }
 
@@ -21,6 +21,8 @@ RSpec.describe OpportunitiesController, type: :controller do
       end
       it 'assigns opportunities' do
         create(:opportunity, status: 'publish')
+
+        sleep 1
         get_index
         expect(assigns(:opportunities).count).to eql(1)
       end
@@ -29,6 +31,7 @@ RSpec.describe OpportunitiesController, type: :controller do
         soonest_expiration = create(:opportunity, status: 'publish', response_due_on: 1.month.from_now)
         last_expiration = create(:opportunity, status: 'publish', response_due_on: 3.months.from_now)
 
+        sleep 1
         get_index
 
         expect(assigns(:opportunities)).to eq([soonest_expiration, last_expiration])
@@ -39,7 +42,7 @@ RSpec.describe OpportunitiesController, type: :controller do
       subject(:get_index) { get :index, s: "'hello; --' &glyn" }
 
       it 'rejects them' do
-        expect(OpportunityQuery).to receive(:new)
+        expect(Opportunity).to receive(:public_search)
           .with(a_hash_including(search_term: 'hello glyn'))
           .and_call_original
 

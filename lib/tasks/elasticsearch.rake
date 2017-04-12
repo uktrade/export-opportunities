@@ -3,6 +3,8 @@ namespace :elasticsearch do
   task import_opportunities: :environment do
     opportunities = Opportunity.published
 
+    Opportunity.__elasticsearch__.create_index!
+
     Opportunity.__elasticsearch__.delete_index!
     Opportunity.__elasticsearch__.create_index!
 
