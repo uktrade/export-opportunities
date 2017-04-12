@@ -4,7 +4,7 @@
 
 *NOTE* The name of the organisation has changed from UKTI to DIT. In all
 user-facing pages this change has been made, but some existing entities like
-databases will continue to be called ukti.
+databases may continue to be called ukti.
 
 
 ## Installation
@@ -14,6 +14,8 @@ databases will continue to be called ukti.
 $ cp config/application.example.yml config/application.yml
 ```
 * Have an instance of redis-server running and configured in your `application.yml`
+
+* Have an instance of elasticsearch running (can be default localhost:9200) and configured in your `application.yml`
 
 ## Running tests
 
@@ -36,3 +38,8 @@ Configure your editor's syntax checker to flag up rubocop rules.
   * **Uploaders** can add new opportunities and edit ones they created
   * **Publishers** can additionally publish opportunities so they appear on the site.
   * **Administrators** can also manage editor accounts.
+  
+  ## Deployment
+  
+  * You can deploy the project on Heroku with minimum effort as long as you setup environmental variables like you would do in localhost.
+  
