@@ -78,8 +78,7 @@ RSpec.describe 'Viewing the ATOM feed for opportunities', :elasticsearch, :commi
   end
 
   it 'returns the opportunities ordered by updated_at, with newest first' do
-    # skip("TODO: sorting in ES results doesn't work")
-    newest_opportunity = create(:opportunity, :published, response_due_on: 3.days.from_now,  updated_at: 1.day.ago, title: 'newest')
+    newest_opportunity = create(:opportunity, :published, response_due_on: 3.days.from_now, updated_at: 1.day.ago, title: 'newest')
     new_opportunity = create(:opportunity, :published, response_due_on: 2.days.from_now, updated_at: 2.days.ago, title: 'new')
     old_opportunity = create(:opportunity, :published, response_due_on: 1.day.from_now, updated_at: 3.days.ago, title: 'old')
 

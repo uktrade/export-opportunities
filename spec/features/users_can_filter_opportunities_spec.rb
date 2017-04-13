@@ -51,6 +51,56 @@ feature 'Filtering opportunities', :elasticsearch, :commit, js: true do
     expect(page).to have_no_content opportunity.title
   end
 
+  scenario 'users can filter opportunity that belongs to multiple markets' do
+    country = create(:country, name: 'Iran')
+    another_country = create(:country, name: 'Italy')
+    opportunity_with_market = create(:opportunity, :published, countries: [country, another_country])
+
+    sleep 1
+    visit opportunities_path
+
+    within('.filters') do
+      click_on 'Iran'
+    end
+
+    expect(page).to have_content opportunity_with_market.title
+    expect(page).to have_selector('.opportunities__item', count: 1)
+
+    visit opportunities_path
+
+    within('.filters') do
+      click_on 'Italy'
+    end
+
+    expect(page).to have_content opportunity_with_market.title
+    expect(page).to have_selector('.opportunities__item', count: 1)
+  end
+
+  scenario 'users can filter opportunity that belongs to multiple types' do
+    type = create(:type, name: 'Aid Funded Business')
+    another_type = create(:type, name: 'Private Sector')
+    opportunity_with_market = create(:opportunity, :published, types: [type, another_type])
+
+    sleep 1
+    visit opportunities_path
+
+    within('.filters') do
+      click_on 'Aid Funded Business'
+    end
+
+    expect(page).to have_content opportunity_with_market.title
+    expect(page).to have_selector('.opportunities__item', count: 1)
+
+    visit opportunities_path
+
+    within('.filters') do
+      click_on 'Private Sector'
+    end
+
+    expect(page).to have_content opportunity_with_market.title
+    expect(page).to have_selector('.opportunities__item', count: 1)
+  end
+
   scenario 'users can filter by multiple categories' do
     country = create(:country)
     sector = create(:sector)

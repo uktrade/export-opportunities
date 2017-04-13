@@ -1,6 +1,6 @@
 require 'faraday_middleware/aws_signers_v4'
 
-if Rails.env.production? # || Rails.env.development?
+if Rails.env.production?
   Elasticsearch::Model.client = Elasticsearch::Client.new(url: Figaro.env.elastic_search_url) do |f|
     f.request :aws_signers_v4,
       credentials: Aws::Credentials.new(
