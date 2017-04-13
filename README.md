@@ -1,6 +1,8 @@
 [![CircleCI](https://circleci.com/gh/uktrade/export-opportunities.svg?style=svg)](https://circleci.com/gh/uktrade/export-opportunities)
 [![Dependency Status](https://gemnasium.com/badges/github.com/uktrade/export-opportunities.svg)](https://gemnasium.com/github.com/uktrade/export-opportunities)
 
+[![Dependency Status](https://gemnasium.com/badges/github.com/uktrade/export-opportunities.svg)](https://gemnasium.com/github.com/uktrade/export-opportunities)
+
 # DIT Exporting is GREAT
 
 *NOTE* The name of the organisation has changed from UKTI to DIT. In all
