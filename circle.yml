@@ -16,23 +16,6 @@ deployment:
       - git push -f git@heroku.com:staging-new-design-eig.git $CIRCLE_SHA1:refs/heads/master
       - heroku run rake db:migrate --app staging-new-design-eig:
           timeout: 400
-  production:
-    branch: master
-    commands:
-      - |
-        cat >~/.netrc <<EOF
-        machine api.heroku.com
-          login $HEROKU_EMAIL
-          password $HEROKU_TOKEN
-        machine git.heroku.com
-          login $HEROKU_EMAIL
-          password $HEROKU_TOKEN
-        EOF
-      - chmod 600 ~/.netrc
-      - "[[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow"
-      - git push -f  git@heroku.com:ukti-eig.git $CIRCLE_SHA1:refs/heads/master
-      - heroku run rake db:migrate --app ukti-eig:
-          timeout: 400
 machine:
   services:
     - 'redis'
