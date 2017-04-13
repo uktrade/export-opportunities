@@ -34,8 +34,12 @@ class OpportunitiesController < ApplicationController
       sort_order = sort_column == 'response_due_on' ? 'asc' : 'desc'
     end
 
-    @sort = OpportunitySort.new(default_column: 'response_due_on', default_order: 'asc')
-      .update(column: sort_column, order: sort_order)
+    if atom_request?
+      @sort = OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
+    else
+      @sort = OpportunitySort.new(default_column: 'response_due_on', default_order: 'asc')
+        .update(column: sort_column, order: sort_order)
+    end
 
     @query = Opportunity.public_search(
       search_term: @search_term,
@@ -47,10 +51,8 @@ class OpportunitiesController < ApplicationController
 
     @query = @query.page(params[:paged]).per(per_page)
 
-    if atom_request?
-      @query = AtomOpportunityQueryDecorator.new(@query, view_context)
-    end
-    #
+    @query = AtomOpportunityQueryDecorator.new(@query, view_context) if atom_request?
+
     @sectors = Sector.order(:name)
     @countries = Country.order(:name)
     @types = Type.order(:name)

@@ -74,7 +74,6 @@ RSpec.describe Opportunity do
   end
 
   describe 'deletion' do
-    skip('TODO: does this check in ES or PG?')
     it 'deletes its associated contacts' do
       opportunity = create(:opportunity)
       contacts = opportunity.contacts

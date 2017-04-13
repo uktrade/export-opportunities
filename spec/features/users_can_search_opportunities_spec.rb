@@ -37,7 +37,6 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
   end
 
   scenario 'users can still find an opportunity if its content changes' do
-    skip('TODO: check if update column updates ES')
     opportunity = create(:opportunity, status: 'publish', title: 'France requires back bacon')
 
     sleep 1
@@ -52,7 +51,8 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     expect(page).to have_no_content('France requires pork sausages')
 
     opportunity.update_column(:title, 'France requires pork sausages')
-    sleep 3
+    opportunity.save!
+    Opportunity.__elasticsearch__.refresh_index!
 
     within '#search-form' do
       fill_in 's', with: 'pork'

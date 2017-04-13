@@ -5,23 +5,6 @@ class Opportunity < ActiveRecord::Base
   include Elasticsearch::Model::Callbacks
   index_name [base_class.to_s.pluralize.underscore, Rails.env].join('_')
 
-  after_commit on: [:create] do
-    __elasticsearch__.index_document if published?
-    Rails.logger.debug "created new opportunity model object #{inspect}"
-  end
-
-  after_commit on: [:update] do
-    if published?
-      __elasticsearch__.update_document
-    else
-      __elasticsearch__.index_document
-    end
-  end
-
-  after_commit on: [:destroy] do
-    __elasticsearch__.delete_document
-  end
-
   mappings dynamic: 'false' do
     indexes :title, analyzer: 'english'
     indexes :teaser, analyzer: 'english'
@@ -45,6 +28,7 @@ class Opportunity < ActiveRecord::Base
 
     indexes :response_due_on, type: :date
     indexes :first_published_at, type: :date
+    indexes :updated_at, type: :date
     indexes :status, type: :keyword
   end
 
