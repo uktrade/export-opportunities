@@ -1,4 +1,5 @@
-[![CircleCI](https://circleci.com/gh/uktrade/export-opportunities.svg?style=svg&circle-token=520908ff27611bb49c52f39e47eae77db6133718)](https://circleci.com/gh/uktrade/export-opportunities)
+[![CircleCI](https://circleci.com/gh/uktrade/export-opportunities.svg?style=svg)](https://circleci.com/gh/uktrade/export-opportunities)
+[![Dependency Status](https://gemnasium.com/badges/github.com/uktrade/export-opportunities.svg)](https://gemnasium.com/github.com/uktrade/export-opportunities)
 
 # DIT Exporting is GREAT
 
@@ -48,4 +49,4 @@ MIT licensed. See the bundled LICENSE file for more details.
 * You can deploy the project on Heroku with minimum effort as long as you setup environmental variables like you would do in localhost.
 
 ## Contribution
-You are welcome to contribute, please get in touch with [Alex Giamas](alexandros.giamas@digital.trade.gov.uk).
+You are welcome to contribute, please get in touch with [Alex Giamas](mailto:alexandros.giamas@digital.trade.gov.uk) or [Mateusz Lapsa Malawski](mailto:mateusz.lapsa-malawski@digital.trade.gov.uk).
