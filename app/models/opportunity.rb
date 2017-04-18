@@ -2,6 +2,7 @@ require 'elasticsearch/model'
 
 class Opportunity < ActiveRecord::Base
   include Elasticsearch::Model
+  index_name [base_class.to_s.pluralize.underscore, Rails.env].join('_')
 
   mappings dynamic: 'false' do
     indexes :title, analyzer: 'english'
