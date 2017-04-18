@@ -1,87 +1,88 @@
-= content_for :hero do
-  %h1 Apply now
-  %h3= @opportunity.title
-  %p Tell us how you can meet the requirements for this opportunity and an expert will contact you within five working days to discuss any next steps
+.legacy
+  = content_for :hero do
+    %h1 Apply now
+    %h3= @opportunity.title
+    %p Tell us how you can meet the requirements for this opportunity and an expert will contact you within five working days to discuss any next steps
 
-%div#register-an-interest-form
-  .register-form.panel
-    = form_for @enquiry, class: "validate-form" do |f|
-      %fieldset.your-details
-        %h2 Your Details
-        %p.instructions
-          All fields are required unless marked as optional.
-        .form-group
-          = f.label :first_name, "First Name", class: "required"
-          = f.text_field :first_name, required: "required"
-        .form-group
-          = f.label :last_name, "Last Name", class: "required"
-          = f.text_field :last_name, required: "required"
-        .form-group
-          = f.label :company_telephone, "Telephone Number", class: "required"
-          = f.text_field :company_telephone, class: "short-input", required: "required"
+  %div#register-an-interest-form
+    .register-form.panel
+      = form_for @enquiry, class: "validate-form" do |f|
+        %fieldset.your-details
+          %h2 Your Details
+          %p.instructions
+            All fields are required unless marked as optional.
+          .form-group
+            = f.label :first_name, "First Name", class: "required"
+            = f.text_field :first_name, required: "required"
+          .form-group
+            = f.label :last_name, "Last Name", class: "required"
+            = f.text_field :last_name, required: "required"
+          .form-group
+            = f.label :company_telephone, "Telephone Number", class: "required"
+            = f.text_field :company_telephone, class: "short-input", required: "required"
 
-      %fieldset.your-business
-        %h2 About Your Business
-        - if current_user&.saved_enquiry_data?
-          %div{id: "companies-house-section", class: "form-group"}
-            = f.label :company_name, "Company Name", class: "required"
-            = f.text_field :company_name, required: "required", class: "short-input"
+        %fieldset.your-business
+          %h2 About Your Business
+          - if current_user&.saved_enquiry_data?
+            %div{id: "companies-house-section", class: "form-group"}
+              = f.label :company_name, "Company Name", class: "required"
+              = f.text_field :company_name, required: "required", class: "short-input"
 
-          %div
-            .form-group
-              = f.label :company_house_number, "Companies House Number"
-              = f.text_field :company_house_number
-            .form-group
-              = f.label :company_address, "Company Address", class: "required"
-              = f.text_field :company_address, required: "required"
-            .form-group
-              = f.label :company_postcode, "Post Code", class: "required"
-              = f.text_field :company_postcode, {class: "short-input", required: "required"}
-            .form-group
-              = f.label :company_url, "Company URL (optional)"
-              = f.text_field :company_url
-        - else
-          %div{id: "companies-house-section", class: "form-group"}
-            = f.label :company_name, "Company Name", class: "required"
-            = f.text_field :company_name, required: "required", class: "short-input"
-            %button{id: "ch_search", class: "button companies-house-search-btn", type: "button"} Search Companies House
+            %div
+              .form-group
+                = f.label :company_house_number, "Companies House Number"
+                = f.text_field :company_house_number
+              .form-group
+                = f.label :company_address, "Company Address", class: "required"
+                = f.text_field :company_address, required: "required"
+              .form-group
+                = f.label :company_postcode, "Post Code", class: "required"
+                = f.text_field :company_postcode, {class: "short-input", required: "required"}
+              .form-group
+                = f.label :company_url, "Company URL (optional)"
+                = f.text_field :company_url
+          - else
+            %div{id: "companies-house-section", class: "form-group"}
+              = f.label :company_name, "Company Name", class: "required"
+              = f.text_field :company_name, required: "required", class: "short-input"
+              %button{id: "ch_search", class: "button companies-house-search-btn", type: "button"} Search Companies House
 
-            %div{id: "ch_search-results", class: "form-group"}
-              %ul.companies-house-list
+              %div{id: "ch_search-results", class: "form-group"}
+                %ul.companies-house-list
 
-          %div#no-companies-house-number-fields
-            .form-group#company_house_number
-              = f.label :company_house_number, "Companies House Number"
-              = f.text_field :company_house_number
-            .form-group
-              = f.label :company_address, "Company Address", class: "required"
-              = f.text_field :company_address, required: "required"
-            .form-group
-              = f.label :company_postcode, "Post Code", class: "required"
-              = f.text_field :company_postcode, {class: "short-input", required: "required"}
-            .form-group
-              = f.label :company_url, "Company URL (optional)"
-              = f.text_field :company_url
+            %div#no-companies-house-number-fields
+              .form-group#company_house_number
+                = f.label :company_house_number, "Companies House Number"
+                = f.text_field :company_house_number
+              .form-group
+                = f.label :company_address, "Company Address", class: "required"
+                = f.text_field :company_address, required: "required"
+              .form-group
+                = f.label :company_postcode, "Post Code", class: "required"
+                = f.text_field :company_postcode, {class: "short-input", required: "required"}
+              .form-group
+                = f.label :company_url, "Company URL (optional)"
+                = f.text_field :company_url
 
-      %fieldset.your-exporting
-        %h2 About Your Exporting Experience
-        .form-group
-          = f.label :existing_exporter, "Have you sold products or services to overseas customers?", class: "required"
-          = f.select(:existing_exporter, Enquiry::EXISTING_EXPORTER_CHOICES, required: "required", prompt: 'Select')
-        .form-group
-          = f.label :company_sector, "Please indicate which sector you work in", class: "required"
-          = f.select(:company_sector, Sector.pluck(:name).to_a, required: "required", prompt: 'Sector')
-        .form-group
-          = f.label :company_explanation, "Tell us how you can meet the requirements for this opportunity", class: "required"
-          %p.form-hint
-            (max
-            = number_with_delimiter(Enquiry::COMPANY_EXPLANATION_MAXLENGTH)
-            characters incl. spaces)
-          = f.text_area :company_explanation, {required: "required", rows: "8", maxlength: Enquiry::COMPANY_EXPLANATION_MAXLENGTH}
+        %fieldset.your-exporting
+          %h2 About Your Exporting Experience
+          .form-group
+            = f.label :existing_exporter, "Have you sold products or services to overseas customers?", class: "required"
+            = f.select(:existing_exporter, Enquiry::EXISTING_EXPORTER_CHOICES, required: "required", prompt: 'Select')
+          .form-group
+            = f.label :company_sector, "Please indicate which sector you work in", class: "required"
+            = f.select(:company_sector, Sector.pluck(:name).to_a, required: "required", prompt: 'Sector')
+          .form-group
+            = f.label :company_explanation, "Tell us how you can meet the requirements for this opportunity", class: "required"
+            %p.form-hint
+              (max
+              = number_with_delimiter(Enquiry::COMPANY_EXPLANATION_MAXLENGTH)
+              characters incl. spaces)
+            = f.text_area :company_explanation, {required: "required", rows: "8", maxlength: Enquiry::COMPANY_EXPLANATION_MAXLENGTH}
 
-        .form-group
-          %label
-            = f.check_box :data_protection
-            = "I agree my details may be used for marketing by #{t('organisation.name')} and trusted partners (optional)"
+          .form-group
+            %label
+              = f.check_box :data_protection
+              = "I agree my details may be used for marketing by #{t('organisation.name')} and trusted partners (optional)"
 
-        = f.submit 'Apply now', class: 'button'
+          = f.submit 'Apply now', class: 'button'

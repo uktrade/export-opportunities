@@ -1,0 +1,21 @@
+@import "neat-helpers";
+
+// Neat Overrides
+$column: 90px;
+$gutter: 20px;
+$grid-columns: 12;
+$margins: 10px;
+$gutter-medium: 10px;
+$gutter-large: 20px;
+$gutter-xlarge: 30px;
+$max-width: 1200px;
+
+// New Breakpoints
+//320px
+$small-screen: "only screen and (min-width: 30em)";
+// 800px
+$medium-screen: "only screen and (min-width: 50em)";
+// 1024px
+$large-screen: "only screen and (min-width: 64em)";
+// 1200px
+$xlarge-screen: "only screen and (min-width: 75em)";

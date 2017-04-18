@@ -1,11 +1,4 @@
 
-= content_for :hero do
-  %h1 Export opportunities
-  %p
-    Find and apply for overseas opportunities from businesses
-    %br/
-    looking for products or services like yours.
-
 = content_for :head do
   %link{href: url_for(params.merge(format: :atom, only_path: false)), type: 'application/atom+xml', rel: 'alternate', title: t('site_name')}/
 
@@ -19,6 +12,8 @@
         = @count
         opportunities
 
+
 = render 'filters'
+= render 'giantsteps_panel'
 = render 'opportunities_order'
 = render 'opportunities'
