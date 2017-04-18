@@ -1,8 +1,9 @@
 require 'rails_helper'
 
-RSpec.feature 'Viewing opportunities' do
+RSpec.feature 'Viewing opportunities', :elasticsearch, :commit do
   scenario 'Only published, non-expired opportunities are visible in the list' do
-    valid_opportunity = create(:opportunity, status: :publish)
+    @valid_opportunity = create(:opportunity, status: :publish)
+
     create(:opportunity, status: :pending)
     create(:opportunity, status: :trash)
 
@@ -10,15 +11,17 @@ RSpec.feature 'Viewing opportunities' do
     create(:opportunity, :expired, status: :pending)
     create(:opportunity, :expired, status: :trash)
 
+    sleep 1
     visit opportunities_path
 
-    expect(page).to have_content(valid_opportunity.title)
+    expect(page).to have_content(@valid_opportunity.title)
     expect(page).to have_selector('.opportunities__item', count: 1)
   end
 
   scenario 'Potential exporter can view all opportunities' do
     opportunities = create_list(:opportunity, 3, status: 'publish')
 
+    sleep 1
     visit opportunities_path
 
     within '.opportunities' do
@@ -30,7 +33,7 @@ RSpec.feature 'Viewing opportunities' do
 
   scenario 'Potential exporter can see the response date of an opportunity' do
     opportunity = create(:opportunity, status: 'publish', response_due_on: 5.weeks.from_now)
-
+    sleep 1
     visit opportunities_path
 
     within '.opportunities' do
@@ -43,6 +46,7 @@ RSpec.feature 'Viewing opportunities' do
     opportunity = create(:opportunity, :published, title: 'Hello World', slug: 'hello-world')
     create_list(:enquiry, 3, opportunity: opportunity)
 
+    sleep 1
     visit opportunities_path
     within '.opportunities' do
       expect(page).to have_content(opportunity.title)
@@ -61,6 +65,7 @@ RSpec.feature 'Viewing opportunities' do
   scenario 'Opportunities should paginate when over pagination limit' do
     allow(Opportunity).to receive(:default_per_page).and_return(2)
     create_list(:opportunity, 3, status: 'publish')
+    sleep 1
     visit opportunities_path
 
     expect(page).to have_selector('.pagination .current')
@@ -69,6 +74,7 @@ RSpec.feature 'Viewing opportunities' do
   scenario 'When opps are loaded via JS, pagination links do not carry the .js extension', js: true do
     allow(Opportunity).to receive(:default_per_page).and_return(1)
     create_list(:opportunity, 2, status: :publish)
+    sleep 1
     visit opportunities_path
 
     within '.pagination' do

@@ -87,6 +87,7 @@ group :test do
   gem 'webmock'
   gem 'rspec-rails'
   gem 'rspec-collection_matchers'
+  gem 'rspec_junit_formatter'
   gem 'pundit-matchers'
   gem 'database_cleaner'
   gem 'factory_girl_rails'
@@ -94,6 +95,9 @@ group :test do
   gem 'launchy'
   gem 'poltergeist'
   gem 'simplecov'
+  gem 'vcr'
+  gem 'test_after_commit'
+  gem 'elasticsearch-extensions'
 end
 
 group :production do

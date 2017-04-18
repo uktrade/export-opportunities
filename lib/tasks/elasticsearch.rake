@@ -7,7 +7,6 @@ namespace :elasticsearch do
       print 'deleting index:', Opportunity.index_name, '...'
       Opportunity.__elasticsearch__.delete_index!
     end
-
     Opportunity.__elasticsearch__.create_index!
 
     print "Rebuilding index for #{opportunities.count} opportunities"
