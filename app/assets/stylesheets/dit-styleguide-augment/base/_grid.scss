@@ -1,0 +1,43 @@
+// This is a new grid as of April 2017
+.outer-wrapper {
+  margin: 0 $margins;
+  max-width: $max-width;
+}
+@media #{$medium-screen} {
+  .outer-wrapper {
+    margin: 0 $gutter-medium;
+  }
+}
+@media #{$large-screen} {
+  .outer-wrapper {
+    margin: 0 $gutter-large;
+  }
+}
+
+.row {
+  @extend %clearfix;
+  width: 100%;
+    margin-right: -10px !important;
+    margin-left: -10px !important;
+}
+
+[class*='column-'] {
+  float: left;
+  width: 100%;
+  padding-right: 10px !important;
+  padding-left: 10px !important;
+  min-height: 1px; 
+}
+
+@media #{$medium-screen} {
+  .row {      
+    width: 100%;
+    max-width: $max-width;     
+  }
+  @for $i from 1 through $grid-columns {      
+    .column-#{$i} {
+          width: 100% / $grid-columns * $i;
+      }           
+   }   
+}
+

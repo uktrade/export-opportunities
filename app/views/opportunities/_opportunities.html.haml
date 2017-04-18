@@ -1,8 +1,8 @@
-.opportunities
+.dit2017
   - if @subscription_form.minimum_search_criteria? and !@suppress_subscription_block
     = render 'subscription_form'
 
-  #opportunity-results-list.opportunities__list
+  #opportunity-results-list
     - if @opportunities.any?
       = render 'search_results'
     - else

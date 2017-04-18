@@ -1,0 +1,25 @@
+//extracting burbon-neat grid classes for non-silent implimentation (adding classes to markup)
+
+.outer-container {
+  @include outer-container;
+
+  @include media($desktop) {
+    margin: 0 30px;
+  }
+
+  @include media($tablet) {
+    margin: 0 20px;
+  }
+
+  @include media($mobile) {
+    margin: 0 10px;
+  }
+}
+
+@for $i from 1 through $grid-columns {
+  .col-#{$i} { @include span-columns($i); }
+}
+
+.omega {
+  @include omega;
+}

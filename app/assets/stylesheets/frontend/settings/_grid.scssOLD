@@ -1,0 +1,18 @@
+@import "neat-helpers";
+
+// Neat Overrides
+$column: 90px;
+$gutter: 20px;
+$grid-columns: 12;
+$max-width: 1200px;
+
+// New Breakpoints
+// 600px
+$medium-screen: 37.5em;
+// 768px
+$large-screen: 48em;
+// 1100px
+$xlarge-screen: 75em;
+
+// 960px
+$nav-collapse-point: 62.5em;

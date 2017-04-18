@@ -1,0 +1,7 @@
+input,
+textarea,
+select {
+  &:focus {
+    outline: 3px solid $focus-yellow;
+  }
+}

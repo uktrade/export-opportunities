@@ -1,5 +1,6 @@
-.dit2017
-  %header{role: "banner"}
+%script
+  document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+%header{role: "banner"}
     .navigation
       .navigation-strip.background--dark-navy
         .outer-container
@@ -21,7 +22,7 @@
             %ul.list-inline.list-separators.float--right.navigation-login.font-regular{id: "sso-signout"}
               %li.float--left.soft-half--right
                 %a.link--white{href: dashboard_path, title: "Profile"}
-                  %i.icon.icon--left.icon-sign-in
+                  %i.icon.icon--left.icon-sign-out
                   %span.hide-mobile
                     Profile
               %li.float--left.soft-half--left.hide-mobile
