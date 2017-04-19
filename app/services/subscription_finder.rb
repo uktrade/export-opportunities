@@ -1,3 +1,5 @@
+require 'elasticsearch'
+
 class SubscriptionFinder
   def call(opportunity)
     @country_ids = opportunity.country_ids
@@ -17,7 +19,8 @@ class SubscriptionFinder
   end
 
   private def matching_subscriptions
-    @matching_subscriptions ||= Subscription.where(id: matching_subscription_ids).to_a
+    query = SubscriptionSearchBuilder.new(search_term: '', sectors: @sector_ids, countries: @country_ids, opportunity_types: @type_ids, values: @value_ids).call
+    @matching_subscriptions ||= Subscription.__elasticsearch__.search(size: 1000, query: query[:search_query]).records.to_a
   end
 
   private def matching_subscription_ids

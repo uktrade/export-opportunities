@@ -3,12 +3,14 @@ require 'elasticsearch/extensions/test/cluster'
 
 RSpec.configure do |config|
   config.around :each, elasticsearch: true do |example|
-    [Opportunity].each do |model|
+    [Opportunity, Subscription].each do |model|
       model.__elasticsearch__.create_index!(force: true)
       model.__elasticsearch__.refresh_index!
     end
     example.run
-    Opportunity.__elasticsearch__.client.indices.delete index: Opportunity.index_name
+    [Opportunity, Subscription].each do |model|
+      model.__elasticsearch__.client.indices.delete index: model.index_name
+    end
   end
 
   config.expect_with :rspec do |expectations|

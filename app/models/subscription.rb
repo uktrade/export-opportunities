@@ -1,8 +1,9 @@
-require 'elasticsearch/model'
+require 'elasticsearch'
 
 class Subscription < ActiveRecord::Base
   include DeviseUserMethods
   include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
   index_name [base_class.to_s.pluralize.underscore, Rails.env].join('_')
 
   mappings dynamic: 'false' do
