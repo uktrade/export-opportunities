@@ -6,6 +6,7 @@ class SubscriptionFinder
     @sector_ids = opportunity.sector_ids
     @type_ids = opportunity.type_ids
     @value_ids = opportunity.value_ids
+    @search_term = opportunity.title
 
     matching_subscriptions.select do |subscription|
       if subscription.search_term.present?
@@ -20,24 +21,7 @@ class SubscriptionFinder
 
   private def matching_subscriptions
     query = SubscriptionSearchBuilder.new(search_term: '', sectors: @sector_ids, countries: @country_ids, opportunity_types: @type_ids, values: @value_ids).call
+    Subscription.__elasticsearch__.refresh_index!
     @matching_subscriptions ||= Subscription.__elasticsearch__.search(size: 1000, query: query[:search_query]).records.to_a
-  end
-
-  private def matching_subscription_ids
-    matching_filters.ids.uniq
-  end
-
-  private def matching_filters
-    Subscription
-      .confirmed
-      .active
-      .joins('LEFT OUTER JOIN countries_subscriptions ON subscriptions.id = countries_subscriptions.subscription_id')
-      .joins('LEFT OUTER JOIN sectors_subscriptions ON subscriptions.id = sectors_subscriptions.subscription_id')
-      .joins('LEFT OUTER JOIN subscriptions_types ON subscriptions.id = subscriptions_types.subscription_id')
-      .joins('LEFT OUTER JOIN subscriptions_values ON subscriptions.id = subscriptions_values.subscription_id')
-      .where('countries_subscriptions.country_id IS NULL OR countries_subscriptions.country_id IN (?)', @country_ids)
-      .where('sectors_subscriptions.sector_id IS NULL OR sectors_subscriptions.sector_id IN (?)', @sector_ids)
-      .where('subscriptions_types.type_id IS NULL OR subscriptions_types.type_id IN (?)', @type_ids)
-      .where('subscriptions_values.value_id IS NULL OR subscriptions_values.value_id IN (?)', @value_ids)
   end
 end

@@ -21,7 +21,7 @@ class SubscriptionSearchBuilder
     mandatory_fields = [keyword_query, confirmed_at_query, unsubscribed_at_query].compact
     taxonomy_filters = [sector_query, country_query, opportunity_type_query, value_query].compact
 
-    query = if taxonomy_filters.empty? || taxonomy_filters.size == 4
+    query = if taxonomy_filters.empty?
               {
                 bool: {
                   must: mandatory_fields,
@@ -32,7 +32,7 @@ class SubscriptionSearchBuilder
                 bool: {
                   must: mandatory_fields,
                   should: taxonomy_filters,
-                  minimum_should_match: 1,
+                  minimum_should_match: taxonomy_filters.size,
                 },
               }
             end
@@ -43,58 +43,92 @@ class SubscriptionSearchBuilder
   private
 
   def keyword_build
-    if @search_term.empty?
-      {
-        match_all: {},
-      }
-    else
-      {
-        multi_match: {
-          query: @search_term,
-          fields: ['search_term'],
-          operator: 'and',
-        },
-      }
-    end
+    {
+      match_all: {},
+    }
   end
 
   def sector_build
     if @sectors.present?
-      {
-        terms: {
-          'sectors.id': @sectors,
+      [
+        {
+          terms: {
+            'sectors.id': @sectors,
+          },
         },
-      }
+        {
+          bool: {
+            must_not: {
+              exists: {
+                field: 'sectors.id',
+              },
+            },
+          },
+        },
+      ].compact
     end
   end
 
   def country_build
     if @countries.present?
-      {
-        terms: {
-          'countries.id': @countries,
+      [
+        {
+          terms: {
+            'countries.id': @countries,
+          },
         },
-      }
+        {
+          bool: {
+            must_not: {
+              exists: {
+                field: 'countries.id',
+              },
+            },
+          },
+        },
+      ].compact
     end
   end
 
   def opportunity_build
     if @opportunity_types.present?
-      {
-        terms: {
-          'types.id': @opportunity_types,
+      [
+        {
+          terms: {
+            'types.id': @opportunity_types,
+          },
         },
-      }
+        {
+          bool: {
+            must_not: {
+              exists: {
+                field: 'types.id',
+              },
+            },
+          },
+        },
+      ].compact
     end
   end
 
   def value_build
     if @values.present?
-      {
-        terms: {
-          'values.id': @values,
+      [
+        {
+          terms: {
+            'values.id': @values,
+          },
         },
-      }
+        {
+          bool: {
+            must_not: {
+              exists: {
+                field: 'values.id',
+              },
+            },
+          },
+        },
+      ].compact
     end
   end
 
@@ -122,29 +156,3 @@ class SubscriptionSearchBuilder
     }
   end
 end
-
-# {
-# "query": {
-#     "bool": {
-#         "must": [
-#             {
-#                 "match": {
-#                     "search_term": "test"
-#                 }
-#             }
-#         ],
-#         "filter": [
-#             {
-#                 "term": {
-#                     "types.id": "1"
-#                 }
-#             },
-#             {
-#                 "term": {
-#                     "sectors.id": "1"
-#                 }
-#             }
-#         ]
-#     }
-# }
-# }

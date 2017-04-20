@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'capybara/email/rspec'
 
-feature 'sending opportunity notifications' do
+feature 'sending opportunity notifications', :elasticsearch, :commit do
   before(:each) do
     clear_emails
   end
@@ -16,10 +16,8 @@ feature 'sending opportunity notifications' do
     first_subscription = create(:subscription, search_term: 'bazzle', sectors: [sectors.sample])
     second_subscription = create(:subscription, search_term: 'bazzle', sectors: sectors)
 
-    # Clear the confirmation emails from the subscriptions
-    clear_emails
-
     visit admin_opportunity_path(opportunity)
+    sleep 1
     click_on 'Publish'
 
     open_email(first_subscription.email)
@@ -37,8 +35,6 @@ feature 'sending opportunity notifications' do
     opportunity = create(:opportunity, sectors: sectors, author: admin, status: :pending, title: 'Export rain to Spain')
 
     bulk_subscription = create(:subscription, search_term: nil)
-
-    clear_emails
 
     visit admin_opportunity_path(opportunity)
     click_on 'Publish'

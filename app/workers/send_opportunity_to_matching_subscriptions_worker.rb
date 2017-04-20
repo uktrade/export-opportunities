@@ -5,7 +5,6 @@ class SendOpportunityToMatchingSubscriptionsWorker
 
   def perform(opportunity_id)
     email_addresses_notified = {}
-
     opportunity = Opportunity.find(opportunity_id)
     matching_subscriptions = SubscriptionFinder.new.call(opportunity)
 
