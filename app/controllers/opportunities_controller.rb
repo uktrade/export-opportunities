@@ -47,18 +47,23 @@ class OpportunitiesController < ApplicationController
       sort: @sort
     )
 
-    @count = @query.total
+    if atom_request?
+      @query = @query.records
+      @query = @query.page(params[:paged]).per(per_page)
+      @query = AtomOpportunityQueryDecorator.new(@query, view_context)
+      @opportunities = @query
+    else
+      @count = @query.records.total
+      @query = @query.page(params[:paged]).per(per_page)
 
-    @query = @query.page(params[:paged]).per(per_page)
-
-    @query = AtomOpportunityQueryDecorator.new(@query, view_context) if atom_request?
+      @opportunities = @query.records
+    end
 
     @sectors = Sector.order(:name)
     @countries = Country.order(:name)
     @types = Type.order(:name)
     @values = Value.order(:name)
 
-    @opportunities = @query
     @suppress_subscription_block = params[:suppress_subscription_block].present?
 
     respond_to do |format|

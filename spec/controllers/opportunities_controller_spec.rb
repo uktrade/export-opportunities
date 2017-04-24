@@ -34,7 +34,8 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
         sleep 1
         get_index
 
-        expect(assigns(:opportunities)).to eq([soonest_expiration, last_expiration])
+        expect(assigns(:opportunities).first.title).to eq(soonest_expiration.title)
+        expect(assigns(:opportunities).second.title).to eq(last_expiration.title)
       end
     end
 
