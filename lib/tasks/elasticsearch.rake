@@ -1,7 +1,8 @@
 namespace :elasticsearch do
   desc 'Import all opportunities into ElasticSearch, deleting and recreating the index'
   task import_opportunities: :environment do
-    opportunities = Opportunity.published
+    # we need all opportunities or else pending opps won't get into the index and can never get published
+    opportunities = Opportunity.all
 
     if Opportunity.__elasticsearch__.client.indices.exists? index: Opportunity.index_name
       print 'deleting index:', Opportunity.index_name, '...'

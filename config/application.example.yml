@@ -45,7 +45,7 @@ legacy_domain: 'exportingisgreat.gov.uk'
 api_profile_dashboard_shared_secret: 'taki'
 
 # Elasticsearch
-ELASTICSEARCH_URL: 'http://localhost:9200'
+elastic_search_url: 'http://localhost:9200'
 AWS_ACCESS_KEY_ID: ''
 AWS_SECRET_ACCESS_KEY: ''
 AWS_REGION: ''
