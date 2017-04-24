@@ -4,7 +4,9 @@
 //= require jquery.charactercounter
 //= require select2
 //
+//= require components/SearchFilter
 //= require start-page
+
 //= require enquiries_form
 //
 //= require legacy_wordpress/html5shiv

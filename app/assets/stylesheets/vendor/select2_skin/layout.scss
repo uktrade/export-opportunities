@@ -1,6 +1,7 @@
 /*********************************
 *********************************/
 
+$flat-theme-white : #ffffff;
 $flat-theme-lightgrey : #d8d8d8;
 $flat-theme-midgrey: #999999;
 
@@ -31,7 +32,7 @@ $flat-theme-dark-color : #007ea3;
   padding-left: 24px;
 }
 
-.select2-selection--multiple{
+.select2-selection--multiple {
   padding: 4px 8px;
 }
 
@@ -54,7 +55,7 @@ $flat-theme-dark-color : #007ea3;
     padding: 12px 24px;
     position: relative;
   }
-  .select2-container--focus .select2-selection--multiple{
+  .select2-container--focus .select2-selection--multiple {
     border: 1px solid $flat-theme-dark-color;
     // &:focus {
     //   outline: 3px solid #ffbf47 !important;
@@ -196,6 +197,10 @@ $flat-theme-dark-color : #007ea3;
 .select2-results{
   padding: 0 0 0 0px;
   margin: 0px 0px 0px 0;
+  max-height: 200px;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: auto;
+  z-index: 0;
   .select2-highlighted {
     background: $flat-theme-dark-color;
     color: #fff;

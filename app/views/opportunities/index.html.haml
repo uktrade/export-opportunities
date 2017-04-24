@@ -2,6 +2,18 @@
 = content_for :head do
   %link{href: url_for(params.merge(format: :atom, only_path: false)), type: 'application/atom+xml', rel: 'alternate', title: t('site_name')}/
 
+.hero__main
+  .outer-container
+    %h1.hero__header Export Opportunities
+    %p.hero__text Find and apply for overseas opportunities from businesses looking for products or services like yours.
+    %hr.thin
+
+  = render 'filters'
+
+= render 'giantsteps_panel'
+= render 'opportunities_order'
+= render 'opportunities'
+
 .panel
   - if @opportunities.any?
     %h2
@@ -11,9 +23,3 @@
         Right now there are
         = @count
         opportunities
-
-
-= render 'filters'
-= render 'giantsteps_panel'
-= render 'opportunities_order'
-= render 'opportunities'
