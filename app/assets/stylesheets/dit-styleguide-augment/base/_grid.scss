@@ -1,24 +1,26 @@
 // This is a new grid as of April 2017
-.outer-wrapper {
-  margin: 0 $margins;
+.outer-container {
+  margin: 0 auto;
   max-width: $max-width;
-}
-@media #{$medium-screen} {
-  .outer-wrapper {
-    margin: 0 $gutter-medium;
+  padding: 0 10px;
+  @media #{$tablet-m} {
+    padding: 0 20px;
+  }
+  @media #{$desktop-m} {
+    padding: 0 30px;
   }
 }
-@media #{$large-screen} {
-  .outer-wrapper {
-    margin: 0 $gutter-large;
-  }
+
+
+.container {
+  margin: 0 auto;
+  max-width: $max-width;
 }
 
 .row {
   @extend %clearfix;
-  width: 100%;
-    margin-right: -10px !important;
-    margin-left: -10px !important;
+  margin-right: -10px !important;
+  margin-left: -10px !important;
 }
 
 [class*='column-'] {
@@ -26,14 +28,18 @@
   width: 100%;
   padding-right: 10px !important;
   padding-left: 10px !important;
-  min-height: 1px; 
+  min-height: 1px;
+  @media #{$tablet-m} {
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+  }
+  @media #{$desktop-m} {
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+  }
 }
 
-@media #{$medium-screen} {
-  .row {      
-    width: 100%;
-    max-width: $max-width;     
-  }
+@media #{$tablet-m} {
   @for $i from 1 through $grid-columns {      
     .column-#{$i} {
           width: 100% / $grid-columns * $i;

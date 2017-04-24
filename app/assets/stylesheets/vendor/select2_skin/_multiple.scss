@@ -1,6 +1,7 @@
 /****** Multiple SCSS *******/
 .select2-container--flat{
   .select2-selection--multiple{
+    background: $flat-theme-white;
     border: 1px solid $flat-theme-border-color;
     .select2-selection__rendered {
       box-sizing: border-box;
