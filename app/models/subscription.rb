@@ -3,8 +3,20 @@ require 'elasticsearch'
 class Subscription < ActiveRecord::Base
   include DeviseUserMethods
   include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
   index_name [base_class.to_s.pluralize.underscore, Rails.env].join('_')
+
+  # built in callbacks won't work with our customly indexed taxnomies
+  after_commit on: [:create] do
+    __elasticsearch__.index_document
+  end
+
+  after_commit on: [:update] do
+    __elasticsearch__.index_document
+  end
+
+  after_commit on: [:destroy] do
+    __elasticsearch__.delete_document
+  end
 
   mappings dynamic: 'false' do
     indexes :search_term, analyzer: 'english'

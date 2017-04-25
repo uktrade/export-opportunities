@@ -17,7 +17,7 @@ gem 'immutable-struct'
 gem 'devise'
 gem 'devise-async'
 gem 'omniauth'
-gem 'omniauth-oauth2'
+gem 'omniauth-oauth2', '~> 1.3.1'
 gem 'pundit', require: true
 
 # Rendering

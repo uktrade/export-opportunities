@@ -35,6 +35,38 @@ feature 'Filtering opportunities', :elasticsearch, :commit, js: true do
     expect(page).to have_selector('.opportunities__item', count: 1)
   end
 
+  scenario 'users can filter opportunities by an updated market' do
+    country = create(:country, name: 'Iran')
+    another_country = create(:country, name: 'Italy')
+    opportunity = create(:opportunity, :published)
+    opportunity_with_market = create(:opportunity, :published, countries: [country])
+
+    sleep 1
+    visit opportunities_path
+
+    within('.filters') do
+      click_on 'Iran'
+    end
+
+    expect(page).to have_content opportunity_with_market.title
+    expect(page).to have_no_content opportunity.title
+    expect(page).to have_selector('.opportunities__item', count: 1)
+
+    opportunity_with_market.countries = [another_country]
+    opportunity_with_market.save!
+
+    sleep 1
+    visit opportunities_path
+
+    within('.filters') do
+      click_on 'Italy'
+    end
+
+    expect(page).to have_content opportunity_with_market.title
+    expect(page).to have_no_content opportunity.title
+    expect(page).to have_selector('.opportunities__item', count: 1)
+  end
+
   scenario 'users can filter opportunities by type' do
     type = create(:type, name: 'Aid Funded Business')
     opportunity = create(:opportunity, :published)

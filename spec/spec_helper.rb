@@ -5,7 +5,7 @@ RSpec.configure do |config|
   config.around :each, elasticsearch: true do |example|
     [Opportunity, Subscription].each do |model|
       model.__elasticsearch__.create_index!(force: true)
-      model.__elasticsearch__.refresh_index!
+      model.__elasticsearch__.refresh_index! if model.__elasticsearch__.index_exists? index: model.__elasticsearch__.index_name
     end
     example.run
     [Opportunity, Subscription].each do |model|
