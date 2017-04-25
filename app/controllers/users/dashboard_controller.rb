@@ -1,7 +1,13 @@
 module Users
   class DashboardController < BaseController
     def index
-      redirect_to(Figaro.env.SUD_PROFILE_PAGE) if Rails.env.production?
+      if Rails.env.production?
+        if params[:target] == 'alerts' then
+          redirect_to(Figaro.env.SUD_PROFILE_PAGE_EMAIL_ALERTS)
+        else
+          redirect_to(Figaro.env.SUD_PROFILE_PAGE)
+        end
+      end
 
       @enquiries = current_user.enquiries.includes(:opportunity)
       @subscriptions = current_user.subscriptions.includes(:types, :values, :countries, :sectors).active

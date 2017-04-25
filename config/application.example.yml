@@ -29,6 +29,7 @@ SSO_CLIENT_ID: ''
 SSO_CLIENT_SECRET: ''
 SSO_ENDPOINT_BASE_URI: 'https://sso.example.org/'
 SUD_PROFILE_PAGE: ''
+SUD_PROFILE_PAGE_EMAIL_ALERTS: ''
 
 # Links to CMS domain
 CMS_BASE_URI: 'https://export.great.gov.uk/'
