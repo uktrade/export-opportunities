@@ -1,0 +1,86 @@
+.results {
+
+  &__filter {
+
+  }
+
+  &__item {
+      margin-bottom: $base-spacing;
+      padding-bottom: $base-spacing;
+      border-bottom: 1px solid $stone;
+
+      &:first-child {
+        border-top: 1px solid $stone;
+        padding-top: 1em;
+
+        @media #{$mobile-m} {
+          border-top: none;
+          padding-top: 0;
+        }
+      }
+    }
+  &__icon {
+    font-size: .75em;
+    padding-left: 1.6em;
+    line-height: 1.2em;
+    margin-bottom: 6px;
+    &--date {
+      background: asset-url('deadline.svg') no-repeat left center;
+      background-size: 1em;
+    }
+
+    &--enquiries {
+      background: asset-url('enquiries-received.svg') no-repeat left center;
+      background-size: 1em;
+    }
+
+    .lt-ie10 &,
+    .lt-ie9 & {
+      padding-left: 0;
+    }
+
+    _:-ms-lang(x), & { // IE10 only
+      padding-left: 0\9;
+    }
+
+    _:-ms-fullscreen, :root & { // IE11 only
+      padding-left: 0;
+
+      &:before {
+        margin-right: .25em;
+      }
+    }
+  }
+}
+
+#opportunities-subscribe-form {
+  @include clearfix;
+  background-color: tint($stone, 25%);
+  margin-bottom: $base-spacing;
+  padding: $base-spacing;
+
+  label {
+    display: block;
+  }
+
+  input[type="email"] {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border: 0;
+    border-radius: none;
+    box-shadow: none;
+    font-size: 1em;
+    height: 42px;
+    margin: 5px 2px;
+    padding: 5px 2px;
+
+    .lt-ie9 & {
+      width: 97%;
+    }
+  }
+
+  .button {
+    margin-top: $small-spacing;
+    width: 100%;
+  }
+}

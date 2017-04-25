@@ -1,10 +1,7 @@
 
-%div.filters.js-filters
+%div.filters.js-filters.filters-open
   = form_tag opportunities_path, class: 'search-form', id: 'search-form', method: :get do
-    = hidden_field_tag :sectors, params[:sectors]
-    = hidden_field_tag :countries, params[:countries]
-    = hidden_field_tag :types, params[:types]
-    = hidden_field_tag :values, params[:values] 
+    = hidden_field_tag :filterOpen, params[:filterOpen], id: 'filterOpen'
     %div.filters__panel
       %div.filters__groupA
         %div.filters__item
@@ -14,28 +11,28 @@
         %div.filters__item
           %label{:for => "regions", :class=>"filters__label"}
             Where would you like to sell to?
-          %select.select-custom(data-placeholder='Filter by country or region'){:multiple => "multiple", :id => 'regions'}
-            - @countries.each do |country|
-              %option{:value => country.slug} #{country.name}
+          %select.select-custom(data-placeholder='Filter by country or region'){:multiple => true, :id => 'countries', :name => 'countries[]'}
+            = options_for_select(@countries.map { |country| [country['name'], country['slug']] },
+            :selected => params[:countries])
       %div.filters__groupB
         %div.filters__item
           %label{:for => "sectors", :class=>"filters__label"}
             What sector do you sell to?
-          %select.select-custom(data-placeholder='Filter by sector'){:multiple => "multiple", :id => 'sectors'}
-            - @sectors.each do |sector|
-              %option{:value => sector.slug} #{sector.name}
+          %select.select-custom(data-placeholder='Filter by sector'){:multiple => 'true', :id => 'sectors', :name => 'sectors[]'}
+            = options_for_select(@sectors.map { |sector| [sector['name'], sector['slug']] },
+            :selected => params[:sectors])
         %div.filters__item
           %label{:for => "value", :class=>"filters__label fixHeight"}
             What value contract are you interested in?
-          %select.select-custom(data-placeholder='Filter by value'){:multiple => "multiple", :id => 'value'}
-            - @values.each do |value|
-              %option{:value => value.slug} #{value.name}
+          %select.select-custom(data-placeholder='Filter by value'){:multiple => true, :id => 'value', :name => 'values[]' }
+            = options_for_select(@values.map { |value| [value['name'], value['slug']] },
+            :selected => params[:values])
         %div.filters__item
           %label{:for => "type", :class=>"filters__label"}
             What types of contract are you interested in?
-          %select.select-custom(data-placeholder='Filter by type'){:multiple => "multiple", :id => 'type'}
-            - @types.each do |type|
-              %option{:value => type.slug} #{type.name}
+          %select.select-custom(data-placeholder='Filter by type'){:multiple => true, :id => 'type', :name => 'types[]' }
+            = options_for_select(@types.map { |type| [type['name'], type['slug']] },
+            :selected => params[:types])
       %div.filters__item.filters__item__last
         = submit_tag 'Find opportunities', class: 'button filters__searchbutton'
 

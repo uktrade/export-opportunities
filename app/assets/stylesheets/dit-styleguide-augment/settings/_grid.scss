@@ -34,3 +34,6 @@ $desktop-m: "only screen and (min-width: 75em)";
 //1440
 $desktop-l: "only screen and (min-width: 90em)";
 
+
+// Legacy Breakpoints
+$medium-screen: $mobile-m;

@@ -1,4 +1,11 @@
 // This is a new grid as of April 2017
+// Make sure you have this in your styles  because grid is using paddings
+*, *:before, *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 .outer-container {
   margin: 0 auto;
   max-width: $max-width;
@@ -11,39 +18,57 @@
   }
 }
 
-
 .container {
   margin: 0 auto;
   max-width: $max-width;
+  padding: 0 10px;
+  @media #{$tablet-m} {
+    padding: 0 20px;
+  }
+  @media #{$desktop-m} {
+    padding: 0 30px;
+  }
+}
+
+// This is mixin which you will include in parent
+// of columns. It kills default margin of inline-block
+// elements.
+@mixin row () {
+  @extend %clearfix;
+  font-size: 0;
+}
+
+// This is column mixins.
+@mixin col ($col, $sum, $gap: 1em, $align: top, $first: false, $last: false) {
+    $divideBy: $grid-columns/$col;
+    width: 100%;
+    display: inline-block;
+    float: left;
+    font-size: 16px;
+    padding-left: if($first, 0, $gap);
+    padding-right: if($last, 0, $gap);
+
+
+    @media only screen and (min-width: 768px) {
+      width: 100% / $grid-columns * $sum;
+      vertical-align: $align;
+    }
+
+    &.fluid { width: percentage($col/$sum); }
 }
 
 .row {
-  @extend %clearfix;
-  margin-right: -10px !important;
-  margin-left: -10px !important;
+  @include row;
 }
 
-[class*='column-'] {
-  float: left;
-  width: 100%;
-  padding-right: 10px !important;
-  padding-left: 10px !important;
-  min-height: 1px;
-  @media #{$tablet-m} {
-    padding-right: 10px !important;
-    padding-left: 10px !important;
-  }
-  @media #{$desktop-m} {
-    padding-right: 15px !important;
-    padding-left: 15px !important;
-  }
+.column-4 {
+  @include col(1, 3, $align: middle);
 }
 
-@media #{$tablet-m} {
   @for $i from 1 through $grid-columns {      
     .column-#{$i} {
-          width: 100% / $grid-columns * $i;
+          @include col(1, $i, $align: middle);
       }           
-   }   
-}
+   } 
+
 

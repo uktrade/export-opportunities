@@ -1,4 +1,14 @@
-/* primary */
+// Base
+$small-font-size: 0.875em;
+$base-font-size: 1em;
+$heading-font-size: 1.25em; 
+
+$base-line-height: 1.625;
+$base-spacing: $base-line-height * 1em;
+$small-spacing: $base-spacing / 2;
+
+// Colors
+// primary
 $great_blue: #1e1348;
 $stone: #dfd5c5;
 $offwhite: #fafafa;
@@ -10,7 +20,6 @@ $greatred: #e41f13;
 $midblue: #00549f;
 $aqua: #007ea3;
 $purple: #4f0b7b;
-
 
 /* secondary */
 $dark_navy: #160d37;
