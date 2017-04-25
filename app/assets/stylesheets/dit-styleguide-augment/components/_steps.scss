@@ -1,4 +1,5 @@
 .steps {
+  padding: 15px;
   &__mainheading {
     font-size: 24px;
     font-weight: 500;
@@ -14,11 +15,11 @@
   }
   &__number {
     color: $lightgrey;
-    display: block;
-    line-height: 1em;  
+    display: block; 
     font-size: 100px;
     font-weight: 500;
     letter-spacing: -1px;
+    line-height: 1em; 
     text-align: center;
     width: 74px;
     float: left;
@@ -36,27 +37,19 @@
   }
   &__heading {
     font-size: 20px;
-    letter-spacing: -0.5px;
     font-weight: 400;
+    letter-spacing: -0.5px;
     color: $greytundora;
     padding-top: 20px;
-    @media #{$mobile-s} {
-    }
-    @media #{$tablet-m} {
+    @media #{$desktop-m} {
+      padding-top: 30px;
     }
   }
-
   &__text {
     font-size: 16px;
     font-weight: 400;
     line-height: 1.38;
     color: $greytundora;
     padding-top: 16px;
-    @media #{$mobile-s} {
-
-    }
-    @media #{$tablet-m} {
-
-    }
   }
 }

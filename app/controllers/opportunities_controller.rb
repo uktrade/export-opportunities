@@ -9,6 +9,7 @@ class OpportunitiesController < ApplicationController
     end
     @search_term = search_term
     @filters = SearchFilter.new(params)
+    pp @filters.countries
 
     @subscription_form = SubscriptionForm.new(
       query: {

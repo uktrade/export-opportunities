@@ -11,11 +11,14 @@ ukti.SearchFilters = (function($) {
   var _togglerParentSelector = '.filters__item__last';
   var _toggleGroup;
   var _toggleGroupSelector = '.filters__groupB';
+  var _filterOpenField;
+  var _filterOpenFieldSelector = 'input[name$="filterOpen"]'
 
   var hideFilters = function () {
   	_parentEl.classList.remove(_openClass);
   	_toggleGroup.style.display = 'none';
   	_toggleGroup.setAttribute('aria-hidden', 'true');
+    setFilterOpenField (false);
   };
 
   var showFilters = function () {
@@ -23,10 +26,14 @@ ukti.SearchFilters = (function($) {
 		_toggleGroup.style.display = 'block';
   	_toggleGroup.setAttribute('aria-hidden', 'false');
   	setFocusAfterToggle();
+    setFilterOpenField(true);
   };
 
   var setFocusAfterToggle = function () {
-		_parentEl.querySelectorAll('.select2-search__field')[1].focus();
+		var field = _parentEl.querySelectorAll('.select2-search__field')[1]
+    if (field) {
+      field.focus();
+    }
   };
 
   var returnToggler = function() {
@@ -60,9 +67,24 @@ ukti.SearchFilters = (function($) {
   var initToggleFilters = function (el) {
   	_parentEl = el;
     _toggleGroup = _parentEl.querySelector(_toggleGroupSelector);
+    _filterOpenField = _parentEl.querySelector(_filterOpenFieldSelector);
 		addToggler();
-		hideFilters();
+    checkHiddenFormField();
   };
+
+  var setFilterOpenField = function (value) {
+    _filterOpenField.value = value;
+  }
+
+  var returnFilterOpenFieldValue = function () {
+    return _filterOpenField.value;
+  }
+
+  var checkHiddenFormField = function () {
+    if (returnFilterOpenFieldValue() == 'false' || returnFilterOpenFieldValue() === '') {
+      hideFilters();
+    }
+  }
 
   var init = function (el) {
 		initToggleFilters(el);

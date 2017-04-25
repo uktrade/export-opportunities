@@ -1,9 +1,10 @@
-.dit2017
-  - if @subscription_form.minimum_search_criteria? and !@suppress_subscription_block
-    = render 'subscription_form'
-
-  #opportunity-results-list
-    - if @opportunities.any?
-      = render 'search_results'
-    - else
-      = render 'no_search_results'
+.container
+	.row
+		- if @subscription_form.minimum_search_criteria? and !@suppress_subscription_block
+			= render 'subscription_form'
+	.row
+	.results
+		- if @opportunities.any?
+			= render 'search_results'
+		- else
+			= render 'no_search_results'
