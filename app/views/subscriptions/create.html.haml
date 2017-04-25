@@ -10,7 +10,7 @@
 .panel
   %p
     You can manage your email alerts at any time using the
-    "Your opportunities" link at the top of this page.
+    "Profile" link at the top of this page.
 
   %h3 Alert summary
   %dl.metadata
@@ -31,5 +31,5 @@
       %dd= subscription.value_names
 
   %div
-    = link_to('Manage your email alerts', dashboard_path(anchor: 'alerts'), class: 'button button--slimline')
+    = link_to('Manage your email alerts', dashboard_path(anchor: 'alerts', target: :alerts), class: 'button button--slimline')
     = link_to('Search for more opportunities', opportunities_path, class: 'button button--naked button--slimline')
