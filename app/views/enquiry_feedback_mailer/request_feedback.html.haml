@@ -1,12 +1,14 @@
 %p Have your say. Give your feedback on the Export Opportunities service to help us improve it
 
 %p
-  On #{@enquiry_feedback.enquiry.created_at.strftime('%e %B %Y')} you applied for the export opportunity
-  %teaser
-    = link_to("#{@enquiry_feedback.enquiry.opportunity.title}", 'https://opportunities.export.great.gov.uk/opportunities/' + @enquiry_feedback.enquiry.opportunity.slug)
-  #{@enquiry_feedback.enquiry.opportunity.teaser}
-
-  What was the outcome?
+  On #{@enquiry_feedback.enquiry.created_at.strftime('%e %B %Y')} you applied for the export opportunity:
+  %br
+    %teaser
+      = link_to("#{@enquiry_feedback.enquiry.opportunity.title}", 'https://opportunities.export.great.gov.uk/opportunities/' + @enquiry_feedback.enquiry.opportunity.slug)
+  %br
+    #{@enquiry_feedback.enquiry.opportunity.teaser}
+  %br
+    What was the outcome?
 
 %ul{ style: 'margin: 0px;' }
   %li= link_to('I won or expect to win business', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :won)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
