@@ -2,7 +2,8 @@
 
 %p
   On #{@enquiry_feedback.enquiry.created_at.strftime('%e %B %Y')} you applied for the export opportunity
-  %strong #{@enquiry_feedback.enquiry.opportunity.title}.
+  = link_to("<strong>#{@enquiry_feedback.enquiry.opportunity.title}</strong>", 'https://opportunities.export.great.gov.uk/opportunities/' + @enquiry_feedback.enquiry.opportunity.slug)
+
   #{@enquiry_feedback.enquiry.opportunity.teaser}
 
   What was the outcome?
