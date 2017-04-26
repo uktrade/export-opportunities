@@ -1,9 +1,14 @@
 .results {
-
-  &__filter {
-
+  &__order {
+    &__items {
+      @extend %clearfix;
+    }
+    &__item {
+      @media #{$tablet-s} {
+        float:left;
+      }
+    }
   }
-
   &__item {
       margin-bottom: $base-spacing;
       padding-bottom: $base-spacing;
@@ -52,6 +57,7 @@
     }
   }
 }
+
 
 #opportunities-subscribe-form {
   @include clearfix;

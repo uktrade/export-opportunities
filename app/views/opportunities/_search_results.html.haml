@@ -1,7 +1,7 @@
 - @opportunities.each do |opportunity|
   %article.results__item
     %h3.results__title
-      = link_to opportunity.title.strip, opportunity_path(opportunity)
+      = link_to opportunity.title.strip, opportunity_path(opportunity), { :class=>"link" }
     %p
       = opportunity.teaser
 

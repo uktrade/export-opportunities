@@ -5,6 +5,11 @@ if(filtersEl) {
 	ukti.SearchFilters.init(filtersEl);
 }
 
+var orderEl = document.querySelectorAll('.js-order')[0];
+if(orderEl) {
+	ukti.ResultsOrder.init(orderEl);
+}
+
 if ($('.select-custom').length) {
 
 	$('.select-custom').select2({
@@ -15,7 +20,7 @@ if ($('.select-custom').length) {
 		},
 		templateResult: function(result) {
 			return '<svg class="icon icon-check"><use xlink:href="#icon-ditcheckmark" /></svg>' + result.text;
-    }
+    	}
 	});
 
 	/* prevent dropdown from opening when deselecting tag */

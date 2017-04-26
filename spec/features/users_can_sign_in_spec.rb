@@ -39,7 +39,7 @@ feature 'Signing in as a user' do
     expect(page).to have_flash_message 'You are now signed in'
   end
 
-  scenario 'Signing out' do
+  scenario 'Signing out', skip: true do
     mock_sso_with(email: 'email@example.com')
 
     visit '/dashboard'
