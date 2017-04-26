@@ -1,12 +1,15 @@
-%p Have your say. Give your feedback on the Export Opportunities service to help us improve it
+%p Have your say. Give your feedback on the Export Opportunities service to help us improve it.
 
 %p
   On #{@enquiry_feedback.enquiry.created_at.strftime('%e %B %Y')} you applied for the export opportunity:
   %br
+  %br
     %teaser
       = link_to("#{@enquiry_feedback.enquiry.opportunity.title}", 'https://opportunities.export.great.gov.uk/opportunities/' + @enquiry_feedback.enquiry.opportunity.slug)
   %br
+  %br
     #{@enquiry_feedback.enquiry.opportunity.teaser}
+  %br
   %br
     What was the outcome?
 
