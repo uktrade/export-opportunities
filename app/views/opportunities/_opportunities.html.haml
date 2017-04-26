@@ -1,8 +1,5 @@
 .container
 	.row
-		- if @subscription_form.minimum_search_criteria? and !@suppress_subscription_block
-			= render 'subscription_form'
-	.row
 	.results
 		- if @opportunities.any?
 			= render 'search_results'

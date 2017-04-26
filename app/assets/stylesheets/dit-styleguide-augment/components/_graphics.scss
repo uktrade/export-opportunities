@@ -1,0 +1,23 @@
+.graphic {
+  &__locate {
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background: asset-url('steps/icon-locate.png');
+    background: asset-url('steps/icon-locate.svg'),
+    linear-gradient(transparent, transparent);
+  }
+  &__register {
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background: asset-url('steps/icon-register.png');
+    background: asset-url('steps/icon-register.svg'),
+    linear-gradient(transparent, transparent);
+  }
+  &__connect {
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background: asset-url('steps/icon-connect.png');
+    background: asset-url('steps/icon-connect.svg'),
+    linear-gradient(transparent, transparent);
+  }
+} 

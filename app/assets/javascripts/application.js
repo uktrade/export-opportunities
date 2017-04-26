@@ -5,6 +5,7 @@
 //= require select2
 //
 //= require components/SearchFilter
+//= require components/ResultsOrder
 //= require start-page
 
 //= require enquiries_form
