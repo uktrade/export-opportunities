@@ -11,7 +11,7 @@ RSpec.feature 'User can give feedback' do
 
     open_email('test@example.com')
 
-    expect(current_email.subject).to match 'What happened with your export opportunity'
+    expect(current_email.subject).to match 'What happened with your export opportunity ' + opp.title + '?'
     expect(current_email).to have_content(opp.title)
   end
 
