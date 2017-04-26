@@ -2,7 +2,7 @@ module Users
   class DashboardController < BaseController
     def index
       if Rails.env.production?
-        if params[:target] == 'alerts' then
+        if params[:target] == 'alerts'
           redirect_to(Figaro.env.SUD_PROFILE_PAGE_EMAIL_ALERTS)
         else
           redirect_to(Figaro.env.SUD_PROFILE_PAGE)
