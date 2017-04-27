@@ -132,6 +132,36 @@ feature 'Administering opportunities' do
     expect(page).to have_text('Created opportunity "A chance to begin again in a golden land of opportunity and adventure"')
   end
 
+  scenario 'Creating a draft opportunity by an Uploader' do
+    uploader = create(:uploader)
+    service_provider = create_service_provider('Italy Rome')
+
+    login_as(uploader)
+    visit admin_opportunities_path
+    click_on 'New opportunity'
+
+    fill_in 'Title', with: 'A chance to begin again in a golden land of opportunity and adventure'
+    fill_in t('admin.opportunity.teaser_field'), with: 'A new life awaits you in the off-world colonies!'
+    select '2016', from: 'opportunity_response_due_on_1i'
+    select 'July', from: 'opportunity_response_due_on_2i'
+    select '4', from: 'opportunity_response_due_on_3i'
+    fill_in t('admin.opportunity.description_field'), with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
+    select service_provider.name, from: 'Service provider'
+
+    name_fields = find_all(:fillable_field, 'Name')
+    email_fields = find_all(:fillable_field, 'Email')
+
+    name_fields[0].set 'Jane Doe'
+    email_fields[0].set 'jane.doe@example.com'
+    name_fields[1].set 'Joe Bloggs'
+    email_fields[1].set 'joe.bloggs@example.com'
+
+    click_on 'Save to Draft'
+
+    expect(page.status_code).to eq 200
+    expect(page).to have_text('Saved to draft: "A chance to begin again in a golden land of opportunity and adventure"')
+  end
+
   scenario 'Editing an opportunity' do
     admin = create(:admin)
     opportunity = create_opportunity(admin, status: 'pending')

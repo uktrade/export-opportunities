@@ -1,6 +1,7 @@
 class CreateOpportunity
-  def initialize(editor)
+  def initialize(editor, status = :pending)
     @editor = editor
+    @status = status
   end
 
   def call(params)
@@ -10,7 +11,7 @@ class CreateOpportunity
       opportunity.slug = CreateOpportunitySlug.call(opportunity)
     end
 
-    opportunity.status = :pending
+    opportunity.status = @status
     opportunity.author = @editor
     opportunity.save
 
