@@ -16,21 +16,13 @@ RSpec.feature 'Viewing opportunities', :elasticsearch, :commit do
     sleep 1
     visit opportunities_path
 
-    expect(page).to have_content(@valid_opportunity.title)
-    expect(page).to have_selector('.opportunities__item', count: 1)
-  end
-
-  scenario 'Potential exporter can view all opportunities' do
-    opportunities = create_list(:opportunity, 3, status: 'publish')
-
-    sleep 1
-    visit opportunities_path
-
-    within '.opportunities' do
-      opportunities.each do |opportunity|
-        expect(page).to have_content(opportunity.title)
-      end
+    within '#search-form' do
+      fill_in 's', with: valid_opportunity.title
+      page.find('.filters__searchbutton').click
     end
+
+    expect(page).to have_content(valid_opportunity.title)
+    expect(page).to have_selector('.results__item', count: 1)
   end
 
   scenario 'Potential exporter can see the response date of an opportunity' do
@@ -38,7 +30,12 @@ RSpec.feature 'Viewing opportunities', :elasticsearch, :commit do
     sleep 1
     visit opportunities_path
 
-    within '.opportunities' do
+    within '#search-form' do
+      fill_in 's', with: opportunity.title
+      page.find('.filters__searchbutton').click
+    end
+
+    within '.results' do
       expect(page).to have_content(opportunity.title)
       expect(page).to have_content(opportunity.response_due_on.strftime('%d %B %Y'))
     end
@@ -50,7 +47,13 @@ RSpec.feature 'Viewing opportunities', :elasticsearch, :commit do
 
     sleep 1
     visit opportunities_path
-    within '.opportunities' do
+
+    within '#search-form' do
+      fill_in 's', with: 'Hello World'
+      page.find('.filters__searchbutton').click
+    end
+
+    within '.results' do
       expect(page).to have_content(opportunity.title)
       expect(page).to have_content('Applications received: 3')
     end
@@ -58,33 +61,32 @@ RSpec.feature 'Viewing opportunities', :elasticsearch, :commit do
 
   scenario 'Opportunities should not paginate when under limit' do
     allow(Opportunity).to receive(:default_per_page).and_return(2)
+    opportunity = create(:opportunity, :published, title: 'Hello World', slug: 'hello-world')
     create_list(:opportunity, 1, status: 'publish')
     visit opportunities_path
+
+    within '#search-form' do
+      fill_in 's', with: 'Hello World'
+      page.find('.filters__searchbutton').click
+    end
 
     expect(page).to have_no_selector('.pagination')
   end
 
   scenario 'Opportunities should paginate when over pagination limit' do
     allow(Opportunity).to receive(:default_per_page).and_return(2)
-    create_list(:opportunity, 3, status: 'publish')
-    sleep 1
+    opportunity1 = create(:opportunity, :published, title: 'Hello World', slug: 'hello-world1')
+    opportunity2 = create(:opportunity, :published, title: 'Hello World', slug: 'hello-world2')
+    opportunity2 = create(:opportunity, :published, title: 'Hello World', slug: 'hello-world3')
+
     visit opportunities_path
+
+    within '#search-form' do
+      fill_in 's', with: 'Hello World'
+      page.find('.filters__searchbutton').click
+    end
 
     expect(page).to have_selector('.pagination .current')
   end
 
-  scenario 'When opps are loaded via JS, pagination links do not carry the .js extension', js: true do
-    allow(Opportunity).to receive(:default_per_page).and_return(1)
-    create_list(:opportunity, 2, status: :publish)
-    sleep 1
-    visit opportunities_path
-
-    within '.pagination' do
-      click_on '2'
-    end
-
-    within '.pagination' do
-      expect(page.find("a[rel='prev']")[:href]).not_to match(/\.js/)
-    end
-  end
 end

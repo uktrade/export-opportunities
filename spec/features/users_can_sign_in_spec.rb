@@ -8,7 +8,7 @@ feature 'Signing in as a user' do
 
     expect(page).to have_link 'Sign out'
   end
-
+  
   scenario 'Signed in user visits /', :elasticsearch, :commit do
     create(:opportunity, :published, title: 'Food')
 

@@ -24,10 +24,7 @@
     /[if lte IE 9]
       = javascript_include_tag 'oldie-support.min'
       = javascript_include_tag 'classlist.polyfill.min'
-      = javascript_include_tag 'eventListener.polyfill.min'
-    /[if lte IE 8]
-      = javascript_include_tag 'selectivizr.min.js'
-        
+      = javascript_include_tag 'eventListener.polyfill.min'        
 
   %body{id: ExportOpportunities.flipper.enabled?(:new_header_and_footer) ? nil : 'dit'}
     = render partial: 'svg_icons'
@@ -36,7 +33,6 @@
       = render 'layouts/dit_header_2017'
     -else
       = render 'layouts/dit_header'
-
 
     - if content_for?(:hero)
       .hero-header-wrapper

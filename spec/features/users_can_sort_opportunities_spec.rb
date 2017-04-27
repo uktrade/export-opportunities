@@ -9,6 +9,10 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
     sleep 1
     visit '/opportunities'
 
+    within('.filters') do
+      page.find('.filters__searchbutton').click
+    end
+
     expect('Third').to appear_before('Second')
     expect('Second').to appear_before('First')
     expect(find_field('expiry date')).to be_checked
@@ -16,7 +20,7 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
     within('.opportunities__order') do
       choose 'published date'
     end
-    wait_for_ajax
+    #wait_for_ajax
 
     expect('Second').to appear_before('First')
     expect('First').to appear_before('Third')
@@ -24,7 +28,7 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
     within('.opportunities__order') do
       choose 'expiry date'
     end
-    wait_for_ajax
+    #wait_for_ajax
 
     expect('Third').to appear_before('Second')
     expect('Second').to appear_before('First')
@@ -40,10 +44,8 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       sleep 1
       visit '/opportunities'
 
-      within '#search-form' do
-        fill_in 's', with: 'Sardines'
-        page.find('.search-form__submit').click
-        wait_for_ajax
+      within('.filters') do
+        page.find('.filters__searchbutton').click
       end
 
       expect(page).to have_no_content('Cod')
@@ -55,7 +57,7 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       within('.opportunities__order') do
         choose 'published date'
       end
-      wait_for_ajax
+      #wait_for_ajax
 
       expect(page).to have_no_content('Cod')
       expect('Small Sardines').to appear_before('Sardines, Big Sardines')
@@ -66,7 +68,7 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       within('.opportunities__order') do
         choose 'expiry date'
       end
-      wait_for_ajax
+      #wait_for_ajax
 
       expect(page).to have_no_content('Cod')
       expect('Really Old Sardines, Expiring Soon').to appear_before('Sardines, Big Sardines')

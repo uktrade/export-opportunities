@@ -1,6 +1,9 @@
 %div.filters.js-filters.filters-open
   = form_tag opportunities_path, class: 'search-form', id: 'search-form', method: :get do
     = hidden_field_tag :filterOpen, params[:filterOpen], id: 'filterOpen'
+    = hidden_field_tag :sort, params[:sort_column]
+    = hidden_field_tag :sort, params[:sort_column]
+    = hidden_field_tag :s, params[:s]
     %div.filters__panel
       %div.filters__groupA
         %div.filters__item
