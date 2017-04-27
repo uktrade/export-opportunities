@@ -1,4 +1,5 @@
 /* we can only set this on the main block for now */
 body main {
 	-webkit-font-smoothing: antialiased;
+	@extend %clearfix;
 }

@@ -7,7 +7,7 @@ ukti.SearchFilters = (function($) {
 
 	var _parentEl;
 	var _openClass = 'filters-open';
-	var _hiddenClass = 'hide';
+	var _hiddenClass = 'hidden';
   var _togglerParentSelector = '.filters__item__last';
   var _toggleGroup;
   var _toggleGroupSelector = '.filters__groupB';
@@ -16,14 +16,14 @@ ukti.SearchFilters = (function($) {
 
   var hideFilters = function () {
   	_parentEl.classList.remove(_openClass);
-  	_toggleGroup.style.display = 'none';
+  	_toggleGroup.classList.add(_hiddenClass);
   	_toggleGroup.setAttribute('aria-hidden', 'true');
     setFilterOpenField (false);
   };
 
   var showFilters = function () {
 		_parentEl.classList.add(_openClass);
-		_toggleGroup.style.display = 'block';
+		_toggleGroup.classList.remove(_hiddenClass);
   	_toggleGroup.setAttribute('aria-hidden', 'false');
   	setFocusAfterToggle();
     setFilterOpenField(true);

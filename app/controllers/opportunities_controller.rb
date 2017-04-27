@@ -29,7 +29,9 @@ class OpportunitiesController < ApplicationController
                  Opportunity.default_per_page
                end
 
-    sort_column = params[:sort]
+    sort_column = params.fetch(:sort_column, 'response_due_on')
+
+    Rails.logger.debug "sort_column: #{sort_column}"
 
     if sort_column
       sort_order = sort_column == 'response_due_on' ? 'asc' : 'desc'
