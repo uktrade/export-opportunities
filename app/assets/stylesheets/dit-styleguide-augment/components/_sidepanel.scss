@@ -1,0 +1,10 @@
+.sidepanel {
+  background-color: $stone;
+  padding: 10px;
+  @media #{$mobile-l} {
+    padding: 20px;
+  }
+  @media #{$desktop-s} {
+    padding: 30px;
+  }
+}

@@ -29,7 +29,13 @@ class OpportunitiesController < ApplicationController
                  Opportunity.default_per_page
                end
 
-    sort_column = params.fetch(:sort_column, 'response_due_on')
+    #sort_column = params.fetch(:sort_column, 'response_due_on')
+
+    if (params.has_key?(:isSearchAndFilter) and params[:s].present?)
+      Rails.logger.debug "isSearchAndFilter: #{params.fetch(:isSearchAndFilter)}"
+      sort_column = 'relevance'
+      ignore_sort = true
+    end         
 
     Rails.logger.debug "sort_column: #{sort_column}"
 
@@ -43,6 +49,10 @@ class OpportunitiesController < ApplicationController
       @sort = OpportunitySort.new(default_column: 'response_due_on', default_order: 'asc')
         .update(column: sort_column, order: sort_order)
     end
+
+    Rails.logger.debug "sort: #{@sort.inspect}"
+
+    ignore_sort = params[:sort] == 'relevance'
 
     @query = Opportunity.public_search(
       search_term: @search_term,
