@@ -2,18 +2,21 @@ require 'rails_helper'
 
 feature 'Sorting opportunities', :elasticsearch, js: true do
   scenario 'users can sort opportunities by first published at and expiry date' do
-    create(:opportunity, :published, title: 'First', first_published_at: 2.days.ago, response_due_on: 3.days.from_now)
-    create(:opportunity, :published, title: 'Second', first_published_at: 1.day.ago, response_due_on: 2.days.from_now)
-    create(:opportunity, :published, title: 'Third', first_published_at: 3.days.ago, response_due_on: 1.day.from_now)
+    create(:opportunity, :published, title: 'First Opp', first_published_at: 2.days.ago, response_due_on: 3.days.from_now)
+    create(:opportunity, :published, title: 'Second Opp', first_published_at: 1.day.ago, response_due_on: 2.days.from_now)
+    create(:opportunity, :published, title: 'Third Opp', first_published_at: 3.days.ago, response_due_on: 1.day.from_now)
 
     sleep 1
     visit '/opportunities'
 
     within('.filters') do
+      fill_in 's', with: 'Opp'
       page.find('.filters__searchbutton').click
     end
 
-    expect('Third').to appear_before('Second')
+    save_and_open_page
+
+    expect('Third Opp').to appear_before('Second Opp')
     expect('Second').to appear_before('First')
     expect(find_field('expiry date')).to be_checked
 

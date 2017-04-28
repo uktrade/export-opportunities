@@ -61,9 +61,11 @@
   @include row;
 }
 
+/*
 .column-4 {
   @include col(1, 3, $align: middle);
 }
+*/
 
   @for $i from 1 through $grid-columns {      
     .column-#{$i} {

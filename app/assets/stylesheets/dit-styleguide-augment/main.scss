@@ -7,6 +7,7 @@
 
 @import "utilities/helpers";
 
+@import "base/global";
 @import "base/grid";
 @import "elements/body";
 @import "elements/hr";
@@ -16,5 +17,6 @@
 @import "components/steps";
 @import "components/results";
 @import "components/pagination";
+@import "components/sidepanel";
 
 

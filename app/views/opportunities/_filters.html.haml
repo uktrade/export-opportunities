@@ -1,38 +1,36 @@
 %div.filters.js-filters.filters-open
   = form_tag opportunities_path, class: 'search-form', id: 'search-form', method: :get do
+    = hidden_field_tag :isSearchAndFilter, true
     = hidden_field_tag :filterOpen, params[:filterOpen], id: 'filterOpen'
-    = hidden_field_tag :sort, params[:sort_column]
-    = hidden_field_tag :sort, params[:sort_column]
-    = hidden_field_tag :s, params[:s]
     %div.filters__panel
       %div.filters__groupA
         %div.filters__item
           %label{:for => "searchinput", :class=>"filters__label"}
             What product are you selling?
-          = search_field_tag :s, params[:s], :placeholder => 'Keywords', class: 'filters__field', id: 'searchinput', autofocus: 'true'
+          = search_field_tag :s, params[:s], :placeholder => 'Keywords', class: 'filters__field', id: 'searchinput', autofocus: 'true', autocomplete: 'off'
         %div.filters__item
           %label{:for => "regions", :class=>"filters__label"}
             Where would you like to sell to?
-          %select.select-custom(data-placeholder='Filter by country or region'){:multiple => true, :id => 'countries', :name => 'countries[]'}
+          %select.select-custom(data-placeholder='Filter by country or region'){:multiple => true, :id => 'countries', :name => 'countries[]', autocomplete: 'off'}
             = options_for_select(@countries.map { |country| [country['name'], country['slug']] },
             :selected => params[:countries])
       %div.filters__groupB
         %div.filters__item
           %label{:for => "sectors", :class=>"filters__label"}
             What sector do you sell to?
-          %select.select-custom(data-placeholder='Filter by sector'){:multiple => 'true', :id => 'sectors', :name => 'sectors[]'}
+          %select.select-custom(data-placeholder='Filter by sector'){:multiple => 'true', :id => 'sectors', :name => 'sectors[]', autocomplete: 'off'}
             = options_for_select(@sectors.map { |sector| [sector['name'], sector['slug']] },
             :selected => params[:sectors])
         %div.filters__item
           %label{:for => "value", :class=>"filters__label fixHeight"}
             What value contract are you interested in?
-          %select.select-custom(data-placeholder='Filter by value'){:multiple => true, :id => 'value', :name => 'values[]' }
+          %select.select-custom(data-placeholder='Filter by value'){:multiple => true, :id => 'value', :name => 'values[]', autocomplete: 'off'}
             = options_for_select(@values.map { |value| [value['name'], value['slug']] },
             :selected => params[:values])
         %div.filters__item
           %label{:for => "type", :class=>"filters__label"}
             What types of contract are you interested in?
-          %select.select-custom(data-placeholder='Filter by type'){:multiple => true, :id => 'type', :name => 'types[]' }
+          %select.select-custom(data-placeholder='Filter by type'){:multiple => true, :id => 'type', :name => 'types[]', autocomplete: 'off'}
             = options_for_select(@types.map { |type| [type['name'], type['slug']] },
             :selected => params[:types])
       %div.filters__item.filters__item__last
