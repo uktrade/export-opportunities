@@ -14,24 +14,16 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       page.find('.filters__searchbutton').click
     end
 
-    save_and_open_page
-
-    expect('Third Opp').to appear_before('Second Opp')
-    expect('Second').to appear_before('First')
-    expect(find_field('expiry date')).to be_checked
-
-    within('.opportunities__order') do
+    within('.results__order') do
       choose 'published date'
     end
-    #wait_for_ajax
 
     expect('Second').to appear_before('First')
     expect('First').to appear_before('Third')
 
-    within('.opportunities__order') do
+    within('.results__order') do
       choose 'expiry date'
     end
-    #wait_for_ajax
 
     expect('Third').to appear_before('Second')
     expect('Second').to appear_before('First')
@@ -48,6 +40,7 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       visit '/opportunities'
 
       within('.filters') do
+        fill_in 's', with: 'Sardines'
         page.find('.filters__searchbutton').click
       end
 
@@ -57,7 +50,7 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       expect(find_field('relevance')).to be_checked
       expect(page).to have_content('Subscribe to Email Alerts for')
 
-      within('.opportunities__order') do
+      within('.results__order') do
         choose 'published date'
       end
       #wait_for_ajax
@@ -68,7 +61,7 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       expect(find_field('published date')).to be_checked
       expect(page).to have_content('Subscribe to Email Alerts for')
 
-      within('.opportunities__order') do
+      within('.results__order') do
         choose 'expiry date'
       end
       #wait_for_ajax

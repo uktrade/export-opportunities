@@ -30,7 +30,7 @@ RSpec.feature 'Subscribing to alerts' do
       expect(subscription).to be_confirmed
     end
 
-    scenario 'when a filter is provided', skip: true do
+    scenario 'when a filter is provided' do
 
       country = create(:country, name: 'Brazil')
       create(:opportunity, status: :publish, countries: [country])
@@ -38,7 +38,10 @@ RSpec.feature 'Subscribing to alerts' do
       visit opportunities_path
       expect(page).not_to have_content 'Subscribe to Email Alerts'
 
-      click_on country.name
+      select "Brazil", :from => "countries"
+      page.find('.filters__searchbutton').click
+      #select2_select_multiple('Brazil', 'countries')
+
       expect(page).to have_content 'Subscribe to Email Alerts for Brazil'
 
       click_button 'Subscribe'
@@ -55,7 +58,7 @@ RSpec.feature 'Subscribing to alerts' do
       expect(subscription).to be_confirmed
     end
 
-    scenario 'can subscribe when multiple filters and search terms are provided', js: true, skip: true do
+    scenario 'can subscribe when multiple filters and search terms are provided', js: true do
       country = create(:country, name: 'Italy')
       sector = create(:sector, name: 'Toys')
       type = create(:type, name: 'Magical')
@@ -76,20 +79,13 @@ RSpec.feature 'Subscribing to alerts' do
       expect(page).not_to have_content 'Subscribe to Email Alerts for transformers, Italy, Toys, Magical, Expensive'
 
       fill_in :s, with: 'transformers'
+
+      select "Italy", :from => "countries"
+      select "Toys", :from => "sector"
+      select "Magical", :from => "types"
+      select "Expensive", :from => "values"
+
       page.find('.filters__searchbutton').click
-      page.find('.search-form__submit').click
-
-      click_on country.name
-      wait_for_ajax
-
-      click_on sector.name
-      wait_for_ajax
-
-      click_on type.name
-      wait_for_ajax
-
-      click_on value.name
-      wait_for_ajax
 
       expect(page).to have_content 'Subscribe to Email Alerts for transformers, Italy, Toys, Magical, Expensive'
 
@@ -104,7 +100,7 @@ RSpec.feature 'Subscribing to alerts' do
       expect(page).to have_content 'Expensive'
     end
 
-    scenario 'cannot subscribe when no search keywords or filters are provided', skip: true do
+    scenario 'cannot subscribe when no search keywords or filters are provided' do
       visit opportunities_path
       expect(page).to have_no_content 'Subscribe to Email Alerts'
     end
@@ -131,7 +127,7 @@ RSpec.feature 'Subscribing to alerts' do
 
       visit opportunities_path
       fill_in :s, with: 'food'
-      page.find('.search-form__submit').click
+      page.find('.filters__searchbutton').click
 
       expect(page).to have_content 'Subscribe to Email Alerts for food'
       click_button 'Subscribe'

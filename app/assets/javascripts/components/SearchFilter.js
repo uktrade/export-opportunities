@@ -2,7 +2,7 @@
 
 var ukti = window.ukti || {};
 
-ukti.SearchFilters = (function($) {
+ukti.SearchFilters = (function() {
   'use strict';
 
 	var _parentEl;
@@ -12,7 +12,7 @@ ukti.SearchFilters = (function($) {
   var _toggleGroup;
   var _toggleGroupSelector = '.filters__groupB';
   var _filterOpenField;
-  var _filterOpenFieldSelector = 'input[name$="filterOpen"]'
+  var _filterOpenFieldSelector = 'input[name$="filterOpen"]';
 
   var hideFilters = function () {
   	_parentEl.classList.remove(_openClass);
@@ -30,7 +30,7 @@ ukti.SearchFilters = (function($) {
   };
 
   var setFocusAfterToggle = function () {
-		var field = _parentEl.querySelectorAll('.select2-search__field')[1]
+		var field = _parentEl.querySelectorAll('.select2-search__field')[1];
     if (field) {
       field.focus();
     }
@@ -64,27 +64,27 @@ ukti.SearchFilters = (function($) {
 		}
   };
 
-  var initToggleFilters = function (el) {
-  	_parentEl = el;
-    _toggleGroup = _parentEl.querySelector(_toggleGroupSelector);
-    _filterOpenField = _parentEl.querySelector(_filterOpenFieldSelector);
-		addToggler();
-    checkHiddenFormField();
-  };
-
   var setFilterOpenField = function (value) {
     _filterOpenField.value = value;
-  }
+  };
 
   var returnFilterOpenFieldValue = function () {
     return _filterOpenField.value;
-  }
+  };
 
   var checkHiddenFormField = function () {
     if (returnFilterOpenFieldValue() == 'false' || returnFilterOpenFieldValue() === '') {
       hideFilters();
     }
-  }
+  };
+
+  var initToggleFilters = function (el) {
+    _parentEl = el;
+    _toggleGroup = _parentEl.querySelector(_toggleGroupSelector);
+    _filterOpenField = _parentEl.querySelector(_filterOpenFieldSelector);
+    addToggler();
+    checkHiddenFormField();
+  };
 
   var init = function (el) {
 		initToggleFilters(el);

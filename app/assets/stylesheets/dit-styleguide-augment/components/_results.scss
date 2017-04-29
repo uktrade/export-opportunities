@@ -61,6 +61,7 @@
 #opportunities-subscribe-form {
   @include clearfix;
   background-color: tint($stone, 25%);
+  margin-top: $base-spacing;
   margin-bottom: $base-spacing;
   padding: $base-spacing;
 

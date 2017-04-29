@@ -1,7 +1,38 @@
 require 'vcr'
 require 'elasticsearch/extensions/test/cluster'
 
+module Helpers
+  def select2(value, element_selector)
+    select2_container = first("#{element_selector}")
+    select2_container.find(".select2-choice").click
+
+    find(:xpath, "//body").find("input.select2-input").set(value)
+    page.execute_script(%|$("input.select2-input:visible").keyup();|)
+    drop_container = ".select2-results"
+    find(:xpath, "//body").find("#{drop_container} li", text: value).click
+  end
+  def select2_select_multiple(select_these, id)
+    # This methods requires @javascript in the Scenario
+    [select_these].flatten.each do | value |
+      first("#s2id_#{id}").click
+      #find(:xpath, "//div[preceding-sibling::select[@id='sibling_id']]/input").set('test')
+      found = false
+      within("#select2-drop") do
+        all('li.select2-results__option').each do | result |
+          unless found
+            if result.text == value
+              result.click
+              found = true
+            end
+          end
+        end
+      end
+    end
+  end
+end
+
 RSpec.configure do |config|
+  config.include Helpers
   config.around :each, elasticsearch: true do |example|
     [Opportunity, Subscription].each do |model|
       model.__elasticsearch__.create_index!(force: true)

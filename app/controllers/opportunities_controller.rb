@@ -29,16 +29,24 @@ class OpportunitiesController < ApplicationController
                  Opportunity.default_per_page
                end
 
-    #sort_column = params.fetch(:sort_column, 'response_due_on')
+# If user is using filters to search
+    if (params.has_key?(:isSearchAndFilter))
+      sort_column = 'response_due_on'
+    end
 
+# If user is using keyword to search
     if (params.has_key?(:isSearchAndFilter) and params[:s].present?)
       Rails.logger.debug "isSearchAndFilter: #{params.fetch(:isSearchAndFilter)}"
       sort_column = 'relevance'
       ignore_sort = true
-    end         
+    end  
 
-    Rails.logger.debug "sort_column: #{sort_column}"
+# If user is filtering
+    if params[:sort_column_name]
+      sort_column = params[:sort_column_name]
+    end
 
+# set sort_order
     if sort_column
       sort_order = sort_column == 'response_due_on' ? 'asc' : 'desc'
     end
@@ -50,11 +58,23 @@ class OpportunitiesController < ApplicationController
         .update(column: sort_column, order: sort_order)
     end
 
-    Rails.logger.debug "sort: #{@sort.inspect}"
+# set ignore_sort flag
+    ignore_sort = sort_column == 'relevance'
 
-    ignore_sort = params[:sort] == 'relevance'
+# pass sort correct column down to the view
+    @sort_column_name = sort_column
+
 
     @query = Opportunity.public_search(
+
+    Rails.logger.debug "sort_column: #{sort_column}"
+    Rails.logger.debug "sort: #{@sort.inspect}"
+    Rails.logger.debug "ignore: #{ignore_sort}"
+    Rails.logger.debug "sort_column_name: #{@sort_column_name}"
+    
+    @query = Opportunity.public_search(
+      status: 'publish',
+      hide_expired: true,
       search_term: @search_term,
       filters: @filters,
       sort: @sort
