@@ -48,7 +48,6 @@
     padding-left: if($first, 0, $gap);
     padding-right: if($last, 0, $gap);
 
-
     @media only screen and (min-width: 768px) {
       width: 100% / $grid-columns * $sum;
       vertical-align: $align;
@@ -61,16 +60,10 @@
   @include row;
 }
 
-/*
-.column-4 {
-  @include col(1, 3, $align: middle);
-}
-*/
-
-  @for $i from 1 through $grid-columns {      
-    .column-#{$i} {
-          @include col(1, $i, $align: middle);
-      }           
-   } 
+@for $i from 1 through $grid-columns {      
+  .column-#{$i} {
+        @include col(1, $i, $align: middle);
+    }         
+ } 
 
 

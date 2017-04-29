@@ -1,4 +1,6 @@
-'use strict';
+/* global $ */
+
+var ukti = window.ukti || {};
 
 var filtersEl = document.querySelectorAll('.js-filters')[0];
 if(filtersEl) {
@@ -40,8 +42,15 @@ if (selectCustom.length) {
 
 	/* WORKAROUND FOR THE BUG https://github.com/select2/select2/issues/3817 */
 	selectCustom.each(function() {
-	    var $this = $(this);
+	    //var $this = $(this);
 	    //$this.parent().find('.select2-search--inline').width('100%');
 	    //$this.parent().find('.select2-search__field').width('100%');
 	});
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+	var hasSearchResults = window.location.search.indexOf('?') > -1;
+	if (hasSearchResults) {
+		//ukti.ScrollTo.init('#opportunities-subscribe-form');	
+	}
+}, false);

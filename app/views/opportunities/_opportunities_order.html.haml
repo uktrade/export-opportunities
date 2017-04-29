@@ -9,17 +9,18 @@
       Ordered by:
       = params[:sort_column].to_s
       %br
+      = @sort_column_name
       = params[:s].to_s
       %ul.results__order__items
         %li.results__order__item
-          %input{ name: 'sort_column', id: 'order_expiry_date', type: 'radio', value: 'response_due_on', checked: @sort.column == 'response_due_on' }
+          %input{ name: 'sort_column_name', id: 'order_expiry_date', type: 'radio', value: 'response_due_on', checked: @sort_column_name == 'response_due_on' }
           %label{ for: 'order_expiry_date' } expiry date
         %li.results__order__item
-          %input{ name: 'sort_column', id: 'order_published_date', type: 'radio', value: 'first_published_at', checked: @sort.column == 'first_published_at' }
+          %input{ name: 'sort_column_name', id: 'order_published_date', type: 'radio', value: 'first_published_at', checked: @sort_column_name == 'first_published_at' }
           %label{ for: 'order_published_date' } published date
         - if !params[:s].to_s.empty?
           %li.results__order__item
-            %input{ name: 'sort_column', class: 'order_relevance', id: 'order_relevance', type: 'radio', value: 'relevance', checked: params[:sort_column] == 'relevance'}
+            %input{ name: 'sort_column_name', class: 'order_relevance', id: 'order_relevance', type: 'radio', value: 'relevance', checked: @sort_column_name == 'relevance'}
             %label{ class: 'order_relevance', for: 'order_relevance' } relevance
       %br
       = @sort.inspect

@@ -1,3 +1,7 @@
-.img-fluid {
-	width: 100%;
+.img {
+	display:block;
+	&__fluid {
+		width: 100%;
+	}
 }
+

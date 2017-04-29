@@ -9,8 +9,7 @@ feature 'Signing in as a user' do
     expect(page).to have_link 'Sign out'
   end
 
-  scenario 'Signed in user visits /', skip: true do
-    create(:opportunity, :published, title: 'Food')
+  scenario 'Signed in user visits /' do
 
     mock_sso_with(email: 'email@example.com')
 
@@ -18,7 +17,7 @@ feature 'Signing in as a user' do
     visit '/sign_in'
     visit '/'
 
-    expect(page).to have_content 'Food'
+    expect(page).to have_content 'Find and apply'
   end
 
   scenario 'Signing in successfully' do
