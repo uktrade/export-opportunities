@@ -30,14 +30,13 @@ RSpec.feature 'Subscribing to alerts' do
     end
 
     scenario 'when a filter is provided' do
-
       country = create(:country, name: 'Brazil')
       create(:opportunity, status: :publish, countries: [country])
 
       visit opportunities_path
       expect(page).not_to have_content 'Subscribe to Email Alerts'
 
-      select "Brazil", :from => "countries"
+      select 'Brazil', from: 'countries'
       page.find('.filters__searchbutton').click
 
       expect(page).to have_content 'Subscribe to Email Alerts for Brazil'
@@ -77,11 +76,10 @@ RSpec.feature 'Subscribing to alerts' do
       expect(page).not_to have_content 'Subscribe to Email Alerts for transformers, Italy, Toys, Magical, Expensive'
 
       fill_in :s, with: 'transformers'
-    
-      select "Toys", :from => "sector", visible: false
-      select "Italy", :from => "countries[]", visible: false
-      select "Magical", :from => "types", visible: false
-      select "Expensive", :from => "values", visible: false
+      select 'Toys', from: 'sector', visible: false
+      select 'Italy', from: 'countries[]', visible: false
+      select 'Magical', from: 'types', visible: false
+      select 'Expensive', from: 'values', visible: false
 
       page.find('.filters__searchbutton').click
 

@@ -6,7 +6,7 @@
       %div.filters__groupA
         %div.filters__item
           %label{:for => "searchinput", :class=>"filters__label"} What product are you selling?
-          = search_field_tag :s, params[:s], :placeholder => 'Keywords', class: 'filters__field', id: 'searchinput', autofocus: 'true', autocomplete: 'off'
+          = search_field_tag :s, params[:s], :placeholder => 'Keywords', class: 'filters__field', id: 'searchinput', autocomplete: 'off'
         %div.filters__item
           %label{:for => "regions", :class=>"filters__label"} Where would you like to sell to?
           %select.select-custom(data-placeholder='Filter by country or region'){:multiple => true, :id => 'countries', :name => 'countries[]', autocomplete: 'off'}

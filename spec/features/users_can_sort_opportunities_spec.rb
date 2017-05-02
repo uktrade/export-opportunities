@@ -53,7 +53,6 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       within('.results__order') do
         choose 'published date'
       end
-      #wait_for_ajax
 
       expect(page).to have_no_content('Cod')
       expect('Small Sardines').to appear_before('Sardines, Big Sardines')
@@ -64,7 +63,6 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       within('.results__order') do
         choose 'expiry date'
       end
-      #wait_for_ajax
 
       expect(page).to have_no_content('Cod')
       expect('Really Old Sardines, Expiring Soon').to appear_before('Sardines, Big Sardines')

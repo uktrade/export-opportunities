@@ -13,8 +13,6 @@ feature 'Signing in as a user' do
     create(:opportunity, :published, title: 'Food')
 
     mock_sso_with(email: 'email@example.com')
-
-    sleep 1
     visit '/sign_in'
     visit '/'
 
