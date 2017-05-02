@@ -29,11 +29,15 @@ class OpportunityPolicy < ApplicationPolicy
   end
 
   def trash?
-    (@editor.role == 'administrator' && @record.pending?) || (@editor.role == 'uploader' && @record.status == 'draft' && editor_is_record_owner?)
+    (@editor.role == 'administrator' && (@record.pending? || @record.draft?)) || (@editor.role == 'uploader' && @record.status == 'draft' && editor_is_record_owner?)
   end
 
   def restore?
     @editor.role == 'administrator' && @record.trash?
+  end
+
+  def uploader_restore?
+    @editor.role == 'uploader' && @record.status == 'draft' && editor_is_record_owner?
   end
 
   def draft?

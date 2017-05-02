@@ -32,6 +32,20 @@ feature 'Uploaders can create drafts' do
   end
 
   scenario 'and set it to pending' do
+    uploader = create(:uploader)
+    opportunity = create(:opportunity, :drafted, author: uploader)
+
+    login_as(uploader)
+    visit admin_opportunities_path
+
+    click_on 'Draft'
+    click_on opportunity.title
+
+    expect(page.status_code).to eq 200
+
+    click_on 'Pending'
+    expect(page.status_code).to eq 200
+    expect(page).to have_content('This opportunity has been set to pending')
   end
 
   scenario 'and change the opportunity status to drafted from trash and back' do

@@ -45,8 +45,6 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def create
-    # @show_draft_button = policy(@opportunity).draft?
-
     opportunity_status = params[:commit] == 'Save to Draft' ? :draft : :pending
 
     @opportunity = CreateOpportunity.new(current_editor, opportunity_status).call(create_opportunity_params)
@@ -165,7 +163,7 @@ class Admin::OpportunitiesController < Admin::BaseController
 
     case opportunity.status
     when 'draft'
-      ButtonData.new(policy(opportunity).restore?, 'Pending', path, status: 'pending')
+      ButtonData.new(policy(opportunity).uploader_restore?, 'Pending', path, status: 'pending')
     else
       ButtonData.new(false)
     end

@@ -9,7 +9,7 @@ class Admin::OpportunityStatusController < Admin::BaseController
     if new_status == 'draft'
       authorize(opportunity, :drafting?)
     elsif new_status == 'pending' && opportunity.status == 'draft'
-      authorize(opportunity, :restore?)
+      authorize(opportunity, :uploader_restore?)
     else
       authorize(opportunity, :publishing?)
     end
