@@ -7,10 +7,6 @@
       = hidden_field_tag :values, params[:values]
       = hidden_field_tag :s, params[:s]
       Ordered by:
-      = params[:sort_column].to_s
-      %br
-      = @sort_column_name
-      = params[:s].to_s
       %ul.results__order__items
         %li.results__order__item
           %input{ name: 'sort_column_name', id: 'order_expiry_date', type: 'radio', value: 'response_due_on', checked: @sort_column_name == 'response_due_on' }
@@ -22,5 +18,4 @@
           %li.results__order__item
             %input{ name: 'sort_column_name', class: 'order_relevance', id: 'order_relevance', type: 'radio', value: 'relevance', checked: @sort_column_name == 'relevance'}
             %label{ class: 'order_relevance', for: 'order_relevance' } relevance
-      %br
-      = @sort.inspect
+
