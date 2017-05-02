@@ -21,6 +21,36 @@ feature 'Searching opportunities' do
     end
   end
 
+  # regression issue 388-1 Error when sorting by service provider whilst filtering by keyword
+  scenario 'search by keyword then sorting by service provider' do
+    uploader = create(:uploader)
+    service_provider = create(:service_provider, name: 'Provider of services')
+    another_service_provider = create(:service_provider, name: 'Another provider of services')
+    opportunity = create(:opportunity, author: uploader, title: 'Bacon and eggs', service_provider: service_provider)
+    another_opportunity = create(:opportunity, author: uploader, title: 'Yoghurt and eggs', service_provider: another_service_provider)
+
+    login_as(uploader)
+    visit admin_opportunities_path
+    fill_in 's', with: 'eggs'
+    click_on 'Search'
+
+    within '.admin__search-form' do
+      expect(page.find("input[type='text']").value).to eql 'eggs'
+    end
+
+    within 'tbody' do
+      expect(page).to have_text(opportunity.title)
+      expect(page).to have_text(another_opportunity.title)
+    end
+
+    click_on 'Service provider'
+    expect(page.find('tbody tr:nth-child(1)')).to have_content(another_opportunity.title)
+    expect(page.find('tbody tr:nth-child(2)')).to have_content(opportunity.title)
+
+    expect(page).to have_text(opportunity.title)
+    expect(page).to have_text(another_opportunity.title)
+  end
+
   scenario 'search by author' do
     login_as(create(:admin))
 
