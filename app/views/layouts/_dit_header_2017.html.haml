@@ -1,100 +1,100 @@
 %script
   document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
 %header{role: "banner"}
-    .navigation
-      .navigation-strip.background--dark-navy
-        .outer-container
-          %ul.list-inline.list-separators
-            %li.float--left.soft-half--right.navigation-skip-to
-              %a.link.link--grey{href: "#content", title: "Skip to main content"}
-                %strong Skip to main content
-            %li.float--left.soft-half--right
-              %a.logo-hmg{href: "https://www.gov.uk/", title: "Go to the GOV.UK homepage"}
-                %img{src: asset_path('logos/HM_Government_logo_horizontal.svg'), alt: "HM Government logo"}/
-            %li.float--left.soft-half--left
-              %a.link--white{href: "https://great.gov.uk/", title: "part of great.gov.uk"}
-                %span.hide-mobile.font-light-grey.font-light
-                  Part of
-                %span.hide-mobile.font-light
-                %strong.font-regular great.gov.uk
+  .navigation
+    .navigation-strip.background--dark-navy
+      .outer-container
+        %ul.list-inline.list-separators
+          %li.float--left.soft-half--right.navigation-skip-to
+            %a.link.link--grey{href: "#content", title: "Skip to main content"}
+              %strong Skip to main content
+          %li.float--left.soft-half--right
+            %a.logo-hmg{href: "https://www.gov.uk/", title: "Go to the GOV.UK homepage"}
+              %img{src: asset_path('logos/HM_Government_logo_horizontal.svg'), alt: "HM Government logo"}/
+          %li.float--left.soft-half--left
+            %a.link--white{href: "https://great.gov.uk/", title: "part of great.gov.uk"}
+              %span.hide-mobile.font-light-grey.font-light
+                Part of
+              %span.hide-mobile.font-light
+              %strong.font-regular great.gov.uk
 
-          - if current_user
-            %ul.list-inline.list-separators.float--right.navigation-login.font-regular{id: "sso-signout"}
-              %li.float--left.soft-half--right
-                %a.link--white{href: dashboard_path, title: "Profile"}
-                  %i.icon.icon--left.icon-sign-out
-                  %span.hide-mobile
-                    Profile
-              %li.float--left.soft-half--left.hide-mobile
-                %a.link--white{ href: destroy_user_session_path, title: "Sign out"}
-                  %span
-                    Sign out
-          - else
-            %ul.list-inline.list-separators.float--right.navigation-login.font-regular{id: "sso-signin"}
-              %li.float--left.soft-half--right
-                %a.link--white{href: dashboard_path, title: "Sign in"}
-                  %i.icon.icon--left.icon-sign-in
-                  %span.hide-mobile
-                    Sign in
-              %li.float--left.soft-half--left.hide-mobile
-                %a.link--white{ href: "#{Figaro.env.SSO_ENDPOINT_BASE_URI}/accounts/signup", title: "Register"}
-                  %span
-                    Register
-      .background--great-blue
+        - if current_user
+          %ul.list-inline.list-separators.float--right.navigation-login.font-regular{id: "sso-signout"}
+            %li.float--left.soft-half--right
+              %a.link--white{href: dashboard_path, title: "Profile"}
+                %i.icon.icon--left.icon-sign-out
+                %span.hide-mobile
+                  Profile
+            %li.float--left.soft-half--left.hide-mobile
+              %a.link--white{ href: destroy_user_session_path, title: "Sign out"}
+                %span
+                  Sign out
+        - else
+          %ul.list-inline.list-separators.float--right.navigation-login.font-regular{id: "sso-signin"}
+            %li.float--left.soft-half--right
+              %a.link--white{href: dashboard_path, title: "Sign in"}
+                %i.icon.icon--left.icon-sign-in
+                %span.hide-mobile
+                  Sign in
+            %li.float--left.soft-half--left.hide-mobile
+              %a.link--white{ href: "#{Figaro.env.SSO_ENDPOINT_BASE_URI}/accounts/signup", title: "Register"}
+                %span
+                  Register
+    .background--great-blue
+      .outer-container
+        %a.float--left{href: cms_url_for('/'), title: "Go to the #{t('site_name')} homepage"}
+          %img.navigation-logo{alt: "#{t('site_name')} logo", src: asset_path('logos/EiG_logo_horizontal.svg')}/
+    .navigation-main.background--dark-blue
+      .navigation-main-section.outer-container
+        %nav
+          %ul.list-inline.list-separators.navigation-main-menu
+            %li
+              %a.navigation-main-link.background--light-blue.font-regular{href: cms_url_for('/new/'), title: "new to exporting"} New to exporting
+            %li
+              %a.navigation-main-link.background--light-blue.font-regular{href: cms_url_for('/occasional/'), title: "occasional exporter"} Occasional exporter
+            %li
+              %a.navigation-main-link.background--light-blue.font-regular{href: cms_url_for('/regular/'), title: "regular exporter"} Regular exporter
+            %li
+              - klass = current_page?('/dashboard') ? nil : 'navigation-main-link--active'
+              %a.navigation-main-link.navigation-main-link--secondary.font-light{href: opportunities_path, title: t('nav.services.export_opportunities'), class: klass}= t('nav.services.export_opportunities')
+            %li
+              %a.navigation-main-link.navigation-main-link--secondary.font-light{href: "http://find-a-buyer.export.great.gov.uk/", title: t('nav.services.find_a_buyer')}= t('nav.services.find_a_buyer')
+            %li
+              %a.navigation-main-link.navigation-main-link--secondary.font-light{href: "https://selling-online-overseas.export.great.gov.uk/markets/", title: t('nav.services.selling_overseas')}= t('nav.services.selling_overseas')
+            %li
+              %a.navigation-main-link.navigation-main-link--secondary.font-light{href: cms_url_for('/get-finance/'), title: t('nav.services.finance')}= t('nav.services.finance')
+            %li
+              %a.navigation-main-link.navigation-main-link--secondary.font-light{href: "https://events.trade.gov.uk/", title: t('nav.services.events')}= t('nav.services.events')
+        %a.button.navigation-main-button.font-white{title: "", href: "#"}
+          %i.icon.icon-menu>
+          All
+      .navigation-toggle.background--dark-navy
         .outer-container
-          %a.float--left{href: cms_url_for('/'), title: "Go to the #{t('site_name')} homepage"}
-            %img.navigation-logo{alt: "#{t('site_name')} logo", src: asset_path('logos/EiG_logo_horizontal.svg')}/
-      .navigation-main.background--dark-blue
-        .navigation-main-section.outer-container
-          %nav
-            %ul.list-inline.list-separators.navigation-main-menu
-              %li
-                %a.navigation-main-link.background--light-blue.font-regular{href: cms_url_for('/new/'), title: "new to exporting"} New to exporting
-              %li
-                %a.navigation-main-link.background--light-blue.font-regular{href: cms_url_for('/occasional/'), title: "occasional exporter"} Occasional exporter
-              %li
-                %a.navigation-main-link.background--light-blue.font-regular{href: cms_url_for('/regular/'), title: "regular exporter"} Regular exporter
-              %li
-                - klass = current_page?('/dashboard') ? nil : 'navigation-main-link--active'
-                %a.navigation-main-link.navigation-main-link--secondary.font-light{href: opportunities_path, title: t('nav.services.export_opportunities'), class: klass}= t('nav.services.export_opportunities')
-              %li
-                %a.navigation-main-link.navigation-main-link--secondary.font-light{href: "http://find-a-buyer.export.great.gov.uk/", title: t('nav.services.find_a_buyer')}= t('nav.services.find_a_buyer')
-              %li
-                %a.navigation-main-link.navigation-main-link--secondary.font-light{href: "https://selling-online-overseas.export.great.gov.uk/markets/", title: t('nav.services.selling_overseas')}= t('nav.services.selling_overseas')
-              %li
-                %a.navigation-main-link.navigation-main-link--secondary.font-light{href: cms_url_for('/get-finance/'), title: t('nav.services.finance')}= t('nav.services.finance')
-              %li
-                %a.navigation-main-link.navigation-main-link--secondary.font-light{href: "https://events.trade.gov.uk/", title: t('nav.services.events')}= t('nav.services.events')
-          %a.button.navigation-main-button.font-white{title: "", href: "#"}
-            %i.icon.icon-menu>
-            All
-        .navigation-toggle.background--dark-navy
-          .outer-container
-            %ul.col-3
-              %li.navigation-toggle-item.navigation-toggle-services
-                %a{href: cms_url_for('/new/'), title: "new to exporting"} New to exporting
-              %li.navigation-toggle-item.navigation-toggle-services
-                %a{href: cms_url_for('/occasional/'), title: "occasional exporter"} Occasional exporter
-              %li.navigation-toggle-item.navigation-toggle-services
-                %a.last{href: cms_url_for('/regular/'), title: "regular exporter"} Regular exporter
-            %ul.col-3.navigation-toggle-middle
-              %li.navigation-toggle-item
-                - klass = current_page?('/dashboard') ? nil : 'navigation-toggle-active'
-                %a{href: opportunities_path, title: t('nav.services.export_opportunities'), class: klass}= t('nav.services.export_opportunities')
-              %li.navigation-toggle-item
-                %a{href: "http://find-a-buyer.export.great.gov.uk/", title: t('nav.services.find_a_buyer')}= t('nav.services.find_a_buyer')
-              %li.navigation-toggle-item
-                %a{href: "https://selling-online-overseas.export.great.gov.uk/markets/", title: t('nav.services.selling_overseas')}= t('nav.services.selling_overseas')
-            %ul.col-3.navigation-toggle-middle
-              %li.navigation-toggle-item
-                %a{href: cms_url_for('/get-finance'), title: t('nav.services.finance')}= t('nav.services.finance')
-              %li.navigation-toggle-item
-                %a{href: "https://events.trade.gov.uk/", title: t('nav.services.events')}= t('nav.services.events')
-            %ul.col-3.navigation-toggle-middle
-              %li.navigation-toggle-item
-                %a{href: cms_url_for('/about/'), title: "About"} About
-              %li.navigation-toggle-item
-                %a.last{href: "https://contact-us.export.great.gov.uk/selling_online_overseas", title: "Contact us"} Contact us
+          %ul.col-3
+            %li.navigation-toggle-item.navigation-toggle-services
+              %a{href: cms_url_for('/new/'), title: "new to exporting"} New to exporting
+            %li.navigation-toggle-item.navigation-toggle-services
+              %a{href: cms_url_for('/occasional/'), title: "occasional exporter"} Occasional exporter
+            %li.navigation-toggle-item.navigation-toggle-services
+              %a.last{href: cms_url_for('/regular/'), title: "regular exporter"} Regular exporter
+          %ul.col-3.navigation-toggle-middle
+            %li.navigation-toggle-item
+              - klass = current_page?('/dashboard') ? nil : 'navigation-toggle-active'
+              %a{href: opportunities_path, title: t('nav.services.export_opportunities'), class: klass}= t('nav.services.export_opportunities')
+            %li.navigation-toggle-item
+              %a{href: "http://find-a-buyer.export.great.gov.uk/", title: t('nav.services.find_a_buyer')}= t('nav.services.find_a_buyer')
+            %li.navigation-toggle-item
+              %a{href: "https://selling-online-overseas.export.great.gov.uk/markets/", title: t('nav.services.selling_overseas')}= t('nav.services.selling_overseas')
+          %ul.col-3.navigation-toggle-middle
+            %li.navigation-toggle-item
+              %a{href: cms_url_for('/get-finance'), title: t('nav.services.finance')}= t('nav.services.finance')
+            %li.navigation-toggle-item
+              %a{href: "https://events.trade.gov.uk/", title: t('nav.services.events')}= t('nav.services.events')
+          %ul.col-3.navigation-toggle-middle
+            %li.navigation-toggle-item
+              %a{href: cms_url_for('/about/'), title: "About"} About
+            %li.navigation-toggle-item
+              %a.last{href: "https://contact-us.export.great.gov.uk/selling_online_overseas", title: "Contact us"} Contact us
 
 
 
