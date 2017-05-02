@@ -9,7 +9,6 @@ class OpportunitiesController < ApplicationController
     end
     @search_term = search_term
     @filters = SearchFilter.new(params)
-    pp @filters.countries
 
     @subscription_form = SubscriptionForm.new(
       query: {
@@ -29,24 +28,19 @@ class OpportunitiesController < ApplicationController
                  Opportunity.default_per_page
                end
 
-# If user is using filters to search
-    if (params.has_key?(:isSearchAndFilter))
-      sort_column = 'response_due_on'
-    end
+    # If user is using filters to search
+    sort_column = 'response_due_on' if params.key?(:isSearchAndFilter)
 
-# If user is using keyword to search
-    if (params.has_key?(:isSearchAndFilter) and params[:s].present?)
+    # If user is using keyword to search
+    if params.key?(:isSearchAndFilter) && params[:s].present?
       Rails.logger.debug "isSearchAndFilter: #{params.fetch(:isSearchAndFilter)}"
       sort_column = 'relevance'
-      ignore_sort = true
-    end  
-
-# If user is filtering
-    if params[:sort_column_name]
-      sort_column = params[:sort_column_name]
     end
 
-# set sort_order
+    # If user is filtering a search
+    sort_column = params[:sort_column_name] if params[:sort_column_name]
+
+    # set sort_order
     if sort_column
       sort_order = sort_column == 'response_due_on' ? 'asc' : 'desc'
     end
@@ -58,12 +52,15 @@ class OpportunitiesController < ApplicationController
         .update(column: sort_column, order: sort_order)
     end
 
-# set ignore_sort flag
-    ignore_sort = sort_column == 'relevance'
+    # set ignore_sort flag
+    ignore_sort = if params.key?(:isSearchAndFilter) && params[:s].present?
+                    true
+                  else
+                    sort_column == 'relevance'
+                  end
 
-# pass sort correct column down to the view
+    # pass sort correct column down to the view
     @sort_column_name = sort_column
-
 
     @query = Opportunity.public_search(
 
@@ -92,6 +89,7 @@ class OpportunitiesController < ApplicationController
       @opportunities = @query.records
     end
 
+    @query = AtomOpportunityQueryDecorator.new(@query, view_context) if atom_request?
     @sectors = Sector.order(:name)
     @countries = Country.order(:name)
     @types = Type.order(:name)

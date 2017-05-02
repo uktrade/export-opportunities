@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 feature 'Searching opportunities with filter', js: true do
-
   scenario 'users can search opportunities filtering by region' do
     country = create(:country, name: 'Ireland')
     opportunity = create(:opportunity, :published)
@@ -11,8 +10,7 @@ feature 'Searching opportunities with filter', js: true do
 
     within('.filters') do
       find('.js-toggler').click
-      #select2("Ireland", from: "Where would you like to sell to?")
-      find('.filters__groupA div.filters__item:nth-child(2) input.select2-search__field').set("Ireland").native.send_keys(:return)
+      select 'Ireland', from: 'countries[]', visible: false
       page.find('.filters__searchbutton').click
     end
 
@@ -30,7 +28,7 @@ feature 'Searching opportunities with filter', js: true do
 
     within('.filters') do
       find('.js-toggler').click
-      find('.filters__groupB div.filters__item:nth-of-type(1) input.select2-search__field').set("Airports\n") 
+      select 'Airports', from: 'sectors', visible: false
       page.find('.filters__searchbutton').click
     end
 
@@ -48,7 +46,7 @@ feature 'Searching opportunities with filter', js: true do
 
     within('.filters') do
       find('.js-toggler').click
-      find('.filters__groupB div.filters__item:nth-of-type(2) input.select2-search__field').set("10K\n") 
+      select '10K', from: 'values', visible: false
       page.find('.filters__searchbutton').click
     end
 
@@ -66,7 +64,7 @@ feature 'Searching opportunities with filter', js: true do
 
     within('.filters') do
       find('.js-toggler').click
-      find('.filters__groupB div.filters__item:nth-of-type(3) input.select2-search__field').set("Aid Funded Business\n") 
+      select 'Aid Funded Business', from: 'types', visible: false
       page.find('.filters__searchbutton').click
     end
 
@@ -86,12 +84,13 @@ feature 'Searching opportunities with filter', js: true do
 
     within('.filters') do
       find('.js-toggler').click
-      find('.filters__groupA div.filters__item:nth-child(2) input.select2-search__field').set(country.name+"\n") 
-      find('.filters__groupB div.filters__item:nth-of-type(1) input.select2-search__field').set(sector.name+"\n") 
+      find('.filters__groupA div.filters__item:nth-child(2) input.select2-search__field').set(country.name + "\n")
+      find('.filters__groupB div.filters__item:nth-of-type(1) input.select2-search__field').set(sector.name + "\n")
+      select country.name, from: 'countries', visible: false
+      select sector.name, from: 'sectors', visible: false
       page.find('.filters__searchbutton').click
     end
 
     expect(page).to have_selector('.results__item', count: 1)
   end
-
 end

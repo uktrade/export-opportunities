@@ -17,7 +17,6 @@ if (selectCustom.length) {
 
 	selectCustom.select2({
 		theme: 'flat',
-		selectOnClose: true,
 		escapeMarkup: function(markup) {
 		  return markup;
 		},
@@ -51,6 +50,6 @@ if (selectCustom.length) {
 document.addEventListener('DOMContentLoaded', function() {
 	var hasSearchResults = window.location.search.indexOf('?') > -1;
 	if (hasSearchResults) {
-		//ukti.ScrollTo.init('#opportunities-subscribe-form');	
+		ukti.ScrollTo.init('#opportunities-subscribe-form');	
 	}
 }, false);

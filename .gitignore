@@ -31,3 +31,6 @@ coverage/
 # Ignore schema
 /db/schema.rb
 
+# Ignore rubocop
+rubocop.yml
+

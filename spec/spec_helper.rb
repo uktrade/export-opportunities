@@ -2,28 +2,17 @@ require 'vcr'
 require 'elasticsearch/extensions/test/cluster'
 
 module Helpers
-  def select2(value, element_selector)
-    select2_container = first("#{element_selector}")
-    select2_container.find(".select2-choice").click
-
-    find(:xpath, "//body").find("input.select2-input").set(value)
-    page.execute_script(%|$("input.select2-input:visible").keyup();|)
-    drop_container = ".select2-results"
-    find(:xpath, "//body").find("#{drop_container} li", text: value).click
-  end
-  def select2_select_multiple(select_these, id)
+  def select2_select_multiple(select_these, _id)
     # This methods requires @javascript in the Scenario
-    [select_these].flatten.each do | value |
-      first("#s2id_#{id}").click
-      #find(:xpath, "//div[preceding-sibling::select[@id='sibling_id']]/input").set('test')
+    [select_these].flatten.each do |value|
+      first('#s2id_#{_id}').click
       found = false
-      within("#select2-drop") do
-        all('li.select2-results__option').each do | result |
-          unless found
-            if result.text == value
-              result.click
-              found = true
-            end
+      within('#select2-drop') do
+        all('li.select2-results__option').each do |result|
+          next unless found
+          if result.text == value
+            result.click
+            found = true
           end
         end
       end
@@ -57,7 +46,6 @@ RSpec.configure do |config|
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true
   config.example_status_persistence_file_path = 'spec/examples.txt'
-  
 end
 
 VCR.configure do |c|

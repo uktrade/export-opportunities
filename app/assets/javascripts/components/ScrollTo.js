@@ -4,9 +4,12 @@ ukti.ScrollTo = (function($) {
   'use strict';
 
   var initScrollIntoView = function (selector) {
-		document.querySelector(selector).scrollIntoView({ 
-  		behavior: 'smooth' 
-		});
+    var el = document.querySelector(selector);
+    if (el) {
+      document.querySelector(selector).scrollIntoView({ 
+        behavior: 'smooth' 
+      });
+    }
   };
 
   var init = function (selector) {

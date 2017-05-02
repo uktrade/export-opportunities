@@ -61,7 +61,7 @@ RSpec.feature 'Viewing opportunities', :elasticsearch, :commit do
 
   scenario 'Opportunities should not paginate when under limit' do
     allow(Opportunity).to receive(:default_per_page).and_return(2)
-    opportunity = create(:opportunity, :published, title: 'Hello World', slug: 'hello-world')
+    create(:opportunity, :published, title: 'Hello World', slug: 'hello-world')
     create_list(:opportunity, 1, status: 'publish')
     visit opportunities_path
 
@@ -75,9 +75,9 @@ RSpec.feature 'Viewing opportunities', :elasticsearch, :commit do
 
   scenario 'Opportunities should paginate when over pagination limit' do
     allow(Opportunity).to receive(:default_per_page).and_return(2)
-    opportunity1 = create(:opportunity, :published, title: 'Hello World', slug: 'hello-world1')
-    opportunity2 = create(:opportunity, :published, title: 'Hello World', slug: 'hello-world2')
-    opportunity2 = create(:opportunity, :published, title: 'Hello World', slug: 'hello-world3')
+    create(:opportunity, :published, title: 'Hello World', slug: 'hello-world1')
+    create(:opportunity, :published, title: 'Hello World', slug: 'hello-world2')
+    create(:opportunity, :published, title: 'Hello World', slug: 'hello-world3')
 
     visit opportunities_path
 
@@ -88,5 +88,4 @@ RSpec.feature 'Viewing opportunities', :elasticsearch, :commit do
 
     expect(page).to have_selector('.pagination .current')
   end
-
 end

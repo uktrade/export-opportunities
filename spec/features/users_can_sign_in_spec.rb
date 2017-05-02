@@ -10,10 +10,7 @@ feature 'Signing in as a user' do
   end
 
   scenario 'Signed in user visits /' do
-
     mock_sso_with(email: 'email@example.com')
-
-    sleep 1
     visit '/sign_in'
     visit '/'
 
