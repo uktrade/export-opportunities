@@ -28,3 +28,6 @@ coverage/
 # Ignore examples persistence file
 /spec/examples.txt
 
+# Ignore schema
+/db/schema.rb
+
