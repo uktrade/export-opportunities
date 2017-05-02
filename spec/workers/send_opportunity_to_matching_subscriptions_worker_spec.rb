@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendOpportunityToMatchingSubscriptionsWorker, sidekiq: :inline do
+RSpec.describe SendOpportunityToMatchingSubscriptionsWorker, :elasticsearch, :commit, sidekiq: :inline do
   it 'sends an opportunity to one or more subscribers' do
     opportunity = create(:opportunity, title: 'matching')
     create_list(:subscription, 2, search_term: 'matching')

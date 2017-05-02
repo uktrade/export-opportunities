@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Viewing an individual opportunity' do
+RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
   scenario 'pending and trashed opportunities are not accessible' do
     opportunities = [
       create(:opportunity, status: :pending),
@@ -30,6 +30,7 @@ RSpec.feature 'Viewing an individual opportunity' do
 
     create_list(:enquiry, 3, opportunity: opportunity)
 
+    sleep 1
     visit opportunities_path
     click_on opportunity.title
     expect(page).to have_content opportunity.title

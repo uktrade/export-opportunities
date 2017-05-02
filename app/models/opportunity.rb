@@ -1,7 +1,21 @@
-require 'elasticsearch/model'
+require 'elasticsearch'
 
 class Opportunity < ActiveRecord::Base
   include Elasticsearch::Model
+  index_name [base_class.to_s.pluralize.underscore, Rails.env].join('_')
+
+  # built in callbacks won't work with our customly indexed taxnomies
+  after_commit on: [:create] do
+    __elasticsearch__.index_document
+  end
+
+  after_commit on: [:update] do
+    __elasticsearch__.index_document
+  end
+
+  after_commit on: [:destroy] do
+    __elasticsearch__.delete_document
+  end
 
   mappings dynamic: 'false' do
     indexes :title, analyzer: 'english'
@@ -25,6 +39,8 @@ class Opportunity < ActiveRecord::Base
     end
 
     indexes :response_due_on, type: :date
+    indexes :first_published_at, type: :date
+    indexes :updated_at, type: :date
     indexes :status, type: :keyword
   end
 
@@ -92,9 +108,14 @@ class Opportunity < ActiveRecord::Base
     results
   end
 
+  def self.public_search(search_term: nil, filters: NullFilter.new, sort:)
+    query = OpportunitySearchBuilder.new(search_term: search_term, sectors: filters.sectors, countries: filters.countries, opportunity_types: filters.types, values: filters.values, sort: sort).call
+    ElasticSearchFinder.new.call(query[:search_query], query[:search_sort])
+  end
+
   def as_indexed_json(_ = {})
     as_json(
-      only: [:title, :teaser, :description],
+      only: [:title, :teaser, :description, :created_at, :updated_at, :status, :response_due_on, :first_published_at],
       include: {
         countries: { only: :slug },
         types: { only: :slug },
@@ -110,5 +131,9 @@ class Opportunity < ActiveRecord::Base
 
   def expired?
     response_due_on < Time.zone.today
+  end
+
+  def published?
+    status == :publish
   end
 end
