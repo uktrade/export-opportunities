@@ -5,7 +5,6 @@ RSpec.feature 'Subscribing to alerts' do
   context 'when already signed in' do
     before(:each) do
       @user = create(:user, email: 'test@example.com')
-
       login_as @user, scope: :user
     end
 
@@ -40,7 +39,6 @@ RSpec.feature 'Subscribing to alerts' do
 
       select "Brazil", :from => "countries"
       page.find('.filters__searchbutton').click
-      #select2_select_multiple('Brazil', 'countries')
 
       expect(page).to have_content 'Subscribe to Email Alerts for Brazil'
 
@@ -79,11 +77,11 @@ RSpec.feature 'Subscribing to alerts' do
       expect(page).not_to have_content 'Subscribe to Email Alerts for transformers, Italy, Toys, Magical, Expensive'
 
       fill_in :s, with: 'transformers'
-
-      select "Italy", :from => "countries"
-      select "Toys", :from => "sector"
-      select "Magical", :from => "types"
-      select "Expensive", :from => "values"
+    
+      select "Toys", :from => "sector", visible: false
+      select "Italy", :from => "countries[]", visible: false
+      select "Magical", :from => "types", visible: false
+      select "Expensive", :from => "values", visible: false
 
       page.find('.filters__searchbutton').click
 
@@ -119,7 +117,7 @@ RSpec.feature 'Subscribing to alerts' do
     end
   end
 
-  context 'when not signed in', skip: true do
+  context 'when not signed in' do
     scenario 'can subscribe to email alerts' do
       mock_sso_with(email: 'test@example.com')
 
