@@ -200,7 +200,7 @@ $flat-theme-dark-color : #007ea3;
   margin: 0px 0px 0px 0;
   max-height: 200px;
   overflow-y: scroll;
-  -webkit-overflow-scrolling: auto;
+  -webkit-overflow-scrolling: touch;
   z-index: 0;
   .select2-highlighted {
     background: $flat-theme-dark-color;

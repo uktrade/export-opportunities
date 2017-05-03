@@ -14,15 +14,17 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       page.find('.filters__searchbutton').click
     end
 
+    save_and_open_page
+
     within('.results__order') do
-      choose 'published date'
+      find('label[for=order_published_date]').click
     end
 
     expect('Second').to appear_before('First')
     expect('First').to appear_before('Third')
 
     within('.results__order') do
-      choose 'expiry date'
+      find('label[for=order_expiry_date]').click
     end
 
     expect('Third').to appear_before('Second')
@@ -45,29 +47,30 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       end
 
       expect(page).to have_no_content('Cod')
-      # TODO: relevance is different with ES than PG here, that's why it fails
-      # expect('Sardines, Big Sardines').to appear_before('Small Sardines')
-      expect(find_field('relevance')).to be_checked
+      expect('Sardines, Big Sardines').to appear_before('Small Sardines')
+      expect(find_field('relevance', visible: false)).to be_checked
+
       expect(page).to have_content('Subscribe to Email Alerts for')
 
       within('.results__order') do
-        choose 'published date'
+        find('label[for=order_published_date]').click
       end
 
       expect(page).to have_no_content('Cod')
-      expect('Small Sardines').to appear_before('Sardines, Big Sardines')
       expect('Sardines, Big Sardines').to appear_before('Really Old Sardines, Expiring Soon')
-      expect(find_field('published date')).to be_checked
+
+      expect(find_field('published date', visible: false)).to be_checked
+
       expect(page).to have_content('Subscribe to Email Alerts for')
 
       within('.results__order') do
-        choose 'expiry date'
+        find('label[for=order_expiry_date]').click
       end
 
       expect(page).to have_no_content('Cod')
       expect('Really Old Sardines, Expiring Soon').to appear_before('Sardines, Big Sardines')
       expect('Sardines, Big Sardines').to appear_before('Small Sardines')
-      expect(find_field('expiry date')).to be_checked
+      expect(find_field('expiry date', visible: false)).to be_checked
       expect(page).to have_content('Subscribe to Email Alerts for')
     end
   end

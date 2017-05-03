@@ -1,5 +1,11 @@
 .results {
   &__order {
+    &__heading {
+      font-size: 18px;
+      font-weight: 400;
+      float: left;
+      margin: 4px 12px 4px 0px;
+    }
     &__items {
       @extend %clearfix;
     }

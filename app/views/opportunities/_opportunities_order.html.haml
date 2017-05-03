@@ -6,16 +6,19 @@
       = hidden_field_tag :types, params[:types]
       = hidden_field_tag :values, params[:values]
       = hidden_field_tag :s, params[:s]
-      Ordered by:
+      %span.results__order__heading Ordered by:
       %ul.results__order__items
         %li.results__order__item
-          %input{ name: 'sort_column_name', id: 'order_expiry_date', type: 'radio', value: 'response_due_on', checked: @sort_column_name == 'response_due_on' }
-          %label{ for: 'order_expiry_date' } expiry date
+          .custom-radio
+            %input{ name: 'sort_column_name', id: 'order_expiry_date', type: 'radio', value: 'response_due_on', checked: @sort_column_name == 'response_due_on' }
+            %label{ for: 'order_expiry_date' } expiry date
         %li.results__order__item
-          %input{ name: 'sort_column_name', id: 'order_published_date', type: 'radio', value: 'first_published_at', checked: @sort_column_name == 'first_published_at' }
-          %label{ for: 'order_published_date' } published date
+          .custom-radio
+            %input{ name: 'sort_column_name', id: 'order_published_date', type: 'radio', value: 'first_published_at', checked: @sort_column_name == 'first_published_at' }
+            %label{ for: 'order_published_date' } published date
         - if !params[:s].to_s.empty?
           %li.results__order__item
-            %input{ name: 'sort_column_name', class: 'order_relevance', id: 'order_relevance', type: 'radio', value: 'relevance', checked: @sort_column_name == 'relevance'}
-            %label{ class: 'order_relevance', for: 'order_relevance' } relevance
+            .custom-radio
+              %input{ name: 'sort_column_name', class: 'order_relevance', id: 'order_relevance', type: 'radio', value: 'relevance', checked: @sort_column_name == 'relevance'}
+              %label{ class: 'order_relevance', for: 'order_relevance' } relevance
 
