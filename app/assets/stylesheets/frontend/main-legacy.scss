@@ -14,7 +14,7 @@
 @import "utilities/positioning";
 @import "utilities/helpers";
 
-// until we can throw all this legacy away - it's scoped to elements with a '.legacy' class
+// until we can throw all this legacy away - it's scoped to elements nested in a '.legacy' class
 .legacy {
 	@import "components/background";
 	@import "components/search-form";
