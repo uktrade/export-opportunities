@@ -4,7 +4,10 @@
       font-size: 18px;
       font-weight: 400;
       float: left;
-      margin: 4px 12px 4px 0px;
+      margin: 4px 12px 12px 0px;
+      @media #{$tablet-s} {
+        margin: 4px 12px 4px 0px;
+      }
     }
     &__items {
       @extend %clearfix;
