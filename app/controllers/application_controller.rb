@@ -39,39 +39,64 @@ class ApplicationController < ActionController::Base
 
   # basic checks for data sync between ES and PG DB
   def data_sync_check
-    res = []
+    res = {}
     db_opportunities_ids = []
     es_opportunities_ids = []
+    db_subscriptions_ids = []
+    es_subscriptions_ids = []
 
     # opps that have not expired and are published
-    db_opportunities = Opportunity.where("response_due_on >= ? and status = ?", DateTime.now, 2)
-    db_opportunities_ids = db_opportunities.pluck(:id)
+    # db_opportunities = get_db_opportunities
+    db_opportunities_ids = get_db_opportunities
     sort = OpenStruct.new(column: :response_due_on, order: :desc)
     query = OpportunitySearchBuilder.new(search_term: '', sort: sort).call
-    es_opportunities = Opportunity.__elasticsearch__.search(size: 10000, query: query[:search_query], sort: query[:search_sort])
-    es_opportunities.each { |record| es_opportunities_ids.push record.id }
+    es_opportunities_ids = get_es_opportunities(query)
 
     res_opportunities_count = db_opportunities_ids.size == es_opportunities_ids.size
-    res << { expected_opportunities: db_opportunities_ids.size, actual_opportunities: es_opportunities_ids.size }
     if db_opportunities_ids.size != es_opportunities_ids.size
-      missing_docs = db_opportunities_ids - es_opportunities_ids
-      Rails.logger.error("we are missing docs")
+      missing_docs = db_opportunities_ids - es_opportunities_ids | es_opportunities_ids - db_opportunities_ids
+      Rails.logger.error("we are missing opportunities docs")
       Rails.logger.error(missing_docs)
+      res['opportunities'] = { expected_opportunities: db_opportunities_ids.size, actual_opportunities: es_opportunities_ids.size, missing: missing_docs }
     end
 
-    db_subscriptions_count = Subscription.count
-    es_subscriptions_count = Subscription.__elasticsearch__.count
-    res_subscriptions_count = db_subscriptions_count == es_subscriptions_count
+    db_subscriptions_ids = get_db_subscriptions
+    es_subscriptions_ids = get_es_subscriptions
 
-    res << { expected_subs: db_subscriptions_count, actual_subs: es_subscriptions_count }
+    res_subscriptions_count = db_subscriptions_ids.size == es_subscriptions_ids.size
+    if db_subscriptions_ids.size != es_subscriptions_ids.size
+      missing_docs = db_subscriptions_ids - es_subscriptions_ids | es_subscriptions_ids - db_subscriptions_ids
+      Rails.logger.error("we are missing subscriber docs")
+      Rails.logger.error(missing_docs)
+      res['subscriptions'] = { expected_opportunities: db_subscriptions_ids.size, actual_opportunities: es_subscriptions_ids.size, missing: missing_docs }
+    end
 
-    result = res_opportunities_count || res_subscriptions_count
+    result = res_opportunities_count && res_subscriptions_count
     case result
     when true
       render json: { status: 'OK', result: res }, status: 200
     else
       render json: { status: 'error', result: res }, status: 500
     end
+  end
+
+  def get_db_opportunities
+    Opportunity.where("response_due_on >= ? and status = ?", DateTime.now, 2).pluck(:id)
+  end
+
+  def get_es_opportunities(query)
+    res = []
+    es_opportunities = Opportunity.__elasticsearch__.search(size: 10000, query: query[:search_query], sort: query[:search_sort])
+    es_opportunities.each { |record| res.push record.id }
+    res
+  end
+
+  def get_db_subscriptions
+    Subscription.count
+  end
+
+  def get_es_subscriptions
+    Subscription.__elasticsearch__.count
   end
 
   def determine_layout
