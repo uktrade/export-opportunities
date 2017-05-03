@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get 'check' => 'application#check'
+  get 'data_sync_check' => 'application#data_sync_check'
 
   devise_for :users, module: 'users', skip: :sessions
 
