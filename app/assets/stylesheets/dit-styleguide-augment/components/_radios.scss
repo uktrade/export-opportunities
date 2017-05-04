@@ -67,8 +67,10 @@
 	}
 	label {
 		font-size: 18px;
-    cursor: pointer;
+    	cursor: pointer;
   }
 }
 
-
+html.lt-ie9 .custom-radio input {
+    filter: alpha(opacity=100);
+}
