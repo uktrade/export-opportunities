@@ -1,11 +1,17 @@
 .container
   .results__order
     %form{:action => opportunities_path, :method => "get", :class => "js-order"}
-      = hidden_field_tag :sectors, params[:sectors]
-      = hidden_field_tag :countries, params[:countries]
-      = hidden_field_tag :types, params[:types]
-      = hidden_field_tag :values, params[:values]
+    
       = hidden_field_tag :s, params[:s]
+      - @subscription_form.countries.each do |country|
+        = hidden_field_tag 'countries[]', country.slug, multiple: true
+      - @subscription_form.sectors.each do |sector|
+        = hidden_field_tag 'sectors[]', sector.slug, multiple: true
+      - @subscription_form.types.each do |type|
+        = hidden_field_tag 'types[]', type.slug, multiple: true
+      - @subscription_form.values.each do |value|
+        = hidden_field_tag 'values[]', value.slug, multiple: true
+
       %span.results__order__heading Ordered by:
       %ul.results__order__items
         %li.results__order__item

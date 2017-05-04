@@ -10,9 +10,9 @@ ukti.ResultsOrder = (function() {
 
 	var attachBehaviour = function (el) {
 		var radios = el.querySelectorAll('input[name="sort_column_name"]');
-		Array.prototype.forEach.call(radios, function(radio) {
-   		radio.addEventListener('change', changeHandler);
-		});
+		for ( var i = 0; i < radios.length; i++ ) {
+			radios[i].addEventListener('change', changeHandler);
+		}
 	};
 
   var init = function (el) {

@@ -14,8 +14,6 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       page.find('.filters__searchbutton').click
     end
 
-    save_and_open_page
-
     within('.results__order') do
       find('label[for=order_published_date]').click
     end
