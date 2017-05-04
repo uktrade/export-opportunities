@@ -8,7 +8,7 @@ class OpportunityPolicy < ApplicationPolicy
   alias create? always_allow
 
   def show?
-    @record.publish? || editor_is_admin_or_publisher? || editor_is_record_owner? || editor_has_same_service_provider?
+    @record.publish? || editor_is_admin_or_publisher_or_reviewer? || editor_is_record_owner? || editor_has_same_service_provider?
   end
 
   def edit?
@@ -21,7 +21,7 @@ class OpportunityPolicy < ApplicationPolicy
   end
 
   def publishing?
-    editor_is_admin_or_publisher?
+    editor_is_admin_or_publisher_or_reviewer?
   end
 
   def trash?
@@ -52,7 +52,7 @@ class OpportunityPolicy < ApplicationPolicy
     end
 
     def resolve
-      return scope.all if %w(administrator publisher).include? editor.role
+      return scope.all if %w(administrator publisher reviewer).include? editor.role
       scope.published
         .union(scope.where(author: @editor))
         .union(scope.where.not(service_provider: nil).where(service_provider: @editor.service_provider))

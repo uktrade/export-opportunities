@@ -6,30 +6,8 @@ feature 'reviewers can view enquiries' do
     enquiry = create(:enquiry)
     login_as(reviewer)
     visit admin_opportunities_path
-    save_and_open_page
     click_on 'Enquiries'
     expect(page).to have_content(enquiry.company_name)
-  end
-
-  scenario 'list of enquiries can be paginated' do
-    reviewer = create(:admin)
-    allow(Enquiry).to receive(:default_per_page).and_return(1)
-
-    modern_enquiry = create(:enquiry, company_name: 'OCP')
-    historic_enquiry = create(:enquiry, company_name: 'Ye Olde Company', created_at: Time.zone.local(1066, 10, 14))
-
-    login_as(reviewer)
-    visit admin_opportunities_path
-
-    click_on 'Enquiries'
-
-    expect(page).to have_link(modern_enquiry.company_name)
-    expect(page).not_to have_link(historic_enquiry.company_name)
-
-    click_on '2'
-
-    expect(page).not_to have_link(modern_enquiry.company_name)
-    expect(page).to have_link(historic_enquiry.company_name)
   end
 
   scenario 'view details of an enquiry' do
