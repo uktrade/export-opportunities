@@ -12,7 +12,7 @@ class OpportunityPolicy < ApplicationPolicy
   end
 
   def edit?
-    return true if editor_is_record_owner? && @record.pending?
+    return true if editor_is_record_owner? && (@record.pending? || @record.trash? || @record.draft?)
     editor_is_admin_or_publisher?
   end
 
@@ -24,12 +24,24 @@ class OpportunityPolicy < ApplicationPolicy
     editor_is_admin_or_publisher_or_reviewer?
   end
 
+  def drafting?
+    draft?
+  end
+
   def trash?
-    @editor.role == 'administrator' && @record.pending?
+    (@editor.role == 'administrator' && (@record.pending? || @record.draft?)) || (@editor.role == 'uploader' && @record.status == 'draft' && editor_is_record_owner?)
   end
 
   def restore?
     @editor.role == 'administrator' && @record.trash?
+  end
+
+  def uploader_restore?
+    @editor.role == 'uploader' && @record.status == 'draft' && editor_is_record_owner?
+  end
+
+  def draft?
+    @editor.role == 'uploader' && @record.status == 'trash' && editor_is_record_owner?
   end
 
   private

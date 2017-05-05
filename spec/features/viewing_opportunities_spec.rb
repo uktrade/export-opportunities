@@ -5,10 +5,12 @@ RSpec.feature 'Viewing opportunities' do
     valid_opportunity = create(:opportunity, status: :publish)
     create(:opportunity, status: :pending)
     create(:opportunity, status: :trash)
+    create(:opportunity, status: :draft)
 
     create(:opportunity, :expired, status: :publish)
     create(:opportunity, :expired, status: :pending)
     create(:opportunity, :expired, status: :trash)
+    create(:opportunity, :expired, status: :draft)
 
     visit opportunities_path
 

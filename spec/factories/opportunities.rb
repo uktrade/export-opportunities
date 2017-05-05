@@ -15,6 +15,10 @@ FactoryGirl.define do
       status { :publish }
     end
 
+    trait :drafted do
+      status { :draft }
+    end
+
     trait :unpublished do
       status { :pending }
     end

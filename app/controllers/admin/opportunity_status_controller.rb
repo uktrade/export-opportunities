@@ -3,9 +3,16 @@ class Admin::OpportunityStatusController < Admin::BaseController
 
   def update
     opportunity = Opportunity.find(params[:opportunity_id])
-    authorize(opportunity, :publishing?)
 
     new_status = params[:status]
+
+    if new_status == 'draft'
+      authorize(opportunity, :drafting?)
+    elsif new_status == 'pending' && opportunity.status == 'draft'
+      authorize(opportunity, :uploader_restore?)
+    else
+      authorize(opportunity, :publishing?)
+    end
     result = UpdateOpportunityStatus.new.call(opportunity, new_status)
 
     if result.success?

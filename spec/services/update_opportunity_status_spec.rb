@@ -11,7 +11,7 @@ RSpec.describe UpdateOpportunityStatus do
     end
 
     it 'disallows some statuses' do
-      %w(draft trash).each do |disallowed_status|
+      %w(trash).each do |disallowed_status|
         opportunity = create(:opportunity)
         expect { described_class.new.call(opportunity, disallowed_status) }
           .to raise_error(ArgumentError)
