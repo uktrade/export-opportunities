@@ -17,6 +17,7 @@
 /tmp
 dump.rdb
 .byebug_history
+production_deployment.sh
 
 # Ignore code coverage
 coverage/
