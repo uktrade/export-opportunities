@@ -7,6 +7,6 @@ class EnquiryFeedback < ActiveRecord::Base
     dont_know_outcome: 3,
     never_heard_back: 4,
     cannot_remember: 5,
-    dontknow_want_to_say: 6
+    dontknow_want_to_say: 6,
   }
 end
