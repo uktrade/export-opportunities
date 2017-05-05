@@ -163,7 +163,7 @@ class Admin::OpportunitiesController < Admin::BaseController
 
     case opportunity.status
     when 'draft'
-      ButtonData.new(policy(opportunity).uploader_restore?, 'Pending', path, status: 'pending')
+      ButtonData.new(policy(opportunity).uploader_reviewer_restore?, 'Pending', path, status: 'pending')
     else
       ButtonData.new(false)
     end

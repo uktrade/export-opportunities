@@ -87,6 +87,7 @@ group :test do
   gem 'webmock'
   gem 'rspec-rails'
   gem 'rspec-collection_matchers'
+  gem 'rspec_junit_formatter'
   gem 'pundit-matchers'
   gem 'database_cleaner'
   gem 'factory_girl_rails'

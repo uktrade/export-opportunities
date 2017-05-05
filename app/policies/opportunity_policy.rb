@@ -21,7 +21,7 @@ class OpportunityPolicy < ApplicationPolicy
   end
 
   def publishing?
-    editor_is_admin_or_publisher_or_reviewer?
+    editor_is_admin_or_publisher?
   end
 
   def drafting?
@@ -29,19 +29,19 @@ class OpportunityPolicy < ApplicationPolicy
   end
 
   def trash?
-    (@editor.role == 'administrator' && (@record.pending? || @record.draft?)) || (@editor.role == 'uploader' && @record.status == 'draft' && editor_is_record_owner?)
+    (@editor.role == 'administrator' && (@record.pending? || @record.draft?)) || ((@editor.role == 'uploader' || @editor.role == 'reviewer') && @record.status == 'draft' && editor_is_record_owner?)
   end
 
   def restore?
     @editor.role == 'administrator' && @record.trash?
   end
 
-  def uploader_restore?
-    @editor.role == 'uploader' && @record.status == 'draft' && editor_is_record_owner?
+  def uploader_reviewer_restore?
+    (@editor.role == 'uploader' || @editor.role == 'reviewer') && @record.status == 'draft' && editor_is_record_owner?
   end
 
   def draft?
-    @editor.role == 'uploader' && @record.status == 'trash' && editor_is_record_owner?
+    (@editor.role == 'uploader' || @editor.role == 'reviewer') && @record.status == 'trash' && editor_is_record_owner?
   end
 
   private
