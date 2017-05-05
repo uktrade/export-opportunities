@@ -23,7 +23,7 @@ RSpec.feature 'User can give feedback' do
       'I was contacted by the buyer but don’t yet know the outcome',
       'I wasn’t contacted by the buyer',
       'I can’t remember',
-      'I don’t know or don’t want to say'
+      'I don’t know or don’t want to say',
     ]
 
     opp = create(:opportunity)
