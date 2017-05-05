@@ -11,18 +11,19 @@ RSpec.feature 'User can give feedback' do
 
     open_email('test@example.com')
 
-    expect(current_email.subject).to match 'What happened with your export opportunity ' + opp.title + '?'
+    expect(current_email.subject).to have_content('Give feedback on')
+    expect(current_email.subject).to have_content(opp.title)
     expect(current_email).to have_content(opp.title)
   end
 
   scenario 'clicking each of the feedback links' do
     options = [
-      'I won or expect to win business',
-      'I didn’t win business',
+      'I won the business',
+      'I didn’t win the business',
       'I was contacted by the buyer but don’t yet know the outcome',
       'I wasn’t contacted by the buyer',
       'I can’t remember',
-      'I don’t know or don’t want to say'
+      'I don’t know or don’t want to say',
     ]
 
     opp = create(:opportunity)
