@@ -18,8 +18,8 @@ RSpec.feature 'User can give feedback' do
 
   scenario 'clicking each of the feedback links' do
     options = [
-      'I won or expect to win business',
-      'I didn’t win business',
+      'I won the business',
+      'I didn’t win the business',
       'I was contacted by the buyer but don’t yet know the outcome',
       'I wasn’t contacted by the buyer',
       'I can’t remember',
