@@ -1,16 +1,35 @@
-%p We'd like to ask you about the Export Opportunities service to make sure it helps UK companies like yours.
-
 %p
-  On #{@enquiry_feedback.enquiry.created_at.strftime('%e %B %Y')} you applied for the export opportunity
-  %strong #{@enquiry_feedback.enquiry.opportunity.title}.
-  What was the outcome?
+  On #{@enquiry_feedback.enquiry.created_at.strftime('%e %B %Y')} you applied for the export opportunity:
+  %br
+  %br
+    %teaser
+      = link_to("#{@enquiry_feedback.enquiry.opportunity.title}", 'https://opportunities.export.great.gov.uk/opportunities/' + @enquiry_feedback.enquiry.opportunity.slug)
+  %br
+  %br
+    #{@enquiry_feedback.enquiry.opportunity.teaser}
+  %br
+  %br
+    What was the outcome?
 
 %ul{ style: 'margin: 0px;' }
-  %li= link_to('I won or expect to win business', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :won)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
-  %li= link_to('I didn’t win business', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :did_not_win)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
-  %li= link_to('I can’t remember', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :cannot_remember)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
-  %li= link_to('I haven’t had a reply', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :never_heard_back)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
-
+  %li
+  = image_tag('dummy_radio_checked', style: "height: 20px; width: 20px; float:left; margin-right:10px;")
+  = link_to('I won or expect to win business', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :won)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
+  %li
+  = image_tag('dummy_radio', style: "height: 20px; width: 20px; float:left; margin-right:10px;")
+  = link_to('I didn’t win business', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :did_not_win)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
+  %li
+  = image_tag('dummy_radio', style: "height: 20px; width: 20px; float:left; margin-right:10px;")
+  = link_to('I was contacted by the buyer but don’t yet know the outcome', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :dont_know_outcome)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
+  %li
+  = image_tag('dummy_radio', style: "height: 20px; width: 20px; float:left; margin-right:10px;")
+  = link_to('I wasn’t contacted by the buyer', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :never_heard_back)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
+  %li
+  = image_tag('dummy_radio', style: "height: 20px; width: 20px; float:left; margin-right:10px;")
+  = link_to('I can’t remember', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :cant_remember)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
+  %li
+  = image_tag('dummy_radio', style: "height: 20px; width: 20px; float:left; margin-right:10px;")
+  = link_to('I don’t know or don’t want to say', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :dontknow_want_to_say)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
 - content_for :message_reason do
   %p
     You are receiving this email because you applied for an export opportunity on the great.gov.uk website.
