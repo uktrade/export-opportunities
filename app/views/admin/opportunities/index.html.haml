@@ -47,7 +47,7 @@
 
 %table
   %thead
-    %th{:scope => 'col'}= sortable(:opportunity_filters, 'title', 'Title', 'asc', @filters.sort)
+    %th{:scope => 'col'} Triage
     %th{:scope => 'col', :width => '8%'}= sortable(:opportunity_filters, 'status', 'Status', 'asc', @filters.sort)
     %th{:scope => 'col', :width => '14%'}= sortable(:opportunity_filters, 'service_provider_name', 'Service provider', 'asc', @filters.sort)
     %th.numeric{:scope => 'col', :width => '3%'}= sortable(:opportunity_filters, 'enquiries_count', 'Enquiries received', 'desc', @filters.sort)
@@ -57,6 +57,9 @@
   %tbody
     - @opportunities.each do |opportunity|
       %tr.opportunity
+        %td.center
+          %span.marker-red{'aria-hidden' =>'true'} R <!-- marker-amber etc-->
+          %span.visually-hidden The triage rating is red
         - opportunity_link_text = opportunity.title.present? ? opportunity.title : '(no title)'
         %td
           = link_to opportunity_link_text, admin_opportunity_path(opportunity)
