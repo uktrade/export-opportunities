@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Admins sorting the list of opportunities' do
+feature 'Admins sorting the list of opportunities', :elasticsearch, :commit do
   scenario 'Sort by title' do
     publisher = create(:publisher)
     first_opportunity = create(:opportunity, title: 'Aardvark', created_at: 2.months.ago, response_due_on: 12.months.from_now)

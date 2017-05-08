@@ -1,5 +1,44 @@
+require 'elasticsearch'
+
 class Subscription < ActiveRecord::Base
   include DeviseUserMethods
+  include Elasticsearch::Model
+  index_name [base_class.to_s.pluralize.underscore, Rails.env].join('_')
+
+  # built in callbacks won't work with our customly indexed taxnomies
+  after_commit on: [:create] do
+    __elasticsearch__.index_document
+  end
+
+  after_commit on: [:update] do
+    __elasticsearch__.index_document
+  end
+
+  after_commit on: [:destroy] do
+    __elasticsearch__.delete_document
+  end
+
+  mappings dynamic: 'false' do
+    indexes :search_term, analyzer: 'english'
+    indexes :confirmed_at, type: :date
+    indexes :unsubscribed_at, type: :date
+
+    indexes :types do
+      indexes :id, type: :keyword
+    end
+
+    indexes :values do
+      indexes :id, type: :keyword
+    end
+
+    indexes :countries do
+      indexes :id, type: :keyword
+    end
+
+    indexes :sectors do
+      indexes :id, type: :keyword
+    end
+  end
 
   devise :confirmable
 
@@ -29,6 +68,18 @@ class Subscription < ActiveRecord::Base
 
   def devise_mailer
     SubscriptionMailer
+  end
+
+  def as_indexed_json(_ = {})
+    as_json(
+      only: [:search_term, :confirmed_at, :unsubscribed_at],
+      include: {
+        countries: { only: :id },
+        types: { only: :id },
+        sectors: { only: :id },
+        values: { only: :id },
+      }
+    )
   end
 
   protected

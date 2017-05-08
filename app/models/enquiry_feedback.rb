@@ -6,7 +6,7 @@ class EnquiryFeedback < ActiveRecord::Base
     did_not_win: 2,
     dont_know_outcome: 3,
     never_heard_back: 4,
-    cant_remember: 5,
+    cannot_remember: 5,
     dontknow_want_to_say: 6,
   }
 end

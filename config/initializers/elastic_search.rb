@@ -1,7 +1,10 @@
 require 'faraday_middleware/aws_signers_v4'
 
+# https://github.com/omniauth/omniauth/issues/872
+Hashie.logger = Logger.new(nil)
+
 if Rails.env.production?
-  Elasticsearch::Model.client = Elasticsearch::Client.new(url: Figaro.env.elasticsearch_url) do |f|
+  Elasticsearch::Model.client = Elasticsearch::Client.new(url: Figaro.env.elastic_search_url) do |f|
     f.request :aws_signers_v4,
       credentials: Aws::Credentials.new(
         Figaro.env.aws_access_key_id,

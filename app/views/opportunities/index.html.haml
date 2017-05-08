@@ -12,11 +12,11 @@
 .panel
   - if @opportunities.any?
     %h2
-      - if @query.count == 1
+      - if @count == 1
         Right now there is 1 opportunity
       - else
         Right now there are
-        = @query.count
+        = @count
         opportunities
 
 = render 'filters'

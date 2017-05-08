@@ -40,6 +40,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
+    ansi (1.5.0)
     arel (6.0.4)
     ast (2.3.0)
     autoprefixer-rails (6.6.1)
@@ -97,6 +98,10 @@ GEM
       elasticsearch-transport (= 5.0.3)
     elasticsearch-api (5.0.3)
       multi_json
+    elasticsearch-extensions (0.0.26)
+      ansi
+      elasticsearch
+      ruby-prof
     elasticsearch-model (0.1.9)
       activesupport (> 3)
       elasticsearch (> 0.4)
@@ -114,7 +119,7 @@ GEM
       railties (>= 3.0.0)
     faker (1.7.2)
       i18n (~> 0.5)
-    faraday (0.10.1)
+    faraday (0.11.0)
       multipart-post (>= 1.2, < 3)
     faraday_middleware-aws-signers-v4 (0.1.7)
       aws-sdk-resources (~> 2)
@@ -144,7 +149,7 @@ GEM
     haml (4.0.7)
       tilt
     hashdiff (0.3.2)
-    hashie (3.4.6)
+    hashie (3.5.5)
     htmlentities (4.3.4)
     i18n (0.7.0)
     immutable-struct (2.2.2)
@@ -184,16 +189,16 @@ GEM
       mini_portile2 (~> 2.1.0)
     normalize-scss (6.0.0)
       sass (~> 3.3)
-    oauth2 (1.3.0)
-      faraday (>= 0.8, < 0.11)
+    oauth2 (1.3.1)
+      faraday (>= 0.8, < 0.12)
       jwt (~> 1.0)
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
-    omniauth (1.3.1)
-      hashie (>= 1.2, < 4)
-      rack (>= 1.0, < 3)
-    omniauth-oauth2 (1.4.0)
+    omniauth (1.6.1)
+      hashie (>= 3.4.6, < 3.6.0)
+      rack (>= 1.6.2, < 3)
+    omniauth-oauth2 (1.3.1)
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
     orm_adapter (0.5.0)
@@ -306,12 +311,16 @@ GEM
       rspec (~> 3.0, >= 3.0.0)
       sidekiq (>= 2.4.0)
     rspec-support (3.5.0)
+    rspec_junit_formatter (0.2.3)
+      builder (< 4)
+      rspec-core (>= 2, < 4, != 2.12.0)
     rubocop (0.46.0)
       parser (>= 2.3.1.1, < 3.0)
       powerpack (~> 0.1)
       rainbow (>= 1.99.1, < 3.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
+    ruby-prof (0.16.2)
     ruby-progressbar (1.8.1)
     ruby2ruby (2.3.2)
       ruby_parser (~> 3.1)
@@ -353,6 +362,8 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     stringex (2.6.1)
+    test_after_commit (1.1.0)
+      activerecord (>= 3.2)
     thor (0.19.4)
     thread_safe (0.3.5)
     tilt (2.0.5)
@@ -361,6 +372,7 @@ GEM
       thread_safe (~> 0.1)
     unicode-display_width (1.1.2)
     uniform_notifier (1.10.0)
+    vcr (3.0.3)
     warden (1.2.6)
       rack (>= 1.0)
     web-console (3.3.0)
@@ -393,6 +405,7 @@ DEPENDENCIES
   database_cleaner
   devise
   devise-async
+  elasticsearch-extensions
   elasticsearch-model (= 0.1.9)
   elasticsearch-rails (= 0.1.9)
   factory_girl_rails
@@ -415,7 +428,7 @@ DEPENDENCIES
   neat
   normalize-scss
   omniauth
-  omniauth-oauth2
+  omniauth-oauth2 (~> 1.3.1)
   paper_trail
   pg
   pg_search
@@ -434,6 +447,7 @@ DEPENDENCIES
   rspec-collection_matchers
   rspec-rails
   rspec-sidekiq
+  rspec_junit_formatter
   rubocop
   sass-rails
   sdoc
@@ -442,7 +456,9 @@ DEPENDENCIES
   sidekiq
   simplecov
   stringex
+  test_after_commit
   timecop
+  vcr
   web-console
   webmock
   yajl-ruby
@@ -451,4 +467,4 @@ RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.14.5
+   1.14.6

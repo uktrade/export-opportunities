@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SubscriptionFinder, type: :service do
+RSpec.describe SubscriptionFinder, :elasticsearch, :commit, type: :service do
   describe '#call' do
     context 'when filtering by one or more categories' do
       it 'returns a list of subscriptions which match the given opportunity' do
@@ -12,6 +12,7 @@ RSpec.describe SubscriptionFinder, type: :service do
         second_subscription = create(:subscription, search_term: search_term, sectors: [sectors[0]])
         irrelevant_subscription = create(:subscription, search_term: search_term, sectors: [create(:sector)])
 
+        sleep 1
         response = SubscriptionFinder.new.call(opportunity)
 
         expect(response).to include(first_subscription)
@@ -29,6 +30,7 @@ RSpec.describe SubscriptionFinder, type: :service do
         first_subscription = create(:subscription, search_term: search_term, sectors: [], countries: countries)
         second_subscription = create(:subscription, search_term: search_term, sectors: sectors, countries: [])
 
+        sleep 1
         response = SubscriptionFinder.new.call(opportunity)
 
         expect(response).to include(first_subscription)
@@ -47,6 +49,7 @@ RSpec.describe SubscriptionFinder, type: :service do
         subscription = create(:subscription,
           search_term: search_term, countries: [], sectors: [], types: [], values: [])
 
+        sleep 1
         response = SubscriptionFinder.new.call(opportunity)
 
         expect(response).to include(subscription)
@@ -58,6 +61,7 @@ RSpec.describe SubscriptionFinder, type: :service do
         opportunity = create(:opportunity, title: search_term, sectors: sectors)
         subscription = create(:subscription, search_term: search_term, sectors: sectors)
 
+        sleep 1
         response = SubscriptionFinder.new.call(opportunity)
 
         expect(response).to include(subscription)
@@ -69,6 +73,7 @@ RSpec.describe SubscriptionFinder, type: :service do
         opportunity = create(:opportunity, countries: countries)
         unconfirmed_subscription = create(:subscription, :unconfirmed, countries: countries)
 
+        sleep 1
         response = SubscriptionFinder.new.call(opportunity)
 
         expect(response).to_not include(unconfirmed_subscription)
@@ -81,6 +86,7 @@ RSpec.describe SubscriptionFinder, type: :service do
         matching_subscription = create(:subscription, search_term: 'shoreditch')
         non_matching_subscription = create(:subscription, search_term: 'bermondsey')
 
+        sleep 1
         response = SubscriptionFinder.new.call(opportunity)
 
         expect(response).to include(matching_subscription)
@@ -93,6 +99,7 @@ RSpec.describe SubscriptionFinder, type: :service do
         matching_subscription = create(:subscription, search_term: 'tea coffee')
         non_matching_subscription = create(:subscription, search_term: 'coffee computers')
 
+        sleep 1
         response = SubscriptionFinder.new.call(opportunity)
 
         expect(response).to include(matching_subscription)
@@ -105,6 +112,7 @@ RSpec.describe SubscriptionFinder, type: :service do
           subscription = build(:subscription, search_term: nil)
           subscription.save(validate: false)
 
+          sleep 1
           response = SubscriptionFinder.new.call(opportunity)
 
           expect(response).to include(subscription)
@@ -117,6 +125,7 @@ RSpec.describe SubscriptionFinder, type: :service do
           subscription = build(:subscription, search_term: '')
           subscription.save(validate: false)
 
+          sleep 1
           response = SubscriptionFinder.new.call(opportunity)
 
           expect(response).to include(subscription)
@@ -136,6 +145,7 @@ RSpec.describe SubscriptionFinder, type: :service do
       matching_subscription = create(:subscription, search_term: 'animal diseases', countries: [country])
       non_matching_subscription = create(:subscription, search_term: 'animal diseases', countries: [other_country])
 
+      sleep 1
       response = SubscriptionFinder.new.call(opportunity)
 
       expect(response).to include(matching_subscription)
@@ -147,6 +157,7 @@ RSpec.describe SubscriptionFinder, type: :service do
       opportunity = create(:opportunity, countries: countries)
       unsubscribed_subscription = create(:subscription, unsubscribed_at: DateTime.yesterday, countries: countries)
 
+      sleep 1
       response = SubscriptionFinder.new.call(opportunity)
 
       expect(response).to_not include(unsubscribed_subscription)
@@ -159,6 +170,7 @@ RSpec.describe SubscriptionFinder, type: :service do
       opportunity = create(:opportunity, title: 'foo', sectors: sectors)
       matching_subscription = create(:subscription, search_term: 'foo', sectors: sectors)
 
+      sleep 1
       response = SubscriptionFinder.new.call(opportunity)
 
       expect(response).to include(matching_subscription)
@@ -171,6 +183,7 @@ RSpec.describe SubscriptionFinder, type: :service do
       opportunity = create(:opportunity, title: 'foo', values: values)
       matching_subscription = create(:subscription, search_term: 'foo', values: values)
 
+      sleep 1
       response = SubscriptionFinder.new.call(opportunity)
 
       expect(response).to include(matching_subscription)
@@ -183,6 +196,7 @@ RSpec.describe SubscriptionFinder, type: :service do
       opportunity = create(:opportunity, title: 'foo', types: types)
       matching_subscription = create(:subscription, search_term: 'foo', types: types)
 
+      sleep 1
       response = SubscriptionFinder.new.call(opportunity)
 
       expect(response).to include(matching_subscription)
@@ -201,6 +215,7 @@ RSpec.describe SubscriptionFinder, type: :service do
       matching_subscription = create(:subscription, search_term: 'foo',
                                                     countries: [countries.first], sectors: [sectors.first], types: [types.first], values: [values.first])
 
+      sleep 1
       response = SubscriptionFinder.new.call(opportunity)
 
       expect(response).to include(matching_subscription)

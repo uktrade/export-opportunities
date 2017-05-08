@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'HTTP verbs', type: :request do
+RSpec.describe 'HTTP verbs', :elasticsearch, :commit, type: :request do
   it 'return 200 status for GET /check' do
     get '/check'
     expect(response).to have_http_status(200)

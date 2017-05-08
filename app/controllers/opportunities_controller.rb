@@ -34,30 +34,36 @@ class OpportunitiesController < ApplicationController
       sort_order = sort_column == 'response_due_on' ? 'asc' : 'desc'
     end
 
-    @sort = OpportunitySort.new(default_column: 'response_due_on', default_order: 'asc')
-      .update(column: sort_column, order: sort_order)
+    if atom_request?
+      @sort = OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
+    else
+      @sort = OpportunitySort.new(default_column: 'response_due_on', default_order: 'asc')
+        .update(column: sort_column, order: sort_order)
+    end
 
-    ignore_sort = params[:sort] == 'relevance'
-
-    @query = OpportunityQuery.new(
-      status: 'publish',
-      hide_expired: true,
+    @query = Opportunity.public_search(
       search_term: @search_term,
       filters: @filters,
-      sort: @sort,
-      ignore_sort: ignore_sort,
-      page: params[:paged],
-      per_page: per_page
+      sort: @sort
     )
 
-    @query = AtomOpportunityQueryDecorator.new(@query, view_context) if atom_request?
+    if atom_request?
+      @query = @query.records
+      @query = @query.page(params[:paged]).per(per_page)
+      @query = AtomOpportunityQueryDecorator.new(@query, view_context)
+      @opportunities = @query
+    else
+      @count = @query.records.total
+      @query = @query.page(params[:paged]).per(per_page)
+
+      @opportunities = @query.records
+    end
 
     @sectors = Sector.order(:name)
     @countries = Country.order(:name)
     @types = Type.order(:name)
     @values = Value.order(:name)
 
-    @opportunities = @query.opportunities
     @suppress_subscription_block = params[:suppress_subscription_block].present?
 
     respond_to do |format|
