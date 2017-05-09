@@ -11,6 +11,7 @@ feature 'users can submit feedback after impact email has been sent to them' do
     feedback.reload
     fill_in 'Feedback', with: feedback_message
     click_on 'Submit'
+    feedback.reload
 
     expect(feedback).to be_won
     expect(feedback.responded_at).not_to be_nil

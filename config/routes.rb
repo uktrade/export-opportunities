@@ -126,7 +126,6 @@ Rails.application.routes.draw do
   get '/feedback/opt_out', to: 'feedback_opt_outs#create', via: :get, as: :feedback_opt_out
   patch '/feedback.:id', to: 'enquiry_feedback#patch'
 
-
   # Error pages
   match '/500' => 'errors#internal_server_error', via: :all
   match '/404' => 'errors#not_found', via: :all
