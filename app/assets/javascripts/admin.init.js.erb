@@ -30,4 +30,8 @@ $('document').ready(function() {
 			noFadeEffect:true
 		});
 	}
+	var raggRatingForm = document.querySelectorAll('form.js-ragg-rating')[0];
+	if (raggRatingForm.length > 0) {
+		ukti.RaggRating.init(raggRatingForm);
+	}
 });

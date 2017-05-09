@@ -1,17 +1,19 @@
-%h2 Triage status
+%h2 Triage rating
 
-.form-group.ragg_choice
-  %fieldset.inline
-    %legend.visually-hidden What is the traige status of this?
-    .multiple-choice.ragg_choice-red
-      %input#radio-inline-1{:name => "ragg", :type => "radio", :value => "red"}/
-      %label{:for => "radio-inline-1"} Red
-    .multiple-choice.ragg_choice-amber
-      %input#radio-inline-2{:name => "ragg", :type => "radio", :value => "amber"}/
-      %label{:for => "radio-inline-2"} Amber
-    .multiple-choice.ragg_choice-green
-      %input#radio-inline-3{:name => "ragg", :type => "radio", :value => "green"}/
-      %label{:for => "radio-inline-3"} Green
-    .multiple-choice.ragg_choice-grey
-      %input#radio-inline-4{:name => "ragg", :type => "radio", :value => "grey"}/
-      %label{:for => "radio-inline-4"} Grey
+= form_tag opportunities_path, class: 'js-ragg-rating', method: :post do
+  .form-group.ragg_choice
+    %fieldset.inline
+      %legend Set the rating: "Red" to escalate, "Amber" to amend, "Green" no action needed, "Grey" for special consideration.
+      .multiple-choice.ragg_choice-red
+        %input#radio-inline-1{:name => "ragg", :type => "radio", :value => "red"}/
+        %label{:for => "radio-inline-1"} Red
+      .multiple-choice.ragg_choice-amber
+        %input#radio-inline-2{:name => "ragg", :type => "radio", :value => "amber"}/
+        %label{:for => "radio-inline-2"} Amber
+      .multiple-choice.ragg_choice-green
+        %input#radio-inline-3{:name => "ragg", :type => "radio", :value => "green"}/
+        %label{:for => "radio-inline-3"} Green
+      .multiple-choice.ragg_choice-grey
+        %input#radio-inline-4{:name => "ragg", :type => "radio", :value => "grey"}/
+        %label{:for => "radio-inline-4"} Grey
+  = submit_tag "Set Traige rating", class: "button"
