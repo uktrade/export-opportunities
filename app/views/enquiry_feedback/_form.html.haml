@@ -1,7 +1,6 @@
 = form_for @enquiry_feedback, url: enquiry_feedback_path(@enquiry_feedback) do |f|
   .form-group
-    = f.label :message, 'Feedback', class: 'form-label form-label-bold'
-    = f.text_area :message, class: 'form-control'
-    %p.form-hint
-      Your feedback will help us improve our service
+    = f.label :message, 'Leave feedback', class: 'form-label form-label-bold'
+    = f.text_area :message, { class: 'form-control', required: "required", rows: "8"}
   = f.submit 'Submit', class: 'button'
+
