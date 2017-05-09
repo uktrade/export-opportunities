@@ -15,7 +15,7 @@ class EnquiryFeedbackController < ApplicationController
   end
 
   def patch
-    
+    redirect_to '/', notice: 'Thanks, your feedback has been recorded'
   end
 
   private
