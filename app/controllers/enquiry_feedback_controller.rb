@@ -1,7 +1,9 @@
 class EnquiryFeedbackController < ApplicationController
   rescue_from EncryptedParams::CouldNotDecrypt, with: :not_found
 
-  def show
+  def new
+    pp "enq feedback params:"
+    pp enquiry_feedback_params
     @enquiry_feedback = EnquiryFeedback.find(enquiry_feedback_params[:id])
 
     if @enquiry_feedback.responded_at.nil?
@@ -10,6 +12,10 @@ class EnquiryFeedbackController < ApplicationController
         responded_at: Time.zone.now
       )
     end
+  end
+
+  def patch
+    
   end
 
   private

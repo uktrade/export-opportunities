@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe EnquiryFeedbackController do
-  describe '#show' do
+  describe '#new' do
     it 'updates the enquiry feedback record' do
       feedback = create(:enquiry_feedback)
       params = { id: feedback.id, response: :won }
 
       expect(EncryptedParams).to receive(:decrypt).with('encrypted string').and_return(params)
-      get :show, q: 'encrypted string'
+      get :new, q: 'encrypted string'
       feedback.reload
 
       expect(feedback).to be_won
@@ -24,7 +24,7 @@ RSpec.describe EnquiryFeedbackController do
       params = { id: feedback.id, response: :did_not_win }
 
       expect(EncryptedParams).to receive(:decrypt).with('encrypted string').and_return(params)
-      get :show, q: 'encrypted string'
+      get :new, q: 'encrypted string'
 
       feedback.reload
 
@@ -33,7 +33,7 @@ RSpec.describe EnquiryFeedbackController do
     end
 
     it 'provides an friendly but uninformative error if invalid' do
-      get :show, q: 'incorrect string'
+      get :new, q: 'incorrect string'
 
       expect(response).to have_http_status(:not_found)
     end
