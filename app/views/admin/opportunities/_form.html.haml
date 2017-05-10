@@ -105,16 +105,20 @@
     %fieldset.inline
       %legend Set the rating: "Red" to escalate, "Amber" to amend, "Green" no action needed, "Grey" for special consideration.
       .multiple-choice.ragg_choice-red
-        %input#radio-inline-1{:name => "ragg", :type => "radio", :value => "red"}/
+        %input{ name: 'ragg', id: 'radio-inline-1', type: 'radio', value: 'red' }
+        -#%input#radio-inline-1{:name => "ragg", :type => "radio", :value => "red"}/
         %label{:for => "radio-inline-1"} Red
       .multiple-choice.ragg_choice-amber
-        %input#radio-inline-2{:name => "ragg", :type => "radio", :value => "amber"}/
+        %input{ name: 'ragg', class: 'radio-inline-2', type: 'radio', value: 'amber' }
+        -#%input#radio-inline-2{:name => "ragg", :type => "radio", :value => "amber"}/
         %label{:for => "radio-inline-2"} Amber
       .multiple-choice.ragg_choice-green
-        %input#radio-inline-3{:name => "ragg", :type => "radio", :value => "green"}/
+        %input{ name: 'ragg', class: 'radio-inline-3', type: 'radio', value: 'green' }
+        -#%input#radio-inline-3{:name => "ragg", :type => "radio", :value => "green"}/
         %label{:for => "radio-inline-3"} Green
       .multiple-choice.ragg_choice-grey
-        %input#radio-inline-4{:name => "ragg", :type => "radio", :value => "grey"}/
+        %input{ name: 'ragg', class: 'radio-inline-4', type: 'radio', value: 'grey' }
+        -#%input#radio-inline-4{:name => "ragg", :type => "radio", :value => "grey"}/
         %label{:for => "radio-inline-4"} Grey
   .grid-row
     .column-one-half

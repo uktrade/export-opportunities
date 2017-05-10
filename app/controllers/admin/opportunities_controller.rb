@@ -94,6 +94,7 @@ class Admin::OpportunitiesController < Admin::BaseController
     @values = Value.all.order(:name)
     @service_providers = ServiceProvider.all.order(:name)
     @selected_service_provider = opportunity.service_provider || current_editor.service_provider
+    @ragg = opportunity.ragg
   end
 
   def setup_opportunity_contacts(opportunity)
@@ -111,6 +112,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def opportunity_params(contacts_attributes:)
+    byebug
     params.require(:opportunity).permit(:title, :slug, { country_ids: [] }, { sector_ids: [] }, { type_ids: [] }, { value_ids: [] }, :teaser, :response_due_on, :description, { contacts_attributes: contacts_attributes }, :service_provider_id, :ragg)
   end
 

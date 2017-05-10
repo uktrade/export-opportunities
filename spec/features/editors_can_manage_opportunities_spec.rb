@@ -155,10 +155,11 @@ feature 'Administering opportunities' do
 
       click_on opportunity.title
       click_on 'Edit opportunity'
+save_and_open_page
+      click_on 'radio-inline-2' #amber
+      click_on 'Update Opportunity'
 
-      click_on 'amber'
-      click_on 'Update opportunity'
-
+      save_and_open_page
       expect(page).to have_text('amber')
     end
   end
