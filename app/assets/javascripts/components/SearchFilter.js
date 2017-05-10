@@ -24,16 +24,7 @@ ukti.SearchFilters = (function() {
   var showFilters = function () {
 		_parentEl.classList.add(_openClass);
 		_toggleGroup.classList.remove(_hiddenClass);
-  	_toggleGroup.setAttribute('aria-hidden', 'false');
-  	setFocusAfterToggle();
     setFilterOpenField(true);
-  };
-
-  var setFocusAfterToggle = function () {
-		var field = _parentEl.querySelectorAll('.select2-search__field')[1];
-    if (field) {
-      field.focus();
-    }
   };
 
   var returnToggler = function() {

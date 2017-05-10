@@ -100,9 +100,10 @@
     color: $white;
     background-color: $greatred;
     width: 100%;
+    padding: 15px 30px;
     @media #{$tablet-l} {
       position: relative;
-      top: 30px;
+      top: 24px;
     }
     @media #{$desktop-m} {
       width: 250px;

@@ -24,22 +24,27 @@ if (selectCustom.length) {
 			return '<svg class="icon icon-check"><use xlink:href="#icon-ditcheckmark" /></svg>' + result.text;
     	}
 	});
-	
+
 	/* prevent dropdown from opening when deselecting tag */
-	selectCustom.on('select2:unselecting', function(e) {
-	    $(this).on('select2:opening', function(e) {
-	        e.preventDefault();
-	    });
+	/* and clear label when deselecting - particularly with backspace */
+	selectCustom.on('select2:unselect', function() {
+		$el = $(this);
+		$el.data('unselecting', true);
+		setTimeout(function() {
+			$el.parent().find('.select2-search__field').val('');
+		}, 0);
 	});
-	selectCustom.on('select2:unselect', function(e) {
-		var sel = $(this);
-			setTimeout(function() {
-			sel.off('select2:opening');
-		}, 1);
+
+	selectCustom.on('select2:opening', function(e) {
+		$el = $(this);
+		if ( $el.data('unselecting') ) {
+        	$el.removeData('unselecting');
+        	e.preventDefault();
+		}
 	});
 }
 
-/* */
+/* scroll to results if they exist on page */
 document.addEventListener('DOMContentLoaded', function() {
 	var hasSearchResults = window.location.search.indexOf('?') > -1;
 	if (hasSearchResults) {
