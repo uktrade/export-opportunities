@@ -111,7 +111,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def opportunity_params(contacts_attributes:)
-    params.require(:opportunity).permit(:title, :slug, { country_ids: [] }, { sector_ids: [] }, { type_ids: [] }, { value_ids: [] }, :teaser, :response_due_on, :description, { contacts_attributes: contacts_attributes }, :service_provider_id)
+    params.require(:opportunity).permit(:title, :slug, { country_ids: [] }, { sector_ids: [] }, { type_ids: [] }, { value_ids: [] }, :teaser, :response_due_on, :description, { contacts_attributes: contacts_attributes }, :service_provider_id, :ragg)
   end
 
   def create_contacts_attributes

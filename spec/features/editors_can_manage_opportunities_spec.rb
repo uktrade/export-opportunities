@@ -144,4 +144,22 @@ feature 'Administering opportunities' do
       expect(page).to have_text("Summary can\'t be more than 140")
     end
   end
+
+  feature 'updating ragg rating' do
+    scenario 'updates ragg rating to an opportunity' do
+      editor = create(:publisher)
+      opportunity = create(:opportunity, status: :pending)
+
+      login_as(editor)
+      visit admin_opportunities_path
+
+      click_on opportunity.title
+      click_on 'Edit opportunity'
+
+      click_on 'amber'
+      click_on 'Update opportunity'
+
+      expect(page).to have_text('amber')
+    end
+  end
 end
