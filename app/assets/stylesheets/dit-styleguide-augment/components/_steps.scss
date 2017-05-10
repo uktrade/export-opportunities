@@ -8,9 +8,25 @@
     color: $grey;
   }
   &__icon {
-    width: 88px;
-    height: 88px;
+    width: 114px;
+    height: 114px;
     margin: 0 auto;
+    position: relative;
+    @media #{$desktop-m} {
+      &-with-arrow:after {
+        background: transparent asset-url('steps/dotted_arrow.svg'); 
+        background-position: 90% center;
+        background-repeat: no-repeat;
+        background-size: 45px;
+        bottom: 0;
+        content: '';
+        position: absolute;
+        left: 160px;
+        top: 0;
+        width: 100px;
+        z-index: 10;
+      }
+    }
   }
   &__number {
     color: $lightgrey;
@@ -51,4 +67,6 @@
     color: $greytundora;
     padding-top: 16px;
   }
+
+
 }
