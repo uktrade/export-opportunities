@@ -9,7 +9,7 @@ feature 'users can submit feedback after impact email has been sent to them' do
     expect(EncryptedParams).to receive(:decrypt).with(nil).and_return(params)
     visit enquiry_feedback_url(params[:id])
     feedback.reload
-    fill_in 'Feedback', with: feedback_message
+    fill_in 'Leave feedback', with: feedback_message
     click_on 'Submit'
     feedback.reload
 
