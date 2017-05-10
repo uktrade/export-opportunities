@@ -57,7 +57,18 @@ feature 'Trashing opportunities' do
     expect(page).to have_content('Trashed Opportunity')
   end
 
-  scenario 'Non-admin restoring a trashed opportunity' do
+  scenario 'Publisher restoring a trashed opportunity' do
+    uploader = create(:publisher)
+    opportunity = create(:opportunity, title: 'Trashed Opportunity', author: uploader, status: :trash)
+
+    login_as(uploader)
+
+    visit "/admin/opportunities/#{opportunity.id}"
+    expect(page).to have_content('Trashed Opportunity')
+    expect(page).to have_no_button('Restore')
+  end
+
+  scenario 'Uploader restoring a trashed opportunity' do
     uploader = create(:uploader)
     opportunity = create(:opportunity, title: 'Trashed Opportunity', author: uploader, status: :trash)
 
@@ -65,6 +76,7 @@ feature 'Trashing opportunities' do
 
     visit "/admin/opportunities/#{opportunity.id}"
     expect(page).to have_content('Trashed Opportunity')
+    expect(page).to have_button('Draft')
     expect(page).to have_no_button('Restore')
   end
 end

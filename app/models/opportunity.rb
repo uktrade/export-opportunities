@@ -54,7 +54,7 @@ class Opportunity < ActiveRecord::Base
   TITLE_LENGTH_LIMIT = 80.freeze
   TEASER_LENGTH_LIMIT = 140.freeze
 
-  enum status: { pending: 1, publish: 2, trash: 4 }
+  enum status: { pending: 1, publish: 2, draft: 3, trash: 4 }
 
   include PgSearch
 
@@ -69,6 +69,7 @@ class Opportunity < ActiveRecord::Base
 
   scope :published, -> { where(status: Opportunity.statuses[:publish]) }
   scope :applicable, -> { where('response_due_on >= ?', Time.zone.today) }
+  scope :drafted, -> { where(status: Opportunity.statuses[:draft]) }
 
   belongs_to :service_provider, required: true
   belongs_to :author, class_name: 'Editor', required: true
