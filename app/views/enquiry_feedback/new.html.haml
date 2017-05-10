@@ -1,8 +1,11 @@
 = content_for :hero do
   %h1 Thanks for your feedback on Export Opportunities
+.panel
   %p
   The information you’ve given will help us improve the Export Opportunities service.
   %p
-  We’d welcome hearing more about your experience of using the service. If you have more to say, complete the feedback form below.
+  We’d welcome your feedback on any parts of the service.
   %p
 
+.panel
+  = render 'form', enquiry_feedback: @enquiry_feedback

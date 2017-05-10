@@ -1,7 +1,7 @@
 class EnquiryFeedbackController < ApplicationController
   rescue_from EncryptedParams::CouldNotDecrypt, with: :not_found
 
-  def show
+  def new
     @enquiry_feedback = EnquiryFeedback.find(enquiry_feedback_params[:id])
 
     if @enquiry_feedback.responded_at.nil?
@@ -10,6 +10,16 @@ class EnquiryFeedbackController < ApplicationController
         responded_at: Time.zone.now
       )
     end
+  end
+
+  # impact email feedback form submit
+  def patch
+    @enquiry_feedback_form = EnquiryFeedback.find(params[:id])
+
+    @enquiry_feedback_form.update!(
+      message: params[:enquiry_feedback][:message]
+    )
+    redirect_to '/', notice: 'Thanks, your feedback has been recorded'
   end
 
   private

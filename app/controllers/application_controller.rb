@@ -15,11 +15,11 @@ class ApplicationController < ActionController::Base
   before_action :set_google_tag_manager
 
   def set_google_tag_manager
-    if Figaro.env.google_tag_manager_keys?
-      @google_tag_manager = Figaro.env.google_tag_manager_keys.split(',').map(&:strip)
-    else
-      @google_tag_manager = []
-    end
+    @google_tag_manager = if Figaro.env.google_tag_manager_keys?
+                            Figaro.env.google_tag_manager_keys.split(',').map(&:strip)
+                          else
+                            []
+                          end
   end
 
   protect_from_forgery with: :exception
@@ -40,33 +40,29 @@ class ApplicationController < ActionController::Base
   # basic checks for data sync between ES and PG DB
   def data_sync_check
     res = {}
-    db_opportunities_ids = []
-    es_opportunities_ids = []
-    db_subscriptions_ids = []
-    es_subscriptions_ids = []
 
     # opps that have not expired and are published
     # db_opportunities = get_db_opportunities
-    db_opportunities_ids = get_db_opportunities
+    db_opportunities_ids = db_opportunities
     sort = OpenStruct.new(column: :response_due_on, order: :desc)
     query = OpportunitySearchBuilder.new(search_term: '', sort: sort).call
-    es_opportunities_ids = get_es_opportunities(query)
+    es_opportunities_ids = es_opportunities(query)
 
     res_opportunities_count = db_opportunities_ids.size == es_opportunities_ids.size
     if db_opportunities_ids.size != es_opportunities_ids.size
       missing_docs = db_opportunities_ids - es_opportunities_ids | es_opportunities_ids - db_opportunities_ids
-      Rails.logger.error("we are missing opportunities docs")
+      Rails.logger.error('we are missing opportunities docs')
       Rails.logger.error(missing_docs)
       res['opportunities'] = { expected_opportunities: db_opportunities_ids.size, actual_opportunities: es_opportunities_ids.size, missing: missing_docs }
     end
 
-    db_subscriptions_ids = get_db_subscriptions
-    es_subscriptions_ids = get_es_subscriptions
+    db_subscriptions_ids = db_subscriptions
+    es_subscriptions_ids = es_subscriptions
 
     res_subscriptions_count = db_subscriptions_ids.size == es_subscriptions_ids.size
     if db_subscriptions_ids.size != es_subscriptions_ids.size
       missing_docs = db_subscriptions_ids - es_subscriptions_ids | es_subscriptions_ids - db_subscriptions_ids
-      Rails.logger.error("we are missing subscriber docs")
+      Rails.logger.error('we are missing subscriber docs')
       Rails.logger.error(missing_docs)
       res['subscriptions'] = { expected_opportunities: db_subscriptions_ids.size, actual_opportunities: es_subscriptions_ids.size, missing: missing_docs }
     end
@@ -80,22 +76,22 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def get_db_opportunities
-    Opportunity.where("response_due_on >= ? and status = ?", DateTime.now, 2).pluck(:id)
+  def db_opportunities
+    Opportunity.where('response_due_on >= ? and status = ?', DateTime.now.utc, 2).pluck(:id)
   end
 
-  def get_es_opportunities(query)
+  def es_opportunities(query)
     res = []
-    es_opportunities = Opportunity.__elasticsearch__.search(size: 10000, query: query[:search_query], sort: query[:search_sort])
+    es_opportunities = Opportunity.__elasticsearch__.search(size: 10_000, query: query[:search_query], sort: query[:search_sort])
     es_opportunities.each { |record| res.push record.id }
     res
   end
 
-  def get_db_subscriptions
+  def db_subscriptions
     Subscription.count
   end
 
-  def get_es_subscriptions
+  def es_subscriptions
     Subscription.__elasticsearch__.count
   end
 
