@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'users can submit feedback after impact email has been sent to them' do
-  scenario 'a user clicks on the I won this opportunity link in the impact email and lands in our feedback form page' do
+  scenario 'a user clicks on the I won this opportunity link in the impact email, lands in our feedback form page and submits feedback' do
     feedback = create(:enquiry_feedback)
     params = { id: feedback.id, response: :won }
     feedback_message = Faker::Lorem.sentence(10, false, 5)
