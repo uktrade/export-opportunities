@@ -45,13 +45,6 @@ class OpportunitiesController < ApplicationController
       sort_order = sort_column == 'response_due_on' ? 'asc' : 'desc'
     end
 
-    if atom_request?
-      @sort = OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
-    else
-      @sort = OpportunitySort.new(default_column: 'response_due_on', default_order: 'asc')
-        .update(column: sort_column, order: sort_order)
-    end
-
     # set ignore_sort flag
     ignore_sort = if params.key?(:isSearchAndFilter) && params[:s].present?
                     true
@@ -62,16 +55,14 @@ class OpportunitiesController < ApplicationController
     # pass sort correct column down to the view
     @sort_column_name = sort_column
 
-    @query = Opportunity.public_search(
+    if atom_request?
+      @sort = OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
+    else
+      @sort = OpportunitySort.new(default_column: 'response_due_on', default_order: 'asc')
+        .update(column: sort_column, order: sort_order)
+    end
 
-    Rails.logger.debug "sort_column: #{sort_column}"
-    Rails.logger.debug "sort: #{@sort.inspect}"
-    Rails.logger.debug "ignore: #{ignore_sort}"
-    Rails.logger.debug "sort_column_name: #{@sort_column_name}"
-    
     @query = Opportunity.public_search(
-      status: 'publish',
-      hide_expired: true,
       search_term: @search_term,
       filters: @filters,
       sort: @sort
@@ -89,7 +80,6 @@ class OpportunitiesController < ApplicationController
       @opportunities = @query.records
     end
 
-    @query = AtomOpportunityQueryDecorator.new(@query, view_context) if atom_request?
     @sectors = Sector.order(:name)
     @countries = Country.order(:name)
     @types = Type.order(:name)
