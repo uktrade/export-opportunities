@@ -101,24 +101,21 @@
         .form-group
           = form.label :email, 'Email address', class: 'form-label'
           = form.text_field :email, class: 'form-control', type: :email, required: true
+
   .form-group.ragg_choice
     %fieldset.inline
       %legend Set the rating: "Red" to escalate, "Amber" to amend, "Green" no action needed, "Grey" for special consideration.
       .multiple-choice.ragg_choice-red
-        %input{ name: 'ragg', id: 'radio-inline-1', type: 'radio', value: 'red' }
-        -#%input#radio-inline-1{:name => "ragg", :type => "radio", :value => "red"}/
+        = f.radio_button :ragg, :red, id: 'radio-inline-1'
         %label{:for => "radio-inline-1"} Red
       .multiple-choice.ragg_choice-amber
-        %input{ name: 'ragg', class: 'radio-inline-2', type: 'radio', value: 'amber' }
-        -#%input#radio-inline-2{:name => "ragg", :type => "radio", :value => "amber"}/
+        = f.radio_button :ragg, :amber, id: 'radio-inline-2'
         %label{:for => "radio-inline-2"} Amber
       .multiple-choice.ragg_choice-green
-        %input{ name: 'ragg', class: 'radio-inline-3', type: 'radio', value: 'green' }
-        -#%input#radio-inline-3{:name => "ragg", :type => "radio", :value => "green"}/
+        = f.radio_button :ragg, :green, id: 'radio-inline-3'
         %label{:for => "radio-inline-3"} Green
       .multiple-choice.ragg_choice-grey
-        %input{ name: 'ragg', class: 'radio-inline-4', type: 'radio', value: 'grey' }
-        -#%input#radio-inline-4{:name => "ragg", :type => "radio", :value => "grey"}/
+        = f.radio_button :ragg, :grey, id: 'radio-inline-4'
         %label{:for => "radio-inline-4"} Grey
   .grid-row
     .column-one-half
