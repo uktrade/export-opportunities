@@ -146,4 +146,20 @@ feature 'Admins sorting the list of opportunities', :elasticsearch, :commit do
     page_number = CGI.parse(URI.parse(column_sort_link).query)['paged'].first
     expect(page_number).to eq '1'
   end
+
+  scenario 'Visit pending state, should sort by RAGG' do
+    publisher = create(:publisher)
+    first_opportunity = create(:opportunity, title: 'Aardvark', ragg: :red, created_at: 2.months.ago, response_due_on: 12.months.from_now)
+    second_opportunity = create(:opportunity, title: 'Bear', ragg: :undefined, created_at: 3.months.ago, response_due_on: 24.months.from_now)
+    third_opportunity = create(:opportunity, title: 'Capybara', ragg: :grey, created_at: 1.month.ago, response_due_on: 18.months.from_now)
+
+    login_as(publisher)
+    visit admin_opportunities_path
+    click_on('Pending')
+
+    # Sorted in ragg order by default
+    expect(page.find('tbody tr:nth-child(1)')).to have_content(second_opportunity.title)
+    expect(page.find('tbody tr:nth-child(2)')).to have_content(third_opportunity.title)
+    expect(page.find('tbody tr:nth-child(3)')).to have_content(first_opportunity.title)
+  end
 end

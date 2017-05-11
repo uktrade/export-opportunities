@@ -150,8 +150,12 @@ class Admin::OpportunitiesController < Admin::BaseController
     def initialize(params)
       @selected_status = params[:status]
       @sort_params = params.fetch(:sort, {})
-      @sort = OpportunitySort.new(default_column: 'created_at', default_order: 'desc')
-        .update(column: @sort_params[:column], order: @sort_params[:order])
+
+      if @selected_status == 'pending' && @sort_params.empty?
+        @sort = OpportunitySort.new(default_column: 'ragg', default_order: 'asc')
+      else
+        @sort = OpportunitySort.new(default_column: 'created_at', default_order: 'desc').update(column: @sort_params[:column], order: @sort_params[:order])
+      end
       @hide_expired = !params[:show_expired]
       # Allowing a non-sanitized search input past this layer **only** for the view.
       # The intent is not to give away how the inputs are being stripped to the user.
