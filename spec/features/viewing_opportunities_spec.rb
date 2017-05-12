@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'Viewing opportunities', :elasticsearch, :commit do
   scenario 'Only published, non-expired opportunities are visible in the list' do
-    @valid_opportunity = create(:opportunity, status: :publish)
+    valid_opportunity = create(:opportunity, status: :publish)
 
     create(:opportunity, status: :pending)
     create(:opportunity, status: :trash)

@@ -32,6 +32,8 @@ feature 'Searching opportunities with filter', js: true do
       page.find('.filters__searchbutton').click
     end
 
+    save_and_open_page
+
     expect(page).to have_content opportunity_with_sector.title
     expect(page).to have_no_content opportunity.title
     expect(page).to have_selector('.results__item', count: 1)
