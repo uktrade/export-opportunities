@@ -28,9 +28,6 @@ class OpportunitiesController < ApplicationController
                  Opportunity.default_per_page
                end
 
-    # If user is using filters to search
-    sort_column = 'response_due_on' if params.key?(:isSearchAndFilter)
-
     # If user is using keyword to search
     if params.key?(:isSearchAndFilter) && params[:s].present?
       Rails.logger.debug "isSearchAndFilter: #{params.fetch(:isSearchAndFilter)}"
@@ -44,13 +41,6 @@ class OpportunitiesController < ApplicationController
     if sort_column
       sort_order = sort_column == 'response_due_on' ? 'asc' : 'desc'
     end
-
-    # set ignore_sort flag
-    ignore_sort = if params.key?(:isSearchAndFilter) && params[:s].present?
-                    true
-                  else
-                    sort_column == 'relevance'
-                  end
 
     # pass sort correct column down to the view
     @sort_column_name = sort_column

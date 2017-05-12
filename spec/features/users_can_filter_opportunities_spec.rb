@@ -151,7 +151,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit, js: true do
     expect(page).to have_selector('.results__item', count: 1)
   end
 
-  xscenario 'users can filter by multiple categories' do
+  scenario 'users can filter by multiple categories' do
     country = create(:country)
     sector = create(:sector)
     create(:opportunity, status: 'publish', countries: [country])
@@ -179,7 +179,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit, js: true do
     expect(page).to have_selector('.results__item', count: 1)
   end
 
-  xscenario 'users can use filters and then paginate through results' do
+  scenario 'users can use filters and then paginate through results' do
     allow(Opportunity).to receive(:default_per_page).and_return(10)
     country1 = create(:country, name: 'Selected 1')
     create_list(:opportunity, 8, status: 'publish', countries: [country1])
@@ -189,6 +189,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit, js: true do
     create_list(:opportunity, 4, status: 'publish', countries: [ignored_country])
 
     sleep 1
+
     visit(opportunities_path)
 
     within('.filters') do
@@ -202,7 +203,6 @@ feature 'Filtering opportunities', :elasticsearch, :commit, js: true do
     end
 
     page.find('#pager').click_on('2')
-    wait_for_ajax
 
     expect(page.find('.opportunities')).to have_selector('.opportunities__item', count: 6)
   end
