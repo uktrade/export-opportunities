@@ -30,7 +30,6 @@ class OpportunitiesController < ApplicationController
 
     # If user is using keyword to search
     if params.key?(:isSearchAndFilter) && params[:s].present?
-      Rails.logger.debug "isSearchAndFilter: #{params.fetch(:isSearchAndFilter)}"
       sort_column = 'relevance'
     end
 

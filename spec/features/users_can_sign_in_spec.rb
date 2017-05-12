@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Signing in as a user' do
+feature 'Signing in as a user', :elasticsearch do
   scenario 'Signing in via the old /sign_in path' do
     mock_sso_with(email: 'email@example.com')
 
@@ -35,7 +35,8 @@ feature 'Signing in as a user' do
     expect(page).to have_flash_message 'You are now signed in'
   end
 
-  scenario 'Signing out', skip: true do
+  scenario 'Signing out' do
+    skip 'Is this test redundant and/or do we need a differen one'
     mock_sso_with(email: 'email@example.com')
 
     visit '/dashboard'

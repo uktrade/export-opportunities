@@ -1,11 +1,12 @@
 require 'rails_helper'
 
-feature 'Searching opportunities with filter', js: true do
+feature 'Searching opportunities with filter', js: true, elasticsearch: true do
   scenario 'users can search opportunities filtering by region' do
     country = create(:country, name: 'Ireland')
     opportunity = create(:opportunity, :published)
     opportunity_with_market = create(:opportunity, :published, countries: [country])
 
+    sleep 1
     visit opportunities_path
 
     within('.filters') do
@@ -24,6 +25,7 @@ feature 'Searching opportunities with filter', js: true do
     opportunity = create(:opportunity, :published)
     opportunity_with_sector = create(:opportunity, :published, sectors: [sector])
 
+    sleep 1
     visit opportunities_path
 
     within('.filters') do
@@ -31,8 +33,6 @@ feature 'Searching opportunities with filter', js: true do
       select 'Airports', from: 'sectors', visible: false
       page.find('.filters__searchbutton').click
     end
-
-    save_and_open_page
 
     expect(page).to have_content opportunity_with_sector.title
     expect(page).to have_no_content opportunity.title
@@ -44,6 +44,7 @@ feature 'Searching opportunities with filter', js: true do
     opportunity = create(:opportunity, :published)
     opportunity_with_value = create(:opportunity, :published, values: [value])
 
+    sleep 1
     visit opportunities_path
 
     within('.filters') do
@@ -62,6 +63,7 @@ feature 'Searching opportunities with filter', js: true do
     opportunity = create(:opportunity, :published)
     opportunity_with_type = create(:opportunity, :published, types: [type])
 
+    sleep 1
     visit opportunities_path
 
     within('.filters') do
@@ -82,6 +84,7 @@ feature 'Searching opportunities with filter', js: true do
     create(:opportunity, status: 'publish', sectors: [sector])
     create(:opportunity, status: 'publish', countries: [country], sectors: [sector])
 
+    sleep 1
     visit opportunities_path
 
     within('.filters') do
