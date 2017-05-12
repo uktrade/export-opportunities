@@ -42,6 +42,13 @@ class OpportunitiesController < ApplicationController
       sort_order = sort_column == 'response_due_on' ? 'asc' : 'desc'
     end
 
+    # set ignore_sort flag
+    if params.key?(:isSearchAndFilter) && params[:s].present?
+      true
+    else
+      sort_column == 'relevance'
+    end
+
     # pass sort correct column down to the view
     @sort_column_name = sort_column
 
