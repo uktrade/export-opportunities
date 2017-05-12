@@ -5,7 +5,7 @@ feature 'Searching opportunities with filter', js: true, elasticsearch: true do
     country = create(:country, name: 'Ireland')
     opportunity = create(:opportunity, :published)
     opportunity_with_market = create(:opportunity, :published, countries: [country])
-    stub_request(:get, '/ditelasticsearch.com/').to_return(status: 200, body: JSON.generate(create_elastic_search_opportunity(_source: { countries: [slug: country.slug] })))
+
     sleep 1
     visit opportunities_path
 
