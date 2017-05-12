@@ -29,7 +29,7 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
     expect('Second').to appear_before('First')
   end
 
-  context 'when a search term is provided' do
+  xcontext 'when a search term is provided' do
     scenario 'users can sort opportunities by first published at, expiry date and relevance' do
       create(:opportunity, :published, title: 'Sardines, Big Sardines', first_published_at: 2.days.ago, response_due_on: 3.days.from_now)
       create(:opportunity, :published, title: 'Small Sardines', first_published_at: 1.day.ago, response_due_on: 4.days.from_now)
@@ -43,6 +43,8 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
         fill_in 's', with: 'Sardines'
         page.find('.filters__searchbutton').click
       end
+
+      save_and_open_page
 
       expect(page).to have_no_content('Cod')
       expect('Sardines, Big Sardines').to appear_before('Small Sardines')
