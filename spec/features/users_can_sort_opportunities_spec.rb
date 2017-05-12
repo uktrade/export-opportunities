@@ -44,8 +44,6 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
         page.find('.filters__searchbutton').click
       end
 
-      save_and_open_page
-
       expect(page).to have_no_content('Cod')
       expect('Sardines, Big Sardines').to appear_before('Small Sardines')
       expect(find_field('relevance', visible: false)).to be_checked

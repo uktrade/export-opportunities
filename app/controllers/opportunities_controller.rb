@@ -46,11 +46,11 @@ class OpportunitiesController < ApplicationController
     end
 
     # set ignore_sort flag
-    ignore_sort = if params.key?(:isSearchAndFilter) && params[:s].present?
-                    true
-                  else
-                    sort_column == 'relevance'
-                  end
+    if params.key?(:isSearchAndFilter) && params[:s].present?
+      true
+    else
+      sort_column == 'relevance'
+    end
 
     # pass sort correct column down to the view
     @sort_column_name = sort_column
