@@ -7,6 +7,7 @@
   %head
     %meta{:charset => "utf-8"}
     %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}
+    %meta{:content => "UsYPpFjZgK_HPJX0BmyaiSEFr6VDk-8kD4NARXzhhCE", :name => "google-site-verification"}
 
     %link{:href => "#{asset_path('favicon.png')}", :rel => "icon", :type => "image/png"}
     %link{:href => "#{asset_path('favicon.svg')}", :rel => "mask-icon", :color => "#0b0c0c"}
@@ -17,7 +18,6 @@
     = javascript_include_tag 'modernizr.min'
     /[if lte IE 9]
       = javascript_include_tag 'oldie-support.min'
-
   %body{id: ExportOpportunities.flipper.enabled?(:new_header_and_footer) ? nil : 'dit'}
     %div{:style => "display:none;"}
       %svg
