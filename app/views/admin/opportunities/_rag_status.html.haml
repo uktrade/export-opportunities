@@ -1,19 +1,17 @@
 %h2 Triage rating
-
-= form_tag admin_opportunities_path, class: 'js-ragg-rating', method: :post do
   .form-group.ragg_choice
     %fieldset.inline
       %legend Set the rating: "Red" to escalate, "Amber" to amend, "Green" no action needed, "Grey" for special consideration.
       .multiple-choice.ragg_choice-red
-        %input#radio-inline-1{:name => "ragg", :type => "radio", :value => "red"}/
+        = f.radio_button :ragg, :red, id: 'radio-inline-1'
         %label{:for => "radio-inline-1"} Red
       .multiple-choice.ragg_choice-amber
-        %input#radio-inline-2{:name => "ragg", :type => "radio", :value => "amber"}/
+        = f.radio_button :ragg, :amber, id: 'radio-inline-2'
         %label{:for => "radio-inline-2"} Amber
       .multiple-choice.ragg_choice-green
-        %input#radio-inline-3{:name => "ragg", :type => "radio", :value => "green"}/
+        = f.radio_button :ragg, :green, id: 'radio-inline-3'
         %label{:for => "radio-inline-3"} Green
       .multiple-choice.ragg_choice-grey
-        %input#radio-inline-4{:name => "ragg", :type => "radio", :value => "grey"}/
+        = f.radio_button :ragg, :grey, id: 'radio-inline-4'
         %label{:for => "radio-inline-4"} Grey
-  = submit_tag "Set Triage rating", class: "button"
+= f.submit class: 'button ragg_choice_button'

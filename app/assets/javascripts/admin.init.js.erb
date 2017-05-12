@@ -30,9 +30,8 @@ $('document').ready(function() {
 			noFadeEffect:true
 		});
 	}
-  // TODO: fixme
-	//	var raggRatingForm = document.querySelectorAll('form.js-ragg-rating')[0];
-//	if (raggRatingForm.length > 0) {
-//		ukti.RaggRating.init(raggRatingForm);
-//	}
+	/* if edit form set behaviour of rag rating */
+	if (oppEditForm.length > 0) {
+		ukti.RaggRating.init(oppEditForm[0]);
+	}
 });

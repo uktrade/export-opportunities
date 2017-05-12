@@ -102,6 +102,7 @@
           = form.label :email, 'Email address', class: 'form-label'
           = form.text_field :email, class: 'form-control', type: :email, required: true
 
+  %h2 Triage rating
   .form-group.ragg_choice
     %fieldset.inline
       %legend Set the rating: "Red" to escalate, "Amber" to amend, "Green" no action needed, "Grey" for special consideration.
@@ -117,7 +118,4 @@
       .multiple-choice.ragg_choice-grey
         = f.radio_button :ragg, :grey, id: 'radio-inline-4'
         %label{:for => "radio-inline-4"} Grey
-  .grid-row
-    .column-one-half
-      .form-group
-        = f.submit class: 'button'
+  = f.submit class: 'button ragg_choice_button'

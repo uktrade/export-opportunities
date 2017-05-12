@@ -59,9 +59,9 @@
     - @opportunities.each do |opportunity|
       %tr.opportunity
         %td.center
-          =opportunity.ragg
-          -#%span.marker-red{'aria-hidden' =>'true'} R <!-- marker-amber etc-->
-          -#%span.visually-hidden The triage rating is red
+          %span{'aria-hidden' =>'true', 'class'=> "marker marker-#{opportunity.ragg}"} 
+            =opportunity.ragg.chars.first.upcase
+          %span.visually-hidden The triage rating is #{opportunity.ragg}
         - opportunity_link_text = opportunity.title.present? ? opportunity.title : '(no title)'
         %td
           = link_to opportunity_link_text, admin_opportunity_path(opportunity)

@@ -3,8 +3,7 @@
 	display: inline-block;
 	width: 20px;
 	height: 20px;
-	background: $rag-red;
-	color: $white;
+	color: $black;
 	line-height: 20px;
 	font-size: 12px;
 	-moz-border-radius: 10px;
@@ -30,10 +29,10 @@
 	}
 	&-amber {
 		background: $rag-amber;
-		color: $black;
+		color: $white;
 	}
 	&-green {
-		background: $rag-amber;
+		background: $rag-green;
 		color: $white;
 	}
 	&-grey {

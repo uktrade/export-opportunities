@@ -6,9 +6,9 @@ ukti.RaggRating = (function($) {
   var hiddenClass = 'hidden';
 
   var hideSubmitButton = function(form) {
-    var submitButton = form.querySelector('input[type="submit"]');
-    submitButton.classList.add(hiddenClass);
-    submitButton.setAttribute('aria-hidden', 'true');
+    var button = form.querySelector('input.ragg_choice_button');
+    button.classList.add(hiddenClass);
+    button.setAttribute('aria-hidden', 'true');
   };
 
   var changeHandler = function(event) {
@@ -16,7 +16,7 @@ ukti.RaggRating = (function($) {
   };
 
   var attachBehaviour = function (form) {
-    var radios = form.querySelectorAll('input[name="ragg"]');
+    var radios = form.querySelectorAll('input[name="opportunity[ragg]"]');
     for ( var i = 0; i < radios.length; i++ ) {
       radios[i].addEventListener('change', changeHandler);
     }
