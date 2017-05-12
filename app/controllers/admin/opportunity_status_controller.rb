@@ -20,6 +20,7 @@ class Admin::OpportunityStatusController < Admin::BaseController
     authorize(opportunity, :trash?)
 
     opportunity.status = :trash
+    opportunity.ragg = :undefined
     opportunity.save!(validate: false)
 
     redirect_to admin_opportunity_path(opportunity), notice: %(This opportunity was moved to Trash)

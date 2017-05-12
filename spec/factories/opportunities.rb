@@ -19,6 +19,10 @@ FactoryGirl.define do
       status { :pending }
     end
 
+    trait :ragg_red do
+      ragg { :red }
+    end
+
     trait :expired do
       response_due_on { Faker::Time.backward(7) }
     end
