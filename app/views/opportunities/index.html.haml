@@ -20,12 +20,4 @@
   = render 'opportunities_order'
   = render 'opportunities'
 
-.container
-  - if @opportunities.any?
-    %h2
-      - if @count == 1
-        Right now there is 1 opportunity
-      - else
-        Right now there are
-        = @count
-        opportunities
+
