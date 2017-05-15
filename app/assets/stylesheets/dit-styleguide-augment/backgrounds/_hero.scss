@@ -1,52 +1,69 @@
 .hero {
-	&__main {
-		background-color: $offwhite;
-		overflow-x: hidden;
-		@media #{$mobile-l} {
-	    background-image: asset-url('backgrounds/export-opps-medium.jpg');
-	    background-size: cover;
-	    background-repeat: no-repeat
-		}
-		@media #{$desktop-s} {
-	    background-image: asset-url('backgrounds/export-opps-large.jpg');
-    	background-position: 70% 0px;
-    	background-attachment: fixed;
-		}
-		hr {
-			margin: 20px 0px 0px 0px;
-			@media #{$mobile-l} {
-		  	display: none;
-		  }
-		}
-	}
-	&__header {
-		font-size: 30px;
-	  font-weight: 500;
-	  line-height: 1.35;
-	  letter-spacing: -0.6px;
-	  color: $grey;
-	  padding: 24px 0px 0px 0px;
-		@media #{$mobile-l} {
-			font-size: 36px;
-			line-height: 1.53;
-			letter-spacing: -0.4px;
-	    color: $white;
-	    text-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
-		}
-	}
-	&__text {
-		font-size: 18px;
-		font-weight: 400;
-		line-height: 1.33;
-		color: $grey;
-		padding: 14px 0px 0px 0px;
-		@media #{$mobile-l} {
-			font-size: 20px;
-		  line-height: 1.3;
-		  color: $white;
-		  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-		}
-	}
+  &__main {
+    background-color: $offwhite;
+    overflow-x: hidden;
+    @media #{$mobile-l} {
+      background-image: asset-url('backgrounds/export-opps-medium.jpg');
+      background-size: cover;
+      background-repeat: no-repeat
+    }
+    @media #{$desktop-s} {
+      background-image: asset-url('backgrounds/export-opps-large.jpg');
+      background-position: 70% 0px;
+      background-attachment: fixed;
+    }
+    hr {
+      margin: 20px 0px 0px 0px;
+      @media #{$mobile-l} {
+        display: none;
+      }
+    }
+  }
+  &__specialContainer {
+    margin: 0 auto;
+    max-width: $max-width;
+    padding: 0 10px;
+    @media #{$mobile-l} {
+      max-width: 586px;
+      margin: 0 auto;
+      padding: 0;
+    }
+    @media #{$desktop-s} {
+      max-width: 1200px;
+      padding: 0 20px;
+    }
+    @media #{$desktop-l} {
+      padding: 0 30px;
+    }
+  }
+  &__header {
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -0.6px;
+    color: $grey;
+    padding: 24px 0px 0px 0px;
+    @media #{$mobile-l} {
+      font-size: 36px;
+      line-height: 1.53;
+      letter-spacing: -0.4px;
+      color: $white;
+      text-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+    }
+  }
+  &__text {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.33;
+    color: $grey;
+    padding: 14px 0px 0px 0px;
+    @media #{$mobile-l} {
+      font-size: 20px;
+      line-height: 1.3;
+      color: $white;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+  }
 }
 
 
