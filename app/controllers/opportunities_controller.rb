@@ -28,7 +28,7 @@ class OpportunitiesController < ApplicationController
                  Opportunity.default_per_page
                end
 
-    # Default sort column         
+    # Default sort column
     sort_column = 'response_due_on'
 
     # If user is using keyword to search
