@@ -18,6 +18,8 @@
 
 - if @subscription_form.minimum_search_criteria? and @opportunities.any?
   = render 'opportunities_order'
+
+- if @subscription_form.minimum_search_criteria?
   = render 'opportunities'
 
 
