@@ -1,12 +1,12 @@
-= content_for :hero do
-  %h1 Thank You
+.container
+	.legacy
+  	%h1 Thank You
+		.panel
+			%h2 Thank you for subscribing to e-mail alerts
 
-.panel
-  %h2 Thank you for subscribing to e-mail alerts
-
-  %p What happens now?
-  %p You will be sent e-mails when we publish opportunities matching your search.
-  %p
-    In the meantime, you can
-    = succeed "." do
-      %a{:href => "https://www.exportingisgreat.gov.uk/opportunities/"} search for other export opportunities
+			%p What happens now?
+			%p You will be sent e-mails when we publish opportunities matching your search.
+			%p
+			In the meantime, you can
+			= succeed "." do
+			  %a{:href => "https://www.exportingisgreat.gov.uk/opportunities/"} search for other export opportunities
