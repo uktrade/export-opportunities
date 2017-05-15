@@ -18,6 +18,9 @@
     background-color: $white;
     border: solid 1px $midgrey;
     width: 100%;
+    &:focus {
+      border: solid 1px $midgrey;
+    }
   }
   &__panel {
     @extend %clearfix;
