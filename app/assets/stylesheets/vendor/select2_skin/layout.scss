@@ -41,6 +41,10 @@ $flat-theme-dark-color : #007ea3;
   outline: 3px solid #ffbf47;
 }
 
+.select2-container--focus {
+  outline: 3px solid #ffbf47;
+}
+
 .select2-container--open .select2-dropdown--below,
 .select2-container--open .select2-dropdown--above{
   background: $flat-theme-light-color;
@@ -55,12 +59,6 @@ $flat-theme-dark-color : #007ea3;
     font-size: 16px;
     padding: 12px 24px;
     position: relative;
-  }
-  .select2-container--focus .select2-selection--multiple {
-    border: 1px solid $flat-theme-dark-color;
-    // &:focus {
-    //   outline: 3px solid #ffbf47 !important;
-    // }
   }
   .select2-results__option--highlighted[aria-selected]{
     background: $flat-theme-dark-color !important;

@@ -3,6 +3,9 @@
   .select2-selection--multiple{
     background: $flat-theme-white;
     border: 1px solid $flat-theme-border-color;
+    &.select2-container--focus  {
+      outline: 3px solid #ffbf47;
+    }
     .select2-selection__rendered {
       box-sizing: border-box;
       list-style: none;
