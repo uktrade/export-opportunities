@@ -28,6 +28,9 @@ class OpportunitiesController < ApplicationController
                  Opportunity.default_per_page
                end
 
+    # Default sort column         
+    sort_column = 'response_due_on'
+
     # If user is using keyword to search
     if params.key?(:isSearchAndFilter) && params[:s].present?
       sort_column = 'relevance'
