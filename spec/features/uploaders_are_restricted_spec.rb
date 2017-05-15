@@ -55,13 +55,27 @@ feature 'Uploaders are restricted' do
   end
 
   scenario 'Uploaders cannot see enquiries for others’ opportunities' do
-    uploader = create(:uploader)
+    shared_service_provider = create(:service_provider)
+
+    uploader = create(:uploader, service_provider: shared_service_provider)
+    opportunity = create(:opportunity, author: uploader)
+
+    another_uploader = create(:uploader, service_provider: shared_service_provider)
+    another_opportunity = create(:opportunity, author: another_uploader)
+
     create(:enquiry, company_name: 'Universal Exports')
+    create(:enquiry, company_name: 'British Sponges', opportunity: opportunity)
+    create(:enquiry, company_name: 'Shepherd Pie Inc', opportunity: another_opportunity)
 
     login_as(uploader)
     visit '/admin/enquiries'
-
+    save_and_open_page
+    # an enquiry not matching an opportunity the uploader created is not visible
     expect(page).not_to have_content('Universal Exports')
+    # an enquiry for an opportunity that the uploader created should be visible
+    expect(page).to have_content('British Sponges')
+    # and enquiry for an opportunity created by another uploader in the same service provider should be visible
+    expect(page).to have_content('Shepherd Pie Inc')
   end
 
   scenario 'Uploaders do not see others’ enquiries in CSV' do
