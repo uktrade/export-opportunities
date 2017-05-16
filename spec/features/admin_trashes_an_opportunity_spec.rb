@@ -42,6 +42,18 @@ feature 'Trashing opportunities' do
     expect(page).to have_no_button('Trash')
   end
 
+  scenario 'admin drafting a pending opportunity' do
+    admin = create(:admin)
+    opportunity = create(:opportunity, title: 'Unpublishable Opportunity, returning to Post', status: :pending)
+    login_as(admin)
+
+    visit "/admin/opportunities/#{opportunity.id}"
+
+    click_on('Draft')
+
+    expect(page).to have_content('Unpublishable Opportunity, returning to Post')
+  end
+
   scenario 'Admin restoring a trashed opportunity' do
     admin = create(:admin)
     opportunity = create(:opportunity, title: 'Trashed Opportunity', status: :trash)
@@ -55,6 +67,21 @@ feature 'Trashing opportunities' do
     click_link('Opportunities')
     click_link('Pending')
     expect(page).to have_content('Trashed Opportunity')
+  end
+
+  scenario 'Admin can set to Pending state from Draft' do
+    admin = create(:admin)
+    opportunity = create(:opportunity, title: 'Fast Tracked Opportunity', status: :draft)
+
+    login_as(admin)
+
+    visit "/admin/opportunities/#{opportunity.id}"
+    click_on('Pending')
+    expect(page).to have_content('This opportunity has been set to pending')
+
+    click_link('Opportunities')
+    click_link('Pending')
+    expect(page).to have_content('Fast Tracked Opportunity')
   end
 
   scenario 'Publisher restoring a trashed opportunity' do

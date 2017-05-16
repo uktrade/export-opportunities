@@ -25,7 +25,7 @@ class EnquiryPolicy < ApplicationPolicy
     end
 
     def resolve
-      if %w(administrator publisher).include? editor.role
+      if %w(administrator reviewer publisher).include? editor.role
         scope.all
       else
         scope.joins(:opportunity)

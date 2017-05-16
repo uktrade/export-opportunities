@@ -106,5 +106,5 @@
     .column-one-half
       .form-group
         = f.submit class: 'button'
-        - if current_page?(action: 'new')
+        - if current_page?(action: 'new') && @save_to_draft_button
           = f.submit 'Save to Draft', class: 'button button-draft'

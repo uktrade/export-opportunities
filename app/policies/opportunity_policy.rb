@@ -20,6 +20,14 @@ class OpportunityPolicy < ApplicationPolicy
     edit?
   end
 
+  def uploader_reviewer?
+    @editor.role == 'uploader' || @editor.role == 'reviewer'
+  end
+
+  def administrator?
+    @editor.role == 'administrator'
+  end
+
   def publishing?
     editor_is_admin_or_publisher?
   end
@@ -29,19 +37,19 @@ class OpportunityPolicy < ApplicationPolicy
   end
 
   def trash?
-    (@editor.role == 'administrator' && (@record.pending? || @record.draft?)) || ((@editor.role == 'uploader' || @editor.role == 'reviewer') && @record.status == 'draft' && editor_is_record_owner?)
+    (administrator? && (@record.pending? || @record.draft?)) || ((@editor.role == 'uploader' || @editor.role == 'reviewer') && @record.status == 'draft' && editor_is_record_owner?)
   end
 
   def restore?
-    @editor.role == 'administrator' && @record.trash?
+    administrator? && @record.trash?
   end
 
   def uploader_reviewer_restore?
-    (@editor.role == 'uploader' || @editor.role == 'reviewer') && @record.status == 'draft' && editor_is_record_owner?
+    (uploader_reviewer? && @record.status == 'draft' && editor_is_record_owner?) || administrator?
   end
 
   def draft?
-    (@editor.role == 'uploader' || @editor.role == 'reviewer') && @record.status == 'trash' && editor_is_record_owner?
+    (uploader_reviewer? && @record.status == 'trash' && editor_is_record_owner?) || administrator?
   end
 
   private
