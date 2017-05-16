@@ -8,5 +8,4 @@
 //= require components/DateFilterPicker
 //= require components/DateFilterValidation
 //= require components/DisableSubmitButton
-//= require components/RaggRating
 //= require admin.init.js

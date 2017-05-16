@@ -151,7 +151,7 @@ feature 'Admins sorting the list of opportunities', :elasticsearch, :commit do
     publisher = create(:publisher)
     first_opportunity = create(:opportunity, title: 'Aardvark', ragg: :red, created_at: 2.months.ago, response_due_on: 12.months.from_now)
     second_opportunity = create(:opportunity, title: 'Bear', ragg: :undefined, created_at: 3.months.ago, response_due_on: 24.months.from_now)
-    third_opportunity = create(:opportunity, title: 'Capybara', ragg: :grey, created_at: 1.month.ago, response_due_on: 18.months.from_now)
+    third_opportunity = create(:opportunity, title: 'Capybara', ragg: :blue, created_at: 1.month.ago, response_due_on: 18.months.from_now)
 
     login_as(publisher)
     visit admin_opportunities_path

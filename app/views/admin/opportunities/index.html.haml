@@ -57,10 +57,11 @@
     %th.numeric{:scope => 'col', :width => '8%'}= sortable(:opportunity_filters, 'response_due_on', 'Expiry date', 'asc', @filters.sort)
   %tbody
     - @opportunities.each do |opportunity|
+    - opportunity_ragg_abbreviated = opportunity.ragg !='undefined' ? opportunity.ragg.chars.first.upcase : '-'
       %tr.opportunity
         %td.center
           %span{'aria-hidden' =>'true', 'class'=> "marker marker-#{opportunity.ragg}"} 
-            =opportunity.ragg.chars.first.upcase
+            =opportunity_ragg_abbreviated
           %span.visually-hidden The triage rating is #{opportunity.ragg}
         - opportunity_link_text = opportunity.title.present? ? opportunity.title : '(no title)'
         %td
