@@ -81,46 +81,47 @@
 - if @opportunity.enquiries.size == 0
   %p No enquiries have been made about this opportunity.
 - else
-  - @opportunity.enquiries.each do |enquiry|
-    %h3
-      =enquiry.company_name
-    %table.horizontal
-      %tr
-        %th{:scope => 'row'} First name
-        %td= enquiry.first_name
-      %tr
-        %th{:scope => 'row'} Last name
-        %td= enquiry.last_name
-      %tr
-        %th{:scope => 'row'} Email address
-        %td= enquiry.email
-      %tr
-        %th{:scope => 'row'} Company Address
-        %td= enquiry.company_address
-      %tr
-        %th{:scope => 'row'} Company Telephone
-        %td= enquiry.company_telephone
-      %tr
-        %th{:scope => 'row'} Companies House number
-        %td= enquiry.company_house_number
-      %tr
-        %th{:scope => 'row'} Company Postcode
-        %td= enquiry.company_postcode
-      %tr
-        %th{:scope => 'row'} URL
-        %td= enquiry.company_url
-      %tr
-        %th{:scope => 'row'} Existing exporter?
-        %td= enquiry.existing_exporter
-      %tr
-        %th{:scope => 'row'} Company Sector
-        %td= enquiry.company_sector
-      %tr
-        %th{:scope => 'row'} Company Explanation
-        %td= enquiry.company_explanation
-      %tr
-        %th{:scope => 'row'} Data Protection
-        %td= enquiry.data_protection ? 'Yes' : 'No'
+  - if @show_enquiries
+    - @opportunity.enquiries.each do |enquiry|
+      %h3
+        =enquiry.company_name
+      %table.horizontal
+        %tr
+          %th{:scope => 'row'} First name
+          %td= enquiry.first_name
+        %tr
+          %th{:scope => 'row'} Last name
+          %td= enquiry.last_name
+        %tr
+          %th{:scope => 'row'} Email address
+          %td= enquiry.email
+        %tr
+          %th{:scope => 'row'} Company Address
+          %td= enquiry.company_address
+        %tr
+          %th{:scope => 'row'} Company Telephone
+          %td= enquiry.company_telephone
+        %tr
+          %th{:scope => 'row'} Companies House number
+          %td= enquiry.company_house_number
+        %tr
+          %th{:scope => 'row'} Company Postcode
+          %td= enquiry.company_postcode
+        %tr
+          %th{:scope => 'row'} URL
+          %td= enquiry.company_url
+        %tr
+          %th{:scope => 'row'} Existing exporter?
+          %td= enquiry.existing_exporter
+        %tr
+          %th{:scope => 'row'} Company Sector
+          %td= enquiry.company_sector
+        %tr
+          %th{:scope => 'row'} Company Explanation
+          %td= enquiry.company_explanation
+        %tr
+          %th{:scope => 'row'} Data Protection
+          %td= enquiry.data_protection ? 'Yes' : 'No'
 
 
 
