@@ -30,4 +30,8 @@ $('document').ready(function() {
 			noFadeEffect:true
 		});
 	}
+	var enquiryResponseForm = $('form.new_enquiry_response');
+	if (enquiryResponseForm.length > 0) {
+		ukti.enquiryResponse.init(enquiryResponseForm);
+	}
 });
