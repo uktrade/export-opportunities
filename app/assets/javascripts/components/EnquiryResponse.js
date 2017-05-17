@@ -4,26 +4,30 @@ var ukti = window.ukti || {};
 ukti.enquiryResponse = (function($) {
   'use strict';
 
-  var augmentTextField = function (form) {
-  	
+  var initTextEditor = function () {
+    window.tinymce.dom.Event.domLoaded = true;
+    tinymce.init({
+      selector: '.js-text-editor',
+      height: 500,
+      menubar: false,
+      plugins: [
+        'advlist lists link print preview',
+        'searchreplace visualblocks code fullscreen',
+        'insertdatetime media table contextmenu paste code'
+      ],
+      toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+      content_css: 'http://www.tinymce.com/css/codepen.min.css'
+    });
+  };
 
-  	window.tinymce.dom.Event.domLoaded = true;
-	tinymce.init({
-	  selector: 'textarea',
-	  height: 500,
-	  menubar: false,
-	  plugins: [
-	    'advlist autolink lists link image charmap print preview anchor',
-	    'searchreplace visualblocks code fullscreen',
-	    'insertdatetime media table contextmenu paste code'
-	  ],
-	  toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-	  content_css: 'http://www.tinymce.com/css/codepen.min.css'
-	});
+  var loadTextEditorScript = function () {
+    if (ukti.config.tinyMcePath) {
+      ukti.asyncLoad.init(ukti.config.tinyMcePath, initTextEditor);
+    }
   };
 
   var init = function ($form) {
-	//ukti.asyncLoad('tinymce', 'cb');
+    loadTextEditorScript();
   };
 
   return {

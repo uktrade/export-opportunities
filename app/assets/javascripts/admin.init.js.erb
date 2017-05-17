@@ -1,4 +1,9 @@
 /* globals ukti, $, jQuery */
+var ukti = window.ukti || {};
+
+ukti.config = {
+	"tinyMcePath" : "<%=image_path('tinymce/tinymce.min.js')%>"
+};
 
 $('document').ready(function() {
   var $opportunityTitle = $('#opportunity_title');

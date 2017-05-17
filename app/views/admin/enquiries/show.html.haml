@@ -43,7 +43,11 @@
     %th{:scope => 'row'} Data Protection
     %td= @enquiry.data_protection ? 'Yes' : 'No'
 
+.button-bar
+  .grid-row
+    .column-one-half
+      = link_to "Back", admin_enquiries_path, class: 'link-back'
+    .column-one-half
+      = link_to "Reply", new_admin_enquiry_response_path(id: @enquiry.id), class: 'button button-reply pull-right', params: {id: @enquiry.id}
 
-= link_to "Reply", new_admin_enquiry_response_path(id: @enquiry.id), class: 'button', params: {id: @enquiry.id}
 
-= link_to "Back", admin_enquiries_path, class: 'link-back'

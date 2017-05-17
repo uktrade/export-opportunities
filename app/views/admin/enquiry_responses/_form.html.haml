@@ -9,8 +9,10 @@
           %li= message
 
   .form-group
+    = f.label :email_subject, class: 'form-label-bold'
+    %p Subject 
     = f.label :email_body, class: 'form-label-bold'
-    = f.text_field :email_body, class: 'form-control', required: true
+    = f.text_area(:email_body, cols: 40, rows: 15, class: 'form-control js-text-editor')
     %p.form-hint
       This is the email to be sent out to the enquiry user.
 
