@@ -55,17 +55,21 @@ feature 'Uploaders are restricted' do
   end
 
   scenario 'Uploaders cannot see enquiries for others opportunities' do
-    shared_service_provider = create(:service_provider)
+    service_provider_id = 100.freeze
+    shared_service_provider = create(:service_provider, id: service_provider_id)
+    irrelevant_service_provider = create(:service_provider)
 
     uploader = create(:uploader, service_provider: shared_service_provider)
-    opportunity = create(:opportunity, author: uploader)
+    opportunity = create(:opportunity, service_provider_id: service_provider_id, author: uploader)
     create(:enquiry, company_name: 'British Sponges', opportunity: opportunity)
 
     another_uploader = create(:uploader, service_provider: shared_service_provider)
-    another_opportunity = create(:opportunity, author: another_uploader)
+    another_opportunity = create(:opportunity, service_provider_id: service_provider_id, author: another_uploader)
     create(:enquiry, company_name: 'Shepherd Pie Inc', opportunity: another_opportunity)
 
-    create(:enquiry, company_name: 'Universal Exports')
+    third_uploader = create(:uploader, service_provider: irrelevant_service_provider)
+    third_opportunity = create(:opportunity, author: third_uploader)
+    create(:enquiry, company_name: 'Universal Exports', opportunity: third_opportunity)
 
     login_as(uploader)
     visit '/admin/enquiries'
