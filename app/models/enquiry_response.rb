@@ -1,3 +1,4 @@
 class EnquiryResponse < ActiveRecord::Base
-  belongs_to :Enquiry
+  belongs_to :enquiry
+  belongs_to :editor
 end

@@ -39,6 +39,8 @@ class Admin::EnquiriesController < Admin::BaseController
   def show
     enquiry_id = params.fetch(:id, nil)
     @enquiry = Enquiry.find(enquiry_id)
+    @enquiry_response = EnquiryResponse.where(enquiry_id: enquiry_id)
+
     authorize @enquiry
   end
 

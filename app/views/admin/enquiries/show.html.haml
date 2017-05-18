@@ -50,4 +50,16 @@
     .column-one-half
       = link_to "Reply", new_admin_enquiry_response_path(id: @enquiry.id), class: 'button button-reply pull-right', params: {id: @enquiry.id}
 
+-#%h1.heading-xlarge= @enquiry_response.editor.name
+-#
+-#%table.horizontal
+-#  %tr
+-#    %th{:scope => 'row'} Email content
+-#    %td= @enquiry_response.email_body
+-#  %tr
+-#    %th{:scope => 'row'} Sent by
+-#    %td= @enquiry_response.editor.name
+-#  %tr
+-#    %th{:scope => 'row'} Sent Time
+-#    %td= @enquiry_response.created_at
 
