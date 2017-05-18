@@ -8,7 +8,7 @@
         = link_to('All', admin_opportunities_path(s: @filters.raw_search_term))
       - else
         = link_to('All', admin_opportunities_path(show_expired: true, s: @filters.raw_search_term))
-    - Opportunity.statuses.each do |name, _|
+    - @available_status.each do |name, _|
       %li{class: (name.to_s == @filters.selected_status.to_s ? 'admin__filter-selected' : '')}
         - if @filters.hide_expired then
           = link_to(opportunity_status_link(name), admin_opportunities_path(status: name, s: @filters.raw_search_term))

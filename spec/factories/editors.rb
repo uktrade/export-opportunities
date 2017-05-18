@@ -13,6 +13,10 @@ FactoryGirl.define do
       role 4
     end
 
+    factory :reviewer do
+      role 3
+    end
+
     factory :publisher do
       role 2
     end

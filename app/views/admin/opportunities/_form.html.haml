@@ -122,4 +122,7 @@
           %label{:for => "radio-inline-4"} Blue
   .grid-row
     .column-one-half
-      = f.submit class: 'button'
+      .form-group
+        = f.submit class: 'button'
+        - if current_page?(action: 'new') && @save_to_draft_button
+          = f.submit 'Save to Draft', class: 'button button-draft'

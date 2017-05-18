@@ -122,8 +122,9 @@ Rails.application.routes.draw do
   get '/user/confirmation', to: redirect { |_params, request| "/admin/editor/confirmation?#{request.params.to_query}" }
 
   # Enquiry feedback
-  get '/feedback', to: 'enquiry_feedback#show', as: :enquiry_feedback
+  get '/feedback', to: 'enquiry_feedback#new', as: :enquiry_feedback
   get '/feedback/opt_out', to: 'feedback_opt_outs#create', via: :get, as: :feedback_opt_out
+  patch '/feedback.:id', to: 'enquiry_feedback#patch'
 
   # Error pages
   match '/500' => 'errors#internal_server_error', via: :all

@@ -3,7 +3,7 @@ class Editor < ActiveRecord::Base
   belongs_to :service_provider
   has_many :opportunities, foreign_key: 'author_id'
 
-  enum role: { uploader: 1, publisher: 2, administrator: 4 }
+  enum role: { uploader: 1, publisher: 2, reviewer: 3, administrator: 4 }
 
   devise :database_authenticatable,
     :recoverable, :rememberable, :trackable, :validatable,
@@ -18,7 +18,7 @@ class Editor < ActiveRecord::Base
   end
 
   def staff?
-    uploader? || publisher? || administrator?
+    uploader? || publisher? || administrator? || reviewer?
   end
 
   def deactivated?

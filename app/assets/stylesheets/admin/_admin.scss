@@ -27,6 +27,11 @@
 .button-danger {
   background-color: $red;
 }
+
+.button-draft {
+  @include button($grey-1);
+}
+
 // Fix for incorrect button baseline defined in GOV.UK frontend toolkit
 .button {
   padding: 0.475em 0.9375em 0.4625em;
