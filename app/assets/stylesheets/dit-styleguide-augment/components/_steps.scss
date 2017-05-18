@@ -57,6 +57,9 @@
     color: $greytundora;
     padding-top: 20px;
     @media #{$desktop-m} {
+      min-height: 66px;
+    }
+    @media #{$desktop-m} {
       padding-top: 30px;
     }
   }
@@ -65,8 +68,6 @@
     font-weight: 400;
     line-height: 1.38;
     color: $greytundora;
-    padding-top: 16px;
+    padding-top: 8px;
   }
-
-
 }
