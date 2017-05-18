@@ -71,6 +71,9 @@
     %th{:scope => 'row'} Service provider
     %td= @opportunity.service_provider.try(:name)
   %tr
+    %th{:scope => 'row'} RAGG
+    %td= @opportunity.ragg
+  %tr
     %th{:scope => 'row'} Author
     %td= @opportunity.author.name
 

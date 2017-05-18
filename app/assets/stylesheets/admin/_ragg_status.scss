@@ -1,0 +1,29 @@
+
+.ragg_choice {
+	&-red {
+		label {
+			color: $rag-red;
+		}
+	}
+	&-amber {
+		label {
+			color: $rag-amber;
+		}
+	}
+	&-green {
+		label {
+			color: $rag-green;
+		}
+	}
+	&-blue {
+		label {
+			color: $rag-blue;
+		}
+	}
+	&-grey {
+		label {
+			color: $rag-grey;
+		}
+	}
+}
+
