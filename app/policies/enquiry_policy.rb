@@ -4,7 +4,7 @@ class EnquiryPolicy < ApplicationPolicy
   end
 
   def show?
-    editor_is_admin_or_publisher? || editor_is_opportunity_author? || editor_is_in_opportunity_service_provider?
+    editor_is_admin_or_publisher_or_reviewer? || editor_is_opportunity_author? || editor_is_in_opportunity_service_provider?
   end
 
   def editor_is_opportunity_author?
