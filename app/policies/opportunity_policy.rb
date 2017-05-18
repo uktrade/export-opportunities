@@ -11,9 +11,17 @@ class OpportunityPolicy < ApplicationPolicy
     @record.publish? || editor_is_admin_or_publisher_or_reviewer? || editor_is_record_owner? || editor_has_same_service_provider?
   end
 
+  def show_enquiries?
+    publishing? || @editor.role == 'reviewer' || editor_has_same_service_provider? || editor_is_record_owner?
+  end
+
   def edit?
     return true if editor_is_record_owner? && (@record.pending? || @record.trash? || @record.draft?)
     editor_is_admin_or_publisher?
+  end
+
+  def show_ragg?
+    administrator? || publisher?
   end
 
   def update?
@@ -26,6 +34,10 @@ class OpportunityPolicy < ApplicationPolicy
 
   def administrator?
     @editor.role == 'administrator'
+  end
+
+  def publisher?
+    @editor.role == 'publisher'
   end
 
   def publishing?

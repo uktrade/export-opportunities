@@ -177,7 +177,7 @@ feature 'Administering opportunities' do
       expect(page).to_not have_text('red')
     end
 
-    scenario 'admin sets ragg rating to draft, ragg rating should be deleted' do
+    scenario 'admin sets ragg rating to draft, ragg rating should not be deleted' do
       admin = create(:admin)
       opportunity = create(:opportunity, :ragg_red, status: :pending)
 
@@ -190,7 +190,7 @@ feature 'Administering opportunities' do
 
       click_on 'Draft'
 
-      expect(page).to_not have_text('red')
+      expect(page).to have_text('red')
     end
   end
 end

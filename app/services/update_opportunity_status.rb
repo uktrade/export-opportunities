@@ -17,7 +17,6 @@ class UpdateOpportunityStatus
     when 'pending'
       change_status(opportunity, status)
     when 'draft'
-      opportunity.ragg = :undefined
       change_status(opportunity, status)
     else
       raise ArgumentError, 'Only statuses of publish and pending can be set'
