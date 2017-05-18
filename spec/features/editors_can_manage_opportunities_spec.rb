@@ -178,7 +178,6 @@ feature 'Administering opportunities' do
     end
 
     scenario 'admin sets ragg rating to draft, ragg rating should be deleted' do
-      skip('TODO: implement this once we rebase feature/draft-and-reviewer-user-type into feature/747')
       admin = create(:admin)
       opportunity = create(:opportunity, :ragg_red, status: :pending)
 
