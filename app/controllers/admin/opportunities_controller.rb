@@ -35,6 +35,7 @@ class Admin::OpportunitiesController < Admin::BaseController
     @drafting_button_data = drafting_button_data(@opportunity)
     @pending_button_data = pending_button_data(@opportunity)
     @show_trash_button = policy(@opportunity).trash?
+    @show_enquiries = policy(@opportunity).show_enquiries?
     authorize @opportunity
   end
 
