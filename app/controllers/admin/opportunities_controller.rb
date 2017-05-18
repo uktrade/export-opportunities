@@ -8,6 +8,7 @@ class Admin::OpportunitiesController < Admin::BaseController
     @filters = OpportunityFilters.new(filter_params)
 
     session[:opportunity_filters] = filter_params
+    session[:available_status] = filter_status(pundit_user.id)
 
     query = OpportunityQuery.new(
       scope: policy_scope(Opportunity).includes(:service_provider),
@@ -39,6 +40,7 @@ class Admin::OpportunitiesController < Admin::BaseController
 
   def new
     @opportunity = Opportunity.new
+    @save_to_draft_button = policy(@opportunity).uploader_reviewer?
     load_options_for_form(@opportunity)
     setup_opportunity_contacts(@opportunity)
     authorize @opportunity
@@ -153,6 +155,8 @@ class Admin::OpportunitiesController < Admin::BaseController
     case opportunity.status
     when 'trash'
       ButtonData.new(policy(opportunity).draft?, 'Draft', path, status: 'draft')
+    when 'pending'
+      ButtonData.new(policy(opportunity).draft?, 'Draft', path, status: 'draft')
     else
       ButtonData.new(false)
     end
@@ -171,6 +175,18 @@ class Admin::OpportunitiesController < Admin::BaseController
 
   private def filter_params
     params.permit(:status, { sort: [:column, :order] }, :show_expired, :s, :paged)
+  end
+
+  private def filter_status(current_user)
+    @editor = Editor.find(current_user)
+    @available_status = []
+    Opportunity.statuses.each do |name, _|
+      if name == 'draft'
+        @available_status << name if policy(@editor).draft_view_state?
+      else
+        @available_status << name
+      end
+    end
   end
 
   class OpportunityFilters
