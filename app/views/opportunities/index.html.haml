@@ -9,17 +9,18 @@
     %hr.thin
   = render 'filters'
 
-- if !@subscription_form.minimum_search_criteria?
-  = render 'giantsteps_panel'
+.container
+  - if !@subscription_form.minimum_search_criteria?
+    = render 'giantsteps_panel'
 
-- if @subscription_form.minimum_search_criteria?
-  = render 'subscription_form'
+  - if @subscription_form.minimum_search_criteria? and !@suppress_subscription_block
+    = render 'subscription_form'
 
-- if @subscription_form.minimum_search_criteria? and @opportunities.any?
-  = render 'opportunities_order'
+  - if @subscription_form.minimum_search_criteria? and @opportunities.any? and @opportunities.total > 1
+    = render 'opportunities_order'
 
-- if @subscription_form.minimum_search_criteria?
-  = render 'opportunities'
+  - if @subscription_form.minimum_search_criteria?
+    = render 'opportunities'
 
 
 

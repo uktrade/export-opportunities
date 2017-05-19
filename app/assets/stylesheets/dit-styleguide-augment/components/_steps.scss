@@ -57,7 +57,7 @@
     color: $greytundora;
     padding-top: 20px;
     @media #{$desktop-m} {
-      min-height: 66px;
+      min-height: none;
     }
     @media #{$desktop-m} {
       padding-top: 30px;
@@ -69,5 +69,6 @@
     line-height: 1.38;
     color: $greytundora;
     padding-top: 8px;
+    margin-left: 84px;
   }
 }
