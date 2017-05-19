@@ -102,7 +102,7 @@
           = form.label :email, 'Email address', class: 'form-label'
           = form.text_field :email, class: 'form-control', type: :email, required: true
 
-  - if policy(@opportunity).edit? && opportunity.id.present?
+  - if policy(@opportunity).show_ragg? && opportunity.id.present?
 
     %h2 Triage rating
     .form-group.ragg_choice

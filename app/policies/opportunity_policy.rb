@@ -20,6 +20,10 @@ class OpportunityPolicy < ApplicationPolicy
     editor_is_admin_or_publisher?
   end
 
+  def show_ragg?
+    administrator? || publisher?
+  end
+
   def update?
     edit?
   end
@@ -30,6 +34,10 @@ class OpportunityPolicy < ApplicationPolicy
 
   def administrator?
     @editor.role == 'administrator'
+  end
+
+  def publisher?
+    @editor.role == 'publisher'
   end
 
   def publishing?
