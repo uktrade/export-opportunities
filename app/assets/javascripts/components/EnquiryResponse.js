@@ -18,14 +18,8 @@ ukti.enquiryResponse = (function($) {
       branding: false
     });
   };
-
   var initTextEditor2 = function () {
-    window.CKEDITOR_BASEPATH = '/ckeditor/';
-    CKEDITOR.replace( 'enquiry_response_email_body', {
-      height: 260,
-      /* Default CKEditor styles are included as well to avoid copying default styles. */
-      contentsCss: [ 'http://cdn.ckeditor.com/4.6.2/full-all/contents.css', 'http://sdk.ckeditor.com/samples/assets/css/classic.css' ]
-    });
+    CKEDITOR.replace( 'enquiry_response_email_body');
   };
 
   var loadTextEditorScript = function () {
@@ -35,14 +29,13 @@ ukti.enquiryResponse = (function($) {
   };
 
   var loadTextEditorScript2 = function () {
-    if (ukti.config.textEditorScriptPath) {
-        ukti.asyncLoad.init(ukti.config.textEditorScriptPath, initTextEditor2);
+    if (ukti.config.ckeditorPath) {
+        ukti.asyncLoad.init(ukti.config.ckeditorPath, initTextEditor2);
     }
   };
 
   var init = function ($form) {
-    loadTextEditorScript();
-    //initTextEditor();
+    loadTextEditorScript2();
   };
 
   return {
