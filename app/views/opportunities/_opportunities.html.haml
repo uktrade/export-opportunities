@@ -1,7 +1,5 @@
-.container
-	.row
-	.results
-		- if @opportunities.any?
-			= render 'search_results'
-		- else
-			= render 'no_search_results'
+.results.margin-top-20
+	- if @opportunities.any?
+		= render 'search_results'
+	- else
+		= render 'no_search_results'

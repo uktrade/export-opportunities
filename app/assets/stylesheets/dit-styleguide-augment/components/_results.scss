@@ -95,7 +95,12 @@
   }
 
   .button {
+    background-color: $midblue;
+    color: $white;
     margin-top: $small-spacing;
     width: 100%;
+    @media #{$tablet-s} {
+      width: auto;
+    }
   }
 }
