@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-feature 'Reviewers can create drafts' do
+feature 'Previewers can create drafts' do
   scenario 'and view their own drafted opportunities' do
-    reviewer = create(:reviewer)
-    opportunity = create(:opportunity, :drafted, author: reviewer)
+    previewer = create(:previewer)
+    opportunity = create(:opportunity, :drafted, author: previewer)
 
-    login_as(reviewer)
+    login_as(previewer)
     visit admin_opportunities_path
 
     click_on 'Draft'
@@ -15,10 +15,10 @@ feature 'Reviewers can create drafts' do
   end
 
   scenario 'and set it to trash' do
-    reviewer = create(:reviewer)
-    opportunity = create(:opportunity, :drafted, author: reviewer)
+    previewer = create(:previewer)
+    opportunity = create(:opportunity, :drafted, author: previewer)
 
-    login_as(reviewer)
+    login_as(previewer)
     visit admin_opportunities_path
 
     click_on 'Draft'
@@ -32,10 +32,10 @@ feature 'Reviewers can create drafts' do
   end
 
   scenario 'and set it to pending' do
-    reviewer = create(:reviewer)
-    opportunity = create(:opportunity, :drafted, author: reviewer)
+    previewer = create(:previewer)
+    opportunity = create(:opportunity, :drafted, author: previewer)
 
-    login_as(reviewer)
+    login_as(previewer)
     visit admin_opportunities_path
 
     click_on 'Draft'
@@ -49,10 +49,10 @@ feature 'Reviewers can create drafts' do
   end
 
   scenario 'and change the opportunity status to drafted from trash and back' do
-    reviewer = create(:reviewer)
-    opportunity = create(:opportunity, author: reviewer, status: :trash)
+    previewer = create(:previewer)
+    opportunity = create(:opportunity, author: previewer, status: :trash)
 
-    login_as(reviewer)
+    login_as(previewer)
     visit admin_opportunities_path
 
     click_on opportunity.title
@@ -69,25 +69,25 @@ feature 'Reviewers can create drafts' do
     expect(page).to have_content('This opportunity was moved to Trash')
   end
 
-  scenario 'Reviewers can view anything - including other reviewers drafted opportunities' do
+  scenario 'previewers can view anything - including other previewers drafted opportunities' do
     service_provider = create(:service_provider, name: 'Provider of services')
 
-    reviewer = create(:reviewer, service_provider: service_provider)
-    opportunity = create(:opportunity, :drafted, author: reviewer)
+    previewer = create(:previewer, service_provider: service_provider)
+    opportunity = create(:opportunity, :drafted, author: previewer)
 
-    secret_reviewer = create(:reviewer, service_provider: service_provider)
-    secret_opportunity = create(:opportunity, :drafted, author: secret_reviewer)
+    secret_previewer = create(:previewer, service_provider: service_provider)
+    secret_opportunity = create(:opportunity, :drafted, author: secret_previewer)
 
-    login_as(reviewer)
+    login_as(previewer)
     visit admin_opportunities_path
 
     expect(page).to have_content(opportunity.title)
     expect(page).to have_content(secret_opportunity.title)
   end
 
-  scenario 'Admins can view Reviewers draft opportunities' do
-    reviewer = create(:reviewer)
-    opportunity = create(:opportunity, :drafted, author: reviewer)
+  scenario 'Admins can view previewers draft opportunities' do
+    previewer = create(:previewer)
+    opportunity = create(:opportunity, :drafted, author: previewer)
 
     sneaky_admin = create(:admin)
 
