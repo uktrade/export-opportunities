@@ -41,7 +41,7 @@ class Admin::OpportunitiesController < Admin::BaseController
 
   def new
     @opportunity = Opportunity.new
-    @save_to_draft_button = policy(@opportunity).uploader_reviewer?
+    @save_to_draft_button = policy(@opportunity).uploader_previewer?
     load_options_for_form(@opportunity)
     setup_opportunity_contacts(@opportunity)
     authorize @opportunity
@@ -169,7 +169,7 @@ class Admin::OpportunitiesController < Admin::BaseController
 
     case opportunity.status
     when 'draft'
-      ButtonData.new(policy(opportunity).uploader_reviewer_restore?, 'Pending', path, status: 'pending')
+      ButtonData.new(policy(opportunity).uploader_previewer_restore?, 'Pending', path, status: 'pending')
     else
       ButtonData.new(false)
     end

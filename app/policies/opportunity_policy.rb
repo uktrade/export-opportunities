@@ -8,11 +8,11 @@ class OpportunityPolicy < ApplicationPolicy
   alias create? always_allow
 
   def show?
-    @record.publish? || editor_is_admin_or_publisher_or_reviewer? || editor_is_record_owner? || editor_has_same_service_provider?
+    @record.publish? || editor_is_admin_or_publisher_or_previewer? || editor_is_record_owner? || editor_has_same_service_provider?
   end
 
   def show_enquiries?
-    publishing? || @editor.role == 'reviewer' || editor_has_same_service_provider? || editor_is_record_owner?
+    publishing? || @editor.role == 'previewer' || editor_has_same_service_provider? || editor_is_record_owner?
   end
 
   def edit?
@@ -28,8 +28,8 @@ class OpportunityPolicy < ApplicationPolicy
     edit?
   end
 
-  def uploader_reviewer?
-    @editor.role == 'uploader' || @editor.role == 'reviewer'
+  def uploader_previewer?
+    @editor.role == 'uploader' || @editor.role == 'previewer'
   end
 
   def administrator?
@@ -49,19 +49,19 @@ class OpportunityPolicy < ApplicationPolicy
   end
 
   def trash?
-    (administrator? && (@record.pending? || @record.draft?)) || ((@editor.role == 'uploader' || @editor.role == 'reviewer') && @record.status == 'draft' && editor_is_record_owner?)
+    (administrator? && (@record.pending? || @record.draft?)) || ((@editor.role == 'uploader' || @editor.role == 'previewer') && @record.status == 'draft' && editor_is_record_owner?)
   end
 
   def restore?
     administrator? && @record.trash?
   end
 
-  def uploader_reviewer_restore?
-    (uploader_reviewer? && @record.status == 'draft' && editor_is_record_owner?) || administrator?
+  def uploader_previewer_restore?
+    (uploader_previewer? && @record.status == 'draft' && editor_is_record_owner?) || administrator?
   end
 
   def draft?
-    (uploader_reviewer? && @record.status == 'trash' && editor_is_record_owner?) || administrator?
+    (uploader_previewer? && @record.status == 'trash' && editor_is_record_owner?) || administrator?
   end
 
   private
@@ -84,7 +84,7 @@ class OpportunityPolicy < ApplicationPolicy
     end
 
     def resolve
-      return scope.all if %w(administrator publisher reviewer).include? editor.role
+      return scope.all if %w(administrator publisher previewer).include? editor.role
       scope.published
         .union(scope.where(author: @editor))
         .union(scope.where.not(service_provider: nil).where(service_provider: @editor.service_provider))

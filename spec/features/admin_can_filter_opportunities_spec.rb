@@ -12,8 +12,8 @@ RSpec.feature 'Admin can filter opportunities' do
     expect(page).to have_link('Draft')
   end
 
-  scenario 'a reviewer can see all filtering links (including Draft)' do
-    uploader = create(:reviewer)
+  scenario 'a previewer can see all filtering links (including Draft)' do
+    uploader = create(:previewer)
     login_as(uploader)
     visit admin_opportunities_path
 

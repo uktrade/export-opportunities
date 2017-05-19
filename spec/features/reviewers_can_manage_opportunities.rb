@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-feature 'Reviewers can manage opportunities' do
+feature 'previewers can manage opportunities' do
   scenario 'can view opportunity list with pending/published/trash' do
     # should be able to view all opportunities, pending or not
 
-    reviewer = create(:reviewer)
-    login_as(reviewer)
+    previewer = create(:previewer)
+    login_as(previewer)
 
     published_opportunity = create(:opportunity, status: 'publish')
     pending_opportunity = create(:opportunity, status: 'pending')
@@ -19,10 +19,10 @@ feature 'Reviewers can manage opportunities' do
   end
 
   scenario 'can view an individual non published opportunity' do
-    reviewer = create(:reviewer)
-    opportunity = create(:opportunity, author: reviewer, status: 'trash')
+    previewer = create(:previewer)
+    opportunity = create(:opportunity, author: previewer, status: 'trash')
 
-    login_as(reviewer)
+    login_as(previewer)
     visit admin_opportunities_path
     click_on opportunity.title
 
@@ -31,10 +31,10 @@ feature 'Reviewers can manage opportunities' do
   end
 
   scenario 'can set to trash their own draft opportunity' do
-    reviewer = create(:reviewer)
-    opportunity = create(:opportunity, author: reviewer, status: 'draft')
+    previewer = create(:previewer)
+    opportunity = create(:opportunity, author: previewer, status: 'draft')
 
-    login_as(reviewer)
+    login_as(previewer)
     visit admin_opportunities_path
     click_on opportunity.title
 
@@ -48,10 +48,10 @@ feature 'Reviewers can manage opportunities' do
   end
 
   scenario 'can set to draft from trash their own opportunity' do
-    reviewer = create(:reviewer)
-    opportunity = create(:opportunity, author: reviewer, status: 'trash')
+    previewer = create(:previewer)
+    opportunity = create(:opportunity, author: previewer, status: 'trash')
 
-    login_as(reviewer)
+    login_as(previewer)
     visit admin_opportunities_path
     click_on opportunity.title
     expect(page).to have_text(opportunity.teaser)
@@ -64,10 +64,10 @@ feature 'Reviewers can manage opportunities' do
   end
 
   scenario 'can set to pending from draft their own opportunity' do
-    reviewer = create(:reviewer)
-    opportunity = create(:opportunity, author: reviewer, status: 'draft')
+    previewer = create(:previewer)
+    opportunity = create(:opportunity, author: previewer, status: 'draft')
 
-    login_as(reviewer)
+    login_as(previewer)
     visit admin_opportunities_path
     click_on opportunity.title
 
@@ -81,10 +81,10 @@ feature 'Reviewers can manage opportunities' do
   end
 
   scenario 'can not publish their own pending opportunity' do
-    reviewer = create(:reviewer)
-    opportunity = create(:opportunity, author: reviewer, status: 'pending')
+    previewer = create(:previewer)
+    opportunity = create(:opportunity, author: previewer, status: 'pending')
 
-    login_as(reviewer)
+    login_as(previewer)
     visit admin_opportunities_path
     click_on opportunity.title
 
@@ -94,11 +94,11 @@ feature 'Reviewers can manage opportunities' do
   end
 
   scenario 'can not edit opportunities from other users' do
-    reviewer = create(:reviewer)
+    previewer = create(:previewer)
     another_uploader = create(:uploader, name: 'Mr Smith')
     opportunity = create(:opportunity, author: another_uploader, status: 'pending')
 
-    login_as(reviewer)
+    login_as(previewer)
     visit admin_opportunities_path
     click_on opportunity.title
 
@@ -106,10 +106,10 @@ feature 'Reviewers can manage opportunities' do
   end
 
   scenario 'can edit opportunities that they create' do
-    reviewer = create(:reviewer)
-    opportunity = create(:opportunity, author: reviewer, status: 'pending')
+    previewer = create(:previewer)
+    opportunity = create(:opportunity, author: previewer, status: 'pending')
 
-    login_as(reviewer)
+    login_as(previewer)
     visit admin_opportunities_path
     click_on opportunity.title
 
