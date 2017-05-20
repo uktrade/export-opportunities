@@ -193,6 +193,8 @@ $flat-theme-dark-color : #007ea3;
 .select2-container .select2-results > .select2-results__options {
     max-height: 300px;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /*MAKES OVERFLOWN OBJECTS HAVE INERTIA SCROLLING*/
+    -webkit-transform: translateZ(0px); /*HELPS THE ABOVE WORK IN IOS5*/
 }
 
 .select2-results{

@@ -95,6 +95,8 @@
   }
 
   .button {
+    -moz-appearance: none;
+    -webkit-appearance: none;
     background-color: $midblue;
     color: $white;
     margin-top: $small-spacing;
@@ -104,3 +106,4 @@
     }
   }
 }
+
