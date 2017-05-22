@@ -42,6 +42,18 @@ feature 'Trashing opportunities' do
     expect(page).to have_no_button('Trash')
   end
 
+  scenario 'admin drafting a pending opportunity' do
+    admin = create(:admin)
+    opportunity = create(:opportunity, title: 'Unpublishable Opportunity, returning to Post', status: :pending)
+    login_as(admin)
+
+    visit "/admin/opportunities/#{opportunity.id}"
+
+    click_on('Draft')
+
+    expect(page).to have_content('Unpublishable Opportunity, returning to Post')
+  end
+
   scenario 'Admin restoring a trashed opportunity' do
     admin = create(:admin)
     opportunity = create(:opportunity, title: 'Trashed Opportunity', status: :trash)
@@ -57,7 +69,33 @@ feature 'Trashing opportunities' do
     expect(page).to have_content('Trashed Opportunity')
   end
 
-  scenario 'Non-admin restoring a trashed opportunity' do
+  scenario 'Admin can set to Pending state from Draft' do
+    admin = create(:admin)
+    opportunity = create(:opportunity, title: 'Fast Tracked Opportunity', status: :draft)
+
+    login_as(admin)
+
+    visit "/admin/opportunities/#{opportunity.id}"
+    click_on('Pending')
+    expect(page).to have_content('This opportunity has been set to pending')
+
+    click_link('Opportunities')
+    click_link('Pending')
+    expect(page).to have_content('Fast Tracked Opportunity')
+  end
+
+  scenario 'Publisher restoring a trashed opportunity' do
+    uploader = create(:publisher)
+    opportunity = create(:opportunity, title: 'Trashed Opportunity', author: uploader, status: :trash)
+
+    login_as(uploader)
+
+    visit "/admin/opportunities/#{opportunity.id}"
+    expect(page).to have_content('Trashed Opportunity')
+    expect(page).to have_no_button('Restore')
+  end
+
+  scenario 'Uploader restoring a trashed opportunity' do
     uploader = create(:uploader)
     opportunity = create(:opportunity, title: 'Trashed Opportunity', author: uploader, status: :trash)
 
@@ -65,6 +103,7 @@ feature 'Trashing opportunities' do
 
     visit "/admin/opportunities/#{opportunity.id}"
     expect(page).to have_content('Trashed Opportunity')
+    expect(page).to have_button('Draft')
     expect(page).to have_no_button('Restore')
   end
 end

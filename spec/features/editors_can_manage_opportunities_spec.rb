@@ -144,4 +144,53 @@ feature 'Administering opportunities' do
       expect(page).to have_text("Summary can\'t be more than 140")
     end
   end
+
+  feature 'updating ragg rating' do
+    scenario 'publisher updates ragg rating to an opportunity' do
+      editor = create(:publisher)
+      opportunity = create(:opportunity, status: :pending)
+
+      login_as(editor)
+      visit admin_opportunities_path
+
+      click_on opportunity.title
+      click_on 'Edit opportunity'
+      choose 'radio-inline-2' # amber
+      click_on 'Update Opportunity'
+
+      expect(page).to have_text('amber')
+    end
+
+    scenario 'admin sets ragg rating to trash, ragg rating should be deleted' do
+      admin = create(:admin)
+      opportunity = create(:opportunity, :ragg_red, status: :pending)
+
+      login_as(admin)
+      visit admin_opportunities_path
+
+      click_on opportunity.title
+
+      expect(page).to have_text('red')
+
+      click_on 'Trash'
+
+      expect(page).to_not have_text('red')
+    end
+
+    scenario 'admin sets ragg rating to draft, ragg rating should not be deleted' do
+      admin = create(:admin)
+      opportunity = create(:opportunity, :ragg_red, status: :pending)
+
+      login_as(admin)
+      visit admin_opportunities_path
+
+      click_on opportunity.title
+
+      expect(page).to have_text('red')
+
+      click_on 'Draft'
+
+      expect(page).to have_text('red')
+    end
+  end
 end

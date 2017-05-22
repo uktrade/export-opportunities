@@ -6,10 +6,12 @@ RSpec.feature 'Viewing opportunities', :elasticsearch, :commit do
 
     create(:opportunity, status: :pending)
     create(:opportunity, status: :trash)
+    create(:opportunity, status: :draft)
 
     create(:opportunity, :expired, status: :publish)
     create(:opportunity, :expired, status: :pending)
     create(:opportunity, :expired, status: :trash)
+    create(:opportunity, :expired, status: :draft)
 
     sleep 1
     visit opportunities_path

@@ -31,10 +31,13 @@
 @import "govuk_template/header";
 
 // Opportunities specific styles
+@import "admin/variables";
+@import "admin/form_elements";
 @import "admin/header";
 @import "admin/filters";
 @import "admin/helpers";
 @import "admin/tables";
+@import "admin/ragg_marker";
 @import "admin/typography";
 @import "admin/errors";
 @import "admin/enquiry_form";
@@ -45,6 +48,8 @@
 @import "admin/admin";
 @import "admin/admin_search";
 @import "admin/admin_filter";
+@import "admin/ragg_status";
+
 // From https://github.com/freqdec/datePicker
 @import "vendor/datepicker";
 @import "admin/datepicker_augment";

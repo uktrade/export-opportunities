@@ -8,6 +8,7 @@ class Admin::OpportunitiesController < Admin::BaseController
     @filters = OpportunityFilters.new(filter_params)
 
     session[:opportunity_filters] = filter_params
+    session[:available_status] = filter_status(pundit_user.id)
 
     query = OpportunityQuery.new(
       scope: policy_scope(Opportunity).includes(:service_provider),
@@ -31,23 +32,33 @@ class Admin::OpportunitiesController < Admin::BaseController
     @history = OpportunityHistory.new(opportunity: @opportunity)
 
     @publishing_button_data = publishing_button_data(@opportunity)
+    @drafting_button_data = drafting_button_data(@opportunity)
+    @pending_button_data = pending_button_data(@opportunity)
     @show_trash_button = policy(@opportunity).trash?
+    @show_enquiries = policy(@opportunity).show_enquiries?
     authorize @opportunity
   end
 
   def new
     @opportunity = Opportunity.new
+    @save_to_draft_button = policy(@opportunity).uploader_previewer?
     load_options_for_form(@opportunity)
     setup_opportunity_contacts(@opportunity)
     authorize @opportunity
   end
 
   def create
-    @opportunity = CreateOpportunity.new(current_editor).call(create_opportunity_params)
+    opportunity_status = params[:commit] == 'Save to Draft' ? :draft : :pending
+
+    @opportunity = CreateOpportunity.new(current_editor, opportunity_status).call(create_opportunity_params)
     authorize @opportunity
 
     if @opportunity.errors.empty?
-      redirect_to admin_opportunities_path, notice: %(Created opportunity "#{@opportunity.title}")
+      if opportunity_status == :pending
+        redirect_to admin_opportunities_path, notice: %(Created opportunity "#{@opportunity.title}")
+      elsif opportunity_status == :draft
+        redirect_to admin_opportunities_path, notice: %(Saved to draft: "#{@opportunity.title}")
+      end
     else
       load_options_for_form(@opportunity)
       setup_opportunity_contacts(@opportunity)
@@ -94,6 +105,7 @@ class Admin::OpportunitiesController < Admin::BaseController
     @values = Value.all.order(:name)
     @service_providers = ServiceProvider.all.order(:name)
     @selected_service_provider = opportunity.service_provider || current_editor.service_provider
+    @ragg = opportunity.ragg
   end
 
   def setup_opportunity_contacts(opportunity)
@@ -111,7 +123,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def opportunity_params(contacts_attributes:)
-    params.require(:opportunity).permit(:title, :slug, { country_ids: [] }, { sector_ids: [] }, { type_ids: [] }, { value_ids: [] }, :teaser, :response_due_on, :description, { contacts_attributes: contacts_attributes }, :service_provider_id)
+    params.require(:opportunity).permit(:title, :slug, { country_ids: [] }, { sector_ids: [] }, { type_ids: [] }, { value_ids: [] }, :teaser, :response_due_on, :description, { contacts_attributes: contacts_attributes }, :service_provider_id, :ragg)
   end
 
   def create_contacts_attributes
@@ -139,8 +151,44 @@ class Admin::OpportunitiesController < Admin::BaseController
     end
   end
 
+  def drafting_button_data(opportunity)
+    path = admin_opportunity_status_path(opportunity)
+
+    case opportunity.status
+    when 'trash'
+      ButtonData.new(policy(opportunity).draft?, 'Draft', path, status: 'draft')
+    when 'pending'
+      ButtonData.new(policy(opportunity).draft?, 'Draft', path, status: 'draft')
+    else
+      ButtonData.new(false)
+    end
+  end
+
+  def pending_button_data(opportunity)
+    path = admin_opportunity_status_path(opportunity)
+
+    case opportunity.status
+    when 'draft'
+      ButtonData.new(policy(opportunity).uploader_previewer_restore?, 'Pending', path, status: 'pending')
+    else
+      ButtonData.new(false)
+    end
+  end
+
   private def filter_params
     params.permit(:status, { sort: [:column, :order] }, :show_expired, :s, :paged)
+  end
+
+  private def filter_status(current_user)
+    @editor = Editor.find(current_user)
+    @available_status = []
+    Opportunity.statuses.each do |name, _|
+      if name == 'draft'
+        @available_status << name if policy(@editor).draft_view_state?
+      else
+        @available_status << name
+      end
+    end
   end
 
   class OpportunityFilters
@@ -149,8 +197,12 @@ class Admin::OpportunitiesController < Admin::BaseController
     def initialize(params)
       @selected_status = params[:status]
       @sort_params = params.fetch(:sort, {})
-      @sort = OpportunitySort.new(default_column: 'created_at', default_order: 'desc')
-        .update(column: @sort_params[:column], order: @sort_params[:order])
+
+      if @selected_status == 'pending' && @sort_params.empty?
+        @sort = OpportunitySort.new(default_column: 'ragg', default_order: 'asc')
+      else
+        @sort = OpportunitySort.new(default_column: 'created_at', default_order: 'desc').update(column: @sort_params[:column], order: @sort_params[:order])
+      end
       @hide_expired = !params[:show_expired]
       # Allowing a non-sanitized search input past this layer **only** for the view.
       # The intent is not to give away how the inputs are being stripped to the user.

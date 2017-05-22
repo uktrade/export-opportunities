@@ -54,14 +54,83 @@ feature 'Uploaders are restricted' do
     expect(page).to have_content(opportunity_from_same_provider.title)
   end
 
-  scenario 'Uploaders cannot see enquiries for others’ opportunities' do
-    uploader = create(:uploader)
-    create(:enquiry, company_name: 'Universal Exports')
+  scenario 'Uploaders cannot see enquiries for others opportunities' do
+    service_provider_id = 100.freeze
+    shared_service_provider = create(:service_provider, id: service_provider_id)
+    irrelevant_service_provider = create(:service_provider)
+
+    uploader = create(:uploader, service_provider: shared_service_provider)
+    opportunity = create(:opportunity, service_provider_id: service_provider_id, author: uploader)
+    create(:enquiry, company_name: 'British Sponges', opportunity: opportunity)
+
+    another_uploader = create(:uploader, service_provider: shared_service_provider)
+    another_opportunity = create(:opportunity, service_provider_id: service_provider_id, author: another_uploader)
+    create(:enquiry, company_name: 'Shepherd Pie Inc', opportunity: another_opportunity)
+
+    third_uploader = create(:uploader, service_provider: irrelevant_service_provider)
+    third_opportunity = create(:opportunity, author: third_uploader)
+    create(:enquiry, company_name: 'Universal Exports', opportunity: third_opportunity)
 
     login_as(uploader)
     visit '/admin/enquiries'
 
+    # an enquiry not matching an opportunity the uploader created is not visible
     expect(page).not_to have_content('Universal Exports')
+    # an enquiry for an opportunity that the uploader created should be visible
+    expect(page).to have_content('British Sponges')
+    # and enquiry for an opportunity created by another uploader in the same service provider should be visible
+    expect(page).to have_content('Shepherd Pie Inc')
+  end
+
+  scenario 'Uploaders can not see list of enquiries in opportunity show page for opportunities not created within the same service provider' do
+    one_service_provider = create(:service_provider)
+    another_service_provider = create(:service_provider)
+
+    uploader = create(:uploader, service_provider: one_service_provider)
+    opportunity = create(:opportunity, :published, author: uploader)
+
+    create(:enquiry, company_name: 'Universal Exports', opportunity: opportunity)
+    create(:enquiry, company_name: 'British Sponges', opportunity: opportunity)
+    create(:enquiry, company_name: 'Shepherd Pie Inc', opportunity: opportunity)
+
+    another_uploader = create(:uploader, service_provider: another_service_provider)
+
+    login_as(another_uploader)
+    visit '/admin/opportunities'
+
+    click_on opportunity.title
+
+    # an enquiry not matching an opportunity the uploader created is not visible
+    expect(page).not_to have_content('Universal Exports')
+    # an enquiry for an opportunity that the uploader created should be visible
+    expect(page).not_to have_content('British Sponges')
+    # and enquiry for an opportunity created by another uploader in the same service provider should be visible
+    expect(page).not_to have_content('Shepherd Pie Inc')
+  end
+
+  scenario 'Uploaders CAN see list of enquiries in opportunity show page for opportunities created within the same service provider' do
+    shared_service_provider = create(:service_provider)
+
+    uploader = create(:uploader, service_provider: shared_service_provider)
+    opportunity = create(:opportunity, :published, author: uploader, service_provider: shared_service_provider)
+
+    create(:enquiry, company_name: 'Universal Exports', opportunity: opportunity)
+    create(:enquiry, company_name: 'British Sponges', opportunity: opportunity)
+    create(:enquiry, company_name: 'Shepherd Pie Inc', opportunity: opportunity)
+
+    another_uploader = create(:uploader, service_provider: shared_service_provider)
+
+    login_as(another_uploader)
+    visit '/admin/opportunities'
+
+    click_on opportunity.title
+
+    # an enquiry not matching an opportunity the uploader created is not visible
+    expect(page).to have_content('Universal Exports')
+    # an enquiry for an opportunity that the uploader created should be visible
+    expect(page).to have_content('British Sponges')
+    # and enquiry for an opportunity created by another uploader in the same service provider should be visible
+    expect(page).to have_content('Shepherd Pie Inc')
   end
 
   scenario 'Uploaders do not see others’ enquiries in CSV' do

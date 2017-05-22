@@ -39,9 +39,10 @@ Configure your editor's syntax checker to flag up rubocop rules.
 
 * Editors can be one of three roles: Uploader, Publisher or Administrator:
 
-  * **Uploaders** can add new opportunities and edit ones they created
-  * **Publishers** can additionally publish opportunities so they appear on the site.
-  * **Administrators** can also manage editor accounts.
+  * **Uploaders** can add new opportunities and edit ones they created. Can view only opportunities and enquiries of his own or that belong to the service provider he belongs to. 
+  * **Previewers** can view all opportunities, edit none. Can view all opportunities and enquiries.
+  * **Publishers** can additionally publish opportunities so they appear on the site. Can view all opportunities and enquiries.
+  * **Administrators** can also manage editor accounts. Can view all opportunities and enquiries.
 
 ### License
 
@@ -52,4 +53,5 @@ MIT licensed. See the bundled LICENSE file for more details.
 * You can deploy the project on Heroku with minimum effort as long as you setup environmental variables like you would do in localhost.
 
 ## Contribution
+
 You are welcome to contribute, please get in touch with [Alex Giamas](mailto:alexandros.giamas@digital.trade.gov.uk), [Dermot Byrne](mailto:dermot.byrne@digital.trade.gov.uk) or [Mateusz Lapsa Malawski](mailto:mateusz.lapsa-malawski@digital.trade.gov.uk).

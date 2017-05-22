@@ -16,6 +16,8 @@ class UpdateOpportunityStatus
       end
     when 'pending'
       change_status(opportunity, status)
+    when 'draft'
+      change_status(opportunity, status)
     else
       raise ArgumentError, 'Only statuses of publish and pending can be set'
     end
@@ -53,6 +55,8 @@ class UpdateOpportunityStatus
         'has been published'
       when 'pending'
         'has been set to pending'
+      when 'draft'
+        'has been set to draft'
       end
     end
   end

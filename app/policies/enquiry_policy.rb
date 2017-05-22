@@ -4,7 +4,7 @@ class EnquiryPolicy < ApplicationPolicy
   end
 
   def show?
-    editor_is_admin_or_publisher? || editor_is_opportunity_author? || editor_is_in_opportunity_service_provider?
+    editor_is_admin_or_publisher_or_previewer? || editor_is_opportunity_author? || editor_is_in_opportunity_service_provider?
   end
 
   def editor_is_opportunity_author?
@@ -25,7 +25,7 @@ class EnquiryPolicy < ApplicationPolicy
     end
 
     def resolve
-      if %w(administrator publisher).include? editor.role
+      if %w(administrator previewer publisher).include? editor.role
         scope.all
       else
         scope.joins(:opportunity)
