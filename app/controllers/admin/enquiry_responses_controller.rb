@@ -17,7 +17,8 @@ class Admin::EnquiryResponsesController < Admin::BaseController
 
   def create
     @enquiry_response = EnquiryResponse.new(enquiry_responses_params)
-    @enquiry_response.editor_id = current_user
+    @enquiry_response.editor_id = current_editor.id
+
     if @enquiry_response.errors.empty?
       @enquiry_response.save
       redirect_to admin_enquiries_path, notice: 'Reply sent successfully!'
@@ -27,6 +28,6 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   end
 
   def enquiry_responses_params
-    params.require(:enquiry_response).permit(:email_body, :editor_id, :enquiry)
+    params.require(:enquiry_response).permit(:email_body, :editor_id, :enquiry_id)
   end
 end

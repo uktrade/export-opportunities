@@ -23,11 +23,11 @@ feature 'admin can reply to enquiries' do
     # create an enquiry and a response
     admin = create(:admin)
     enquiry = create(:enquiry)
-    enquiry_response = create(:enquiry_response, enquiry)
+    enquiry_response = create(:enquiry_response, enquiry: enquiry)
 
     # visit enquiry page
     login_as(admin)
-    visit '/admin/enquiries/'+ enquiry.id.to_s
+    visit '/admin/enquiries/' + enquiry.id.to_s
 
     # reply button should not be visible
     expect(page).not_to have_content('Reply')

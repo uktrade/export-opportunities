@@ -48,18 +48,20 @@
     .column-one-half
       = link_to "Back", admin_enquiries_path, class: 'link-back'
     .column-one-half
-      = link_to "Reply", new_admin_enquiry_response_path(id: @enquiry.id), class: 'button button-reply pull-right', params: {id: @enquiry.id}
+      - if @enquiry_response
+        %h1.heading-xlarge Responded by
+        %h1.heading-xlarge= @enquiry_response.editor.name
+        %table.horizontal
+          %tr
+            %th{:scope => 'row'} Response content
+            %td= @enquiry_response.email_body.html_safe
+          %tr
+            %th{:scope => 'row'} Action'ed Editor
+            %td= @enquiry_response.editor.name
+          %tr
+            %th{:scope => 'row'} Sent Time
+            %td= @enquiry_response.created_at
+      - else
+        = link_to "Reply", new_admin_enquiry_response_path(id: @enquiry.id), class: 'button button-reply pull-right', params: {id: @enquiry.id}
 
--#%h1.heading-xlarge= @enquiry_response.editor.name
--#
--#%table.horizontal
--#  %tr
--#    %th{:scope => 'row'} Email content
--#    %td= @enquiry_response.email_body
--#  %tr
--#    %th{:scope => 'row'} Sent by
--#    %td= @enquiry_response.editor.name
--#  %tr
--#    %th{:scope => 'row'} Sent Time
--#    %td= @enquiry_response.created_at
 
