@@ -10,39 +10,9 @@ RSpec.describe EnquiryResponseMailer, type: :mailer do
       last_delivery = ActionMailer::Base.deliveries.last
 
       expect(last_delivery.subject).to eql("Update on your enquiry for the export opportunity #{enquiry_response.enquiry.opportunity.title}")
-      # expect(last_delivery.to).to eql(enquiry.opportunity.contacts.pluck(:email))
-      # expect(last_delivery.to_s).to include(enquiry.opportunity.title)
-      # expect(last_delivery.to_s).to include(enquiry.company_name)
+      expect(last_delivery.to). to include(enquiry.user.email)
+      expect(last_delivery.bcc). to include(enquiry_response.editor.email)
+      expect(last_delivery.reply_to). to include(enquiry_response.editor.email)
     end
-
-    # it 'CCs if set' do
-    #   allow(Figaro.env).to receive(:enquiries_cc_email).and_return('dit-cc@example.org')
-    #
-    #   enquiry = create(:enquiry)
-    #   EnquiryMailer.send_enquiry(enquiry).deliver_later!
-    #   last_delivery = ActionMailer::Base.deliveries.last
-    #
-    #   expect(last_delivery.cc).to eql(['dit-cc@example.org'])
-    # end
-    #
-    # it 'does not CC if not set' do
-    #   allow(Figaro.env).to receive(:enquiries_cc_email)
-    #
-    #   enquiry = create(:enquiry)
-    #   EnquiryMailer.send_enquiry(enquiry).deliver_later!
-    #   last_delivery = ActionMailer::Base.deliveries.last
-    #
-    #   expect(last_delivery.cc).to eql(nil)
-    # end
-    #
-    # it 'does not CC if nil' do
-    #   allow(Figaro.env).to receive(:enquiries_cc_email).and_return(nil)
-    #
-    #   enquiry = create(:enquiry)
-    #   EnquiryMailer.send_enquiry(enquiry).deliver_later!
-    #   last_delivery = ActionMailer::Base.deliveries.last
-    #
-    #   expect(last_delivery.cc).to eql(nil)
-    # end
   end
 end

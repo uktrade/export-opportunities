@@ -4,8 +4,8 @@ class EnquiryResponseMailer < ApplicationMailer
   def send_enquiry_response(enquiry_response, enquiry)
     @enquiry_response = enquiry_response
     @enquiry = enquiry
-    # @subscription = SubscriptionPresenter.new(subscription)
+    editor_email = @enquiry_response.editor.email
 
-    mail from: "Export opportunities #{@enquiry_response.editor.email}" ,to: @enquiry.user.email ,subject: "Update on your enquiry for the export opportunity #{@enquiry.opportunity.title}"
+    mail from: "Export opportunities #{editor_email}", reply_to: editor_email, to: @enquiry.user.email, bcc: editor_email, subject: "Update on your enquiry for the export opportunity #{@enquiry.opportunity.title}"
   end
 end
