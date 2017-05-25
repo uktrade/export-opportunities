@@ -55,6 +55,7 @@ class Opportunity < ActiveRecord::Base
   TEASER_LENGTH_LIMIT = 140.freeze
 
   enum status: { pending: 1, publish: 2, draft: 3, trash: 4 }
+  enum ragg: { undefined: 0, blue: 2, green: 4, amber: 6, red: 8 }
 
   include PgSearch
 

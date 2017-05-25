@@ -9,11 +9,11 @@ feature 'Signing in as a user', :elasticsearch do
     expect(page).to have_link 'Sign out'
   end
 
-  scenario 'Signed in user visits /' do
+  scenario 'Signed in user visits /', :elasticsearch, :commit do
+    create(:opportunity, :published, title: 'Food')
     mock_sso_with(email: 'email@example.com')
     visit '/sign_in'
     visit '/'
-
     expect(page).to have_content 'Find and apply'
   end
 

@@ -8,7 +8,7 @@
         = link_to('All', admin_opportunities_path(s: @filters.raw_search_term))
       - else
         = link_to('All', admin_opportunities_path(show_expired: true, s: @filters.raw_search_term))
-    - Opportunity.statuses.each do |name, _|
+    - @available_status.each do |name, _|
       %li{class: (name.to_s == @filters.selected_status.to_s ? 'admin__filter-selected' : '')}
         - if @filters.hide_expired then
           = link_to(opportunity_status_link(name), admin_opportunities_path(status: name, s: @filters.raw_search_term))
@@ -47,6 +47,8 @@
 
 %table
   %thead
+    - if policy(@opportunities).show_ragg?
+      %th{:scope => 'col'} Triage
     %th{:scope => 'col'}= sortable(:opportunity_filters, 'title', 'Title', 'asc', @filters.sort)
     %th{:scope => 'col', :width => '8%'}= sortable(:opportunity_filters, 'status', 'Status', 'asc', @filters.sort)
     %th{:scope => 'col', :width => '14%'}= sortable(:opportunity_filters, 'service_provider_name', 'Service provider', 'asc', @filters.sort)
@@ -56,7 +58,13 @@
     %th.numeric{:scope => 'col', :width => '8%'}= sortable(:opportunity_filters, 'response_due_on', 'Expiry date', 'asc', @filters.sort)
   %tbody
     - @opportunities.each do |opportunity|
+    - opportunity_ragg_abbreviated = opportunity.ragg !='undefined' ? opportunity.ragg.chars.first.upcase : '-'
       %tr.opportunity
+        - if policy(@opportunities).show_ragg?
+          %td.center
+            %span{'aria-hidden' =>'true', 'class'=> "marker marker-#{opportunity.ragg}"}
+              =opportunity_ragg_abbreviated
+            %span.visually-hidden The triage rating is #{opportunity.ragg}
         - opportunity_link_text = opportunity.title.present? ? opportunity.title : '(no title)'
         %td
           = link_to opportunity_link_text, admin_opportunity_path(opportunity)

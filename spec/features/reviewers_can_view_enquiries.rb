@@ -1,19 +1,19 @@
 require 'rails_helper'
 
-feature 'reviewers can view enquiries' do
+feature 'previewers can view enquiries' do
   scenario 'viewing a list of all enquiries' do
-    reviewer = create(:reviewer)
+    previewer = create(:previewer)
     enquiry = create(:enquiry)
-    login_as(reviewer)
+    login_as(previewer)
     visit admin_opportunities_path
     click_on 'Enquiries'
     expect(page).to have_content(enquiry.company_name)
   end
 
   scenario 'view details of an enquiry' do
-    reviewer = create(:reviewer)
+    previewer = create(:previewer)
     enquiry = create(:enquiry)
-    login_as(reviewer)
+    login_as(previewer)
     visit admin_opportunities_path
 
     click_on 'Enquiries'
@@ -35,7 +35,7 @@ feature 'reviewers can view enquiries' do
   end
 
   scenario 'download a csv of enquiries' do
-    reviewer = create(:reviewer)
+    previewer = create(:previewer)
 
     # We need quite a detailed setup here to allow us to check each field.
     country = create(:country)
@@ -44,7 +44,7 @@ feature 'reviewers can view enquiries' do
     user = create(:user)
     enquiry = create(:enquiry, user: user, opportunity: opportunity, data_protection: true, created_at: 1.day.ago)
 
-    login_as(reviewer)
+    login_as(previewer)
     visit admin_opportunities_path
 
     click_on 'Enquiries'
@@ -75,12 +75,12 @@ feature 'reviewers can view enquiries' do
   end
 
   scenario 'download a csv of enquiries for a given date range.' do
-    reviewer = create(:reviewer)
+    previewer = create(:previewer)
 
     in_range = create(:enquiry, created_at: Date.new(2016, 6, 15))
     out_of_range = create(:enquiry, created_at: Date.new(2016, 7, 15))
 
-    login_as(reviewer)
+    login_as(previewer)
     visit admin_opportunities_path
 
     click_on 'Enquiries'
@@ -104,9 +104,9 @@ feature 'reviewers can view enquiries' do
   end
 
   scenario 'CSV includes all entries in range' do
-    reviewer = create(:reviewer)
+    previewer = create(:previewer)
     enquiries = create_list(:enquiry, 50, created_at: 3.days.ago)
-    login_as(reviewer)
+    login_as(previewer)
     visit admin_opportunities_path
 
     click_on 'Enquiries'

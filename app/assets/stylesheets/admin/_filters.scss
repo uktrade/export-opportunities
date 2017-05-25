@@ -1,3 +1,43 @@
 .filters {
+  background-color: $grey-3;
+  margin-bottom: 1.5em;
 
+  h2 {
+    @include core-16;
+    font-weight: bold;
+    margin: 0 .25em .5em;
+  }
+
+  .filters-panel {
+    padding: .5em;
+
+    @extend %contain-floats;
+
+    .form-group {
+      @include core-16;
+      min-height: 200px;
+      max-height: 200px;
+      margin-bottom: 0.5em;
+      overflow-y: scroll;
+
+      div {
+        @include core-14;
+        clear: both;
+        float: none;
+        margin-bottom: 0.25em;
+        position: relative;
+      }
+
+      label {
+        display: block;
+        margin-left: 1.5em;
+        padding-top: 1px;
+      }
+
+      input {
+        position: absolute;
+        top: 0;
+      }
+    }
+  }
 }

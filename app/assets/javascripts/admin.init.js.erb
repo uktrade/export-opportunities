@@ -30,4 +30,8 @@ $('document').ready(function() {
 			noFadeEffect:true
 		});
 	}
+	/* if edit form set behaviour of rag rating */
+	if (oppEditForm.length > 0) {
+		ukti.RaggRating.init(oppEditForm[0]);
+	}
 });

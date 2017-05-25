@@ -102,9 +102,27 @@
           = form.label :email, 'Email address', class: 'form-label'
           = form.text_field :email, class: 'form-control', type: :email, required: true
 
+  - if policy(@opportunity).show_ragg? && opportunity.id.present?
+
+    %h2 Triage rating
+    .form-group.ragg_choice
+      %fieldset.inline
+        %legend Set the rating: Red to indicate rejection, Amber to indicate editing required, Blue to indicate special consideration required.
+        .multiple-choice.ragg_choice-red
+          = f.radio_button :ragg, :red, id: 'radio-inline-1', 'autocomplete': 'off'
+          %label{:for => "radio-inline-1"} Red
+        .multiple-choice.ragg_choice-amber
+          = f.radio_button :ragg, :amber, id: 'radio-inline-2', 'autocomplete': 'off'
+          %label{:for => "radio-inline-2"} Amber
+        .multiple-choice.ragg_choice-green
+          = f.radio_button :ragg, :green, id: 'radio-inline-3', 'autocomplete': 'off'
+          %label{:for => "radio-inline-3"} Green
+        .multiple-choice.ragg_choice-blue
+          = f.radio_button :ragg, :blue, id: 'radio-inline-4', 'autocomplete': 'off'
+          %label{:for => "radio-inline-4"} Blue
   .grid-row
     .column-one-half
       .form-group
         = f.submit class: 'button'
-        - if current_page?(action: 'new')
+        - if current_page?(action: 'new') && @save_to_draft_button
           = f.submit 'Save to Draft', class: 'button button-draft'

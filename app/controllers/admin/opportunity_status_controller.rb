@@ -9,7 +9,7 @@ class Admin::OpportunityStatusController < Admin::BaseController
     if new_status == 'draft'
       authorize(opportunity, :drafting?)
     elsif new_status == 'pending' && opportunity.status == 'draft'
-      authorize(opportunity, :uploader_reviewer_restore?)
+      authorize(opportunity, :uploader_previewer_restore?)
     else
       authorize(opportunity, :publishing?)
     end
@@ -27,6 +27,7 @@ class Admin::OpportunityStatusController < Admin::BaseController
     authorize(opportunity, :trash?)
 
     opportunity.status = :trash
+    opportunity.ragg = :undefined
     opportunity.save!(validate: false)
 
     redirect_to admin_opportunity_path(opportunity), notice: %(This opportunity was moved to Trash)
