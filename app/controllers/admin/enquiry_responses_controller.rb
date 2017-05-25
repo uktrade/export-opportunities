@@ -18,9 +18,9 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   def create
     @enquiry_response = EnquiryResponse.new(enquiry_responses_params)
     @enquiry_response.editor_id = current_editor.id
-
     if @enquiry_response.errors.empty?
       @enquiry_response.save
+      EnquiryResponseSender.new.call(@enquiry_response, @enquiry_response.enquiry)
       redirect_to admin_enquiries_path, notice: 'Reply sent successfully!'
     else
       render :new, status: :unprocessable_entity
