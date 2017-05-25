@@ -2,11 +2,11 @@ test:
   override:
     - RAILS_ENV=test bundle exec rspec -r rspec_junit_formatter --format progress --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml
 deployment:
-  #continuous-deployment:
-    #branch: /feature.*/
-    #commands:
-      #- "[[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow"
-      #- git push -f git@heroku.com:${CIRCLE_PROJECT_REPONAME}-cont-depl.git ${CIRCLE_BRANCH}:master
+  continuous-deployment:
+    branch: /feature.*/
+    commands:
+      - "[[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow"
+      - git push -f git@heroku.com:${CIRCLE_PROJECT_REPONAME}-cont-depl.git ${CIRCLE_BRANCH}:master
   staging:
     branch: develop
     commands:
