@@ -9,3 +9,4 @@ class EnquiryResponseMailer < ApplicationMailer
     mail from: editor_email.to_s, name: 'Export opportunities', reply_to: editor_email, to: @enquiry.user.email, bcc: editor_email, subject: "Update on your enquiry for the export opportunity #{@enquiry.opportunity.title}"
   end
 end
+

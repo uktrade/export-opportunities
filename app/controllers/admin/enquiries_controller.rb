@@ -12,6 +12,11 @@ class Admin::EnquiriesController < Admin::BaseController
 
     @enquiries = policy_scope(Enquiry).all.order(created_at: :desc)
     @enquiries = @enquiries.where(created_at: @enquiry_form.from..@enquiry_form.to) if @enquiry_form.dates?
+    @enquiries.includes(:enquiry_response)
+
+    @enquiries.each do |enq|
+      enq.replied_diff_timestamp = enq.created_at - enq.enquiry_response.first.updated_at
+    end
 
     authorize @enquiries
 
