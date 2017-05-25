@@ -13,10 +13,12 @@
     %p Subject 
     = f.label :email_body, class: 'form-label-bold'
     = f.text_area(:email_body, cols: 40, rows: 15, class: 'form-control js-text-editor')
+    = f.hidden_field :enquiry_id, as: :hidden, value: params.fetch(:id) #{ params[:editor][:confirmation_token] }
+
     %p.form-hint
       This is the email to be sent out to the enquiry user.
 
   .grid-row
     .column-one-half
       .form-group
-        = f.submit class: 'button'
+        = f.submit 'Send', class: 'button'
