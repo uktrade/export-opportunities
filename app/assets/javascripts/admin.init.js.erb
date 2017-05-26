@@ -32,15 +32,21 @@ $('document').ready(function() {
 
 	var oppEditForm = $('form.edit_opportunity');
 	var oppNewForm = $('form.new_opportunity');
-	if (oppEditForm || oppNewForm) {
+	if (oppEditForm || oppNewEnquiryResponsesControllerForm) {
 		datePickerController.createDatePicker({
 			formElements:{'opportunity_response_due_on_3i': '%j', 'opportunity_response_due_on_2i': '%n', 'opportunity_response_due_on_1i': '%Y'},
 			noFadeEffect:true
 		});
 	}
 	
+	/* if edit form set behaviour of rag rating */
+	if (oppEditForm.length > 0) {
+		ukti.RaggRating.init(oppEditForm[0]);
+	}
+
+	/* rich text editor and other js for enquiry response in admin centre */
 	var enquiryResponseForm = $('form.new_enquiry_response');
 	if (enquiryResponseForm.length > 0) {
-		ukti.enquiryResponse.init(enquiryResponseForm);
+	  ukti.enquiryResponse.init(enquiryResponseForm);
 	}
 });

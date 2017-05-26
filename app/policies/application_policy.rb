@@ -14,8 +14,8 @@ class ApplicationPolicy
     @editor.administrator? || @editor.publisher?
   end
 
-  def editor_is_admin_or_publisher_or_reviewer?
-    editor_is_admin_or_publisher? || @editor.reviewer?
+  def editor_is_admin_or_publisher_or_previewer?
+    editor_is_admin_or_publisher? || @editor.previewer?
   end
 
   alias index? never_allow

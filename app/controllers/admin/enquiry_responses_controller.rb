@@ -12,12 +12,13 @@ class Admin::EnquiryResponsesController < Admin::BaseController
     @enquiry = Enquiry.find(enquiry_id)
 
     @enquiry_response = EnquiryResponse.new
-    # authorize @enquiry_response
+    authorize @enquiry_response
   end
 
   def create
     @enquiry_response = EnquiryResponse.new(enquiry_responses_params)
     @enquiry_response.editor_id = current_editor.id
+    authorize @enquiry_response
     if @enquiry_response.errors.empty?
       @enquiry_response.save
       EnquiryResponseSender.new.call(@enquiry_response, @enquiry_response.enquiry)

@@ -4,7 +4,8 @@ class Editor < ActiveRecord::Base
   has_many :opportunities, foreign_key: 'author_id'
   has_many :enquiry_responses
 
-  enum role: { uploader: 1, publisher: 2, reviewer: 3, administrator: 4 }
+  has_many :enquiry_responses
+  enum role: { uploader: 1, publisher: 2, previewer: 3, administrator: 4 }
 
   devise :database_authenticatable,
     :recoverable, :rememberable, :trackable, :validatable,
@@ -19,7 +20,7 @@ class Editor < ActiveRecord::Base
   end
 
   def staff?
-    uploader? || publisher? || administrator? || reviewer?
+    uploader? || publisher? || administrator? || previewer?
   end
 
   def deactivated?

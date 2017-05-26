@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'Admin can filter opportunities' do
-  scenario 'sees filtering links' do
+  scenario 'an uploader can see all filtering links (including Draft)' do
     uploader = create(:uploader)
     login_as(uploader)
     visit admin_opportunities_path
@@ -9,8 +9,41 @@ RSpec.feature 'Admin can filter opportunities' do
     expect(page).to have_link('Published')
     expect(page).to have_link('Pending')
     expect(page).to have_link('Trash')
+    expect(page).to have_link('Draft')
   end
 
+  scenario 'a previewer can see all filtering links (including Draft)' do
+    uploader = create(:previewer)
+    login_as(uploader)
+    visit admin_opportunities_path
+
+    expect(page).to have_link('Published')
+    expect(page).to have_link('Pending')
+    expect(page).to have_link('Trash')
+    expect(page).to have_link('Draft')
+  end
+
+  scenario 'a publisher can see filtering links except Draft' do
+    uploader = create(:publisher)
+    login_as(uploader)
+    visit admin_opportunities_path
+
+    expect(page).to have_link('Published')
+    expect(page).to have_link('Pending')
+    expect(page).to have_link('Trash')
+    expect(page).to_not have_link('Draft')
+  end
+
+  scenario 'an admin can see filtering links except Draft' do
+    uploader = create(:admin)
+    login_as(uploader)
+    visit admin_opportunities_path
+
+    expect(page).to have_link('Published')
+    expect(page).to have_link('Pending')
+    expect(page).to have_link('Trash')
+    expect(page).to_not have_link('Draft')
+  end
   scenario 'Editor preference for showing and hiding expired opportunities persists when changing filters (All,Pending,Published,Trash)' do
     login_as(create(:publisher))
     visit admin_opportunities_path

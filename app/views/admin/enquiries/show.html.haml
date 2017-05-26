@@ -56,8 +56,8 @@
             %th{:scope => 'row'} Response content
             %td= @enquiry_response.email_body.html_safe
           %tr
-            %th{:scope => 'row'} Action'ed Editor
-            %td= @enquiry_response.editor.name
+            %th{:scope => 'row'} Action Editor Email
+            %td= @enquiry_response.editor.email
           %tr
             %th{:scope => 'row'} Sent Time
             %td= @enquiry_response.created_at
