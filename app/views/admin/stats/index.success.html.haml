@@ -11,10 +11,28 @@
         = "on #{@stats_search_form.date_from.to_s(:admin_date)}"
       - else
         = "over the period #{@stats_search_form.date_from.to_s(:admin_date)} to #{@stats_search_form.date_to.to_s(:admin_date)}"
-  = t('admin.stats.opportunities_submitted', count: @stats.opportunities_submitted)
-  %br
-  = t('admin.stats.opportunities_published', count: @stats.opportunities_published)
-  %br
-  = t('admin.stats.enquiries', count: @stats.enquiries)
-  %br
-  = t('admin.stats.average_age_when_published', average_age: @stats.average_age_when_published)
+
+%section
+  .grid-row
+    .column-one-third
+      %div.data
+        %span.data-item.bold-xxlarge 
+          = @stats.opportunities_submitted
+        %span.data-item.bold-xsmall Opportunities submitted
+    .column-one-third
+      %div.data
+        %span.data-item.bold-xxlarge 
+          = @stats.opportunities_published
+        %span.data-item.bold-xsmall Opportunities published
+    .column-one-third
+      %div.data
+        %span.data-item.bold-xxlarge 
+          = @stats.enquiries
+        %span.data-item.bold-xsmall Enquiries
+
+
+%section
+  %h3 Average time to publish an opportunity following submission:
+  %div.data
+    %span.data-item.bold-xlarge 
+      = @stats.average_age_when_published
