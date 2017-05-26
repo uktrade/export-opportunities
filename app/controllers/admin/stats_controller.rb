@@ -16,6 +16,14 @@ module Admin
       end
     end
 
+    def show
+      authorize :stats
+
+      today = DateTime.now.utc
+      last_month = today - 1.month
+      redirect_to "/admin/stats?stats_from%5Byear%5D=#{last_month.year}&stats_from%5Bmonth%5D=#{last_month.month}&stats_from%5Bday%5D=#{last_month.day}&stats_to%5Byear%5D=#{today.year}&stats_to%5Bmonth%5D=#{today.month}&stats_to%5Bday%5D=#{today.day}&service_provider=all"
+    end
+
     private
 
     def stats_search_form_params

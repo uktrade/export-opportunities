@@ -63,7 +63,9 @@ Rails.application.routes.draw do
       mount Flipper::UI.app(flipper_block) => '/feature-flags'
     end
 
-    resources :stats, only: :index
+    resources :stats do
+    end
+
 
     root to: redirect('/admin/opportunities')
   end
