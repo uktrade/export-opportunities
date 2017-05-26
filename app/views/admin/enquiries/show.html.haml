@@ -43,6 +43,25 @@
     %th{:scope => 'row'} Data Protection
     %td= @enquiry.data_protection ? 'Yes' : 'No'
 
+.button-bar
+  .grid-row
+    .column-one-half
+      = link_to "Back", admin_enquiries_path, class: 'link-back'
+    .column-one-half
+      - if @enquiry_response
+        %h1.heading-xlarge Responded by
+        %h1.heading-xlarge= @enquiry_response.editor.name
+        %table.horizontal
+          %tr
+            %th{:scope => 'row'} Response content
+            %td= @enquiry_response.email_body.html_safe
+          %tr
+            %th{:scope => 'row'} Action Editor Email
+            %td= @enquiry_response.editor.email
+          %tr
+            %th{:scope => 'row'} Sent Time
+            %td= @enquiry_response.created_at
+      - else
+        = link_to "Reply", new_admin_enquiry_response_path(id: @enquiry.id), class: 'button button-reply pull-right', params: {id: @enquiry.id}
 
 
-= link_to "Back", admin_enquiries_path, class: 'link-back'

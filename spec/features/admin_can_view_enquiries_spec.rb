@@ -11,6 +11,36 @@ feature 'admin can view enquiries' do
     expect(page).to have_content(enquiry.company_name)
   end
 
+  scenario 'viewing which enquiries are replied' do
+    admin = create(:admin)
+
+    enquiry = create(:enquiry, company_name: 'UK Boathouses Inc', created_at: DateTime.new(2017, 5, 1).utc)
+    create(:enquiry_response, enquiry: enquiry)
+
+    create(:enquiry, company_name: 'UK Leaky Boathouses', created_at: DateTime.new(2017, 6, 1).utc)
+
+    login_as(admin)
+
+    visit admin_opportunities_path
+
+    click_on 'Enquiries'
+
+    expect(page).to have_content(enquiry.company_name)
+    expect(page).to have_selector('th', text: 'Company')
+    expect(page).to have_selector('th', text: 'Opportunity')
+    expect(page).to have_selector('th', text: 'Applied On')
+    expect(page).to have_selector('th', text: 'Replied')
+
+    first_row = page.find('tbody tr:nth-child(1)')
+    second_row = page.find('tbody tr:nth-child(2)')
+
+    expect(first_row).to have_content('No')
+    expect(first_row).to have_content('UK Leaky Boathouses')
+
+    expect(second_row).to have_content('Yes')
+    expect(second_row).to have_content('UK Boathouses Inc')
+  end
+
   scenario 'list of enquiries can be paginated' do
     admin = create(:admin)
     allow(Enquiry).to receive(:default_per_page).and_return(1)
