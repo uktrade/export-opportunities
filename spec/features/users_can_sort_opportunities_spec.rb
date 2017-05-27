@@ -2,29 +2,28 @@ require 'rails_helper'
 
 feature 'Sorting opportunities', :elasticsearch, js: true do
   scenario 'users can sort opportunities by first published at and expiry date' do
-    create(:opportunity, :published, title: 'First', first_published_at: 2.days.ago, response_due_on: 3.days.from_now)
-    create(:opportunity, :published, title: 'Second', first_published_at: 1.day.ago, response_due_on: 2.days.from_now)
-    create(:opportunity, :published, title: 'Third', first_published_at: 3.days.ago, response_due_on: 1.day.from_now)
+    create(:opportunity, :published, title: 'First Opp', first_published_at: 2.days.ago, response_due_on: 3.days.from_now)
+    create(:opportunity, :published, title: 'Second Opp', first_published_at: 1.day.ago, response_due_on: 2.days.from_now)
+    create(:opportunity, :published, title: 'Third Opp', first_published_at: 3.days.ago, response_due_on: 1.day.from_now)
 
     sleep 1
     visit '/opportunities'
 
-    expect('Third').to appear_before('Second')
-    expect('Second').to appear_before('First')
-    expect(find_field('expiry date')).to be_checked
-
-    within('.opportunities__order') do
-      choose 'published date'
+    within('.filters') do
+      fill_in 's', with: 'Opp'
+      page.find('.filters__searchbutton').click
     end
-    wait_for_ajax
+
+    within('.results__order') do
+      find('label[for=order_published_date]').click
+    end
 
     expect('Second').to appear_before('First')
     expect('First').to appear_before('Third')
 
-    within('.opportunities__order') do
-      choose 'expiry date'
+    within('.results__order') do
+      find('label[for=order_expiry_date]').click
     end
-    wait_for_ajax
 
     expect('Third').to appear_before('Second')
     expect('Second').to appear_before('First')
@@ -40,38 +39,36 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       sleep 1
       visit '/opportunities'
 
-      within '#search-form' do
+      within('.filters') do
         fill_in 's', with: 'Sardines'
-        page.find('.search-form__submit').click
-        wait_for_ajax
+        page.find('.filters__searchbutton').click
       end
 
       expect(page).to have_no_content('Cod')
-      # TODO: relevance is different with ES than PG here, that's why it fails
       # expect('Sardines, Big Sardines').to appear_before('Small Sardines')
-      expect(find_field('relevance')).to be_checked
+      expect(find_field('relevance', visible: false)).to be_checked
+
       expect(page).to have_content('Subscribe to Email Alerts for')
 
-      within('.opportunities__order') do
-        choose 'published date'
+      within('.results__order') do
+        find('label[for=order_published_date]').click
       end
-      wait_for_ajax
 
       expect(page).to have_no_content('Cod')
-      expect('Small Sardines').to appear_before('Sardines, Big Sardines')
       expect('Sardines, Big Sardines').to appear_before('Really Old Sardines, Expiring Soon')
-      expect(find_field('published date')).to be_checked
+
+      expect(find_field('published date', visible: false)).to be_checked
+
       expect(page).to have_content('Subscribe to Email Alerts for')
 
-      within('.opportunities__order') do
-        choose 'expiry date'
+      within('.results__order') do
+        find('label[for=order_expiry_date]').click
       end
-      wait_for_ajax
 
       expect(page).to have_no_content('Cod')
       expect('Really Old Sardines, Expiring Soon').to appear_before('Sardines, Big Sardines')
       expect('Sardines, Big Sardines').to appear_before('Small Sardines')
-      expect(find_field('expiry date')).to be_checked
+      expect(find_field('expiry date', visible: false)).to be_checked
       expect(page).to have_content('Subscribe to Email Alerts for')
     end
   end

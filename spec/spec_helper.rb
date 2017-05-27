@@ -1,7 +1,27 @@
 require 'vcr'
 require 'elasticsearch/extensions/test/cluster'
 
+module Helpers
+  def select2_select_multiple(select_these, _id)
+    # This methods requires @javascript in the Scenario
+    [select_these].flatten.each do |value|
+      first('#s2id_#{_id}').click
+      found = false
+      within('#select2-drop') do
+        all('li.select2-results__option').each do |result|
+          next unless found
+          if result.text == value
+            result.click
+            found = true
+          end
+        end
+      end
+    end
+  end
+end
+
 RSpec.configure do |config|
+  config.include Helpers
   config.around :each, elasticsearch: true do |example|
     [Opportunity, Subscription].each do |model|
       model.__elasticsearch__.create_index!(force: true)
