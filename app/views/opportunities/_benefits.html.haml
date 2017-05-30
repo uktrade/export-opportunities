@@ -1,0 +1,20 @@
+- if @opportunities.any?
+  .container.center 
+    %span.statistic
+      %span.statistic_number
+        = @count
+      %span.statistic_text Export opportunities are waiting for you
+
+%section.block
+  .container
+    .row
+      .column-8
+        %h3.h3.block__heading Use our service and you'll be able to:
+        %ul.block__list
+          %li Access live opportunities so you can sell your product or service.
+          %li Get alerts whenever an overseas company is looking for a product or service like yours.
+          %li Reach new customers around the world with ease.
+          %li Get support along each stage of exporting.
+      .column-4
+        %img.img.img__fluid.push--bottom{src: asset_path('export-opportunities-mockup.png'), alt: "Mockup of Export Opportunities"}/
+  

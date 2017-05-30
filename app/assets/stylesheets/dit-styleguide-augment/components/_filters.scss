@@ -48,7 +48,8 @@
     @media #{$desktop-s} {
       float: left;
       width: 32%;
-      padding: 0px 25px;
+      /*padding: 0px 25px;*/
+      padding: 0px 23px;
       min-height: 100px;
       border: solid 1px #979797;
       border-width: 0px 0px 0px 1px;
@@ -76,6 +77,9 @@
         min-height: 46px;
       }
     }
+  }
+  &__label-brackets {
+    font-size: 18px;
   }
   &__field {
     -webkit-appearance: none;

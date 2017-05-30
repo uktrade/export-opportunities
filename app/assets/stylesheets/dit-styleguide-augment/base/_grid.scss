@@ -6,17 +6,7 @@
   box-sizing: border-box;
 }
 
-.outer-container {
-  margin: 0 auto;
-  max-width: $max-width;
-  padding: 0 10px;
-  @media #{$tablet-m} {
-    padding: 0 20px;
-  }
-  @media #{$desktop-m} {
-    padding: 0 30px;
-  }
-}
+
 
 .container {
   margin: 0 auto;
