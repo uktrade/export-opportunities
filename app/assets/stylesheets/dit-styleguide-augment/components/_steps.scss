@@ -2,10 +2,15 @@
   padding: 15px;
   &__mainheading {
     font-size: 24px;
-    font-weight: 500;
+    letter-spacing: -0.2px;
+    font-weight: 400;
     line-height: 2.29;
-    letter-spacing: -0.4px;
+    padding-top: 20px;
     color: $grey;
+    @media #{$desktop-m} {
+      font-size: 32px;
+      letter-spacing: -0.4px;
+    }
   }
   &__icon {
     width: 220px;
@@ -40,6 +45,7 @@
     float: left;
     margin-right: 10px;
     padding-bottom: 40px;
+    padding-top: 16px;
     @media #{$tablet-m} {
       padding-bottom: 80px;
     }

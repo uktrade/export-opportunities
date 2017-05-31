@@ -2,7 +2,7 @@
   .container.center 
     %span.statistic
       %span.statistic_number
-        = @count
+        =number_with_delimiter(@count)
       %span.statistic_text Export opportunities are waiting for you
 
 %section.block.bg-blue
@@ -16,5 +16,5 @@
           %li.block__list__item Reach new customers around the world with ease.
           %li.block__list__item Get support along each stage of exporting.
       .column-4
-        %img.img.img__fluid.push--bottom{src: asset_path('export-opportunities-mockup.png'), alt: "Mockup of Export Opportunities"}/
+        %img.img.img__fluid.block__graphic{src: asset_path('export-opportunities-mockup.png'), alt: "Mockup of Export Opportunities"}/
   

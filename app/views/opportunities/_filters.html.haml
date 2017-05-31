@@ -1,4 +1,4 @@
-%div.filters.js-filters.filters-open
+%div.filters.js-filters.filters-open{"id" => "search"}
   = form_tag opportunities_path, class: 'search-form', id: 'search-form', method: :get do
     = hidden_field_tag :isSearchAndFilter, true
     = hidden_field_tag :filterOpen, params[:filterOpen], id: 'filterOpen'
