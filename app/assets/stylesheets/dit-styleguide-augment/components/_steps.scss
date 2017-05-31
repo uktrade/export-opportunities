@@ -8,8 +8,8 @@
     color: $grey;
   }
   &__icon {
-    width: 114px;
-    height: 114px;
+    width: 220px;
+    height: 220px;
     margin: 0 auto;
     position: relative;
     @media #{$desktop-m} {
@@ -21,7 +21,7 @@
         bottom: 0;
         content: '';
         position: absolute;
-        left: 160px;
+        left: 200px;
         top: 0;
         width: 100px;
         z-index: 10;
