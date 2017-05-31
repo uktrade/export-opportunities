@@ -62,7 +62,7 @@ RSpec.describe StatsSearchForm do
     it 'is invalid without a service provider' do
       form = StatsSearchForm.new(service_provider: nil)
       expect(form.valid?).to eq false
-      expect(form.error_messages).to include(t('admin.stats.errors.missing_service_provider'))
+      expect(form.error_messages).to include(t('admin.stats.errors.missing_service_provider_country_or_region'))
     end
 
     it 'is valid when the from_date is before the to_date' do

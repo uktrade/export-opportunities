@@ -67,7 +67,6 @@ Rails.application.routes.draw do
     resources :stats do
     end
 
-
     root to: redirect('/admin/opportunities')
   end
 

@@ -69,11 +69,11 @@ en:
         status_changed_html: "Status changed from <strong>%{old}</strong> to <strong>%{new}</strong>"
         attribution: "%{who} on %{when}"
     stats:
-      opportunities_submitted: "Opportunities submitted: %{count}"
-      opportunities_published: "Opportunities published: %{count}"
+      opportunities_submitted: "%{count} Opportunities submitted"
+      opportunities_published: "%{count} Opportunities published"
       average_age_when_published: "Average time to publish an opportunity following submission: %{average_age}"
       enquiries: "Enquiries: %{count}"
       errors:
-        missing_service_provider: 'Please select a service provider'
+        missing_service_provider_country_or_region: 'Please select a service provider or a country or a region'
         dates_out_of_order: '"To" date cannot come before "from" date'
         invalid_date: "\"%{field}\" is not a valid date"

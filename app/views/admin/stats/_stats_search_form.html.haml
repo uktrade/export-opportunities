@@ -7,8 +7,29 @@
     = select_date stats_search_form.date_to, { prefix: :stats_to, start_year: SITE_LAUNCH_YEAR, end_year: Time.zone.today.year }
 
   %div.form-group
+    = label_tag :report_granularity, 'Select Granularity:'
+    %div
+      = label_tag :report_granularity_service_provider, 'Service Provider'
+      = radio_button_tag 'granularity', 'ServiceProvider', stats_search_form.granularity == 'ServiceProvider'
+      = label_tag :report_granularity_country, 'Country'
+      = radio_button_tag 'granularity', 'Country', stats_search_form.granularity == 'Country'
+      = label_tag :report_granularity_region, 'Region'
+      = radio_button_tag 'granularity', 'Region', stats_search_form.granularity == 'Region'
+      = label_tag :report_granularity_universe, 'Universe'
+      = radio_button_tag 'granularity', 'Universe', stats_search_form.granularity == 'Universe'
+
+
+  %div.form-group
     = label_tag :service_provider, 'Service provider'
     = select_tag 'service_provider', options_from_collection_for_select(stats_search_form.service_providers, 'id', 'name', stats_search_form.service_provider_id)
+
+  %div.form-group
+    = label_tag :country, 'Country'
+    = select_tag 'country', options_from_collection_for_select(stats_search_form.countries, 'id', 'name', stats_search_form.country_id)
+
+  %div.form-group
+    = label_tag :country, 'Region'
+    = select_tag 'region', options_from_collection_for_select(stats_search_form.regions, 'id', 'name', stats_search_form.region_id)
 
   %div.form-group
     = submit_tag 'Show stats', class: 'button'
