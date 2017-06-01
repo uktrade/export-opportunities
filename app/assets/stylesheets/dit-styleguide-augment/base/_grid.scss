@@ -6,8 +6,6 @@
   box-sizing: border-box;
 }
 
-
-
 .container {
   margin: 0 auto;
   max-width: $max-width;
@@ -42,7 +40,6 @@
       width: 100% / $grid-columns * $sum;
       vertical-align: $align;
     }
-
     &.fluid { width: percentage($col/$sum); }
 }
 

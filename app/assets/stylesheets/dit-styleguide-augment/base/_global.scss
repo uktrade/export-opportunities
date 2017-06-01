@@ -1,19 +1,14 @@
+/* a lot of stuff here needs to roll into style library */
+
 body {
 	overflow-x: hidden;
 	background:	$white;
-
 }
 .img {
 	display:block;
 	&__fluid {
 		width: 100%;
 	}
-}
-.margin-top-20 {
-	margin-top: 20px;
-}
-.margin-top-30 {
-	margin-top: 30px;
 }
 body.js-enabled {
 	.select-custom {
@@ -23,3 +18,17 @@ body.js-enabled {
 .center {
 	text-align: center;
 }
+.margin-top-20 {
+	margin-top: 20px;
+}
+.margin-top-30 {
+	margin-top: 30px;
+}
+.padding-top-60 {
+	padding-top: 60px!important;
+}
+.padding-bottom-40{
+	padding-top: 40px!important;
+}
+
+/* .button in style library tweaking */
