@@ -36,10 +36,6 @@ RSpec.feature 'Editors can view stats' do
 
       expect(page.find_field('Service provider').find('option[selected]').text).to eq 'Provider of services'
 
-      # expect(page).to have_content(t('admin.stats.opportunities_submitted', count: 1))
-      # expect(page).to have_content(t('admin.stats.opportunities_published', count: 1))
-      # expect(page).to have_content(t('admin.stats.enquiries', count: 1))
-
       select '1970', from: 'stats_from_year'
       select 'September', from: 'stats_from_month'
       select '10', from: 'stats_from_day'
@@ -173,7 +169,7 @@ RSpec.feature 'Editors can view stats' do
       click_on 'Show stats'
     end
 
-    # expect(page).to have_content('Statistics for Mexico on 15 Sep 2015')
+    expect(page).to have_content('Statistics by Country on 15 Sep 2015')
     expect(page).to have_content(t('admin.stats.opportunities_published', count: 2))
   end
 
