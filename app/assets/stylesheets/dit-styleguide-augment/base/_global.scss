@@ -1,21 +1,34 @@
+/* a lot of stuff here needs to roll into style library */
+
+body {
+	overflow-x: hidden;
+	background:	$white;
+}
 .img {
 	display:block;
 	&__fluid {
 		width: 100%;
 	}
 }
-
+body.js-enabled {
+	.select-custom {
+		visibility: hidden
+	}
+}
+.center {
+	text-align: center;
+}
 .margin-top-20 {
 	margin-top: 20px;
 }
 .margin-top-30 {
 	margin-top: 30px;
 }
-body.js-enabled {
-	.select-custom {
-		visibility: hidden
-	}
+.padding-top-60 {
+	padding-top: 60px!important;
 }
-body {
-	overflow-x: hidden;
+.padding-bottom-40{
+	padding-top: 40px!important;
 }
+
+/* .button in style library tweaking */

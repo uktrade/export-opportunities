@@ -39,7 +39,7 @@
       width: auto;
       max-width: none;
       margin: 0 20px;
-      padding: 24.5px 0;
+      padding: 20px 0 10px 0;
     }
   }
   &__item {
@@ -48,20 +48,37 @@
     @media #{$desktop-s} {
       float: left;
       width: 32%;
-      padding: 0px 25px;
+      padding: 0px 20px;
+      margin-bottom: 0px;
       min-height: 100px;
-      border: solid 1px #979797;
-      border-width: 0px 0px 0px 1px;
+      &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        z-index: 1;
+        right: 0;
+        top: 0;
+        bottom: 20px;
+        border: solid 1px #979797;
+        border-width: 0 0 0 1px;
+      }
       &__last {
         width: 36%;
+        &:after {
+          content: none;
+        }
       }
     }
-
   }
-  &__groupA {
-    & :first-child {
-      border: none;
-    }
+  &__groupB .filters__item:nth-child(2) {
+    clear: left;
+  }
+  &__groupB .filters__item:nth-child(1):after {
+    content: none;
+  }
+  &__groupB .filters__item:nth-child(2):after,
+  &__groupB .filters__item:nth-child(3):after{
+    bottom: 0;
   }
   &__label {
     font-size: 18px;
@@ -76,6 +93,9 @@
         min-height: 46px;
       }
     }
+  }
+  &__label-brackets {
+    font-size: 18px;
   }
   &__field {
     -webkit-appearance: none;
@@ -99,11 +119,13 @@
   }
   &__searchbutton {
     -webkit-appearance: none;
+    font-size: 18px;
+    font-weight: 900;
     border-radius: 3px;
     color: $white;
     background-color: $greatred;
     width: 100%;
-    padding: 15px 30px;
+    padding: 15px 20px;
     @media #{$tablet-l} {
       position: relative;
       top: 24px;
