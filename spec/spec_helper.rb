@@ -29,7 +29,7 @@ RSpec.configure do |config|
     end
     example.run
     [Opportunity, Subscription].each do |model|
-      model.__elasticsearch__.client.indices.delete index: model.index_name
+      # model.__elasticsearch__.client.indices.delete index: model.index_name
     end
   end
 
