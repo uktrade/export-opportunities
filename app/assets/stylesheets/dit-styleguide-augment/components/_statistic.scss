@@ -1,0 +1,33 @@
+.statistic {
+  display: inline-block;
+  text-align: center;
+  padding: 40px 0;
+  &_number {
+    display: inline-block;
+    font-size: 100px;
+    font-weight: 500;
+    margin-right: 10px;
+    text-align: right;
+    width: 100%;
+    color: #1E1348;
+    text-align: center;
+    @media #{$desktop-s} {
+      text-align: right;
+      width: auto;
+    }
+  }
+  &_text {
+    display: inline-block;
+    font-size: 36px;
+    font-weight: 500;
+    letter-spacing: -0.7px;
+    line-height: 1.2em;
+    margin-left: 10px;
+    width: 340px;
+    color: #4a4a4a;
+    text-align: center;
+    @media #{$desktop-s} {
+      text-align: left;
+    }      
+  }
+}

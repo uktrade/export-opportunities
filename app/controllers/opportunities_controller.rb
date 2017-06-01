@@ -28,11 +28,24 @@ class OpportunitiesController < ApplicationController
                  Opportunity.default_per_page
                end
 
-    sort_column = params[:sort]
+    # Default sort column
+    sort_column = 'response_due_on'
 
+    # If user is using keyword to search
+    if params.key?(:isSearchAndFilter) && params[:s].present?
+      sort_column = 'relevance'
+    end
+
+    # If user is filtering a search
+    sort_column = params[:sort_column_name] if params[:sort_column_name]
+
+    # set sort_order
     if sort_column
       sort_order = sort_column == 'response_due_on' ? 'asc' : 'desc'
     end
+
+    # pass sort correct column down to the view
+    @sort_column_name = sort_column
 
     if atom_request?
       @sort = OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')

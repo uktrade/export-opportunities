@@ -1,72 +1,70 @@
-= content_for :hero do
-  %p= @opportunity.countries.pluck(:name).to_sentence.upcase
-  %h1= @opportunity.title
+.container
+  .legacy.margin-top-30 
+    %h1= @opportunity.title
+    .new-wrapper
+      .opportunity__main.panel
+        .opportunity__content
+          %p.opportunity__teaser= @opportunity.teaser
+          %hr
 
+          = present_html_or_formatted_text(@opportunity.description).html_safe
 
-.new-wrapper
-  .opportunity__main.panel
-    .opportunity__content
-      %p.opportunity__teaser= @opportunity.teaser
-      %hr
+      .opportunity__information.panel
+        %h3 Essential information
 
-      = present_html_or_formatted_text(@opportunity.description).html_safe
+        .meta
+          .meta__item.meta__icon-sector
+            %h4.meta__header
+              Sectors:
+            %p.meta__content
+              = @opportunity.sectors.pluck(:name).to_sentence
 
-  .opportunity__information.panel
-    %h3 Essential information
+          .meta__item.meta__icon-type
+            %h4.meta__header
+              Opportunity type:
+            %p.meta__content
+              = @opportunity.types.pluck(:name).to_sentence
 
-    .meta
-      .meta__item.meta__icon-sector
-        %h4.meta__header
-          Sectors:
-        %p.meta__content
-          = @opportunity.sectors.pluck(:name).to_sentence
+          .meta__item.meta__icon-response
+            %h4.meta__header
+              Expiry date:
+            %p.meta__content
+              = @opportunity.response_due_on.strftime('%d %B %Y')
 
-      .meta__item.meta__icon-type
-        %h4.meta__header
-          Opportunity type:
-        %p.meta__content
-          = @opportunity.types.pluck(:name).to_sentence
+          .meta__item.meta__icon-enquiries
+            %h4.meta__header
+              Applications received:
+            %p.meta__content
+              = @opportunity.enquiries.size
 
-      .meta__item.meta__icon-response
-        %h4.meta__header
-          Expiry date:
-        %p.meta__content
-          = @opportunity.response_due_on.strftime('%d %B %Y')
+          .meta__item.meta__icon-value
+            %h4.meta__header
+              Value of contract:
+            %p.meta__content
+              - if @opportunity.values.any?
+                = @opportunity.values.first.name
+              - else
+                Value unknown
 
-      .meta__item.meta__icon-enquiries
-        %h4.meta__header
-          Applications received:
-        %p.meta__content
-          = @opportunity.enquiries.size
+          - essential_information_required = @opportunity.countries.with_exporting_guide.any? || @opportunity.types.aid_funded.any?
+          - if essential_information_required
+            - @opportunity.countries.with_exporting_guide.each do |country|
+              .meta__item.meta__icon-guide
+                = link_to "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank' do
+                  %h4.meta__header
+                    Your guide to exporting
+                  %p.meta__content
+                    = country.name
+            - if @opportunity.types.aid_funded.any?
+              .meta__item.meta__icon-guide
+                = link_to 'https://www.gov.uk/guidance/aid-funded-business', target: '_blank' do
+                  %h4.meta__header
+                    Your guide for aid funded business
 
-      .meta__item.meta__icon-value
-        %h4.meta__header
-          Value of contract:
-        %p.meta__content
-          - if @opportunity.values.any?
-            = @opportunity.values.first.name
-          - else
-            Value unknown
-
-      - essential_information_required = @opportunity.countries.with_exporting_guide.any? || @opportunity.types.aid_funded.any?
-      - if essential_information_required
-        - @opportunity.countries.with_exporting_guide.each do |country|
-          .meta__item.meta__icon-guide
-            = link_to "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank' do
-              %h4.meta__header
-                Your guide to exporting
-              %p.meta__content
-                = country.name
-        - if @opportunity.types.aid_funded.any?
-          .meta__item.meta__icon-guide
-            = link_to 'https://www.gov.uk/guidance/aid-funded-business', target: '_blank' do
-              %h4.meta__header
-                Your guide for aid funded business
-
-    - if @opportunity.expired?
-      %p
-        %strong= t('opportunity.expired')
-      %p
-        Visit the #{link_to 'opportunities page', opportunities_path} to find another.
-    - else
-      = link_to 'Apply for this opportunity', new_enquiry_path(slug: @opportunity.slug), class: 'button button-wide'
+        - if @opportunity.expired?
+          %p
+            %strong= t('opportunity.expired')
+          %p
+            Visit the #{link_to 'opportunities page', opportunities_path} to find another.
+        - else
+          = link_to 'Apply for this opportunity', new_enquiry_path(slug: @opportunity.slug), class: 'button button-wide'

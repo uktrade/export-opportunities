@@ -1,0 +1,80 @@
+.steps {
+  padding: 15px;
+  &__mainheading {
+    font-size: 24px;
+    letter-spacing: -0.2px;
+    font-weight: 400;
+    line-height: 2.29;
+    padding-top: 20px;
+    color: $grey;
+    @media #{$desktop-m} {
+      font-size: 32px;
+      letter-spacing: -0.4px;
+    }
+  }
+  &__icon {
+    width: 220px;
+    height: 220px;
+    margin: 0 auto;
+    position: relative;
+    @media #{$desktop-m} {
+      &-with-arrow:after {
+        background: transparent asset-url('steps/dotted_arrow.svg'); 
+        background-position: 90% center;
+        background-repeat: no-repeat;
+        background-size: 45px;
+        bottom: 0;
+        content: '';
+        position: absolute;
+        left: 100%;
+        top: 0;
+        width: 100px;
+        z-index: 10;
+      }
+    }
+  }
+  &__number {
+    color: $lightgrey;
+    display: block; 
+    font-size: 100px;
+    font-weight: 500;
+    letter-spacing: -1px;
+    line-height: 1em; 
+    text-align: center;
+    width: 74px;
+    float: left;
+    margin-right: 10px;
+    padding-bottom: 40px;
+    padding-top: 16px;
+    @media #{$tablet-m} {
+      padding-bottom: 80px;
+    }
+    @media #{$desktop-m} {
+      font-size: 134px;
+      height: 176px;
+      letter-spacing: -1.3px;
+      margin-right: 10px;
+    }
+  }
+  &__heading {
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    color: $greytundora;
+    padding-top: 20px;
+    @media #{$desktop-m} {
+      min-height: none;
+    }
+    @media #{$desktop-m} {
+      padding-top: 30px;
+    }
+  }
+  &__text {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.38;
+    color: $greytundora;
+    padding-top: 8px;
+    margin-left: 84px;
+  }
+}

@@ -32,6 +32,12 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
 
     sleep 1
     visit opportunities_path
+
+    within '#search-form' do
+      fill_in 's', with: opportunity.title
+      page.find('.filters__searchbutton').click
+    end
+
     click_on opportunity.title
     expect(page).to have_content opportunity.title
 
