@@ -6,7 +6,7 @@
 %div
   %p
     %strong
-      = "Statistics for #{@service_provider.name}"
+      = "Statistics by #{@stats_search_form.granularity}"
       - if @stats_search_form.date_from == @stats_search_form.date_to
         = "on #{@stats_search_form.date_from.to_s(:admin_date)}"
       - else
