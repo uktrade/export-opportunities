@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.feature 'Editors can view stats' do
   scenario 'for a specific service provider' do
-    skip('Temporary while refactoring this page')
     service_provider = create(:service_provider, name: 'Provider of services')
     another_service_provider = create(:service_provider, name: 'A different one')
 
@@ -37,10 +36,9 @@ RSpec.feature 'Editors can view stats' do
 
       expect(page.find_field('Service provider').find('option[selected]').text).to eq 'Provider of services'
 
-      expect(page).to have_content(t('admin.stats.opportunities_submitted', count: 1))
-      expect(page).to have_content(t('admin.stats.opportunities_submitted', count: 1))
-      expect(page).to have_content(t('admin.stats.opportunities_published', count: 1))
-      expect(page).to have_content(t('admin.stats.enquiries', count: 1))
+      # expect(page).to have_content(t('admin.stats.opportunities_submitted', count: 1))
+      # expect(page).to have_content(t('admin.stats.opportunities_published', count: 1))
+      # expect(page).to have_content(t('admin.stats.enquiries', count: 1))
 
       select '1970', from: 'stats_from_year'
       select 'September', from: 'stats_from_month'
@@ -49,6 +47,8 @@ RSpec.feature 'Editors can view stats' do
       select '1970', from: 'stats_to_year'
       select 'September', from: 'stats_to_month'
       select '20', from: 'stats_to_day'
+
+      choose 'granularity_ServiceProvider'
 
       click_on 'Show stats'
 
@@ -82,11 +82,12 @@ RSpec.feature 'Editors can view stats' do
   end
 
   scenario 'when there is no data for the selected criteria' do
-    skip('Temporary while refactoring this page')
     service_provider = create(:service_provider, name: 'A provider of services')
     login_as(create(:editor, service_provider: service_provider))
 
     visit '/admin/stats'
+
+    choose 'granularity_ServiceProvider'
 
     click_on 'Show stats'
 
@@ -114,7 +115,6 @@ RSpec.feature 'Editors can view stats' do
   end
 
   scenario 'when the editor requests a date range covering a single day' do
-    skip('TODO: fix it')
     service_provider = create(:service_provider, name: 'A provider of services')
     login_as(create(:editor, service_provider: service_provider))
 
@@ -246,7 +246,6 @@ RSpec.feature 'Editors can view stats' do
   end
 
   scenario 'for all service providers' do
-    skip('Temporary while refactoring this page')
     nassau = create(:service_provider, name: 'Nassau')
     mexico = create(:service_provider, name: 'Mexico')
 
@@ -264,6 +263,8 @@ RSpec.feature 'Editors can view stats' do
       select '2015', from: 'stats_to_year'
       select 'September', from: 'stats_to_month'
       select '15', from: 'stats_to_day'
+
+      choose 'granularity_ServiceProvider'
 
       select 'all service providers', from: 'Service provider'
 
