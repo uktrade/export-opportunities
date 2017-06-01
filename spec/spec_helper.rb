@@ -1,5 +1,6 @@
 require 'vcr'
 require 'elasticsearch/extensions/test/cluster'
+require 'capybara'
 
 module Helpers
   def select2_select_multiple(select_these, _id)
@@ -20,6 +21,10 @@ module Helpers
   end
 end
 
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, timeout: 2.minutes, phantomjs_options: ['--load-images=no'])
+end
+
 RSpec.configure do |config|
   config.include Helpers
   config.around :each, elasticsearch: true do |example|
@@ -29,7 +34,7 @@ RSpec.configure do |config|
     end
     example.run
     [Opportunity, Subscription].each do |model|
-      model.__elasticsearch__.client.indices.delete index: model.index_name
+      # model.__elasticsearch__.client.indices.delete index: model.index_name
     end
   end
 
