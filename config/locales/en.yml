@@ -72,7 +72,7 @@ en:
       opportunities_submitted: "%{count} Opportunities submitted"
       opportunities_published: "%{count} Opportunities published"
       average_age_when_published: "Average time to publish an opportunity following submission: %{average_age}"
-      enquiries: "Enquiries: %{count}"
+      enquiries: "%{count} Enquiries"
       errors:
         missing_service_provider_country_or_region: 'Please select a service provider or a country or a region'
         dates_out_of_order: '"To" date cannot come before "from" date'
