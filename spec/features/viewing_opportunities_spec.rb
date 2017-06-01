@@ -79,6 +79,7 @@ RSpec.feature 'Viewing opportunities', :elasticsearch, :commit do
     create(:opportunity, :published, title: 'Hello World', slug: 'hello-world2')
     create(:opportunity, :published, title: 'Hello World', slug: 'hello-world3')
 
+    sleep 1
     visit opportunities_path
 
     within '#search-form' do

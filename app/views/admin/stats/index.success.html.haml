@@ -14,21 +14,26 @@
 
 %section
   .grid-row
-    .column-one-third
+    .column-one-quarter
       %div.data.data-1
         %span.data-item.bold-xxlarge 
           = @stats.opportunities_submitted
         %span.data-item.bold-xsmall Opportunities submitted
-    .column-one-third
+    .column-one-quarter
       %div.data
         %span.data-item.bold-xxlarge 
           = @stats.opportunities_published
         %span.data-item.bold-xsmall Opportunities published
-    .column-one-third
+    .column-one-quarter
       %div.data
         %span.data-item.bold-xxlarge 
           = @stats.enquiries
         %span.data-item.bold-xsmall Enquiries
+    .column-one-quarter
+      %div.data
+        %span.data-item.bold-xxlarge
+          = @stats.enquiry_responses
+        %span.data-item.bold-xsmall Enquiry Responses counted at Enquiry Response created at date
 
 
 %section

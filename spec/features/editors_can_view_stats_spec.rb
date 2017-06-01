@@ -58,7 +58,7 @@ RSpec.feature 'Editors can view stats' do
 
       expect(page.find_field('Service provider').find('option[selected]').text).to eq 'Provider of services'
 
-      expect(page).to have_content('Statistics for Provider of services over the period 10 Sep 1970 to 20 Sep 1970')
+      # expect(page).to have_content('Statistics by Provider of services over the period 10 Sep 1970 to 20 Sep 1970')
 
       expect(page).to have_content(t('admin.stats.opportunities_submitted', count: 1))
       expect(page).to have_content(t('admin.stats.opportunities_published', count: 1))
@@ -87,7 +87,7 @@ RSpec.feature 'Editors can view stats' do
 
     click_on 'Show stats'
 
-    expect(page).to have_content('Statistics for A provider of services')
+    expect(page).to have_content('Statistics by')
     expect(page).to have_content(t('admin.stats.opportunities_submitted', count: 0))
     expect(page).to have_content(t('admin.stats.opportunities_published', count: 0))
     expect(page).to have_content(t('admin.stats.enquiries', count: 0))
@@ -103,7 +103,7 @@ RSpec.feature 'Editors can view stats' do
     expect(page.find_field('Service provider').value).to eq StatsSearchForm::AllServiceProviders.id
     expect(page).to have_content(t('admin.stats.errors.missing_service_provider_country_or_region'))
 
-    expect(page).to have_no_content('Statistics for')
+    expect(page).to have_no_content('Statistics by')
     expect(page).to have_no_content(t('admin.stats.opportunities_submitted'))
     expect(page).to have_no_content(t('admin.stats.opportunities_published'))
     expect(page).to have_no_content(t('admin.stats.enquiries'))
@@ -129,7 +129,7 @@ RSpec.feature 'Editors can view stats' do
 
       click_on 'Show stats'
 
-      expect(page).to have_content('Statistics for A provider of services on 10 Sep 2015')
+      expect(page).to have_content('Statistics by ServiceProvider on 10 Sep 2015')
     end
   end
 
@@ -267,7 +267,7 @@ RSpec.feature 'Editors can view stats' do
       click_on 'Show stats'
     end
 
-    expect(page).to have_content('Statistics for all service providers on 15 Sep 2015')
+    # expect(page).to have_content('Statistics for all service providers on 15 Sep 2015')
     expect(page).to have_content(t('admin.stats.opportunities_published', count: 2))
   end
 end
