@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Signing in as a user' do
+feature 'Signing in as a user', :elasticsearch do
   scenario 'Signing in via the old /sign_in path' do
     mock_sso_with(email: 'email@example.com')
 
@@ -11,14 +11,10 @@ feature 'Signing in as a user' do
 
   scenario 'Signed in user visits /', :elasticsearch, :commit do
     create(:opportunity, :published, title: 'Food')
-
     mock_sso_with(email: 'email@example.com')
-
-    sleep 1
     visit '/sign_in'
     visit '/'
-
-    expect(page).to have_content 'Food'
+    expect(page).to have_content 'Find and apply'
   end
 
   scenario 'Signing in successfully' do
@@ -40,6 +36,7 @@ feature 'Signing in as a user' do
   end
 
   scenario 'Signing out' do
+    skip 'Is this test redundant and/or do we need a differen one'
     mock_sso_with(email: 'email@example.com')
 
     visit '/dashboard'

@@ -10,12 +10,14 @@ feature 'Filtering opportunities', :elasticsearch, :commit, js: true do
     visit opportunities_path
 
     within('.filters') do
-      click_on 'Airports'
+      find('.js-toggler').click
+      select 'Airports', from: 'sectors[]', visible: false
+      page.find('.filters__searchbutton').click
     end
 
     expect(page).to have_content opportunity_with_sector.title
     expect(page).to have_no_content opportunity.title
-    expect(page).to have_selector('.opportunities__item', count: 1)
+    expect(page).to have_selector('.results__item', count: 1)
   end
 
   scenario 'users can filter opportunities by market' do
@@ -27,12 +29,14 @@ feature 'Filtering opportunities', :elasticsearch, :commit, js: true do
     visit opportunities_path
 
     within('.filters') do
-      click_on 'Iran'
+      find('.js-toggler').click
+      select 'Iran', from: 'countries[]', visible: false
+      page.find('.filters__searchbutton').click
     end
 
     expect(page).to have_content opportunity_with_market.title
     expect(page).to have_no_content opportunity.title
-    expect(page).to have_selector('.opportunities__item', count: 1)
+    expect(page).to have_selector('.results__item', count: 1)
   end
 
   scenario 'users can filter opportunities by an updated market' do
@@ -45,12 +49,14 @@ feature 'Filtering opportunities', :elasticsearch, :commit, js: true do
     visit opportunities_path
 
     within('.filters') do
-      click_on 'Iran'
+      find('.js-toggler').click
+      select 'Iran', from: 'countries[]', visible: false
+      page.find('.filters__searchbutton').click
     end
 
     expect(page).to have_content opportunity_with_market.title
     expect(page).to have_no_content opportunity.title
-    expect(page).to have_selector('.opportunities__item', count: 1)
+    expect(page).to have_selector('.results__item', count: 1)
 
     opportunity_with_market.countries = [another_country]
     opportunity_with_market.save!
@@ -59,12 +65,14 @@ feature 'Filtering opportunities', :elasticsearch, :commit, js: true do
     visit opportunities_path
 
     within('.filters') do
-      click_on 'Italy'
+      find('.js-toggler').click
+      select 'Italy', from: 'countries[]', visible: false
+      page.find('.filters__searchbutton').click
     end
 
     expect(page).to have_content opportunity_with_market.title
     expect(page).to have_no_content opportunity.title
-    expect(page).to have_selector('.opportunities__item', count: 1)
+    expect(page).to have_selector('.results__item', count: 1)
   end
 
   scenario 'users can filter opportunities by type' do
@@ -76,7 +84,9 @@ feature 'Filtering opportunities', :elasticsearch, :commit, js: true do
     visit opportunities_path
 
     within('.filters') do
-      click_on 'Aid Funded Business'
+      find('.js-toggler').click
+      select 'Aid Funded Business', from: 'types', visible: false
+      page.find('.filters__searchbutton').click
     end
 
     expect(page).to have_content opportunity_with_type.title
@@ -92,20 +102,24 @@ feature 'Filtering opportunities', :elasticsearch, :commit, js: true do
     visit opportunities_path
 
     within('.filters') do
-      click_on 'Iran'
+      find('.js-toggler').click
+      select 'Iran', from: 'countries[]', visible: false
+      page.find('.filters__searchbutton').click
     end
 
     expect(page).to have_content opportunity_with_market.title
-    expect(page).to have_selector('.opportunities__item', count: 1)
+    expect(page).to have_selector('.results__item', count: 1)
 
     visit opportunities_path
 
     within('.filters') do
-      click_on 'Italy'
+      find('.js-toggler').click
+      select 'Italy', from: 'countries[]', visible: false
+      page.find('.filters__searchbutton').click
     end
 
     expect(page).to have_content opportunity_with_market.title
-    expect(page).to have_selector('.opportunities__item', count: 1)
+    expect(page).to have_selector('.results__item', count: 1)
   end
 
   scenario 'users can filter opportunity that belongs to multiple types' do
@@ -117,20 +131,24 @@ feature 'Filtering opportunities', :elasticsearch, :commit, js: true do
     visit opportunities_path
 
     within('.filters') do
-      click_on 'Aid Funded Business'
+      find('.js-toggler').click
+      select 'Aid Funded Business', from: 'types', visible: false
+      page.find('.filters__searchbutton').click
     end
 
     expect(page).to have_content opportunity_with_market.title
-    expect(page).to have_selector('.opportunities__item', count: 1)
+    expect(page).to have_selector('.results__item', count: 1)
 
     visit opportunities_path
 
     within('.filters') do
-      click_on 'Private Sector'
+      find('.js-toggler').click
+      select 'Private Sector', from: 'types', visible: false
+      page.find('.filters__searchbutton').click
     end
 
     expect(page).to have_content opportunity_with_market.title
-    expect(page).to have_selector('.opportunities__item', count: 1)
+    expect(page).to have_selector('.results__item', count: 1)
   end
 
   scenario 'users can filter by multiple categories' do
@@ -143,11 +161,22 @@ feature 'Filtering opportunities', :elasticsearch, :commit, js: true do
     sleep 1
     visit(opportunities_path)
 
-    expect(page).to have_selector('.opportunities__item', count: 3)
-    page.find('a[data-term=' + country.slug + ']').trigger('click')
-    expect(page).to have_selector('.opportunities__item', count: 2)
-    page.find('a[data-term=' + sector.slug + ']').click
-    expect(page).to have_selector('.opportunities__item', count: 1)
+    expect(page).to have_content 'Find and apply'
+    expect(page).to have_no_selector('.results__item')
+
+    within('.filters') do
+      select country.name, from: 'countries[]', visible: false
+      page.find('.filters__searchbutton').click
+    end
+
+    expect(page).to have_selector('.results__item', count: 2)
+
+    within('.filters') do
+      select sector.name, from: 'sectors[]', visible: false
+      page.find('.filters__searchbutton').click
+    end
+
+    expect(page).to have_selector('.results__item', count: 1)
   end
 
   scenario 'users can use filters and then paginate through results' do
@@ -160,16 +189,21 @@ feature 'Filtering opportunities', :elasticsearch, :commit, js: true do
     create_list(:opportunity, 4, status: 'publish', countries: [ignored_country])
 
     sleep 1
+
     visit(opportunities_path)
 
-    page.find('.filters').click_on(country1.name)
-    wait_for_ajax
-    page.find('.filters').click_on(country2.name)
-    wait_for_ajax
+    within('.filters') do
+      select country1.name, from: 'countries[]', visible: false
+      page.find('.filters__searchbutton').click
+    end
+
+    within('.filters') do
+      select country2.name, from: 'countries[]', visible: false
+      page.find('.filters__searchbutton').click
+    end
 
     page.find('#pager').click_on('2')
-    wait_for_ajax
 
-    expect(page.find('.opportunities')).to have_selector('.opportunities__item', count: 6)
+    expect(page.find('.results')).to have_selector('.results__item', count: 6)
   end
 end

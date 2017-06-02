@@ -8,12 +8,11 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     sleep 1
     visit opportunities_path
 
-    expect(page).to have_content('Super opportunity')
-    expect(page).to have_content('Boring opportunity')
+    expect(page).to have_content('What product are you selling?')
 
     within '#search-form' do
       fill_in 's', with: 'Super'
-      page.find('.search-form__submit').click
+      page.find('.filters__searchbutton').click
     end
 
     expect(page).to have_content('Super opportunity')
@@ -29,7 +28,7 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
 
     within '#search-form' do
       fill_in 's', with: 'fishing'
-      page.find('.search-form__submit').click
+      page.find('.filters__searchbutton').click
     end
 
     expect(page).to have_content('Innovative products for fish catching')
@@ -44,7 +43,7 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
 
     within '#search-form' do
       fill_in 's', with: 'bacon'
-      page.find('.search-form__submit').click
+      page.find('.filters__searchbutton').click
     end
 
     expect(page).to have_content('France requires back bacon')
@@ -56,7 +55,7 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
 
     within '#search-form' do
       fill_in 's', with: 'pork'
-      page.find('.search-form__submit').click
+      page.find('.filters__searchbutton').click
     end
 
     expect(page).to have_content('France requires pork sausages')

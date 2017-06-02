@@ -1,0 +1,45 @@
+.pagination {
+  @include clearfix;
+  margin: 0 auto;
+  padding: 0;
+
+  li {
+    display: inline-block;
+    list-style: none;
+    margin: 0 8px 8px 0;
+
+    &.active a {
+      background-color: $midblue;
+      color: $white;
+    }
+
+    &.arrow {
+      display: none;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  a {
+    background-color: $white;
+    border: 2px solid $midblue;
+    color: $midblue;
+    display: block;
+    font-family: $base-font-family;
+    font-size: $heading-font-size;
+    font-weight: 500;
+    line-height: 1;
+    margin: 0;
+    min-width: 2em;
+    padding: ($base-font-size / 2) 0;
+    text-align: center;
+    text-decoration: none;
+
+    &:hover {
+      background-color: $midblue;
+      color: $white;
+    }
+  }
+}
