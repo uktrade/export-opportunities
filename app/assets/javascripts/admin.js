@@ -9,4 +9,5 @@
 //= require components/DateFilterValidation
 //= require components/DisableSubmitButton
 //= require components/RaggRating
+//= require components/Stats
 //= require admin.init.js

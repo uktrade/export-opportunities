@@ -1,16 +1,15 @@
-%h1.heading-medium Select granularity
 %div.form-group
   %fieldset.inline
     %legend.visually-hidden Select Granularity
-    .multiple-choice{'data-target': 'select-service-provider'}
-      = radio_button_tag 'granularity', 'ServiceProvider', stats_search_form.granularity == 'ServiceProvider'
-      %label{:for => "granularity_ServiceProvider"} Service Provider
-    .multiple-choice
-      = radio_button_tag 'granularity', 'Country', stats_search_form.granularity == 'Country'
-      %label{:for => "granularity_Country"} Country
-    .multiple-choice
+    .multiple-choice{'data-target': 'select-all'}
+      = radio_button_tag 'granularity', 'Universe', stats_search_form.granularity == 'Universe'
+      %label{:for => "granularity_Universe"} All
+    .multiple-choice{'data-target': 'select-region', 'aria-controls': 'select-region'}
       = radio_button_tag 'granularity', 'Region', stats_search_form.granularity == 'Region'
       %label{:for => "granularity_Region"} Region
-    .multiple-choice
-      = radio_button_tag 'granularity', 'Universe', stats_search_form.granularity == 'Universe'
-      %label{:for => "granularity_Universe"} Universe
+    .multiple-choice{'data-target': 'select-country', 'aria-controls': 'select-country'}
+      = radio_button_tag 'granularity', 'Country', stats_search_form.granularity == 'Country'
+      %label{:for => "granularity_Country"} Country
+    .multiple-choice{'data-target': 'select-service-provider', 'aria-controls': 'select-service-provider'}
+      = radio_button_tag 'granularity', 'ServiceProvider', stats_search_form.granularity == 'ServiceProvider'
+      %label{:for => "granularity_ServiceProvider"} Service Provider

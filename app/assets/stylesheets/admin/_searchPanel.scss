@@ -1,0 +1,8 @@
+.searchPanel {
+  padding: 10px;
+  background-color: $grey-4;
+  margin-bottom:10px;
+  &:after {
+	content: "·";
+  }
+}

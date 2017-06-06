@@ -1,9 +1,7 @@
 %h1.heading-xlarge
   Stats
 
-= render partial: 'stats_search_form', locals: { stats_search_form: @stats_search_form }
-
-%div
+%section
   %p
     %strong
       = "Statistics by #{@stats_search_form.granularity}"
@@ -30,9 +28,10 @@
           = @stats.enquiries
         %span.data-item.bold-xsmall Enquiries
 
-
 %section
   %h3 Average time to publish an opportunity following submission:
   %div.data
     %span.data-item.bold-xlarge 
       = @stats.average_age_when_published
+
+= render partial: 'stats_search_form', locals: { stats_search_form: @stats_search_form }

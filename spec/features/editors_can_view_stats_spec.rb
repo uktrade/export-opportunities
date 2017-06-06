@@ -131,7 +131,7 @@ RSpec.feature 'Editors can view stats' do
 
       click_on 'Show stats'
 
-      expect(page).to have_content('Statistics for A provider of services on 10 Sep 2015')
+      expect(page).to have_content('Statistics by ServiceProvider on 10 Sep 2015')
     end
   end
 

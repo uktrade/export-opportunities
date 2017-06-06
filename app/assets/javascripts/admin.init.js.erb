@@ -1,5 +1,7 @@
 /* globals ukti, $, jQuery */
 
+$('body').addClass('js-enabled');
+
 $('document').ready(function() {
   var $opportunityTitle = $('#opportunity_title');
   if($opportunityTitle.length) {
@@ -34,4 +36,7 @@ $('document').ready(function() {
 	if (oppEditForm.length > 0) {
 		ukti.RaggRating.init(oppEditForm[0]);
 	}
+
+	/* attach show/hide behaviour */
+	ukti.ShowHide.init();
 });

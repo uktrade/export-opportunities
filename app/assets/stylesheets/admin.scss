@@ -24,6 +24,7 @@
 @import "govuk_elements/buttons";
 @import "govuk_elements/icons";
 @import "govuk_elements/tables";
+@import "govuk_elements/panels";
 @import "govuk_elements/forms";
 @import "govuk_elements/forms/form-validation";
 
@@ -65,7 +66,8 @@
 @import "admin/variables";
 
 @import "admin/header";
-@import "admin/filters";
+@import "admin/filterBar";
+@import "admin/searchPanel";
 @import "admin/helpers";
 @import "admin/tables";
 @import "admin/ragg_marker";
