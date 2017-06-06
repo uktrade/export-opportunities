@@ -1,15 +1,15 @@
-
 %div.searchPanel
   = form_tag admin_stats_path, method: 'get' do
 
     %h1.heading-medium Select date range
 
-    %div.form-group
-      .grid-row
-        .column-one-third
+    .grid-row
+      .column-one-third
+        %div.form-group
           = label_tag :stats_from, 'From'
           = select_date stats_search_form.date_from, { prefix: :stats_from, start_year: SITE_LAUNCH_YEAR, end_year: Time.zone.today.year }
-        .column-two-thirds
+      .column-two-thirds
+        %div.form-group
           = label_tag :stats_to, 'To'
           = select_date stats_search_form.date_to, { prefix: :stats_to, start_year: SITE_LAUNCH_YEAR, end_year: Time.zone.today.year }
 
@@ -19,19 +19,19 @@
     %div.grid-row
       %div.column-one-third
         %div.panel.panel-border-narrow.js-hidden{:id => 'select-service-provider', 'tabindex' => '-1', 'aria-expanded' => 'false'}
-          %h2.heading-medium Service provider
+          %h2.heading-medium Choose a service provider
           %div.form-group
-            = label_tag :service_provider, 'Service provider', :class => "form-label"
+            = label_tag :service_provider, 'Service provider', :class => 'form-label visually-hidden'
             = select_tag 'service_provider', options_from_collection_for_select(stats_search_form.service_providers, 'id', 'name', stats_search_form.service_provider_id), :class => "form-control"
         %div.panel.panel-border-narrow.js-hidden{:id => 'select-country', 'tabindex' => '-1', 'aria-expanded' => 'false'}
-          %h2.heading-medium Country
+          %h2.heading-medium Choose a country
           %div.form-group
-            = label_tag :country, 'Country', :class => "form-label"
+            = label_tag :country, 'Country', :class => 'form-label visually-hidden'
             = select_tag 'country', options_from_collection_for_select(stats_search_form.countries, 'id', 'name', stats_search_form.country_id), :class => "form-control"
         %div.panel.panel-border-narrow.js-hidden{:id => 'select-region', 'tabindex' => '-1', 'aria-expanded' => 'false'}
-          %h2.heading-medium Region
+          %h2.heading-medium Choose a region
           %div.form-group
-            = label_tag :region, 'Region', :class => "form-label"
+            = label_tag :region, 'Region', :class => 'form-label visually-hidden'
             = select_tag 'region', options_from_collection_for_select(stats_search_form.regions, 'id', 'name', stats_search_form.region_id), :class => "form-control"
 
     %div.form-group

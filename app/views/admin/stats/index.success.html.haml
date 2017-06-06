@@ -1,31 +1,30 @@
-%h1.heading-xlarge
+%h1.heading-large
   Stats
 
 %section
   %p
-    %strong
-      = "Statistics by #{@stats_search_form.granularity}"
-      - if @stats_search_form.date_from == @stats_search_form.date_to
-        = "on #{@stats_search_form.date_from.to_s(:admin_date)}"
-      - else
-        = "over the period #{@stats_search_form.date_from.to_s(:admin_date)} to #{@stats_search_form.date_to.to_s(:admin_date)}"
+    = "Statistics by #{@stats_search_form.granularity}"
+    - if @stats_search_form.date_from == @stats_search_form.date_to
+      = "on #{@stats_search_form.date_from.to_s(:admin_date)}"
+    - else
+      = "over the period #{@stats_search_form.date_from.to_s(:admin_date)} to #{@stats_search_form.date_to.to_s(:admin_date)}"
 
 %section
   .grid-row
     .column-one-third
-      %div.data.data-1
-        %span.data-item.bold-xxlarge 
-          = @stats.opportunities_submitted
+      %div.data.data-panel
+        %span.data-item.bold-xxlarge
+          = number_with_delimiter(@stats.opportunities_submitted)
         %span.data-item.bold-xsmall Opportunities submitted
     .column-one-third
-      %div.data
+      %div.data.data-panel
         %span.data-item.bold-xxlarge 
-          = @stats.opportunities_published
+          = number_with_delimiter(@stats.opportunities_published)
         %span.data-item.bold-xsmall Opportunities published
     .column-one-third
-      %div.data
+      %div.data.data-panel
         %span.data-item.bold-xxlarge 
-          = @stats.enquiries
+          = number_with_delimiter(@stats.enquiries)
         %span.data-item.bold-xsmall Enquiries
 
 %section

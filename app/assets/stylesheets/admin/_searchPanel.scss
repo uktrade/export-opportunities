@@ -3,6 +3,20 @@
   background-color: $grey-4;
   margin-bottom:10px;
   &:after {
-	content: "·";
+    content: "";
+    display: table;
+    clear: both;
   }
+  /* hacky */
+  select {
+    background-color: white;
+  }
+  .heading-medium {
+    margin-top: 16px;
+  }
+}
+/* hacky */
+.data-panel {
+    padding: 16px;
+    background-color: lightgrey;
 }
