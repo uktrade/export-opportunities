@@ -1,12 +1,30 @@
-.opportunities__order.opportunities__description
-  %form
-    Ordered by:
-    %br
-    %input{ name: 'sort_order', id: 'order_expiry_date', type: 'radio', value: 'response_due_on', checked: @sort.column == 'response_due_on' }
-    %label{ for: 'order_expiry_date' } expiry date
-    %br
-    %input{ name: 'sort_order', id: 'order_published_date', type: 'radio', value: 'first_published_at', checked: @sort.column == 'first_published_at' }
-    %label{ for: 'order_published_date' } published date
-    %br
-    %input{ name: 'sort_order', class: 'order_relevance', id: 'order_relevance', type: 'radio', value: 'relevance' }
-    %label{ class: 'order_relevance', for: 'order_relevance' } relevance
+.container
+  .results__order.margin-top-20
+    %form{:action => opportunities_path, :method => "get", :class => "js-order"}
+    
+      = hidden_field_tag :s, params[:s]
+      - @subscription_form.countries.each do |country|
+        = hidden_field_tag 'countries[]', country.slug, multiple: true
+      - @subscription_form.sectors.each do |sector|
+        = hidden_field_tag 'sectors[]', sector.slug, multiple: true
+      - @subscription_form.types.each do |type|
+        = hidden_field_tag 'types[]', type.slug, multiple: true
+      - @subscription_form.values.each do |value|
+        = hidden_field_tag 'values[]', value.slug, multiple: true
+
+      %span.results__order__heading Ordered by:
+      %ul.results__order__items
+        %li.results__order__item
+          .custom-radio
+            %input{ name: 'sort_column_name', id: 'order_expiry_date', type: 'radio', value: 'response_due_on', checked: @sort_column_name == 'response_due_on' }
+            %label{ for: 'order_expiry_date' } expiry date
+        %li.results__order__item
+          .custom-radio
+            %input{ name: 'sort_column_name', id: 'order_published_date', type: 'radio', value: 'first_published_at', checked: @sort_column_name == 'first_published_at' }
+            %label{ for: 'order_published_date' } published date
+        - if !params[:s].to_s.empty?
+          %li.results__order__item
+            .custom-radio
+              %input{ name: 'sort_column_name', class: 'order_relevance', id: 'order_relevance', type: 'radio', value: 'relevance', checked: @sort_column_name == 'relevance'}
+              %label{ class: 'order_relevance', for: 'order_relevance' } relevance
+

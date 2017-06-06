@@ -1,0 +1,144 @@
+.opportunities {
+  @extend .has-sidebar;
+  &__item {
+    margin-bottom: $base-spacing;
+    padding-bottom: $base-spacing;
+    border-bottom: 1px solid $stone;
+
+    &:first-child {
+      border-top: 1px solid $stone;
+      padding-top: 1em;
+
+      @include media($medium-screen) {
+        border-top: none;
+        padding-top: 0;
+      }
+
+    }
+  }
+
+  &__country {
+    font-family: inherit;
+    font-size: 0.75em;
+    margin-bottom: 0.5em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    font-family: inherit;
+    font-size: 1em;
+    margin-bottom: 0.5em;
+    text-transform: inherit;
+  }
+
+  &__sub-title {
+    margin-bottom: 0;
+
+    span {
+      font-size: 1.35em;
+      padding: 0 3px;
+    }
+  }
+
+  &__description {
+    color: $secondary-font-color;
+    margin-bottom: 1.5em;
+    font-size: 0.8em;
+    font-weight: 700;
+  }
+
+  &__order {
+    br {
+      display: block;
+      @include media($medium-screen) {
+        display: none;
+      }
+    }
+  }
+
+  &__icon {
+    &--date {
+      background: asset-url('deadline.svg') no-repeat left center;
+      background-size: 1em;
+    }
+
+    &--enquiries {
+      background: asset-url('enquiries-received.svg') no-repeat left center;
+      background-size: 1em;
+    }
+
+    font-size: .75em;
+    padding-left: 1.33em;
+
+    .lt-ie10 &,
+    .lt-ie9 & {
+      padding-left: 0;
+    }
+
+    _:-ms-lang(x), & { // IE10 only
+      padding-left: 0\9;
+    }
+
+    _:-ms-fullscreen, :root & { // IE11 only
+      padding-left: 0;
+
+      &:before {
+        margin-right: .25em;
+      }
+    }
+  }
+}
+
+
+.bulk_subscription {
+  display: none;
+
+  @include media($medium-screen) {
+    display: block;
+    font-size: $small-font-size;
+  }
+}
+
+#opportunities-subscribe-form {
+  @include clearfix;
+
+  background-color: tint($stone, 25%);
+  // border-radius: 3px;
+  margin-bottom: $base-spacing;
+  padding: $base-spacing;
+
+  label {
+    display: block;
+  }
+
+  input[type="email"] {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border: 0;
+    border-radius: none;
+    box-shadow: none;
+    font-size: 1em;
+    height: 42px;
+    margin: 5px 2px;
+    padding: 5px 2px;
+
+    @include media($medium-screen) {
+      width: 50%;
+    }
+
+    .lt-ie9 & {
+      width: 97%;
+    }
+  }
+
+  .button {
+    margin-top: $small-spacing;
+    // padding: .75em;
+    width: 100%;
+
+    @include media($medium-screen) {
+      width: 50%;
+    }
+  }
+}
+

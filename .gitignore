@@ -28,3 +28,12 @@ coverage/
 # Ignore examples persistence file
 /spec/examples.txt
 
+# Ignore schema
+/db/schema.rb
+
+# Ignore rubocop
+rubocop.yml
+
+# Ignore node_modules
+node_modules/
+
