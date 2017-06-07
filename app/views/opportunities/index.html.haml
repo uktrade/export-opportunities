@@ -2,25 +2,26 @@
 = content_for :head do
   %link{href: url_for(params.merge(format: :atom, only_path: false)), type: 'application/atom+xml', rel: 'alternate', title: t('site_name')}/
 
-.hero__main
+.hero__main{"id" => "content-top"}
   .hero__specialContainer
-    %h1.hero__header Export Opportunities
-    %p.hero__text Find and apply for overseas opportunities from businesses looking for products or services like yours.
+    %h1.hero__header Find export opportunities
+    %p.hero__text Find and apply for overseas opportunities from businesses looking for products or services like yours
     %hr.thin
   = render 'filters'
 
-.container
-  - if !@subscription_form.minimum_search_criteria?
-    = render 'giantsteps_panel'
+- if !@subscription_form.minimum_search_criteria?
+  = render 'benefits'
+  = render 'giantsteps_panel'
+  = render 'cta_block'
 
-  - if @subscription_form.minimum_search_criteria? and !@suppress_subscription_block
-    = render 'subscription_form'
+- if @subscription_form.minimum_search_criteria? and !@suppress_subscription_block
+  = render 'subscription_form'
 
-  - if @subscription_form.minimum_search_criteria? and @opportunities.any? and @opportunities.total > 1
-    = render 'opportunities_order'
+- if @subscription_form.minimum_search_criteria? and @opportunities.any? and @opportunities.total > 1
+  = render 'opportunities_order'
 
-  - if @subscription_form.minimum_search_criteria?
-    = render 'opportunities'
+- if @subscription_form.minimum_search_criteria?
+  = render 'opportunities'
 
 
 

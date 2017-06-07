@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'Editors can view stats' do
   scenario 'for a specific service provider' do
-      service_provider = create(:service_provider, name: 'Provider of services')
+    service_provider = create(:service_provider, name: 'Provider of services')
     another_service_provider = create(:service_provider, name: 'A different one')
 
     login_as(create(:editor, service_provider: service_provider))

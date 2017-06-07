@@ -2,14 +2,19 @@
   padding: 15px;
   &__mainheading {
     font-size: 24px;
-    font-weight: 500;
+    letter-spacing: -0.2px;
+    font-weight: 400;
     line-height: 2.29;
-    letter-spacing: -0.4px;
+    padding-top: 20px;
     color: $grey;
+    @media #{$desktop-m} {
+      font-size: 32px;
+      letter-spacing: -0.4px;
+    }
   }
   &__icon {
-    width: 114px;
-    height: 114px;
+    width: 220px;
+    height: 220px;
     margin: 0 auto;
     position: relative;
     @media #{$desktop-m} {
@@ -21,7 +26,7 @@
         bottom: 0;
         content: '';
         position: absolute;
-        left: 160px;
+        left: 100%;
         top: 0;
         width: 100px;
         z-index: 10;
@@ -40,6 +45,7 @@
     float: left;
     margin-right: 10px;
     padding-bottom: 40px;
+    padding-top: 16px;
     @media #{$tablet-m} {
       padding-bottom: 80px;
     }
@@ -47,7 +53,7 @@
       font-size: 134px;
       height: 176px;
       letter-spacing: -1.3px;
-      margin-right: 20px;
+      margin-right: 10px;
     }
   }
   &__heading {
