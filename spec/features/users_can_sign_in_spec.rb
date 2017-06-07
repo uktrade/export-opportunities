@@ -11,7 +11,6 @@ feature 'Signing in as a user', :elasticsearch do
 
   scenario 'Signed in user visits /', :elasticsearch, :commit do
     create(:opportunity, :published, title: 'Food')
-
     mock_sso_with(email: 'email@example.com')
     visit '/sign_in'
     visit '/'
@@ -37,7 +36,8 @@ feature 'Signing in as a user', :elasticsearch do
     expect(page).to have_flash_message 'You are now signed in'
   end
 
-  scenario 'Signing out', skip: true do
+  scenario 'Signing out' do
+    skip 'Is this test redundant and/or do we need a differen one'
     mock_sso_with(email: 'email@example.com')
 
     visit '/dashboard'

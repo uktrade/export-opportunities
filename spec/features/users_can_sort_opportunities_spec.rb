@@ -46,6 +46,7 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
 
       expect(page).to have_no_content('Cod')
       expect('Sardines, Big Sardines').to appear_before('Small Sardines')
+
       expect(find_field('relevance', visible: false)).to be_checked
 
       expect(page).to have_content('Subscribe to Email Alerts for')

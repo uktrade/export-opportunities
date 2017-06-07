@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'capybara/email/rspec'
 
-RSpec.feature 'Subscribing to alerts' do
+RSpec.feature 'Subscribing to alerts', elasticsearch: true do
   context 'when already signed in' do
     before(:each) do
       @user = create(:user, email: 'test@example.com')
@@ -101,7 +101,8 @@ RSpec.feature 'Subscribing to alerts' do
       expect(page).to have_no_content 'Subscribe to Email Alerts'
     end
 
-    scenario 'can subscribe to all opportunities', skip: true do
+    scenario 'can subscribe to all opportunities' do
+      skip 'We dont have bulk_subscription in the new page'
       visit opportunities_path
       within '.bulk_subscription' do
         click_on 'sign up here'

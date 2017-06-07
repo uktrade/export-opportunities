@@ -199,12 +199,12 @@ feature 'Filtering opportunities', :elasticsearch, :commit, js: true do
     end
 
     within('.filters') do
-      select country1.name, from: 'countries[]', visible: false
+      select country2.name, from: 'countries[]', visible: false
       page.find('.filters__searchbutton').click
     end
 
     page.find('#pager').click_on('2')
 
-    expect(page.find('.opportunities')).to have_selector('.opportunities__item', count: 6)
+    expect(page.find('.results')).to have_selector('.results__item', count: 6)
   end
 end
