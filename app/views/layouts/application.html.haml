@@ -21,6 +21,7 @@
     = stylesheet_link_tag 'application', media: 'all'
     = javascript_include_tag 'modernizr.min', defer: true
     /[if lte IE 9]
+      = javascript_include_tag 'oldie-support.min'
       = javascript_include_tag 'classlist.polyfill.min'
       = javascript_include_tag 'eventListener.polyfill.min'        
 

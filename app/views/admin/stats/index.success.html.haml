@@ -1,20 +1,41 @@
-%h1.heading-xlarge
+%h1.heading-large
   Stats
 
-= render partial: 'stats_search_form', locals: { stats_search_form: @stats_search_form }
-
-%div
+%section
   %p
-    %strong
-      = "Statistics for #{@service_provider.name}"
-      - if @stats_search_form.date_from == @stats_search_form.date_to
-        = "on #{@stats_search_form.date_from.to_s(:admin_date)}"
-      - else
-        = "over the period #{@stats_search_form.date_from.to_s(:admin_date)} to #{@stats_search_form.date_to.to_s(:admin_date)}"
-  = t('admin.stats.opportunities_submitted', count: @stats.opportunities_submitted)
-  %br
-  = t('admin.stats.opportunities_published', count: @stats.opportunities_published)
-  %br
-  = t('admin.stats.enquiries', count: @stats.enquiries)
-  %br
-  = t('admin.stats.average_age_when_published', average_age: @stats.average_age_when_published)
+    = "Statistics by #{@stats_search_form.granularity}"
+    - if @stats_search_form.date_from == @stats_search_form.date_to
+      = "on #{@stats_search_form.date_from.to_s(:admin_date)}"
+    - else
+      = "over the period #{@stats_search_form.date_from.to_s(:admin_date)} to #{@stats_search_form.date_to.to_s(:admin_date)}"
+
+%section
+  .grid-row
+    .column-one-quarter
+      %div.data.data-panel
+        %span.data-item.bold-xxlarge
+          = number_with_delimiter(@stats.opportunities_submitted)
+        %span.data-item.bold-xsmall Opportunities submitted
+    .column-one-quarter
+      %div.data.data-panel
+        %span.data-item.bold-xxlarge 
+          = number_with_delimiter(@stats.opportunities_published)
+        %span.data-item.bold-xsmall Opportunities published
+    .column-one-quarter
+      %div.data.data-panel
+        %span.data-item.bold-xxlarge 
+          = number_with_delimiter(@stats.enquiries)
+        %span.data-item.bold-xsmall Enquiries
+    .column-one-quarter
+      %div.data
+        %span.data-item.bold-xxlarge
+          = number_with_delimiter(@stats.enquiry_responses)
+        %span.data-item.bold-xsmall Enquiry Responses (counted at Enquiry Response created at date)
+
+%section
+  %h3 Average time to publish an opportunity following submission:
+  %div.data
+    %span.data-item.bold-xlarge 
+      = @stats.average_age_when_published
+
+= render partial: 'stats_search_form', locals: { stats_search_form: @stats_search_form }

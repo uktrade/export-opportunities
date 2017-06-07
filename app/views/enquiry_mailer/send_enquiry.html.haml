@@ -1,4 +1,19 @@
 %p
+  You can now reply to enquiries within the admin centre.
+  %br
+  %br
+  In the admin centre you can also see the:
+  %ul
+    %li
+      enquiries that you have replied to
+    %li
+      ones that still need a reply
+
+  View enquiry:
+  %br
+  = link_to @enquiry.opportunity.title, admin_enquiry_url(@enquiry.id)
+  %br
+  %br
   The customer below has expressed interest in this export opportunity:
   %br
   = link_to @enquiry.opportunity.title, opportunity_url(@enquiry.opportunity)

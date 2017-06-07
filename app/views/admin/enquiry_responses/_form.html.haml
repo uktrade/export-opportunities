@@ -1,0 +1,25 @@
+- enquiry_id = params.fetch(:id)
+= form_for [:admin, enquiries_response] do |f|
+  - if enquiries_response.errors.any?
+    .error-summary{:role => 'group', :tabindex => '-1'}
+      %h2
+        = pluralize(enquiries_response.errors.count, 'error')
+        prevented this enquiry response from being saved:
+      %ul
+        - enquiries_response.errors.full_messages.each do |message|
+          %li= message
+
+  .form-group
+    = f.label :email_subject, class: 'form-label-bold'
+    %p Update on your enquiry for the export opportunity #{Enquiry.find(enquiry_id).opportunity.title}
+    = f.label :email_body, class: 'form-label-bold'
+    = f.text_area(:email_body, cols: 40, rows: 15, class: 'form-control js-text-editor')
+    = f.hidden_field :enquiry_id, as: :hidden, value: enquiry_id
+
+    %p.form-hint
+      This is the email to be sent out to the enquiry user.
+
+  .grid-row
+    .column-one-half
+      .form-group
+        = f.submit 'Send', class: 'button'
