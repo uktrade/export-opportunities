@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   validates :uid, uniqueness: { scope: :provider }, allow_nil: true
 
   def self.from_omniauth(auth)
+    pp auth.credentials.token
     stub_user = find_by(uid: nil, provider: nil, email: auth.info.email.downcase)
 
     if stub_user.present?
@@ -23,6 +24,7 @@ class User < ActiveRecord::Base
 
     user = where(uid: auth.uid, provider: auth.provider).first_or_create
     user.update!(email: auth.info.email) if user.email != auth.info.email
+    user.update!(token: auth.credentials.token) if auth.credentials.token
     user
   end
 
