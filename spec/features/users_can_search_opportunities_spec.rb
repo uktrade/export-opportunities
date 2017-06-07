@@ -8,7 +8,7 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     sleep 1
     visit opportunities_path
 
-    expect(page).to have_content('What product are you selling?')
+    expect(page).to have_content('What product or service are you selling?')
 
     within '#search-form' do
       fill_in 's', with: 'Super'

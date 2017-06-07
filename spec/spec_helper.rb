@@ -1,5 +1,6 @@
 require 'vcr'
 require 'elasticsearch/extensions/test/cluster'
+require 'capybara'
 
 module Helpers
   def select2_select_multiple(select_these, _id)
@@ -18,6 +19,10 @@ module Helpers
       end
     end
   end
+end
+
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, timeout: 2.minutes, phantomjs_options: ['--load-images=no'])
 end
 
 RSpec.configure do |config|
