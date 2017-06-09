@@ -43,6 +43,7 @@ Rails.application.routes.draw do
 
     authenticated :editor do
       resources :enquiries, only: [:index, :show]
+      resources :enquiry_responses
     end
 
     resources :opportunities, only: [:index, :show, :new, :create, :edit, :update] do
@@ -63,7 +64,8 @@ Rails.application.routes.draw do
       mount Flipper::UI.app(flipper_block) => '/feature-flags'
     end
 
-    resources :stats, only: :index
+    resources :stats do
+    end
 
     root to: redirect('/admin/opportunities')
   end
