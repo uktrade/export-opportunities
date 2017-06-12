@@ -2,6 +2,9 @@
 
 %h1.heading-xlarge= @enquiry.company_name
 
+- if @trade_profile_url then
+  %h2.heading-large= link_to 'Trade Profile', @trade_profile_url, target: :blank
+
 %table.horizontal
   %tr
     %th{:scope => 'row'} Opportunity

@@ -1,4 +1,5 @@
 class Admin::EnquiriesController < Admin::BaseController
+  include ApplicationHelper
   include ActionController::Live
 
   # Authentication is handled in routes.rb as ActionController::Live
@@ -41,12 +42,8 @@ class Admin::EnquiriesController < Admin::BaseController
     enquiry_id = params.fetch(:id, nil)
     @enquiry = Enquiry.find(enquiry_id)
     @enquiry_response = EnquiryResponse.where(enquiry_id: enquiry_id).first
-    trade_profile(@enquiry.company_house_number)
+    @trade_profile_url = trade_profile(@enquiry.company_house_number)
     authorize @enquiry
-  end
-
-  private def trade_profile(companies_house_number)
-    trade_profile_url = Figaro.env.STAGE_PROFILE_PAGE + companies_house_number
   end
 
   private def enquiry_form

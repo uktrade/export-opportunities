@@ -10,10 +10,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def developer
-    pp "...."
-    pp request.env['omniauth']
-    pp request.env['omniauth.auth']
-    pp ">>>>"
     @user = User.from_omniauth(request.env['omniauth.auth'])
     sign_in_and_redirect @user
     set_flash_message(:notice, :success) if is_navigational_format?
