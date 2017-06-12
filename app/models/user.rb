@@ -23,7 +23,6 @@ class User < ActiveRecord::Base
 
     user = where(uid: auth.uid, provider: auth.provider).first_or_create
     user.update!(email: auth.info.email) if user.email != auth.info.email
-    user.update!(token: auth.credentials.token) if auth.credentials.token
     user
   end
 

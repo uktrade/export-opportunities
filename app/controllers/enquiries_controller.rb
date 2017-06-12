@@ -7,8 +7,8 @@ class EnquiriesController < ApplicationController
   def new
     @opportunity = Opportunity.published.find_by!(slug: params[:slug])
     redirect_to opportunity_path(@opportunity) if @opportunity.expired?
-    if current_user
-      @enquiry = Enquiry.initialize_from_existing(current_user.enquiries.last)
+    if enquiry_current_user
+      @enquiry = Enquiry.initialize_from_existing(enquiry_current_user.enquiries.last)
     else
       @enquiry = Enquiry.new
     end
@@ -16,7 +16,7 @@ class EnquiriesController < ApplicationController
 
   def create
     @opportunity = Opportunity.find_by!(slug: params[:slug])
-    @enquiry = current_user.enquiries.new(enquiry_params)
+    @enquiry = enquiry_current_user.enquiries.new(enquiry_params)
     @enquiry.opportunity = @opportunity
 
     if @enquiry.save && !@enquiry.opportunity.nil?
@@ -56,5 +56,9 @@ class EnquiriesController < ApplicationController
       .headers
       .select { |h| h[0] =~ /Cloudfront/ }
       .each { |h| Rails.logger.debug h.join(': ') }
+  end
+
+  private def enquiry_current_user
+    current_user
   end
 end
