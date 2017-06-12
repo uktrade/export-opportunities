@@ -28,10 +28,7 @@
   %body{id: ExportOpportunities.flipper.enabled?(:new_header_and_footer) ? nil : 'dit'}
     = render partial: 'svg_icons'
 
-    - if ExportOpportunities.flipper.enabled?(:new_header_and_footer)
-      = render 'layouts/dit_header_2017'
-    -else
-      = render 'layouts/dit_header'
+    = render 'layouts/dit_header'
 
     - if content_for?(:hero)
       .hero-header-wrapper
@@ -52,9 +49,6 @@
 
       = yield
 
-    - if ExportOpportunities.flipper.enabled?(:new_header_and_footer)
-      = render 'layouts/dit_footer_2017'
-    -else
       = render 'layouts/dit_footer'
 
     = javascript_include_tag 'application'
