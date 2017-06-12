@@ -69,27 +69,37 @@
           %i.icon.icon-menu>
           All
       .navigation-toggle.background--dark-navy
+
         .outer-container
-          %ul.col-3
-            %li.navigation-toggle-item.navigation-toggle-services
-              %a{href: cms_url_for('/new/'), title: "new to exporting"} New to exporting
-            %li.navigation-toggle-item.navigation-toggle-services
-              %a{href: cms_url_for('/occasional/'), title: "occasional exporter"} Occasional exporter
-            %li.navigation-toggle-item.navigation-toggle-services
-              %a.last{href: cms_url_for('/regular/'), title: "regular exporter"} Regular exporter
-          %ul.col-3.navigation-toggle-middle
-            %li.navigation-toggle-item
-              - klass = current_page?('/dashboard') ? nil : 'navigation-toggle-active'
-              %a{href: opportunities_path, title: t('nav.services.export_opportunities'), class: klass}= t('nav.services.export_opportunities')
-            %li.navigation-toggle-item
-              %a{href: "http://find-a-buyer.export.great.gov.uk/", title: t('nav.services.find_a_buyer')}= t('nav.services.find_a_buyer')
-            %li.navigation-toggle-item
-              %a{href: "https://selling-online-overseas.export.great.gov.uk/markets/", title: t('nav.services.selling_overseas')}= t('nav.services.selling_overseas')
-          %ul.col-3.navigation-toggle-middle
-            %li.navigation-toggle-item
-              %a{href: cms_url_for('/get-finance'), title: t('nav.services.finance')}= t('nav.services.finance')
-            %li.navigation-toggle-item
-              %a{href: "https://events.trade.gov.uk/", title: t('nav.services.events')}= t('nav.services.events')
+          .col-3
+            .navigation-toggle-services-section
+              %h3.font-large.font-lig.font-light-grey.push--bottom.hide-mobile Export readiness
+              %ul.font-reg
+                %li.navigation-toggle-item.navigation-toggle-services
+                    %a{href: cms_url_for('/new/'), title: "new to exporting"} New to exporting
+                %li.navigation-toggle-item.navigation-toggle-services
+                  %a{href: cms_url_for('/occasional/'), title: "occasional exporter"} Occasional exporter
+                %li.navigation-toggle-item.navigation-toggle-services
+                  %a.last{href: cms_url_for('/regular/'), title: "regular exporter"} Regular exporter
+          .col-3
+            .navigation-toggle-services-section
+              %h3.font-large.font-light-grey.font-lig.push--bottom.hide-mobile.soft--left Online tools
+              %ul.font-reg
+                %li.navigation-toggle-item.navigation-toggle-services
+                  - klass = current_page?('/dashboard') ? nil : 'navigation-toggle-active'
+                  %a{href: opportunities_path, title: t('nav.services.export_opportunities'), class: klass}= t('nav.services.export_opportunities')
+                %li.navigation-toggle-item
+                  %a{href: "http://find-a-buyer.export.great.gov.uk/", title: t('nav.services.find_a_buyer')}= t('nav.services.find_a_buyer')
+                %li.navigation-toggle-item
+                  %a{href: "https://selling-online-overseas.export.great.gov.uk/markets/", title: t('nav.services.selling_overseas')}= t('nav.services.selling_overseas')
+          .col-3
+            .navigation-toggle-services-section
+              %h3.font-large.font-light-grey.font-lig.push--bottom.hide-mobile.soft--left Other support
+              %ul.font-reg
+                %li.navigation-toggle-item.navigation-toggle-services
+                  %a{href: cms_url_for('/get-finance'), title: t('nav.services.finance')}= t('nav.services.finance')
+                %li.navigation-toggle-item
+                  %a{href: "https://events.trade.gov.uk/", title: t('nav.services.events')}= t('nav.services.events')
           %ul.col-3.navigation-toggle-middle
             %li.navigation-toggle-item
               %a{href: cms_url_for('/about/'), title: "About"} About
