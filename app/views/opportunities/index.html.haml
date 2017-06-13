@@ -17,7 +17,7 @@
 - if @subscription_form.minimum_search_criteria? and !@suppress_subscription_block
   = render 'subscription_form'
 
-- if @subscription_form.minimum_search_criteria? and @opportunities.total > 1
+- if @subscription_form.minimum_search_criteria? and @opportunities.any? and @opportunities.total > 1
   = render 'opportunities_order'
 
 - if @subscription_form.minimum_search_criteria?
