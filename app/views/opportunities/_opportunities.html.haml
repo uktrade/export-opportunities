@@ -1,6 +1,6 @@
 .container
 	.results.margin-top-20
-		- if @opportunities.any?
+		- if @opportunities.total > 0
 			= render 'search_results'
 		- else
 			= render 'no_search_results'
