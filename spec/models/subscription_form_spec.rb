@@ -65,8 +65,7 @@ RSpec.describe SubscriptionForm do
 
         form.valid?
 
-        expect(form.errors.messages.keys).to include(:base)
-        expect(form).not_to be_minimum_search_criteria
+        expect(form).to be_minimum_search_criteria
       end
 
       it 'passes validation if a country filter is provided' do
@@ -130,22 +129,12 @@ RSpec.describe SubscriptionForm do
       end
     end
 
-    context 'when the search term is nil' do
-      it 'fails validation' do
-        params = { query: { search_term: nil } }
-        form = SubscriptionForm.new(params)
-
-        form.valid?
-
-        expect(form.errors.messages.keys).to include(:base)
-        expect(form).not_to be_minimum_search_criteria
-      end
-
+    context 'when the search term is empty' do
       it 'passes validation if a country filter is provided' do
         create(:country, slug: 'france')
         params = {
           query: {
-            search_term: nil,
+            search_term: '',
             countries: ['france'],
           },
         }
@@ -160,7 +149,7 @@ RSpec.describe SubscriptionForm do
         create(:sector, slug: 'aerospace')
         params = {
           query: {
-            search_term: nil,
+            search_term: '',
             sectors: ['aerospace'],
           },
         }
@@ -175,7 +164,7 @@ RSpec.describe SubscriptionForm do
         create(:type, slug: 'public-sector')
         params = {
           query: {
-            search_term: nil,
+            search_term: '',
             types: ['public-sector'],
           },
         }
@@ -190,7 +179,7 @@ RSpec.describe SubscriptionForm do
         create(:value, slug: 'middle')
         params = {
           query: {
-            search_term: nil,
+            search_term: '',
             values: ['middle'],
           },
         }
