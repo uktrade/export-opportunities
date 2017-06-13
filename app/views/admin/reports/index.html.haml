@@ -1,0 +1,26 @@
+%h1.heading-xlarge Reports
+
+Individual Country results:
+- @result&.each do |country|
+  = country[0]
+  %br
+  Published:
+  = country[1]
+  = country[3]
+  %br
+  Responses:
+  = country[2]
+  = country[4]
+  %br
+CEN network results:
+= @cen_result
+
+NBN network results:
+= @nbn_result
+
+%div.searchPanel
+  = form_tag admin_reports_path, method: :get do
+    %h1.heading-medium Monthly by country VS target report
+
+    %div.form-group
+    = submit_tag 'Generate', class: 'button'
