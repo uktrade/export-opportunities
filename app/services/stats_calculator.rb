@@ -3,7 +3,6 @@ class StatsCalculator
 
   def call(criteria)
     date_range = (criteria.date_from..criteria.date_to)
-
     case criteria.granularity
     when 'ServiceProvider'
       if criteria.all_service_providers?
