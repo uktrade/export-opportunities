@@ -1,8 +1,17 @@
 %h1.heading-xlarge Reports
 
 Individual Country results:
-= @result
-
+- @result&.each do |country|
+  = country[0]
+  %br
+  Published:
+  = country[1]
+  = country[3]
+  %br
+  Responses:
+  = country[2]
+  = country[4]
+  %br
 CEN network results:
 = @cen_result
 
