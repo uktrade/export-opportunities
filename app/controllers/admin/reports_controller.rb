@@ -27,7 +27,9 @@ module Admin
           elsif nbn_network?(country_id)
             @nbn_result << [sc.opportunities_published, sc.enquiries, current_country.name]
           else
-            @result << [sc.opportunities_published, sc.enquiries, current_country.name]
+            country = Country.where(name: current_country.name).first
+
+            @result << [ sc.opportunities_published, sc.enquiries, current_country.name, country.published_target, country.responses_target]
           end
         end
       end
