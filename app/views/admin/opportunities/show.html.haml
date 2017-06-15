@@ -14,6 +14,9 @@
     %th{:scope => 'row'} Title
     %td= @opportunity.title
   %tr
+    %th{:scope => 'row'} Teaser
+    %td= @opportunity.teaser
+  %tr
     %th{:scope => 'row'} Slug
     %td= @opportunity.slug
   %tr
@@ -55,9 +58,6 @@
   %tr
     %th{:scope => 'row'} Values
     %td= @opportunity.values.map(&:name).join(', ')
-  %tr
-    %th{:scope => 'row'} Teaser
-    %td= @opportunity.teaser
   %tr
     %th{:scope => 'row'} Expiry date
     %td= @opportunity.response_due_on.to_s(:admin_date) if @opportunity.response_due_on
