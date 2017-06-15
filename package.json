@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/uktrade/export-opportunities#readme",
   "devDependencies": {
+    "Dit-Pattern-Styling": "git+https://github.com/uktrade/great-pattern-library.git#old-styleguide",
     "browserify": "^14.4.0",
     "gulp": "^3.9.1",
     "gulp-sass": "^3.1.0",

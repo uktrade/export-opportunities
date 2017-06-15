@@ -5,13 +5,13 @@ var gulp = require('gulp'),
 var includePaths = ['./vendor/assets/stylesheets/'];
 
 gulp.task('compile-scss', () =>
-  gulp.src('app/assets/stylesheets/**/*.scss')
+  gulp.src('app/assets/stylesheets/new/**/*.scss')
     .pipe(sourcemaps.init())
     .pipe(sass({
-      sourceComments: true,
+      sourceComments: false,
       outputStyle: 'compressed',
       includePaths: includePaths
-    })).pipe(sourceMaps.write())
+    }))
     .pipe(gulp.dest('public/stylesheets'))
 );
 
