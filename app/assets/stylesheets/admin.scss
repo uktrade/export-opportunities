@@ -24,18 +24,52 @@
 @import "govuk_elements/buttons";
 @import "govuk_elements/icons";
 @import "govuk_elements/tables";
+@import "govuk_elements/panels";
 @import "govuk_elements/forms";
 @import "govuk_elements/forms/form-validation";
+
+// @import "govuk_frontend_toolkit-latest/stylesheets/conditionals";
+// @import "govuk_frontend_toolkit-latest/stylesheets/shims";
+// @import "govuk_frontend_toolkit-latest/stylesheets/css3";
+// @import "govuk_frontend_toolkit-latest/stylesheets/colours";
+// @import "govuk_frontend_toolkit-latest/stylesheets/typography";
+// @import "govuk_frontend_toolkit-latest/stylesheets/grid_layout";
+// @import "govuk_frontend_toolkit-latest/stylesheets/design-patterns/buttons";
+// @import "govuk_frontend_toolkit-latest/stylesheets/font_stack";
+// @import "govuk_frontend_toolkit-latest/stylesheets/measurements";
+// @import "govuk_frontend_toolkit-latest/stylesheets/device-pixels";
+// @import "govuk_frontend_toolkit-latest/stylesheets/typography";
+// @import "govuk_frontend_toolkit-latest/stylesheets/design-patterns/alpha-beta";
+// @import "govuk_frontend_toolkit-latest/stylesheets/design-patterns/breadcrumbs";
+
+// // From https://github.com/alphagov/govuk_elements/
+// @import "govuk_elements-latest/assets/sass/elements/reset";
+// @import "govuk_elements-latest/assets/sass/elements/forms";
+// @import "govuk_elements-latest/assets/sass/elements/tables";
+// @import "govuk_elements-latest/assets/sass/elements/helpers";
+// @import "govuk_elements-latest/assets/sass/elements/govuk-template-base";
+// @import "govuk_elements-latest/assets/sass/elements/layout";
+// @import "govuk_elements-latest/assets/sass/elements/elements-typography";
+// @import "govuk_elements-latest/assets/sass/elements/buttons";
+// @import "govuk_elements-latest/assets/sass/elements/icons";
+// @import "govuk_elements-latest/assets/sass/elements/tables";
+// @import "govuk_elements-latest/assets/sass/elements/forms";
+// @import "govuk_elements-latest/assets/sass/elements/forms/form-multiple-choice";
+// @import "govuk_elements-latest/assets/sass/elements/forms/form-validation";
 
 // From https://github.com/alphagov/govuk_template/
 @import "govuk_template/header";
 
+
+
 // Opportunities specific styles
 @import "admin/variables";
-@import "admin/form_elements";
+@import "admin/colours";
 @import "admin/header";
-@import "admin/filters";
+@import "admin/button_bar";
 @import "admin/admin_filter";
+@import "admin/filterBar";
+@import "admin/searchPanel";
 @import "admin/helpers";
 @import "admin/tables";
 @import "admin/ragg_marker";
@@ -52,3 +86,5 @@
 // From https://github.com/freqdec/datePicker
 @import "vendor/datepicker";
 @import "admin/datepicker_augment";
+
+@import "govuk_elements/elements/forms/form-multiple-choice";

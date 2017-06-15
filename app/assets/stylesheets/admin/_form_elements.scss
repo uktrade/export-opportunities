@@ -8,7 +8,7 @@ legend {
 /* Radios and checkboxes */
 
 .multiple-choice {
-	display: block;
+  display: block;
   float: none;
   clear: left;
   position: relative;
@@ -78,20 +78,18 @@ legend {
 	}
 }
 
+.inline .multiple-choice {
+    clear: none;
+}
 @media (min-width: 641px) {
 	.multiple-choice {
 		float: left;
 	}
+	.inline .multiple-choice {
+		float: left;
+		padding-top: 7px;
+		padding-bottom: 7px;
+	}
 }
 
-// @media (min-width: 641px) {
-//   .multiple-choice label {
-//     float: left;
-//     padding-top: 7px;
-//     padding-bottom: 7px;
-//   }
-// }
 
-.inline .multiple-choice {
-    clear: none;
-}

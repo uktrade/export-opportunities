@@ -12,6 +12,7 @@ class Admin::EnquiriesController < Admin::BaseController
 
     @enquiries = policy_scope(Enquiry).all.order(created_at: :desc)
     @enquiries = @enquiries.where(created_at: @enquiry_form.from..@enquiry_form.to) if @enquiry_form.dates?
+    @enquiries.includes(:enquiry_response)
 
     authorize @enquiries
 
@@ -39,6 +40,8 @@ class Admin::EnquiriesController < Admin::BaseController
   def show
     enquiry_id = params.fetch(:id, nil)
     @enquiry = Enquiry.find(enquiry_id)
+    @enquiry_response = EnquiryResponse.where(enquiry_id: enquiry_id).first
+
     authorize @enquiry
   end
 

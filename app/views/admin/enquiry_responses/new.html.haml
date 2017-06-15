@@ -1,0 +1,50 @@
+
+%h1 NEW ENQUIRY RESPONSE
+
+= render 'form', enquiries_response: @enquiry_response
+
+
+
+
+
+%h1 Your Enquiry Information:
+%table.horizontal
+  %tr
+    %th{:scope => 'row'} Opportunity
+    %td= link_to @enquiry.opportunity.title, admin_opportunity_path(@enquiry.opportunity)
+  %tr
+    %th{:scope => 'row'} First name
+    %td= @enquiry.first_name
+  %tr
+    %th{:scope => 'row'} Last name
+    %td= @enquiry.last_name
+  %tr
+    %th{:scope => 'row'} Email address
+    %td= @enquiry.email
+  %tr
+    %th{:scope => 'row'} Company Address
+    %td= @enquiry.company_address
+  %tr
+    %th{:scope => 'row'} Company Telephone
+    %td= @enquiry.company_telephone
+  %tr
+    %th{:scope => 'row'} Companies House number
+    %td= @enquiry.company_house_number
+  %tr
+    %th{:scope => 'row'} Company Postcode
+    %td= @enquiry.company_postcode
+  %tr
+    %th{:scope => 'row'} URL
+    %td= @enquiry.company_url
+  %tr
+    %th{:scope => 'row'} Existing exporter?
+    %td= @enquiry.existing_exporter
+  %tr
+    %th{:scope => 'row'} Company Sector
+    %td= @enquiry.company_sector
+  %tr
+    %th{:scope => 'row'} Company Explanation
+    %td= @enquiry.company_explanation
+  %tr
+    %th{:scope => 'row'} Data Protection
+    %td= @enquiry.data_protection ? 'Yes' : 'No'

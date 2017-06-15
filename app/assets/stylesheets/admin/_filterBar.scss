@@ -1,0 +1,29 @@
+.admin__filter-bar {
+  padding: 10px;
+  background-color: $grey-3;
+  margin-bottom:10px;
+  .table-filter {
+    margin: 0 ;
+    padding: 10px;
+    display:inline-block;
+    select {
+      max-width: 225px;
+    }
+    &:first-of-type {
+      margin-left:0;
+    }
+    &__actions {
+      display:inline-block;
+      margin-left:20px;
+      vertical-align: baseline;
+      font-size:15px;
+    }
+  }
+  .button {
+    padding: 0.35em 0.65em;
+  }
+  .reset-filters {
+    padding:5px;
+    display: inline-block;
+  }
+}

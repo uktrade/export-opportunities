@@ -14,6 +14,7 @@ feature 'Signing in as a user', :elasticsearch do
     mock_sso_with(email: 'email@example.com')
     visit '/sign_in'
     visit '/'
+
     expect(page).to have_content 'Find and apply'
   end
 

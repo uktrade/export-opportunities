@@ -1,3 +1,14 @@
+You can now reply to enquiries within the admin centre.
+
+In the admin centre you can also see the:
+- enquiries that you have replied to
+- ones that still need a reply.
+
+View enquiry:
+
+<%= admin_enquiry_url(@enquiry.id) %>
+
+
 The customer below has expressed interest in this export opportunity: <%= @enquiry.opportunity.title %>
 
 <%= opportunity_url(@enquiry.opportunity) %>

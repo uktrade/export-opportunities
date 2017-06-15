@@ -3,11 +3,11 @@ require 'rails_helper'
 describe CreateOpportunity, type: :service do
   describe '#call' do
     before do
-      create(:country, id: '1')
+      country = create(:country, id: '1')
       create(:sector, id: '2')
       create(:type, id: '3')
       create(:value, id: '4')
-      create(:service_provider, id: '5')
+      create(:service_provider, id: '5', country: country)
     end
 
     it 'creates a new opportunity' do
