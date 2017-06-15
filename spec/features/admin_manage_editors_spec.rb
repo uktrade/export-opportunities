@@ -69,6 +69,21 @@ feature 'Admins manage editors' do
     expect(page).to have_text(I18n.t('devise.registrations.destroyed'))
   end
 
+  scenario 'Can reactivate a deleted editor' do
+    editor = create(:editor)
+    admin = create(:admin)
+
+    login_as(admin)
+
+    visit admin_editor_path(editor.id)
+    click_button('Deactivate Editor')
+    expect(page).to have_text(I18n.t('devise.registrations.destroyed'))
+
+    visit admin_editor_path(editor.id)
+    click_button('Reactivate Editor')
+    expect(page).to have_text(I18n.t('devise.registrations.reactivated'))
+  end
+
   scenario 'An editor who has been deactivated is signed out' do
     editor = create(:editor)
     admin = create(:admin)

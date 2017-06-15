@@ -37,6 +37,7 @@ en:
       updated_not_active: "Your password has been changed successfully."
     registrations:
       destroyed: "This account has been successfully deactivated."
+      reactivated: "This account has been successfully reactivated."
       signed_up: "Your account has been created successfully."
       signed_up_but_inactive: "Your account exists however, we could not sign you in because your account is not yet activated."
       signed_up_but_locked: "Your account exists however, we could not sign you in because your account is locked."

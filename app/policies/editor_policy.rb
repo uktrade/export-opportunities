@@ -13,6 +13,7 @@ class EditorPolicy < ApplicationPolicy
   alias index? administrator?
   alias show? administrator?
   alias destroy? administrator?
+  alias reactivate? administrator?
   alias new? administrator?
   alias create? administrator?
 end

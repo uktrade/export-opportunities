@@ -35,6 +35,15 @@ class Admin::RegistrationsController < Devise::RegistrationsController
     redirect_to admin_editors_path
   end
 
+  def reactivate
+    resource = Editor.find(params.require(:id))
+    authorize resource
+    resource.deactivated_at = nil
+    resource.save!
+    set_flash_message :notice, :reactivated if is_flashing_format?
+    redirect_to admin_editors_path
+  end
+
   private def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) << :name
     devise_parameter_sanitizer.for(:sign_up) << :role
