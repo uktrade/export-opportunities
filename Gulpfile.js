@@ -1,10 +1,18 @@
-gulp.task('scss', () =>
+var gulp = require('gulp'),
+    sass = require('gulp-sass'),
+    sourcemaps = require('gulp-sourcemaps');
+
+var includePaths = ['./vendor/assets/stylesheets/'];
+
+gulp.task('compile-scss', () =>
   gulp.src('app/assets/stylesheets/**/*.scss')
-    .pipe(sourceMaps.init())
+    .pipe(sourcemaps.init())
     .pipe(sass({
       sourceComments: true,
-      outputStyle: 'compressed'
+      outputStyle: 'compressed',
+      includePaths: includePaths
     })).pipe(sourceMaps.write())
     .pipe(gulp.dest('public/stylesheets'))
-    .pipe(liveReload())
 );
+
+gulp.task('default', ['compile-scss']);

@@ -1,0 +1,2034 @@
+/* line 4, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_box-sizing.scss */
+html {
+  box-sizing: border-box;
+}
+
+/* line 9, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_box-sizing.scss */
+*, *::after, *::before {
+  box-sizing: inherit;
+}
+
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/frontend.scss */
+.flash {
+  font-weight: 600;
+  margin: 2em auto 1em;
+  padding: 1em;
+  text-align: center;
+}
+
+/* line 8, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/frontend.scss */
+.flash-info, .flash-notice {
+  background-color: #dff0d8;
+  border: solid 1px #d6e9c6;
+  color: #3c763d;
+}
+
+/* line 14, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/frontend.scss */
+.flash-alert, .flash-error {
+  background-color: #f2dede;
+  border: solid 1px #ebccd1;
+  color: #a94442;
+}
+
+/**
+ * Neat visual grid settings
+ */
+/* line 5, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_base.scss */
+.legacy {
+  /* ================================================================================
+  Example showing how to change the color/size of the icons:
+  .icon-name {
+      color: red; // works for single-colored icons, because "fill" was set to "currentColor"
+      font-size: 32px; // works because "width" & "height" were set using em units
+  }
+  ================================================================================*/
+}
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_body.scss */
+.legacy body {
+  background-color: white;
+  margin: 0;
+  padding: 0;
+}
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_icons.scss */
+.legacy [class^="icon-"],
+.legacy [class*=" icon-"] {
+  display: block;
+  fill: currentColor;
+  height: 1em;
+  width: 1em;
+}
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .btn {
+  background-color: white;
+  border: none;
+  color: #00549F;
+  cursor: pointer;
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  line-height: 1;
+  padding: 16px 0.3em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  -webkit-transition: background-color 150ms ease;
+  transition: background-color 150ms ease;
+  -webkit-font-smoothing: antialiased;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+  .legacy .btn {
+    padding: 16px;
+  }
+}
+/* line 20, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.legacy .btn:after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background: url("arrow-white.svg") no-repeat;
+  background-size: 12px 12px;
+  margin-left: 0.675em;
+  display: inline-block;
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+  -webkit-transition: -webkit-transform .1s ease-out;
+  transition: -webkit-transform .1s ease-out;
+  transition: transform .1s ease-out;
+  transition: transform .1s ease-out, -webkit-transform .1s ease-out;
+}
+/* line 31, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.lt-ie10 .legacy .btn:after {
+  content: '';
+  background: url("arrow.png") no-repeat;
+  height: 14px;
+  margin-left: 10px;
+  margin-bottom: -1px;
+}
+/* line 39, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.lt-ie10 .footer-exporting-guide .legacy .btn:after {
+  background-image: url("arrow-blue.png");
+}
+/* line 44, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.legacy .btn:hover, .legacy .btn:focus {
+  background-color: #e6e6e6;
+  color: #00549F;
+}
+/* line 49, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.legacy .btn:hover:after, .legacy .btn:focus:after {
+  background: url("arrow-white.svg") no-repeat;
+  -webkit-transform: translateX(10px);
+          transform: translateX(10px);
+  -webkit-transition: 0.2s ease-out;
+  transition: 0.2s ease-out;
+}
+/* line 54, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.lt-ie10 .legacy .btn:hover:after, .lt-ie10 .legacy .btn:focus:after {
+  background-image: url("arrow.png");
+}
+/* line 4, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+/* line 9, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .btn:hover {
+  background-color: black;
+}
+/* line 13, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .btn--dark {
+  background-color: #00549F;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  line-height: 1;
+  padding: 16px 0.3em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  -webkit-transition: background-color 150ms ease;
+  transition: background-color 150ms ease;
+  -webkit-font-smoothing: antialiased;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 13, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+  .legacy .btn--dark {
+    padding: 16px;
+  }
+}
+/* line 20, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.legacy .btn--dark:after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background: url("arrow-white.svg") no-repeat;
+  background-size: 12px 12px;
+  margin-left: 0.675em;
+  display: inline-block;
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+  -webkit-transition: -webkit-transform .1s ease-out;
+  transition: -webkit-transform .1s ease-out;
+  transition: transform .1s ease-out;
+  transition: transform .1s ease-out, -webkit-transform .1s ease-out;
+}
+/* line 31, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.lt-ie10 .legacy .btn--dark:after {
+  content: '';
+  background: url("arrow.png") no-repeat;
+  height: 14px;
+  margin-left: 10px;
+  margin-bottom: -1px;
+}
+/* line 39, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.lt-ie10 .footer-exporting-guide .legacy .btn--dark:after {
+  background-image: url("arrow-blue.png");
+}
+/* line 44, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.legacy .btn--dark:hover, .legacy .btn--dark:focus {
+  background-color: #00396c;
+  color: white;
+}
+/* line 49, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.legacy .btn--dark:hover:after, .legacy .btn--dark:focus:after {
+  background: url("arrow-white.svg") no-repeat;
+  -webkit-transform: translateX(10px);
+          transform: translateX(10px);
+  -webkit-transition: 0.2s ease-out;
+  transition: 0.2s ease-out;
+}
+/* line 54, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.lt-ie10 .legacy .btn--dark:hover:after, .lt-ie10 .legacy .btn--dark:focus:after {
+  background-image: url("arrow.png");
+}
+/* line 18, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button-no-box:hover {
+  color: white;
+  background-color: transparent;
+}
+/* line 23, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .arrow-link {
+  padding: 0;
+  color: #00549F;
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  -webkit-font-smoothing: antialiased;
+  font-weight: bold;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: none;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+  -webkit-transition: color .1s ease-out;
+  transition: color .1s ease-out;
+}
+/* line 39, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .arrow-link:after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  background: url("arrow-blue.svg") no-repeat;
+  background-size: 12px 12px;
+  display: inline-block;
+  margin-left: 0.3em;
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+  -webkit-transition: -webkit-transform .1s ease-out;
+  transition: -webkit-transform .1s ease-out;
+  transition: transform .1s ease-out;
+  transition: transform .1s ease-out, -webkit-transform .1s ease-out;
+}
+/* line 50, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.lt-ie10 .legacy .arrow-link:after {
+  content: "";
+  background: transparent url("arrow-blue.png") no-repeat;
+  height: 14px;
+  margin-left: 10px;
+  margin-bottom: -1px;
+}
+/* line 61, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .arrow-link:hover:after, .legacy .arrow-link:focus:after {
+  -webkit-transform: translateX(5px);
+          transform: translateX(5px);
+}
+/* line 69, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy button, .legacy input[type="button"], .legacy input[type="reset"], .legacy input[type="submit"] {
+  background-color: #00549f;
+}
+/* line 73, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy button:focus, .legacy input[type="button"]:focus, .legacy input[type="reset"]:focus, .legacy input[type="submit"]:focus,
+.legacy button:hover, .legacy input[type="button"]:hover, .legacy input[type="reset"]:hover, .legacy input[type="submit"]:hover {
+  outline: 3px solid #00549f;
+}
+/* line 78, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy button:active, .legacy input[type="button"]:active, .legacy input[type="reset"]:active, .legacy input[type="submit"]:active {
+  background-color: #004c8f;
+}
+/* line 82, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button, .legacy .panel .companies-house-search-btn {
+  background: #00549f;
+  border: 0;
+  color: white !important;
+  display: block;
+  font-size: 1em;
+  font-weight: 600;
+  padding: 1.25em 2em;
+  position: relative;
+  text-align: center;
+  width: auto;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 82, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+  .legacy .button, .legacy .panel .companies-house-search-btn {
+    width: 50%;
+  }
+  /* line 97, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+  .legacy .button-wide {
+    width: 100%;
+  }
+}
+/* line 102, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button.button--slimline, .legacy .panel .button--slimline.companies-house-search-btn {
+  white-space: nowrap;
+  line-height: 50px;
+  display: inline;
+  padding: 10px 12px;
+  width: auto;
+  border: 2px solid #00549f;
+}
+/* line 109, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button.button--slimline:hover, .legacy .panel .button--slimline.companies-house-search-btn:hover {
+  border-bottom-width: 2px;
+}
+/* line 114, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button:hover, .legacy .panel .companies-house-search-btn:hover {
+  background-color: #003666;
+  border-color: #003666;
+  border-bottom-width: 0px;
+  outline: none;
+}
+/* line 121, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button:active, .legacy .panel .companies-house-search-btn:active {
+  background-color: #007ea3;
+  border-color: #007ea3;
+  box-shadow: none;
+  outline: none;
+  top: 1px;
+}
+/* line 129, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button:focus, .legacy .panel .companies-house-search-btn:focus {
+  background-color: #003666;
+  border-color: #003666;
+  outline: 3px solid #00549f;
+}
+/* line 135, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button.button--naked, .legacy .panel .button--naked.companies-house-search-btn {
+  background: white;
+  color: #00549f !important;
+  border: 2px solid #00549f;
+}
+/* line 143, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button::-moz-focus-inner, .legacy .panel .companies-house-search-btn::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+/* line 149, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button[disabled="disabled"], .legacy .panel [disabled="disabled"].companies-house-search-btn {
+  background: #00549f;
+  cursor: not-allowed;
+}
+/* line 153, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button[disabled="disabled"]:focus, .legacy .panel [disabled="disabled"].companies-house-search-btn:focus {
+  outline: none;
+}
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel {
+  padding: 1.35em;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+  .legacy .panel {
+    padding: 2.7em;
+  }
+}
+/* line 8, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel fieldset {
+  border: 0;
+  border-bottom: 1px solid #dfd5c5;
+  margin-bottom: 1.35em;
+  padding: 0 0 1.35em;
+  width: 100%;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 8, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+  .legacy .panel fieldset {
+    border-bottom: 2px solid #dfd5c5;
+    margin-bottom: 2.7em;
+  }
+}
+/* line 20, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel fieldset:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+/* line 25, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel fieldset .instructions {
+  margin-bottom: 1.5em;
+}
+/* line 30, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .form-group {
+  margin-bottom: 20px;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 30, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+  .legacy .panel .form-group {
+    margin-bottom: 30px;
+  }
+}
+/* line 38, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel label {
+  display: block;
+  font-size: 1em;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0 0 .5em;
+}
+/* line 47, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.lt-ie10 .legacy .panel textarea,
+.lt-ie10 .legacy .panel select,
+.lt-ie10 .legacy .panel input[type="text"],
+.lt-ie10 .legacy .panel input[type="email"] {
+  background-color: white;
+  border: 1px solid #dfd5c5;
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  padding: .5em;
+  width: 50%;
+}
+/* line 60, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel input[type="color"], .legacy .panel input[type="date"], .legacy .panel input[type="datetime"], .legacy .panel input[type="datetime-local"], .legacy .panel input[type="email"], .legacy .panel input[type="month"], .legacy .panel input[type="number"], .legacy .panel input[type="password"], .legacy .panel input[type="search"], .legacy .panel input[type="tel"], .legacy .panel input[type="text"], .legacy .panel input[type="time"], .legacy .panel input[type="url"], .legacy .panel input[type="week"], .legacy .panel input:not([type]), .legacy .panel textarea {
+  background-color: white;
+  border: 1px solid #dfd5c5;
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  padding: .5em;
+  width: 100%;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 60, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+  .legacy .panel input[type="color"], .legacy .panel input[type="date"], .legacy .panel input[type="datetime"], .legacy .panel input[type="datetime-local"], .legacy .panel input[type="email"], .legacy .panel input[type="month"], .legacy .panel input[type="number"], .legacy .panel input[type="password"], .legacy .panel input[type="search"], .legacy .panel input[type="tel"], .legacy .panel input[type="text"], .legacy .panel input[type="time"], .legacy .panel input[type="url"], .legacy .panel input[type="week"], .legacy .panel input:not([type]), .legacy .panel textarea {
+    width: 50%;
+  }
+}
+/* line 72, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.lt-ie9 .legacy .panel input[type="color"], .lt-ie9 .legacy .panel input[type="date"], .lt-ie9 .legacy .panel input[type="datetime"], .lt-ie9 .legacy .panel input[type="datetime-local"], .lt-ie9 .legacy .panel input[type="email"], .lt-ie9 .legacy .panel input[type="month"], .lt-ie9 .legacy .panel input[type="number"], .lt-ie9 .legacy .panel input[type="password"], .lt-ie9 .legacy .panel input[type="search"], .lt-ie9 .legacy .panel input[type="tel"], .lt-ie9 .legacy .panel input[type="text"], .lt-ie9 .legacy .panel input[type="time"], .lt-ie9 .legacy .panel input[type="url"], .lt-ie9 .legacy .panel input[type="week"], .lt-ie9 .legacy .panel input:not([type]), .lt-ie9 .legacy .panel textarea {
+  width: 50%;
+}
+/* line 77, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel input[type="color"]:hover, .legacy .panel input[type="date"]:hover, .legacy .panel input[type="datetime"]:hover, .legacy .panel input[type="datetime-local"]:hover, .legacy .panel input[type="email"]:hover, .legacy .panel input[type="month"]:hover, .legacy .panel input[type="number"]:hover, .legacy .panel input[type="password"]:hover, .legacy .panel input[type="search"]:hover, .legacy .panel input[type="tel"]:hover, .legacy .panel input[type="text"]:hover, .legacy .panel input[type="time"]:hover, .legacy .panel input[type="url"]:hover, .legacy .panel input[type="week"]:hover, .legacy .panel input:not([type]):hover, .legacy .panel textarea:hover {
+  outline: 2px solid #00549f;
+}
+/* line 81, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel input[type="color"]:focus, .legacy .panel input[type="date"]:focus, .legacy .panel input[type="datetime"]:focus, .legacy .panel input[type="datetime-local"]:focus, .legacy .panel input[type="email"]:focus, .legacy .panel input[type="month"]:focus, .legacy .panel input[type="number"]:focus, .legacy .panel input[type="password"]:focus, .legacy .panel input[type="search"]:focus, .legacy .panel input[type="tel"]:focus, .legacy .panel input[type="text"]:focus, .legacy .panel input[type="time"]:focus, .legacy .panel input[type="url"]:focus, .legacy .panel input[type="week"]:focus, .legacy .panel input:not([type]):focus, .legacy .panel textarea:focus,
+.legacy .panel input[type="color"]:active, .legacy .panel input[type="date"]:active, .legacy .panel input[type="datetime"]:active, .legacy .panel input[type="datetime-local"]:active, .legacy .panel input[type="email"]:active, .legacy .panel input[type="month"]:active, .legacy .panel input[type="number"]:active, .legacy .panel input[type="password"]:active, .legacy .panel input[type="search"]:active, .legacy .panel input[type="tel"]:active, .legacy .panel input[type="text"]:active, .legacy .panel input[type="time"]:active, .legacy .panel input[type="url"]:active, .legacy .panel input[type="week"]:active, .legacy .panel input:not([type]):active, .legacy .panel textarea:active {
+  outline: 3px solid #00549f;
+}
+/* line 86, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel select {
+  background-color: white;
+  border: 2px solid #dfd5c5;
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  margin: 0;
+  overflow: scroll;
+  padding: .5em;
+  width: 100%;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 86, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+  .legacy .panel select {
+    width: 50%;
+  }
+}
+/* line 100, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.lt-ie9 .legacy .panel select {
+  width: 50%;
+}
+/* line 105, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel textarea {
+  display: block;
+  resize: vertical;
+  width: 100%;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 105, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+  .legacy .panel textarea {
+    width: 75%;
+  }
+}
+/* line 114, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.lt-ie9 .legacy .panel textarea {
+  width: 75%;
+}
+/* line 119, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel input[type="checkbox"],
+.legacy .panel input[type="radio"] {
+  display: inline-block;
+  margin-right: 0.3375em;
+  width: auto;
+}
+/* line 125, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel input[type="checkbox"] + label,
+.legacy .panel input[type="radio"] + label {
+  display: inline-block;
+}
+/* line 130, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .companies-house-list {
+  background-color: #dfd5c5;
+  list-style: none;
+  margin-bottom: 1.35em;
+  padding: 0 1em;
+  width: 50%;
+}
+/* line 137, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .companies-house-list li.companieshouse-result {
+  margin-bottom: 0.675em;
+  padding-left: 1em;
+}
+/* line 141, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .companies-house-list li.companieshouse-result:first-child {
+  padding-top: 1.35em;
+}
+/* line 145, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .companies-house-list li.companieshouse-result:last-child {
+  padding-bottom: 1.35em;
+}
+/* line 150, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .companies-house-list li::before {
+  color: #b00d23;
+  content: "\2022";
+  display: inline-block;
+  margin-left: -1em;
+  width: 1em;
+}
+/* line 159, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .companies-house-search-btn {
+  font-size: inherit;
+  margin-top: 0.675em;
+  padding: 1em 0;
+  width: 100%;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 159, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+  .legacy .panel .companies-house-search-btn {
+    width: 50%;
+  }
+}
+/* line 171, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.lt-ie9 .legacy .panel .companies-house-search-btn {
+  width: 50%;
+}
+/* line 176, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .form-hint {
+  color: #656e72;
+}
+/* line 180, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .field_with_errors input {
+  outline: solid red 3px;
+}
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_tables.scss */
+.legacy table {
+  border-collapse: collapse;
+  -webkit-font-feature-settings: "kern", "liga", "tnum";
+          font-feature-settings: "kern", "liga", "tnum";
+  margin: 0.675em 0;
+  table-layout: fixed;
+  width: 100%;
+}
+/* line 9, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_tables.scss */
+.legacy th {
+  border-bottom: 1px solid #aaa398;
+  font-weight: 600;
+  padding: 0.675em 0 0.675em 0.675em;
+  text-align: left;
+}
+/* line 16, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_tables.scss */
+.legacy td {
+  border-bottom: 1px solid #e2d9cb;
+  padding: 0.675em 0 0.675em 0.675em;
+}
+/* line 20, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_tables.scss */
+.legacy td .button, .legacy td .panel .companies-house-search-btn, .legacy .panel td .companies-house-search-btn {
+  width: auto;
+}
+/* line 24, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_tables.scss */
+.legacy td :last-child {
+  margin-bottom: 0;
+}
+/* line 29, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_tables.scss */
+.legacy tr,
+.legacy td,
+.legacy th {
+  vertical-align: middle;
+}
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy body {
+  color: #4a4a4a;
+  font-family: Roboto, sans-serif;
+  -webkit-font-feature-settings: 'kern', 'liga', 'pnum';
+          font-feature-settings: 'kern', 'liga', 'pnum';
+  font-size: 1em;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 400;
+  line-height: 1.35;
+}
+/* line 11, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy h1,
+.legacy h2,
+.legacy h3,
+.legacy h4,
+.legacy h5,
+.legacy h6 {
+  color: #4a4a4a;
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  line-height: 1.35;
+  margin: 0 0 0.625em;
+  text-transform: inherit;
+}
+/* line 25, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy h1 {
+  font-size: 300%;
+  font-weight: 500;
+  letter-spacing: -1;
+  line-height: 1.2;
+  max-width: 60%;
+}
+/* line 32, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy h1 span {
+  display: block;
+  font-weight: 200;
+}
+/* line 39, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy h2 {
+  font-size: 225%;
+  letter-spacing: -1;
+}
+/* line 44, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy h3 {
+  font-size: 150%;
+}
+/* line 47, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy h3 span {
+  color: #b00d23;
+  display: block;
+  font-weight: 700;
+  font-size: 22px;
+  text-transform: uppercase;
+}
+/* line 56, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy h4 {
+  font-size: 112.5%;
+}
+/* line 60, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy h4,
+.legacy h5,
+.legacy h6 {
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  font-weight: 300;
+  letter-spacing: 0;
+  text-transform: none;
+}
+/* line 70, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy p {
+  font-size: 112.5%;
+  line-height: 1.388888889;
+  margin: 0 0 1em;
+}
+/* line 76, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy a,
+.legacy a.no-link-styles {
+  color: #00549f;
+  text-decoration: none;
+  border-bottom: 1px solid #00549f;
+}
+/* line 83, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy a:visited,
+.legacy a.no-link-styles:visited {
+  border-bottom: 1px solid #4f0b7b;
+  color: #4f0b7b;
+}
+/* line 88, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy a:active, .legacy a:hover, .legacy a:focus,
+.legacy a.no-link-styles:active,
+.legacy a.no-link-styles:hover,
+.legacy a.no-link-styles:focus {
+  border-bottom: 1px dashed #007ea3;
+  color: #007ea3;
+}
+/* line 95, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy a:focus,
+.legacy a.no-link-styles:focus {
+  outline: 3px solid #ffbf47;
+}
+/* line 100, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy a.external-link {
+  text-decoration: none;
+  word-break: break-all;
+}
+/* line 104, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy a.external-link:after {
+  background: url("external-link.svg") no-repeat;
+  background-size: 12px 12px;
+  content: "";
+  display: inline-block;
+  height: 12px;
+  margin-left: 0.5em;
+  -webkit-transform: translate(0, 0);
+          transform: translate(0, 0);
+  -webkit-transition: -webkit-transform .1s ease-out;
+  transition: -webkit-transform .1s ease-out;
+  transition: transform .1s ease-out;
+  transition: transform .1s ease-out, -webkit-transform .1s ease-out;
+  width: 12px;
+}
+/* line 117, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy hr {
+  border-bottom: 1px solid #e2d9cb;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  margin: 1.35em 0;
+}
+/* line 125, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy img,
+.legacy picture {
+  margin: 0;
+  max-width: 100%;
+}
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+.legacy .has-sidebar {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+}
+/* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.legacy .has-sidebar:last-child {
+  margin-right: 0;
+}
+/* line 20, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.legacy .has-sidebar::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+  .legacy .has-sidebar {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 57.35098%;
+  }
+  /* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .has-sidebar:last-child {
+    margin-right: 0;
+  }
+}
+@media screen and (min-width: 75em) {
+  /* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+  .legacy .has-sidebar {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 65.88078%;
+  }
+  /* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .has-sidebar:last-child {
+    margin-right: 0;
+  }
+}
+/* line 13, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+.lt-ie9 .legacy .has-sidebar {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 57.35098%;
+}
+/* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.lt-ie9 .legacy .has-sidebar:last-child {
+  margin-right: 0;
+}
+/* line 18, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+.legacy .sidebar, .legacy .filters {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+}
+/* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.legacy .sidebar:last-child, .legacy .filters:last-child {
+  margin-right: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 18, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+  .legacy .sidebar, .legacy .filters {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 40.29137%;
+  }
+  /* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .sidebar:last-child, .legacy .filters:last-child {
+    margin-right: 0;
+  }
+}
+@media screen and (min-width: 75em) {
+  /* line 18, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+  .legacy .sidebar, .legacy .filters {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 31.76157%;
+  }
+  /* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .sidebar:last-child, .legacy .filters:last-child {
+    margin-right: 0;
+  }
+}
+/* line 29, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+.lt-ie9 .legacy .sidebar, .lt-ie9 .legacy .filters {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 31.76157%;
+}
+/* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.lt-ie9 .legacy .sidebar:last-child, .lt-ie9 .legacy .filters:last-child {
+  margin-right: 0;
+}
+
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/utilities/_typography.scss */
+.u-italic {
+  font-style: italic !important;
+}
+
+/* line 5, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/utilities/_typography.scss */
+.u-text-center {
+  text-align: center !important;
+}
+
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/utilities/_positioning.scss */
+.u-pull-right {
+  float: right !important;
+}
+
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/utilities/_helpers.scss */
+.u-visuallyhidden {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+}
+
+/* line 3, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_background.scss */
+.legacy .background__item {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 300px;
+  z-index: -1;
+}
+@media screen and (min-width: 48em) {
+  /* line 3, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_background.scss */
+  .legacy .background__item {
+    height: 350px;
+  }
+}
+@media screen and (min-width: 75em) {
+  /* line 3, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_background.scss */
+  .legacy .background__item {
+    height: 450px;
+  }
+}
+/* line 20, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_background.scss */
+.legacy .background--image {
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_search-form.scss */
+.legacy .search-form {
+  margin: 0 auto;
+}
+/* line 3, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_search-form.scss */
+.legacy .search-form__input {
+  width: 100%;
+  font-family: Roboto,arial,helvetica,sans-serif;
+  font-size: 18px;
+  padding: 10px 15px;
+  border: 1px solid #999;
+}
+/* line 9, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_search-form.scss */
+.legacy .search-form__input:focus {
+  outline: 3px solid #ffbf47;
+}
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_outer-container.scss */
+.legacy .outer-container {
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* line 20, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.legacy .outer-container::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+@media screen and (min-width: 48em) {
+  /* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_outer-container.scss */
+  .legacy .outer-container {
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  /* line 20, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+  .legacy .outer-container::after {
+    clear: both;
+    content: "";
+    display: block;
+  }
+}
+@media screen and (min-width: 75em) {
+  /* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_outer-container.scss */
+  .legacy .outer-container {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  /* line 20, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+  .legacy .outer-container::after {
+    clear: both;
+    content: "";
+    display: block;
+  }
+}
+/* line 12, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_outer-container.scss */
+.lt-ie9 .legacy .outer-container {
+  width: 1200px;
+}
+/* line 17, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_outer-container.scss */
+.legacy _:-ms-fullscreen, .legacy :root main {
+  display: block;
+}
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_full-width-border-top.scss */
+.legacy .full-width-border-top {
+  width: 100%;
+  border-top: 1px solid #e2d9cb;
+  padding-top: 0.675em;
+  margin-top: 0.675em;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_full-width-border-top.scss */
+  .legacy .full-width-border-top {
+    padding-top: 1.35em;
+    margin-top: 1.35em;
+  }
+}
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_border-top-bottom.scss */
+.legacy .border-top-bottom {
+  width: 100%;
+  border-bottom: 1px solid #e2d9cb;
+  border-top: 1px solid #e2d9cb;
+  padding: 0.675em 0;
+}
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_pagination.scss */
+.legacy .pagination {
+  margin: 0 auto;
+  padding: 0;
+}
+/* line 20, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.legacy .pagination::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+/* line 6, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_pagination.scss */
+.legacy .pagination li {
+  display: inline-block;
+  list-style: none;
+  margin: 0 8px 8px 0;
+}
+/* line 11, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_pagination.scss */
+.legacy .pagination li.active a {
+  background-color: #00549f;
+  color: white;
+}
+/* line 16, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_pagination.scss */
+.legacy .pagination li.arrow {
+  display: none;
+}
+/* line 20, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_pagination.scss */
+.legacy .pagination li:last-child {
+  margin-right: 0;
+}
+/* line 25, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_pagination.scss */
+.legacy .pagination a {
+  background-color: white;
+  border: 2px solid #00549f;
+  color: #00549f;
+  display: block;
+  font-family: Roboto, sans-serif;
+  font-size: 1.25em;
+  font-weight: 500;
+  line-height: 1;
+  margin: 0;
+  min-width: 2em;
+  padding: 0.5em 0;
+  text-align: center;
+  text-decoration: none;
+}
+/* line 40, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_pagination.scss */
+.legacy .pagination a:hover {
+  background-color: #00549F;
+  color: white;
+}
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_pager.scss */
+.legacy .pager {
+  margin-top: 2.7em;
+}
+/* line 20, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.legacy .pager::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_pager.scss */
+  .legacy .pager {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 100%;
+  }
+  /* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .pager:last-child {
+    margin-right: 0;
+  }
+}
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.legacy .exporting-guide-form {
+  margin-bottom: 1.35em;
+}
+/* line 20, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.legacy .exporting-guide-form::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+@media screen and (min-width: 48em) {
+  /* line 5, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+  .frontpage-list__export-form .legacy .exporting-guide-form {
+    padding-top: 1.35em;
+  }
+}
+/* line 11, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.legacy .exporting-guide-form__label {
+  margin: 0;
+}
+/* line 14, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.placeholder .legacy .exporting-guide-form__label {
+  display: none;
+}
+/* line 19, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.legacy .exporting-guide-form__input {
+  width: 100%;
+  border: 0;
+  color: #00549F;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 19, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+  .legacy .exporting-guide-form__input {
+    float: left;
+    width: 50%;
+    margin-right: 0.675em;
+  }
+}
+/* line 30, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.frontpage-list__export-form .legacy .exporting-guide-form__input {
+  width: 100%;
+  margin-right: 0;
+}
+/* line 36, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.legacy .exporting-guide-form__submit {
+  float: right;
+  padding: 0.675em;
+  padding-right: 0;
+  color: #00549F;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 36, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+  .legacy .exporting-guide-form__submit {
+    float: left;
+  }
+}
+/* line 46, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.frontpage-list__export-form .legacy .exporting-guide-form__submit {
+  float: right;
+  padding-right: 0;
+}
+/* line 51, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.page-template-template-exporting-guide-confirmation .legacy .exporting-guide-form__submit, .frontpage-list__export-form .legacy .exporting-guide-form__submit {
+  color: #00549F;
+}
+/* line 3, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.legacy .filters__status {
+  color: #706b63;
+  display: inline;
+  font-size: .75em;
+  text-transform: inherit;
+}
+/* line 10, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.legacy .filters__panel.filters__panel--closed {
+  padding-bottom: 0;
+}
+/* line 14, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.legacy .filters__panel--closed .legacy .filters__list {
+  max-height: 0;
+  -webkit-transition: max-height .3s ease-out;
+  transition: max-height .3s ease-out;
+}
+/* line 19, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.legacy .filters__panel--closed .search-form__wrapper {
+  max-height: 0;
+  overflow: hidden;
+}
+/* line 24, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.legacy .filters__title {
+  font-size: 1em;
+  text-transform: none;
+}
+/* line 28, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.has-js .legacy .filters__title {
+  background: url(/assets/arrow-blue-up@2x-5a5e254c23b1a8abdad750ee7a0af9dc5ddb81eab452444aa3c7dcfe5cb5d55a.png) right 3px no-repeat;
+  background-size: 12px 12px;
+  cursor: pointer;
+  padding-right: 20px;
+  position: relative;
+}
+/* line 35, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.has-js .legacy .filters__title--closed {
+  background-image: url(/assets/arrow-blue-down@2x-744a9c29e81f8ecff7453c09a4b81b8ba92c973e460f690b375f6bd17c2a254f.png);
+}
+/* line 41, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.has-js.lt-ie9 .legacy .filters__title {
+  background: url(/assets/arrow-blue-up-6175c59a5160b7bf8ac2197aeb10784941f18cb1f27cf4e9ec3798813597aae2.png) right 3px no-repeat;
+}
+/* line 44, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.has-js.lt-ie9 .legacy .filters__title--closed {
+  background-image: url(/assets/arrow-blue-down-3727b65e72cca6e39807bdcd29f69873e73bb61c5afa9a744c5f936e2ffe70e0.png);
+}
+/* line 51, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.legacy .filters__link--active:before {
+  background-color: #00549f;
+}
+/* line 55, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.legacy .filters__link:focus {
+  outline-offset: -3px;
+}
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_info-list.scss */
+.legacy .info-list {
+  margin: 0.675em 0;
+  padding: 0;
+}
+/* line 5, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_info-list.scss */
+.legacy .info-list__item {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+  margin: 0.675em 0;
+}
+/* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.legacy .info-list__item:last-child {
+  margin-right: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 5, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_info-list.scss */
+  .legacy .info-list__item {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 31.76157%;
+  }
+  /* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .info-list__item:last-child {
+    margin-right: 0;
+  }
+  /* line 78, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_omega.scss */
+  .legacy .info-list__item:nth-child(3n) {
+    margin-right: 0;
+  }
+  /* line 83, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_omega.scss */
+  .legacy .info-list__item:nth-child(3n+1) {
+    clear: left;
+  }
+}
+@media screen and (min-width: 48em) {
+  /* line 5, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_info-list.scss */
+  .legacy .info-list__item {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 100%;
+  }
+  /* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .info-list__item:last-child {
+    margin-right: 0;
+  }
+}
+/* line 3, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+.legacy .guide__copy {
+  height: 50px;
+}
+/* line 6, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+.legacy .guide__copy:before {
+  content: '';
+  background: url("exporting_guide.svg") no-repeat;
+  height: 40px;
+  width: 35px;
+  margin-right: 5px;
+  float: left;
+}
+/* line 14, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+.lt-ie9 .legacy .guide__copy:before {
+  content: 'Read: ';
+  margin-right: 5px;
+}
+@media screen and (min-width: 48em) {
+  /* line 6, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+  .legacy .guide__copy:before {
+    margin-top: 10px;
+    margin-right: 5px;
+    height: 30px;
+    width: 20px;
+  }
+}
+@media screen and (min-width: 75em) {
+  /* line 6, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+  .legacy .guide__copy:before {
+    margin-right: 10px;
+    margin-top: 2px;
+    width: 30px;
+  }
+}
+/* line 34, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+.legacy .guide__label {
+  margin-bottom: 0;
+  float: left;
+  width: 75%;
+}
+@media screen and (min-width: 48em) {
+  /* line 34, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+  .legacy .guide__label {
+    width: 80%;
+  }
+}
+/* line 44, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+.legacy .guide__country {
+  font-size: 12px;
+  text-transform: uppercase;
+  float: left;
+  width: 75%;
+}
+@media screen and (min-width: 48em) {
+  /* line 44, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+  .legacy .guide__country {
+    width: 80%;
+  }
+}
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.legacy .panel {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+  padding: 0;
+}
+/* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.legacy .panel:last-child {
+  margin-right: 0;
+}
+/* line 6, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.legacy .panel--primary {
+  background-color: #1e1348;
+  color: white;
+  margin-bottom: 1.35em;
+  text-align: center;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 6, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+  .legacy .panel--primary {
+    padding: 1.35em;
+  }
+}
+/* line 16, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.legacy .panel--primary h1 {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 80%;
+  color: white;
+}
+/* line 23, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.legacy .panel--primary p {
+  margin: 0 auto;
+  max-width: 70%;
+}
+/* line 28, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.legacy .panel--primary dl {
+  margin: auto;
+  text-align: left;
+  width: 90%;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 28, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+  .legacy .panel--primary dl {
+    width: 75%;
+  }
+}
+/* line 37, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.legacy .panel--primary dl dt {
+  display: block;
+  float: none;
+  text-align: center;
+  width: auto;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 37, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+  .legacy .panel--primary dl dt {
+    clear: left;
+    float: left;
+    overflow: hidden;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 160px;
+  }
+}
+/* line 55, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.legacy .panel--primary dl dd {
+  display: block;
+  margin-bottom: 0.675em;
+  margin-left: 0;
+  text-align: center;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 55, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+  .legacy .panel--primary dl dd {
+    margin-left: 170px;
+    text-align: left;
+    width: auto;
+  }
+}
+/* line 67, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.legacy .panel--primary dl dd:last-child {
+  margin-bottom: 0;
+}
+/* line 20, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.legacy .hero-header::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+/* line 4, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_hero-header.scss */
+.legacy .hero-header-wrapper {
+  background-color: black;
+  background-image: url(/assets/backgrounds/export-opps-6d7c5c593b6ad6696c02522c21c59733218166111e79ca439b0d907d7827e134.jpg);
+  background-size: cover;
+  margin-bottom: 1.35em;
+}
+/* line 11, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_hero-header.scss */
+.legacy .hero-header__content {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 65.88078%;
+  padding-bottom: 52px;
+  padding-top: 52px;
+}
+/* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.legacy .hero-header__content:last-child {
+  margin-right: 0;
+}
+/* line 16, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_hero-header.scss */
+.legacy .hero-header__content h1,
+.legacy .hero-header__content h2,
+.legacy .hero-header__content h3,
+.legacy .hero-header__content p {
+  color: white;
+  max-width: 100%;
+  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.75);
+}
+/* line 26, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_hero-header.scss */
+.lt-ie9 .legacy .hero-header {
+  height: 309px;
+}
+/* line 30, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_hero-header.scss */
+.legacy .hero-header br {
+  display: none;
+}
+@media screen and (min-width: 48em) {
+  /* line 30, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_hero-header.scss */
+  .legacy .hero-header br {
+    display: block;
+  }
+}
+/* line 3, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.legacy .page__header h1 {
+  margin: 0;
+}
+/* line 7, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.legacy .page__section {
+  margin-top: 1.35em;
+}
+/* line 20, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.legacy .page__section::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+/* line 12, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.legacy .page__intro {
+  margin-bottom: 2.7em;
+}
+/* line 16, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.legacy .page__icon {
+  float: left;
+  width: 15%;
+  max-width: 50px;
+  margin-right: 5%;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 16, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+  .legacy .page__icon {
+    margin-right: 1.35em;
+  }
+}
+/* line 27, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.legacy .page__image {
+  display: block;
+  margin-bottom: 1.35em;
+}
+/* line 31, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.legacy .page__image:last-child {
+  margin-bottom: 0;
+}
+/* line 35, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.legacy .page__image--centered {
+  margin-left: auto;
+  margin-right: auto;
+}
+/* line 40, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.legacy .page__image--partner-logos {
+  width: 100%;
+  height: auto;
+}
+/* line 46, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.legacy .page__content {
+  float: left;
+  width: 80%;
+}
+/* line 50, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.legacy .page__content--no-icon {
+  width: auto;
+}
+/* line 3, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_error-page.scss */
+.legacy .error404 .search-form {
+  margin: 0 0 .75em 0;
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+}
+/* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.legacy .error404 .search-form:last-child {
+  margin-right: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 3, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_error-page.scss */
+  .legacy .error404 .search-form {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 57.35098%;
+    float: none;
+  }
+  /* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .error404 .search-form:last-child {
+    margin-right: 0;
+  }
+}
+/* line 12, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_error-page.scss */
+.legacy .error404 .search-form__submit {
+  background-color: #e2d9cb;
+}
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_metadata.scss */
+.legacy dl.metadata {
+  font-weight: 500;
+  padding-bottom: 0.675em;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 5, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_metadata.scss */
+  .legacy dl.metadata dt {
+    float: left;
+    margin-right: 0.675em;
+  }
+}
+/* line 12, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_metadata.scss */
+.legacy dl.metadata dd {
+  font-weight: 400;
+  margin-bottom: 0.675em;
+  margin-left: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 12, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_metadata.scss */
+  .legacy dl.metadata dd {
+    margin-bottom: 0;
+    margin-left: 138px;
+  }
+}
+@media screen and (min-width: 37.5em) {
+  /* line 24, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_metadata.scss */
+  .legacy dl.metadata--with-long-keys dd {
+    margin-bottom: 0;
+    margin-left: 180px;
+  }
+}
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel {
+  background-color: #dfd5c5;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+  margin-bottom: 1.35em;
+  padding: 0.675em;
+}
+/* line 8, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__title {
+  font-size: 1em;
+  text-transform: none;
+}
+/* line 13, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__list {
+  background-color: #F2EEE8;
+  border-bottom: 1px solid #c9c0b1;
+  border-top: 2px solid #d8cfbf;
+  list-style-type: none;
+  margin: 0;
+  max-height: 10000px;
+  overflow: hidden;
+  padding: 0;
+  padding-right: 0.675em -1px;
+  -webkit-transition: max-height .3s ease-out;
+  transition: max-height .3s ease-out;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 13, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+  .legacy .sidebar-panel__list {
+    max-height: 200px;
+    overflow-y: scroll;
+  }
+}
+/* line 30, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.lt-ie9 .legacy .sidebar-panel__list {
+  max-height: 200px;
+  overflow-y: scroll;
+}
+/* line 36, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__list-item {
+  border-bottom: 1px solid #e2d9cb;
+  margin: 0;
+  text-transform: none;
+}
+/* line 41, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__list-item:last-child {
+  border-bottom: none;
+}
+/* line 46, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__link {
+  border: 0;
+  display: block;
+  padding: 0.3375em;
+  padding-left: 1.5em;
+  position: relative;
+}
+/* line 53, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__link:before {
+  border: 1px solid #00549f;
+  border-radius: 2px;
+  content: '';
+  display: block;
+  height: 12px;
+  left: 8px;
+  position: absolute;
+  top: 9px;
+  width: 12px;
+}
+/* line 65, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__link:visited {
+  color: #00549f;
+}
+/* line 69, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__link:hover {
+  background-color: #e6e2dc;
+  border-bottom: 0;
+}
+/* line 74, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__link:focus {
+  border-bottom: 0;
+}
+/* line 78, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__link--active:before {
+  background-color: #00549f;
+}
+/* line 83, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__link--no-box:before {
+  display: none;
+}
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation {
+  float: right;
+}
+/* line 4, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation ul {
+  margin-top: 2.025em;
+  padding: 0;
+}
+/* line 8, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation ul li {
+  display: inline;
+  position: relative;
+}
+/* line 12, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation ul li:after {
+  color: rgba(250, 250, 250, 0.5);
+  content: '|';
+  font-size: 20px;
+  position: absolute;
+  right: -1px;
+  top: -7px;
+}
+/* line 21, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation ul li:last-child:after {
+  content: '';
+}
+/* line 25, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation ul li a {
+  background-color: #160d37;
+  border: 0;
+  border-top: 2px #160d37 solid;
+  color: white;
+  margin: 0;
+  padding: 8px 11px 7px;
+  text-decoration: none;
+}
+/* line 34, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation ul li a:hover {
+  border-top: 3px solid #e41f13;
+}
+/* line 38, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation ul li a.user-navigation-toggle-active {
+  border-top: 3px solid #e41f13;
+}
+/* line 42, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation ul li a .icon {
+  background-position: 0 50%;
+  background-repeat: no-repeat;
+  display: inline;
+  padding: 2px 0.675em 2px 1.35em;
+}
+/* line 48, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation ul li a .icon-profile {
+  background-image: url(/assets/icons/profile-d077a4a9071d57616d36c5234f327ff71b80ee4ee9cb2e3c88d78a3777edb506.svg);
+}
+/* line 52, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation ul li a .icon-sign-in {
+  background-image: url(/assets/icons/sign-in-267c927e8383c0662262ef835d8118eacdc093658c76c7828632c749e806a2b1.svg);
+}
+/* line 3, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_steps.scss */
+.legacy .dit2017 .steps__heading {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.72;
+  letter-spacing: -0.5px;
+  color: #333333;
+}
+/* line 13, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_steps.scss */
+.legacy .dit2017 .step__number {
+  float: left;
+  font-size: 144px;
+  font-weight: 500;
+  letter-spacing: -1.4px;
+  text-align: center;
+  color: #d8d8d8;
+}
+/* line 21, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_steps.scss */
+.legacy .dit2017 .step__heading {
+  font-size: 32px;
+  margin-top: 35px;
+}
+/* line 25, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_steps.scss */
+.legacy .dit2017 .step__text {
+  margin-top: 12px;
+  font-size: 16px;
+  line-height: 1.38;
+  text-align: left;
+  color: #4a4a4a;
+}
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .new-wrapper {
+  border-top: 0;
+  margin-bottom: 80px;
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+}
+/* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.legacy .new-wrapper:last-child {
+  margin-right: 0;
+}
+/* line 8, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+  background-color: white;
+  padding: 1.35em 0.675em;
+}
+/* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.legacy .opportunity__main:last-child {
+  margin-right: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 8, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+  .legacy .opportunity__main {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 65.88078%;
+  }
+  /* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .opportunity__main:last-child {
+    margin-right: 0;
+  }
+}
+/* line 18, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.lt-ie9 .legacy .opportunity__main {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 65.88078%;
+  margin-right: 0;
+}
+/* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.lt-ie9 .legacy .opportunity__main:last-child {
+  margin-right: 0;
+}
+/* line 23, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content {
+  margin-bottom: 3em;
+}
+/* line 26, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content .opportunity__teaser {
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1.291666667;
+}
+/* line 32, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content p {
+  line-height: 1.45;
+}
+/* line 36, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content h1 {
+  margin-left: 0;
+  margin-right: 0;
+}
+/* line 40, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content h1 span {
+  max-width: 75%;
+}
+/* line 45, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content hr {
+  border-color: #e2d9cb;
+}
+/* line 50, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content b,
+.legacy .opportunity__main .opportunity__content strong {
+  font-weight: normal;
+}
+/* line 55, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content i,
+.legacy .opportunity__main .opportunity__content em {
+  font-style: normal;
+}
+/* line 60, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content ul {
+  list-style: none;
+  margin-bottom: 1.35em;
+  margin-left: 1em;
+  padding-left: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 60, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+  .legacy .opportunity__main .opportunity__content ul {
+    margin-left: 0;
+  }
+}
+/* line 70, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content ul li {
+  margin-bottom: 0.675em;
+}
+/* line 74, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content ul li::before {
+  color: #b00d23;
+  content: "\2022";
+  display: inline-block;
+  margin-left: -1em;
+  width: 1em;
+}
+/* line 83, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content ol {
+  counter-reset: li;
+  list-style: none;
+  margin-bottom: 1.35em;
+  margin-left: 1em;
+  padding-left: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 83, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+  .legacy .opportunity__main .opportunity__content ol {
+    margin-left: 0;
+  }
+}
+/* line 94, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content ol li {
+  counter-increment: li;
+  margin-bottom: 0.675em;
+}
+/* line 99, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content ol li::before {
+  color: #b00d23;
+  content: counter(li);
+  direction: rtl;
+  display: inline-block;
+  margin-left: -1.5em;
+  margin-right: 0.5em;
+  margin-top: 1px;
+  text-align: right;
+  width: 1em;
+}
+/* line 114, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__information {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+  background-color: #dfd5c5;
+  border-bottom: 0;
+  padding: 1.35em;
+}
+/* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.legacy .opportunity__information:last-child {
+  margin-right: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 114, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+  .legacy .opportunity__information {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 31.76157%;
+    margin-right: 0;
+  }
+  /* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .opportunity__information:last-child {
+    margin-right: 0;
+  }
+}
+/* line 126, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.lt-ie9 .legacy .opportunity__information {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 23.23176%;
+  margin-right: 0;
+}
+/* line 89, /Users/dermotbyrne/.rvm/rubies/ruby-2.3.3/lib/ruby/gems/2.3.0/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.lt-ie9 .legacy .opportunity__information:last-child {
+  margin-right: 0;
+}
+/* line 131, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__information .meta {
+  padding: 1em 0;
+}
+/* line 137, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__information .meta .button, .legacy .opportunity__information .meta .panel .companies-house-search-btn, .legacy .panel .opportunity__information .meta .companies-house-search-btn {
+  width: 100%;
+}
+/* line 141, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__information .meta .meta__item {
+  min-height: 2.0em;
+}
+/* line 144, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__information .meta .meta__item a {
+  border-bottom: 0;
+}
+/* line 148, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__information .meta .meta__item .meta__header {
+  display: block;
+  font-size: 1em;
+  font-weight: 400;
+  margin-bottom: 0;
+}
+/* line 155, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__information .meta .meta__item .meta__content {
+  font-size: 1em;
+  font-weight: 300;
+}
+/* line 162, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__information .meta .meta__icon-sector, .legacy .opportunity__information .meta .meta__icon-type, .legacy .opportunity__information .meta .meta__icon-response, .legacy .opportunity__information .meta .meta__icon-value, .legacy .opportunity__information .meta .meta__icon-guide, .legacy .opportunity__information .meta .meta__icon-enquiries {
+  background-position: 0 50%;
+  background-repeat: no-repeat;
+  padding-left: 3.5em;
+}
+/* line 173, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__information .meta .meta__icon-sector {
+  background-image: url(/assets/opportunity/sector-722a69c8eaea68af63bfaec18c5c8e29f67c072704c25363d055a08ca620a77a.png);
+}
+/* line 177, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__information .meta .meta__icon-type {
+  background-image: url(/assets/opportunity/type-a8044362e9e0a7bde3a95c336902d31a8fa5e8ae8c72d53d8681b679b7a52551.png);
+}
+/* line 181, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__information .meta .meta__icon-response {
+  background-image: url(/assets/opportunity/response-date-718b60de94b3f2611f9829a7e1c321328dd510b2bdd5e50609b0e7846744b4ca.png);
+}
+/* line 185, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__information .meta .meta__icon-enquiries {
+  background-image: url(/assets/opportunity/enquiries-received-66bfde22f684411dd648b2f10508d9fad81bb16357d5df0c98d90ae104b9bdbe.png);
+}
+/* line 189, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__information .meta .meta__icon-value {
+  background-image: url(/assets/opportunity/value-of-contract-bea15550f3d7f03f7430d3e5adb3b2dadd095fc96bc511e4dda3cc564bf0647c.png);
+}
+/* line 193, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__information .meta .meta__icon-guide {
+  background-image: url(/assets/opportunity/guide-to-exporting-386fdb46fbb07fed9b2fb061de16dd5fb2c2452457b8c5f959b6fb76b452c9ff.png);
+}
+/* line 1, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit {
+  font-size: 15px;
+  line-height: 20.25px;
+}
+/* line 6, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit header h3 {
+  color: white;
+}
+/* line 11, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit header #global-header .header-nav.open {
+  display: block;
+}
+/* line 17, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit footer {
+  clear: both;
+  display: block;
+}
+/* line 21, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit footer #footer {
+  padding-bottom: 50px;
+  padding-top: 0;
+}
+/* line 26, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit footer h3 {
+  padding: 0;
+}
+/* line 30, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit footer ul {
+  margin: 0;
+  padding: 0;
+}
+/* line 35, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit footer li {
+  margin: 0 0 15px;
+  padding: 0;
+  line-height: 20.25px;
+}
+/* line 40, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit footer li a {
+  border: 0 0 1px;
+  margin: 0;
+  padding: 0 0 2px;
+}
+/* line 51, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .js-enabled .dit2017 .navigation-toggle {
+  display: none;
+}
+/* line 55, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .js-enabled .dit2017 .navigation-toggle--open {
+  display: block;
+}
+@media screen and (min-width: 768px) {
+  /* line 64, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+  .legacy .dit2017 li.navigation-toggle-item a {
+    display: inline;
+  }
+}
+/* line 70, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit2017 ul {
+  line-height: 25px !important;
+}
+/* line 74, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit2017 .button, .legacy .dit2017 .panel .companies-house-search-btn, .legacy .panel .dit2017 .companies-house-search-btn {
+  width: auto;
+}
+/* line 78, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit2017 .icon-menu {
+  background-image: url(/assets/icons/menu-222458f3b5f3e2b5e7180c67b42c9357af102e6a42c2b38c9f58749d861f6719.svg) !important;
+}
+@media screen and (min-width: 75em) {
+  /* line 82, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+  .legacy body#dit .outer-container {
+    max-width: 976px !important;
+  }
+}
+/* line 87, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.lt-ie9 .legacy body#dit .outer-container {
+  width: 976px !important;
+}
+/* line 93, /Users/dermotbyrne/Workspace/uktrade/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy main {
+  margin-bottom: 1.35em;
+}
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ */
+/* Old styles*/
