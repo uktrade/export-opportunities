@@ -114,6 +114,9 @@
           %th{:scope => 'row'} URL
           %td= enquiry.company_url
         %tr
+          %th{:scope => 'row'} Trade Profile
+          %td= link_to trade_profile(enquiry.company_house_number), trade_profile(enquiry.company_house_number), target: :blank
+        %tr
           %th{:scope => 'row'} Existing exporter?
           %td= enquiry.existing_exporter
         %tr

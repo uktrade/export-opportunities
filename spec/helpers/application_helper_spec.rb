@@ -49,4 +49,17 @@ describe ApplicationHelper do
       expect(result).to eq("<p>Who'se misusin' apostrophe's?</p>")
     end
   end
+
+  describe '#trade profile' do
+    it 'returns nil for nil company house number' do
+      result = trade_profile(nil)
+      expect(result).to eq(nil)
+    end
+
+    it 'returns trade profile for a company house number that we know exists in Profile Staging' do
+      result = trade_profile('SC406536')
+      expect(result).to_not be(nil)
+      expect(result).to include('SC406536')
+    end
+  end
 end

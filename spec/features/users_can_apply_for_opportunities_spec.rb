@@ -68,6 +68,31 @@ RSpec.feature 'users can apply for opportunities', js: true do
       expect(page).to have_content 'We couldn’t sign you in'
       expect(page).to have_content 'invalid_credentials'
     end
+
+    scenario 'when the user doesnt have a trade profile' do
+      mock_sso_with(email: 'enquirer@exporter.com')
+
+      visit 'enquiries/great-opportunity'
+
+      fill_in_form
+      click_on 'Apply now'
+
+      expect(page).to have_content 'We noticed that you don\'t have a Trade Profile.'
+    end
+
+    scenario 'when the user has a trade profile' do
+      skip('TODO:fix')
+      user = create(:user)
+      opportunity = create(:opportunity, :published)
+      create(:enquiry, company_url: 'https://example.com', user: user, opportunity: opportunity)
+
+      allow_any_instance_of(ApplicationHelper).to receive(:trade_profile).with(:any).and_return 'http://export.great.gov.uk'
+
+      mock_sso_with(email: 'enquirer@exporter.com')
+      visit 'enquiries/' + opportunity.slug
+
+      expect(page).to have_content 'We have identified that you have a Trade Profile.'
+    end
   end
 
   scenario 'user enquiries are emailed to DIT' do
