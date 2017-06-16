@@ -2,7 +2,7 @@
   .legacy.margin-top-30
     %h1 Apply now
     %h3= @opportunity.title
-    %p Tell us how you can meet the requirements for this opportunity and an expert will contact you within five working days to discuss any next steps
+    %p Tell us how you can meet the requirements for this opportunity and an expert will contact you within five working days to discuss any next steps.
 
     %div#register-an-interest-form
       .register-form.panel
@@ -41,6 +41,13 @@
                 .form-group
                   = f.label :company_url, "Company URL (optional)"
                   = f.text_field :company_url
+                - if trade_profile(@enquiry.company_house_number)
+                  .form-group
+                  = 'We have identified that you have a Trade Profile.'
+                  %br
+                  = 'Your'
+                  = link_to 'Trade Profile', trade_profile(@enquiry.company_house_number), target: :blank
+                  = 'will be added to your application.'
             - else
               %div{id: "companies-house-section", class: "form-group"}
                 = f.label :company_name, "Company Name", class: "required"

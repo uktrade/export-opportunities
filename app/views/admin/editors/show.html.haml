@@ -8,7 +8,10 @@
 .grid-row
   .column-one-quarter
     = link_to 'Edit Editor', edit_admin_editor_path(@editor), class: 'button'
-  - if !@editor.deactivated?
+  - if @editor.deactivated?
+    .column-one-quarter
+      = button_to 'Reactivate Editor', admin_editor_reactivate_path(@editor), method: :put, class: 'button'
+  - else
     .column-one-quarter
       = button_to 'Deactivate Editor', admin_editor_deactivate_path(@editor), method: :delete, class: 'button'
 
