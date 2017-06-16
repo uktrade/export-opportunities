@@ -1,6 +1,8 @@
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
-    sourcemaps = require('gulp-sourcemaps');
+    sourcemaps = require('gulp-sourcemaps'),
+    concat = require('gulp-concat'),
+    uglify = require('gulp-uglify');
 
 var includePaths = ['./vendor/assets/stylesheets/'];
 
@@ -14,5 +16,12 @@ gulp.task('compile-scss', () =>
     }))
     .pipe(gulp.dest('public/stylesheets'))
 );
+
+gulp.task('scripts', function() {
+  return gulp.src('app/assets/**/*.js')
+    .pipe(concat('app.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('dist'));
+});
 
 gulp.task('default', ['compile-scss']);

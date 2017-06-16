@@ -20,8 +20,10 @@
     "Dit-Pattern-Styling": "git+https://github.com/uktrade/great-pattern-library.git#old-styleguide",
     "browserify": "^14.4.0",
     "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.0",
+    "uglify": "^0.1.5",
     "uglifyify": "^4.0.0"
   }
 }
