@@ -20,3 +20,20 @@
 .highlight {
   outline: 3px solid #ffbf47;
 }
+
+/* This is due to be released in style library */
+.outer-container {
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 10px;
+  @media #{$mobile-l} {
+    padding: 0 20px;
+  }
+  @media #{$desktop-s} {
+    padding: 0 30px;
+  }
+}
+
+.navigation-main-button {
+  right:10px;
+}

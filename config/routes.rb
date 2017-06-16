@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       get '/editor/confirmation', to: 'confirmations#show', as: :editor_confirmation
       patch '/editor/confirmation', to: 'confirmations#update', as: :update_editor_confirmation
 
+      put 'editors/reactivate/:id', to: 'registrations#reactivate', as: :editor_reactivate
       delete 'editors/deactivate/:id', to: 'registrations#destroy', as: :editor_deactivate
     end
 

@@ -39,6 +39,9 @@
       width: auto;
       max-width: none;
       margin: 0 20px;
+      padding: 20px 0 30px 0;
+    }
+    @media #{$desktop-m} {
       padding: 20px 0 10px 0;
     }
   }
@@ -47,10 +50,12 @@
     margin-bottom: 10px;
     @media #{$desktop-s} {
       float: left;
-      width: 32%;
+      width: 33%;
       padding: 0px 20px;
       margin-bottom: 0px;
       min-height: 100px;
+    }
+    @media #{$desktop-s} {
       &:after {
         content: "";
         display: block;
@@ -58,15 +63,25 @@
         z-index: 1;
         right: 0;
         top: 0;
-        bottom: 20px;
+        bottom: 0px;
         border: solid 1px #979797;
         border-width: 0 0 0 1px;
       }
-      &__last {
-        width: 36%;
-        &:after {
-          content: none;
-        }
+    }
+    @media #{$desktop-m} {
+      &:after {
+        bottom: 20px;
+      }
+    }
+    &__last {
+      &:after {
+        content: none;
+      }
+      @media #{$desktop-s} {
+        margin-top: 23px;
+      }
+      @media #{$desktop-m} {
+        margin-top: initial;
       }
     }
   }
@@ -87,6 +102,12 @@
     color: $grey;
     display: block;
     margin: 0px 0px 6px 2px;
+    @media #{$desktop-s} {
+      width: 75%;
+    }
+    @media #{$desktop-m} {
+      width: auto
+    }
     &.fixHeight {
       @media #{$desktop-s} {
         height: 46px;
@@ -126,7 +147,7 @@
     background-color: $greatred;
     width: 100%;
     padding: 15px 20px;
-    @media #{$tablet-l} {
+    @media #{$desktop-s} {
       position: relative;
       top: 24px;
     }
@@ -137,20 +158,23 @@
   /* toggling */
   .js-toggler {
     font-size: 18px;
+    font-weight: 300;
     color: #063e8b;
     text-decoration: underline;
     margin: 20px 0px;
     padding: 0px 4px;
     display: block;
-    @media #{$tablet-l} {
+    @media #{$desktop-s} {
       position: absolute;
       bottom: -16px;
       display: inline-block;
       margin: 0px 0px 0px 0px;
+      bottom: -16px;
+      right: 20px;
     }
     @media #{$desktop-m} {
       bottom: 32px;
-      right: 20px;
+      right: 0px;
     }
   }
   /* tweak in open state */
@@ -165,8 +189,12 @@
       display:block;
     }
     @media #{$desktop-s} {
+      .filters__item {
+        margin-bottom: 20px;
+      }
       .filters__item__last {
         margin-top: 23px;
+        margin-bottom: 0px;
       }
     }
   }
