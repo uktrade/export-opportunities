@@ -1,20 +1,25 @@
+var publicAssets = "./public/assets";
+var sourceFiles  = "./gulp/assets";
+
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify');
 
-var includePaths = ['./vendor/assets/stylesheets/'];
+var includePaths = [
+'./vendor/assets/stylesheets/',
+'node_modules/normalize-scss/sass'];
 
 gulp.task('compile-scss', () =>
-  gulp.src('app/assets/stylesheets/new/**/*.scss')
+  gulp.src(sourceFiles + '/stylesheets/**/*.scss')
     .pipe(sourcemaps.init())
     .pipe(sass({
       sourceComments: false,
       outputStyle: 'compressed',
       includePaths: includePaths
     }))
-    .pipe(gulp.dest('public/stylesheets'))
+    .pipe(gulp.dest(publicAssets + '/stylesheets'))
 );
 
 gulp.task('scripts', function() {
@@ -25,3 +30,4 @@ gulp.task('scripts', function() {
 });
 
 gulp.task('default', ['compile-scss']);
+gulp.task('build', ['compile-scss']);

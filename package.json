@@ -4,7 +4,9 @@
   "description": "[![CircleCI](https://circleci.com/gh/uktrade/export-opportunities.svg?style=svg)](https://circleci.com/gh/uktrade/export-opportunities) [![Dependency Status](https://gemnasium.com/badges/github.com/uktrade/export-opportunities.svg)](https://gemnasium.com/github.com/uktrade/export-opportunities)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "gulp build",
+    "heroku-postbuild": "gulp build"
   },
   "repository": {
     "type": "git",
@@ -16,6 +18,17 @@
     "url": "https://github.com/uktrade/export-opportunities/issues"
   },
   "homepage": "https://github.com/uktrade/export-opportunities#readme",
+  "dependencies": {
+    "Dit-Pattern-Styling": "git+https://github.com/uktrade/great-pattern-library.git#old-styleguide",
+    "browserify": "^14.4.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-uglify": "^3.0.0",
+    "normalize-scss": "^7.0.0",
+    "uglifyify": "^4.0.0"
+  },
   "devDependencies": {
     "Dit-Pattern-Styling": "git+https://github.com/uktrade/great-pattern-library.git#old-styleguide",
     "browserify": "^14.4.0",
@@ -23,7 +36,8 @@
     "gulp-concat": "^2.6.1",
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.0",
-    "uglify": "^0.1.5",
+    "gulp-uglify": "^3.0.0",
+    "normalize-scss": "^7.0.0",
     "uglifyify": "^4.0.0"
   }
 }

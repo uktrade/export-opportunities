@@ -11,19 +11,17 @@
  * file per style scope.
  */
 
-/* Old styles*/
+/* Legacy styles */
 // = require legacy/application_legacy
 
-/* Bring in styleguide css files */
-// = require dit-styleguide/main
-// = require dit-styleguide/ie8
-
-/* Patch for styleguide icon path issue */
-// = require dit-styleguide-patch
-
-/* New styles to be rolled into a style library */
+/* New style built on top of old styleguide */
 // = require dit-styleguide-augment/main
 
+/* vendor files */
 // = require vendor/select2
 // = require vendor/select2_skin/layout
+
+/* This is the css built through gulp */
+// = require styles
+// = require dit-styleguide-patch
 
