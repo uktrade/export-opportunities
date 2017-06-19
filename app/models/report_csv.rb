@@ -1,16 +1,16 @@
 require 'csv'
 
 class ReportCSV
-  CSV_HEADERS = [
+
+  def initialize(result, months)
+    @result = result
+    @csv_headers = [
       'Country',
-      # month list
+      months.flatten,
       'YTD Actual',
       'Annual Target',
       '%YTD vs Target',
-  ].freeze
-
-  def initialize(result)
-    @result = result
+    ]
   end
 
   def each
@@ -24,15 +24,28 @@ class ReportCSV
   end
 
   private def header
-    CSV_HEADERS.join(',') + "\n"
+    @csv_headers.join(',') + "\n"
   end
 
   private def row_for(result_line)
-
-    CSV.generate_line(result_line.inspect)
+    byebug
+    line = [
+      result_line.country,
+      result_line.opportunities_published,
+      result_line.enquiries,
+      format_progress(result_line.ytd_actual, result_line.opportunities_published_target),
+    ]
+    CSV.generate_line(line)
   end
 
   private def format_datetime(datetime)
     datetime.nil? ? nil : datetime.to_s(:db)
   end
+
+  private def format_progress(actual, target)
+    return '' if target==0
+    ((actual.to_f/target.to_f)*100).floor
+  end
+
+
 end

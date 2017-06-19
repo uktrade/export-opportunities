@@ -10,7 +10,6 @@ module Admin
         @result = []
         @cen_result = []
         @nbn_result = []
-        # get reporting period, 12 months back from beginning of current month
         start_date, end_date = date_period
         Country.all.each do |current_country|
           country_id = current_country.id
@@ -31,7 +30,7 @@ module Admin
             else
               country = Country.where(name: current_country.name).first
 
-              @result << [ group.last.first.beginning_of_month, group.last.first.end_of_month, sc.opportunities_published, sc.enquiries, current_country.name, country.published_target, country.responses_target]
+              @result << [month: to_month(group.last.first.beginning_of_month), opportunities_published: sc.opportunities_published, enquiries: sc.enquiries, country: current_country.name, opportunities_published_target: country.published_target, enquiries_target: country.responses_target]
             end
           end
         end
@@ -39,7 +38,7 @@ module Admin
         response.headers['Content-Disposition'] = 'attachment; filename=monthly_by_country_report'
         response.headers['Content-Type'] = 'text/csv; charset=utf-8'
 
-        csv = ReportCSV.new(@result)
+        csv = ReportCSV.new(@result, calculate_months)
 
         begin
           csv.each do |row|
@@ -54,10 +53,24 @@ module Admin
 
     private
 
+    def to_month(datetime)
+       datetime.strftime("%b")
+    end
+
     def date_period
-      end_date = DateTime.now.beginning_of_month
-      start_date = end_date - 1.year
+      start_date = Date.new(Date.today.year,4,1)
+      end_date = start_date + 1.year
       [start_date, end_date]
+    end
+
+    def calculate_months
+      result = []
+      current_year = Time.zone.today.year.to_s[2,3]
+      months_arr = %w(Apr May Jun Jul Aug Sep Oct Nov Dec Jan Feb Mar)
+      months_arr.each do |month|
+        result << month + '-' + current_year
+      end
+      result
     end
   end
 end

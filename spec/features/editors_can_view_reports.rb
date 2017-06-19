@@ -13,7 +13,7 @@ RSpec.feature 'Editors can view reports' do
 
     click_on 'Generate'
 
-    # expect(page).to have_content('Statistics for all service providers on 15 Sep 2015')
     expect(page).to have_content(t('admin.stats.opportunities_published', count: 2))
   end
 end
+
