@@ -61,5 +61,10 @@ describe ApplicationHelper do
       expect(result).to_not be(nil)
       expect(result).to include('SC406536')
     end
+
+    it 'returns trade profile for a company house number that we know exists in Profile Staging' do
+      result = trade_profile('SC40 6536')
+      expect(result).to eq(nil)
+    end
   end
 end
