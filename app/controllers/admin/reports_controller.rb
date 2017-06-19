@@ -2,12 +2,13 @@ module Admin
   class ReportsController < BaseController
     include ActionController::Live
     include ReportHelper
+    Report = ImmutableStruct.new(:country, :months, :response_target)
 
     def index
       authorize :reports
 
       if params[:commit]
-        @result = []
+        @result = {}
         @cen_result = []
         @nbn_result = []
         start_date, end_date = date_period
@@ -29,8 +30,10 @@ module Admin
               @nbn_result << [group.last.first.beginning_of_month, group.last.first.end_of_month, sc.opportunities_published, sc.enquiries, current_country.name]
             else
               country = Country.where(name: current_country.name).first
-
-              @result << [month: to_month(group.last.first.beginning_of_month), opportunities_published: sc.opportunities_published, enquiries: sc.enquiries, country: current_country.name, opportunities_published_target: country.published_target, enquiries_target: country.responses_target]
+              row_line = {}
+              row_line[to_month(group.last.first.beginning_of_month)] = { opportunities_published: sc.opportunities_published, enquiries: sc.enquiries, country: current_country.name, enquiries_target: country.responses_target }
+              @result[current_country.name] = row_line
+              @result[current_country.name][:opportunities_published_target] = country.published_target
             end
           end
         end
@@ -38,10 +41,14 @@ module Admin
         response.headers['Content-Disposition'] = 'attachment; filename=monthly_by_country_report'
         response.headers['Content-Type'] = 'text/csv; charset=utf-8'
 
-        csv = ReportCSV.new(@result, calculate_months)
+        opportunities_csv = ReportCSV.new(@result, calculate_months).opportunities
+        responses_csv = ReportCSV.new(@result, calculate_months).responses
 
         begin
-          csv.each do |row|
+          opportunities_csv.each do |row|
+            response.stream.write(row)
+          end
+          responses_csv.each do |row|
             response.stream.write(row)
           end
         ensure
@@ -54,7 +61,7 @@ module Admin
     private
 
     def to_month(datetime)
-       datetime.strftime("%b")
+      datetime.strftime("%b")
     end
 
     def date_period

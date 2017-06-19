@@ -4,13 +4,22 @@ class ReportCSV
 
   def initialize(result, months)
     @result = result
+    @reporting_months = months
     @csv_headers = [
       'Country',
-      months.flatten,
+      @reporting_months.flatten,
       'YTD Actual',
       'Annual Target',
       '%YTD vs Target',
     ]
+  end
+
+  def opportunities
+    self
+  end
+
+  def responses
+    self
   end
 
   def each
@@ -28,13 +37,21 @@ class ReportCSV
   end
 
   private def row_for(result_line)
-    byebug
+    sum = 0
     line = [
-      result_line.country,
-      result_line.opportunities_published,
-      result_line.enquiries,
-      format_progress(result_line.ytd_actual, result_line.opportunities_published_target),
+      result_line[0],
+      # result_line[1].opportunities_published,
+      # result_line.enquiries,
     ]
+    months_arr = %w(Apr May Jun Jul Aug Sep Oct Nov Dec Jan Feb Mar)
+
+    months_arr.each do |reporting_month|
+      byebug
+      sum += result_line[1][reporting_month][:opportunities_published]
+      line.push result_line[1][reporting_month][:opportunities_published]
+    end
+    line.push sum
+    line.push format_progress(sum, result_line[2][:opportunities_published])
     CSV.generate_line(line)
   end
 
