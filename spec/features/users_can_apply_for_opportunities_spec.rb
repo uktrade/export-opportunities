@@ -77,7 +77,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
       fill_in_form
       click_on 'Apply now'
 
-      expect(page).to have_content 'We noticed that you don\'t have a Trade Profile.'
+      expect(page).to have_content 'We noticed that you don\'t have a trade profile.'
     end
 
     scenario 'when the user has a trade profile' do
@@ -91,7 +91,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
       mock_sso_with(email: 'enquirer@exporter.com')
       visit 'enquiries/' + opportunity.slug
 
-      expect(page).to have_content 'We have identified that you have a Trade Profile.'
+      expect(page).to have_content 'We have identified that you have a trade profile.'
     end
   end
 
