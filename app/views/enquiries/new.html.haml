@@ -43,7 +43,7 @@
                   = f.text_field :company_url
                 - if trade_profile(@enquiry.company_house_number)
                   .form-group
-                  = 'We have identified that you have a Trade Profile.'
+                  = 'We have identified that you have a trade profile.'
                   %br
                   = 'Your'
                   = link_to 'Trade Profile', trade_profile(@enquiry.company_house_number), target: :blank
