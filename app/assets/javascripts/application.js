@@ -4,6 +4,7 @@
 //= require jquery.charactercounter
 //= require select2
 //
+//= require components/EventTracking
 //= require components/SearchFilter
 //= require components/ResultsOrder
 //= require components/ScrollTo

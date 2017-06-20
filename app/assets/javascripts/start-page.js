@@ -42,6 +42,26 @@ if (selectCustom.length) {
         	e.preventDefault();
 		}
 	});
+/* category action label */
+/* search open-countries / select-countries-albania / 
+	/* add event tracking for certain events */
+	selectCustom.on("change", function(e) {
+				console.log(e);
+        // most used event, fired to the original element when the value changes
+          console.log("change val=" + e);
+        })
+        .on("select2:open", function(e) {
+          console.log("opening");
+					console.log(e.currentTarget.id);
+        })
+        .on("select2:select", function(e) {
+        	console.log(e.currentTarget.id);
+        	console.log(e.currentTarget.value);
+          console.log("selecting val=" + e.val + " choice=");
+        })
+        .on("select2:unselect", function(e) {
+          console.log("removed val=" + e.val + " choice=" + e);
+        })
 }
 
 /* scroll to results if they exist on page */
