@@ -5,11 +5,9 @@
 
   /* conflict with .panel class from style library */
   /* this legacy will all go away soon */
-  background-color: transparent !important;
   border-top: none !important;
   margin-bottom: $base-spacing !important;
   padding: 0 !important !important;
-  width: auto !important;
   /* conflict with .panel class from style library */
 
   &--primary {
