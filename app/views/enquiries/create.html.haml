@@ -8,5 +8,5 @@
       = link_to 'View your enquiries to date', dashboard_path, class: 'button button-blue'
     - unless trade_profile(@enquiry.company_house_number)
       %p
-        We noticed that you don't have a Trade Profile.
+        We noticed that you don't have a trade profile.
         = link_to 'You can create one here.', Figaro.env.TRADE_PROFILE_CREATE_PAGE, target: :blank
