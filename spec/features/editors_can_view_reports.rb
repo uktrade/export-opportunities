@@ -16,4 +16,3 @@ RSpec.feature 'Editors can view reports' do
     expect(page).to have_content(t('admin.stats.opportunities_published', count: 2))
   end
 end
-

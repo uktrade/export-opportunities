@@ -1,7 +1,6 @@
 require 'csv'
 
 class ReportCSV
-
   def initialize(result, months)
     @result = result
     @reporting_months = months
@@ -28,7 +27,7 @@ class ReportCSV
     yield header
 
     @result.each do |result_line|
-      yield row_for(result_line)
+      yield row_for(result_line.drop(1).first)
     end
   end
 
@@ -37,21 +36,13 @@ class ReportCSV
   end
 
   private def row_for(result_line)
-    sum = 0
     line = [
-      result_line[0],
-      # result_line[1].opportunities_published,
-      # result_line.enquiries,
+      result_line.name,
+      result_line.opportunities_published.join(','),
+      result_line.opportunities_published_target,
+      format_progress(result_line.opportunities_published.inject(0) { |acc, _elem| sum + acc }, result_line.opportunities_published_target),
     ]
-    months_arr = %w(Apr May Jun Jul Aug Sep Oct Nov Dec Jan Feb Mar)
 
-    months_arr.each do |reporting_month|
-      byebug
-      sum += result_line[1][reporting_month][:opportunities_published]
-      line.push result_line[1][reporting_month][:opportunities_published]
-    end
-    line.push sum
-    line.push format_progress(sum, result_line[2][:opportunities_published])
     CSV.generate_line(line)
   end
 
@@ -60,9 +51,7 @@ class ReportCSV
   end
 
   private def format_progress(actual, target)
-    return '' if target==0
-    ((actual.to_f/target.to_f)*100).floor
+    return '' if target.zero? || !target
+    ((actual.to_f / target.to_f) * 100).floor
   end
-
-
 end
