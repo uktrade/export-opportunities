@@ -9,6 +9,7 @@ RSpec.describe EnquiryResponseMailer, type: :mailer do
       EnquiryResponseMailer.send_enquiry_response(enquiry_response, enquiry).deliver_later!
       last_delivery = ActionMailer::Base.deliveries.last
 
+      expect(last_delivery.attachments.first.filename).to include('tender_sample_file.txt')
       expect(last_delivery.subject).to eql("Update on your enquiry for the export opportunity #{enquiry_response.enquiry.opportunity.title}")
       expect(last_delivery.to). to include(enquiry.user.email)
       expect(last_delivery.bcc). to include(enquiry_response.editor.email)

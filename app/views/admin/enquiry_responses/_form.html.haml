@@ -1,5 +1,5 @@
 - enquiry_id = params.fetch(:id)
-= form_for [:admin, enquiries_response] do |f|
+= form_for [:admin, enquiries_response], html: {multipart: true} do |f|
   - if enquiries_response.errors.any?
     .error-summary{:role => 'group', :tabindex => '-1'}
       %h2
@@ -22,4 +22,5 @@
   .grid-row
     .column-one-half
       .form-group
+        = f.file_field :email_attachment
         = f.submit 'Send', class: 'button'
