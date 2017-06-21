@@ -4,6 +4,7 @@
     %title= "#{t('organisation.name')} - Opportunities"
     = stylesheet_link_tag 'application-admin', media: 'all'
     = csrf_meta_tags
+    = render partial: 'google_tag_manager-head'
   %body
 
     %header#global-header.with-proposition
@@ -54,4 +55,4 @@
     = javascript_include_tag 'modernizr.min'
     = javascript_include_tag 'application'
     = javascript_include_tag 'admin'
-    = render partial: 'google_analytics'
+    = render partial: 'google_tag_manager-body'

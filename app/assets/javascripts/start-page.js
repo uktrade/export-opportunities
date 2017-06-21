@@ -2,6 +2,14 @@
 
 var ukti = window.ukti || {};
 
+var getSelectedHelper = function (target) {
+	var values = [];
+	$(target).find("option:selected").each(function(i, selected){ 
+		values[i] = $(selected).text();
+  });
+  return values;
+}
+
 var filtersEl = document.querySelectorAll('.js-filters')[0];
 if(filtersEl) {
 	ukti.SearchFilters.init(filtersEl);
@@ -14,7 +22,6 @@ if(orderEl) {
 
 var selectCustom = $('.select-custom');
 if (selectCustom.length) {
-
 	selectCustom.select2({
 		theme: 'flat',
 		escapeMarkup: function(markup) {
@@ -42,26 +49,22 @@ if (selectCustom.length) {
         	e.preventDefault();
 		}
 	});
-/* category action label */
-/* search open-countries / select-countries-albania / 
+	/* DO NOT REMOVE - ANALYTICS */
+	/* category action label */
+	/* search open-countries / select-countries-albania / 
 	/* add event tracking for certain events */
-	selectCustom.on("change", function(e) {
-				console.log(e);
-        // most used event, fired to the original element when the value changes
-          console.log("change val=" + e);
-        })
-        .on("select2:open", function(e) {
-          console.log("opening");
-					console.log(e.currentTarget.id);
-        })
-        .on("select2:select", function(e) {
-        	console.log(e.currentTarget.id);
-        	console.log(e.currentTarget.value);
-          console.log("selecting val=" + e.val + " choice=");
-        })
-        .on("select2:unselect", function(e) {
-          console.log("removed val=" + e.val + " choice=" + e);
-        })
+	selectCustom
+	  .on("select2:open", function(e) {
+	    console.log("opening:" + e.currentTarget.id);
+	  })
+	  .on("select2:select", function(e) {
+	  	console.log(e);
+	    console.log("selecting:" + e.currentTarget.id + ",choice:" + e.currentTarget.value);
+	    console.log(JSON.stringify($(this).select2('data')));
+	  })
+	  .on("select2:unselect", function(e) {
+	    console.log("unselecting:" + e.currentTarget.id + ",choice:" + e.currentTarget.value);
+	  })
 }
 
 /* scroll to results if they exist on page */
