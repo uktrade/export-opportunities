@@ -16,6 +16,7 @@
   @media #{$desktop-m} {
     padding: 0 30px;
   }
+  @include clearfix;
 }
 
 // This is mixin which you will include in parent
