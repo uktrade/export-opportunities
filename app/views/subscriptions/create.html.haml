@@ -5,10 +5,10 @@
     %p
       When we publish relevant opportunities, they will be sent automatically to
       %strong= current_user.email
-    .panel
-      %p
-        You can manage your email alerts at any time using the
-        "Profile" link at the top of this page.
+    %p
+      You can manage your email alerts at any time using the
+      "Profile" link at the top of this page.
+    .panel.summary-panel
       %h3 Alert summary
       %dl.metadata
         - if subscription.search_term.present?

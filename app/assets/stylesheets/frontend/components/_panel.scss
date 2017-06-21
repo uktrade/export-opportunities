@@ -80,3 +80,10 @@
   }
 }
 
+.summary-panel {
+  padding: 10px;
+  @include media($medium-screen) {
+    padding: 20px;
+  }
+}
+
