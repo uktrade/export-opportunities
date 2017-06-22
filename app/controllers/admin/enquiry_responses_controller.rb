@@ -12,6 +12,7 @@ class Admin::EnquiryResponsesController < Admin::BaseController
     @enquiry = Enquiry.find(enquiry_id)
 
     @enquiry_response = EnquiryResponse.new
+    @enquiry_response.enquiry = @enquiry
     authorize @enquiry_response
   end
 
