@@ -1,3 +1,5 @@
+require 'matrix'
+
 module Admin
   class ReportsController < BaseController
     include ActionController::Live
@@ -27,15 +29,32 @@ module Admin
             sc = StatsCalculator.new.call(@stats_search_form)
 
             if cen_network?(country_id)
-              @cen_result << [group.last.first.beginning_of_month, group.last.first.end_of_month, sc.opportunities_published, sc.enquiries, current_country.name]
+              # @cen_result << [group.last.first.beginning_of_month, group.last.first.end_of_month, sc.opportunities_published, sc.enquiries, current_country.name]
+              @row_lines[current_country.name.to_s] = CountryReport.new.call(
+                   country_id,
+                  sc.opportunities_published,
+                  sc.enquiries,
+                  current_country.name,
+                  'see CEN',
+                  'see CEN'
+              )
             elsif nbn_network?(country_id)
-              @nbn_result << [group.last.first.beginning_of_month, group.last.first.end_of_month, sc.opportunities_published, sc.enquiries, current_country.name]
+              # @nbn_result << [group.last.first.beginning_of_month, group.last.first.end_of_month, sc.opportunities_published, sc.enquiries, current_country.name]
+              @row_lines[current_country.name.to_s] = CountryReport.new.call(
+                  country_id,
+                  sc.opportunities_published,
+                  sc.enquiries,
+                  current_country.name,
+                  'see NBN',
+                  'see NBN'
+              )
             else
               country = Country.find(country_id)
               if @row_lines[current_country.name.to_s]
                 @row_lines[current_country.name.to_s].opportunities_published << sc.opportunities_published
               elsif country.responses_target && country.published_target && country.responses_target.positive? && country.published_target.positive?
                 @row_lines[current_country.name.to_s] = CountryReport.new.call(
+                  country_id,
                   sc.opportunities_published,
                   sc.enquiries,
                   current_country.name,
@@ -50,6 +69,7 @@ module Admin
         response.headers['Content-Type'] = 'text/csv; charset=utf-8'
 
         opportunities_csv = ReportCSV.new(@row_lines, calculate_months).opportunities
+        opportunities_totals_csv = calculate_totals(@row_lines)
         # responses_csv = ReportCSV.new(@result, calculate_months).responses
 
         begin
@@ -82,10 +102,31 @@ module Admin
       result = []
       current_year = Time.zone.today.year.to_s[2, 3]
       months_arr = %w(Apr May Jun Jul Aug Sep Oct Nov Dec Jan Feb Mar)
-      months_arr.each do |month|
-        result << month + '-' + current_year
+      months_arr.each_with_index do |month, index|
+        if index < 9
+          result << month + '-' + current_year
+        else
+          result << month + '-' + (current_year.to_i + 1).to_s
+        end
       end
       result
+    end
+
+    def calculate_totals(row_lines)
+      cen_results = Struct.new(:opportunities_published, :enquiries, :opportunities_published_target, :enquiries_target)
+      total_results = Struct.new(:opportunities_published, :enquiries, :opportunities_published_target, :enquiries_target)
+      byebug
+      cen_results.opportunities_published = Vector[]
+      total_results.opportunities_published = Vector[]
+
+      row_lines.each do |row_line|
+
+        row_line = row_line.drop(1).first
+        if cen_network?(row_line.country_id)
+          Vector[cen_results.opportunities_published] + Vector[row_line.opportunities_published]
+        end
+        Vector[total_results.opportunities_published] + Vector[row_line.opportunities_published]
+      end
     end
   end
 end

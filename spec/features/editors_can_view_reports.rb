@@ -2,11 +2,12 @@ require 'rails_helper'
 
 RSpec.feature 'Editors can view reports' do
   scenario 'Monthly by country VS target report' do
-    nassau = create(:service_provider, name: 'Nassau')
-    mexico = create(:service_provider, name: 'Mexico')
+    country = create(:country, name: 'Italy')
+    nassau = create(:service_provider, name: 'Nassau', country: country)
+    mexico = create(:service_provider, name: 'Mexico', country: country)
 
-    create(:opportunity, :published, service_provider: nassau, first_published_at: Date.new(2015, 9, 15))
-    create(:opportunity, :published, service_provider: mexico, first_published_at: Date.new(2015, 9, 15))
+    create(:opportunity, :published, service_provider: nassau, first_published_at: Date.new(2017, 4, 1))
+    create(:opportunity, :published, service_provider: mexico, first_published_at: Date.new(2015, 5, 2))
 
     login_as(create(:editor))
     visit '/admin/reports'

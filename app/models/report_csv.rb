@@ -36,12 +36,16 @@ class ReportCSV
   end
 
   private def row_for(result_line)
+    sum = 0
+    ytd_actual = result_line.opportunities_published.inject(0) { |acc, _elem| sum + acc }
     line = [
-      result_line.name,
-      result_line.opportunities_published.join(','),
-      result_line.opportunities_published_target,
-      format_progress(result_line.opportunities_published.inject(0) { |acc, _elem| sum + acc }, result_line.opportunities_published_target),
-    ]
+          result_line.country_id,
+          result_line.name,
+          result_line.opportunities_published.join(','),
+          ytd_actual,
+          result_line.opportunities_published_target,
+          format_progress(ytd_actual, result_line.opportunities_published_target),
+         ]
 
     CSV.generate_line(line)
   end
@@ -51,7 +55,7 @@ class ReportCSV
   end
 
   private def format_progress(actual, target)
-    return '' if target.zero? || !target
+    return '' if target.is_a?(String) || target.zero? || !target
     ((actual.to_f / target.to_f) * 100).floor
   end
 end
