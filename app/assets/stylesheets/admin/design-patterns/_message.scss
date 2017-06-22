@@ -1,0 +1,10 @@
+.message {
+  padding: em(15, 19);
+  margin-bottom: em(15, 19);
+    &-success {
+      background-color: $colour-message;
+    }
+    &-warning {
+      background-color: $colour-warning;
+    }
+}
