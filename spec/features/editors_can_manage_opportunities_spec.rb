@@ -158,8 +158,6 @@ feature 'Administering opportunities' do
       choose 'radio-inline-2' # amber
       click_on 'Update Opportunity'
 
-      save_and_open_page
-
       within(:css, "table td.ragg-cell") do
         expect(page).to have_text('amber')
       end
