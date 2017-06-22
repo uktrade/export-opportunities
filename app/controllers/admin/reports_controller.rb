@@ -113,15 +113,16 @@ module Admin
     end
 
     def calculate_totals(row_lines)
-      cen_results = Struct.new(:opportunities_published, :enquiries, :opportunities_published_target, :enquiries_target)
-      total_results = Struct.new(:opportunities_published, :enquiries, :opportunities_published_target, :enquiries_target)
-      byebug
+      cen_results = Struct.new(:opportunities_published, :enquiries, :opportunities_published_target, :enquiries_target).new
+      total_results = Struct.new(:opportunities_published, :enquiries, :opportunities_published_target, :enquiries_target).new
       cen_results.opportunities_published = Vector[]
       total_results.opportunities_published = Vector[]
 
       row_lines.each do |row_line|
 
         row_line = row_line.drop(1).first
+        byebug
+
         if cen_network?(row_line.country_id)
           Vector[cen_results.opportunities_published] + Vector[row_line.opportunities_published]
         end
