@@ -19,6 +19,46 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('Reply sent successfully')
   end
 
+  scenario 'reply to an enquiry as an uploader from the same service provider' do
+    service_provider = create(:service_provider)
+    uploader = create(:uploader, service_provider_id: service_provider.id)
+    opportunity = create(:opportunity, service_provider_id: service_provider.id)
+    enquiry = create(:enquiry, opportunity: opportunity)
+    login_as(uploader)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+    expect(page).to have_content('Email body')
+
+    email_body_text = Faker::Lorem.words(10).join('-')
+    fill_in 'enquiry_response_email_body', with: email_body_text
+    expect(page).to have_content(email_body_text)
+
+    click_on 'Send'
+
+    expect(page).to have_content('Reply sent successfully')
+  end
+
+  scenario 'reply to an enquiry as an uploader for the opportunity' do
+    create(:service_provider)
+    uploader = create(:uploader)
+    opportunity = create(:opportunity, author: uploader)
+    enquiry = create(:enquiry, opportunity: opportunity)
+    login_as(uploader)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+    expect(page).to have_content('Email body')
+
+    email_body_text = Faker::Lorem.words(10).join('-')
+    fill_in 'enquiry_response_email_body', with: email_body_text
+    expect(page).to have_content(email_body_text)
+
+    click_on 'Send'
+
+    expect(page).to have_content('Reply sent successfully')
+  end
+
   scenario 'view enquiry response details at bottom of enquiry page' do
     # create an enquiry and a response
     admin = create(:admin)
