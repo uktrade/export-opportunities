@@ -1,6 +1,7 @@
 .message {
   padding: em(15, 19);
   margin-bottom: em(15, 19);
+  line-height: 1.5em;
     &-success {
       background-color: $colour-message;
     }
