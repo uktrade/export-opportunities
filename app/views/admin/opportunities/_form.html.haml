@@ -56,7 +56,7 @@
       This must start with the country and describe the opportunity in
       = Opportunity::TITLE_LENGTH_LIMIT
       characters or fewer.
-      = link_to 'See more guidance for this field', '/admin/help#section-title', class: 'text', target: '_blank'
+      = link_to 'See more guidance for this field', '/admin/help#section-title', class: 'text', target: 'guidance'
 
   - if opportunity.errors[:slug].any?
     .form-group
@@ -71,7 +71,7 @@
       It must be different to the title and be
       = Opportunity::TEASER_LENGTH_LIMIT
       characters or fewer.
-      = link_to 'See more guidance for this field', '/admin/help#section-title', class: 'text'
+      = link_to 'See more guidance for this field', '/admin/help#section-summary', class: 'text', target: 'guidance'
       
   .form-group
     = f.label :description, t('admin.opportunity.description_field'), class: 'form-label-bold'
@@ -83,6 +83,7 @@
       Also include details of the type of UK business that might be able to fulfil this opportunity.
     %p.form-hint
       Do not post events, competitions, news or requests for investment.
+      = link_to 'See more guidance for this field', '/admin/help#section-description', class: 'text', target: 'guidance'
 
   .form-group
     = f.label :service_provider_id, class: 'form-label-bold'
