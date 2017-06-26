@@ -40,9 +40,34 @@
       margin-right: 6px;
       margin-left: 6px;
       float: right;
+      text-indent: -9999px;
+      color: rgba(0,0,0,0);
       &:hover {
         cursor: pointer;
+      }
+      &:before {
+        display: block;
+        position: relative;
+        content: ' ';
+        background-image: url('icons/close.svg');
+        background-size: 12px 12px;
+        background-repeat: no-repeat;
+        height: 12px;
+        width: 12px;
+        top: 4px;
+        left: 4px;
       }
     }
   }
 }
+/*
+.select2-selection__choice__remove{
+hide text 
+.anchor:before
+  display: block
+  content: ' '
+  background-image: url('../images/anchor.svg')
+  background-size: 28px 28px
+  height: 28px
+  width: 28px
+  */
