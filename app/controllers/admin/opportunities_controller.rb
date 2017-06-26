@@ -1,5 +1,6 @@
 class Admin::OpportunitiesController < Admin::BaseController
   OPPORTUNITIES_PER_PAGE = 50
+  after_action :verify_authorized, except: [:help]
 
   include ApplicationHelper
   include SortableHelper
@@ -94,6 +95,10 @@ class Admin::OpportunitiesController < Admin::BaseController
       setup_opportunity_contacts(@opportunity)
       render :edit
     end
+  end
+
+  def help
+
   end
 
   private
