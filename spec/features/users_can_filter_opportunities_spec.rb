@@ -180,7 +180,6 @@ feature 'Filtering opportunities', :elasticsearch, :commit, js: true do
   end
 
   scenario 'users can use filters and then paginate through results' do
-    skip('TODO: fix. we need to modify this test for the new start page')
     allow(Opportunity).to receive(:default_per_page).and_return(10)
     country1 = create(:country, name: 'Selected 1')
     create_list(:opportunity, 8, status: 'publish', countries: [country1])

@@ -1,0 +1,6 @@
+%div.optionSelect
+  %div.optionSelect__container
+    = collection_check_boxes method, ids, collection, :id, :name, class: 'form-control' do |field|
+      %div
+        = field.label { field.check_box + field.text }
+

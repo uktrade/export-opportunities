@@ -97,9 +97,7 @@ class Admin::OpportunitiesController < Admin::BaseController
     end
   end
 
-  def help
-
-  end
+  def help; end
 
   private
 
