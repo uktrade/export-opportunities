@@ -1,5 +1,9 @@
 class EnquiryResponse < ActiveRecord::Base
   attr_accessor :email_attachment
+  attr_accessor :email_attachment_file_name
+  attr_accessor :email_attachment_file_size
+  attr_accessor :email_attachment_content_type
+  attr_accessor :email_attachment_updated_at
 
   has_attached_file :email_attachment
   validates_attachment_file_name :email_attachment, matches: [/ppt\Z/, /pptx\Z/, /pdf\Z/, /doc\Z/, /docx\Z/, /xls\Z/, /xlsx\Z/, /txt\Z/]
