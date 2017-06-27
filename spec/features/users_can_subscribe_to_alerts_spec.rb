@@ -102,17 +102,16 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
     end
 
     scenario 'can subscribe to all opportunities' do
-      skip 'We dont have bulk_subscription in the new page'
       visit opportunities_path
-      within '.bulk_subscription' do
-        click_on 'sign up here'
-      end
-      expect(page).to have_content 'Subscribe to email alerts for all opportunities'
+
+      click_on 'Find opportunities'
+
+      expect(page).to have_content 'Subscribe to Email Alerts for all opportunities'
 
       click_on 'Subscribe'
 
       expect(page).to have_content 'Your email alert has been created'
-      expect(page).to have_content 'When we publish a new opportunity'
+      expect(page).to have_content 'When we publish relevant opportunities'
     end
   end
 
