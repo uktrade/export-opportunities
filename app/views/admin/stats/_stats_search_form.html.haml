@@ -18,21 +18,23 @@
 
     %div.grid-row
       %div.column-one-third
-        %div.panel.panel-border-narrow.js-hidden{:id => 'select-service-provider', 'tabindex' => '-1', 'aria-expanded' => 'false'}
-          %h2.heading-medium Choose a service provider
-          %div.form-group
-            = label_tag :service_provider, 'Service provider', :class => 'form-label visually-hidden'
-            = select_tag 'service_provider', options_from_collection_for_select(stats_search_form.service_providers, 'id', 'name', stats_search_form.service_provider_id), :class => "form-control"
-        %div.panel.panel-border-narrow.js-hidden{:id => 'select-country', 'tabindex' => '-1', 'aria-expanded' => 'false'}
-          %h2.heading-medium Choose a country
-          %div.form-group
-            = label_tag :country, 'Country', :class => 'form-label visually-hidden'
-            = select_tag 'country', options_from_collection_for_select(stats_search_form.countries, 'id', 'name', stats_search_form.country_id), :class => "form-control"
-        %div.panel.panel-border-narrow.js-hidden{:id => 'select-region', 'tabindex' => '-1', 'aria-expanded' => 'false'}
-          %h2.heading-medium Choose a region
+        %div.panel.panel-border-narrow.js-hidden{:id => 'select-region', 'aria-expanded' => 'false'}
+          %h3.heading-small Choose regions
           %div.form-group
             = label_tag :region, 'Region', :class => 'form-label visually-hidden'
-            = select_tag 'region', options_from_collection_for_select(stats_search_form.regions, 'id', 'name', stats_search_form.region_id), :class => "form-control"
+            = render partial: 'stats_option_select', locals: { method: Region, ids: ':region_ids', collection: @stats_search_form.regions }
+
+        %div.panel.panel-border-narrow.js-hidden{:id => 'select-country', 'aria-expanded' => 'false'}
+          %h3.heading-small Choose countries
+          %div.form-group
+            = label_tag :countries, 'Countries', :class => 'form-label visually-hidden'
+            = render partial: 'stats_option_select', locals: { method: Country, ids: ':country_ids', collection: @stats_search_form.countries }
+
+        %div.panel.panel-border-narrow.js-hidden{:id => 'select-service-provider', 'aria-expanded' => 'false'}
+          %h3.heading-small Choose service providers
+          %div.form-group
+            = label_tag :service_provider, 'Service provider', :class => 'form-label visually-hidden'
+            = render partial: 'stats_option_select', locals: { method: ServiceProvider, ids: ':service_provider_ids', collection: @stats_search_form.service_providers }
 
     %div.form-group
       = submit_tag 'Show stats', class: 'button'

@@ -7,6 +7,7 @@ class EnquiriesController < ApplicationController
   def new
     @opportunity = Opportunity.published.find_by!(slug: params[:slug])
     redirect_to opportunity_path(@opportunity) if @opportunity.expired?
+
     if enquiry_current_user
       @enquiry = Enquiry.initialize_from_existing(enquiry_current_user.enquiries.last)
     else
