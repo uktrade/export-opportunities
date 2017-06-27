@@ -32,7 +32,6 @@
       background-color: #00549f;
       border-radius: 50%;
       display: inline-block;
-      color: #fff;
       text-align: center;
       line-height: 1.5em;
       height: 20px;
@@ -60,14 +59,18 @@
     }
   }
 }
-/*
-.select2-selection__choice__remove{
-hide text 
-.anchor:before
-  display: block
-  content: ' '
-  background-image: url('../images/anchor.svg')
-  background-size: 28px 28px
-  height: 28px
-  width: 28px
-  */
+
+html.lt-ie9 {
+  .select2-container--flat{
+    .select2-selection--multiple{
+      .select2-selection__choice__remove{
+        text-indent: 0px;
+        color: #fff;
+        &:before {
+          display:none;
+        }
+      }
+    }
+  }
+}
+
