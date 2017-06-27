@@ -158,7 +158,10 @@ feature 'Administering opportunities' do
       choose 'radio-inline-2' # amber
       click_on 'Update Opportunity'
 
-      expect(page).to have_text('amber')
+      within(:css, "table td.ragg-cell") do
+        expect(page).to have_text('amber')
+      end
+
     end
 
     scenario 'admin sets ragg rating to trash, ragg rating should be deleted' do
@@ -174,7 +177,10 @@ feature 'Administering opportunities' do
 
       click_on 'Trash'
 
-      expect(page).to_not have_text('red')
+      within(:css, "table td.ragg-cell") do
+        expect(page).to_not have_text('red')
+      end
+
     end
 
     scenario 'admin sets ragg rating to draft, ragg rating should not be deleted' do
@@ -186,11 +192,15 @@ feature 'Administering opportunities' do
 
       click_on opportunity.title
 
-      expect(page).to have_text('red')
+      within(:css, "table td.ragg-cell") do
+        expect(page).to have_text('red')
+      end
 
       click_on 'Draft'
 
-      expect(page).to have_text('red')
+      within(:css, "table td.ragg-cell") do
+        expect(page).to have_text('red')
+      end
     end
   end
 end

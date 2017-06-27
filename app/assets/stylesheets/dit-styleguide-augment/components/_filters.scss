@@ -27,7 +27,6 @@
     padding: 24.5px 10px 24.5px 10px;
     background-color: $offwhite;
     @media #{$mobile-xs} {
-      border-radius: 3px;
       background-color: rgba(250, 250, 250, 0.9);
     }
     @media #{$mobile-l} {

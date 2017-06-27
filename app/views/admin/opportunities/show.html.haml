@@ -72,7 +72,7 @@
     %td= @opportunity.service_provider.try(:name)
   %tr
     %th{:scope => 'row'} RAGG
-    %td= @opportunity.ragg
+    %td{:class => 'ragg-cell'}=@opportunity.ragg
   %tr
     %th{:scope => 'row'} Author
     %td= @opportunity.author.name

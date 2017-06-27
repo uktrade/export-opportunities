@@ -6,12 +6,12 @@
       %div.filters__groupA
         %div.filters__item
           %label{:for => "searchinput", :class=>"filters__label"} What product or service are you selling?
-          = search_field_tag :s, params[:s], :placeholder => 'Keywords', class: 'filters__field', id: 'searchinput', autocomplete: 'off'
+          = search_field_tag :s, params[:s], :placeholder => 'Product or service keyword', class: 'filters__field', id: 'searchinput', autocomplete: 'off'
         %div.filters__item
           %label{:for => "countries", :class=>"filters__label"}
             Where would you like to sell to?
             %span.brackets (optional)
-          %select.select-custom(data-placeholder='Filter by country or region'){:multiple => true, :id => 'countries', :name => 'countries[]', autocomplete: 'off'}
+          %select.select-custom(data-placeholder='Filter by country'){:multiple => true, :id => 'countries', :name => 'countries[]', autocomplete: 'off'}
             = options_for_select(@countries.map { |country| [country['name'], country['slug']] },
             :selected => params[:countries])
       %div.filters__groupB
@@ -31,7 +31,7 @@
             = options_for_select(@types.map { |type| [type['name'], type['slug']] },
             :selected => params[:types])
       %div.filters__item.filters__item__last
-        = submit_tag 'Find opportunities', class: 'button filters__searchbutton'
+        = submit_tag 'Find opportunities', class: 'button button-red filters__searchbutton'
 
 
 
