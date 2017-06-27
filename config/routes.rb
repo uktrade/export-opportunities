@@ -25,8 +25,6 @@ Rails.application.routes.draw do
   get '/dashboard/enquiries', to: redirect('/dashboard')
 
   namespace :admin do
-    get '/help', to: 'opportunities#help'
-
     devise_for :editors,
       singular: :editor,
       only: [:registrations, :sessions, :passwords, :unlocks],
@@ -71,6 +69,7 @@ Rails.application.routes.draw do
     end
 
     root to: redirect('/admin/opportunities')
+    get '/help', to: 'opportunities#help'
   end
 
   get '/enquiries/:slug' => 'enquiries#new', as: :new_enquiry
