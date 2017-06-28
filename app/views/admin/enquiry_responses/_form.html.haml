@@ -28,5 +28,9 @@
             %svg.icon.icon-upload-file
               %use{"xlink:href" => "#icon-file-upload"}
             %span Choose files...
+          %div.panel.panel-border-narrow
+            %ul.list.fileList{"data-default-item" => "No files selected"}
+              %li No files selected
+            %a.bold-xsmall{:href => "#"} Remove files
   .form-group
     = f.submit 'Send', class: 'button'

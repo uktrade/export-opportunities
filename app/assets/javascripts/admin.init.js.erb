@@ -49,5 +49,8 @@ $('document').ready(function() {
 	ukti.ShowHide.init();
 
 	/* if edit form set behaviour of rag rating */
-	ukti.UploadWidget.init();
+  	var uploadWidgets = document.querySelectorAll('.uploadWidget');
+	for (var i = 0; i < uploadWidgets.length; ++i) {
+	   ukti.UploadWidget.init(uploadWidgets[i]);
+	}
 });
