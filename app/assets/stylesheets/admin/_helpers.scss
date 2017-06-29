@@ -9,7 +9,7 @@
   clear: both;
 }
 
-.hidden {
+.hidden, .js-enabled .js-hidden  {
 	display: none;
 	visibility: hidden;
 }
@@ -19,5 +19,12 @@
 }
 
 .padding-30 {
-	padding: 30px;
+    padding: 30px;
+}
+.margin-top-0 {
+	margin-top: 0px;
+}
+
+.margin-bottom-0 {
+	margin-bottom: 0px;
 }

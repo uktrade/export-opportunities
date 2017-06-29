@@ -9,7 +9,7 @@ class EnquiryMailer < ApplicationMailer
 
     args = {
       to: email_addresses,
-      subject: "EIG Website : Export opportunity : Action required : Customer : #{@enquiry.first_name} #{@enquiry.last_name}",
+      subject: 'You’ve received an enquiry: Action required within 5 working days',
     }
 
     if Figaro.env.enquiries_cc_email.present?

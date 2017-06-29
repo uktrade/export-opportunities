@@ -3,6 +3,13 @@
 
   padding: 0;
 
+  /* conflict with .panel class from style library */
+  /* this legacy will all go away soon */
+  border-top: none !important;
+  margin-bottom: $base-spacing !important;
+  padding: 0 !important !important;
+  /* conflict with .panel class from style library */
+
   &--primary {
     background-color: $great-blue;
     color: $white;
@@ -72,3 +79,11 @@
     }
   }
 }
+
+.summary-panel {
+  padding: 10px;
+  @include media($medium-screen) {
+    padding: 20px;
+  }
+}
+

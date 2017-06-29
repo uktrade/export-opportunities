@@ -5,6 +5,8 @@ ukti.config = {
 	"ckeditorPath" : "/js/ckeditor/ckeditor.js"
 };
 
+$('body').addClass('js-enabled');
+
 $('document').ready(function() {
   var $opportunityTitle = $('#opportunity_title');
   if($opportunityTitle.length) {
@@ -44,6 +46,14 @@ $('document').ready(function() {
 	/* rich text editor and other js for enquiry response in admin centre */
 	var enquiryResponseForm = $('form.new_enquiry_response');
 	if (enquiryResponseForm.length > 0) {
-	  ukti.enquiryResponse.init(enquiryResponseForm);
+      ukti.enquiryResponse.init(enquiryResponseForm);
+  }
+    /* attach show/hide behaviour */
+      ukti.ShowHide.init();
+
+	/* if edit form set behaviour of rag rating */
+  var uploadWidgets = document.querySelectorAll('.uploadWidget');
+	for (var i = 0; i < uploadWidgets.length; ++i) {
+	   ukti.UploadWidget.init(uploadWidgets[i]);
 	}
 });

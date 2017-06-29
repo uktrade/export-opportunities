@@ -5,7 +5,6 @@ RSpec.feature 'Subscribing to alerts', :elasticsearch do
   context 'when already signed in' do
     before(:each) do
       @user = create(:user, email: 'test@example.com')
-
       login_as @user, scope: :user
     end
 
@@ -14,7 +13,7 @@ RSpec.feature 'Subscribing to alerts', :elasticsearch do
 
       visit opportunities_path
       fill_in :s, with: 'food'
-      page.find('.search-form__submit').click
+      page.find('.filters__searchbutton').click
 
       expect(page).to have_content 'Subscribe to Email Alerts for food'
 
@@ -37,7 +36,9 @@ RSpec.feature 'Subscribing to alerts', :elasticsearch do
       visit opportunities_path
       expect(page).not_to have_content 'Subscribe to Email Alerts'
 
-      click_on country.name
+      select 'Brazil', from: 'countries'
+      page.find('.filters__searchbutton').click
+
       expect(page).to have_content 'Subscribe to Email Alerts for Brazil'
 
       click_button 'Subscribe'
@@ -75,19 +76,12 @@ RSpec.feature 'Subscribing to alerts', :elasticsearch do
       expect(page).not_to have_content 'Subscribe to Email Alerts for transformers, Italy, Toys, Magical, Expensive'
 
       fill_in :s, with: 'transformers'
-      page.find('.search-form__submit').click
+      select 'Toys', from: 'sector', visible: false
+      select 'Italy', from: 'countries[]', visible: false
+      select 'Magical', from: 'types', visible: false
+      select 'Expensive', from: 'values', visible: false
 
-      click_on country.name
-      wait_for_ajax
-
-      click_on sector.name
-      wait_for_ajax
-
-      click_on type.name
-      wait_for_ajax
-
-      click_on value.name
-      wait_for_ajax
+      page.find('.filters__searchbutton').click
 
       expect(page).to have_content 'Subscribe to Email Alerts for transformers, Italy, Toys, Magical, Expensive'
 
@@ -109,15 +103,15 @@ RSpec.feature 'Subscribing to alerts', :elasticsearch do
 
     scenario 'can subscribe to all opportunities' do
       visit opportunities_path
-      within '.bulk_subscription' do
-        click_on 'sign up here'
-      end
-      expect(page).to have_content 'Subscribe to email alerts for all opportunities'
+
+      click_on 'Find opportunities'
+
+      expect(page).to have_content 'Subscribe to Email Alerts for all opportunities'
 
       click_on 'Subscribe'
 
       expect(page).to have_content 'Your email alert has been created'
-      expect(page).to have_content 'When we publish a new opportunity'
+      expect(page).to have_content 'When we publish relevant opportunities'
     end
   end
 
@@ -129,7 +123,7 @@ RSpec.feature 'Subscribing to alerts', :elasticsearch do
 
       visit opportunities_path
       fill_in :s, with: 'food'
-      page.find('.search-form__submit').click
+      page.find('.filters__searchbutton').click
 
       expect(page).to have_content 'Subscribe to Email Alerts for food'
       click_button 'Subscribe'

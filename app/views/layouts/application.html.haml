@@ -11,49 +11,45 @@
 
     %link{:href => "#{asset_path('favicon.png')}", :rel => "icon", :type => "image/png"}
     %link{:href => "#{asset_path('favicon.svg')}", :rel => "mask-icon", :color => "#0b0c0c"}
-    %link{:href => "https://fonts.googleapis.com/css?family=Roboto:300,400,500", :rel => "stylesheet"}
+    :css
+      svg.icon {
+        width: 0;
+        height: 0;
+      }
     = content_for(:head)
     %title= t('site_name')
     = stylesheet_link_tag 'application', media: 'all'
-    = javascript_include_tag 'modernizr.min'
     /[if lte IE 9]
       = javascript_include_tag 'oldie-support.min'
-  %body{id: ExportOpportunities.flipper.enabled?(:new_header_and_footer) ? nil : 'dit'}
-    %div{:style => "display:none;"}
-      %svg
-        %symbol#icon-search{:viewBox => "0 0 1024 1024"}
-          %title Search
-          %path.path1{:d => "M898.304 791.962l-193.485-193.485c29.184-47.974 45.978-104.192 45.978-164.454 0-174.899-151.603-326.502-326.554-326.502-174.899 0-316.723 141.824-316.723 316.723 0 174.95 151.552 326.554 326.502 326.554 58.163 0 112.64-15.77 159.488-43.162l194.509 194.56c19.098 19.046 49.92 19.046 68.915 0l48.282-48.23c18.995-19.046 12.083-43.008-6.912-62.003zM205.005 424.243c0-121.088 98.15-219.29 219.238-219.29 121.139 0 229.069 107.93 229.069 229.069s-98.15 219.29-219.29 219.29-229.018-107.93-229.018-229.069z"}
+      = javascript_include_tag 'classlist.polyfill.min'
+      = javascript_include_tag 'eventListener.polyfill.min'        
 
-    - if ExportOpportunities.flipper.enabled?(:new_header_and_footer)
-      = render 'layouts/dit_header_2017'
-    -else
-      = render 'layouts/dit_header'
+  %body{id: ExportOpportunities.flipper.enabled?(:new_header_and_footer) ? nil : 'dit'}
+    = render partial: 'svg_icons'
+
+    = render 'layouts/dit_header'
 
     - if content_for?(:hero)
       .hero-header-wrapper
-        %header.hero-header.outer-container
+        %header.hero-header
           .hero-header__content
             = yield(:hero)
 
-    %main.main.outer-container{:role => "main"}
+    %main.main{:role => "main"}
 
       - if content_for?(:errors)
         %header.panel.panel--primary
           = yield(:errors)
 
-      .opportunity
-        = content_for :title
-        - flash.each do |type, message|
-          %div{class: "flash flash-#{type}"}
-            = Array(message).join(' ')
+      = content_for :title
+      - flash.each do |type, message|
+        %div{class: "flash flash-#{type}"}
+          = Array(message).join(' ')
 
-        = yield
+      = yield
 
-    - if ExportOpportunities.flipper.enabled?(:new_header_and_footer)
-      = render 'layouts/dit_footer_2017'
-    -else
       = render 'layouts/dit_footer'
-
+      
+    = javascript_include_tag 'modernizr.min', defer: true
     = javascript_include_tag 'application'
     = render partial: 'google_analytics'

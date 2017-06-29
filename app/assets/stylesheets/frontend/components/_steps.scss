@@ -1,0 +1,33 @@
+.dit2017 {
+	.steps {
+		&__heading {
+			font-size: 32px;
+			font-weight: 500;
+			line-height: 1.72;
+			letter-spacing: -0.5px;
+			color: #333333;
+		}
+	}
+
+	.step {
+		&__number {
+			float: left;
+			font-size: 144px;
+			font-weight: 500;
+			letter-spacing: -1.4px;
+			text-align: center;
+			color: #d8d8d8;
+		}
+		&__heading {
+			font-size: 32px;
+			margin-top: 35px;
+		}
+		&__text {
+			margin-top: 12px;
+			font-size: 16px;
+			line-height: 1.38;
+			text-align: left;
+			color: #4a4a4a;
+		}
+	}
+}

@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       get '/editor/confirmation', to: 'confirmations#show', as: :editor_confirmation
       patch '/editor/confirmation', to: 'confirmations#update', as: :update_editor_confirmation
 
+      put 'editors/reactivate/:id', to: 'registrations#reactivate', as: :editor_reactivate
       delete 'editors/deactivate/:id', to: 'registrations#destroy', as: :editor_deactivate
     end
 
@@ -64,9 +65,11 @@ Rails.application.routes.draw do
       mount Flipper::UI.app(flipper_block) => '/feature-flags'
     end
 
-    resources :stats, only: :index
+    resources :stats do
+    end
 
     root to: redirect('/admin/opportunities')
+    get '/help', to: 'opportunities#help'
   end
 
   get '/enquiries/:slug' => 'enquiries#new', as: :new_enquiry
