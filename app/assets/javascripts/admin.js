@@ -12,4 +12,5 @@
 //= require components/EnquiryResponse
 //= require components/RaggRating
 //= require components/Stats
+//= require components/UploadWidget
 //= require admin.init.js
