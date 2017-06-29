@@ -6,24 +6,28 @@ ukti.UploadWidget = (function($) {
   var inputEl;
   var clearButtonEl;
   var fileListStore = [];
-  var maxFiles = 5;
+  var maxFiles = 1;
   var error = {
   	name: 'filelistsize',
   	message: 'Too many filez'
   }
 
   var changeHandler = function(event) {
-  	fileListStore = event.currentTarget.files;
-  	if( fileListStore.length > 5 ) {
+  	fileListStore = event.target.files;
+	if (fileListStore.length === 0 ) {
+		resetAll(event);
+		return;
+	}
+  	if( fileListStore.length > maxFiles ) {
   		showError(error);
-  		return
+  		return;
   	}
     updateLabel(event);
     updateFileList();
   };
 
   var updateLabel = function (event) {
-  	var input = event.currentTarget,
+  	var input = event.target,
 		label = input.nextElementSibling,
 	 labelVal = label.innerHTML,
      fileName = '';
@@ -44,61 +48,82 @@ ukti.UploadWidget = (function($) {
   };
 
   var updateFileList = function () {
-		var list = baseEl.querySelector('.fileList');
-		if(!list) {
-			return;
-		}
-		while (list.hasChildNodes()) {
-			list.removeChild(list.firstChild);
-		}
+	var list = baseEl.querySelector('.fileList');
+	if(!list) {
+		return;
+	}
+	while (list.hasChildNodes()) {
+		list.removeChild(list.firstChild);
+	}
 
-		for (var x = 0; x < fileListStore.length; x++) {
-			var li = document.createElement('li');
-			li.innerHTML = 'File ' + (x + 1) + ':  ' + fileListStore[x].name;
-			list.appendChild(li);
-		}
+	for (var x = 0; x < fileListStore.length; x++) {
+		var li = document.createElement('li');
+		li.innerHTML = 'File ' + (x + 1) + ':  ' + fileListStore[x].name;
+		list.appendChild(li);
+	}
   }
 
-  var resetLabel = function () {
-
+  var resetAll = function () {
+	var input = event.target,
+		label = input.nextElementSibling,
+		 list = baseEl.querySelector('.fileList');
+  	resetLabel(label);
+  	resetList(list);
   }
 
-  var clearFileList = function (event) {
+  var resetLabel = function (label) {
+	var text = label.getAttribute( 'data-default-text' );
+	label.querySelector( 'span' ).innerHTML = text;
+  }
+
+  var resetList = function (list) {
+	var text = list.getAttribute( 'data-default-item' );
+	while (list.hasChildNodes()) {
+		list.removeChild(list.firstChild);
+	}
+	var li = document.createElement('li');
+	li.innerHTML = text;
+	list.appendChild(li);
+  }
+
+  var clearFileQueue = function (event) {
   	event.preventDefault();
-  	debugger;
-  	inputEl
-    var backupElem = inputEl.cloneNode(true);
-// Your tinkering with the original
-	inputEl.parentNode.replaceChild(backupElem, inputEl);
-  	//inputEl.reset();
-  	backupElem
+  	inputEl = baseEl.querySelector( '.inputfile' );
+  	inputEl.value = "";
+  	var changeEvent = document.createEvent("UIEvents");
+	changeEvent.initUIEvent("change", true, true);
+  	inputEl.dispatchEvent(changeEvent);
   }
 
   var attachBehaviour = function () {
-	inputEl.addEventListener( 'change', changeHandler);
-	clearButtonEl.addEventListener("click", clearFileList);
+	baseEl.addEventListener( 'change', changeHandler);
+	clearButtonEl.addEventListener("click", clearFileQueue);
   };
 
-  var addListenerToInput = function (el) {
-	el.addEventListener( 'change', changeHandler);
-  };
-
-  var removeListenerFromInput = function (el) {
-	el.addEventListener( 'change', changeHandler);
-  };
+  var returnErrorNode = function () {
+	var errorNode = document.createElement('span');
+	errorNode.className = 'error-message'
+	errorNode.id = 'error-message-' + error.name;
+	errorNode.innerHTML = error.message;
+	//role="alert"
+	return errorNode;
+  }
 
   var showError = function () {
-	var message = '<span class="error-message" id="error-message-' + error.name + '">' + error.message + '</span>';
+  	inputEl = baseEl.querySelector( '.inputfile' );
+  	var parentNode = inputEl.parentNode;
+	/* add error class */
+	var formGroup = event.target.closest('.form-group');
+	formGroup.classList.add('form-group-error');
+	/* inject error message  */
+	var errorNode = returnErrorNode();
+	parentNode.insertBefore(errorNode, inputEl);
+  }
 
-    if (fnOptions.announce) {
-      message.attr('role', 'alert')
-    }
-
-	var formGroup = $(target).closest('.form-group')
-	formGroup.addClass('form-group-error')
-
-    // Link the form field to the error message with an aria attribute
-	target.attr('aria-describedby', 'error-message-' + error.name)
+  var clearError = function () {
+  	// .error-message remove
+	var formGroup = event.target.closest('.form-group');
+	formGroup.classList.remove('form-group-error');
   }
 
   var init = function (el) {

@@ -1,6 +1,7 @@
 
 //= require jquery
 //= require jquery.charactercounter
+//= require vendor/closest.polyfill.js
 //= require components/CharacterCounter
 //= require datepicker.lang.en.js
 //= require datepicker

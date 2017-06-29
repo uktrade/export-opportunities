@@ -24,8 +24,8 @@
     .grid-row
       .column-one-half
         .uploadWidget
-          %input#enquiry_response_email_attachment.inputfile{:multiple => "multiple", :name => "enquiry_response[email_attachment][]", :type => "file", "data-multiple-caption" => "{count} files selected"}/
-          %label{:for => "enquiry_response_email_attachment"}
+          %input#enquiry_response_email_attachment.inputfile{:multiple => "multiple", :name => "enquiry_response[email_attachment][]", :type => 'file', 'data-multiple-caption' => '{count} files selected'}/
+          %label{:for => "enquiry_response_email_attachment", 'data-default-text' => 'Choose up to 5 files...'}
             %svg.icon.icon-upload-file
               %use{"xlink:href" => "#icon-file-upload"}
             %span Choose up to 5 files...
