@@ -28,8 +28,9 @@
 @import "govuk_elements/panels";
 @import "govuk_elements/forms";
 @import "govuk_elements/lists";
-@import "govuk_elements/forms/form-validation";
+/* gov uk elements latest */
 @import "govuk_elements/elements/forms/form-multiple-choice";
+@import "govuk_elements/elements/forms/form-validation";
 
 // From https://github.com/alphagov/govuk_template/
 @import "govuk_template/header";
@@ -37,10 +38,7 @@
 // Opportunities specific styles
 @import "admin/variables";
 @import "admin/colours";
-<<<<<<< HEAD
 @import "admin/form_elements";
-=======
->>>>>>> feature/766-add-attachment-to-post-user-communications
 @import "admin/header";
 @import "admin/button_bar";
 @import "admin/admin_filter";

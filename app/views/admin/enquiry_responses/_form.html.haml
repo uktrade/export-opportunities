@@ -2,10 +2,10 @@
 = form_for [:admin, enquiries_response], html: {multipart: true} do |f|
   - if enquiries_response.errors.any?
     .error-summary{:role => 'group', :tabindex => '-1'}
-      %h2
+      %h2.heading-medium.error-summary-heading
         = pluralize(enquiries_response.errors.count, 'error')
         prevented this enquiry response from being saved:
-      %ul
+      %ul.error-summary-list
         - enquiries_response.errors.full_messages.each do |message|
           %li= message
 
@@ -19,6 +19,8 @@
       This is the email to be sent out to the enquiry user.
 
   .form-group
+    = f.label :email_attachment, class: 'form-label-bold'
+    %p Add attachments - these may be PDFs, Word documents (.doc, docx) or text files.
     .grid-row
       .column-one-half
         .uploadWidget
@@ -26,10 +28,10 @@
           %label{:for => "enquiry_response_email_attachment"}
             %svg.icon.icon-upload-file
               %use{"xlink:href" => "#icon-file-upload"}
-            %span Choose files...
+            %span Choose up to 5 files...
           %div.panel.panel-border-narrow
             %ul.list.fileList{"data-default-item" => "No files selected"}
               %li No files selected
-            %a.bold-xsmall{:href => "#"} Remove files
+            %a.bold-xsmall.js-clearFileList{:href => "#"} Remove files
   .form-group
     = f.submit 'Send', class: 'button'
