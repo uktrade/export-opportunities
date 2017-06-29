@@ -23,7 +23,7 @@ feature 'Looking up company details through Companies House API', js: true do
     opportunity = create(:opportunity, status: 'publish')
     visit opportunity_path(opportunity)
 
-    within '.opportunity' do
+    within '.opportunity__information' do
       click_on 'Apply for this opportunity'
     end
 
@@ -78,7 +78,7 @@ feature 'Looking up company details through Companies House API', js: true do
     opportunity = create(:opportunity, status: 'publish')
     visit opportunity_path(opportunity)
 
-    within '.opportunity' do
+    within '.opportunity__information' do
       click_on 'Apply for this opportunity'
     end
 
@@ -120,7 +120,7 @@ feature 'Looking up company details through Companies House API', js: true do
     sector = create(:sector)
     visit opportunity_path(opportunity)
 
-    within '.opportunity' do
+    within '.opportunity__information' do
       click_on 'Apply for this opportunity'
     end
 
@@ -154,7 +154,7 @@ feature 'Looking up company details through Companies House API', js: true do
     opportunity = create(:opportunity, status: 'publish')
     visit opportunity_path(opportunity)
 
-    within '.opportunity' do
+    within '.opportunity__information' do
       click_on 'Apply for this opportunity'
     end
 

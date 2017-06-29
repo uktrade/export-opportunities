@@ -18,7 +18,7 @@ RSpec.describe StatsCalculator do
 
           create(:opportunity, :unpublished, service_provider: another_service_provider, created_at: lower_limit + 1.day)
 
-          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, service_provider_id: service_provider, all_service_providers?: false)
+          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, service_provider_id: service_provider, all_service_providers?: false, granularity: 'ServiceProvider')
           expect(StatsCalculator.new.call(fake_criteria).opportunities_submitted).to eq 2
         end
       end
@@ -38,7 +38,7 @@ RSpec.describe StatsCalculator do
 
           create(:opportunity, :published, service_provider: another_service_provider, first_published_at: lower_limit + 1.day)
 
-          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, service_provider_id: service_provider, all_service_providers?: false)
+          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, service_provider_id: service_provider, all_service_providers?: false, granularity: 'ServiceProvider')
           expect(StatsCalculator.new.call(fake_criteria).opportunities_published).to eq 2
         end
 
@@ -50,7 +50,7 @@ RSpec.describe StatsCalculator do
 
           create(:opportunity, :unpublished, service_provider: service_provider, first_published_at: lower_limit + 1.day)
 
-          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, service_provider_id: service_provider, all_service_providers?: false)
+          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, service_provider_id: service_provider, all_service_providers?: false, granularity: 'ServiceProvider')
           expect(StatsCalculator.new.call(fake_criteria).opportunities_published).to eq 1
         end
 
@@ -62,7 +62,7 @@ RSpec.describe StatsCalculator do
 
           create(:opportunity, status: :trash, service_provider: service_provider, first_published_at: lower_limit + 1.day)
 
-          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, service_provider_id: service_provider, all_service_providers?: false)
+          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, service_provider_id: service_provider, all_service_providers?: false, granularity: 'ServiceProvider')
           expect(StatsCalculator.new.call(fake_criteria).opportunities_published).to eq 1
         end
       end
@@ -85,7 +85,7 @@ RSpec.describe StatsCalculator do
 
           create(:enquiry, opportunity: non_matching_opportunity, created_at: lower_limit + 1.day)
 
-          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, service_provider_id: service_provider, all_service_providers?: false)
+          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, service_provider_id: service_provider, all_service_providers?: false, granularity: 'ServiceProvider')
           expect(StatsCalculator.new.call(fake_criteria).enquiries).to eq 2
         end
       end
@@ -109,14 +109,14 @@ RSpec.describe StatsCalculator do
 
           create(:opportunity, :published, service_provider: another_service_provider, first_published_at: lower_limit, created_at: creation_date)
 
-          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, service_provider_id: service_provider, all_service_providers?: false)
+          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, service_provider_id: service_provider, all_service_providers?: false, granularity: 'ServiceProvider')
           expect(StatsCalculator.new.call(fake_criteria).average_age_when_published).to eq 144
         end
       end
 
       context 'when there is no data' do
         it 'returns a result object with zeros in each place' do
-          fake_criteria = instance_double('StatsSearchForm', date_from: nil, date_to: nil, service_provider_id: nil, all_service_providers?: false)
+          fake_criteria = instance_double('StatsSearchForm', date_from: nil, date_to: nil, service_provider_id: nil, all_service_providers?: false, granularity: 'ServiceProvider')
           result = StatsCalculator.new.call(fake_criteria)
           aggregate_failures do
             expect(result.opportunities_submitted).to eq 0
@@ -144,7 +144,7 @@ RSpec.describe StatsCalculator do
 
           create(:opportunity, :unpublished, service_provider: another_service_provider, created_at: lower_limit + 1.day)
 
-          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, all_service_providers?: true)
+          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, all_service_providers?: true, granularity: 'ServiceProvider')
           expect(StatsCalculator.new.call(fake_criteria).opportunities_submitted).to eq 3
         end
       end
@@ -164,7 +164,7 @@ RSpec.describe StatsCalculator do
 
           create(:opportunity, :published, service_provider: another_service_provider, first_published_at: lower_limit + 1.day)
 
-          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, all_service_providers?: true)
+          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, all_service_providers?: true, granularity: 'ServiceProvider')
           expect(StatsCalculator.new.call(fake_criteria).opportunities_published).to eq 3
         end
 
@@ -176,7 +176,7 @@ RSpec.describe StatsCalculator do
 
           create(:opportunity, :unpublished, service_provider: service_provider, first_published_at: lower_limit + 1.day)
 
-          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, all_service_providers?: true)
+          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, all_service_providers?: true, granularity: 'ServiceProvider')
           expect(StatsCalculator.new.call(fake_criteria).opportunities_published).to eq 1
         end
 
@@ -188,7 +188,7 @@ RSpec.describe StatsCalculator do
 
           create(:opportunity, status: :trash, service_provider: service_provider, first_published_at: lower_limit + 1.day)
 
-          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, all_service_providers?: true)
+          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, all_service_providers?: true, granularity: 'ServiceProvider')
           expect(StatsCalculator.new.call(fake_criteria).opportunities_published).to eq 1
         end
       end
@@ -211,7 +211,7 @@ RSpec.describe StatsCalculator do
 
           create(:enquiry, opportunity: non_matching_opportunity, created_at: lower_limit + 1.day)
 
-          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, all_service_providers?: true)
+          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, all_service_providers?: true, granularity: 'ServiceProvider')
           expect(StatsCalculator.new.call(fake_criteria).enquiries).to eq 3
         end
       end
@@ -233,14 +233,14 @@ RSpec.describe StatsCalculator do
           create(:opportunity, :published, service_provider: another_service_provider, first_published_at: lower_limit + 1.day, created_at: creation_date)
           create(:opportunity, :published, service_provider: service_provider, first_published_at: lower_limit + 2.days, created_at: creation_date)
 
-          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, service_provider_id: service_provider, all_service_providers?: true)
+          fake_criteria = instance_double('StatsSearchForm', date_from: lower_limit, date_to: upper_limit, service_provider_id: service_provider, all_service_providers?: true, granularity: 'ServiceProvider')
           expect(StatsCalculator.new.call(fake_criteria).average_age_when_published).to eq 144
         end
       end
 
       context 'when there is no data' do
         it 'returns a result object with zeros in each place' do
-          fake_criteria = instance_double('StatsSearchForm', date_from: nil, date_to: nil, all_service_providers?: true)
+          fake_criteria = instance_double('StatsSearchForm', date_from: nil, date_to: nil, all_service_providers?: true, granularity: 'ServiceProvider')
           result = StatsCalculator.new.call(fake_criteria)
           aggregate_failures do
             expect(result.opportunities_submitted).to eq 0

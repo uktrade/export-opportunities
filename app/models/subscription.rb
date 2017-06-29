@@ -3,6 +3,7 @@ require 'elasticsearch'
 class Subscription < ActiveRecord::Base
   include DeviseUserMethods
   include Elasticsearch::Model
+
   index_name [base_class.to_s.pluralize.underscore, Rails.env].join('_')
 
   # built in callbacks won't work with our customly indexed taxnomies

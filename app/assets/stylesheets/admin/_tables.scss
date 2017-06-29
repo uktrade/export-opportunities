@@ -10,7 +10,8 @@ table .expired, table .deactivated {
   font-size: 80%;
 }
 
-.inline {
+/* TO-DO find out why breaking other stuff */
+div.inline {
   display: flex;
   align-items: center;
   justify-content: flex-start;

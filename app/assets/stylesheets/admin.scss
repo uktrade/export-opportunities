@@ -16,6 +16,7 @@
 // From https://github.com/alphagov/govuk_elements/
 @import "govuk_elements/reset";
 @import "govuk_elements/forms";
+@import "govuk_elements/lists";
 @import "govuk_elements/tables";
 @import "govuk_elements/helpers";
 @import "govuk_elements/govuk-template-base";
@@ -24,8 +25,11 @@
 @import "govuk_elements/buttons";
 @import "govuk_elements/icons";
 @import "govuk_elements/tables";
+@import "govuk_elements/panels";
 @import "govuk_elements/forms";
+@import "govuk_elements/lists";
 @import "govuk_elements/forms/form-validation";
+@import "govuk_elements/elements/forms/form-multiple-choice";
 
 // From https://github.com/alphagov/govuk_template/
 @import "govuk_template/header";
@@ -33,10 +37,16 @@
 // Opportunities specific styles
 @import "admin/variables";
 @import "admin/colours";
+<<<<<<< HEAD
 @import "admin/form_elements";
+=======
+>>>>>>> feature/766-add-attachment-to-post-user-communications
 @import "admin/header";
 @import "admin/button_bar";
+@import "admin/admin_filter";
 @import "admin/filters";
+@import "admin/filterBar";
+@import "admin/searchPanel";
 @import "admin/helpers";
 @import "admin/tables";
 @import "admin/ragg_marker";
@@ -49,9 +59,14 @@
 @import "admin/character_counter";
 @import "admin/admin";
 @import "admin/admin_search";
-@import "admin/admin_filter";
 @import "admin/ragg_status";
-
+@import "admin/optionSelect";
+@import "admin/components/uploadWidget";
 // From https://github.com/freqdec/datePicker
 @import "vendor/datepicker";
 @import "admin/datepicker_augment";
+
+/* these are typically patterns and SASS cribbed from other .gov.uk sites */
+@import "admin/design-patterns/metadata";
+@import "admin/design-patterns/message";
+

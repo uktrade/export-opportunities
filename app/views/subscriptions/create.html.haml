@@ -1,35 +1,32 @@
-- content_for :hero do
-  %h1
-    Your email alert has
-    %br
-    been created
-  %p
-    When we publish relevant opportunities, they will be sent automatically to
-    %strong= current_user.email
+.container
+  .legacy.margin-top-30
+    %h1
+      Your email alert has been created
+    %p
+      When we publish relevant opportunities, they will be sent automatically to
+      %strong= current_user.email
+    %p
+      You can manage your email alerts at any time using the
+      "Profile" link at the top of this page.
+    .panel.summary-panel
+      %h3 Alert summary
+      %dl.metadata
+        - if subscription.search_term.present?
+          %dt Search term:
+          %dd= subscription.search_term
+        - if subscription.country_names.present?
+          %dt Markets:
+          %dd= subscription.country_names
+        - if subscription.sector_names.present?
+          %dt Sectors:
+          %dd= subscription.sector_names
+        - if subscription.type_names.present?
+          %dt Types:
+          %dd= subscription.type_names
+        - if subscription.value_names.present?
+          %dt Values:
+          %dd= subscription.value_names
 
-.panel
-  %p
-    You can manage your email alerts at any time using the
-    "Profile" link at the top of this page.
-
-  %h3 Alert summary
-  %dl.metadata
-    - if subscription.search_term.present?
-      %dt Search term:
-      %dd= subscription.search_term
-    - if subscription.country_names.present?
-      %dt Markets:
-      %dd= subscription.country_names
-    - if subscription.sector_names.present?
-      %dt Sectors:
-      %dd= subscription.sector_names
-    - if subscription.type_names.present?
-      %dt Types:
-      %dd= subscription.type_names
-    - if subscription.value_names.present?
-      %dt Values:
-      %dd= subscription.value_names
-
-  %div
-    = link_to('Manage your email alerts', dashboard_path(anchor: 'alerts', target: :alerts), class: 'button button--slimline')
-    = link_to('Search for more opportunities', opportunities_path, class: 'button button--naked button--slimline')
+      %div
+        = link_to('Manage your email alerts', dashboard_path(anchor: 'alerts', target: :alerts), class: 'button button--slimline')
+        = link_to('Search for more opportunities', opportunities_path, class: 'button button--naked button--slimline')

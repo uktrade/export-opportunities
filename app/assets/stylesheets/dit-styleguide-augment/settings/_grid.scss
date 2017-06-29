@@ -1,0 +1,39 @@
+@import "neat-helpers";
+
+// Neat Overrides
+$column: 90px;
+$gutter: 20px;
+$grid-columns: 12;
+$margins: 10px;
+$margin-medium: 20px;
+$margin-large: 30px;
+$gutter-medium: 10px;
+$gutter-large: 20px;
+$gutter-xlarge: 30px;
+$max-width: 1200px;
+
+// New Breakpoints
+//320
+$mobile-xs: "only screen and (min-width: 20em)";
+//480
+$mobile-s: "only screen and (min-width: 30em)";
+//600
+$mobile-m: "only screen and (min-width: 37.5em)";
+//640
+$mobile-l: "only screen and (min-width: 40em)";
+//720
+$tablet-s: "only screen and (min-width: 45em)";
+//800
+$tablet-m: "only screen and (min-width: 50em)";
+//960
+$tablet-l: "only screen and (min-width: 60em)";
+//1024
+$desktop-s: "only screen and (min-width: 64em)";
+//1200
+$desktop-m: "only screen and (min-width: 75em)";
+//1440
+$desktop-l: "only screen and (min-width: 90em)";
+
+
+// Legacy Breakpoints
+$medium-screen: $mobile-m;

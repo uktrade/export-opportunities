@@ -1,8 +1,9 @@
-= content_for :hero do
-  %h1 Enquiry for &ldquo;#{@enquiry.opportunity.title.strip}&rdquo;
-  %p Applied on: #{@enquiry.created_at}
+.container
+  .legacy.margin-top-30
+    %h1 Enquiry for &ldquo;#{@enquiry.opportunity.title.strip}&rdquo;
+    %p Applied on: #{@enquiry.created_at}
 
-%table.horizontal
+    %table.horizontal
   %tr
     %th{:scope => 'row'} Name
     %td= @enquiry.first_name + ' ' + @enquiry.last_name
@@ -39,4 +40,4 @@
     %th{:scope => 'row'} How do you meet the requirements for this opportunity?
     %td= present_html_or_formatted_text(@enquiry.company_explanation)
 
-%a.button{href: dashboard_path} Go back
+    %a.button.button-blue{href: dashboard_path} Go back
