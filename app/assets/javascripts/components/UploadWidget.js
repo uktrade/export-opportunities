@@ -1,5 +1,5 @@
 var ukti = window.ukti || {};
-
+// Modernizr.input.multiple
 ukti.UploadWidget = (function() {
   'use strict';
   var baseEl;
