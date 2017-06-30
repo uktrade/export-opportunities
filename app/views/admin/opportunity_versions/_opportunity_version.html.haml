@@ -1,3 +1,8 @@
-- prior_status, new_status = opportunity_version.changeset[:status]
-%em= t('admin.opportunity.history.status_changed_html', old: prior_status, new: new_status)
-%small= t('admin.opportunity.history.attribution', who: opportunity_version.blame.name, when: opportunity_version.created_at.to_s(:admin_history))
+-#- prior_status, new_status = opportunity_version.changeset[:status]
+-#%em= t('admin.opportunity.history.status_changed_html', old: prior_status, new: new_status)
+-#%small= t('admin.opportunity.history.attribution', who: opportunity_version.blame.name, when: opportunity_version.created_at.to_s(:admin_history))
+
+- opportunity_version.changeset.each do |change_field, change_value|
+  - prior_value, new_value = change_value
+  %em= "#{change_field} changed from #{change_value[0]} to #{change_value[1]}"
+  %small= "#{opportunity_version.blame.name} on #{opportunity_version.created_at.to_s(:admin_history)}"

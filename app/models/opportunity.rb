@@ -44,7 +44,7 @@ class Opportunity < ActiveRecord::Base
     indexes :status, type: :keyword
   end
 
-  has_paper_trail class_name: 'OpportunityVersion', only: [:status]
+  has_paper_trail class_name: 'OpportunityVersion'
 
   extend FriendlyId
   friendly_id :title, use: [:slugged, :finders]
