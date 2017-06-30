@@ -32,25 +32,13 @@ ukti.UploadWidget = (function() {
    */
   var updateLabel = function (event) {
     var input = event.target,
-    label = input.nextElementSibling,
-    labelVal = label.innerHTML,
-    fileName = '';
-    fileName = ( input.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', fileListStore.length );
-    
-    label.querySelector( 'span' ).innerHTML = fileName;
+        label = input.nextElementSibling,
+  defaultText = label.getAttribute('data-multiple-caption');
 
-    if( fileListStore.length > 1 ) {
-      fileName = ( input.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', fileListStore.length );
-    }
-    else {
-      fileName = input.value.split( '\\' ).pop();
-    }
-
-    if( fileName ) {
-      label.querySelector( 'span' ).innerHTML = fileName;
-    }
-    else {
-      label.innerHTML = labelVal; 
+    if( fileListStore.length > 0 ) {
+      label.querySelector( 'span' ).innerHTML = 'Choose other files';
+    } else {
+      label.querySelector( 'span' ).innerHTML = defaultText;
     }
   };
 
