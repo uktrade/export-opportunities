@@ -13,16 +13,16 @@
     = f.label :email_subject, class: 'form-label-bold'
     %p Update on your enquiry for the export opportunity #{Enquiry.find(enquiry_id).opportunity.title}
     = f.label :email_body, class: 'form-label-bold'
-    = f.text_area(:email_body, cols: 40, rows: 15, class: 'form-control js-text-editor')
-    = f.hidden_field :enquiry_id, as: :hidden, value: enquiry_id
     %p.form-hint
       This is the email to be sent out to the enquiry user.
+    = f.text_area(:email_body, cols: 40, rows: 15, class: 'form-control js-text-editor')
+    = f.hidden_field :enquiry_id, as: :hidden, value: enquiry_id
 
   .form-group
-    = f.label :email_attachment, class: 'form-label-bold'
-    %p Add attachments - these may be PDFs, Word documents (.doc, docx) or text files.
     .grid-row
-      .column-one-half
+      .column-two-thirds
+        %label{:for => "enquiry_response_email_attachment", :class => 'form-label-bold'} Attachments
+        %p You may add up to 5 attachments - these may be PDFs (.pdf), Word documents (.doc, docx) or Powerpoint files (.ppt), each with a size limit of 25Mb.
         .uploadWidget
           %input#enquiry_response_email_attachment.inputfile{:multiple => "multiple", :name => "enquiry_response[email_attachment][]", :type => 'file', 'data-multiple-caption' => '{count} files selected'}/
           %label{:for => "enquiry_response_email_attachment", 'data-default-text' => 'Choose up to 5 files...'}
@@ -32,6 +32,6 @@
           %div.panel.panel-border-narrow
             %ul.list.fileList{"data-default-item" => "No files selected"}
               %li No files selected
-            %a.bold-xsmall.js-clearFileList{:href => "#"} Remove files
+
   .form-group
     = f.submit 'Send', class: 'button'
