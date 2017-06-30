@@ -14,7 +14,8 @@ class EnquiryResponse < ActiveRecord::Base
   before_save :scan_attachment
 
   def scan_attachment
-    attachment = email_attachment.queued_for_write[:original]
+   byebug
+   attachment = email_attachment.queued_for_write[:original]
     is_file_clean_or_no_file = if attachment
                                  ApplicationController.helpers.scan_clean?(attachment.path)
                                else

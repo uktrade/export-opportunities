@@ -21,7 +21,7 @@ class Admin::EnquiryResponsesController < Admin::BaseController
     @enquiry_response = EnquiryResponse.new(enquiry_responses_params)
     @enquiry_response.editor_id = current_editor.id
     authorize @enquiry_response
-
+byebug
     @enquiry_response.save
     if @enquiry_response.errors.empty?
       EnquiryResponseSender.new.call(@enquiry_response, @enquiry_response.enquiry)
