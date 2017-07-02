@@ -6,6 +6,9 @@ FactoryGirl.define do
     enquiry
 
     email_body { Faker::Lorem.words(50) }
-    email_attachment { fixture_file_upload('spec/tender_sample_file.txt', 'application/text') }
+
+    trait :responded do
+      response_document
+    end
   end
 end

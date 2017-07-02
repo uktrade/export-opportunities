@@ -22,7 +22,7 @@
     .grid-row
       .column-one-half
         .uploadWidget
-          %input#enquiry_response_email_attachment.inputfile{:multiple => "multiple", :name => "enquiry_response[email_attachment][]", :type => "file", "data-multiple-caption" => "{count} files selected"}/
+          %input#enquiry_response_email_attachment.inputfile{multipart: true, multiple: "multiple", name: "response_documents[]", type: "file", "data-multiple-caption" => "{count} files selected"}/
           %label{:for => "enquiry_response_email_attachment"}
             %svg.icon.icon-upload-file
               %use{"xlink:href" => "#icon-file-upload"}
@@ -32,4 +32,5 @@
               %li No files selected
             %a.bold-xsmall{:href => "#"} Remove files
   .form-group
+    = hidden_field_tag :id, enquiry_id
     = f.submit 'Send', class: 'button'
