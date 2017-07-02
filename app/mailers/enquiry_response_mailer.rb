@@ -7,7 +7,7 @@ class EnquiryResponseMailer < ApplicationMailer
     editor_email = @enquiry_response.editor.email
 
     if response_documents.instance_of?(Array)
-      for attachment in response_documents
+      response_documents.each do |attachment|
         attachments[attachment.email_attachment_file_name] = File.read(attachment.email_attachment.path)
       end
     else
