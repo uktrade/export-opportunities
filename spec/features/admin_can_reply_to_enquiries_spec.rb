@@ -77,7 +77,81 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content(enquiry_response.email_body)
   end
 
+  scenario 'add an attachment to queue before submitting form', js: true do
+    admin = create(:admin)
+    enquiry = create(:enquiry)
+    login_as(admin)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+
+    expect(page).to have_content('You may add up to 5 attachments')
+
+    attach_file('enquiry_response[email_attachment][]', ['spec/tender_sample_file.txt'], visible: false)
+    
+    expect(page).to have_content('File 1: tender_sample_file.txt')
+  end
+
+  scenario 'add multiple attachments to queue before submitting form', js: true do
+    admin = create(:admin)
+    enquiry = create(:enquiry)
+    login_as(admin)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+
+    expect(page).to have_content('You may add up to 5 attachments')
+
+    attach_file('enquiry_response[email_attachment][]', ['spec/tender_sample_file.txt', 'spec/tender_sample_file_2.txt'], visible: false)
+    
+    expect(page).to have_content('File 1: tender_sample_file.txt')
+    expect(page).to have_content('File 2: tender_sample_file_2.txt')
+  end
+
+  scenario 'not add more than 5 files to queue before submitting form', js: true do
+    admin = create(:admin)
+    enquiry = create(:enquiry)
+    login_as(admin)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+
+    expect(page).to have_content('You may add up to 5 attachments')
+
+    attach_file('enquiry_response[email_attachment][]', 
+        ['spec/tender_sample_file.txt',
+         'spec/tender_sample_file_2.txt',
+         'spec/tender_sample_file_3.txt',
+         'spec/tender_sample_file_4.txt',
+         'spec/tender_sample_file_5.txt',
+         'spec/tender_sample_file_6.txt',
+            ], visible: false)
+    
+    expect(page).to have_content('Too many filez')
+  end
+
+  scenario 'remove attachments from queue before submitting form', js: true do
+    admin = create(:admin)
+    enquiry = create(:enquiry)
+    login_as(admin)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+
+    expect(page).to have_content('You may add up to 5 attachments')
+
+    attach_file('enquiry_response[email_attachment][]', ['spec/tender_sample_file.txt', 'spec/tender_sample_file_2.txt'], visible: false)
+    
+    expect(page).to have_content('File 1: tender_sample_file.txt')
+    expect(page).to have_content('File 2: tender_sample_file_2.txt')
+
+    click_on 'Remove files'
+
+    expect(page).to have_content('No files selected')
+  end
+
   scenario 'reply to an enquiry with attachment, valid' do
+    skip('TO-DO Multiple file upload function')
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
@@ -98,6 +172,7 @@ feature 'admin can reply to enquiries' do
   end
 
   scenario 'reply to an enquiry with invalid attachment file type' do
+    skip('TO-DO Multiple file upload function')
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
@@ -110,7 +185,7 @@ feature 'admin can reply to enquiries' do
     fill_in 'enquiry_response_email_body', with: email_body_text
     expect(page).to have_content(email_body_text)
 
-    attach_file 'enquiry_response_email_attachment', 'spec/tender_sample_invalid_extension_file'
+    attach_file 'enquiry_response[email_attachment][]', ['spec/tender_sample_invalid_extension_file']
 
     click_on 'Send'
 
@@ -118,6 +193,7 @@ feature 'admin can reply to enquiries' do
   end
 
   scenario 'reply to an enquiry with invalid attachment file size' do
+    skip('TO-DO Multiple file upload function')
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
@@ -156,6 +232,7 @@ feature 'admin can reply to enquiries' do
   end
 
   scenario 'reply to an enquiry attaching a file with VIRUS' do
+    skip('TO-DO Multiple file upload function')
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)

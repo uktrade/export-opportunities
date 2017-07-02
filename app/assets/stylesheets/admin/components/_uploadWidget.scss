@@ -32,9 +32,24 @@
   .inputfile + label * {
     pointer-events: none;
   }
-
   .panel {
     margin-top: 10px;
   }
-/* consider no-js scenario */
+}
+
+/* non-js scenario */
+
+html.no-js {
+  .inputfile {
+    width: auto;
+    height: auto;
+    opacity: 1;
+    overflow: none;
+    position: relative;
+    z-index: 1;
+  }
+  label.enhanced,
+  .panel {
+    display: none;
+  }
 }

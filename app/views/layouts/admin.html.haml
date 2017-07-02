@@ -1,6 +1,8 @@
 !!!
-%html
+%html.no-js
   %head
+    :javascript
+      (function(H){H.className=H.className.replace(/\bno-js\b/,'js')})(document.documentElement)
     %title= "#{t('organisation.name')} - Opportunities"
     = stylesheet_link_tag 'application-admin', media: 'all'
     :css

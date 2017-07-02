@@ -2,10 +2,10 @@
 = form_for [:admin, enquiries_response], html: {multipart: true} do |f|
   - if enquiries_response.errors.any?
     .error-summary{:role => 'group', :tabindex => '-1'}
-      %h2
+      %h2.heading-medium.error-summary-heading
         = pluralize(enquiries_response.errors.count, 'error')
         prevented this enquiry response from being saved:
-      %ul
+      %ul.error-summary-list
         - enquiries_response.errors.full_messages.each do |message|
           %li= message
 
@@ -13,24 +13,26 @@
     = f.label :email_subject, class: 'form-label-bold'
     %p Update on your enquiry for the export opportunity #{Enquiry.find(enquiry_id).opportunity.title}
     = f.label :email_body, class: 'form-label-bold'
-    = f.text_area(:email_body, cols: 40, rows: 15, class: 'form-control js-text-editor')
-    = f.hidden_field :enquiry_id, as: :hidden, value: enquiry_id
     %p.form-hint
       This is the email to be sent out to the enquiry user.
+    = f.text_area(:email_body, cols: 40, rows: 15, class: 'form-control js-text-editor')
+    = f.hidden_field :enquiry_id, as: :hidden, value: enquiry_id
 
   .form-group
     .grid-row
-      .column-one-half
+      .column-two-thirds
+        %label{:for => "enquiry_response_email_attachment", :class => 'form-label-bold'} Attachments
+        %p.form-hint You may add up to 5 attachments - these may be PDFs (.pdf), Word documents (.doc, docx) or Powerpoint files (.ppt), each with a size limit of 25Mb.
         .uploadWidget
           %input#enquiry_response_email_attachment.inputfile{multipart: true, multiple: "multiple", name: "response_documents[]", type: "file", "data-multiple-caption" => "{count} files selected"}/
-          %label{:for => "enquiry_response_email_attachment"}
+          %label.enhanced{:for => "enquiry_response_email_attachment", 'data-default-text' => 'Choose up to 5 files...'}
             %svg.icon.icon-upload-file
               %use{"xlink:href" => "#icon-file-upload"}
-            %span Choose files...
+            %span Choose up to 5 files...
           %div.panel.panel-border-narrow
             %ul.list.fileList{"data-default-item" => "No files selected"}
               %li No files selected
-            %a.bold-xsmall{:href => "#"} Remove files
+
   .form-group
     = hidden_field_tag :id, enquiry_id
     = f.submit 'Send', class: 'button'
