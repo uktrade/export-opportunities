@@ -20,7 +20,7 @@ ukti.UploadWidget = (function() {
       return;
     }
     if( fileListStore.length > maxFiles ) {
-      showError(error);
+      showError(event);
       return;
     }
     clearError();
@@ -162,7 +162,7 @@ ukti.UploadWidget = (function() {
     /* find elements */
     var inputEl = baseEl.querySelector( '.inputfile' );
     var parentNode = inputEl.parentNode;
-    var formGroup = event.target.closest('.form-group');
+    var formGroup = baseEl.closest('.form-group');
     /* add error class */
     formGroup.classList.add('form-group-error');
     /* inject error message  */
