@@ -88,7 +88,7 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('You may add up to 5 attachments')
 
     attach_file('enquiry_response[email_attachment][]', ['spec/tender_sample_file.txt'], visible: false)
-    
+
     expect(page).to have_content('File 1: tender_sample_file.txt')
   end
 
@@ -103,7 +103,7 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('You may add up to 5 attachments')
 
     attach_file('enquiry_response[email_attachment][]', ['spec/tender_sample_file.txt', 'spec/tender_sample_file_2.txt'], visible: false)
-    
+
     expect(page).to have_content('File 1: tender_sample_file.txt')
     expect(page).to have_content('File 2: tender_sample_file_2.txt')
   end
@@ -118,15 +118,8 @@ feature 'admin can reply to enquiries' do
 
     expect(page).to have_content('You may add up to 5 attachments')
 
-    attach_file('enquiry_response[email_attachment][]', 
-        ['spec/tender_sample_file.txt',
-         'spec/tender_sample_file_2.txt',
-         'spec/tender_sample_file_3.txt',
-         'spec/tender_sample_file_4.txt',
-         'spec/tender_sample_file_5.txt',
-         'spec/tender_sample_file_6.txt',
-            ], visible: false)
-    
+    attach_file('enquiry_response[email_attachment][]', ['spec/tender_sample_file.txt', 'spec/tender_sample_file_2.txt', 'spec/tender_sample_file_3.txt', 'spec/tender_sample_file_4.txt', 'spec/tender_sample_file_5.txt', 'spec/tender_sample_file_6.txt'], visible: false)
+
     expect(page).to have_content('Too many filez')
   end
 
@@ -141,7 +134,7 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('You may add up to 5 attachments')
 
     attach_file('enquiry_response[email_attachment][]', ['spec/tender_sample_file.txt', 'spec/tender_sample_file_2.txt'], visible: false)
-    
+
     expect(page).to have_content('File 1: tender_sample_file.txt')
     expect(page).to have_content('File 2: tender_sample_file_2.txt')
 

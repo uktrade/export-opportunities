@@ -24,7 +24,7 @@
         %label{:for => "enquiry_response_email_attachment", :class => 'form-label-bold'} Attachments
         %p.form-hint You may add up to 5 attachments - these may be PDFs (.pdf), Word documents (.doc, docx) or Powerpoint files (.ppt), each with a size limit of 25Mb.
         .uploadWidget
-          %input#enquiry_response_email_attachment.inputfile{:multiple => "multiple", :name => "enquiry_response[email_attachment][]", :type => 'file', 'data-multiple-caption' => '{count} files selected'}/
+          %input#enquiry_response_email_attachment.inputfile{multipart: true, multiple: "multiple", name: "response_documents[]", type: "file", "data-multiple-caption" => "{count} files selected"}/
           %label.enhanced{:for => "enquiry_response_email_attachment", 'data-default-text' => 'Choose up to 5 files...'}
             %svg.icon.icon-upload-file
               %use{"xlink:href" => "#icon-file-upload"}
@@ -34,4 +34,5 @@
               %li No files selected
 
   .form-group
+    = hidden_field_tag :id, enquiry_id
     = f.submit 'Send', class: 'button'
