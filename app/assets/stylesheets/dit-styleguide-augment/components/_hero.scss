@@ -9,10 +9,11 @@
     }
     @media #{$desktop-s} {
       background-image: asset-url('backgrounds/export-opps-large.jpg');
-      background-position: 70% 0px;
+      background-size: 2057px 900px;
+      background-position: top left;
     }
-    @media #{$desktop-m} {
-      background-size: 2220px;
+    @media #{$desktop-l} {
+      background-position: top right;
     }
     hr {
       margin: 20px 0px 0px 0px;
