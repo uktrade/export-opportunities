@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'capybara/email/rspec'
 
-RSpec.feature 'Users can confirm legacy subscriptions' do
+RSpec.feature 'Users can confirm legacy subscriptions (predating great.gov.uk launch)' do
   scenario 'when clicking the confirmation link in the email for the first time' do
     user = create(:user, :stub, email: 'test@example.com')
     subscription = create(:subscription, :unconfirmed, user: user, search_term: 'food')

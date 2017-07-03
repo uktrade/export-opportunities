@@ -125,7 +125,7 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
     end
   end
 
-  scenario 'Opportuntiy view should render plain text nicely' do
+  scenario 'Opportunity view should render plain text nicely' do
     example = <<-EOD
 Our clients in Hackistan want to import the finest Wimbledon wombles.
 
@@ -136,6 +136,7 @@ EOD
 
     op = create(:opportunity, status: 'publish', description: example)
     visit opportunity_path(op.id)
+    save_and_open_page
     expect(page).to have_css('.opportunity__content p:nth-last-child(3)')
   end
 

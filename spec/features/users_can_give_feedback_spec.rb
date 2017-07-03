@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'capybara/email/rspec'
 
-RSpec.feature 'User can give feedback' do
+RSpec.feature 'User can give feedback to the impact email' do
   scenario 'receives an email' do
     opp = create(:opportunity, title: 'France - Cow required')
     user = create(:user, email: 'test@example.com')
