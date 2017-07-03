@@ -14,9 +14,6 @@
 /* Legacy styles */
 // = require legacy/application_legacy
 
-/* New style built on top of old styleguide */
-// = require dit-styleguide-augment/main
-
 /* vendor files */
 // = require vendor/select2
 // = require vendor/select2_skin/layout
@@ -24,4 +21,7 @@
 /* This is the css built through gulp */
 // = require styles
 // = require dit-styleguide-patch
+
+/* New style built on top of old styleguide */
+// = require dit-styleguide-augment/main
 

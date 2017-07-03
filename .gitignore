@@ -37,3 +37,6 @@ rubocop.yml
 # Ignore node_modules
 node_modules/
 
+# Ignore system folder
+/public/system/
+

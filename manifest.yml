@@ -1,0 +1,6 @@
+---
+applications:
+- name: dev-exopps-demo
+  memory: 128M
+  command: src/manage.py runserver 0.0.0.0:$PORT
+  buildpack: nodejs-buildpack

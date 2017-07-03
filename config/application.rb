@@ -33,8 +33,8 @@ module ExportOpportunities
     config.active_job.queue_adapter = :sidekiq
 
     # Make public assets requireable in manifest files
-    config.assets.paths << Rails.root.join("public", "assets", "stylesheets")
-    config.assets.paths << Rails.root.join("public", "assets", "javascripts")
+    config.assets.paths += Dir[Rails.root.join("public", "assets", "stylesheets")]
+    config.assets.paths += Dir[Rails.root.join("public", "assets", "javascripts")]
 
     # Stop Rails adding `field_with_errors` class to the labels
     # as this breaks the style. Input forms are all moved to the left
