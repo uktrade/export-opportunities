@@ -15,6 +15,7 @@ ukti.UploadWidget = (function() {
    */
   var changeHandler = function(event) {
     fileListStore = event.target.files;
+    console.log(fileListStore.length);
     if (fileListStore.length === 0 ) {
       resetAll(event);
       return;
@@ -96,7 +97,7 @@ ukti.UploadWidget = (function() {
   /**
    * Reset everything
    */
-  var resetAll = function () {
+  var resetAll = function (event) {
     var input = event.target,
       label = input.nextElementSibling,
        list = baseEl.querySelector('.fileList');
@@ -136,8 +137,10 @@ ukti.UploadWidget = (function() {
       var inputEl = baseEl.querySelector( '.inputfile' );
       var changeEvent = document.createEvent("UIEvents");
       inputEl.value = "";
-      changeEvent.initUIEvent("change", true, true);
-      inputEl.dispatchEvent(changeEvent);
+      var backupElem = inputEl.cloneNode(true);
+      inputEl.parentNode.replaceChild(backupElem, inputEl);
+      changeEvent.initUIEvent("change", true, true, window, 1);
+      backupElem.dispatchEvent(changeEvent);
     }
   };
 
@@ -178,7 +181,7 @@ ukti.UploadWidget = (function() {
     if (message) {
       message.parentNode.removeChild(message);
     }
-    var formGroup = event.target.closest('.form-group');
+    var formGroup = baseEl.closest('.form-group');
     formGroup.classList.remove('form-group-error');
   };
 
@@ -186,6 +189,7 @@ ukti.UploadWidget = (function() {
    * Add event listeners
    */
   var attachBehaviour = function () {
+    /* IE9 doesn't support input multiple so don't add events */
     baseEl.addEventListener( 'change', changeHandler);
     baseEl.addEventListener( 'click', clearFileQueue);
   };
