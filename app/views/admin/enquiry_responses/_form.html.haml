@@ -20,9 +20,11 @@
 
   .form-group
     .grid-row
-      .column-two-thirds
+      .column-one-half
         %label{:for => "enquiry_response_email_attachment", :class => 'form-label-bold'} Attachments
-        %p.form-hint You may add up to 5 attachments - these may be PDFs (.pdf), Word documents (.doc, docx) or Powerpoint files (.ppt), each with a size limit of 25Mb.
+        %p.form-hint You may add up to 5 attachments.
+        %p.form-hint Multiple files can be selected by holding Ctrl key (or Command on a Mac).
+        %p.form-hint Files may be PDFs (.pdf), Word documents (.doc, .docx) or Powerpoint files (.ppt), each with a size limit of 25Mb.
         .uploadWidget
           %input#enquiry_response_email_attachment.inputfile{multipart: true, multiple: "multiple", name: "response_documents[]", type: "file", "data-multiple-caption" => "{count} files selected"}/
           %label.enhanced{:for => "enquiry_response_email_attachment", 'data-default-text' => 'Choose up to 5 files...'}
