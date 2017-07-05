@@ -173,8 +173,7 @@ RSpec.feature 'Editors can view stats' do
     expect(page).to have_content(t('admin.stats.opportunities_published', count: 2))
   end
 
-  scenario 'for a specific region', js: true do
-    skip('Temporary while refactoring this page')
+  scenario 'for a specific region' do
     region = create(:region, name: 'Latin America')
     another_region = create(:region, name: 'North America')
     country = create(:country, name: 'Mexico', region: region)
@@ -187,7 +186,7 @@ RSpec.feature 'Editors can view stats' do
     create(:opportunity, :published, service_provider: mexico, first_published_at: Date.new(2015, 9, 15))
     create(:opportunity, :published, service_provider: barbados, first_published_at: Date.new(2015, 9, 15))
 
-    login_as(create(:editor))
+    login_as(create(:editor, service_provider: nassau))
     Timecop.freeze(Date.new(2015, 10, 1)) do
       visit '/admin/stats'
 
@@ -199,9 +198,9 @@ RSpec.feature 'Editors can view stats' do
       select 'September', from: 'stats_to_month'
       select '15', from: 'stats_to_day'
 
-      choose('granularity_Region', visible: false)
-      find(:css, '#granularity_Region').click
-      page.execute_script("document.getElementById('granularity_Region').checked = true")
+      choose 'granularity_Region'
+
+      check('Latin America')
 
       click_on 'Show stats'
     end

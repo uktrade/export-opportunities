@@ -142,7 +142,6 @@ EOD
 
     op = create(:opportunity, status: 'publish', description: example)
     visit opportunity_path(op.id)
-    save_and_open_page
     expect(page).to have_css('.opportunity__content p:nth-last-child(3)')
   end
 

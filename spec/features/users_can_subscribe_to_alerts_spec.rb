@@ -114,23 +114,4 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
       expect(page).to have_content 'When we publish relevant opportunities'
     end
   end
-
-  context 'when not signed in' do
-    skip('TODO: this should not be relevant anymore as users have to go through SSO')
-    scenario 'can subscribe to email alerts' do
-      mock_sso_with(email: 'test@example.com')
-
-      create(:opportunity, title: 'Food')
-
-      visit opportunities_path
-      fill_in :s, with: 'food'
-      page.find('.filters__searchbutton').click
-
-      expect(page).to have_content 'Subscribe to Email Alerts for food'
-      click_button 'Subscribe'
-
-      expect(page).to have_content 'Your email alert has been created'
-      expect(page).to have_content 'Search term: food'
-    end
-  end
 end
