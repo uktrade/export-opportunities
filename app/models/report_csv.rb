@@ -23,21 +23,30 @@ class ReportCSV
     self
   end
 
-  def each
+  def each_opportunities
     return enum_for(:each) unless block_given?
 
     yield header
 
     @result.each do |result_line|
-      yield row_for(result_line.drop(1).first)
+      yield row_for_opportunities(result_line.drop(1).first)
     end
   end
 
+  def each_responses
+    return enum_for(:each) unless block_given?
+
+    yield header
+
+    @result.each do |result_line|
+      yield row_for_responses(result_line.drop(1).first)
+    end
+  end
   private def header
     @csv_headers.join(',') + "\n"
   end
 
-  private def row_for(result_line)
+  private def row_for_opportunities(result_line)
     ytd_actual = result_line.opportunities_published.inject(0, :+)
     line = [
           result_line.country_id,
@@ -47,6 +56,20 @@ class ReportCSV
           result_line.opportunities_published_target,
           report_format_progress(ytd_actual, result_line.opportunities_published_target),
          ]
+
+    CSV.generate_line(line)
+  end
+
+  private def row_for_responses(result_line)
+    ytd_actual = result_line.responses.inject(0, :+)
+    line = [
+        result_line.country_id,
+        result_line.name,
+        result_line.responses.join(','),
+        ytd_actual,
+        result_line.responses_target,
+        report_format_progress(ytd_actual, result_line.responses_target),
+    ]
 
     CSV.generate_line(line)
   end
