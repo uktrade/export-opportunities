@@ -8,4 +8,9 @@ module ReportHelper
     # [34, 77, 81, 97, 121, 85, 20, 12].include? country_id
     [29, 34, 36, 46, 60, 63, 75, 100].include? country_id
   end
+
+  def report_format_progress(actual, target)
+    return 0 if target.is_a?(String) || target.zero? || !target
+    ((actual.to_f / target.to_f) * 100).floor
+  end
 end
