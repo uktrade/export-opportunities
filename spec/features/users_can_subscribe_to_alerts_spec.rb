@@ -8,7 +8,7 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
       login_as @user, scope: :user
     end
 
-    scenario 'given a search keyword' do
+    scenario 'given a search keyword, should be confirmed' do
       create(:opportunity, title: 'Food')
 
       visit opportunities_path
@@ -29,7 +29,7 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
       expect(subscription).to be_confirmed
     end
 
-    scenario 'when a filter is provided' do
+    scenario 'when a filter is provided, should be confirmed' do
       country = create(:country, name: 'Brazil')
       create(:opportunity, status: :publish, countries: [country])
 
@@ -55,7 +55,7 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
       expect(subscription).to be_confirmed
     end
 
-    scenario 'can subscribe when multiple filters and search terms are provided', js: true do
+    scenario 'can subscribe when multiple filters and search terms are provided, should be confirmed', js: true do
       country = create(:country, name: 'Italy')
       sector = create(:sector, name: 'Toys')
       type = create(:type, name: 'Magical')
@@ -116,6 +116,7 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
   end
 
   context 'when not signed in' do
+    skip('TODO: this should not be relevant anymore as users have to go through SSO')
     scenario 'can subscribe to email alerts' do
       mock_sso_with(email: 'test@example.com')
 
