@@ -2,10 +2,7 @@
 var ukti = window.ukti || {};
 
 ukti.config = {
-	//"tinyMcePath" : "<%=image_path('tinymcefull/tinymce.js')%>",
-	"tinyMcePath" : "/js/tinymcefull/tinymce.js",
-	"ckeditorPath" : "/js/ckeditor/ckeditor.js",
-	"textEditorScriptPath" : "<%=image_path('ckeditor/ckeditor.js')%>"
+	"ckeditorPath" : "/js/ckeditor/ckeditor.js"
 };
 
 $('body').addClass('js-enabled');
@@ -40,11 +37,23 @@ $('document').ready(function() {
 			noFadeEffect:true
 		});
 	}
+	
 	/* if edit form set behaviour of rag rating */
 	if (oppEditForm.length > 0) {
 		ukti.RaggRating.init(oppEditForm[0]);
 	}
 
-	/* attach show/hide behaviour */
-	ukti.ShowHide.init();
+	/* rich text editor and other js for enquiry response in admin centre */
+	var enquiryResponseForm = $('form.new_enquiry_response');
+	if (enquiryResponseForm.length > 0) {
+      ukti.enquiryResponse.init(enquiryResponseForm);
+  }
+    /* attach show/hide behaviour */
+      ukti.ShowHide.init();
+
+	/* if edit form set behaviour of rag rating */
+  var uploadWidgets = document.querySelectorAll('.uploadWidget');
+	for (var i = 0; i < uploadWidgets.length; ++i) {
+	   ukti.UploadWidget.init(uploadWidgets[i]);
+	}
 });

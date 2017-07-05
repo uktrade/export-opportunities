@@ -27,8 +27,10 @@
 @import "govuk_elements/tables";
 @import "govuk_elements/panels";
 @import "govuk_elements/forms";
-@import "govuk_elements/forms/form-validation";
+@import "govuk_elements/lists";
+/* gov uk elements latest */
 @import "govuk_elements/elements/forms/form-multiple-choice";
+@import "govuk_elements/elements/forms/form-validation";
 
 // From https://github.com/alphagov/govuk_template/
 @import "govuk_template/header";
@@ -36,6 +38,7 @@
 // Opportunities specific styles
 @import "admin/variables";
 @import "admin/colours";
+@import "admin/form_elements";
 @import "admin/header";
 @import "admin/button_bar";
 @import "admin/admin_filter";
@@ -56,6 +59,7 @@
 @import "admin/admin_search";
 @import "admin/ragg_status";
 @import "admin/optionSelect";
+@import "admin/components/uploadWidget";
 // From https://github.com/freqdec/datePicker
 @import "vendor/datepicker";
 @import "admin/datepicker_augment";

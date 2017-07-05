@@ -14,13 +14,12 @@
     %th{:width => '35%'} Company
     %th{:width => '35%'} Opportunity
     %th.numeric{:width => '10%'} Applied On
-    %th{:width => '10%'} Replied
+    %th.center{:width => '10%'} Replied
   %tbody
     - @enquiries.each do |enquiry|
       %tr
         %td= link_to enquiry.company_name, admin_enquiry_path(enquiry)
         %td= enquiry.opportunity.title
         %td.numeric= enquiry.created_at.to_s(:admin_datetime)
-        %td= enquiry.enquiry_responses&.exists? ? 'Yes' : 'No'
-
+        %td.center= enquiry.enquiry_responses&.exists? ? 'Yes' : 'No'     
 = paginate @enquiries

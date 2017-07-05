@@ -37,5 +37,9 @@ rubocop.yml
 # Ignore node_modules
 node_modules/
 
+#ignore paperclip folders
+public/system/
+
 # Ignore public/system files
 public/system
+

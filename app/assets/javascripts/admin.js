@@ -1,6 +1,7 @@
 
 //= require jquery
 //= require jquery.charactercounter
+//= require vendor/closest.polyfill.js
 //= require components/CharacterCounter
 //= require datepicker.lang.en.js
 //= require datepicker
@@ -12,4 +13,5 @@
 //= require components/EnquiryResponse
 //= require components/RaggRating
 //= require components/Stats
+//= require components/UploadWidget
 //= require admin.init.js

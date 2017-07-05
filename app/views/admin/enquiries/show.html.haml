@@ -51,21 +51,25 @@
   .grid-row
     .column-one-half
       = link_to "Back", admin_enquiries_path, class: 'link-back'
-    .column-one-half
-      - if @enquiry_response
-        %h1.heading-xlarge Responded by
-        %h1.heading-xlarge= @enquiry_response.editor.name
-        %table.horizontal
-          %tr
-            %th{:scope => 'row'} Response content
-            %td= @enquiry_response.email_body.html_safe
-          %tr
-            %th{:scope => 'row'} Action Editor Email
-            %td= @enquiry_response.editor.email
-          %tr
-            %th{:scope => 'row'} Sent Time
-            %td= @enquiry_response.created_at
-      - else
+    - if !@enquiry_response
+      .column-one-half
         = link_to "Reply", new_admin_enquiry_response_path(id: @enquiry.id), class: 'button button-reply pull-right', params: {id: @enquiry.id}
+
+
+- if @enquiry_response
+  %hr
+  %div.grid-row
+  %div.column-two-thirds
+    %h2.heading-small This enquiry was responded to by #{@enquiry_response.editor.name}
+    %div.background-grey-3.padding-30
+      = @enquiry_response.email_body.html_safe
+  %table.horizontal
+    %tr
+      %th{:scope => 'row'} Action Editor Email
+      %td= @enquiry_response.editor.email
+    %tr
+      %th{:scope => 'row'} Sent Time
+      %td= @enquiry_response.created_at
+
 
 

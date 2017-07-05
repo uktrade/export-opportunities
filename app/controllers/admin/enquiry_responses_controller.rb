@@ -1,5 +1,6 @@
 class Admin::EnquiryResponsesController < Admin::BaseController
   include ActionController::Live
+  # include VirusScannerHelper
 
   # Authentication is handled in routes.rb as ActionController::Live
   # and Devise don't play well together
@@ -19,18 +20,34 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   def create
     @enquiry_response = EnquiryResponse.new(enquiry_responses_params)
     @enquiry_response.editor_id = current_editor.id
-
     authorize @enquiry_response
+
+    @enquiry_response.save
+    response_documents = params[:response_documents]
+    response_documents&.each do |response_document|
+      resp = @enquiry_response.response_documents.new(email_attachment: response_document)
+      if resp.valid?
+        resp.save
+      else
+        resp.errors.messages.each do |error|
+          key, message = error
+          @enquiry_response.errors.add(key, message)
+        end
+      end
+    end
+
     if @enquiry_response.errors.empty?
-      @enquiry_response.save
-      EnquiryResponseSender.new.call(@enquiry_response, @enquiry_response.enquiry)
+      EnquiryResponseSender.new.call(@enquiry_response, @enquiry_response.enquiry, @enquiry_response.response_documents.to_a)
       redirect_to admin_enquiries_path, notice: 'Reply sent successfully!'
     else
+      flash[:error]
+      params[:id] = @enquiry_response.enquiry_id
+      @enquiry = @enquiry_response.enquiry
       render :new, status: :unprocessable_entity
     end
   end
 
   def enquiry_responses_params
-    params.require(:enquiry_response).permit(:email_body, :editor_id, :enquiry_id)
+    params.require(:enquiry_response).permit(:email_body, :editor_id, :enquiry_id, :response_document)
   end
 end

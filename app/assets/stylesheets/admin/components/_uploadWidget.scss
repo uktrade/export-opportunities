@@ -1,0 +1,55 @@
+.uploadWidget {
+  .inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+  .inputfile + label {
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    background-color: $button-colour;
+    padding: 0.475em 0.9375em 0.4625em;
+    display: inline-block;
+    cursor: pointer;
+    border: none;
+    -webkit-appearance: none
+  }
+  .inputfile + label svg {
+      width: 1em;
+      height: 1em;
+      vertical-align: middle;
+      fill: white;
+      margin-top: -0.25em;
+      margin-right: 0.25em;
+  }
+  .inputfile:focus + label {
+    outline: 3px solid #ffbf47;
+  }
+  .inputfile + label * {
+    pointer-events: none;
+  }
+  .panel {
+    margin-top: 10px;
+  }
+}
+
+/* non-js scenario */
+
+html.no-js {
+  .inputfile {
+    width: auto;
+    height: auto;
+    opacity: 1;
+    overflow: none;
+    position: relative;
+    z-index: 1;
+  }
+  label.enhanced,
+  .panel {
+    display: none;
+  }
+}
