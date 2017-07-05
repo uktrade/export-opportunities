@@ -53,10 +53,20 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
       expect(page).to have_content t.name
     end
 
+    p opportunity
+
+    save_and_open_page
+
     expect(page).to have_content opportunity.teaser
     expect(page).to have_content opportunity.description
     expect(page).to have_content opportunity.response_due_on.strftime('%d %B %Y')
-    expect(page).to have_link 'Your guide to exporting'
+    
+    expect(page).to have_content 'Your guide to exporting'
+
+    countries.each do |c|
+      expect(page).to have_link c.name
+    end
+
     expect(page).to have_link 'Apply for this opportunity'
     expect(page).to have_content('Applications received: 3')
   end
