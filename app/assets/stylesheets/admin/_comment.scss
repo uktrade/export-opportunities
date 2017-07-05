@@ -1,0 +1,12 @@
+.comment {
+	padding-left: 20px;
+    border-left: 4px solid #231f20;
+	&_body {
+		background-color: $grey-3;
+		padding: 20px;
+		/* this is for the html email */
+		ul, ol {
+			margin-left: 15px;
+		}
+	}
+}
