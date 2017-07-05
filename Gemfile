@@ -65,6 +65,12 @@ gem 'paper_trail'
 # Monitoring
 gem 'sentry-raven'
 
+# attachment handling for enquiry responses (Post-User communication)
+gem 'paperclip'
+
+# rest client for antivirus scanning
+gem 'rest-client'
+
 group :development, :test do
   gem 'byebug'
   gem 'pry-rescue'

@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe Admin::EnquiryResponsesController, type: :controller do
+  skip
   # let(:country) { create(:country) }
   # let(:sector) { create(:sector) }
   # let(:type) { create(:type) }
