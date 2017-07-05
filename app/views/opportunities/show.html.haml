@@ -50,15 +50,15 @@
           - if essential_information_required
             - @opportunity.countries.with_exporting_guide.each do |country|
               .meta__item.meta__icon-guide
-                = link_to "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank' do
-                  %h4.meta__header
-                    Your guide to exporting
-                  %p.meta__content
+                %h4.meta__header
+                  Your guide to exporting
+                %p.meta__content              
+                  = link_to "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank' do
                     = country.name
             - if @opportunity.types.aid_funded.any?
               .meta__item.meta__icon-guide
-                = link_to 'https://www.gov.uk/guidance/aid-funded-business', target: '_blank' do
-                  %h4.meta__header
+                %p.meta__content  
+                  = link_to 'https://www.gov.uk/guidance/aid-funded-business', target: '_blank' do
                     Your guide for aid funded business
 
         - if @opportunity.expired?
