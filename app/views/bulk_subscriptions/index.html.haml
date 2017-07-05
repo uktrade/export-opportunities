@@ -12,15 +12,14 @@
   #opportunities-subscribe-form
     = form_for @subscription, url: bulk_subscriptions_path, method: :post do |f|
       %div
-        %h3 Subscribe to all email alerts
+        %h3.p-large.margin-bottom-12
         - if current_user
-          %p.instructions
+          %p.margin-bottom-12
             Receive an email alert whenever we publish an opportunity. It will be sent to
             %strong= current_user.email
         - else
-          %p.instructions
+          %p.margin-bottom-12
             Receive an email alert whenever we publish an opportunity.
-          %p.instructions
             You will be asked to sign in or sign up first.
 
         = f.submit 'Subscribe', class: 'button'
