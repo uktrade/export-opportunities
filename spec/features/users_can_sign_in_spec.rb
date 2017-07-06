@@ -37,16 +37,13 @@ feature 'Signing in as a user', :elasticsearch do
   end
 
   scenario 'Signing out' do
-    skip 'Is this test redundant and/or do we need a differen one'
     mock_sso_with(email: 'email@example.com')
 
     visit '/dashboard'
 
     expect(page).to have_flash_message 'You are now signed in'
 
-    within 'ul.nav-intro' do
-      click_link 'Sign out'
-    end
+    click_link 'Sign out'
 
     expect(page).to have_no_link 'Sign out'
   end

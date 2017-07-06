@@ -56,7 +56,13 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
     expect(page).to have_content opportunity.teaser
     expect(page).to have_content opportunity.description
     expect(page).to have_content opportunity.response_due_on.strftime('%d %B %Y')
-    expect(page).to have_link 'Your guide to exporting'
+
+    expect(page).to have_content 'Your guide to exporting'
+
+    countries.each do |c|
+      expect(page).to have_link c.name
+    end
+
     expect(page).to have_link 'Apply for this opportunity'
     expect(page).to have_content('Applications received: 3')
   end
@@ -125,7 +131,7 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
     end
   end
 
-  scenario 'Opportuntiy view should render plain text nicely' do
+  scenario 'Opportunity view should render plain text nicely' do
     example = <<-EOD
 Our clients in Hackistan want to import the finest Wimbledon wombles.
 

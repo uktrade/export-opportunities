@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'error pages use correct layouts' do
+feature 'non-existing pages return 404 with an error message' do
   scenario 'admin 404 page' do
     admin = create(:admin)
     login_as(admin)
