@@ -4,23 +4,29 @@
 	&__heading {
 		font-size: 24px;
 		font-weight: 400;
-	letter-spacing: -0.2px;
+		letter-spacing: -0.2px;
 		line-height: 2.29;
 		margin: 30px 0 20px 0;
-	@media #{$desktop-m} {
-	  font-size: 32px;
-	  letter-spacing: -0.4px;
-	}
+		@media #{$desktop-m} {
+	  	font-size: 32px;
+	  	letter-spacing: -0.4px;
+		}
 	}
 	&__list {
 		list-style: initial;
-	margin-left: 20px;
-	margin-bottom: 40px;
+		margin-left: 20px;
+		margin-bottom: 40px;
+		&-controlWidth {
+			width: 80%;
+			@media #{$tablet-l} {
+		  	width: 60%;
+			}
+		}
 	}
 	&__list__item {
 		font-size: 18px;
 		font-weight: 400;
-	margin-bottom: 10px;
+		margin: 0 0 20px 10px;
 	}
 	&__graphic {
 		margin: 30px 0 0 0;
