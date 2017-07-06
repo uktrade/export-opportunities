@@ -7,6 +7,7 @@ class ReportCSV
     @result = result
     @reporting_months = months
     @csv_headers = [
+      'Country ID',
       'Country',
       @reporting_months.flatten,
       'YTD Actual',
@@ -49,13 +50,20 @@ class ReportCSV
   private def row_for_opportunities(result_line)
     ytd_actual = result_line.opportunities_published.inject(0, :+)
     line = [
-          result_line.country_id,
-          result_line.name,
-          result_line.opportunities_published.join(','),
-          ytd_actual,
-          result_line.opportunities_published_target,
-          report_format_progress(ytd_actual, result_line.opportunities_published_target),
-         ]
+      result_line.country_id,
+      result_line.name,
+    ]
+
+    result_line.opportunities_published.each { |elem| line << elem }
+
+    [
+      ytd_actual,
+      result_line.opportunities_published_target,
+      report_format_progress(
+        ytd_actual,
+        result_line.opportunities_published_target
+      ),
+    ].each { |elem| line << elem }
 
     CSV.generate_line(line)
   end
@@ -63,13 +71,20 @@ class ReportCSV
   private def row_for_responses(result_line)
     ytd_actual = result_line.responses.inject(0, :+)
     line = [
-        result_line.country_id,
-        result_line.name,
-        result_line.responses.join(','),
-        ytd_actual,
-        result_line.responses_target,
-        report_format_progress(ytd_actual, result_line.responses_target),
+      result_line.country_id,
+      result_line.name
     ]
+
+    result_line.responses.each { |elem| line << elem }
+
+    # result_line.responses.join(','),
+    [
+      ytd_actual,
+      result_line.responses_target,
+      report_format_progress(
+        ytd_actual,
+        result_line.responses_target),
+    ].each { |elem| line << elem }
 
     CSV.generate_line(line)
   end
