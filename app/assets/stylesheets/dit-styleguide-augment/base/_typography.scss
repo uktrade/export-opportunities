@@ -1,72 +1,83 @@
 h1,
 .h1 {
 	color: $grey;
-	font-size: 30px;
+	font-size: 32px;
   font-weight: 500;
-  line-height: 1.35;
-  letter-spacing: -0.6px;
-  @media #{$mobile-l} {
-    font-size: 36px;
-    line-height: 1.53;
-    letter-spacing: -0.4px;
+  line-height: 1.25;
+  letter-spacing: -0.9px;
+  @media #{$tablet-s} {
+		width: 60%;
   }
-  @media #{$desktop-s} {
+  @media #{$tablet-m} {
 		font-size:48px;
-		letter-spacing:-1px;
-		line-height:55px;
+		line-height: 1.15;
+  	letter-spacing: -1px;
   }
 }
 
-h2 {
-	color:#333333;
-	font-size:32px;
+h2,
+.h2 {
+	color: $grey;
+	font-size: 24px;
 	font-weight:500;
-	letter-spacing:-0.7px;
-	line-height:40px;
+	line-height: 1.29;
+  letter-spacing: -0.6px;
+  @media #{$tablet-m} {
+		font-size:32px;
+		line-height: 1.25;
+  }
 }
 
-h3 {
-	color:#333333;
-	font-size:24px;
+h3,
+.h3 {
+	color: $grey;
+	font-size: 18px;
 	font-weight:400;
-	letter-spacing:-0.4px;
-	line-height:31px;
+	letter-spacing: 0;
+	line-height: 1.39;
+  @media #{$tablet-m} {
+		font-size:24px;
+		font-weight:400;
+		line-height: 1.29;
+  	letter-spacing: -0.4px;
+  }
 }
 
 p {
-font-family:Roboto;
-color:#333333;
-font-size:15px;
-font-weight:400;
-line-height:23px;
+	color: $grey;
+	font-size:15px;
+	font-weight:400;
+	line-height: 1.53;
+	&.bold {
+		font-weight:500;
+	}
 }
 
 p.small {
-	font-family:Roboto;
-	color:#333333;
-	font-size:13px;
-	font-weight:400;
-	line-height:20px;
+	font-size: 13px;
+  line-height: 1.54;
 }
 
 p.large,
 .p-large {
-	color:#333333;
-	font-size:18px;
+	font-size: 18px;
 	font-weight:400;
-	line-height:25px;
+ 	font-size: 18px;
+  line-height: 1.39;
 }
 
+/* The below are not used yet */
+
 blockquote {
-	font-family:Georgia;
-	color:#333333;
+	font-family: Georgia;
+	color: $grey;
 	font-size:24px;
 	font-weight:regular;
 	line-height:32px;
 }
 
 button.text {
-	color:#FFFFFF;
+	color: $grey;
 	font-size:18px;
 	font-weight:500;
 	line-height:25px; 

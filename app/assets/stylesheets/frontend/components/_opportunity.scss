@@ -9,7 +9,7 @@
   @include span-columns(12);
 
   background-color: $white;
-  padding: $base-spacing $small-spacing;
+  padding: $base-spacing 0;
 
   @include media($medium-screen) {
     @include span-columns(8);
@@ -30,7 +30,10 @@
     }
 
     p {
-      line-height: 1.45;
+      color:#333333;
+      font-size:18px;
+      font-weight:400;
+      line-height:25px;
     }
 
     h1 {
@@ -140,58 +143,22 @@
 
     .meta__item {
       min-height: 2.0em;
-
       a {
         border-bottom: 0
       }
 
       .meta__header {
         display: block;
-        font-size: 1em;
-        font-weight: 400;
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.53;
         margin-bottom: 0;
       }
 
       .meta__content {
-        font-size: 1em;
-        font-weight: 300;
-      }
-    }
-
-    .meta__icon {
-      &-sector,
-      &-type,
-      &-response,
-      &-value,
-      &-guide,
-      &-enquiries {
-        background-position: 0 50%;
-        background-repeat: no-repeat;
-        padding-left: 3.5em;
-      }
-
-      &-sector {
-        background-image: asset-url('opportunity/sector.png');
-      }
-
-      &-type {
-        background-image: asset-url('opportunity/type.png');
-      }
-
-      &-response {
-        background-image: asset-url('opportunity/response-date.png');
-      }
-
-      &-enquiries {
-        background-image: asset-url('opportunity/enquiries-received.png');
-      }
-
-      &-value {
-        background-image: asset-url('opportunity/value-of-contract.png');
-      }
-
-      &-guide {
-        background-image: asset-url('opportunity/guide-to-exporting.png');
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 1.53;
       }
     }
   }
