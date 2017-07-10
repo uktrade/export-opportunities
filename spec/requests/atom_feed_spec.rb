@@ -99,6 +99,7 @@ RSpec.describe 'Viewing the ATOM feed for opportunities', :elasticsearch, :commi
 
       sleep 1
       get '/opportunities.atom'
+
       body = parse_xml(response.body)
 
       expect(body.css('feed > link[rel=next]')).to be_empty

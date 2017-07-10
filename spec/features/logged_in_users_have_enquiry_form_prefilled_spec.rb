@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.feature 'Logged-in users who want to make an enquiry form have a pre-populated form', js: true do
-  scenario 'a logged-in user finds a new opportunity to apply for' do
+RSpec.feature 'Prepopulate the enquiry form for logged-in Users with past applications', js: true do
+  scenario 'User with at least 1 past application should have the enquiry form pre-populated' do
     user = create(:user, email: 'roger@example.com')
     create(:enquiry, user: user)
     create(:sector, name: 'Agriculture')

@@ -48,7 +48,7 @@ class SubscriptionForm
   end
 
   def minimum_search_criteria?
-    search_term.present? || filters_provided?
+    !search_term.nil?
   end
 
   private def minimum_search_criteria

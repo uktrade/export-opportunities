@@ -81,10 +81,10 @@ RSpec.feature 'users can apply for opportunities', js: true do
     end
 
     scenario 'when the user has a trade profile' do
-      skip('TODO:fix')
-      user = create(:user)
+      skip('TODO: fix. get enquiries to save in has_many relation to user/opps')
+      user = create(:user, email: 'enquirer@exporter.com')
       opportunity = create(:opportunity, :published)
-      create(:enquiry, company_url: 'https://example.com', user: user, opportunity: opportunity)
+      create(:enquiry, company_url: 'https://example.com', company_house_number: 'SC406536', user: user, opportunity: opportunity)
 
       allow_any_instance_of(ApplicationHelper).to receive(:trade_profile).with(:any).and_return 'http://export.great.gov.uk'
 

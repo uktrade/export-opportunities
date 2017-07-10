@@ -8,7 +8,7 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
       login_as @user, scope: :user
     end
 
-    scenario 'given a search keyword' do
+    scenario 'given a search keyword, should be confirmed' do
       create(:opportunity, title: 'Food')
 
       visit opportunities_path
@@ -29,7 +29,7 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
       expect(subscription).to be_confirmed
     end
 
-    scenario 'when a filter is provided' do
+    scenario 'when a filter is provided, should be confirmed' do
       country = create(:country, name: 'Brazil')
       create(:opportunity, status: :publish, countries: [country])
 
@@ -55,7 +55,7 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
       expect(subscription).to be_confirmed
     end
 
-    scenario 'can subscribe when multiple filters and search terms are provided', js: true do
+    scenario 'can subscribe when multiple filters and search terms are provided, should be confirmed', js: true do
       country = create(:country, name: 'Italy')
       sector = create(:sector, name: 'Toys')
       type = create(:type, name: 'Magical')
@@ -102,35 +102,16 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
     end
 
     scenario 'can subscribe to all opportunities' do
-      skip 'We dont have bulk_subscription in the new page'
       visit opportunities_path
-      within '.bulk_subscription' do
-        click_on 'sign up here'
-      end
-      expect(page).to have_content 'Subscribe to email alerts for all opportunities'
+
+      click_on 'Find opportunities'
+
+      expect(page).to have_content 'Subscribe to Email Alerts for all opportunities'
 
       click_on 'Subscribe'
 
       expect(page).to have_content 'Your email alert has been created'
-      expect(page).to have_content 'When we publish a new opportunity'
-    end
-  end
-
-  context 'when not signed in' do
-    scenario 'can subscribe to email alerts' do
-      mock_sso_with(email: 'test@example.com')
-
-      create(:opportunity, title: 'Food')
-
-      visit opportunities_path
-      fill_in :s, with: 'food'
-      page.find('.filters__searchbutton').click
-
-      expect(page).to have_content 'Subscribe to Email Alerts for food'
-      click_button 'Subscribe'
-
-      expect(page).to have_content 'Your email alert has been created'
-      expect(page).to have_content 'Search term: food'
+      expect(page).to have_content 'When we publish relevant opportunities'
     end
   end
 end
