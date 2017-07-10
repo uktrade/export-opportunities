@@ -11,6 +11,8 @@ class EnquiryFeedbackController < ApplicationController
         responded_at: Time.zone.now
       )
     end
+
+    render 'enquiry_feedback/new', locals: { response: 'Won' }
   end
 
   # impact email feedback form submit

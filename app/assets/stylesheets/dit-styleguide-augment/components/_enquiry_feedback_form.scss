@@ -1,16 +1,29 @@
 /* Special case */
 
 .enquiry_feedback_form {
+	.form-group {
+		margin-bottom: 15px;
+	}
+	p {
+		margin-bottom: 15px;
+	}
+	span.optional {
+		color: grey;
+	}
 
 	label {
-
+		display: none;
 	}
 
 	textarea {
 		display: block;
+		width: 100%;
+		padding: 10px;
+		font-size: 15px;
 		&:focus {
 			outline: 3px solid #00549f;
 		}
+
 		@media screen and (min-width: 37.5em) {
 			width: 75%;
 		}

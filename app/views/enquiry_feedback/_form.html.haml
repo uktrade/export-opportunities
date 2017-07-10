@@ -2,5 +2,6 @@
   .form-group
     = f.label :message, 'Leave feedback', class: 'form-label form-label-bold'
     = f.text_area :message, { class: 'form-control', required: "required", rows: "8"}
-  = f.submit 'Submit', class: 'button'
+  .form-group
+    = f.submit 'Submit', class: 'button'
 
