@@ -1,0 +1,20 @@
+/* Special case */
+
+.enquiry_feedback_form {
+
+	label {
+
+	}
+
+	textarea {
+		display: block;
+		&:focus {
+			outline: 3px solid #00549f;
+		}
+		@media screen and (min-width: 37.5em) {
+			width: 75%;
+		}
+	}
+}
+
+

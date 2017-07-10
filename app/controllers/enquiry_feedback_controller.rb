@@ -2,7 +2,8 @@ class EnquiryFeedbackController < ApplicationController
   rescue_from EncryptedParams::CouldNotDecrypt, with: :not_found
 
   def new
-    @enquiry_feedback = EnquiryFeedback.find(enquiry_feedback_params[:id])
+    # @enquiry_feedback = EnquiryFeedback.find(enquiry_feedback_params[:id])
+    @enquiry_feedback = EnquiryFeedback.first
 
     if @enquiry_feedback.responded_at.nil?
       @enquiry_feedback.update!(
