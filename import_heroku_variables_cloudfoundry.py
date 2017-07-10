@@ -1,6 +1,9 @@
 import os
 
 class CopyVariablesHerokuCloudFront(object):
+    """
+    heroku config -s --app <STAGING-HEROKU-APP> >> <LOCAL-FILE>
+    """
     def __init__(self):
         print("importing variables from heroku to cloudfront")
 
@@ -11,15 +14,15 @@ class CopyVariablesHerokuCloudFront(object):
             line_tokens = line.split("=")
             key = line_tokens[0]
             value = line_tokens[1].replace("'", "")
-            str = "cf set-env export-opportunities-staging-ruby " + key + " " + value
+            str = "cf set-env <STAGING-CF-APP> " + key + " " + value
             print("calling system command:" + str)
             os.system(str)
         print("done setting all variables, restarting server..")
-        os.system("cf restage export-opportunities-staging-ruby")
+        os.system("cf restage <STAGING-CF-APP>")
 
 def main():
     copyVariables = CopyVariablesHerokuCloudFront()
-    copyVariables.readFile('heroku_config_variables')
+    copyVariables.readFile(<LOCAL-FILE>)
 
 if __name__ == '__main__':
     main()
