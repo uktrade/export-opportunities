@@ -1,12 +1,16 @@
 import os
+import argparse
 
 class CopyVariablesHerokuCloudFront(object):
     """
     heroku config -s --app <STAGING-HEROKU-APP> >> <LOCAL-FILE>
     """
-    def __init__(self):
+    def __init__(self, filename, targetCfApp):
         print("importing variables from heroku to cloudfront")
 
+    def parse_args():
+        parser = argparse.ArgumentParser(description='you need to provide staging heroku app source environment and CF target environment')
+        
     def readFile(self, filename):
         file = open(filename, 'rw')
 
@@ -21,8 +25,9 @@ class CopyVariablesHerokuCloudFront(object):
         os.system("cf restage <STAGING-CF-APP>")
 
 def main():
-    copyVariables = CopyVariablesHerokuCloudFront()
-    copyVariables.readFile(<LOCAL-FILE>)
+    args = parse_args()
+    copyVariables = CopyVariablesHerokuCloudFront(args.required_param)
+    copyVariables.readFile()
 
 if __name__ == '__main__':
     main()

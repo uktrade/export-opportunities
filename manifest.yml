@@ -1,5 +1,5 @@
 ---
 applications:
-- name: export-opportunities-staging-rails
+- name: export-opportunities-staging-rails-redis
   memory: 256M
   buildpack: ruby_buildpack
