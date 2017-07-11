@@ -5,14 +5,22 @@ class EnquiryFeedbackController < ApplicationController
     # @enquiry_feedback = EnquiryFeedback.find(enquiry_feedback_params[:id])
     @enquiry_feedback = EnquiryFeedback.first
 
+    
+
     if @enquiry_feedback.responded_at.nil?
+
       @enquiry_feedback.update!(
         initial_response: enquiry_feedback_params[:response],
         responded_at: Time.zone.now
       )
+      @responseText = response_display_text[enquiry_feedback_params[:response]]
     end
 
-    render 'enquiry_feedback/new', locals: { response: 'Won' }
+    @responseText = response_display_text[enquiry_feedback_params[:response]]
+
+    p @responseText.inspect 
+
+    render 'enquiry_feedback/new'
   end
 
   # impact email feedback form submit
@@ -29,5 +37,10 @@ class EnquiryFeedbackController < ApplicationController
 
   def enquiry_feedback_params
     @_enquiry_feedback_params ||= EncryptedParams.decrypt(params[:q])
+  end
+
+  def response_display_text
+    text = { :won => 'Won', :did_not_win => 'Did not win' }
+    return text['won']
   end
 end
