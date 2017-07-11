@@ -3,17 +3,13 @@ module Admin
     def index
       authorize :stats
       search_params = stats_search_form_params
-      default_service_provider = current_editor.service_provider&.id
-      if default_service_provider then default_country = current_editor.service_provider.country&.id end
-      if default_country then default_region = current_editor.service_provider.country.region&.id end
-      default_granularity = 'Universe'
-
-      search_params[:service_provider] ||= default_service_provider
-      search_params[:country] ||= default_country
-      search_params[:region] ||= default_region
-      search_params[:granularity] ||= default_granularity
+      search_params[:ServiceProvider]
+      search_params[:Country]
+      search_params[:Region]
+      search_params[:granularity]
 
       @stats_search_form = StatsSearchForm.new(search_params)
+
       if @stats_search_form.valid?
         @stats = StatsPresenter.new(StatsCalculator.new.call(@stats_search_form))
         @service_provider = load_service_provider(@stats_search_form)
@@ -36,15 +32,7 @@ module Admin
     private
 
     def stats_search_form_params
-      params_for_date_select = [:year, :month, :day]
-      params.permit(
-        :service_provider,
-        :country,
-        :region,
-        :granularity,
-        stats_to: params_for_date_select,
-        stats_from: params_for_date_select
-      )
+      params.permit!
     end
 
     def load_service_provider(search_form)

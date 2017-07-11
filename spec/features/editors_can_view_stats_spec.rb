@@ -64,14 +64,23 @@ RSpec.feature 'Editors can view stats' do
       expect(page).to have_content(t('admin.stats.enquiries', count: 1))
       expect(page).to have_content(t('admin.stats.average_age_when_published', average_age: '85 days'))
 
+      select '1970', from: 'stats_from_year'
+      select 'September', from: 'stats_from_month'
+      select '10', from: 'stats_from_day'
+
+      select '1970', from: 'stats_to_year'
+      select 'September', from: 'stats_to_month'
+      select '20', from: 'stats_to_day'
+
       choose 'granularity_ServiceProvider'
+
       check 'A different one'
 
       click_on 'Show stats'
 
-      expect(page).to have_content(t('admin.stats.opportunities_submitted', count: 1))
+      expect(page).to have_content(t('admin.stats.opportunities_submitted', count: 0))
       expect(page).to have_content(t('admin.stats.opportunities_published', count: 1))
-      expect(page).to have_content(t('admin.stats.enquiries', count: 1))
+      expect(page).to have_content(t('admin.stats.enquiries', count: 0))
       expect(page).to have_content(t('admin.stats.average_age_when_published', average_age: '85 days'))
     end
   end
@@ -83,6 +92,8 @@ RSpec.feature 'Editors can view stats' do
     visit '/admin/stats'
 
     choose 'granularity_ServiceProvider'
+
+    check 'A provider of services'
 
     click_on 'Show stats'
 
@@ -99,7 +110,6 @@ RSpec.feature 'Editors can view stats' do
 
     visit '/admin/stats'
 
-    expect(page.find_field('ServiceProvider_:service_provider_ids_all').value).to eq StatsSearchForm::AllServiceProviders.id
     expect(page).to have_content(t('admin.stats.errors.missing_service_provider_country_or_region'))
 
     expect(page).to have_no_content('Statistics by')
@@ -125,6 +135,8 @@ RSpec.feature 'Editors can view stats' do
       select '10', from: 'stats_to_day'
 
       choose 'granularity_ServiceProvider'
+
+      check 'A provider of services'
 
       click_on 'Show stats'
 
@@ -174,19 +186,19 @@ RSpec.feature 'Editors can view stats' do
   end
 
   scenario 'for a specific region' do
-    region = create(:region, name: 'Latin America')
-    another_region = create(:region, name: 'North America')
+    region = create(:region, name: 'Latin America', id: 1)
+    another_region = create(:region, name: 'North America', id: 2)
     country = create(:country, name: 'Mexico', region: region)
-    another_country = create(:country, name: 'Barbados', region: another_region)
-    nassau = create(:service_provider, name: 'Nassau', country: country)
-    mexico = create(:service_provider, name: 'Mexico', country: country)
-    barbados = create(:service_provider, name: 'Barbados', country: another_country)
+    another_country = create(:country, name: 'Canada', region: another_region)
+    iztapalapa = create(:service_provider, name: 'Iztapalapa', country: country)
+    mexico = create(:service_provider, name: 'Mexico City', country: country)
+    alberta = create(:service_provider, name: 'Canada Alberta', country: another_country)
 
-    create(:opportunity, :published, service_provider: nassau, first_published_at: Date.new(2015, 9, 15))
+    create(:opportunity, :published, service_provider: iztapalapa, first_published_at: Date.new(2015, 9, 15))
     create(:opportunity, :published, service_provider: mexico, first_published_at: Date.new(2015, 9, 15))
-    create(:opportunity, :published, service_provider: barbados, first_published_at: Date.new(2015, 9, 15))
+    create(:opportunity, :published, service_provider: alberta, first_published_at: Date.new(2015, 9, 15))
 
-    login_as(create(:editor, service_provider: nassau))
+    login_as(create(:editor, service_provider: iztapalapa))
     Timecop.freeze(Date.new(2015, 10, 1)) do
       visit '/admin/stats'
 
@@ -197,6 +209,44 @@ RSpec.feature 'Editors can view stats' do
       select '2015', from: 'stats_to_year'
       select 'September', from: 'stats_to_month'
       select '15', from: 'stats_to_day'
+
+      choose 'granularity_Region'
+
+      check('Latin America')
+
+      click_on 'Show stats'
+    end
+
+    expect(page).to have_content(t('admin.stats.opportunities_published', count: 2))
+  end
+
+  scenario '(JS true) for a specific region', js: true do
+    skip
+    region = create(:region, name: 'Latin America', id: 1)
+    another_region = create(:region, name: 'North America', id: 2)
+    country = create(:country, name: 'Mexico', region: region)
+    another_country = create(:country, name: 'Canada', region: another_region)
+    iztapalapa = create(:service_provider, name: 'Iztapalapa', country: country)
+    mexico = create(:service_provider, name: 'Mexico City', country: country)
+    alberta = create(:service_provider, name: 'Canada Alberta', country: another_country)
+
+    create(:opportunity, :published, service_provider: iztapalapa, first_published_at: Date.new(2015, 9, 15))
+    create(:opportunity, :published, service_provider: mexico, first_published_at: Date.new(2015, 9, 15))
+    create(:opportunity, :published, service_provider: alberta, first_published_at: Date.new(2015, 9, 15))
+
+    login_as(create(:editor, service_provider: iztapalapa))
+    Timecop.freeze(Date.new(2015, 10, 1)) do
+      visit '/admin/stats'
+
+      select '2015', from: 'stats_from_year'
+      select 'September', from: 'stats_from_month'
+      select '15', from: 'stats_from_day'
+
+      select '2015', from: 'stats_to_year'
+      select 'September', from: 'stats_to_month'
+      select '15', from: 'stats_to_day'
+
+      wait_for_ajax
 
       choose 'granularity_Region'
 
@@ -262,12 +312,9 @@ RSpec.feature 'Editors can view stats' do
 
       choose 'granularity_Universe'
 
-      check 'all service providers'
-
       click_on 'Show stats'
     end
 
-    # expect(page).to have_content('Statistics for all service providers on 15 Sep 2015')
     expect(page).to have_content(t('admin.stats.opportunities_published', count: 2))
   end
 end
