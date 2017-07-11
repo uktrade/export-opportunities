@@ -8,10 +8,6 @@ body {
   line-height: $base-line-height;
 }
 
-h1,
-h2,
-h3,
-h4,
 h5,
 h6 {
   color: $header-font-color;
@@ -22,28 +18,8 @@ h6 {
   text-transform: inherit;
 }
 
-h1 {
-  font-size: 300%; // 48px
-  font-weight: 500;
-  letter-spacing: -1;
-  line-height: 1.2;
-  max-width: 60%;
-
-  span {
-    display: block;
-    font-weight: 200;
-  }
-}
-
-
-h2 {
-  font-size: 225%; // 36px
-  letter-spacing: -1;
-}
 
 h3 {
-  font-size: 150%; // 24px
-
   span {
     color: $flag-red;
     display: block;
@@ -68,9 +44,21 @@ h6 {
 }
 
 p {
-  font-size: 112.5%; // 18px
-  line-height: 1.388888889;
+  font-size:15px;
+  font-weight:400;
+  line-height: 1.53;
   margin: 0 0 1em;
+  &.large {
+    font-size: 18px;
+    font-weight:400;
+    font-size: 18px;
+    line-height: 1.39;
+  }
+  &.width-60 {
+    @include media($medium-screen) {
+      width: 60%;
+    }
+  }
 }
 
 a,

@@ -39,3 +39,6 @@ node_modules/
 
 # Ignore public/system files
 public/system
+
+heroku_config_variables
+

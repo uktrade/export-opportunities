@@ -1,17 +1,16 @@
 .container
   #opportunities-subscribe-form
     = form_tag subscriptions_path_for_current_user, id: 'subscription-form' do
-      %h3
-        Subscribe to Email Alerts for
+      %h3.p-large.margin-bottom-12
+        Subscribe to email alerts for
         = @description
       - if current_user
-        %p.instructions
+        %p.margin-bottom-12
           Receive email alerts whenever a relevant opportunity is published. These will be sent to
           %strong= current_user.email
       - else
-        %p.instructions
-          Receive email alerts whenever a relevant opportunity is published.
-        %p.instructions
+        %p.margin-bottom-12
+          Receive email alerts whenever a relevant opportunity is published. 
           You will be asked to sign in or sign up first.
 
       .form-group

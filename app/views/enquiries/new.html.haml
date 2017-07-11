@@ -1,14 +1,14 @@
 .container
   .legacy.margin-top-30
-    %h1 Apply now
-    %h3= @opportunity.title
-    %p Tell us how you can meet the requirements for this opportunity and an expert will contact you within five working days to discuss any next steps.
+    %h1.h1 Apply now
+    %h2.h2= @opportunity.title
+    %p.large.width-60 Tell us how you can meet the requirements for this opportunity and an expert will contact you within five working days to discuss any next steps.
 
     %div#register-an-interest-form
       .register-form.panel
         = form_for @enquiry, class: "validate-form" do |f|
           %fieldset.your-details
-            %h2 Your Details
+            %h3.h3 Your Details
             %p.instructions
               All fields are required unless marked as optional.
             .form-group
@@ -22,7 +22,7 @@
               = f.text_field :company_telephone, class: "short-input", required: "required"
 
           %fieldset.your-business
-            %h2 About Your Business
+            %h3.h3 About Your Business
             - if current_user&.saved_enquiry_data?
               %div{id: "companies-house-section", class: "form-group"}
                 = f.label :company_name, "Company Name", class: "required"
@@ -72,7 +72,7 @@
                   = f.text_field :company_url
 
           %fieldset.your-exporting
-            %h2 About Your Exporting Experience
+            %h3.h3 About Your Exporting Experience
             .form-group
               = f.label :existing_exporter, "Have you sold products or services to overseas customers?", class: "required"
               = f.select(:existing_exporter, Enquiry::EXISTING_EXPORTER_CHOICES, required: "required", prompt: 'Select')
