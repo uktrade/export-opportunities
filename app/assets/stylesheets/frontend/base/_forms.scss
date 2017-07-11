@@ -37,8 +37,9 @@
 
   label {
     display: block;
-    font-size: $base-font-size;
-    line-height: 1.5;
+    font-size:15px;
+    font-weight:400;
+    line-height: 1.53;
     margin: 0;
     padding: 0 0 .5em;
   }
@@ -51,7 +52,8 @@
       background-color: $white;
       border: 1px solid $stone;
       font-family: $base-font-family;
-      font-size: $base-font-size;
+      font-size:15px;
+      font-weight:400;
       padding: .5em;
       width: 50%;
     }

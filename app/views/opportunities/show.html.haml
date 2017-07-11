@@ -1,16 +1,15 @@
 .container
   .legacy.margin-top-30 
-    %h1= @opportunity.title
     .new-wrapper
+      %h1.h1= @opportunity.title
       .opportunity__main.panel
+        %h3.h3= @opportunity.teaser
+        %hr
         .opportunity__content
-          %p.opportunity__teaser= @opportunity.teaser
-          %hr
-
           = present_html_or_formatted_text(@opportunity.description).html_safe
 
       .opportunity__information.panel
-        %h3 Essential information
+        %h3.h3 Essential information
 
         .meta
           .meta__item.meta__icon-sector

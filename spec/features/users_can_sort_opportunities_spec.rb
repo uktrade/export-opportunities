@@ -49,7 +49,7 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
 
       expect(find_field('relevance', visible: false)).to be_checked
 
-      expect(page).to have_content('Subscribe to Email Alerts for')
+      expect(page).to have_content('Subscribe to email alerts for')
 
       within('.results__order') do
         find('label[for=order_published_date]').click
@@ -60,7 +60,7 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
 
       expect(find_field('published date', visible: false)).to be_checked
 
-      expect(page).to have_content('Subscribe to Email Alerts for')
+      expect(page).to have_content('Subscribe to email alerts for')
 
       within('.results__order') do
         find('label[for=order_expiry_date]').click
@@ -70,7 +70,7 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       expect('Really Old Sardines, Expiring Soon').to appear_before('Sardines, Big Sardines')
       expect('Sardines, Big Sardines').to appear_before('Small Sardines')
       expect(find_field('expiry date', visible: false)).to be_checked
-      expect(page).to have_content('Subscribe to Email Alerts for')
+      expect(page).to have_content('Subscribe to email alerts for')
     end
   end
 end

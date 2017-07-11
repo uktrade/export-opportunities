@@ -1,8 +1,8 @@
 .results {
   &__order {
     &__heading {
-      font-size: 18px;
-      font-weight: 400;
+      font-size: 16px;
+      font-weight: 500;
       float: left;
       margin: 4px 12px 12px 0px;
       @media #{$tablet-s} {
@@ -34,7 +34,9 @@
       }
     }
   &__icon {
-    font-size: .75em;
+    color:#333333;
+    font-size:13px;
+    font-weight:400;
     padding-left: 1.6em;
     line-height: 1.2em;
     margin-bottom: 6px;
@@ -42,7 +44,6 @@
       background: asset-url('deadline.svg') no-repeat left center;
       background-size: 1em;
     }
-
     &--enquiries {
       background: asset-url('enquiries-received.svg') no-repeat left center;
       background-size: 1em;
