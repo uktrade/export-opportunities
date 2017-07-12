@@ -17,6 +17,28 @@
       = image_tag('dept_logo_mini-2x.gif', style: "width: 130px; height: 59px; width: px;")
 
 
+
+
+%ul{ style: 'margin: 0px; padding:0px; list-style-type:none;' }
+  %li
+  = image_tag('dummy_radio', style: "height: 20px; width: 20px; float:left; margin-right:10px;")
+  = link_to('I won the business', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :won)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
+  %li
+  = image_tag('dummy_radio', style: "height: 20px; width: 20px; float:left; margin-right:10px;")
+  = link_to('I didn’t win the business', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :did_not_win)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
+  %li
+  = image_tag('dummy_radio', style: "height: 20px; width: 20px; float:left; margin-right:10px;")
+  = link_to('I was contacted by the buyer but don’t yet know the outcome', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :dont_know_outcome)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
+  %li
+  = image_tag('dummy_radio', style: "height: 20px; width: 20px; float:left; margin-right:10px;")
+  = link_to('I wasn’t contacted by the buyer', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :never_heard_back)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
+  %li
+  = image_tag('dummy_radio', style: "height: 20px; width: 20px; float:left; margin-right:10px;")
+  = link_to('I can’t remember', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :cannot_remember)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
+  %li
+  = image_tag('dummy_radio', style: "height: 20px; width: 20px; float:left; margin-right:10px;")
+  = link_to('I don’t know or don’t want to say', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :dontknow_want_to_say)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
+
 - content_for :message_reason do
   %p
     You are receiving this email because you applied for an export opportunity on the great.gov.uk website.

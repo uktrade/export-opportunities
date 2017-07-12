@@ -16,10 +16,6 @@ class EnquiryFeedbackController < ApplicationController
       @responseText = response_display_text[enquiry_feedback_params[:response]]
     end
 
-    @responseText = response_display_text[enquiry_feedback_params[:response]]
-
-    p @responseText.inspect 
-
     render 'enquiry_feedback/new'
   end
 
@@ -40,7 +36,7 @@ class EnquiryFeedbackController < ApplicationController
   end
 
   def response_display_text
-    text = { :won => 'Won', :did_not_win => 'Did not win' }
+    text = { :won => 'Won', :did_not_win => 'Did not' }
     return text['won']
   end
 end
