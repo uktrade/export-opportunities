@@ -23,24 +23,28 @@
   }
   &__specialContainer {
     margin: 0 auto;
-    max-width: $max-width;
+    max-width: 1200px;
     padding: 0 10px;
     @media #{$mobile-l} {
-      max-width: 586px;
+      width: 586px;
       margin: 0 auto;
       padding: 0;
     }
-    @media #{$tablet-l} {
-      padding: 0 30px;
+    @media #{$desktop-s} {
+      width: 100%;
+      margin: 0 30px;
     }
     @media #{$desktop-s} {
-      max-width: 1200px;
-      padding: 0 30px;
+      margin: 0 30px;
+    }
+    @media #{$desktop-m} {
+      margin: 0 auto;
     }
   }
   &__header {
     color: $grey;
     padding: 24px 0px 0px 0px;
+    width: 100%;
     @media #{$mobile-l} {
       color: $white;
       text-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
