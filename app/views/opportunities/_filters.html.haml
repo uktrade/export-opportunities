@@ -21,7 +21,7 @@
             = options_for_select(@sectors.map { |sector| [sector['name'], sector['slug']] },
             :selected => params[:sectors])
         %div.filters__item
-          %label{:for => "values", :class=>"filters__label fixHeight"} What value contract are you interested in?
+          %label{:for => "values", :class=>"filters__label"} What value contract are you interested in?
           %select.select-custom(data-placeholder='Filter by value'){:multiple => true, :id => 'values', :name => 'values[]', autocomplete: 'off'}
             = options_for_select(@values.map { |value| [value['name'], value['slug']] },
             :selected => params[:values])
