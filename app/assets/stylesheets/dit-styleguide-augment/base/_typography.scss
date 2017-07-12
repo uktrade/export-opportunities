@@ -1,0 +1,90 @@
+h1,
+.h1 {
+	color: $grey;
+	font-size: 32px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.9px;
+  @media #{$tablet-s} {
+		width: 60%;
+  }
+  @media #{$tablet-m} {
+		font-size:48px;
+		line-height: 1.15;
+  	letter-spacing: -1px;
+  }
+}
+
+h2,
+.h2 {
+	color: $grey;
+	font-size: 24px;
+	font-weight:500;
+	line-height: 1.29;
+  letter-spacing: -0.6px;
+  @media #{$tablet-m} {
+		font-size:32px;
+		line-height: 1.25;
+  }
+}
+
+h3,
+.h3 {
+	color: $grey;
+	font-size: 18px;
+	font-weight:400;
+	letter-spacing: 0;
+	line-height: 1.39;
+  @media #{$tablet-m} {
+		font-size:24px;
+		font-weight:400;
+		line-height: 1.29;
+  	letter-spacing: -0.4px;
+  }
+}
+
+p {
+	color: $grey;
+	font-size:15px;
+	font-weight:400;
+	line-height: 1.53;
+	&.bold {
+		font-weight:500;
+	}
+}
+
+p.small {
+	font-size: 13px;
+  line-height: 1.54;
+}
+
+p.large,
+.p-large {
+	font-size: 18px;
+	font-weight:400;
+ 	font-size: 18px;
+  line-height: 1.39;
+}
+
+/* The below are not used yet */
+
+blockquote {
+	font-family: Georgia;
+	color: $grey;
+	font-size:24px;
+	font-weight:regular;
+	line-height:32px;
+}
+
+button.text {
+	color: $grey;
+	font-size:18px;
+	font-weight:500;
+	line-height:25px; 
+}
+
+a.link {
+	font-size:18px;
+	font-weight:400;
+	line-height:25px;
+}

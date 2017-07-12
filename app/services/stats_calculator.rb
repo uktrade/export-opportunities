@@ -3,7 +3,6 @@ class StatsCalculator
 
   def call(criteria)
     date_range = (criteria.date_from..criteria.date_to)
-
     case criteria.granularity
     when 'ServiceProvider'
       if criteria.all_service_providers?
@@ -14,13 +13,23 @@ class StatsCalculator
         enquiries = Enquiry.joins(:opportunity).where(opportunities: { service_provider_id: criteria.service_provider_id }, created_at: date_range).count
       end
     when 'Country'
-      service_providers = service_providers(criteria.country_id)
+      service_providers = []
+
+      criteria.country_id.each do |country|
+        service_providers << service_providers(country)
+      end
+      service_providers = service_providers.uniq.flatten
 
       opportunities_submitted, opportunities_published, enquiries, enquiry_responses = results_with_filters(service_providers, date_range)
     when 'Region'
       service_providers = []
+      countries_arr = []
 
-      countries = countries(criteria.region_id)
+      criteria.region_id.each do |region|
+        countries_arr << countries(region)
+      end
+      countries = countries_arr.uniq.flatten
+
       countries.each do |country|
         service_providers << service_providers(country.id)
       end

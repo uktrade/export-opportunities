@@ -15,7 +15,7 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
       fill_in :s, with: 'food'
       page.find('.filters__searchbutton').click
 
-      expect(page).to have_content 'Subscribe to Email Alerts for food'
+      expect(page).to have_content 'Subscribe to email alerts for food'
 
       click_button 'Subscribe'
 
@@ -34,12 +34,12 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
       create(:opportunity, status: :publish, countries: [country])
 
       visit opportunities_path
-      expect(page).not_to have_content 'Subscribe to Email Alerts'
+      expect(page).not_to have_content 'Subscribe to email alerts'
 
       select 'Brazil', from: 'countries'
       page.find('.filters__searchbutton').click
 
-      expect(page).to have_content 'Subscribe to Email Alerts for Brazil'
+      expect(page).to have_content 'Subscribe to email alerts for Brazil'
 
       click_button 'Subscribe'
 
@@ -73,7 +73,7 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
       )
 
       visit opportunities_path
-      expect(page).not_to have_content 'Subscribe to Email Alerts for transformers, Italy, Toys, Magical, Expensive'
+      expect(page).not_to have_content 'Subscribe to email alerts for transformers, Italy, Toys, Magical, Expensive'
 
       fill_in :s, with: 'transformers'
       select 'Toys', from: 'sector', visible: false
@@ -83,7 +83,7 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
 
       page.find('.filters__searchbutton').click
 
-      expect(page).to have_content 'Subscribe to Email Alerts for transformers, Italy, Toys, Magical, Expensive'
+      expect(page).to have_content 'Subscribe to email alerts for transformers, Italy, Toys, Magical, Expensive'
 
       click_button 'Subscribe'
       wait_for_ajax
@@ -106,12 +106,30 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
 
       click_on 'Find opportunities'
 
-      expect(page).to have_content 'Subscribe to Email Alerts for all opportunities'
+      expect(page).to have_content 'Subscribe to email alerts for all opportunities'
 
       click_on 'Subscribe'
 
       expect(page).to have_content 'Your email alert has been created'
       expect(page).to have_content 'When we publish relevant opportunities'
+    end
+  end
+
+  context 'when not signed in' do
+    scenario 'can subscribe to email alerts' do
+      mock_sso_with(email: 'test@example.com')
+
+      create(:opportunity, title: 'Food')
+
+      visit opportunities_path
+      fill_in :s, with: 'food'
+      page.find('.filters__searchbutton').click
+
+      expect(page).to have_content 'Subscribe to email alerts for food'
+      click_button 'Subscribe'
+
+      expect(page).to have_content 'Your email alert has been created'
+      expect(page).to have_content 'Search term: food'
     end
   end
 end
