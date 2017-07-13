@@ -1,6 +1,6 @@
 class EnquiryFeedbackSurveySender
   def call
-    end_date = DateTime.now.beginning_of_day
+    end_date = Time.zone.now.beginning_of_day
     start_date = end_date - 1.day
 
     enquiries_in_range = Enquiry.where(created_at: start_date..end_date).ids

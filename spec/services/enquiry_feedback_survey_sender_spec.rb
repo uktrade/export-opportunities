@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe EnquiryFeedbackSurveySender do
   describe 'start_date and end_date' do
     it 'selects enquiries from a given date range, not inclusive' do
-      yesterday = DateTime.now.beginning_of_day - 1.day
+      yesterday = Time.zone.now.beginning_of_day - 1.day
       enquiries_in_range = [
         create(:enquiry, created_at: yesterday),
         create(:enquiry, created_at: yesterday + 12.hours),
@@ -17,13 +17,13 @@ RSpec.describe EnquiryFeedbackSurveySender do
       ]
 
       returned = EnquiryFeedbackSurveySender.new.call
-      expect(returned).to include(*enquiries_in_range.map { |enq| enq.id })
-      expect(returned).not_to include(*enquiries_not_in_range.map { |enq| enq.id })
+      expect(returned).to include(*enquiries_in_range.map(&:id))
+      expect(returned).not_to include(*enquiries_not_in_range.map(&:id))
     end
   end
 
   it 'does not return enquiries whose authors have opted out of emails' do
-    date_to_sample = DateTime.now.beginning_of_day - 1.day
+    date_to_sample = Time.zone.now.beginning_of_day - 1.day
     user = create(:user, email: 'opt-out@example.com')
 
     create(:feedback_opt_out, user: user)
@@ -37,7 +37,7 @@ RSpec.describe EnquiryFeedbackSurveySender do
   end
 
   it 'dispatches the matched enquiries to EnquiryFeedbackSender' do
-    yesterday = DateTime.now.beginning_of_day - 1.day
+    yesterday = Time.zone.now.beginning_of_day - 1.day
     first_matched_enquiry = create(:enquiry, created_at: yesterday)
     second_matched_enquiry = create(:enquiry, created_at: yesterday + 1.day)
 
