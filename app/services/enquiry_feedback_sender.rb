@@ -1,5 +1,6 @@
 class EnquiryFeedbackSender
   def call(enquiry)
+    enquiry = Enquiry.find(enquiry)
     raise UserOptedOut if FeedbackOptOut.exists?(user: enquiry.user)
 
     enquiry_feedback = enquiry.create_feedback!
