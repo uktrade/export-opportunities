@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  if Rails.env.development?
+    require 'sidekiq/web'
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
   get 'check' => 'application#check'
   get 'data_sync_check' => 'application#data_sync_check'
 

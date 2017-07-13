@@ -3,7 +3,6 @@ class EnquiryFeedbackController < ApplicationController
 
   def new
     @enquiry_feedback = EnquiryFeedback.find(enquiry_feedback_params[:id])
-    @enquiry_feedback = EnquiryFeedback.first
 
     if @enquiry_feedback.responded_at.nil?
 
