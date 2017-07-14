@@ -1,6 +1,7 @@
 class EnquiryFeedbackSurveySender
-  def call(start_date = Time.zone.now.beginning_of_day - 1.day, end_date = Time.zone.now.beginning_of_day)
-    enquiries_in_range = Enquiry.where(created_at: start_date..end_date).ids
+  def call(start_date = Time.zone.now.beginning_of_day - 1.year - 1.day, end_date = Time.zone.now.beginning_of_day - 1.year)
+    opportunities_in_range = Opportunity.where(response_due_on: start_date..end_date)
+    enquiries_in_range = Enquiry.where(opportunity_id: opportunities_in_range.map(&:id)).ids
 
     enquiries_on_email_blacklist = Enquiry.where(user_id: FeedbackOptOut.pluck(:user_id)).ids
 
