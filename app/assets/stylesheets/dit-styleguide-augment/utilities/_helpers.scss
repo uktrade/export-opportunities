@@ -25,14 +25,15 @@
 .outer-container {
   margin: 0 auto;
   max-width: 1200px;
-  padding: 0 10px;
-  @media #{$mobile-l} {
-    padding: 0 20px;
+  margin: 0 10px;
+  @media screen and (min-width: 767px) {
+    margin: 0 30px;
   }
-  @media #{$desktop-s} {
-    padding: 0 30px;
+  @media screen and (min-width: 1200px) {
+    margin: 0 auto;
   }
 }
+
 
 .navigation-main-button {
   right:10px;
