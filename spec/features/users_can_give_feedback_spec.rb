@@ -18,12 +18,12 @@ RSpec.feature 'User can give feedback to the impact email' do
 
   scenario 'clicking each of the feedback links' do
     options = [
-      'I was contacted by the buyer but don’t yet know the outcome',
+      'I was contacted by the buyer but don\'t yet know the outcome',
       'I won the business',
-      'I didn’t win the business',
-      'I was contacted by the buyer but don’t yet know the outcome',
-      'I wasn’t contacted by the buyer',
-      'I don’t know or I don’t want to say',
+      'I didn\'t win the business',
+      'I was contacted by the buyer but don\'t yet know the outcome',
+      'I wasn\'t contacted by the buyer',
+      'I don\'t know or I don\'t want to say',
     ]
 
     opp = create(:opportunity)

@@ -6,21 +6,28 @@
 / Buttons
 %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "background: #f1ebe3; background: -moz-linear-gradient(top, #f1ebe3 0%, #ece5db 41%, #dfd6c7 100%); background: -webkit-linear-gradient(top, #f1ebe3 0%,#ece5db 41%,#dfd6c7 100%); background: linear-gradient(to bottom, #f1ebe3 0%,#ece5db 41%,#dfd6c7 100%); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1ebe3', endColorstr='#dfd6c7',GradientType=0 );border-radius:5px; margin-bottom:10px;", :width => "100%"}
   %tr
-    %td
-    = image_tag('dummy_radio', style: "height: 20px; width: 20px; float:left; margin-right:10px;")
-    = link_to('I was contacted by the buyer but don’t yet know the outcome', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :dont_know_outcome)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
-    %td
-    = image_tag('dummy_radio', style: "height: 20px; width: 20px; float:left; margin-right:10px;")
-    = link_to('I didn’t win the business', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :did_not_win)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
-    %td
-    = image_tag('dummy_radio', style: "height: 20px; width: 20px; float:left; margin-right:10px;")
-    = link_to('I won the business', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :won)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
-    %td
-    = image_tag('dummy_radio', style: "height: 20px; width: 20px; float:left; margin-right:10px;")
-    = link_to('I wasn’t contacted by the buyer', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :no_response)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
-    %td
-    = image_tag('dummy_radio', style: "height: 20px; width: 20px; float:left; margin-right:10px;")
-    = link_to('I don’t know or I don’t want to say', enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :dontknow_want_to_say)), style: 'text-decoration: underline !important; display: block; margin: 15px 0px; border-bottom: none;')
+    %td{:align => "center", :style => "color:#333333; font-family:Helvetica, Arial, sans-serif; font-size:16px; font-weight:bold; letter-spacing:-.5px; line-height:150%; padding-top:15px; padding-right:30px; padding-bottom:15px; padding-left:30px;", :valign => "middle"}
+      %a{:href => "#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :dont_know_outcome))}", :style => "color:#333333; text-decoration:none; border-bottom: none;", :target => "_blank"} I was contacted by the buyer but don't yet know the outcome
+
+%table{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "background: #f1ebe3; background: -moz-linear-gradient(top, #f1ebe3 0%, #ece5db 41%, #dfd6c7 100%); background: -webkit-linear-gradient(top, #f1ebe3 0%,#ece5db 41%,#dfd6c7 100%); background: linear-gradient(to bottom, #f1ebe3 0%,#ece5db 41%,#dfd6c7 100%); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1ebe3', endColorstr='#dfd6c7',GradientType=0 );border-radius:5px; margin-bottom:10px;", :width => "100%"}
+  %tr
+    %td{:align => "center", :style => "color:#333333; font-family:Helvetica, Arial, sans-serif; font-size:16px; font-weight:bold; letter-spacing:-.5px; line-height:150%; padding-top:15px; padding-right:30px; padding-bottom:15px; padding-left:30px;", :valign => "middle"}
+      %a{:href => "#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :did_not_win))}", :style => "color:#333333; text-decoration:none; border-bottom: none;", :target => "_blank"} I didn't win the business
+
+%table{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "background: #f1ebe3; background: -moz-linear-gradient(top, #f1ebe3 0%, #ece5db 41%, #dfd6c7 100%); background: -webkit-linear-gradient(top, #f1ebe3 0%,#ece5db 41%,#dfd6c7 100%); background: linear-gradient(to bottom, #f1ebe3 0%,#ece5db 41%,#dfd6c7 100%); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1ebe3', endColorstr='#dfd6c7',GradientType=0 );border-radius:5px; margin-bottom:10px;", :width => "100%"}
+  %tr
+    %td{:align => "center", :style => "color:#333333; font-family:Helvetica, Arial, sans-serif; font-size:16px; font-weight:bold; letter-spacing:-.5px; line-height:150%; padding-top:15px; padding-right:30px; padding-bottom:15px; padding-left:30px;", :valign => "middle"}
+      %a{:href => "#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :won))}", :style => "color:#333333; text-decoration:none; border-bottom: none;", :target => "_blank"} I won the business
+
+%table{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "background: #f1ebe3; background: -moz-linear-gradient(top, #f1ebe3 0%, #ece5db 41%, #dfd6c7 100%); background: -webkit-linear-gradient(top, #f1ebe3 0%,#ece5db 41%,#dfd6c7 100%); background: linear-gradient(to bottom, #f1ebe3 0%,#ece5db 41%,#dfd6c7 100%); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1ebe3', endColorstr='#dfd6c7',GradientType=0 );border-radius:5px; margin-bottom:10px;", :width => "100%"}
+  %tr
+    %td{:align => "center", :style => "color:#333333; font-family:Helvetica, Arial, sans-serif; font-size:16px; font-weight:bold; letter-spacing:-.5px; line-height:150%; padding-top:15px; padding-right:30px; padding-bottom:15px; padding-left:30px;", :valign => "middle"}
+      %a{:href => "#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :no_response))}", :style => "color:#333333; text-decoration:none; border-bottom: none;", :target => "_blank"} I wasn't contacted by the buyer
+
+%table{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "background: #f1ebe3; background: -moz-linear-gradient(top, #f1ebe3 0%, #ece5db 41%, #dfd6c7 100%); background: -webkit-linear-gradient(top, #f1ebe3 0%,#ece5db 41%,#dfd6c7 100%); background: linear-gradient(to bottom, #f1ebe3 0%,#ece5db 41%,#dfd6c7 100%); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1ebe3', endColorstr='#dfd6c7',GradientType=0 );border-radius:5px; margin-bottom:10px;", :width => "100%"}
+  %tr
+    %td{:align => "center", :style => "color:#333333; font-family:Helvetica, Arial, sans-serif; font-size:16px; font-weight:bold; letter-spacing:-.5px; line-height:150%; padding-top:15px; padding-right:30px; padding-bottom:15px; padding-left:30px;", :valign => "middle"}
+      %a{:href => "#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :dontknow_want_to_say))}", :style => "color:#333333; text-decoration:none; border-bottom: none;", :target => "_blank"} I don't know or I don't want to say
 
 / Sign off
 %table.flexibleContainer{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "margin-top:30px", :width => "500"}
