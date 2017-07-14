@@ -11,11 +11,7 @@ namespace :enquiries do
     puts 'Proceeding...'
     puts
 
-    enquiries = EnquiryFeedbackSurveySender.new.call(
-      start_date: args[:start_date],
-      end_date: args[:end_date],
-      sample_size: args[:sample_size].to_i # Rake passes all params as Strings
-    )
+    enquiries = EnquiryFeedbackSurveySender.new.call
     if enquiries.count.zero?
       puts 'No eligible enquiries were found: no emails sent.'
     else

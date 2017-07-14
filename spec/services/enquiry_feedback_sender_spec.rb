@@ -24,7 +24,7 @@ RSpec.describe EnquiryFeedbackSender do
       enquiry = create(:enquiry, user: user)
       sender = EnquiryFeedbackSender.new
 
-      expect { sender.call(enquiry) }.to raise_error(EnquiryFeedbackSender::UserOptedOut)
+      expect { sender.call(enquiry.id) }.to raise_error(EnquiryFeedbackSender::UserOptedOut)
     end
   end
 end
