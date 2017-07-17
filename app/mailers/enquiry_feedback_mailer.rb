@@ -1,5 +1,5 @@
 class EnquiryFeedbackMailer < ApplicationMailer
-  layout 'eig-email'
+  layout 'eig-email-survey'
   def request_feedback(enquiry_feedback)
     @enquiry_feedback = enquiry_feedback
 

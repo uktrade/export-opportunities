@@ -43,4 +43,4 @@
     You are receiving this email because you applied for an export opportunity on the great.gov.uk website.
 - content_for :footer_links do
   %div
-    = link_to('Stop asking me for feedback on the export opportunities I apply for', feedback_opt_out_url(q: EncryptedParams.encrypt(user_id: @enquiry_feedback.enquiry.user.id)))
+    = link_to('Unsubscribe from future Applying for opportunity outcome emails', feedback_opt_out_url(q: EncryptedParams.encrypt(user_id: @enquiry_feedback.enquiry.user.id)))
