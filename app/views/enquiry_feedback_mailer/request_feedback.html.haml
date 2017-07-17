@@ -9,7 +9,7 @@
     %td.flexibleContainerCell{:align => "center", :valign => "top", :width => "100%"}
       %div{:style => "margin-bottom: 10px"}
         /[if mso]
-          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://" style="height:60px;v-text-anchor:middle;width:300px;" arcsize="10%" strokecolor="#d3c6b3" fill="t">
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :dont_know_outcome))}" style="height:60px;v-text-anchor:middle;width:300px;" arcsize="10%" strokecolor="#d3c6b3" fill="t">
           <v:fill type="tile" src="" color="#dfd5c5" />
           <w:anchorlock/>
           <center style="color:#000000;font-family:sans-serif;font-size:16px;font-weight:bold;">I was contacted by the buyer but don't yet know the outcome</center>
@@ -18,7 +18,7 @@
 
       %div{:style => "margin-bottom: 10px"}
         /[if mso]
-          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://" style="height:60px;v-text-anchor:middle;width:300px;" arcsize="10%" strokecolor="#d3c6b3" fill="t">
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :did_not_win))}" style="height:60px;v-text-anchor:middle;width:300px;" arcsize="10%" strokecolor="#d3c6b3" fill="t">
           <v:fill type="tile" src="" color="#dfd5c5" />
           <w:anchorlock/>
           <center style="color:#000000;font-family:sans-serif;font-size:16px;font-weight:bold;">I didn't win the business</center>
@@ -27,7 +27,7 @@
 
       %div{:style => "margin-bottom: 10px"}
         /[if mso]
-          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://" style="height:60px;v-text-anchor:middle;width:300px;" arcsize="10%" strokecolor="#d3c6b3" fill="t">
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :won))}" style="height:60px;v-text-anchor:middle;width:300px;" arcsize="10%" strokecolor="#d3c6b3" fill="t">
           <v:fill type="tile" src="" color="#dfd5c5" />
           <w:anchorlock/>
           <center style="color:#000000;font-family:sans-serif;font-size:16px;font-weight:bold;">I won the business</center>
@@ -46,7 +46,7 @@
 
       %div{:style => "margin-bottom: 10px"}
         /[if mso]
-          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://" style="height:60px;v-text-anchor:middle;width:300px;" arcsize="10%" strokecolor="#d3c6b3" fill="t">
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :dontknow_want_to_say))}" style="height:60px;v-text-anchor:middle;width:300px;" arcsize="10%" strokecolor="#d3c6b3" fill="t">
           <v:fill type="tile" src="" color="#dfd5c5" />
           <w:anchorlock/>
           <center style="color:#000000;font-family:sans-serif;font-size:16px;font-weight:bold;">I don't know or I don't want to say</center>
