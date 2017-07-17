@@ -1,0 +1,50 @@
+.promo {
+	@include clearfix;
+	margin-bottom: 20px;
+	&__body {
+    @media #{$tablet-s} {
+    	float: left;
+		}
+	}
+	&__summary {
+		color: #fe0000;
+		font-size: 20px;
+    font-weight: 400;
+    line-height: 25px;
+    margin-bottom: 10px;
+    .count {
+			font-size: 32px;
+			font-weight: 500;
+    }
+    .keywords {
+    	font-weight: 500;
+    }
+	}
+	&__description {
+		font-size: 18px;
+    font-weight: 400;
+    line-height: 25px;
+    margin-bottom: 20px;
+	}
+	&__button {
+    -webkit-appearance: none;
+    background-color: #fe0000;
+    color: #ffffff;
+    width: 100%;
+    @media #{$tablet-s} {
+			width: auto;
+		}
+	}
+	&__branding {
+		float: right;
+		background-color: #fe0000;
+		background-image: asset-url('partners/logo_santander.png');
+		background-size: 150px;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    @media #{$tablet-s} {
+			width: 200px;
+			height: 200px;
+		}
+	}
+}
