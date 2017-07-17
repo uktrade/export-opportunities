@@ -345,15 +345,17 @@
                                 <td valign="top" bgcolor="#DEDEDE">
 
                                   <div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#333333;text-align:center;line-height:120%;">
-                                    <% if content_for(:message_reason) %>
-                                      <div><%= yield :message_reason %></div>
+                                    <% if content_for(:message_reason_survey) %>
+                                      <div><%= yield :message_reason_survey %></div>
                                     <% end %>
                                     <div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#333333;text-align:center;line-height:120%;">
                                     <div style="line-height:120%; margin-bottom: 6px;">You are receiving this email <br>because you applied for an opportunity on the <a href="https://www.export.great.gov.uk" style="color:#0a569d">great.gov.uk</a> website.</div>
                                     <% if content_for(:footer_links) %>
                                       <%= yield :footer_links %>
                                     <% end %>
-                                    <div style="line-height:120%; margin-bottom: 6px;">View <a href="https://www.export.great.gov.uk/privacy-and-cookies/" style="color:#0a569d">Privacy statement</a>.</div>
+                                      <div><a href="https://www.export.great.gov.uk/privacy-and-cookies/">See the privacy statement to see how we keep your data and privacy safe</a></div>
+                                      <div><a href="https://contact-us.export.great.gov.uk/opportunities">Give feedback on this service</a></div>
+                                      <div style="line-height:120%; margin-bottom: 6px;">View <a href="https://www.export.great.gov.uk/privacy-and-cookies/" style="color:#0a569d">Privacy statement</a>.</div>
                                   </div>
                                   </div>
 

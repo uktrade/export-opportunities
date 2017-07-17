@@ -68,5 +68,4 @@
 - content_for :footer_links do
   %div
     = link_to('Unsubscribe', feedback_opt_out_url(q: EncryptedParams.encrypt(user_id: @enquiry_feedback.enquiry.user.id)))
-    from future 'Give feedback on' emails 
-
+    from future 'Give feedback on' emails
