@@ -3,32 +3,56 @@
 %div{:style => "text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:18px;margin-bottom:0;margin-top:3px;color:#5F5F5F;line-height:135%; margin-top: 20px;"} #{@enquiry_feedback.enquiry.created_at.strftime('%e %B %Y')} you applied for:
 %a{:href => "https://opportunities.export.great.gov.uk/opportunities/' + #{@enquiry_feedback.enquiry.opportunity.slug}", :style => "text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:18px;margin-bottom:0;margin-top:3px;color:#0a569d;line-height:135%;"} #{@enquiry_feedback.enquiry.opportunity.title}
 %div{:style => "text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:18px;margin-bottom:0;margin-top:3px;color:#5F5F5F;line-height:135%; margin-top: 15px; margin-bottom: 20px;"} What happened after you applied for this opportunity?
-/ Buttons
-%table{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "background: #f1ebe3; background: -moz-linear-gradient(top, #f1ebe3 0%, #ece5db 41%, #dfd6c7 100%); background: -webkit-linear-gradient(top, #f1ebe3 0%,#ece5db 41%,#dfd6c7 100%); background: linear-gradient(to bottom, #f1ebe3 0%,#ece5db 41%,#dfd6c7 100%); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1ebe3', endColorstr='#dfd6c7',GradientType=0 );border-radius:5px; margin-bottom:10px;", :width => "100%"}
-  %tr
-    %td{:align => "center", :style => "color:#333333; font-family:Helvetica, Arial, sans-serif; font-size:16px; font-weight:bold; letter-spacing:-.5px; line-height:150%; padding-top:15px; padding-right:30px; padding-bottom:15px; padding-left:30px;", :valign => "middle"}
-      %a{:href => "#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :dont_know_outcome))}", :style => "color:#333333; text-decoration:none; border-bottom: none;", :target => "_blank"} I was contacted by the buyer but don't yet know the outcome
 
-%table{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "background: #f1ebe3; background: -moz-linear-gradient(top, #f1ebe3 0%, #ece5db 41%, #dfd6c7 100%); background: -webkit-linear-gradient(top, #f1ebe3 0%,#ece5db 41%,#dfd6c7 100%); background: linear-gradient(to bottom, #f1ebe3 0%,#ece5db 41%,#dfd6c7 100%); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1ebe3', endColorstr='#dfd6c7',GradientType=0 );border-radius:5px; margin-bottom:10px;", :width => "100%"}
+%table.flexibleContainer{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%"}
   %tr
-    %td{:align => "center", :style => "color:#333333; font-family:Helvetica, Arial, sans-serif; font-size:16px; font-weight:bold; letter-spacing:-.5px; line-height:150%; padding-top:15px; padding-right:30px; padding-bottom:15px; padding-left:30px;", :valign => "middle"}
-      %a{:href => "#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :did_not_win))}", :style => "color:#333333; text-decoration:none; border-bottom: none;", :target => "_blank"} I didn't win the business
+    %td.flexibleContainerCell{:align => "center", :valign => "top", :width => "100%"}
+      %div{:style => "margin-bottom: 10px"}
+        /[if mso]
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://" style="height:60px;v-text-anchor:middle;width:300px;" arcsize="10%" strokecolor="#d3c6b3" fill="t">
+          <v:fill type="tile" src="" color="#dfd5c5" />
+          <w:anchorlock/>
+          <center style="color:#000000;font-family:sans-serif;font-size:16px;font-weight:bold;">I was contacted by the buyer but don't yet know the outcome</center>
+          </v:roundrect>
+        %a{:href => "#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :dont_know_outcome))}", :style => "background-color:#dfd5c5;background-image:url();border:1px solid #d3c6b3;border-radius:5px;color:#000000;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;line-height:60px;text-align:center;text-decoration:none;width:100%;-webkit-text-size-adjust:none;mso-hide:all;"} I was contacted by the buyer but don't yet know the outcome
 
-%table{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "background: #f1ebe3; background: -moz-linear-gradient(top, #f1ebe3 0%, #ece5db 41%, #dfd6c7 100%); background: -webkit-linear-gradient(top, #f1ebe3 0%,#ece5db 41%,#dfd6c7 100%); background: linear-gradient(to bottom, #f1ebe3 0%,#ece5db 41%,#dfd6c7 100%); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1ebe3', endColorstr='#dfd6c7',GradientType=0 );border-radius:5px; margin-bottom:10px;", :width => "100%"}
-  %tr
-    %td{:align => "center", :style => "color:#333333; font-family:Helvetica, Arial, sans-serif; font-size:16px; font-weight:bold; letter-spacing:-.5px; line-height:150%; padding-top:15px; padding-right:30px; padding-bottom:15px; padding-left:30px;", :valign => "middle"}
-      %a{:href => "#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :won))}", :style => "color:#333333; text-decoration:none; border-bottom: none;", :target => "_blank"} I won the business
+      %div{:style => "margin-bottom: 10px"}
+        /[if mso]
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://" style="height:60px;v-text-anchor:middle;width:300px;" arcsize="10%" strokecolor="#d3c6b3" fill="t">
+          <v:fill type="tile" src="" color="#dfd5c5" />
+          <w:anchorlock/>
+          <center style="color:#000000;font-family:sans-serif;font-size:16px;font-weight:bold;">I didn't win the business</center>
+          </v:roundrect>
+        %a{:href => "#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :did_not_win))}", :style => "background-color:#dfd5c5;background-image:url();border:1px solid #d3c6b3;border-radius:5px;color:#000000;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;line-height:60px;text-align:center;text-decoration:none;width:100%;-webkit-text-size-adjust:none;mso-hide:all;"} I didn't win the business
 
-%table{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "background: #f1ebe3; background: -moz-linear-gradient(top, #f1ebe3 0%, #ece5db 41%, #dfd6c7 100%); background: -webkit-linear-gradient(top, #f1ebe3 0%,#ece5db 41%,#dfd6c7 100%); background: linear-gradient(to bottom, #f1ebe3 0%,#ece5db 41%,#dfd6c7 100%); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1ebe3', endColorstr='#dfd6c7',GradientType=0 );border-radius:5px; margin-bottom:10px;", :width => "100%"}
-  %tr
-    %td{:align => "center", :style => "color:#333333; font-family:Helvetica, Arial, sans-serif; font-size:16px; font-weight:bold; letter-spacing:-.5px; line-height:150%; padding-top:15px; padding-right:30px; padding-bottom:15px; padding-left:30px;", :valign => "middle"}
-      %a{:href => "#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :no_response))}", :style => "color:#333333; text-decoration:none; border-bottom: none;", :target => "_blank"} I wasn't contacted by the buyer
+      %div{:style => "margin-bottom: 10px"}
+        /[if mso]
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://" style="height:60px;v-text-anchor:middle;width:300px;" arcsize="10%" strokecolor="#d3c6b3" fill="t">
+          <v:fill type="tile" src="" color="#dfd5c5" />
+          <w:anchorlock/>
+          <center style="color:#000000;font-family:sans-serif;font-size:16px;font-weight:bold;">I won the business</center>
+          </v:roundrect>
+        %a{:href => "#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :won))}", :style => "background-color:#dfd5c5;background-image:url();border:1px solid #d3c6b3;border-radius:5px;color:#000000;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;line-height:60px;text-align:center;text-decoration:none;width:100%;-webkit-text-size-adjust:none;mso-hide:all;"} I won the business
 
-%table{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "background: #f1ebe3; background: -moz-linear-gradient(top, #f1ebe3 0%, #ece5db 41%, #dfd6c7 100%); background: -webkit-linear-gradient(top, #f1ebe3 0%,#ece5db 41%,#dfd6c7 100%); background: linear-gradient(to bottom, #f1ebe3 0%,#ece5db 41%,#dfd6c7 100%); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1ebe3', endColorstr='#dfd6c7',GradientType=0 );border-radius:5px; margin-bottom:10px;", :width => "100%"}
-  %tr
-    %td{:align => "center", :style => "color:#333333; font-family:Helvetica, Arial, sans-serif; font-size:16px; font-weight:bold; letter-spacing:-.5px; line-height:150%; padding-top:15px; padding-right:30px; padding-bottom:15px; padding-left:30px;", :valign => "middle"}
-      %a{:href => "#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :dontknow_want_to_say))}", :style => "color:#333333; text-decoration:none; border-bottom: none;", :target => "_blank"} I don't know or I don't want to say
+      %div{:style => "margin-bottom: 10px"}
+        /[if mso]
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://" style="height:60px;v-text-anchor:middle;width:300px;" arcsize="10%" strokecolor="#d3c6b3" fill="t">
+          <v:fill type="tile" src="" color="#dfd5c5" />
+          <w:anchorlock/>
+          <center style="color:#000000;font-family:sans-serif;font-size:16px;font-weight:bold;">I wasn't contacted by the buyer</center>
+          </v:roundrect>
+        %a{:href => "#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :no_response))}", :style => "background-color:#dfd5c5;background-image:url();border:1px solid #d3c6b3;border-radius:5px;color:#000000;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;line-height:60px;text-align:center;text-decoration:none;width:100%;-webkit-text-size-adjust:none;mso-hide:all;"} I wasn't contacted by the buyer
 
+
+      %div{:style => "margin-bottom: 10px"}
+        /[if mso]
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://" style="height:60px;v-text-anchor:middle;width:300px;" arcsize="10%" strokecolor="#d3c6b3" fill="t">
+          <v:fill type="tile" src="" color="#dfd5c5" />
+          <w:anchorlock/>
+          <center style="color:#000000;font-family:sans-serif;font-size:16px;font-weight:bold;">I don't know or I don't want to say</center>
+          </v:roundrect>
+        %a{:href => "#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :dontknow_want_to_say))}", :style => "background-color:#dfd5c5;background-image:url();border:1px solid #d3c6b3;border-radius:5px;color:#000000;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;line-height:60px;text-align:center;text-decoration:none;width:100%;-webkit-text-size-adjust:none;mso-hide:all;"} I don't know or I don't want to say
+        
 / Sign off
 %table.flexibleContainer{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "margin-top:30px", :width => "500"}
   %tr
@@ -43,4 +67,6 @@
     You are receiving this email because you applied for an export opportunity on the great.gov.uk website.
 - content_for :footer_links do
   %div
-    = link_to('Stop asking me for feedback on the export opportunities I apply for', feedback_opt_out_url(q: EncryptedParams.encrypt(user_id: @enquiry_feedback.enquiry.user.id)))
+    = link_to('Unsubscribe', feedback_opt_out_url(q: EncryptedParams.encrypt(user_id: @enquiry_feedback.enquiry.user.id)))
+    from future 'Give feedback on' emails 
+
