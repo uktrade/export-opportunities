@@ -9,7 +9,7 @@ RSpec.feature 'Users can opt out of emails' do
 
     EnquiryFeedbackSender.new.call(enquiry)
     open_email('opt-out@example.com')
-    current_email.click_on 'Stop asking me for feedback on the export opportunities I apply for'
+    current_email.click_on 'Unsubscribe'
 
     expect(page).to have_content 'You will no longer receive requests for feedback'
   end
