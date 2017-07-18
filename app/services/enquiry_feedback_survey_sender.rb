@@ -1,20 +1,15 @@
 class EnquiryFeedbackSurveySender
-  def call(start_date:, end_date:, sample_size:)
-    enquiries_in_range = Enquiry.where(created_at: start_date..end_date).ids
+  def call(start_date = Time.zone.now.beginning_of_day - 1.year - 1.day, end_date = Time.zone.now.beginning_of_day - 1.year)
+    opportunities_in_range = Opportunity.where(response_due_on: start_date..end_date)
+    enquiries_in_range = Enquiry.where(opportunity_id: opportunities_in_range.map(&:id)).ids
 
-    enquiries_with_existing_feedback = EnquiryFeedback.pluck(:enquiry_id)
     enquiries_on_email_blacklist = Enquiry.where(user_id: FeedbackOptOut.pluck(:user_id)).ids
 
-    candidates = enquiries_in_range -
-                 enquiries_with_existing_feedback -
-                 enquiries_on_email_blacklist
-
-    # Select each user only once
-    records = Enquiry.where(id: candidates).order('RANDOM()').to_a.uniq(&:user_id)
+    candidates = enquiries_in_range - enquiries_on_email_blacklist
 
     feedback_sender = EnquiryFeedbackSender.new
 
-    records.sample(sample_size).each do |enquiry|
+    candidates.each do |enquiry|
       feedback_sender.call(enquiry)
     end
   end

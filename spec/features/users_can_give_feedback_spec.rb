@@ -18,12 +18,12 @@ RSpec.feature 'User can give feedback to the impact email' do
 
   scenario 'clicking each of the feedback links' do
     options = [
+      'I was contacted by the buyer but don\'t yet know the outcome',
       'I won the business',
-      'I didn’t win the business',
-      'I was contacted by the buyer but don’t yet know the outcome',
-      'I wasn’t contacted by the buyer',
-      'I can’t remember',
-      'I don’t know or don’t want to say',
+      'I didn\'t win the business',
+      'I was contacted by the buyer but don\'t yet know the outcome',
+      'I wasn\'t contacted by the buyer',
+      'I don\'t know or I don\'t want to say',
     ]
 
     opp = create(:opportunity)
@@ -37,7 +37,7 @@ RSpec.feature 'User can give feedback to the impact email' do
       open_email('test@example.com')
       current_email.click_on option
 
-      expect(page).to have_content('Thanks for your feedback on Export Opportunities')
+      expect(page).to have_content('Thank you You selected:')
 
       clear_emails
     end
