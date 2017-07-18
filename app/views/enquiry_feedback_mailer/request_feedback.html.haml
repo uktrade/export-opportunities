@@ -1,6 +1,6 @@
 / Preamble
 %div{:style => "text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;margin-top:3px;color:#5F5F5F;line-height:135%;background-color: #ececec; padding: 10px"} We value your feedback. Responding to this email will help us improve our service.
-%div{:style => "text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:18px;margin-bottom:0;margin-top:3px;color:#5F5F5F;line-height:135%; margin-top: 20px;"} #{@enquiry_feedback.enquiry.created_at.strftime('%e %B %Y')} you applied for:
+%div{:style => "text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:18px;margin-bottom:0;margin-top:3px;color:#5F5F5F;line-height:135%; margin-top: 20px;"}On #{@enquiry_feedback.enquiry.created_at.strftime('%e %B %Y')} you applied for:
 %a{:href => "https://opportunities.export.great.gov.uk/opportunities/' + #{@enquiry_feedback.enquiry.opportunity.slug}", :style => "text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:18px;margin-bottom:0;margin-top:3px;color:#0a569d;line-height:135%;"} #{@enquiry_feedback.enquiry.opportunity.title}
 %div{:style => "text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:18px;margin-bottom:0;margin-top:3px;color:#5F5F5F;line-height:135%; margin-top: 15px; margin-bottom: 20px;"} What happened after you applied for this opportunity?
 
@@ -69,6 +69,9 @@
   %p
     You are receiving this email because you applied for an export opportunity on the great.gov.uk website.
 - content_for :footer_links do
-  %div
+  %div{:style => "margin-bottom: 6px;"}
     = link_to('Unsubscribe', feedback_opt_out_url(q: EncryptedParams.encrypt(user_id: @enquiry_feedback.enquiry.user.id)))
-    from future 'Give feedback on' emails
+    from future ‘Give feedback on’ emails
+  %div{:style => "margin-bottom: 6px;"}
+    View
+    = link_to('privacy statement', 'https://www.export.great.gov.uk/privacy-and-cookies/')
