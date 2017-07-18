@@ -34,14 +34,13 @@ gem 'elasticsearch-model', '0.1.9'
 
 # Styling
 gem 'bourbon'
-gem 'neat'
+gem 'neat', '1.8.0'
 gem 'autoprefixer-rails'
-gem 'normalize-rails'
 gem 'sass-rails'
+gem 'normalize-scss'
 
 # Javascript
 gem 'jquery-rails'
-gem 'ckeditor'
 
 # Ruby tools
 gem 'stringex', require: false
