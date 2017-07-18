@@ -1,0 +1,4581 @@
+/* line 4, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_box-sizing.scss */
+html {
+  box-sizing: border-box;
+}
+
+/* line 9, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_box-sizing.scss */
+*, *::after, *::before {
+  box-sizing: inherit;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/frontend.scss */
+.flash {
+  font-weight: 600;
+  margin: 2em auto 1em;
+  padding: 1em;
+  text-align: center;
+}
+
+/* line 8, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/frontend.scss */
+.flash-info, .flash-notice {
+  background-color: #dff0d8;
+  border: solid 1px #d6e9c6;
+  color: #3c763d;
+}
+
+/* line 14, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/frontend.scss */
+.flash-alert, .flash-error {
+  background-color: #f2dede;
+  border: solid 1px #ebccd1;
+  color: #a94442;
+}
+
+/**
+ * Neat visual grid settings
+ */
+/* line 5, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_base.scss */
+.legacy {
+  /* ================================================================================
+  Example showing how to change the color/size of the icons:
+  .icon-name {
+      color: red; // works for single-colored icons, because "fill" was set to "currentColor"
+      font-size: 32px; // works because "width" & "height" were set using em units
+  }
+  ================================================================================*/
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_body.scss */
+.legacy body {
+  background-color: white;
+  margin: 0;
+  padding: 0;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_icons.scss */
+.legacy [class^="icon-"],
+.legacy [class*=" icon-"] {
+  display: block;
+  fill: currentColor;
+  height: 1em;
+  width: 1em;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .btn {
+  background-color: white;
+  border: none;
+  color: #00549F;
+  cursor: pointer;
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  line-height: 1;
+  padding: 16px 0.3em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  -webkit-transition: background-color 150ms ease;
+  transition: background-color 150ms ease;
+  -webkit-font-smoothing: antialiased;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+  .legacy .btn {
+    padding: 16px;
+  }
+}
+/* line 20, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.legacy .btn:after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background: url("arrow-white.svg") no-repeat;
+  background-size: 12px 12px;
+  margin-left: 0.675em;
+  display: inline-block;
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+  -webkit-transition: -webkit-transform .1s ease-out;
+  transition: -webkit-transform .1s ease-out;
+  transition: transform .1s ease-out;
+  transition: transform .1s ease-out, -webkit-transform .1s ease-out;
+}
+/* line 31, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.lt-ie10 .legacy .btn:after {
+  content: '';
+  background: url("arrow.png") no-repeat;
+  height: 14px;
+  margin-left: 10px;
+  margin-bottom: -1px;
+}
+/* line 39, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.lt-ie10 .footer-exporting-guide .legacy .btn:after {
+  background-image: url("arrow-blue.png");
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.legacy .btn:hover, .legacy .btn:focus {
+  background-color: #e6e6e6;
+  color: #00549F;
+}
+/* line 49, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.legacy .btn:hover:after, .legacy .btn:focus:after {
+  background: url("arrow-white.svg") no-repeat;
+  -webkit-transform: translateX(10px);
+          transform: translateX(10px);
+  -webkit-transition: 0.2s ease-out;
+  transition: 0.2s ease-out;
+}
+/* line 54, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.lt-ie10 .legacy .btn:hover:after, .lt-ie10 .legacy .btn:focus:after {
+  background-image: url("arrow.png");
+}
+/* line 4, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+/* line 9, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .btn:hover {
+  background-color: black;
+}
+/* line 13, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .btn--dark {
+  background-color: #00549F;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  line-height: 1;
+  padding: 16px 0.3em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  -webkit-transition: background-color 150ms ease;
+  transition: background-color 150ms ease;
+  -webkit-font-smoothing: antialiased;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 13, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+  .legacy .btn--dark {
+    padding: 16px;
+  }
+}
+/* line 20, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.legacy .btn--dark:after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background: url("arrow-white.svg") no-repeat;
+  background-size: 12px 12px;
+  margin-left: 0.675em;
+  display: inline-block;
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+  -webkit-transition: -webkit-transform .1s ease-out;
+  transition: -webkit-transform .1s ease-out;
+  transition: transform .1s ease-out;
+  transition: transform .1s ease-out, -webkit-transform .1s ease-out;
+}
+/* line 31, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.lt-ie10 .legacy .btn--dark:after {
+  content: '';
+  background: url("arrow.png") no-repeat;
+  height: 14px;
+  margin-left: 10px;
+  margin-bottom: -1px;
+}
+/* line 39, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.lt-ie10 .footer-exporting-guide .legacy .btn--dark:after {
+  background-image: url("arrow-blue.png");
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.legacy .btn--dark:hover, .legacy .btn--dark:focus {
+  background-color: #00396c;
+  color: white;
+}
+/* line 49, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.legacy .btn--dark:hover:after, .legacy .btn--dark:focus:after {
+  background: url("arrow-white.svg") no-repeat;
+  -webkit-transform: translateX(10px);
+          transform: translateX(10px);
+  -webkit-transition: 0.2s ease-out;
+  transition: 0.2s ease-out;
+}
+/* line 54, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.lt-ie10 .legacy .btn--dark:hover:after, .lt-ie10 .legacy .btn--dark:focus:after {
+  background-image: url("arrow.png");
+}
+/* line 18, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button-no-box:hover {
+  color: white;
+  background-color: transparent;
+}
+/* line 23, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .arrow-link {
+  padding: 0;
+  color: #00549F;
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  -webkit-font-smoothing: antialiased;
+  font-weight: bold;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: none;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+  -webkit-transition: color .1s ease-out;
+  transition: color .1s ease-out;
+}
+/* line 39, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .arrow-link:after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  background: url("arrow-blue.svg") no-repeat;
+  background-size: 12px 12px;
+  display: inline-block;
+  margin-left: 0.3em;
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+  -webkit-transition: -webkit-transform .1s ease-out;
+  transition: -webkit-transform .1s ease-out;
+  transition: transform .1s ease-out;
+  transition: transform .1s ease-out, -webkit-transform .1s ease-out;
+}
+/* line 50, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.lt-ie10 .legacy .arrow-link:after {
+  content: "";
+  background: transparent url("arrow-blue.png") no-repeat;
+  height: 14px;
+  margin-left: 10px;
+  margin-bottom: -1px;
+}
+/* line 61, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .arrow-link:hover:after, .legacy .arrow-link:focus:after {
+  -webkit-transform: translateX(5px);
+          transform: translateX(5px);
+}
+/* line 69, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy button, .legacy input[type="button"], .legacy input[type="reset"], .legacy input[type="submit"] {
+  background-color: #00549f;
+}
+/* line 73, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy button:focus, .legacy input[type="button"]:focus, .legacy input[type="reset"]:focus, .legacy input[type="submit"]:focus,
+.legacy button:hover, .legacy input[type="button"]:hover, .legacy input[type="reset"]:hover, .legacy input[type="submit"]:hover {
+  outline: 3px solid #00549f;
+}
+/* line 78, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy button:active, .legacy input[type="button"]:active, .legacy input[type="reset"]:active, .legacy input[type="submit"]:active {
+  background-color: #004c8f;
+}
+/* line 82, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button, .legacy .panel .companies-house-search-btn {
+  background: #00549f;
+  border: 0;
+  color: white !important;
+  display: block;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.39;
+  padding: 14px;
+  position: relative;
+  text-align: center;
+  width: auto;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 82, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+  .legacy .button, .legacy .panel .companies-house-search-btn {
+    width: 50%;
+  }
+  /* line 98, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+  .legacy .button-wide {
+    width: 100%;
+  }
+}
+/* line 103, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button.button--slimline, .legacy .panel .button--slimline.companies-house-search-btn {
+  white-space: nowrap;
+  line-height: 50px;
+  display: inline;
+  padding: 10px 12px;
+  width: auto;
+  border: 2px solid #00549f;
+}
+/* line 110, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button.button--slimline:hover, .legacy .panel .button--slimline.companies-house-search-btn:hover {
+  border-bottom-width: 2px;
+}
+/* line 115, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button:hover, .legacy .panel .companies-house-search-btn:hover {
+  background-color: #003666;
+  border-color: #003666;
+  border-bottom-width: 0px;
+  outline: none;
+}
+/* line 122, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button:active, .legacy .panel .companies-house-search-btn:active {
+  background-color: #007ea3;
+  border-color: #007ea3;
+  box-shadow: none;
+  outline: none;
+  top: 1px;
+}
+/* line 130, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button:focus, .legacy .panel .companies-house-search-btn:focus {
+  background-color: #003666;
+  border-color: #003666;
+  outline: 3px solid #00549f;
+}
+/* line 136, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button.button--naked, .legacy .panel .button--naked.companies-house-search-btn {
+  background: white;
+  color: #00549f !important;
+  border: 2px solid #00549f;
+}
+/* line 144, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button::-moz-focus-inner, .legacy .panel .companies-house-search-btn::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+/* line 150, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button[disabled="disabled"], .legacy .panel [disabled="disabled"].companies-house-search-btn {
+  background: #00549f;
+  cursor: not-allowed;
+}
+/* line 154, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button[disabled="disabled"]:focus, .legacy .panel [disabled="disabled"].companies-house-search-btn:focus {
+  outline: none;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel {
+  padding: 1.35em;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+  .legacy .panel {
+    padding: 2.7em;
+  }
+}
+/* line 8, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel fieldset {
+  border: 0;
+  border-bottom: 1px solid #dfd5c5;
+  margin-bottom: 1.35em;
+  padding: 0 0 1.35em;
+  width: 100%;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 8, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+  .legacy .panel fieldset {
+    border-bottom: 2px solid #dfd5c5;
+    margin-bottom: 2.7em;
+  }
+}
+/* line 20, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel fieldset:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+/* line 25, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel fieldset .instructions {
+  margin-bottom: 1.5em;
+}
+/* line 30, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .form-group {
+  margin-bottom: 20px;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 30, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+  .legacy .panel .form-group {
+    margin-bottom: 30px;
+  }
+}
+/* line 38, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel label {
+  display: block;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.53;
+  margin: 0;
+  padding: 0 0 .5em;
+}
+/* line 48, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.lt-ie10 .legacy .panel textarea,
+.lt-ie10 .legacy .panel select,
+.lt-ie10 .legacy .panel input[type="text"],
+.lt-ie10 .legacy .panel input[type="email"] {
+  background-color: white;
+  border: 1px solid #dfd5c5;
+  font-family: Roboto, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  padding: .5em;
+  width: 50%;
+}
+/* line 62, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel input[type="color"], .legacy .panel input[type="date"], .legacy .panel input[type="datetime"], .legacy .panel input[type="datetime-local"], .legacy .panel input[type="email"], .legacy .panel input[type="month"], .legacy .panel input[type="number"], .legacy .panel input[type="password"], .legacy .panel input[type="search"], .legacy .panel input[type="tel"], .legacy .panel input[type="text"], .legacy .panel input[type="time"], .legacy .panel input[type="url"], .legacy .panel input[type="week"], .legacy .panel input:not([type]), .legacy .panel textarea {
+  background-color: white;
+  border: 1px solid #dfd5c5;
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  padding: .5em;
+  width: 100%;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 62, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+  .legacy .panel input[type="color"], .legacy .panel input[type="date"], .legacy .panel input[type="datetime"], .legacy .panel input[type="datetime-local"], .legacy .panel input[type="email"], .legacy .panel input[type="month"], .legacy .panel input[type="number"], .legacy .panel input[type="password"], .legacy .panel input[type="search"], .legacy .panel input[type="tel"], .legacy .panel input[type="text"], .legacy .panel input[type="time"], .legacy .panel input[type="url"], .legacy .panel input[type="week"], .legacy .panel input:not([type]), .legacy .panel textarea {
+    width: 50%;
+  }
+}
+/* line 74, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.lt-ie9 .legacy .panel input[type="color"], .lt-ie9 .legacy .panel input[type="date"], .lt-ie9 .legacy .panel input[type="datetime"], .lt-ie9 .legacy .panel input[type="datetime-local"], .lt-ie9 .legacy .panel input[type="email"], .lt-ie9 .legacy .panel input[type="month"], .lt-ie9 .legacy .panel input[type="number"], .lt-ie9 .legacy .panel input[type="password"], .lt-ie9 .legacy .panel input[type="search"], .lt-ie9 .legacy .panel input[type="tel"], .lt-ie9 .legacy .panel input[type="text"], .lt-ie9 .legacy .panel input[type="time"], .lt-ie9 .legacy .panel input[type="url"], .lt-ie9 .legacy .panel input[type="week"], .lt-ie9 .legacy .panel input:not([type]), .lt-ie9 .legacy .panel textarea {
+  width: 50%;
+}
+/* line 79, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel input[type="color"]:hover, .legacy .panel input[type="date"]:hover, .legacy .panel input[type="datetime"]:hover, .legacy .panel input[type="datetime-local"]:hover, .legacy .panel input[type="email"]:hover, .legacy .panel input[type="month"]:hover, .legacy .panel input[type="number"]:hover, .legacy .panel input[type="password"]:hover, .legacy .panel input[type="search"]:hover, .legacy .panel input[type="tel"]:hover, .legacy .panel input[type="text"]:hover, .legacy .panel input[type="time"]:hover, .legacy .panel input[type="url"]:hover, .legacy .panel input[type="week"]:hover, .legacy .panel input:not([type]):hover, .legacy .panel textarea:hover {
+  outline: 2px solid #00549f;
+}
+/* line 83, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel input[type="color"]:focus, .legacy .panel input[type="date"]:focus, .legacy .panel input[type="datetime"]:focus, .legacy .panel input[type="datetime-local"]:focus, .legacy .panel input[type="email"]:focus, .legacy .panel input[type="month"]:focus, .legacy .panel input[type="number"]:focus, .legacy .panel input[type="password"]:focus, .legacy .panel input[type="search"]:focus, .legacy .panel input[type="tel"]:focus, .legacy .panel input[type="text"]:focus, .legacy .panel input[type="time"]:focus, .legacy .panel input[type="url"]:focus, .legacy .panel input[type="week"]:focus, .legacy .panel input:not([type]):focus, .legacy .panel textarea:focus,
+.legacy .panel input[type="color"]:active, .legacy .panel input[type="date"]:active, .legacy .panel input[type="datetime"]:active, .legacy .panel input[type="datetime-local"]:active, .legacy .panel input[type="email"]:active, .legacy .panel input[type="month"]:active, .legacy .panel input[type="number"]:active, .legacy .panel input[type="password"]:active, .legacy .panel input[type="search"]:active, .legacy .panel input[type="tel"]:active, .legacy .panel input[type="text"]:active, .legacy .panel input[type="time"]:active, .legacy .panel input[type="url"]:active, .legacy .panel input[type="week"]:active, .legacy .panel input:not([type]):active, .legacy .panel textarea:active {
+  outline: 3px solid #00549f;
+}
+/* line 88, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel select {
+  background-color: white;
+  border: 2px solid #dfd5c5;
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  margin: 0;
+  overflow: scroll;
+  padding: .5em;
+  width: 100%;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 88, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+  .legacy .panel select {
+    width: 50%;
+  }
+}
+/* line 102, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.lt-ie9 .legacy .panel select {
+  width: 50%;
+}
+/* line 107, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel textarea {
+  display: block;
+  resize: vertical;
+  width: 100%;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 107, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+  .legacy .panel textarea {
+    width: 75%;
+  }
+}
+/* line 116, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.lt-ie9 .legacy .panel textarea {
+  width: 75%;
+}
+/* line 121, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel input[type="checkbox"],
+.legacy .panel input[type="radio"] {
+  display: inline-block;
+  margin-right: 0.3375em;
+  width: auto;
+}
+/* line 127, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel input[type="checkbox"] + label,
+.legacy .panel input[type="radio"] + label {
+  display: inline-block;
+}
+/* line 132, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .companies-house-list {
+  background-color: #dfd5c5;
+  list-style: none;
+  margin-bottom: 1.35em;
+  padding: 0 1em;
+  width: 50%;
+}
+/* line 139, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .companies-house-list li.companieshouse-result {
+  margin-bottom: 0.675em;
+  padding-left: 1em;
+}
+/* line 143, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .companies-house-list li.companieshouse-result:first-child {
+  padding-top: 1.35em;
+}
+/* line 147, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .companies-house-list li.companieshouse-result:last-child {
+  padding-bottom: 1.35em;
+}
+/* line 152, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .companies-house-list li::before {
+  color: #b00d23;
+  content: "\2022";
+  display: inline-block;
+  margin-left: -1em;
+  width: 1em;
+}
+/* line 161, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .companies-house-search-btn {
+  font-size: inherit;
+  margin-top: 0.675em;
+  padding: 1em 0;
+  width: 100%;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 161, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+  .legacy .panel .companies-house-search-btn {
+    width: 50%;
+  }
+}
+/* line 173, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.lt-ie9 .legacy .panel .companies-house-search-btn {
+  width: 50%;
+}
+/* line 178, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .form-hint {
+  color: #656e72;
+}
+/* line 182, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .field_with_errors input {
+  outline: solid red 3px;
+}
+/* line 187, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .register-form {
+  background-color: white;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_tables.scss */
+.legacy table {
+  border-collapse: collapse;
+  -webkit-font-feature-settings: "kern", "liga", "tnum";
+          font-feature-settings: "kern", "liga", "tnum";
+  margin: 0.675em 0;
+  table-layout: fixed;
+  width: 100%;
+}
+/* line 9, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_tables.scss */
+.legacy th {
+  border-bottom: 1px solid #aaa398;
+  font-weight: 600;
+  padding: 0.675em 0 0.675em 0.675em;
+  text-align: left;
+}
+/* line 16, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_tables.scss */
+.legacy td {
+  border-bottom: 1px solid #e2d9cb;
+  padding: 0.675em 0 0.675em 0.675em;
+}
+/* line 20, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_tables.scss */
+.legacy td .button, .legacy td .panel .companies-house-search-btn, .legacy .panel td .companies-house-search-btn {
+  width: auto;
+}
+/* line 24, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_tables.scss */
+.legacy td :last-child {
+  margin-bottom: 0;
+}
+/* line 29, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_tables.scss */
+.legacy tr,
+.legacy td,
+.legacy th {
+  vertical-align: middle;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy body {
+  color: #4a4a4a;
+  font-family: Roboto, sans-serif;
+  -webkit-font-feature-settings: 'kern', 'liga', 'pnum';
+          font-feature-settings: 'kern', 'liga', 'pnum';
+  font-size: 1em;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 400;
+  line-height: 1.35;
+}
+/* line 11, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy h5,
+.legacy h6 {
+  color: #4a4a4a;
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  line-height: 1.35;
+  margin: 0 0 0.625em;
+  text-transform: inherit;
+}
+/* line 23, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy h3 span {
+  color: #b00d23;
+  display: block;
+  font-weight: 700;
+  font-size: 22px;
+  text-transform: uppercase;
+}
+/* line 32, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy h4 {
+  font-size: 112.5%;
+}
+/* line 36, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy h4,
+.legacy h5,
+.legacy h6 {
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  font-weight: 300;
+  letter-spacing: 0;
+  text-transform: none;
+}
+/* line 46, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy p {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.53;
+  margin: 0 0 1em;
+}
+/* line 51, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy p.large {
+  font-size: 18px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.39;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 57, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+  .legacy p.width-60 {
+    width: 60%;
+  }
+}
+/* line 64, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy a,
+.legacy a.no-link-styles {
+  color: #00549f;
+  text-decoration: none;
+  border-bottom: 1px solid #00549f;
+}
+/* line 71, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy a:visited,
+.legacy a.no-link-styles:visited {
+  border-bottom: 1px solid #4f0b7b;
+  color: #00549f;
+}
+/* line 76, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy a:active, .legacy a:hover, .legacy a:focus,
+.legacy a.no-link-styles:active,
+.legacy a.no-link-styles:hover,
+.legacy a.no-link-styles:focus {
+  border-bottom: 1px dashed #007ea3;
+  color: #007ea3;
+}
+/* line 83, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy a:focus,
+.legacy a.no-link-styles:focus {
+  outline: 3px solid #ffbf47;
+}
+/* line 88, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy a.external-link {
+  text-decoration: none;
+  word-break: break-all;
+}
+/* line 92, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy a.external-link:after {
+  background: url("external-link.svg") no-repeat;
+  background-size: 12px 12px;
+  content: "";
+  display: inline-block;
+  height: 12px;
+  margin-left: 0.5em;
+  -webkit-transform: translate(0, 0);
+          transform: translate(0, 0);
+  -webkit-transition: -webkit-transform .1s ease-out;
+  transition: -webkit-transform .1s ease-out;
+  transition: transform .1s ease-out;
+  transition: transform .1s ease-out, -webkit-transform .1s ease-out;
+  width: 12px;
+}
+/* line 105, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy hr {
+  border-bottom: 1px solid #e2d9cb;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  margin: 1.35em 0;
+}
+/* line 113, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy img,
+.legacy picture {
+  margin: 0;
+  max-width: 100%;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+.legacy .has-sidebar {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.legacy .has-sidebar:last-child {
+  margin-right: 0;
+}
+/* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.legacy .has-sidebar::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+  .legacy .has-sidebar {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 57.35098%;
+  }
+  /* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .has-sidebar:last-child {
+    margin-right: 0;
+  }
+}
+@media screen and (min-width: 75em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+  .legacy .has-sidebar {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 65.88078%;
+  }
+  /* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .has-sidebar:last-child {
+    margin-right: 0;
+  }
+}
+/* line 13, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+.lt-ie9 .legacy .has-sidebar {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 57.35098%;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.lt-ie9 .legacy .has-sidebar:last-child {
+  margin-right: 0;
+}
+/* line 18, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+.legacy .sidebar, .legacy .filters {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.legacy .sidebar:last-child, .legacy .filters:last-child {
+  margin-right: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 18, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+  .legacy .sidebar, .legacy .filters {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 40.29137%;
+  }
+  /* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .sidebar:last-child, .legacy .filters:last-child {
+    margin-right: 0;
+  }
+}
+@media screen and (min-width: 75em) {
+  /* line 18, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+  .legacy .sidebar, .legacy .filters {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 31.76157%;
+  }
+  /* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .sidebar:last-child, .legacy .filters:last-child {
+    margin-right: 0;
+  }
+}
+/* line 29, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+.lt-ie9 .legacy .sidebar, .lt-ie9 .legacy .filters {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 31.76157%;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.lt-ie9 .legacy .sidebar:last-child, .lt-ie9 .legacy .filters:last-child {
+  margin-right: 0;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/utilities/_typography.scss */
+.u-italic {
+  font-style: italic !important;
+}
+
+/* line 5, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/utilities/_typography.scss */
+.u-text-center {
+  text-align: center !important;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/utilities/_positioning.scss */
+.u-pull-right {
+  float: right !important;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/utilities/_helpers.scss */
+.u-visuallyhidden {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+}
+
+/* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_background.scss */
+.legacy .background__item {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 300px;
+  z-index: -1;
+}
+@media screen and (min-width: 48em) {
+  /* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_background.scss */
+  .legacy .background__item {
+    height: 350px;
+  }
+}
+@media screen and (min-width: 75em) {
+  /* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_background.scss */
+  .legacy .background__item {
+    height: 450px;
+  }
+}
+/* line 20, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_background.scss */
+.legacy .background--image {
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_search-form.scss */
+.legacy .search-form {
+  margin: 0 auto;
+}
+/* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_search-form.scss */
+.legacy .search-form__input {
+  width: 100%;
+  font-family: Roboto,arial,helvetica,sans-serif;
+  font-size: 18px;
+  padding: 10px 15px;
+  border: 1px solid #999;
+}
+/* line 9, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_search-form.scss */
+.legacy .search-form__input:focus {
+  outline: 3px solid #ffbf47;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_outer-container.scss */
+.legacy .outer-container {
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.legacy .outer-container::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+@media screen and (min-width: 48em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_outer-container.scss */
+  .legacy .outer-container {
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  /* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+  .legacy .outer-container::after {
+    clear: both;
+    content: "";
+    display: block;
+  }
+}
+@media screen and (min-width: 75em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_outer-container.scss */
+  .legacy .outer-container {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  /* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+  .legacy .outer-container::after {
+    clear: both;
+    content: "";
+    display: block;
+  }
+}
+/* line 12, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_outer-container.scss */
+.lt-ie9 .legacy .outer-container {
+  width: 1200px;
+}
+/* line 17, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_outer-container.scss */
+.legacy _:-ms-fullscreen, .legacy :root main {
+  display: block;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_full-width-border-top.scss */
+.legacy .full-width-border-top {
+  width: 100%;
+  border-top: 1px solid #e2d9cb;
+  padding-top: 0.675em;
+  margin-top: 0.675em;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_full-width-border-top.scss */
+  .legacy .full-width-border-top {
+    padding-top: 1.35em;
+    margin-top: 1.35em;
+  }
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_border-top-bottom.scss */
+.legacy .border-top-bottom {
+  width: 100%;
+  border-bottom: 1px solid #e2d9cb;
+  border-top: 1px solid #e2d9cb;
+  padding: 0.675em 0;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_pagination.scss */
+.legacy .pagination {
+  margin: 0 auto;
+  padding: 0;
+}
+/* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.legacy .pagination::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+/* line 6, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_pagination.scss */
+.legacy .pagination li {
+  display: inline-block;
+  list-style: none;
+  margin: 0 8px 8px 0;
+}
+/* line 11, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_pagination.scss */
+.legacy .pagination li.active a {
+  background-color: #00549f;
+  color: white;
+}
+/* line 16, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_pagination.scss */
+.legacy .pagination li.arrow {
+  display: none;
+}
+/* line 20, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_pagination.scss */
+.legacy .pagination li:last-child {
+  margin-right: 0;
+}
+/* line 25, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_pagination.scss */
+.legacy .pagination a {
+  background-color: white;
+  border: 2px solid #00549f;
+  color: #00549f;
+  display: block;
+  font-family: Roboto, sans-serif;
+  font-size: 1.25em;
+  font-weight: 500;
+  line-height: 1;
+  margin: 0;
+  min-width: 2em;
+  padding: 0.5em 0;
+  text-align: center;
+  text-decoration: none;
+}
+/* line 40, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_pagination.scss */
+.legacy .pagination a:hover {
+  background-color: #00549F;
+  color: white;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_pager.scss */
+.legacy .pager {
+  margin-top: 2.7em;
+}
+/* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.legacy .pager::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_pager.scss */
+  .legacy .pager {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 100%;
+  }
+  /* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .pager:last-child {
+    margin-right: 0;
+  }
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.legacy .exporting-guide-form {
+  margin-bottom: 1.35em;
+}
+/* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.legacy .exporting-guide-form::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+@media screen and (min-width: 48em) {
+  /* line 5, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+  .frontpage-list__export-form .legacy .exporting-guide-form {
+    padding-top: 1.35em;
+  }
+}
+/* line 11, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.legacy .exporting-guide-form__label {
+  margin: 0;
+}
+/* line 14, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.placeholder .legacy .exporting-guide-form__label {
+  display: none;
+}
+/* line 19, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.legacy .exporting-guide-form__input {
+  width: 100%;
+  border: 0;
+  color: #00549F;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 19, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+  .legacy .exporting-guide-form__input {
+    float: left;
+    width: 50%;
+    margin-right: 0.675em;
+  }
+}
+/* line 30, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.frontpage-list__export-form .legacy .exporting-guide-form__input {
+  width: 100%;
+  margin-right: 0;
+}
+/* line 36, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.legacy .exporting-guide-form__submit {
+  float: right;
+  padding: 0.675em;
+  padding-right: 0;
+  color: #00549F;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 36, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+  .legacy .exporting-guide-form__submit {
+    float: left;
+  }
+}
+/* line 46, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.frontpage-list__export-form .legacy .exporting-guide-form__submit {
+  float: right;
+  padding-right: 0;
+}
+/* line 51, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.page-template-template-exporting-guide-confirmation .legacy .exporting-guide-form__submit, .frontpage-list__export-form .legacy .exporting-guide-form__submit {
+  color: #00549F;
+}
+/* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.legacy .filters__status {
+  color: #706b63;
+  display: inline;
+  font-size: .75em;
+  text-transform: inherit;
+}
+/* line 10, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.legacy .filters__panel.filters__panel--closed {
+  padding-bottom: 0;
+}
+/* line 14, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.legacy .filters__panel--closed .legacy .filters__list {
+  max-height: 0;
+  -webkit-transition: max-height .3s ease-out;
+  transition: max-height .3s ease-out;
+}
+/* line 19, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.legacy .filters__panel--closed .search-form__wrapper {
+  max-height: 0;
+  overflow: hidden;
+}
+/* line 24, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.legacy .filters__title {
+  font-size: 1em;
+  text-transform: none;
+}
+/* line 28, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.has-js .legacy .filters__title {
+  background: url(/assets/arrow-blue-up@2x-5a5e254c23b1a8abdad750ee7a0af9dc5ddb81eab452444aa3c7dcfe5cb5d55a.png) right 3px no-repeat;
+  background-size: 12px 12px;
+  cursor: pointer;
+  padding-right: 20px;
+  position: relative;
+}
+/* line 35, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.has-js .legacy .filters__title--closed {
+  background-image: url(/assets/arrow-blue-down@2x-744a9c29e81f8ecff7453c09a4b81b8ba92c973e460f690b375f6bd17c2a254f.png);
+}
+/* line 41, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.has-js.lt-ie9 .legacy .filters__title {
+  background: url(/assets/arrow-blue-up-6175c59a5160b7bf8ac2197aeb10784941f18cb1f27cf4e9ec3798813597aae2.png) right 3px no-repeat;
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.has-js.lt-ie9 .legacy .filters__title--closed {
+  background-image: url(/assets/arrow-blue-down-3727b65e72cca6e39807bdcd29f69873e73bb61c5afa9a744c5f936e2ffe70e0.png);
+}
+/* line 51, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.legacy .filters__link--active:before {
+  background-color: #00549f;
+}
+/* line 55, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.legacy .filters__link:focus {
+  outline-offset: -3px;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_info-list.scss */
+.legacy .info-list {
+  margin: 0.675em 0;
+  padding: 0;
+}
+/* line 5, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_info-list.scss */
+.legacy .info-list__item {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+  margin: 0.675em 0;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.legacy .info-list__item:last-child {
+  margin-right: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 5, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_info-list.scss */
+  .legacy .info-list__item {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 31.76157%;
+  }
+  /* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .info-list__item:last-child {
+    margin-right: 0;
+  }
+  /* line 78, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_omega.scss */
+  .legacy .info-list__item:nth-child(3n) {
+    margin-right: 0;
+  }
+  /* line 83, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_omega.scss */
+  .legacy .info-list__item:nth-child(3n+1) {
+    clear: left;
+  }
+}
+@media screen and (min-width: 48em) {
+  /* line 5, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_info-list.scss */
+  .legacy .info-list__item {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 100%;
+  }
+  /* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .info-list__item:last-child {
+    margin-right: 0;
+  }
+}
+/* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+.legacy .guide__copy {
+  height: 50px;
+}
+/* line 6, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+.legacy .guide__copy:before {
+  content: '';
+  background: url("exporting_guide.svg") no-repeat;
+  height: 40px;
+  width: 35px;
+  margin-right: 5px;
+  float: left;
+}
+/* line 14, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+.lt-ie9 .legacy .guide__copy:before {
+  content: 'Read: ';
+  margin-right: 5px;
+}
+@media screen and (min-width: 48em) {
+  /* line 6, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+  .legacy .guide__copy:before {
+    margin-top: 10px;
+    margin-right: 5px;
+    height: 30px;
+    width: 20px;
+  }
+}
+@media screen and (min-width: 75em) {
+  /* line 6, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+  .legacy .guide__copy:before {
+    margin-right: 10px;
+    margin-top: 2px;
+    width: 30px;
+  }
+}
+/* line 34, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+.legacy .guide__label {
+  margin-bottom: 0;
+  float: left;
+  width: 75%;
+}
+@media screen and (min-width: 48em) {
+  /* line 34, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+  .legacy .guide__label {
+    width: 80%;
+  }
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+.legacy .guide__country {
+  font-size: 12px;
+  text-transform: uppercase;
+  float: left;
+  width: 75%;
+}
+@media screen and (min-width: 48em) {
+  /* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+  .legacy .guide__country {
+    width: 80%;
+  }
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.legacy .panel {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+  padding: 0;
+  /* conflict with .panel class from style library */
+  /* this legacy will all go away soon */
+  border-top: none !important;
+  margin-bottom: 1.35em !important;
+  padding: 0 !important !important;
+  /* conflict with .panel class from style library */
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.legacy .panel:last-child {
+  margin-right: 0;
+}
+/* line 13, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.legacy .panel--primary {
+  background-color: #1e1348;
+  color: white;
+  margin-bottom: 1.35em;
+  text-align: center;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 13, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+  .legacy .panel--primary {
+    padding: 1.35em;
+  }
+}
+/* line 23, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.legacy .panel--primary h1 {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 80%;
+  color: white;
+}
+/* line 30, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.legacy .panel--primary p {
+  margin: 0 auto;
+  max-width: 70%;
+}
+/* line 35, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.legacy .panel--primary dl {
+  margin: auto;
+  text-align: left;
+  width: 90%;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 35, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+  .legacy .panel--primary dl {
+    width: 75%;
+  }
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.legacy .panel--primary dl dt {
+  display: block;
+  float: none;
+  text-align: center;
+  width: auto;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+  .legacy .panel--primary dl dt {
+    clear: left;
+    float: left;
+    overflow: hidden;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 160px;
+  }
+}
+/* line 62, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.legacy .panel--primary dl dd {
+  display: block;
+  margin-bottom: 0.675em;
+  margin-left: 0;
+  text-align: center;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 62, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+  .legacy .panel--primary dl dd {
+    margin-left: 170px;
+    text-align: left;
+    width: auto;
+  }
+}
+/* line 74, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.legacy .panel--primary dl dd:last-child {
+  margin-bottom: 0;
+}
+/* line 83, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.legacy .summary-panel {
+  padding: 10px;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 83, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+  .legacy .summary-panel {
+    padding: 20px;
+  }
+}
+/* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.legacy .hero-header::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+/* line 4, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_hero-header.scss */
+.legacy .hero-header-wrapper {
+  background-color: black;
+  background-image: url(/assets/backgrounds/export-opps-6d7c5c593b6ad6696c02522c21c59733218166111e79ca439b0d907d7827e134.jpg);
+  background-size: cover;
+  margin-bottom: 1.35em;
+}
+/* line 11, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_hero-header.scss */
+.legacy .hero-header__content {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 65.88078%;
+  padding-bottom: 52px;
+  padding-top: 52px;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.legacy .hero-header__content:last-child {
+  margin-right: 0;
+}
+/* line 16, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_hero-header.scss */
+.legacy .hero-header__content h1,
+.legacy .hero-header__content h2,
+.legacy .hero-header__content h3,
+.legacy .hero-header__content p {
+  color: white;
+  max-width: 100%;
+  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.75);
+}
+/* line 26, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_hero-header.scss */
+.lt-ie9 .legacy .hero-header {
+  height: 309px;
+}
+/* line 30, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_hero-header.scss */
+.legacy .hero-header br {
+  display: none;
+}
+@media screen and (min-width: 48em) {
+  /* line 30, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_hero-header.scss */
+  .legacy .hero-header br {
+    display: block;
+  }
+}
+/* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.legacy .page__header h1 {
+  margin: 0;
+}
+/* line 7, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.legacy .page__section {
+  margin-top: 1.35em;
+}
+/* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.legacy .page__section::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+/* line 12, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.legacy .page__intro {
+  margin-bottom: 2.7em;
+}
+/* line 16, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.legacy .page__icon {
+  float: left;
+  width: 15%;
+  max-width: 50px;
+  margin-right: 5%;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 16, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+  .legacy .page__icon {
+    margin-right: 1.35em;
+  }
+}
+/* line 27, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.legacy .page__image {
+  display: block;
+  margin-bottom: 1.35em;
+}
+/* line 31, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.legacy .page__image:last-child {
+  margin-bottom: 0;
+}
+/* line 35, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.legacy .page__image--centered {
+  margin-left: auto;
+  margin-right: auto;
+}
+/* line 40, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.legacy .page__image--partner-logos {
+  width: 100%;
+  height: auto;
+}
+/* line 46, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.legacy .page__content {
+  float: left;
+  width: 80%;
+}
+/* line 50, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.legacy .page__content--no-icon {
+  width: auto;
+}
+/* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_error-page.scss */
+.legacy .error404 .search-form {
+  margin: 0 0 .75em 0;
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.legacy .error404 .search-form:last-child {
+  margin-right: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_error-page.scss */
+  .legacy .error404 .search-form {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 57.35098%;
+    float: none;
+  }
+  /* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .error404 .search-form:last-child {
+    margin-right: 0;
+  }
+}
+/* line 12, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_error-page.scss */
+.legacy .error404 .search-form__submit {
+  background-color: #e2d9cb;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_metadata.scss */
+.legacy dl.metadata {
+  font-weight: 500;
+  padding-bottom: 0.675em;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 5, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_metadata.scss */
+  .legacy dl.metadata dt {
+    float: left;
+    margin-right: 0.675em;
+  }
+}
+/* line 12, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_metadata.scss */
+.legacy dl.metadata dd {
+  font-weight: 400;
+  margin-bottom: 0.675em;
+  margin-left: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 12, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_metadata.scss */
+  .legacy dl.metadata dd {
+    margin-bottom: 0;
+    margin-left: 138px;
+  }
+}
+@media screen and (min-width: 37.5em) {
+  /* line 24, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_metadata.scss */
+  .legacy dl.metadata--with-long-keys dd {
+    margin-bottom: 0;
+    margin-left: 180px;
+  }
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel {
+  background-color: #dfd5c5;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+  margin-bottom: 1.35em;
+  padding: 0.675em;
+}
+/* line 8, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__title {
+  font-size: 1em;
+  text-transform: none;
+}
+/* line 13, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__list {
+  background-color: #F2EEE8;
+  border-bottom: 1px solid #c9c0b1;
+  border-top: 2px solid #d8cfbf;
+  list-style-type: none;
+  margin: 0;
+  max-height: 10000px;
+  overflow: hidden;
+  padding: 0;
+  padding-right: 0.675em -1px;
+  -webkit-transition: max-height .3s ease-out;
+  transition: max-height .3s ease-out;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 13, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+  .legacy .sidebar-panel__list {
+    max-height: 200px;
+    overflow-y: scroll;
+  }
+}
+/* line 30, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.lt-ie9 .legacy .sidebar-panel__list {
+  max-height: 200px;
+  overflow-y: scroll;
+}
+/* line 36, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__list-item {
+  border-bottom: 1px solid #e2d9cb;
+  margin: 0;
+  text-transform: none;
+}
+/* line 41, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__list-item:last-child {
+  border-bottom: none;
+}
+/* line 46, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__link {
+  border: 0;
+  display: block;
+  padding: 0.3375em;
+  padding-left: 1.5em;
+  position: relative;
+}
+/* line 53, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__link:before {
+  border: 1px solid #00549f;
+  border-radius: 2px;
+  content: '';
+  display: block;
+  height: 12px;
+  left: 8px;
+  position: absolute;
+  top: 9px;
+  width: 12px;
+}
+/* line 65, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__link:visited {
+  color: #00549f;
+}
+/* line 69, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__link:hover {
+  background-color: #e6e2dc;
+  border-bottom: 0;
+}
+/* line 74, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__link:focus {
+  border-bottom: 0;
+}
+/* line 78, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__link--active:before {
+  background-color: #00549f;
+}
+/* line 83, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.legacy .sidebar-panel__link--no-box:before {
+  display: none;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation {
+  float: right;
+}
+/* line 4, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation ul {
+  margin-top: 2.025em;
+  padding: 0;
+}
+/* line 8, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation ul li {
+  display: inline;
+  position: relative;
+}
+/* line 12, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation ul li:after {
+  color: rgba(250, 250, 250, 0.5);
+  content: '|';
+  font-size: 20px;
+  position: absolute;
+  right: -1px;
+  top: -7px;
+}
+/* line 21, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation ul li:last-child:after {
+  content: '';
+}
+/* line 25, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation ul li a {
+  background-color: #160d37;
+  border: 0;
+  border-top: 2px #160d37 solid;
+  color: white;
+  margin: 0;
+  padding: 8px 11px 7px;
+  text-decoration: none;
+}
+/* line 34, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation ul li a:hover {
+  border-top: 3px solid #e41f13;
+}
+/* line 38, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation ul li a.user-navigation-toggle-active {
+  border-top: 3px solid #e41f13;
+}
+/* line 42, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation ul li a .icon {
+  background-position: 0 50%;
+  background-repeat: no-repeat;
+  display: inline;
+  padding: 2px 0.675em 2px 1.35em;
+}
+/* line 48, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation ul li a .icon-profile {
+  background-image: url(/assets/icons/profile-d077a4a9071d57616d36c5234f327ff71b80ee4ee9cb2e3c88d78a3777edb506.svg);
+}
+/* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.legacy .user-navigation ul li a .icon-sign-in {
+  background-image: url(/assets/icons/sign-in-267c927e8383c0662262ef835d8118eacdc093658c76c7828632c749e806a2b1.svg);
+}
+/* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_steps.scss */
+.legacy .dit2017 .steps__heading {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.72;
+  letter-spacing: -0.5px;
+  color: #333333;
+}
+/* line 13, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_steps.scss */
+.legacy .dit2017 .step__number {
+  float: left;
+  font-size: 144px;
+  font-weight: 500;
+  letter-spacing: -1.4px;
+  text-align: center;
+  color: #d8d8d8;
+}
+/* line 21, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_steps.scss */
+.legacy .dit2017 .step__heading {
+  font-size: 32px;
+  margin-top: 35px;
+}
+/* line 25, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_steps.scss */
+.legacy .dit2017 .step__text {
+  margin-top: 12px;
+  font-size: 16px;
+  line-height: 1.38;
+  text-align: left;
+  color: #4a4a4a;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .new-wrapper {
+  border-top: 0;
+  margin-bottom: 80px;
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.legacy .new-wrapper:last-child {
+  margin-right: 0;
+}
+/* line 8, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+  background-color: white;
+  padding: 1.35em 0;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.legacy .opportunity__main:last-child {
+  margin-right: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 8, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+  .legacy .opportunity__main {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 65.88078%;
+  }
+  /* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .opportunity__main:last-child {
+    margin-right: 0;
+  }
+}
+/* line 18, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.lt-ie9 .legacy .opportunity__main {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 65.88078%;
+  margin-right: 0;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.lt-ie9 .legacy .opportunity__main:last-child {
+  margin-right: 0;
+}
+/* line 23, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content {
+  margin-bottom: 3em;
+}
+/* line 26, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content .opportunity__teaser {
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1.291666667;
+}
+/* line 32, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content p {
+  color: #333333;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 25px;
+}
+/* line 39, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content h1 {
+  margin-left: 0;
+  margin-right: 0;
+}
+/* line 43, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content h1 span {
+  max-width: 75%;
+}
+/* line 48, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content hr {
+  border-color: #e2d9cb;
+}
+/* line 53, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content b,
+.legacy .opportunity__main .opportunity__content strong {
+  font-weight: normal;
+}
+/* line 58, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content i,
+.legacy .opportunity__main .opportunity__content em {
+  font-style: normal;
+}
+/* line 63, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content ul {
+  list-style: none;
+  margin-bottom: 1.35em;
+  margin-left: 1em;
+  padding-left: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 63, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+  .legacy .opportunity__main .opportunity__content ul {
+    margin-left: 0;
+  }
+}
+/* line 73, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content ul li {
+  margin-bottom: 0.675em;
+}
+/* line 77, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content ul li::before {
+  color: #b00d23;
+  content: "\2022";
+  display: inline-block;
+  margin-left: -1em;
+  width: 1em;
+}
+/* line 86, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content ol {
+  counter-reset: li;
+  list-style: none;
+  margin-bottom: 1.35em;
+  margin-left: 1em;
+  padding-left: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 86, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+  .legacy .opportunity__main .opportunity__content ol {
+    margin-left: 0;
+  }
+}
+/* line 97, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content ol li {
+  counter-increment: li;
+  margin-bottom: 0.675em;
+}
+/* line 102, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__main .opportunity__content ol li::before {
+  color: #b00d23;
+  content: counter(li);
+  direction: rtl;
+  display: inline-block;
+  margin-left: -1.5em;
+  margin-right: 0.5em;
+  margin-top: 1px;
+  text-align: right;
+  width: 1em;
+}
+/* line 117, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__information {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+  background-color: #dfd5c5;
+  border-bottom: 0;
+  padding: 1.35em;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.legacy .opportunity__information:last-child {
+  margin-right: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 117, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+  .legacy .opportunity__information {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 31.76157%;
+    margin-right: 0;
+  }
+  /* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .opportunity__information:last-child {
+    margin-right: 0;
+  }
+}
+/* line 129, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.lt-ie9 .legacy .opportunity__information {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 23.23176%;
+  margin-right: 0;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.lt-ie9 .legacy .opportunity__information:last-child {
+  margin-right: 0;
+}
+/* line 134, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__information .meta {
+  padding: 1em 0;
+}
+/* line 140, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__information .meta .button, .legacy .opportunity__information .meta .panel .companies-house-search-btn, .legacy .panel .opportunity__information .meta .companies-house-search-btn {
+  width: 100%;
+}
+/* line 144, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__information .meta .meta__item {
+  min-height: 2.0em;
+}
+/* line 146, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__information .meta .meta__item a {
+  border-bottom: 0;
+}
+/* line 150, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__information .meta .meta__item .meta__header {
+  display: block;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.53;
+  margin-bottom: 0;
+}
+/* line 158, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.legacy .opportunity__information .meta .meta__item .meta__content {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.53;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit {
+  font-size: 15px;
+  line-height: 20.25px;
+}
+/* line 6, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit header h3 {
+  color: white;
+}
+/* line 11, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit header #global-header .header-nav.open {
+  display: block;
+}
+/* line 17, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit footer {
+  clear: both;
+  display: block;
+}
+/* line 21, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit footer #footer {
+  padding-bottom: 50px;
+  padding-top: 0;
+}
+/* line 26, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit footer h3 {
+  padding: 0;
+}
+/* line 30, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit footer ul {
+  margin: 0;
+  padding: 0;
+}
+/* line 35, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit footer li {
+  margin: 0 0 15px;
+  padding: 0;
+  line-height: 20.25px;
+}
+/* line 40, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit footer li a {
+  border: 0 0 1px;
+  margin: 0;
+  padding: 0 0 2px;
+}
+/* line 51, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .js-enabled .dit2017 .navigation-toggle {
+  display: none;
+}
+/* line 55, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .js-enabled .dit2017 .navigation-toggle--open {
+  display: block;
+}
+@media screen and (min-width: 768px) {
+  /* line 64, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+  .legacy .dit2017 li.navigation-toggle-item a {
+    display: inline;
+  }
+}
+/* line 70, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit2017 ul {
+  line-height: 25px !important;
+}
+/* line 74, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit2017 .button, .legacy .dit2017 .panel .companies-house-search-btn, .legacy .panel .dit2017 .companies-house-search-btn {
+  width: auto;
+}
+/* line 78, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy .dit2017 .icon-menu {
+  background-image: url(/assets/icons/menu-222458f3b5f3e2b5e7180c67b42c9357af102e6a42c2b38c9f58749d861f6719.svg) !important;
+}
+@media screen and (min-width: 75em) {
+  /* line 82, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+  .legacy body#dit .outer-container {
+    max-width: 976px !important;
+  }
+}
+/* line 87, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.lt-ie9 .legacy body#dit .outer-container {
+  width: 976px !important;
+}
+/* line 93, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.legacy main {
+  margin-bottom: 1.35em;
+}
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500");html{box-sizing:border-box}*,*::after,*::before{box-sizing:inherit}html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;font:inherit;font-size:100%;margin:0;padding:0;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote::before,blockquote::after{content:none}q::before,q::after{content:none}table{border-collapse:collapse;border-spacing:0}.text--left{text-align:left}.text--center{text-align:center}.text--right{text-align:right}.push{margin:20px}.push--top{margin-top:20px}.push--right{margin-right:20px}.push--bottom{margin-bottom:20px}.push--left{margin-left:20px}.push--ends{margin-bottom:20px;margin-top:20px}.push--sides{margin-left:20px;margin-right:20px}.push-half{margin:10px}.push-half--top{margin-top:10px}.push-half--right{margin-right:10px}.push-half--bottom{margin-bottom:10px}.push-half--left{margin-left:10px}.push-half--ends{margin-bottom:10px;margin-top:10px}.push-half--sides{margin-left:10px;margin-right:10px}.flush{margin:0}.flush--top{margin-top:0}.flush--right{margin-right:0}.flush--bottom{margin-bottom:0}.flush--left{margin-left:0}.flush--ends{margin-bottom:0;margin-top:0}.flush--sides{margin-left:0;margin-right:0}.soft{padding:20px}.soft--top{padding-top:20px}.soft--right{padding-right:20px}.soft--bottom{padding-bottom:20px}.soft--left{padding-left:20px}.soft--ends{padding-bottom:20px;padding-top:20px}.soft--sides{padding-left:20px;padding-right:20px}.soft-half{padding:10px}.soft-half--top{padding-top:10px}.soft-half--right{padding-right:10px}.soft-half--bottom{padding-bottom:10px}.soft-half--left{padding-left:10px}.soft-half--ends{padding-bottom:10px;padding-top:10px}.soft-half--sides{padding-left:10px;padding-right:10px}.hard{padding:0}.hard--top{padding-top:0}.hard--right{padding-right:0}.hard--bottom{padding-bottom:0}.hard--left{padding-left:0}.hard--ends{padding-bottom:0;padding-top:0}.hard--sides{padding-left:0;padding-right:0}.cf::after,.background__panel__container::after{clear:both;content:'';display:table}.image-full{width:100%}.hide{display:none}@media screen and (max-width: 767px){.hide-mobile{display:none}}.show{display:block}.float--right{float:right}.float--left{float:left}.float--none{float:none}.visuallyhidden{border:0;clip:rect(0 0 0 0);height:1px;left:-9999em;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px}.overflow--hidden{overflow:hidden}.navigation-main a,.footer a{color:#fff}.list-separators li:after,.navigation-toggle-middle,.footer-links--border,.footer-middle-section,.footer .footer-bottom{color:#756e8f;color:rgba(250,250,250,0.5)}hr.white{background-color:#756e8f;background-color:rgba(250,250,250,0.5)}.navigation-toggle-item a{border-color:#756e8f;border-color:rgba(250,250,250,0.5)}.navigation-login a:hover:after{border-top:3px solid #e41f13;content:'';left:0;position:absolute;top:-8px;width:100%}@media screen and (max-width: 767px){.navigation-login a:hover:after{content:none}}body{font-size:16px;letter-spacing:0;line-height:23px;background-color:#fafafa;color:#333;font-family:"Roboto",arial,helvetica,sans-serif;position:relative}.font-light{font-weight:300}body,.font-regular,.link{font-weight:400}.h1,.font-medium,h1,h2,h3,h4,h5,h6,strong,.button{font-weight:500}.font-base,blockquote{font-size:16px}.h1{margin-bottom:15px;font-size:48px;letter-spacing:-1px;line-height:58px}@media screen and (min-width: tablet){.h1{font-size:32px;font-weight:500}}@media screen and (min-width: mobile){.h1{font-size:30px;margin-bottom:0}}.h2{margin-bottom:15px;font-size:32px;letter-spacing:-.6px;line-height:40px}.font-xlarge,.h3{margin-bottom:15px;font-size:24px;letter-spacing:0;line-height:32px}@media screen and (min-width: mobile){.font-xlarge,.h3{font-size:19px}}.font-large,.h4,.button,.button-close::before{margin-bottom:15px;font-size:18px;letter-spacing:0;line-height:25px}.font-white{color:#fff}.font-brand{color:#333}.font-purple{color:#4f0b7b}.font-light-grey{color:#dce0df}.font-small{font-size:15px}.font-xsmall{font-size:14px;letter-spacing:normal;line-height:14px}blockquote{line-height:25px}hr{background-color:#4f0b7b;border:0;display:block;height:1px;padding:0}p{margin-bottom:23px}p.font-large{margin-bottom:25px}.outer-container{max-width:1200px;margin-left:auto;margin-right:auto}.outer-container::after{clear:both;content:"";display:block}@media screen and (min-width: 960px){.outer-container{margin:0 30px}}@media screen and (max-width: 959px) and (min-width: 768px){.outer-container{margin:0 20px}}@media screen and (max-width: 767px){.outer-container{margin:0 10px}}.col-1{float:left;display:block;margin-right:1.53846%;width:6.92308%}.col-1:last-child{margin-right:0}.col-2{float:left;display:block;margin-right:1.53846%;width:15.38462%}.col-2:last-child{margin-right:0}.col-3{float:left;display:block;margin-right:1.53846%;width:23.84615%}.col-3:last-child{margin-right:0}.col-4{float:left;display:block;margin-right:1.53846%;width:32.30769%}.col-4:last-child{margin-right:0}.col-5{float:left;display:block;margin-right:1.53846%;width:40.76923%}.col-5:last-child{margin-right:0}.col-6{float:left;display:block;margin-right:1.53846%;width:49.23077%}.col-6:last-child{margin-right:0}.col-7{float:left;display:block;margin-right:1.53846%;width:57.69231%}.col-7:last-child{margin-right:0}.col-8{float:left;display:block;margin-right:1.53846%;width:66.15385%}.col-8:last-child{margin-right:0}.col-9{float:left;display:block;margin-right:1.53846%;width:74.61538%}.col-9:last-child{margin-right:0}.col-10{float:left;display:block;margin-right:1.53846%;width:83.07692%}.col-10:last-child{margin-right:0}.col-11{float:left;display:block;margin-right:1.53846%;width:91.53846%}.col-11:last-child{margin-right:0}.col-12{float:left;display:block;margin-right:1.53846%;width:100%}.col-12:last-child{margin-right:0}.panel{float:left;display:block;margin-right:1.53846%;width:100%}.panel:last-child{margin-right:0}.omega{margin-right:0}.background__panel__container{clear:both;text-align:center;vertical-align:top}.background__panel{border:solid 1px #000;border-radius:1rem;float:left;height:8rem;margin:0 1rem 1rem 0;padding:1rem;width:8rem}.background--great-blue{background-color:#1e1348}.background--flag-red{background-color:#b00d23}.background--stone{background-color:#dfd5c5}.background--dark-white{background-color:#fafafa}.background--grey{background-color:#333}.background--mid-grey{background-color:#999}.background--light-grey{background-color:#dce0df}.background--purple{background-color:#4f0b7b}.background--mid-blue{background-color:#00549f}.background--aqua{background-color:#007ea3}.background--dark-navy{background-color:#160d37}.background--dark-blue{background-color:#132965}.background--light-blue{background-color:#00549f}.background--light-aqua{background-color:#8ae2fb}.background--great-red{background-color:#e41f13}.background--white{background-color:#fff}a{text-decoration:none}a:focus{outline:3px solid #ffbf47}.link{border-bottom:1px solid;color:#00549f;text-decoration:none}.link:hover{border-bottom:1px dashed;color:#007ea3;margin-bottom:-1px}.link--grey{border-bottom:0;color:#dce0df}.link--grey:hover{color:#dce0df}.link--white{border-bottom:0;color:#fff}.link--white:hover{color:#fff}.logo-hmg{display:block}.logo-hmg img{display:block}.list{margin-bottom:20px;margin-top:5px;padding:0}.list-item{margin-bottom:13px;padding-left:20px;position:relative}@media screen and (max-width: 767px){.list-item{font-size:15px}}.list-item:before{color:#1e1348;content:'\25CF';left:0;margin-right:10px;position:absolute}.list-inline li{display:inline-block}@media screen and (max-width: 767px){.list-inline li.hide-mobile{display:none}}.list-separators{font-size:0}.list-separators li{position:relative}.list-separators li:after{content:'|';font-size:20px;position:absolute;right:-1px;top:0}.list-separators li:last-child:after,.list-separators li:nth-child(3):after{content:''}.button-blue{background-color:#00549f;color:#fff;outline:0}.button-blue:link,.button-blue:visited{background-color:#00549f;color:#fff}.button-blue:hover{background-color:#132965;color:#fff}.button-blue:active{background-color:#007ea3;outline:0}.button-blue:focus{outline:3px solid #ffbf47}.button-red{background-color:#e41f13;color:#fff;outline:0}.button-red:link,.button-red:visited{background-color:#e41f13;color:#fff}.button-red:hover{background-color:#b00d23;color:#fff}.button-red:active{background-color:#007ea3;outline:0}.button-red:focus{outline:3px solid #ffbf47}.button-transparent-blue{background-color:transparent;color:#00549f;outline:1px}.button-transparent-blue:link,.button-transparent-blue:visited{background-color:transparent;color:#007ea3}.button-transparent-blue:hover{background-color:transparent;color:#007ea3}.button-transparent-blue:active{background-color:#007ea3;outline:0}.button-transparent-blue:focus{outline:3px solid #ffbf47}.button-transparent-red{background-color:transparent;color:#e41f13;outline:1px}.button-transparent-red:link,.button-transparent-red:visited{background-color:transparent;color:#b00d23}.button-transparent-red:hover{background-color:transparent;color:#b00d23}.button-transparent-red:active{background-color:#007ea3;outline:0}.button-transparent-red:focus{outline:3px solid #ffbf47}.button-transparent-white{background-color:transparent;color:#fff;outline:1px}.button-transparent-white:link,.button-transparent-white:visited{background-color:transparent;color:#fafafa}.button-transparent-white:hover{background-color:transparent;color:#fafafa}.button-transparent-white:active{background-color:#007ea3;outline:0}.button-transparent-white:focus{outline:3px solid #ffbf47}.button__container{display:inline-block;margin-bottom:1rem;padding:2rem;vertical-align:top}@media screen and (max-width: 767px){.button__container{width:100%}}.button{border:0;border-radius:3px;box-shadow:none;cursor:pointer;display:inline-block;font-family:"Roboto",arial,helvetica,sans-serif;font-weight:500;padding:12px 30px;text-decoration:none}.button-large{font-size:24px;padding:15px 35px}.button-close{background-color:transparent;font-weight:300;padding:0}.button-close:hover{background-color:transparent}.button-close::before{color:#b00d23;content:'X';font-size:24px;left:-35px;top:-5px}.button-border{border:2px solid;padding-bottom:10px;padding-top:10px}@media screen and (max-width: 767px){.button{font-size:18px;margin-bottom:1rem;padding:14px;text-align:center;width:100%}}.icon-menu{background-image:url("/images/icons/menu.svg")}.icon-sign-in{background-image:url("/images/icons/signin.svg")}.icon-sign-out{background-image:url("/images/icons/signout.svg")}.icon{background-position:0 0;background-repeat:no-repeat;display:inline-block}.icon--left{float:left;height:21px;left:0;margin-right:10px;position:relative;width:22px}input:focus,textarea:focus,select:focus{outline:3px solid #ffbf47}img{max-width:100%}.navigation a{display:block}.navigation-main-section{position:relative}.navigation-main li:after{top:7px}.navigation-main a{font-size:15px}.navigation-main-link{margin:3px;outline:3px solid #00549f;padding:5px 8px 4px}.navigation-main-link:hover:after,.navigation-main-link--active:after{border-top:3px solid #e41f13;content:'';left:0;position:absolute;top:0;width:100%}.navigation-main-link--secondary{outline:3px solid #132965}.navigation-main-menu{overflow-x:hidden;padding-right:70px;white-space:nowrap}@media screen and (max-width: 767px){.navigation-main-menu{display:none}}.navigation-main-menu::-webkit-scrollbar{display:none}.navigation-toggle{padding:28px 0 50px}.navigation-toggle-item{padding:13px 0 0;position:relative}.navigation-toggle-item:first-child{padding-top:0}@media screen and (max-width: 767px){.navigation-toggle-item:first-child{padding-top:13px}}.navigation-toggle-item a{display:inline}.navigation-toggle-item a.last{border:0}.navigation-toggle-item a.navigation-toggle-active,.navigation-toggle-item a:hover{border-bottom-width:1px;border-style:dashed;padding-bottom:2px}@media screen and (max-width: 767px){.navigation-toggle-item a.navigation-toggle-active,.navigation-toggle-item a:hover{border-style:solid;display:block;padding-bottom:10px}.navigation-toggle-item a.navigation-toggle-active:after,.navigation-toggle-item a:hover:after{border-bottom:10px solid transparent;border-left:15px solid #e41f13;border-top:10px solid transparent;content:'';height:0;left:0;position:absolute;top:15px;width:0}}@media screen and (max-width: 767px){.navigation-toggle-item a{border-bottom-width:1px;border-style:solid;display:block;padding-bottom:10px}.navigation-toggle-item a.navigation-toggle-active.last,.navigation-toggle-item a:hover.last{border:0}}.navigation-toggle-item-last{border:0}@media screen and (max-width: 767px){.navigation-toggle-item{padding-left:25px}}@media screen and (max-width: 767px){.navigation-toggle-services{background-color:#00549f;font-weight:500}}.navigation-toggle-services-section{padding-left:10px}@media screen and (max-width: 767px){.navigation-toggle-services-section{padding-left:0}}@media screen and (max-width: 767px){.navigation-toggle .outer-container{margin:0;width:100%}}@media screen and (max-width: 767px){.navigation-toggle{padding:0}.navigation-toggle .col-3{float:left;display:block;margin-right:1.53846%;width:100%}.navigation-toggle .col-3:last-child{margin-right:0}}.navigation-toggle-middle{border-left:1px;border-style:solid;min-height:100px;padding-left:20px}@media screen and (max-width: 767px){.navigation-toggle-middle{border:0;min-height:inherit;padding:0}}.navigation-main-button{background-color:#00549f;border-left:2px solid #000;border-radius:0;font-size:15px;font-weight:400;padding:8px 10px 5px;position:absolute;right:0;top:0}.navigation-main-button .icon{height:12px;line-height:15px;margin-right:2px;top:1px;width:25px}@media screen and (max-width: 767px){.navigation-main-button{background:transparent;border:1px solid;border-color:#756e8f;border-color:rgba(250,250,250,0.5);top:-50px;width:auto}}.navigation-main-button:hover,.navigation-main-button--open{background-color:#160d37;border-top:3px solid #e41f13;display:block;padding-top:5px}@media screen and (max-width: 767px){.navigation-main-button:hover,.navigation-main-button--open{border-bottom:0;border-left:0;border-right:0}}.navigation-strip{padding:8px 0 3px}.navigation-strip a{font-size:14px;padding:0 5px 0 2px}@media screen and (max-width: 767px){.navigation-strip{float:left;display:block;margin-right:1.53846%;width:100%}.navigation-strip:last-child{margin-right:0}}.navigation-logo-link{margin-bottom:3px}.navigation-logo{padding:17px 0 4px}@media screen and (max-width: 767px){.navigation-logo{width:70%}}.navigation-skip-to a{left:-9999em;position:absolute}.navigation-skip-to a:focus{left:0;position:relative}.navigation-skip-to:after{display:none}@media screen and (max-width: 767px){.navigation-login li{padding-right:0}.navigation-login li .icon{margin-right:0}.navigation-login li:after{content:none}.navigation-login a{padding:0}}.js-enabled .navigation-toggle{display:none}.js-enabled .navigation-toggle--open{display:block}.footer{font-size:15px;padding-top:40px}.footer-logo{width:200px}@media screen and (max-width: 959px) and (min-width: 768px){.footer-logo{width:170px}}@media screen and (max-width: 767px){.footer-logo{width:150px}}.footer-links{padding-left:10px}@media screen and (max-width: 767px){.footer-links li{padding-bottom:10px}}.footer-links a:hover{border-bottom:1px dashed #fff;padding-bottom:2px}@media screen and (max-width: 767px){.footer-links--border{border-left:1px;border-style:solid;padding-left:20px}}.footer-middle-section{border-left:1px;border-right:1px;border-style:solid;padding-left:20px}@media screen and (max-width: 767px){.footer-middle-section{border:0;padding-left:0}}.footer-section{float:left;display:block;margin-right:1.53846%;width:49.23077%}.footer-section:last-child{margin-right:0}@media screen and (max-width: 959px) and (min-width: 768px){.footer-section .col-8,.footer-section .col-4{float:left;display:block;margin-right:1.53846%;width:49.23077%}.footer-section .col-8:last-child,.footer-section .col-4:last-child{margin-right:0}}@media screen and (max-width: 767px){.footer-section{float:left;display:block;margin-right:1.53846%;width:100%;border-bottom:1px solid;color:#756e8f;color:rgba(250,250,250,0.5);padding:20px 0}.footer-section:last-child{margin-right:0}.footer-section .col-8,.footer-section .col-4{float:left;display:block;margin-right:1.53846%;width:49.23077%}.footer-section .col-8:last-child,.footer-section .col-4:last-child{margin-right:0}}.footer-section-right li{padding-left:40px;padding-right:5px}@media screen and (max-width: 767px){.footer-section-right li{padding-left:0}}@media screen and (min-width: 960px){.footer-section-right li{padding-left:0}}@media screen and (max-width: 959px) and (min-width: 768px){.footer-section-right .col-6:nth-child(1){float:left;display:block;margin-right:1.53846%;width:57.69231%}.footer-section-right .col-6:nth-child(1):last-child{margin-right:0}.footer-section-right .col-6:nth-child(2){float:left;display:block;margin-right:1.53846%;width:40.76923%}.footer-section-right .col-6:nth-child(2):last-child{margin-right:0}}@media screen and (max-width: 767px){.footer-section-right{margin-bottom:10px}}.footer-copy{text-align:right}@media screen and (max-width: 767px){.footer-copy{float:left;display:block;margin-right:1.53846%;width:100%;padding:10px 0 20px;text-align:center}.footer-copy:last-child{margin-right:0}}@media screen and (max-width: 767px){.footer .list-separators li{float:left;display:block;margin-right:1.53846%;width:49.23077%}.footer .list-separators li:last-child{margin-right:0}.footer .list-separators li:after{content:''}}.footer .footer-bottom{border-top:1px solid;margin-top:60px;padding-bottom:20px;padding-top:10px}@media screen and (max-width: 767px){.footer .footer-bottom{border:0;margin-top:0}}@media screen and (max-width: 767px){.footer{padding-top:0}}.steps-number{color:#dce0df;display:block;font-size:144px;line-height:110px}@media screen and (max-width: 959px) and (min-width: 768px){.steps-number{font-size:96px;line-height:80px}}@media screen and (max-width: 767px){.steps-number{font-size:90px;line-height:69px}}.steps-content{width:199px}@media screen and (max-width: 767px){.steps-content{width:76%}}@media screen and (max-width: 959px) and (min-width: 768px){.steps-content{width:70%}}.panel{background-color:#dfd5c5;border-top:solid #000 0.5rem;margin-bottom:1rem;padding:2rem;width:100%}.panel--action{border-top-color:#e41f13}.panel--info{border-top-color:#00549f}.tabswitcher{border:solid 1px #000;margin-bottom:1rem}.tabswitcher__btn{background:#fff;color:#333;cursor:pointer;display:inline-block;padding:.5rem}.tabswitcher__btn--active{background:#333;color:#fff}.tabswitcher__pane{padding:1rem;width:90%}.tabswitcher--initialised .tabswitcher__pane{display:none}.tabswitcher--initialised .tabswitcher__pane--active{display:inline-block}
+.outer-container{clear:both;float:none}.outer-container:after{clear:both;content:'';display:block}.col-1,.col-2,.col-3,.col-4,.col-5,.col-6,.col-7,.col-8,.col-9,.col-10,.col-11,.col-12{margin-right:4px}.footer-section{margin-right:4px}
+/*
+Until we are able to build the styleguide into our pipeline
+rather than copy it across, we will have to overwrite what are paths to svg files 
+*/
+
+.icon-menu {
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAMCAMAAACz+6aNAAAABlBMVEUAAAD///+l2Z/dAAAAAXRSTlMAQObYZgAAABJJREFUeAFjYEQHWETIAgNrMgAr4ABnuRS+bAAAAABJRU5ErkJggg==);
+	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMTdweCIgaGVpZ2h0PSIxMnB4IiB2aWV3Qm94PSIwIDAgMTcgMTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE3IDEyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe2ZpbGw6I0ZGRkZGRjt9PC9zdHlsZT48cmVjdCBjbGFzcz0ic3QwIiB3aWR0aD0iMTciIGhlaWdodD0iMiIvPjxyZWN0IHk9IjUiIGNsYXNzPSJzdDAiIHdpZHRoPSIxNyIgaGVpZ2h0PSIyIi8+PHJlY3QgeT0iMTAiIGNsYXNzPSJzdDAiIHdpZHRoPSIxNyIgaGVpZ2h0PSIyIi8+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PC9zdmc+), 
+	-webkit-linear-gradient(transparent, transparent);
+	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMTdweCIgaGVpZ2h0PSIxMnB4IiB2aWV3Qm94PSIwIDAgMTcgMTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE3IDEyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe2ZpbGw6I0ZGRkZGRjt9PC9zdHlsZT48cmVjdCBjbGFzcz0ic3QwIiB3aWR0aD0iMTciIGhlaWdodD0iMiIvPjxyZWN0IHk9IjUiIGNsYXNzPSJzdDAiIHdpZHRoPSIxNyIgaGVpZ2h0PSIyIi8+PHJlY3QgeT0iMTAiIGNsYXNzPSJzdDAiIHdpZHRoPSIxNyIgaGVpZ2h0PSIyIi8+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PC9zdmc+), 
+	linear-gradient(transparent, transparent);
+}
+.icon-sign-in {
+	background-image: url('data:image/svg+xml;utf8,<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21"><style>.st0{fill:#fff}</style><path class="st0" d="M10.53.33C4.93.33.39 4.87.39 10.47s4.54 10.14 10.14 10.14 10.14-4.54 10.14-10.14S16.14.33 10.53.33zm0 2.88c2.02 0 3.65 1.63 3.65 3.65s-1.63 3.65-3.65 3.65a3.65 3.65 0 0 1 0-7.3zm-.08 16.83c-3.06 0-5.79-1.46-7.59-3.74 1.17-3.17 4.13-5.42 7.59-5.42s6.42 2.25 7.59 5.42c-1.8 2.28-4.53 3.74-7.59 3.74z"/></svg>');
+}
+
+.icon-sign-out {
+	background-image: url('data:image/svg+xml;utf8,<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" enable-background="new 0 0 21 21"><style>.st0{fill:none;stroke:#FFFFFF;stroke-miterlimit:10;} .st1{fill:#FFFFFF;}</style><circle class="st0" cx="10.45" cy="10.54" r="9.63"/><circle class="st1" cx="10.4" cy="8.02" r="3.29"/><path class="st1" d="M10.46 11.69c-3.17 0-5.88 2.01-6.95 4.84 1.65 2.04 4.15 3.35 6.95 3.35s5.31-1.3 6.95-3.35c-1.07-2.83-3.78-4.84-6.95-4.84z"/></svg>');
+}
+
+
+
+/* line 4, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_box-sizing.scss */
+html {
+  box-sizing: border-box;
+}
+
+/* line 9, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_box-sizing.scss */
+*, *::after, *::before {
+  box-sizing: inherit;
+}
+
+/* secondary */
+/* other */
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/utilities/_helpers.scss */
+.row, body main, .filters__panel, .results__order__items {
+  *zoom: 1;
+}
+/* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/utilities/_helpers.scss */
+.row:before, body main:before, .filters__panel:before, .results__order__items:before, .row:after, body main:after, .filters__panel:after, .results__order__items:after {
+  content: " ";
+  display: table;
+}
+/* line 8, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/utilities/_helpers.scss */
+.row:after, body main:after, .filters__panel:after, .results__order__items:after {
+  clear: both;
+}
+
+/* line 13, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/utilities/_helpers.scss */
+.hidden {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  visibility: hidden;
+}
+
+/* line 20, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/utilities/_helpers.scss */
+.highlight {
+  outline: 3px solid #ffbf47;
+}
+
+/* This is due to be released in style library */
+/* line 25, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/utilities/_helpers.scss */
+.outer-container {
+  margin: 0 auto;
+  max-width: 1200px;
+  margin: 0 10px;
+}
+@media screen and (min-width: 767px) {
+  /* line 25, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/utilities/_helpers.scss */
+  .outer-container {
+    margin: 0 30px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  /* line 25, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/utilities/_helpers.scss */
+  .outer-container {
+    margin: 0 auto;
+  }
+}
+
+/* line 38, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/utilities/_helpers.scss */
+.navigation-main-button {
+  right: 10px;
+}
+
+/* a lot of stuff here needs to roll into style library */
+/* line 2, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_global.scss */
+body {
+  overflow-x: hidden;
+  background: #ffffff;
+}
+
+/* line 6, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_global.scss */
+.img {
+  display: block;
+}
+/* line 8, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_global.scss */
+.img__fluid {
+  width: 100%;
+}
+
+/* line 13, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_global.scss */
+body.js-enabled .select-custom {
+  visibility: hidden;
+}
+
+/* line 17, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_global.scss */
+.center {
+  text-align: center;
+}
+
+/* line 20, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_global.scss */
+.margin-top-20 {
+  margin-top: 20px;
+}
+
+/* line 23, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_global.scss */
+.margin-top-30 {
+  margin-top: 30px;
+}
+
+/* line 26, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_global.scss */
+.margin-bottom-12 {
+  margin-bottom: 12px;
+}
+
+/* line 29, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_global.scss */
+.padding-top-60 {
+  padding-top: 60px !important;
+}
+
+/* line 32, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_global.scss */
+.padding-bottom-40 {
+  padding-top: 40px !important;
+}
+
+/* .button in style library tweaking */
+/* utility classes for text and background colours */
+/* line 2, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_colours.scss */
+.white {
+  color: #ffffff;
+}
+
+/* line 5, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_colours.scss */
+.bg-blue {
+  background-color: #1e1348;
+}
+
+/* line 8, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_colours.scss */
+.bg-offwhite {
+  background-color: #fafafa;
+}
+
+/* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+/* line 9, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.container {
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 10px;
+}
+@media only screen and (min-width: 50em) {
+  /* line 9, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+  .container {
+    padding: 0 30px;
+  }
+}
+@media only screen and (min-width: 75em) {
+  /* line 9, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+  .container {
+    padding: 0;
+  }
+}
+/* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.container::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+
+/* line 47, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.row {
+  font-size: 0;
+}
+
+/* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-1 {
+  width: 100%;
+  display: inline-block;
+  float: left;
+  font-size: 16px;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+@media only screen and (min-width: 768px) {
+  /* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+  .column-1 {
+    width: 8.33333%;
+    vertical-align: middle;
+  }
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-1.fluid {
+  width: 100%;
+}
+
+/* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-2 {
+  width: 100%;
+  display: inline-block;
+  float: left;
+  font-size: 16px;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+@media only screen and (min-width: 768px) {
+  /* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+  .column-2 {
+    width: 16.66667%;
+    vertical-align: middle;
+  }
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-2.fluid {
+  width: 50%;
+}
+
+/* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-3 {
+  width: 100%;
+  display: inline-block;
+  float: left;
+  font-size: 16px;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+@media only screen and (min-width: 768px) {
+  /* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+  .column-3 {
+    width: 25%;
+    vertical-align: middle;
+  }
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-3.fluid {
+  width: 33.33333%;
+}
+
+/* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-4 {
+  width: 100%;
+  display: inline-block;
+  float: left;
+  font-size: 16px;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+@media only screen and (min-width: 768px) {
+  /* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+  .column-4 {
+    width: 33.33333%;
+    vertical-align: middle;
+  }
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-4.fluid {
+  width: 25%;
+}
+
+/* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-5 {
+  width: 100%;
+  display: inline-block;
+  float: left;
+  font-size: 16px;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+@media only screen and (min-width: 768px) {
+  /* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+  .column-5 {
+    width: 41.66667%;
+    vertical-align: middle;
+  }
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-5.fluid {
+  width: 20%;
+}
+
+/* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-6 {
+  width: 100%;
+  display: inline-block;
+  float: left;
+  font-size: 16px;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+@media only screen and (min-width: 768px) {
+  /* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+  .column-6 {
+    width: 50%;
+    vertical-align: middle;
+  }
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-6.fluid {
+  width: 16.66667%;
+}
+
+/* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-7 {
+  width: 100%;
+  display: inline-block;
+  float: left;
+  font-size: 16px;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+@media only screen and (min-width: 768px) {
+  /* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+  .column-7 {
+    width: 58.33333%;
+    vertical-align: middle;
+  }
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-7.fluid {
+  width: 14.28571%;
+}
+
+/* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-8 {
+  width: 100%;
+  display: inline-block;
+  float: left;
+  font-size: 16px;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+@media only screen and (min-width: 768px) {
+  /* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+  .column-8 {
+    width: 66.66667%;
+    vertical-align: middle;
+  }
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-8.fluid {
+  width: 12.5%;
+}
+
+/* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-9 {
+  width: 100%;
+  display: inline-block;
+  float: left;
+  font-size: 16px;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+@media only screen and (min-width: 768px) {
+  /* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+  .column-9 {
+    width: 75%;
+    vertical-align: middle;
+  }
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-9.fluid {
+  width: 11.11111%;
+}
+
+/* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-10 {
+  width: 100%;
+  display: inline-block;
+  float: left;
+  font-size: 16px;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+@media only screen and (min-width: 768px) {
+  /* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+  .column-10 {
+    width: 83.33333%;
+    vertical-align: middle;
+  }
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-10.fluid {
+  width: 10%;
+}
+
+/* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-11 {
+  width: 100%;
+  display: inline-block;
+  float: left;
+  font-size: 16px;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+@media only screen and (min-width: 768px) {
+  /* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+  .column-11 {
+    width: 91.66667%;
+    vertical-align: middle;
+  }
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-11.fluid {
+  width: 9.09091%;
+}
+
+/* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-12 {
+  width: 100%;
+  display: inline-block;
+  float: left;
+  font-size: 16px;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+@media only screen and (min-width: 768px) {
+  /* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+  .column-12 {
+    width: 100%;
+    vertical-align: middle;
+  }
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_grid.scss */
+.column-12.fluid {
+  width: 8.33333%;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_typography.scss */
+h1,
+.h1 {
+  color: #333333;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.9px;
+}
+@media only screen and (min-width: 45em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_typography.scss */
+  h1,
+  .h1 {
+    width: 60%;
+  }
+}
+@media only screen and (min-width: 50em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_typography.scss */
+  h1,
+  .h1 {
+    font-size: 48px;
+    line-height: 1.15;
+    letter-spacing: -1px;
+  }
+}
+
+/* line 18, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_typography.scss */
+h2,
+.h2 {
+  color: #333333;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.29;
+  letter-spacing: -0.6px;
+}
+@media only screen and (min-width: 50em) {
+  /* line 18, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_typography.scss */
+  h2,
+  .h2 {
+    font-size: 32px;
+    line-height: 1.25;
+  }
+}
+
+/* line 31, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_typography.scss */
+h3,
+.h3 {
+  color: #333333;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.39;
+}
+@media only screen and (min-width: 50em) {
+  /* line 31, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_typography.scss */
+  h3,
+  .h3 {
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.29;
+    letter-spacing: -0.4px;
+  }
+}
+
+/* line 46, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_typography.scss */
+p {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.53;
+}
+/* line 50, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_typography.scss */
+p.bold {
+  font-weight: 500;
+}
+
+/* line 55, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_typography.scss */
+p.small {
+  font-size: 13px;
+  line-height: 1.54;
+}
+
+/* line 60, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_typography.scss */
+p.large,
+.p-large {
+  font-size: 18px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.39;
+}
+
+/* The below are not used yet */
+/* line 70, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_typography.scss */
+blockquote {
+  font-family: Georgia;
+  color: #333333;
+  font-size: 24px;
+  font-weight: regular;
+  line-height: 32px;
+}
+
+/* line 78, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_typography.scss */
+button.text {
+  color: #333333;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 25px;
+}
+
+/* line 85, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/base/_typography.scss */
+a.link {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 25px;
+}
+
+/* we can only set this on the main block for now */
+/* line 2, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/elements/_body.scss */
+body main {
+  -webkit-font-smoothing: antialiased;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/elements/_hr.scss */
+hr.thin {
+  height: 1px;
+  border: 0;
+  color: #d8d8d8;
+  background-color: #d8d8d8;
+  width: 100%;
+}
+
+/* line 8, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/elements/_hr.scss */
+hr.thick {
+  height: 5px;
+  border: 0;
+  margin: 0px 0px 30px 0px;
+  color: #b00d23;
+  background-color: #b00d23;
+  width: 100%;
+}
+
+/* line 2, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_hero.scss */
+.hero__main {
+  background-color: #fafafa;
+  overflow-x: hidden;
+}
+@media only screen and (min-width: 40em) {
+  /* line 2, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_hero.scss */
+  .hero__main {
+    background-image: url(/assets/backgrounds/export-opps-medium-215ed88589f277bae1ba3eb83c3d3a047f9cb2074d2fdeccb826a05ee70df026.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+}
+@media only screen and (min-width: 64em) {
+  /* line 2, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_hero.scss */
+  .hero__main {
+    background-image: url(/assets/backgrounds/export-opps-large-ef825b932394eaf3ab82f5735159c43c23db2421abfd6e04091aa926880e597b.jpg);
+    background-position: 70% 0px;
+  }
+}
+@media only screen and (min-width: 75em) {
+  /* line 2, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_hero.scss */
+  .hero__main {
+    background-size: 2220px;
+  }
+}
+/* line 17, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_hero.scss */
+.hero__main hr {
+  margin: 20px 0px 0px 0px;
+}
+@media only screen and (min-width: 40em) {
+  /* line 17, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_hero.scss */
+  .hero__main hr {
+    display: none;
+  }
+}
+/* line 24, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_hero.scss */
+.hero__specialContainer {
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 10px;
+}
+@media only screen and (min-width: 40em) {
+  /* line 24, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_hero.scss */
+  .hero__specialContainer {
+    width: 586px;
+    margin: 0 auto;
+    padding: 0;
+  }
+}
+@media only screen and (min-width: 64em) {
+  /* line 24, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_hero.scss */
+  .hero__specialContainer {
+    width: 100%;
+    margin: 0 30px;
+  }
+}
+@media only screen and (min-width: 64em) {
+  /* line 24, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_hero.scss */
+  .hero__specialContainer {
+    margin: 0 30px;
+  }
+}
+@media only screen and (min-width: 75em) {
+  /* line 24, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_hero.scss */
+  .hero__specialContainer {
+    margin: 0 auto;
+  }
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_hero.scss */
+.hero__header {
+  color: #333333;
+  padding: 24px 0px 0px 0px;
+  width: 100%;
+}
+@media only screen and (min-width: 40em) {
+  /* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_hero.scss */
+  .hero__header {
+    color: #ffffff;
+    text-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+  }
+}
+@media only screen and (min-width: 64em) {
+  /* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_hero.scss */
+  .hero__header {
+    padding: 42px 0px 0px 0px;
+  }
+}
+/* line 56, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_hero.scss */
+.hero__text {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.33;
+  color: #333333;
+  padding: 14px 0px 0px 0px;
+}
+@media only screen and (min-width: 40em) {
+  /* line 56, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_hero.scss */
+  .hero__text {
+    font-size: 20px;
+    line-height: 1.3;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+}
+@media only screen and (min-width: 64em) {
+  /* line 56, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_hero.scss */
+  .hero__text {
+    font-size: 22px;
+    line-height: 1.41;
+    width: 596px;
+  }
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_block.scss */
+.block {
+  position: relative;
+  padding: 40px 0 40px 0;
+}
+/* line 4, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_block.scss */
+.block__heading {
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: -0.2px;
+  line-height: 2.29;
+  margin: 30px 0 20px 0;
+}
+@media only screen and (min-width: 75em) {
+  /* line 4, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_block.scss */
+  .block__heading {
+    font-size: 32px;
+    letter-spacing: -0.4px;
+  }
+}
+/* line 15, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_block.scss */
+.block__list {
+  list-style: initial;
+  margin-left: 20px;
+  margin-bottom: 40px;
+}
+/* line 19, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_block.scss */
+.block__list-controlWidth {
+  width: 80%;
+}
+@media only screen and (min-width: 60em) {
+  /* line 19, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_block.scss */
+  .block__list-controlWidth {
+    width: 60%;
+  }
+}
+/* line 26, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_block.scss */
+.block__list__item {
+  font-size: 18px;
+  font-weight: 400;
+  margin: 0 0 20px 10px;
+}
+/* line 31, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_block.scss */
+.block__graphic {
+  margin: 30px 0 0 0;
+}
+/* line 34, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_block.scss */
+.block-withNotch:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 40px 40px 0 40px;
+  border-color: #ffffff transparent transparent transparent;
+  -webkit-transform: rotate(360deg);
+  /* better anti-aliasing in webkit */
+}
+
+/* line 51, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_block.scss */
+.bg-blue .block__heading {
+  color: white;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_statistic.scss */
+.statistic {
+  display: inline-block;
+  text-align: center;
+  padding: 40px 0;
+}
+/* line 5, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_statistic.scss */
+.statistic_number {
+  display: inline-block;
+  font-size: 100px;
+  font-weight: 500;
+  margin-right: 10px;
+  text-align: right;
+  width: 100%;
+  color: #1E1348;
+  text-align: center;
+}
+@media only screen and (min-width: 64em) {
+  /* line 5, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_statistic.scss */
+  .statistic_number {
+    text-align: right;
+    width: auto;
+  }
+}
+/* line 19, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_statistic.scss */
+.statistic_text {
+  display: inline-block;
+  font-size: 36px;
+  font-weight: 500;
+  letter-spacing: -0.7px;
+  line-height: 1.2em;
+  margin-left: 10px;
+  width: 340px;
+  color: #4a4a4a;
+  text-align: center;
+}
+@media only screen and (min-width: 64em) {
+  /* line 19, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_statistic.scss */
+  .statistic_text {
+    text-align: left;
+  }
+}
+
+/* line 2, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_graphics.scss */
+.graphic__locate {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background: transparent url(/assets/steps/icon-locate-db312c0995300ff715a089364c33caf32c72a01b3ef1125ee9a9234af644719c.png) top center/220px 220px no-repeat;
+  background: url(/assets/steps/icon-locate-998e1cbf56aa424ec4c17bdafddec7eafc4d56b56a649bd9ff27c82896287de8.svg), -webkit-linear-gradient(transparent, transparent);
+  background: url(/assets/steps/icon-locate-998e1cbf56aa424ec4c17bdafddec7eafc4d56b56a649bd9ff27c82896287de8.svg), linear-gradient(transparent, transparent);
+}
+/* line 9, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_graphics.scss */
+.graphic__register {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background: transparent url(/assets/steps/icon-register-2c77a789fdf37a9ddcc510af930e48db28a33ab7130867b1bc2a90386aef77b6.png) top center/220px 220px no-repeat;
+  background: url(/assets/steps/icon-register-d680602b30d745e0a034ee68b5d42a5b1575e01b1615c5d88f29c979daa69110.svg), -webkit-linear-gradient(transparent, transparent);
+  background: url(/assets/steps/icon-register-d680602b30d745e0a034ee68b5d42a5b1575e01b1615c5d88f29c979daa69110.svg), linear-gradient(transparent, transparent);
+}
+/* line 16, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_graphics.scss */
+.graphic__connect {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background: transparent url(/assets/steps/icon-connect-9ecfeb1bc6b226df20572a8659c49f59c95fe4479c2f2ee98efe10fbbc3c75a6.png) top center/220px 220px no-repeat;
+  background: url(/assets/steps/icon-connect-fccf51bf40a1bea34de9573af37c6e41a85c71d60615691d79e84501b0cd3c96.svg), -webkit-linear-gradient(transparent, transparent);
+  background: url(/assets/steps/icon-connect-fccf51bf40a1bea34de9573af37c6e41a85c71d60615691d79e84501b0cd3c96.svg), linear-gradient(transparent, transparent);
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+.filters {
+  /* toggling */
+  /* tweak in open state */
+}
+@media only screen and (min-width: 40em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+  .filters {
+    padding: 0px 0px 40px 0px;
+  }
+}
+@media only screen and (min-width: 75em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+  .filters {
+    margin: 0 auto;
+    width: 1200px;
+    max-width: 1200px;
+    padding: 0px 0px 80px 0px;
+  }
+}
+/* line 11, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+.filters__searchfield {
+  -webkit-appearance: none;
+  border-radius: 0;
+  font-size: 16px;
+  letter-spacing: -0.3px;
+  color: #999999;
+  padding: 15px 14px;
+  background-color: #ffffff;
+  border: solid 1px #999999;
+  width: 100%;
+}
+/* line 21, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+.filters__searchfield:focus {
+  border: solid 1px #999999;
+}
+/* line 25, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+.filters__panel {
+  padding: 24.5px 10px 24.5px 10px;
+  background-color: #fafafa;
+}
+@media only screen and (min-width: 20em) {
+  /* line 25, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+  .filters__panel {
+    background-color: rgba(250, 250, 250, 0.9);
+  }
+}
+@media only screen and (min-width: 40em) {
+  /* line 25, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+  .filters__panel {
+    padding: 15px 24px 20px 20px;
+    max-width: 586px;
+    margin: 0 auto;
+  }
+}
+@media only screen and (min-width: 64em) {
+  /* line 25, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+  .filters__panel {
+    width: auto;
+    max-width: none;
+    margin: 0 30px;
+    padding: 20px 0 30px 0;
+  }
+}
+@media only screen and (min-width: 75em) {
+  /* line 25, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+  .filters__panel {
+    margin: 0 auto;
+    padding: 20px 0 10px 0;
+  }
+}
+/* line 48, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+.filters__item {
+  position: relative;
+  margin-bottom: 10px;
+}
+@media only screen and (min-width: 64em) {
+  /* line 48, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+  .filters__item {
+    float: left;
+    width: 33%;
+    padding: 0px 20px;
+    margin-bottom: 0px;
+    min-height: 100px;
+  }
+}
+@media only screen and (min-width: 64em) {
+  /* line 59, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+  .filters__item:after {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    top: 0;
+    bottom: 0px;
+    border: solid 1px #979797;
+    border-width: 0 0 0 1px;
+  }
+}
+@media only screen and (min-width: 75em) {
+  /* line 72, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+  .filters__item:after {
+    bottom: 20px;
+  }
+}
+/* line 77, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+.filters__item__last:after {
+  content: none;
+}
+@media only screen and (min-width: 64em) {
+  /* line 76, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+  .filters__item__last {
+    margin-top: 23px;
+  }
+}
+@media only screen and (min-width: 75em) {
+  /* line 76, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+  .filters__item__last {
+    margin-top: initial;
+  }
+}
+/* line 88, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+.filters__groupB .filters__item:nth-child(2) {
+  clear: left;
+}
+/* line 91, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+.filters__groupB .filters__item:nth-child(1):after {
+  content: none;
+}
+/* line 94, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+.filters__label {
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.4px;
+  color: #333333;
+  display: block;
+  margin: 0px 0px 6px 2px;
+}
+@media only screen and (min-width: 64em) {
+  /* line 94, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+  .filters__label {
+    width: 75%;
+  }
+}
+@media only screen and (min-width: 75em) {
+  /* line 94, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+  .filters__label {
+    width: auto;
+  }
+}
+@media only screen and (min-width: 64em) {
+  /* line 107, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+  .filters__label.fixHeight {
+    height: 46px;
+    min-height: 46px;
+  }
+}
+/* line 114, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+.filters__label-brackets {
+  font-size: 18px;
+}
+/* line 117, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+.filters__field {
+  -webkit-appearance: none;
+  border-radius: 0;
+  font-size: 16px;
+  letter-spacing: -0.3px;
+  color: #333333;
+  padding: 15px 14px;
+  background-color: #ffffff;
+  border: solid 1px #999999;
+  width: 100%;
+}
+/* line 127, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+.filters__field::-webkit-input-placeholder, .filters__field:-ms-input-placeholder, .filters__field::-moz-placeholder {
+  font-family: Roboto;
+  font-size: 16px;
+  letter-spacing: -0.3px;
+  color: #999999;
+  opacity: 1;
+}
+/* line 137, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+.filters__searchbutton {
+  -webkit-appearance: none;
+  font-size: 18px;
+  font-weight: 900;
+  border-radius: 3px;
+  color: #ffffff;
+  background-color: #e41f13;
+  width: 100%;
+  padding: 15px 20px;
+}
+@media only screen and (min-width: 64em) {
+  /* line 137, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+  .filters__searchbutton {
+    position: relative;
+    top: 24px;
+  }
+}
+@media only screen and (min-width: 75em) {
+  /* line 137, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+  .filters__searchbutton {
+    width: 250px;
+  }
+}
+/* line 155, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+.filters .js-toggler {
+  font-size: 18px;
+  font-weight: 300;
+  color: #063e8b;
+  text-decoration: underline;
+  margin: 20px 0px;
+  padding: 0px 4px;
+  display: block;
+}
+@media only screen and (min-width: 64em) {
+  /* line 155, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+  .filters .js-toggler {
+    position: absolute;
+    bottom: -16px;
+    display: inline-block;
+    margin: 0px 0px 0px 0px;
+    bottom: -16px;
+    right: 20px;
+  }
+}
+@media only screen and (min-width: 75em) {
+  /* line 155, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+  .filters .js-toggler {
+    bottom: 32px;
+    right: 0px;
+  }
+}
+/* line 177, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+.filters .close {
+  display: none;
+}
+/* line 181, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+.filters-open .open {
+  display: none;
+}
+/* line 184, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+.filters-open .close {
+  display: block;
+}
+@media only screen and (min-width: 64em) {
+  /* line 188, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+  .filters-open .filters__item {
+    margin-bottom: 20px;
+  }
+  /* line 191, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_filters.scss */
+  .filters-open .filters__item__last {
+    margin-bottom: 0px;
+  }
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_steps.scss */
+.steps {
+  padding: 15px;
+}
+/* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_steps.scss */
+.steps__mainheading {
+  font-size: 24px;
+  letter-spacing: -0.2px;
+  font-weight: 400;
+  line-height: 2.29;
+  padding-top: 20px;
+  color: #333333;
+}
+@media only screen and (min-width: 75em) {
+  /* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_steps.scss */
+  .steps__mainheading {
+    font-size: 32px;
+    letter-spacing: -0.4px;
+  }
+}
+/* line 15, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_steps.scss */
+.steps__icon {
+  width: 220px;
+  height: 220px;
+  margin: 0 auto;
+  position: relative;
+}
+@media only screen and (min-width: 75em) {
+  /* line 21, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_steps.scss */
+  .steps__icon-with-arrow:after {
+    background: transparent url(/assets/steps/dotted_arrow-16b17ca0ad1515024ac2ef95c3841cbc8975ddb4af11108b420e7345d8001160.svg);
+    background-position: 90% center;
+    background-repeat: no-repeat;
+    background-size: 45px;
+    bottom: 0;
+    content: '';
+    position: absolute;
+    left: 100%;
+    top: 0;
+    width: 100px;
+    z-index: 10;
+  }
+}
+/* line 36, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_steps.scss */
+.steps__number {
+  color: #d8d8d8;
+  display: block;
+  font-size: 100px;
+  font-weight: 500;
+  letter-spacing: -1px;
+  line-height: 1em;
+  text-align: center;
+  width: 74px;
+  float: left;
+  margin-right: 10px;
+  padding-bottom: 40px;
+  padding-top: 16px;
+}
+@media only screen and (min-width: 50em) {
+  /* line 36, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_steps.scss */
+  .steps__number {
+    padding-bottom: 80px;
+  }
+}
+@media only screen and (min-width: 75em) {
+  /* line 36, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_steps.scss */
+  .steps__number {
+    font-size: 134px;
+    height: 176px;
+    letter-spacing: -1.3px;
+    margin-right: 10px;
+  }
+}
+/* line 59, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_steps.scss */
+.steps__heading {
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  color: #4a4a4a;
+  padding-top: 20px;
+}
+@media only screen and (min-width: 75em) {
+  /* line 59, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_steps.scss */
+  .steps__heading {
+    min-height: none;
+  }
+}
+@media only screen and (min-width: 75em) {
+  /* line 59, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_steps.scss */
+  .steps__heading {
+    padding-top: 30px;
+  }
+}
+/* line 72, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_steps.scss */
+.steps__text {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.38;
+  color: #4a4a4a;
+  padding-top: 8px;
+  margin-left: 84px;
+}
+
+/* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_results.scss */
+.results__order__heading {
+  font-size: 16px;
+  font-weight: 500;
+  float: left;
+  margin: 4px 12px 12px 0px;
+}
+@media only screen and (min-width: 45em) {
+  /* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_results.scss */
+  .results__order__heading {
+    margin: 4px 12px 4px 0px;
+  }
+}
+@media only screen and (min-width: 45em) {
+  /* line 15, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_results.scss */
+  .results__order__item {
+    float: left;
+  }
+}
+/* line 21, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_results.scss */
+.results__item {
+  margin-bottom: 1.625em;
+  padding-bottom: 1.625em;
+  border-bottom: 1px solid #dfd5c5;
+}
+/* line 26, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_results.scss */
+.results__item:first-child {
+  border-top: 1px solid #dfd5c5;
+  padding-top: 1em;
+}
+@media only screen and (min-width: 37.5em) {
+  /* line 26, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_results.scss */
+  .results__item:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+}
+/* line 36, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_results.scss */
+.results__icon {
+  color: #333333;
+  font-size: 13px;
+  font-weight: 400;
+  padding-left: 1.6em;
+  line-height: 1.2em;
+  margin-bottom: 6px;
+}
+/* line 43, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_results.scss */
+.results__icon--date {
+  background: url(/assets/deadline-404e380c6b4c94f20245d685b17c7b88255be9fddb025bad6c56cf56d004e7e2.svg) no-repeat left center;
+  background-size: 1em;
+}
+/* line 47, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_results.scss */
+.results__icon--enquiries {
+  background: url(/assets/enquiries-received-3d3851cf08d705fdb84134dfc16f0690ba0f0ed4fee6b072685175159546af7a.svg) no-repeat left center;
+  background-size: 1em;
+}
+/* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_results.scss */
+.lt-ie10 .results__icon, .lt-ie9 .results__icon {
+  padding-left: 0;
+}
+/* line 57, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_results.scss */
+.results__icon _:-ms-lang(x), .results__icon {
+  padding-left: 0\9;
+}
+/* line 61, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_results.scss */
+.results__icon _:-ms-fullscreen, :root .results__icon {
+  padding-left: 0;
+}
+/* line 64, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_results.scss */
+.results__icon _:-ms-fullscreen:before, :root .results__icon:before {
+  margin-right: .25em;
+}
+
+/* line 71, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_results.scss */
+#opportunities-subscribe-form {
+  background-color: #e7e0d4;
+  margin-top: 1.625em;
+  margin-bottom: 1.625em;
+  padding: 1.625em;
+}
+/* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+#opportunities-subscribe-form::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+/* line 78, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_results.scss */
+#opportunities-subscribe-form label {
+  display: block;
+}
+/* line 82, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_results.scss */
+#opportunities-subscribe-form input[type="email"] {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  border-radius: none;
+  box-shadow: none;
+  font-size: 1em;
+  height: 42px;
+  margin: 5px 2px;
+  padding: 5px 2px;
+}
+/* line 93, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_results.scss */
+.lt-ie9 #opportunities-subscribe-form input[type="email"] {
+  width: 97%;
+}
+/* line 98, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_results.scss */
+#opportunities-subscribe-form .button {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background-color: #00549f;
+  color: #ffffff;
+  margin-top: 0.8125em;
+  width: 100%;
+}
+@media only screen and (min-width: 45em) {
+  /* line 98, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_results.scss */
+  #opportunities-subscribe-form .button {
+    width: auto;
+  }
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_pagination.scss */
+.pagination {
+  margin: 0 auto;
+  padding: 0;
+}
+/* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.pagination::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+/* line 6, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_pagination.scss */
+.pagination li {
+  display: inline-block;
+  list-style: none;
+  margin: 0 8px 8px 0;
+}
+/* line 11, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_pagination.scss */
+.pagination li.active a {
+  background-color: #00549f;
+  color: #ffffff;
+}
+/* line 16, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_pagination.scss */
+.pagination li.arrow {
+  display: none;
+}
+/* line 20, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_pagination.scss */
+.pagination li:last-child {
+  margin-right: 0;
+}
+/* line 25, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_pagination.scss */
+.pagination a {
+  background-color: #ffffff;
+  border: 2px solid #00549f;
+  color: #00549f;
+  display: block;
+  font-family: sans-serif;
+  font-size: 1.25em;
+  font-weight: 500;
+  line-height: 1;
+  margin: 0;
+  min-width: 2em;
+  padding: 0.5em 0;
+  text-align: center;
+  text-decoration: none;
+}
+/* line 40, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_pagination.scss */
+.pagination a:hover {
+  background-color: #00549f;
+  color: #ffffff;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_sidepanel.scss */
+.sidepanel {
+  background-color: #dfd5c5;
+  padding: 10px;
+}
+@media only screen and (min-width: 40em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_sidepanel.scss */
+  .sidepanel {
+    padding: 20px;
+  }
+}
+@media only screen and (min-width: 64em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_sidepanel.scss */
+  .sidepanel {
+    padding: 30px;
+  }
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_radios.scss */
+.custom-radio {
+  display: block;
+  float: none;
+  clear: left;
+  position: relative;
+  padding: 4px 10px 9px 45px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+/* line 12, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_radios.scss */
+.custom-radio input {
+  position: absolute;
+  cursor: pointer;
+  left: 0;
+  top: 0;
+  width: 38px;
+  height: 38px;
+  z-index: 1;
+  margin: 0;
+  zoom: 1;
+  filter: alpha(opacity=0);
+  opacity: 0;
+}
+/* line 24, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_radios.scss */
+.custom-radio input:focus {
+  outline: 3px solid #ffbf47;
+  outline-offset: 0;
+}
+/* line 28, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_radios.scss */
+.custom-radio input[type=radio] + label::before {
+  content: "";
+  border: 2px solid #999999;
+  background: transparent;
+  width: 34px;
+  height: 34px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+}
+/* line 41, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_radios.scss */
+.custom-radio input[type=radio] + label::after {
+  content: "";
+  border: 10px solid #00549f;
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  border-radius: 50%;
+  zoom: 1;
+  filter: alpha(opacity=0);
+  opacity: 0;
+}
+/* line 56, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_radios.scss */
+.custom-radio input[type=radio]:checked + label::after {
+  zoom: 1;
+  filter: alpha(opacity=100);
+  opacity: 1;
+}
+/* line 61, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_radios.scss */
+.custom-radio input[type=radio]:focus + label::before {
+  box-shadow: 0 0 0 4px #ffbf47;
+}
+/* line 67, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_radios.scss */
+.custom-radio label {
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* line 73, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_radios.scss */
+html.lt-ie9 .custom-radio input {
+  filter: alpha(opacity=100);
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_promo.scss */
+.promo {
+  margin-bottom: 20px;
+}
+/* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.promo::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+@media only screen and (min-width: 45em) {
+  /* line 4, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_promo.scss */
+  .promo__body {
+    float: left;
+  }
+}
+/* line 9, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_promo.scss */
+.promo__summary {
+  color: #fe0000;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 25px;
+  margin-bottom: 10px;
+}
+/* line 15, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_promo.scss */
+.promo__summary .count {
+  font-size: 32px;
+  font-weight: 500;
+}
+/* line 19, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_promo.scss */
+.promo__summary .keywords {
+  font-weight: 500;
+}
+/* line 23, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_promo.scss */
+.promo__description {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 25px;
+  margin-bottom: 20px;
+}
+/* line 29, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_promo.scss */
+.promo__button {
+  -webkit-appearance: none;
+  background-color: #fe0000;
+  color: #ffffff;
+  width: 100%;
+}
+@media only screen and (min-width: 45em) {
+  /* line 29, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_promo.scss */
+  .promo__button {
+    width: auto;
+  }
+}
+/* line 38, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_promo.scss */
+.promo__branding {
+  float: right;
+  background-color: #fe0000;
+  background-image: url(/assets/partners/logo_santander-9c5e29846aa7f2652afbbca8245399243eb83b0aa3e54b1d30dd9d480ec85c18.png);
+  background-size: 150px;
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+@media only screen and (min-width: 45em) {
+  /* line 38, /Users/dituser/code/export-opportunities/app/assets/stylesheets/dit-styleguide-augment/components/_promo.scss */
+  .promo__branding {
+    width: 200px;
+    height: 200px;
+  }
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container {
+  box-sizing: border-box;
+  display: inline-block;
+  margin: 0;
+  position: relative;
+  vertical-align: middle;
+}
+
+/* line 7, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container .select2-selection--single {
+  box-sizing: border-box;
+  cursor: pointer;
+  display: block;
+  height: 28px;
+  -moz-user-select: none;
+   -ms-user-select: none;
+       user-select: none;
+  -webkit-user-select: none;
+}
+
+/* line 14, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container .select2-selection--single .select2-selection__rendered {
+  display: block;
+  padding-left: 8px;
+  padding-right: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* line 21, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container .select2-selection--single .select2-selection__clear {
+  position: relative;
+}
+
+/* line 23, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container[dir="rtl"] .select2-selection--single .select2-selection__rendered {
+  padding-right: 8px;
+  padding-left: 20px;
+}
+
+/* line 26, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container .select2-selection--multiple {
+  box-sizing: border-box;
+  cursor: pointer;
+  display: block;
+  min-height: 32px;
+  -moz-user-select: none;
+   -ms-user-select: none;
+       user-select: none;
+  -webkit-user-select: none;
+}
+
+/* line 33, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container .select2-selection--multiple .select2-selection__rendered {
+  display: inline-block;
+  overflow: hidden;
+  padding-left: 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* line 39, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container .select2-search--inline {
+  float: left;
+}
+
+/* line 41, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container .select2-search--inline .select2-search__field {
+  box-sizing: border-box;
+  border: none;
+  font-size: 100%;
+  margin-top: 5px;
+  padding: 0;
+}
+
+/* line 47, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container .select2-search--inline .select2-search__field::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+/* line 50, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-dropdown {
+  background-color: white;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  left: -100000px;
+  width: 100%;
+  z-index: 1051;
+}
+
+/* line 61, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-results {
+  display: block;
+}
+
+/* line 64, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-results__options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* line 69, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-results__option {
+  padding: 6px;
+  -moz-user-select: none;
+   -ms-user-select: none;
+       user-select: none;
+  -webkit-user-select: none;
+}
+
+/* line 73, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-results__option[aria-selected] {
+  cursor: pointer;
+}
+
+/* line 76, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--open .select2-dropdown {
+  left: 0;
+}
+
+/* line 79, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--open .select2-dropdown--above {
+  border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* line 84, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--open .select2-dropdown--below {
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* line 89, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-search--dropdown {
+  display: block;
+  padding: 4px;
+}
+
+/* line 92, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-search--dropdown .select2-search__field {
+  padding: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* line 96, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-search--dropdown .select2-search__field::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+/* line 98, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-search--dropdown.select2-search--hide {
+  display: none;
+}
+
+/* line 101, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-close-mask {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  min-height: 100%;
+  min-width: 100%;
+  height: auto;
+  width: auto;
+  opacity: 0;
+  z-index: 99;
+  background-color: #fff;
+  filter: alpha(opacity=0);
+}
+
+/* line 118, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-hidden-accessible {
+  border: 0 !important;
+  clip: rect(0 0 0 0) !important;
+  height: 1px !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  position: absolute !important;
+  width: 1px !important;
+}
+
+/* line 128, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-selection--single {
+  background-color: #fff;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+/* line 132, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  color: #444;
+  line-height: 28px;
+}
+
+/* line 135, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-selection--single .select2-selection__clear {
+  cursor: pointer;
+  float: right;
+  font-weight: bold;
+}
+
+/* line 139, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
+  color: #999;
+}
+
+/* line 141, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 26px;
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  width: 20px;
+}
+
+/* line 147, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+  border-color: #888 transparent transparent transparent;
+  border-style: solid;
+  border-width: 5px 4px 0 4px;
+  height: 0;
+  left: 50%;
+  margin-left: -4px;
+  margin-top: -2px;
+  position: absolute;
+  top: 50%;
+  width: 0;
+}
+
+/* line 159, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default[dir="rtl"] .select2-selection--single .select2-selection__clear {
+  float: left;
+}
+
+/* line 162, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default[dir="rtl"] .select2-selection--single .select2-selection__arrow {
+  left: 1px;
+  right: auto;
+}
+
+/* line 166, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default.select2-container--disabled .select2-selection--single {
+  background-color: #eee;
+  cursor: default;
+}
+
+/* line 169, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default.select2-container--disabled .select2-selection--single .select2-selection__clear {
+  display: none;
+}
+
+/* line 172, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+  border-color: transparent transparent #888 transparent;
+  border-width: 0 4px 5px 4px;
+}
+
+/* line 176, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-selection--multiple {
+  background-color: white;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  cursor: text;
+}
+
+/* line 181, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+  box-sizing: border-box;
+  list-style: none;
+  margin: 0;
+  padding: 0 5px;
+  width: 100%;
+}
+
+/* line 187, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-selection--multiple .select2-selection__rendered li {
+  list-style: none;
+}
+
+/* line 189, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-selection--multiple .select2-selection__placeholder {
+  color: #999;
+  margin-top: 5px;
+  float: left;
+}
+
+/* line 193, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-selection--multiple .select2-selection__clear {
+  cursor: pointer;
+  float: right;
+  font-weight: bold;
+  margin-top: 5px;
+  margin-right: 10px;
+}
+
+/* line 199, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  background-color: #e4e4e4;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  cursor: default;
+  float: left;
+  margin-right: 5px;
+  margin-top: 5px;
+  padding: 0 5px;
+}
+
+/* line 208, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+  color: #999;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: bold;
+  margin-right: 2px;
+}
+
+/* line 214, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+  color: #333;
+}
+
+/* line 217, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default[dir="rtl"] .select2-selection--multiple .select2-selection__choice, .select2-container--default[dir="rtl"] .select2-selection--multiple .select2-selection__placeholder, .select2-container--default[dir="rtl"] .select2-selection--multiple .select2-search--inline {
+  float: right;
+}
+
+/* line 220, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default[dir="rtl"] .select2-selection--multiple .select2-selection__choice {
+  margin-left: 5px;
+  margin-right: auto;
+}
+
+/* line 224, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default[dir="rtl"] .select2-selection--multiple .select2-selection__choice__remove {
+  margin-left: 2px;
+  margin-right: auto;
+}
+
+/* line 228, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+  border: solid black 1px;
+  outline: 0;
+}
+
+/* line 232, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default.select2-container--disabled .select2-selection--multiple {
+  background-color: #eee;
+  cursor: default;
+}
+
+/* line 236, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default.select2-container--disabled .select2-selection__choice__remove {
+  display: none;
+}
+
+/* line 239, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default.select2-container--open.select2-container--above .select2-selection--single, .select2-container--default.select2-container--open.select2-container--above .select2-selection--multiple {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* line 243, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default.select2-container--open.select2-container--below .select2-selection--single, .select2-container--default.select2-container--open.select2-container--below .select2-selection--multiple {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* line 247, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-search--dropdown .select2-search__field {
+  border: 1px solid #aaa;
+}
+
+/* line 250, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-search--inline .select2-search__field {
+  background: transparent;
+  border: none;
+  outline: 0;
+  box-shadow: none;
+  -webkit-appearance: textfield;
+}
+
+/* line 257, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-results > .select2-results__options {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* line 261, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-results__option[role=group] {
+  padding: 0;
+}
+
+/* line 264, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-results__option[aria-disabled=true] {
+  color: #999;
+}
+
+/* line 267, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-results__option[aria-selected=true] {
+  background-color: #ddd;
+}
+
+/* line 270, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-results__option .select2-results__option {
+  padding-left: 1em;
+}
+
+/* line 272, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-results__option .select2-results__option .select2-results__group {
+  padding-left: 0;
+}
+
+/* line 274, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-results__option .select2-results__option .select2-results__option {
+  margin-left: -1em;
+  padding-left: 2em;
+}
+
+/* line 277, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-results__option .select2-results__option .select2-results__option .select2-results__option {
+  margin-left: -2em;
+  padding-left: 3em;
+}
+
+/* line 280, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-results__option .select2-results__option .select2-results__option .select2-results__option .select2-results__option {
+  margin-left: -3em;
+  padding-left: 4em;
+}
+
+/* line 283, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-results__option .select2-results__option .select2-results__option .select2-results__option .select2-results__option .select2-results__option {
+  margin-left: -4em;
+  padding-left: 5em;
+}
+
+/* line 286, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-results__option .select2-results__option .select2-results__option .select2-results__option .select2-results__option .select2-results__option .select2-results__option {
+  margin-left: -5em;
+  padding-left: 6em;
+}
+
+/* line 290, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+  background-color: #5897fb;
+  color: white;
+}
+
+/* line 294, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--default .select2-results__group {
+  cursor: default;
+  display: block;
+  padding: 6px;
+}
+
+/* line 299, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-selection--single {
+  background-color: #f7f7f7;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  outline: 0;
+  background-image: -webkit-linear-gradient(top, white 50%, #eeeeee 100%);
+  background-image: linear-gradient(to bottom, white 50%, #eeeeee 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFFFF', endColorstr='#FFEEEEEE', GradientType=0);
+}
+
+/* line 309, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-selection--single:focus {
+  border: 1px solid #5897fb;
+}
+
+/* line 311, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-selection--single .select2-selection__rendered {
+  color: #444;
+  line-height: 28px;
+}
+
+/* line 314, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-selection--single .select2-selection__clear {
+  cursor: pointer;
+  float: right;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+/* line 319, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-selection--single .select2-selection__placeholder {
+  color: #999;
+}
+
+/* line 321, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-selection--single .select2-selection__arrow {
+  background-color: #ddd;
+  border: none;
+  border-left: 1px solid #aaa;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  height: 26px;
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  width: 20px;
+  background-image: -webkit-linear-gradient(top, #eeeeee 50%, #cccccc 100%);
+  background-image: linear-gradient(to bottom, #eeeeee 50%, #cccccc 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFEEEEEE', endColorstr='#FFCCCCCC', GradientType=0);
+}
+
+/* line 337, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-selection--single .select2-selection__arrow b {
+  border-color: #888 transparent transparent transparent;
+  border-style: solid;
+  border-width: 5px 4px 0 4px;
+  height: 0;
+  left: 50%;
+  margin-left: -4px;
+  margin-top: -2px;
+  position: absolute;
+  top: 50%;
+  width: 0;
+}
+
+/* line 349, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic[dir="rtl"] .select2-selection--single .select2-selection__clear {
+  float: left;
+}
+
+/* line 352, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic[dir="rtl"] .select2-selection--single .select2-selection__arrow {
+  border: none;
+  border-right: 1px solid #aaa;
+  border-radius: 0;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  left: 1px;
+  right: auto;
+}
+
+/* line 361, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic.select2-container--open .select2-selection--single {
+  border: 1px solid #5897fb;
+}
+
+/* line 363, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic.select2-container--open .select2-selection--single .select2-selection__arrow {
+  background: transparent;
+  border: none;
+}
+
+/* line 366, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic.select2-container--open .select2-selection--single .select2-selection__arrow b {
+  border-color: transparent transparent #888 transparent;
+  border-width: 0 4px 5px 4px;
+}
+
+/* line 370, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic.select2-container--open.select2-container--above .select2-selection--single {
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  background-image: -webkit-linear-gradient(top, white 0%, #eeeeee 50%);
+  background-image: linear-gradient(to bottom, white 0%, #eeeeee 50%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFFFF', endColorstr='#FFEEEEEE', GradientType=0);
+}
+
+/* line 380, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic.select2-container--open.select2-container--below .select2-selection--single {
+  border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  background-image: -webkit-linear-gradient(top, #eeeeee 50%, white 100%);
+  background-image: linear-gradient(to bottom, #eeeeee 50%, white 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFEEEEEE', endColorstr='#FFFFFFFF', GradientType=0);
+}
+
+/* line 390, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-selection--multiple {
+  background-color: white;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  cursor: text;
+  outline: 0;
+}
+
+/* line 396, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-selection--multiple:focus {
+  border: 1px solid #5897fb;
+}
+
+/* line 398, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-selection--multiple .select2-selection__rendered {
+  list-style: none;
+  margin: 0;
+  padding: 0 5px;
+}
+
+/* line 402, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-selection--multiple .select2-selection__clear {
+  display: none;
+}
+
+/* line 404, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-selection--multiple .select2-selection__choice {
+  background-color: #e4e4e4;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  cursor: default;
+  float: left;
+  margin-right: 5px;
+  margin-top: 5px;
+  padding: 0 5px;
+}
+
+/* line 413, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-selection--multiple .select2-selection__choice__remove {
+  color: #888;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: bold;
+  margin-right: 2px;
+}
+
+/* line 419, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-selection--multiple .select2-selection__choice__remove:hover {
+  color: #555;
+}
+
+/* line 422, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic[dir="rtl"] .select2-selection--multiple .select2-selection__choice {
+  float: right;
+}
+
+/* line 425, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic[dir="rtl"] .select2-selection--multiple .select2-selection__choice {
+  margin-left: 5px;
+  margin-right: auto;
+}
+
+/* line 429, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic[dir="rtl"] .select2-selection--multiple .select2-selection__choice__remove {
+  margin-left: 2px;
+  margin-right: auto;
+}
+
+/* line 433, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic.select2-container--open .select2-selection--multiple {
+  border: 1px solid #5897fb;
+}
+
+/* line 436, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic.select2-container--open.select2-container--above .select2-selection--multiple {
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* line 441, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic.select2-container--open.select2-container--below .select2-selection--multiple {
+  border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* line 446, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-search--dropdown .select2-search__field {
+  border: 1px solid #aaa;
+  outline: 0;
+}
+
+/* line 450, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-search--inline .select2-search__field {
+  outline: 0;
+  box-shadow: none;
+}
+
+/* line 454, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-dropdown {
+  background-color: white;
+  border: 1px solid transparent;
+}
+
+/* line 458, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-dropdown--above {
+  border-bottom: none;
+}
+
+/* line 461, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-dropdown--below {
+  border-top: none;
+}
+
+/* line 464, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-results > .select2-results__options {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* line 468, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-results__option[role=group] {
+  padding: 0;
+}
+
+/* line 471, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-results__option[aria-disabled=true] {
+  color: grey;
+}
+
+/* line 474, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-results__option--highlighted[aria-selected] {
+  background-color: #3875d7;
+  color: white;
+}
+
+/* line 478, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic .select2-results__group {
+  cursor: default;
+  display: block;
+  padding: 6px;
+}
+
+/* line 483, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2.scss */
+.select2-container--classic.select2-container--open .select2-dropdown {
+  border-color: #5897fb;
+}
+/*********************************
+*********************************/
+/****** Multiple SCSS *******/
+/* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/_multiple.scss */
+.select2-container--flat .select2-selection--multiple {
+  background: #ffffff;
+  border: 1px solid #999999;
+}
+/* line 6, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/_multiple.scss */
+.select2-container--flat .select2-selection--multiple.select2-container--focus {
+  outline: 3px solid #ffbf47;
+}
+/* line 9, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/_multiple.scss */
+.select2-container--flat .select2-selection--multiple .select2-selection__rendered {
+  box-sizing: border-box;
+  list-style: none;
+  margin: 0;
+  padding: 0 5px;
+  width: 100%;
+}
+/* line 16, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/_multiple.scss */
+.select2-container--flat .select2-selection--multiple .select2-selection__choice {
+  background-color: #dfd5c5;
+  color: #292929;
+  border: none;
+  border-radius: 8px;
+  padding: 3px 5px;
+  cursor: default;
+  float: left;
+  margin-right: 5px;
+  margin-top: 5px;
+  height: 28px;
+  font-size: 14px;
+  line-height: 1.64;
+  text-align: left;
+}
+/* line 31, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/_multiple.scss */
+.select2-container--flat .select2-selection--multiple .select2-selection__choice__remove {
+  background-color: #00549f;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  line-height: 1.5em;
+  height: 20px;
+  width: 20px;
+  margin-right: 0px;
+  margin-left: 6px;
+  position: relative;
+  top: 1px;
+  float: right;
+  text-indent: -9999px;
+  color: transparent;
+}
+/* line 46, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/_multiple.scss */
+.select2-container--flat .select2-selection--multiple .select2-selection__choice__remove:hover {
+  cursor: pointer;
+}
+/* line 49, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/_multiple.scss */
+.select2-container--flat .select2-selection--multiple .select2-selection__choice__remove:before {
+  display: block;
+  position: relative;
+  content: ' ';
+  background-image: url("icons/close.svg");
+  background-size: 12px 12px;
+  background-repeat: no-repeat;
+  height: 12px;
+  width: 12px;
+  top: 4px;
+  left: 4px;
+}
+
+/* line 68, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/_multiple.scss */
+html.lt-ie9 .select2-container--flat .select2-selection--multiple .select2-selection__choice__remove {
+  text-indent: 0px;
+  color: #fff;
+}
+/* line 71, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/_multiple.scss */
+html.lt-ie9 .select2-container--flat .select2-selection--multiple .select2-selection__choice__remove:before {
+  display: none;
+}
+
+/* line 15, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container {
+  width: 100% !important;
+}
+
+/* line 20, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container .icon-check {
+  stroke: #ffffff;
+  fill: #ffffff;
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  left: 5px;
+  top: 15px;
+  display: none;
+}
+
+/* line 32, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-search__field {
+  -webkit-appearance: none;
+  padding-left: 24px;
+}
+
+/* line 37, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-selection--multiple {
+  padding: 4px 8px;
+}
+
+/* line 41, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container--open .select2-selection--multiple {
+  outline: 3px solid #ffbf47;
+}
+
+/* line 45, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container--focus {
+  outline: 3px solid #ffbf47;
+}
+
+/* line 49, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container--open .select2-dropdown--below,
+.select2-container--open .select2-dropdown--above {
+  background: #ffffff;
+}
+
+/* line 54, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container--flat .select2-results__options {
+  border: none;
+}
+/* line 57, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container--flat .select2-results__option {
+  border: solid 1px #999999;
+  border-width: 0px 0px 1px 0px;
+  font-size: 16px;
+  padding: 12px 24px;
+  position: relative;
+}
+/* line 64, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container--flat .select2-results__option--highlighted[aria-selected] {
+  background: #007ea3 !important;
+  color: #ffffff;
+}
+/* line 68, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container--flat .select2-results__option[aria-selected=true] {
+  background: #007ea3;
+  color: #fff;
+  opacity: 0.8;
+}
+/* line 72, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container--flat .select2-results__option[aria-selected=true] .icon-check {
+  display: inline-block;
+}
+/* line 76, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container--flat .select2-selection--single {
+  border-radius: 0px;
+}
+/* line 81, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container--flat.select2-container--open .select2-selection__arrow b {
+  transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+}
+/* line 89, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container--flat span.select2-search input {
+  height: 30px !important;
+}
+
+/* line 96, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container .select2-choice {
+  border: 2px solid #dce4ec;
+  height: 36px;
+  border-radius: 0px;
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  text-indent: 1px;
+  box-shadow: none;
+  background-image: none;
+}
+/* line 107, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container .select2-choice div {
+  border-left: 2px solid #dce4ec;
+  border-radius: 0 4px 4px 0;
+  background-clip: padding-box;
+}
+/* line 117, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container .select2-choice .select2-arrow {
+  border: 0px;
+  border-radius: 0px;
+  background: transparent;
+  background-image: none;
+}
+/* line 124, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container *:focus {
+  outline: 0px;
+}
+/* line 127, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container.select2-drop-above .select2-choice {
+  border-bottom-color: #dce4ec;
+  border-radius: 0px;
+}
+
+/* line 133, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-drop {
+  margin-top: -2px;
+  border: 2px solid #dce4ec;
+  border-top: 0;
+  border-radius: 0px !important;
+  border-radius: 0 0 6px 6px;
+  box-shadow: none;
+}
+/* line 144, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-drop.select2-drop-above {
+  margin-top: 2px;
+  border-top: 2px solid #dce4ec;
+  border-bottom: 0;
+  border-radius: 6px 6px 0 0;
+  box-shadow: none;
+}
+
+/* line 157, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-search {
+  margin-top: 3px;
+}
+/* line 159, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-search input {
+  height: 26px;
+  border: 2px solid #dce4ec;
+}
+
+/* line 165, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container-active .select2-choice,
+.select2-container-active .select2-choices {
+  border: 2px solid #dce4ec;
+  outline: none;
+  box-shadow: none;
+}
+
+/* line 175, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-dropdown-open .select2-choice {
+  box-shadow: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+/* line 187, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-dropdown-open .select2-choice .select2-choice div {
+  background: transparent;
+  border-left: none;
+  -webkit-filter: none;
+          filter: none;
+}
+
+/* line 194, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container .select2-results > .select2-results__options {
+  max-height: 300px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  /*MAKES OVERFLOWN OBJECTS HAVE INERTIA SCROLLING*/
+  -webkit-transform: translateZ(0px);
+  /*HELPS THE ABOVE WORK IN IOS5*/
+}
+
+/* line 201, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-results {
+  padding: 0 0 0 0px;
+  margin: 0px 0px 0px 0;
+}
+/* line 204, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-results .select2-highlighted {
+  background: #007ea3;
+  color: #fff;
+  border-radius: 0px;
+}
+
+/* line 217, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container-multi .select2-choices {
+  height: auto !important;
+  height: 1%;
+  border: 2px solid #dce4ec;
+}
+/* line 223, /Users/dituser/code/export-opportunities/app/assets/stylesheets/vendor/select2_skin/layout.scss */
+.select2-container-multi.select2-container-active .select2-choices {
+  border: 2px solid #dce4ec;
+  border-radius: 6px;
+  box-shadow: none;
+}
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ */
+/* Old styles*/
+/* Bring in styleguide css files */
+/* Patch for styleguide icon path issue */
+/* New styles to be rolled into a style library */

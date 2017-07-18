@@ -1,0 +1,2169 @@
+/* line 4, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_box-sizing.scss */
+html {
+  box-sizing: border-box;
+}
+
+/* line 9, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_box-sizing.scss */
+*, *::after, *::before {
+  box-sizing: inherit;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/frontend.scss */
+.flash {
+  font-weight: 600;
+  margin: 2em auto 1em;
+  padding: 1em;
+  text-align: center;
+}
+
+/* line 8, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/frontend.scss */
+.flash-info, .flash-notice {
+  background-color: #dff0d8;
+  border: solid 1px #d6e9c6;
+  color: #3c763d;
+}
+
+/* line 14, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/frontend.scss */
+.flash-alert, .flash-error {
+  background-color: #f2dede;
+  border: solid 1px #ebccd1;
+  color: #a94442;
+}
+
+/**
+ * Neat visual grid settings
+ */
+/* line 5, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_base.scss */
+.legacy {
+  /* ================================================================================
+  Example showing how to change the color/size of the icons:
+  .icon-name {
+      color: red; // works for single-colored icons, because "fill" was set to "currentColor"
+      font-size: 32px; // works because "width" & "height" were set using em units
+  }
+  ================================================================================*/
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_body.scss */
+.legacy body {
+  background-color: white;
+  margin: 0;
+  padding: 0;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_icons.scss */
+.legacy [class^="icon-"],
+.legacy [class*=" icon-"] {
+  display: block;
+  fill: currentColor;
+  height: 1em;
+  width: 1em;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .btn {
+  background-color: white;
+  border: none;
+  color: #00549F;
+  cursor: pointer;
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  line-height: 1;
+  padding: 16px 0.3em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  -webkit-transition: background-color 150ms ease;
+  transition: background-color 150ms ease;
+  -webkit-font-smoothing: antialiased;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+  .legacy .btn {
+    padding: 16px;
+  }
+}
+/* line 20, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.legacy .btn:after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background: url("arrow-white.svg") no-repeat;
+  background-size: 12px 12px;
+  margin-left: 0.675em;
+  display: inline-block;
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+  -webkit-transition: -webkit-transform .1s ease-out;
+  transition: -webkit-transform .1s ease-out;
+  transition: transform .1s ease-out;
+  transition: transform .1s ease-out, -webkit-transform .1s ease-out;
+}
+/* line 31, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.lt-ie10 .legacy .btn:after {
+  content: '';
+  background: url("arrow.png") no-repeat;
+  height: 14px;
+  margin-left: 10px;
+  margin-bottom: -1px;
+}
+/* line 39, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.lt-ie10 .footer-exporting-guide .legacy .btn:after {
+  background-image: url("arrow-blue.png");
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.legacy .btn:hover, .legacy .btn:focus {
+  background-color: #e6e6e6;
+  color: #00549F;
+}
+/* line 49, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.legacy .btn:hover:after, .legacy .btn:focus:after {
+  background: url("arrow-white.svg") no-repeat;
+  -webkit-transform: translateX(10px);
+          transform: translateX(10px);
+  -webkit-transition: 0.2s ease-out;
+  transition: 0.2s ease-out;
+}
+/* line 54, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.lt-ie10 .legacy .btn:hover:after, .lt-ie10 .legacy .btn:focus:after {
+  background-image: url("arrow.png");
+}
+/* line 4, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+/* line 9, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .btn:hover {
+  background-color: black;
+}
+/* line 13, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .btn--dark {
+  background-color: #00549F;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  line-height: 1;
+  padding: 16px 0.3em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  -webkit-transition: background-color 150ms ease;
+  transition: background-color 150ms ease;
+  -webkit-font-smoothing: antialiased;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 13, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+  .legacy .btn--dark {
+    padding: 16px;
+  }
+}
+/* line 20, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.legacy .btn--dark:after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background: url("arrow-white.svg") no-repeat;
+  background-size: 12px 12px;
+  margin-left: 0.675em;
+  display: inline-block;
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+  -webkit-transition: -webkit-transform .1s ease-out;
+  transition: -webkit-transform .1s ease-out;
+  transition: transform .1s ease-out;
+  transition: transform .1s ease-out, -webkit-transform .1s ease-out;
+}
+/* line 31, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.lt-ie10 .legacy .btn--dark:after {
+  content: '';
+  background: url("arrow.png") no-repeat;
+  height: 14px;
+  margin-left: 10px;
+  margin-bottom: -1px;
+}
+/* line 39, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.lt-ie10 .footer-exporting-guide .legacy .btn--dark:after {
+  background-image: url("arrow-blue.png");
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.legacy .btn--dark:hover, .legacy .btn--dark:focus {
+  background-color: #00396c;
+  color: white;
+}
+/* line 49, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.legacy .btn--dark:hover:after, .legacy .btn--dark:focus:after {
+  background: url("arrow-white.svg") no-repeat;
+  -webkit-transform: translateX(10px);
+          transform: translateX(10px);
+  -webkit-transition: 0.2s ease-out;
+  transition: 0.2s ease-out;
+}
+/* line 54, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_mixins.scss */
+.lt-ie10 .legacy .btn--dark:hover:after, .lt-ie10 .legacy .btn--dark:focus:after {
+  background-image: url("arrow.png");
+}
+/* line 18, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button-no-box:hover {
+  color: white;
+  background-color: transparent;
+}
+/* line 23, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .arrow-link {
+  padding: 0;
+  color: #00549F;
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  -webkit-font-smoothing: antialiased;
+  font-weight: bold;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: none;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+  -webkit-transition: color .1s ease-out;
+  transition: color .1s ease-out;
+}
+/* line 39, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .arrow-link:after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  background: url("arrow-blue.svg") no-repeat;
+  background-size: 12px 12px;
+  display: inline-block;
+  margin-left: 0.3em;
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+  -webkit-transition: -webkit-transform .1s ease-out;
+  transition: -webkit-transform .1s ease-out;
+  transition: transform .1s ease-out;
+  transition: transform .1s ease-out, -webkit-transform .1s ease-out;
+}
+/* line 50, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.lt-ie10 .legacy .arrow-link:after {
+  content: "";
+  background: transparent url("arrow-blue.png") no-repeat;
+  height: 14px;
+  margin-left: 10px;
+  margin-bottom: -1px;
+}
+/* line 61, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .arrow-link:hover:after, .legacy .arrow-link:focus:after {
+  -webkit-transform: translateX(5px);
+          transform: translateX(5px);
+}
+/* line 69, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy button, .legacy input[type="button"], .legacy input[type="reset"], .legacy input[type="submit"] {
+  background-color: #00549f;
+}
+/* line 73, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy button:focus, .legacy input[type="button"]:focus, .legacy input[type="reset"]:focus, .legacy input[type="submit"]:focus,
+.legacy button:hover, .legacy input[type="button"]:hover, .legacy input[type="reset"]:hover, .legacy input[type="submit"]:hover {
+  outline: 3px solid #00549f;
+}
+/* line 78, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy button:active, .legacy input[type="button"]:active, .legacy input[type="reset"]:active, .legacy input[type="submit"]:active {
+  background-color: #004c8f;
+}
+/* line 82, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button, .legacy .panel .companies-house-search-btn {
+  background: #00549f;
+  border: 0;
+  color: white !important;
+  display: block;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.39;
+  padding: 14px;
+  position: relative;
+  text-align: center;
+  width: auto;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 82, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+  .legacy .button, .legacy .panel .companies-house-search-btn {
+    width: 50%;
+  }
+  /* line 98, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+  .legacy .button-wide {
+    width: 100%;
+  }
+}
+/* line 103, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button.button--slimline, .legacy .panel .button--slimline.companies-house-search-btn {
+  white-space: nowrap;
+  line-height: 50px;
+  display: inline;
+  padding: 10px 12px;
+  width: auto;
+  border: 2px solid #00549f;
+}
+/* line 110, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button.button--slimline:hover, .legacy .panel .button--slimline.companies-house-search-btn:hover {
+  border-bottom-width: 2px;
+}
+/* line 115, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button:hover, .legacy .panel .companies-house-search-btn:hover {
+  background-color: #003666;
+  border-color: #003666;
+  border-bottom-width: 0px;
+  outline: none;
+}
+/* line 122, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button:active, .legacy .panel .companies-house-search-btn:active {
+  background-color: #007ea3;
+  border-color: #007ea3;
+  box-shadow: none;
+  outline: none;
+  top: 1px;
+}
+/* line 130, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button:focus, .legacy .panel .companies-house-search-btn:focus {
+  background-color: #003666;
+  border-color: #003666;
+  outline: 3px solid #00549f;
+}
+/* line 136, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button.button--naked, .legacy .panel .button--naked.companies-house-search-btn {
+  background: white;
+  color: #00549f !important;
+  border: 2px solid #00549f;
+}
+/* line 144, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button::-moz-focus-inner, .legacy .panel .companies-house-search-btn::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+/* line 150, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button[disabled="disabled"], .legacy .panel [disabled="disabled"].companies-house-search-btn {
+  background: #00549f;
+  cursor: not-allowed;
+}
+/* line 154, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_buttons.scss */
+.legacy .button[disabled="disabled"]:focus, .legacy .panel [disabled="disabled"].companies-house-search-btn:focus {
+  outline: none;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel {
+  padding: 1.35em;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+  .legacy .panel {
+    padding: 2.7em;
+  }
+}
+/* line 8, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel fieldset {
+  border: 0;
+  border-bottom: 1px solid #dfd5c5;
+  margin-bottom: 1.35em;
+  padding: 0 0 1.35em;
+  width: 100%;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 8, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+  .legacy .panel fieldset {
+    border-bottom: 2px solid #dfd5c5;
+    margin-bottom: 2.7em;
+  }
+}
+/* line 20, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel fieldset:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+/* line 25, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel fieldset .instructions {
+  margin-bottom: 1.5em;
+}
+/* line 30, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .form-group {
+  margin-bottom: 20px;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 30, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+  .legacy .panel .form-group {
+    margin-bottom: 30px;
+  }
+}
+/* line 38, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel label {
+  display: block;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.53;
+  margin: 0;
+  padding: 0 0 .5em;
+}
+/* line 48, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.lt-ie10 .legacy .panel textarea,
+.lt-ie10 .legacy .panel select,
+.lt-ie10 .legacy .panel input[type="text"],
+.lt-ie10 .legacy .panel input[type="email"] {
+  background-color: white;
+  border: 1px solid #dfd5c5;
+  font-family: Roboto, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  padding: .5em;
+  width: 50%;
+}
+/* line 62, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel input[type="color"], .legacy .panel input[type="date"], .legacy .panel input[type="datetime"], .legacy .panel input[type="datetime-local"], .legacy .panel input[type="email"], .legacy .panel input[type="month"], .legacy .panel input[type="number"], .legacy .panel input[type="password"], .legacy .panel input[type="search"], .legacy .panel input[type="tel"], .legacy .panel input[type="text"], .legacy .panel input[type="time"], .legacy .panel input[type="url"], .legacy .panel input[type="week"], .legacy .panel input:not([type]), .legacy .panel textarea {
+  background-color: white;
+  border: 1px solid #dfd5c5;
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  padding: .5em;
+  width: 100%;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 62, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+  .legacy .panel input[type="color"], .legacy .panel input[type="date"], .legacy .panel input[type="datetime"], .legacy .panel input[type="datetime-local"], .legacy .panel input[type="email"], .legacy .panel input[type="month"], .legacy .panel input[type="number"], .legacy .panel input[type="password"], .legacy .panel input[type="search"], .legacy .panel input[type="tel"], .legacy .panel input[type="text"], .legacy .panel input[type="time"], .legacy .panel input[type="url"], .legacy .panel input[type="week"], .legacy .panel input:not([type]), .legacy .panel textarea {
+    width: 50%;
+  }
+}
+/* line 74, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.lt-ie9 .legacy .panel input[type="color"], .lt-ie9 .legacy .panel input[type="date"], .lt-ie9 .legacy .panel input[type="datetime"], .lt-ie9 .legacy .panel input[type="datetime-local"], .lt-ie9 .legacy .panel input[type="email"], .lt-ie9 .legacy .panel input[type="month"], .lt-ie9 .legacy .panel input[type="number"], .lt-ie9 .legacy .panel input[type="password"], .lt-ie9 .legacy .panel input[type="search"], .lt-ie9 .legacy .panel input[type="tel"], .lt-ie9 .legacy .panel input[type="text"], .lt-ie9 .legacy .panel input[type="time"], .lt-ie9 .legacy .panel input[type="url"], .lt-ie9 .legacy .panel input[type="week"], .lt-ie9 .legacy .panel input:not([type]), .lt-ie9 .legacy .panel textarea {
+  width: 50%;
+}
+/* line 79, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel input[type="color"]:hover, .legacy .panel input[type="date"]:hover, .legacy .panel input[type="datetime"]:hover, .legacy .panel input[type="datetime-local"]:hover, .legacy .panel input[type="email"]:hover, .legacy .panel input[type="month"]:hover, .legacy .panel input[type="number"]:hover, .legacy .panel input[type="password"]:hover, .legacy .panel input[type="search"]:hover, .legacy .panel input[type="tel"]:hover, .legacy .panel input[type="text"]:hover, .legacy .panel input[type="time"]:hover, .legacy .panel input[type="url"]:hover, .legacy .panel input[type="week"]:hover, .legacy .panel input:not([type]):hover, .legacy .panel textarea:hover {
+  outline: 2px solid #00549f;
+}
+/* line 83, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel input[type="color"]:focus, .legacy .panel input[type="date"]:focus, .legacy .panel input[type="datetime"]:focus, .legacy .panel input[type="datetime-local"]:focus, .legacy .panel input[type="email"]:focus, .legacy .panel input[type="month"]:focus, .legacy .panel input[type="number"]:focus, .legacy .panel input[type="password"]:focus, .legacy .panel input[type="search"]:focus, .legacy .panel input[type="tel"]:focus, .legacy .panel input[type="text"]:focus, .legacy .panel input[type="time"]:focus, .legacy .panel input[type="url"]:focus, .legacy .panel input[type="week"]:focus, .legacy .panel input:not([type]):focus, .legacy .panel textarea:focus,
+.legacy .panel input[type="color"]:active, .legacy .panel input[type="date"]:active, .legacy .panel input[type="datetime"]:active, .legacy .panel input[type="datetime-local"]:active, .legacy .panel input[type="email"]:active, .legacy .panel input[type="month"]:active, .legacy .panel input[type="number"]:active, .legacy .panel input[type="password"]:active, .legacy .panel input[type="search"]:active, .legacy .panel input[type="tel"]:active, .legacy .panel input[type="text"]:active, .legacy .panel input[type="time"]:active, .legacy .panel input[type="url"]:active, .legacy .panel input[type="week"]:active, .legacy .panel input:not([type]):active, .legacy .panel textarea:active {
+  outline: 3px solid #00549f;
+}
+/* line 88, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel select {
+  background-color: white;
+  border: 2px solid #dfd5c5;
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  margin: 0;
+  overflow: scroll;
+  padding: .5em;
+  width: 100%;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 88, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+  .legacy .panel select {
+    width: 50%;
+  }
+}
+/* line 102, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.lt-ie9 .legacy .panel select {
+  width: 50%;
+}
+/* line 107, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel textarea {
+  display: block;
+  resize: vertical;
+  width: 100%;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 107, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+  .legacy .panel textarea {
+    width: 75%;
+  }
+}
+/* line 116, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.lt-ie9 .legacy .panel textarea {
+  width: 75%;
+}
+/* line 121, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel input[type="checkbox"],
+.legacy .panel input[type="radio"] {
+  display: inline-block;
+  margin-right: 0.3375em;
+  width: auto;
+}
+/* line 127, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel input[type="checkbox"] + label,
+.legacy .panel input[type="radio"] + label {
+  display: inline-block;
+}
+/* line 132, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .companies-house-list {
+  background-color: #dfd5c5;
+  list-style: none;
+  margin-bottom: 1.35em;
+  padding: 0 1em;
+  width: 50%;
+}
+/* line 139, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .companies-house-list li.companieshouse-result {
+  margin-bottom: 0.675em;
+  padding-left: 1em;
+}
+/* line 143, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .companies-house-list li.companieshouse-result:first-child {
+  padding-top: 1.35em;
+}
+/* line 147, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .companies-house-list li.companieshouse-result:last-child {
+  padding-bottom: 1.35em;
+}
+/* line 152, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .companies-house-list li::before {
+  color: #b00d23;
+  content: "\2022";
+  display: inline-block;
+  margin-left: -1em;
+  width: 1em;
+}
+/* line 161, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .companies-house-search-btn {
+  font-size: inherit;
+  margin-top: 0.675em;
+  padding: 1em 0;
+  width: 100%;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 161, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+  .legacy .panel .companies-house-search-btn {
+    width: 50%;
+  }
+}
+/* line 173, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.lt-ie9 .legacy .panel .companies-house-search-btn {
+  width: 50%;
+}
+/* line 178, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .form-hint {
+  color: #656e72;
+}
+/* line 182, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .panel .field_with_errors input {
+  outline: solid red 3px;
+}
+/* line 187, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_forms.scss */
+.legacy .register-form {
+  background-color: white;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_tables.scss */
+.legacy table {
+  border-collapse: collapse;
+  -webkit-font-feature-settings: "kern", "liga", "tnum";
+          font-feature-settings: "kern", "liga", "tnum";
+  margin: 0.675em 0;
+  table-layout: fixed;
+  width: 100%;
+}
+/* line 9, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_tables.scss */
+.legacy th {
+  border-bottom: 1px solid #aaa398;
+  font-weight: 600;
+  padding: 0.675em 0 0.675em 0.675em;
+  text-align: left;
+}
+/* line 16, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_tables.scss */
+.legacy td {
+  border-bottom: 1px solid #e2d9cb;
+  padding: 0.675em 0 0.675em 0.675em;
+}
+/* line 20, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_tables.scss */
+.legacy td .button, .legacy td .panel .companies-house-search-btn, .legacy .panel td .companies-house-search-btn {
+  width: auto;
+}
+/* line 24, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_tables.scss */
+.legacy td :last-child {
+  margin-bottom: 0;
+}
+/* line 29, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_tables.scss */
+.legacy tr,
+.legacy td,
+.legacy th {
+  vertical-align: middle;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy body {
+  color: #4a4a4a;
+  font-family: Roboto, sans-serif;
+  -webkit-font-feature-settings: 'kern', 'liga', 'pnum';
+          font-feature-settings: 'kern', 'liga', 'pnum';
+  font-size: 1em;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 400;
+  line-height: 1.35;
+}
+/* line 11, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy h5,
+.legacy h6 {
+  color: #4a4a4a;
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  line-height: 1.35;
+  margin: 0 0 0.625em;
+  text-transform: inherit;
+}
+/* line 23, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy h3 span {
+  color: #b00d23;
+  display: block;
+  font-weight: 700;
+  font-size: 22px;
+  text-transform: uppercase;
+}
+/* line 32, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy h4 {
+  font-size: 112.5%;
+}
+/* line 36, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy h4,
+.legacy h5,
+.legacy h6 {
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+  font-weight: 300;
+  letter-spacing: 0;
+  text-transform: none;
+}
+/* line 46, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy p {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.53;
+  margin: 0 0 1em;
+}
+/* line 51, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy p.large {
+  font-size: 18px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.39;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 57, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+  .legacy p.width-60 {
+    width: 60%;
+  }
+}
+/* line 64, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy a,
+.legacy a.no-link-styles {
+  color: #00549f;
+  text-decoration: none;
+  border-bottom: 1px solid #00549f;
+}
+/* line 71, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy a:visited,
+.legacy a.no-link-styles:visited {
+  border-bottom: 1px solid #4f0b7b;
+  color: #00549f;
+}
+/* line 76, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy a:active, .legacy a:hover, .legacy a:focus,
+.legacy a.no-link-styles:active,
+.legacy a.no-link-styles:hover,
+.legacy a.no-link-styles:focus {
+  border-bottom: 1px dashed #007ea3;
+  color: #007ea3;
+}
+/* line 83, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy a:focus,
+.legacy a.no-link-styles:focus {
+  outline: 3px solid #ffbf47;
+}
+/* line 88, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy a.external-link {
+  text-decoration: none;
+  word-break: break-all;
+}
+/* line 92, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy a.external-link:after {
+  background: url("external-link.svg") no-repeat;
+  background-size: 12px 12px;
+  content: "";
+  display: inline-block;
+  height: 12px;
+  margin-left: 0.5em;
+  -webkit-transform: translate(0, 0);
+          transform: translate(0, 0);
+  -webkit-transition: -webkit-transform .1s ease-out;
+  transition: -webkit-transform .1s ease-out;
+  transition: transform .1s ease-out;
+  transition: transform .1s ease-out, -webkit-transform .1s ease-out;
+  width: 12px;
+}
+/* line 105, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy hr {
+  border-bottom: 1px solid #e2d9cb;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  margin: 1.35em 0;
+}
+/* line 113, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_typography.scss */
+.legacy img,
+.legacy picture {
+  margin: 0;
+  max-width: 100%;
+}
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+.legacy .has-sidebar {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.legacy .has-sidebar:last-child {
+  margin-right: 0;
+}
+/* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.legacy .has-sidebar::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+  .legacy .has-sidebar {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 57.35098%;
+  }
+  /* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .has-sidebar:last-child {
+    margin-right: 0;
+  }
+}
+@media screen and (min-width: 75em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+  .legacy .has-sidebar {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 65.88078%;
+  }
+  /* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .has-sidebar:last-child {
+    margin-right: 0;
+  }
+}
+/* line 13, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+.lt-ie9 .legacy .has-sidebar {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 57.35098%;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.lt-ie9 .legacy .has-sidebar:last-child {
+  margin-right: 0;
+}
+/* line 18, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+.legacy .sidebar, .legacy .filters {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.legacy .sidebar:last-child, .legacy .filters:last-child {
+  margin-right: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 18, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+  .legacy .sidebar, .legacy .filters {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 40.29137%;
+  }
+  /* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .sidebar:last-child, .legacy .filters:last-child {
+    margin-right: 0;
+  }
+}
+@media screen and (min-width: 75em) {
+  /* line 18, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+  .legacy .sidebar, .legacy .filters {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 31.76157%;
+  }
+  /* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .legacy .sidebar:last-child, .legacy .filters:last-child {
+    margin-right: 0;
+  }
+}
+/* line 29, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/base/_layout.scss */
+.lt-ie9 .legacy .sidebar, .lt-ie9 .legacy .filters {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 31.76157%;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.lt-ie9 .legacy .sidebar:last-child, .lt-ie9 .legacy .filters:last-child {
+  margin-right: 0;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/utilities/_typography.scss */
+.u-italic {
+  font-style: italic !important;
+}
+
+/* line 5, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/utilities/_typography.scss */
+.u-text-center {
+  text-align: center !important;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/utilities/_positioning.scss */
+.u-pull-right {
+  float: right !important;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/utilities/_helpers.scss */
+.u-visuallyhidden {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+}
+
+/* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_background.scss */
+.background__item {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 300px;
+  z-index: -1;
+}
+@media screen and (min-width: 48em) {
+  /* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_background.scss */
+  .background__item {
+    height: 350px;
+  }
+}
+@media screen and (min-width: 75em) {
+  /* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_background.scss */
+  .background__item {
+    height: 450px;
+  }
+}
+/* line 20, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_background.scss */
+.background--image {
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_search-form.scss */
+.search-form {
+  margin: 0 auto;
+}
+/* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_search-form.scss */
+.search-form__input {
+  width: 100%;
+  font-family: Roboto,arial,helvetica,sans-serif;
+  font-size: 18px;
+  padding: 10px 15px;
+  border: 1px solid #999;
+}
+/* line 9, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_search-form.scss */
+.search-form__input:focus {
+  outline: 3px solid #ffbf47;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_outer-container.scss */
+.outer-container {
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.outer-container::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+@media screen and (min-width: 48em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_outer-container.scss */
+  .outer-container {
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  /* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+  .outer-container::after {
+    clear: both;
+    content: "";
+    display: block;
+  }
+}
+@media screen and (min-width: 75em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_outer-container.scss */
+  .outer-container {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  /* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+  .outer-container::after {
+    clear: both;
+    content: "";
+    display: block;
+  }
+}
+/* line 12, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_outer-container.scss */
+.lt-ie9 .outer-container {
+  width: 1200px;
+}
+
+/* line 17, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_outer-container.scss */
+_:-ms-fullscreen, :root main {
+  display: block;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_full-width-border-top.scss */
+.full-width-border-top {
+  width: 100%;
+  border-top: 1px solid #e2d9cb;
+  padding-top: 0.675em;
+  margin-top: 0.675em;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_full-width-border-top.scss */
+  .full-width-border-top {
+    padding-top: 1.35em;
+    margin-top: 1.35em;
+  }
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_border-top-bottom.scss */
+.border-top-bottom {
+  width: 100%;
+  border-bottom: 1px solid #e2d9cb;
+  border-top: 1px solid #e2d9cb;
+  padding: 0.675em 0;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_pagination.scss */
+.pagination {
+  margin: 0 auto;
+  padding: 0;
+}
+/* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.pagination::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+/* line 6, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_pagination.scss */
+.pagination li {
+  display: inline-block;
+  list-style: none;
+  margin: 0 8px 8px 0;
+}
+/* line 11, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_pagination.scss */
+.pagination li.active a {
+  background-color: #00549f;
+  color: white;
+}
+/* line 16, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_pagination.scss */
+.pagination li.arrow {
+  display: none;
+}
+/* line 20, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_pagination.scss */
+.pagination li:last-child {
+  margin-right: 0;
+}
+/* line 25, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_pagination.scss */
+.pagination a {
+  background-color: white;
+  border: 2px solid #00549f;
+  color: #00549f;
+  display: block;
+  font-family: Roboto, sans-serif;
+  font-size: 1.25em;
+  font-weight: 500;
+  line-height: 1;
+  margin: 0;
+  min-width: 2em;
+  padding: 0.5em 0;
+  text-align: center;
+  text-decoration: none;
+}
+/* line 40, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_pagination.scss */
+.pagination a:hover {
+  background-color: #00549F;
+  color: white;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_pager.scss */
+.pager {
+  margin-top: 2.7em;
+}
+/* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.pager::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_pager.scss */
+  .pager {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 100%;
+  }
+  /* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .pager:last-child {
+    margin-right: 0;
+  }
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.exporting-guide-form {
+  margin-bottom: 1.35em;
+}
+/* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.exporting-guide-form::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+@media screen and (min-width: 48em) {
+  /* line 5, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+  .frontpage-list__export-form .exporting-guide-form {
+    padding-top: 1.35em;
+  }
+}
+/* line 11, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.exporting-guide-form__label {
+  margin: 0;
+}
+/* line 14, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.placeholder .exporting-guide-form__label {
+  display: none;
+}
+/* line 19, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.exporting-guide-form__input {
+  width: 100%;
+  border: 0;
+  color: #00549F;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 19, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+  .exporting-guide-form__input {
+    float: left;
+    width: 50%;
+    margin-right: 0.675em;
+  }
+}
+/* line 30, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.frontpage-list__export-form .exporting-guide-form__input {
+  width: 100%;
+  margin-right: 0;
+}
+/* line 36, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.exporting-guide-form__submit {
+  float: right;
+  padding: 0.675em;
+  padding-right: 0;
+  color: #00549F;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 36, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+  .exporting-guide-form__submit {
+    float: left;
+  }
+}
+/* line 46, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.frontpage-list__export-form .exporting-guide-form__submit {
+  float: right;
+  padding-right: 0;
+}
+/* line 51, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_exporting-guide-form.scss */
+.page-template-template-exporting-guide-confirmation .exporting-guide-form__submit, .frontpage-list__export-form .exporting-guide-form__submit {
+  color: #00549F;
+}
+
+/* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.filters__status {
+  color: #706b63;
+  display: inline;
+  font-size: .75em;
+  text-transform: inherit;
+}
+/* line 10, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.filters__panel.filters__panel--closed {
+  padding-bottom: 0;
+}
+/* line 14, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.filters__panel--closed .filters__list {
+  max-height: 0;
+  -webkit-transition: max-height .3s ease-out;
+  transition: max-height .3s ease-out;
+}
+/* line 19, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.filters__panel--closed .search-form__wrapper {
+  max-height: 0;
+  overflow: hidden;
+}
+/* line 24, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.filters__title {
+  font-size: 1em;
+  text-transform: none;
+}
+/* line 28, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.has-js .filters__title {
+  background: url(/assets/arrow-blue-up@2x-5a5e254c23b1a8abdad750ee7a0af9dc5ddb81eab452444aa3c7dcfe5cb5d55a.png) right 3px no-repeat;
+  background-size: 12px 12px;
+  cursor: pointer;
+  padding-right: 20px;
+  position: relative;
+}
+/* line 35, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.has-js .filters__title--closed {
+  background-image: url(/assets/arrow-blue-down@2x-744a9c29e81f8ecff7453c09a4b81b8ba92c973e460f690b375f6bd17c2a254f.png);
+}
+/* line 41, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.has-js.lt-ie9 .filters__title {
+  background: url(/assets/arrow-blue-up-6175c59a5160b7bf8ac2197aeb10784941f18cb1f27cf4e9ec3798813597aae2.png) right 3px no-repeat;
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.has-js.lt-ie9 .filters__title--closed {
+  background-image: url(/assets/arrow-blue-down-3727b65e72cca6e39807bdcd29f69873e73bb61c5afa9a744c5f936e2ffe70e0.png);
+}
+/* line 51, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.filters__link--active:before {
+  background-color: #00549f;
+}
+/* line 55, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_filters.scss */
+.filters__link:focus {
+  outline-offset: -3px;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_info-list.scss */
+.info-list {
+  margin: 0.675em 0;
+  padding: 0;
+}
+/* line 5, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_info-list.scss */
+.info-list__item {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+  margin: 0.675em 0;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.info-list__item:last-child {
+  margin-right: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 5, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_info-list.scss */
+  .info-list__item {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 31.76157%;
+  }
+  /* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .info-list__item:last-child {
+    margin-right: 0;
+  }
+  /* line 78, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_omega.scss */
+  .info-list__item:nth-child(3n) {
+    margin-right: 0;
+  }
+  /* line 83, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_omega.scss */
+  .info-list__item:nth-child(3n+1) {
+    clear: left;
+  }
+}
+@media screen and (min-width: 48em) {
+  /* line 5, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_info-list.scss */
+  .info-list__item {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 100%;
+  }
+  /* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .info-list__item:last-child {
+    margin-right: 0;
+  }
+}
+
+/* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+.guide__copy {
+  height: 50px;
+}
+/* line 6, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+.guide__copy:before {
+  content: '';
+  background: url("exporting_guide.svg") no-repeat;
+  height: 40px;
+  width: 35px;
+  margin-right: 5px;
+  float: left;
+}
+/* line 14, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+.lt-ie9 .guide__copy:before {
+  content: 'Read: ';
+  margin-right: 5px;
+}
+@media screen and (min-width: 48em) {
+  /* line 6, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+  .guide__copy:before {
+    margin-top: 10px;
+    margin-right: 5px;
+    height: 30px;
+    width: 20px;
+  }
+}
+@media screen and (min-width: 75em) {
+  /* line 6, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+  .guide__copy:before {
+    margin-right: 10px;
+    margin-top: 2px;
+    width: 30px;
+  }
+}
+/* line 34, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+.guide__label {
+  margin-bottom: 0;
+  float: left;
+  width: 75%;
+}
+@media screen and (min-width: 48em) {
+  /* line 34, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+  .guide__label {
+    width: 80%;
+  }
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+.guide__country {
+  font-size: 12px;
+  text-transform: uppercase;
+  float: left;
+  width: 75%;
+}
+@media screen and (min-width: 48em) {
+  /* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_guide.scss */
+  .guide__country {
+    width: 80%;
+  }
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.panel {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+  padding: 0;
+  /* conflict with .panel class from style library */
+  /* this legacy will all go away soon */
+  border-top: none !important;
+  margin-bottom: 1.35em !important;
+  padding: 0 !important !important;
+  /* conflict with .panel class from style library */
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.panel:last-child {
+  margin-right: 0;
+}
+/* line 13, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.panel--primary {
+  background-color: #1e1348;
+  color: white;
+  margin-bottom: 1.35em;
+  text-align: center;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 13, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+  .panel--primary {
+    padding: 1.35em;
+  }
+}
+/* line 23, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.panel--primary h1 {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 80%;
+  color: white;
+}
+/* line 30, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.panel--primary p {
+  margin: 0 auto;
+  max-width: 70%;
+}
+/* line 35, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.panel--primary dl {
+  margin: auto;
+  text-align: left;
+  width: 90%;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 35, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+  .panel--primary dl {
+    width: 75%;
+  }
+}
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.panel--primary dl dt {
+  display: block;
+  float: none;
+  text-align: center;
+  width: auto;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+  .panel--primary dl dt {
+    clear: left;
+    float: left;
+    overflow: hidden;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 160px;
+  }
+}
+/* line 62, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.panel--primary dl dd {
+  display: block;
+  margin-bottom: 0.675em;
+  margin-left: 0;
+  text-align: center;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 62, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+  .panel--primary dl dd {
+    margin-left: 170px;
+    text-align: left;
+    width: auto;
+  }
+}
+/* line 74, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.panel--primary dl dd:last-child {
+  margin-bottom: 0;
+}
+
+/* line 83, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+.summary-panel {
+  padding: 10px;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 83, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_panel.scss */
+  .summary-panel {
+    padding: 20px;
+  }
+}
+
+/* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.hero-header::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+/* line 4, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_hero-header.scss */
+.hero-header-wrapper {
+  background-color: black;
+  background-image: url(/assets/backgrounds/export-opps-6d7c5c593b6ad6696c02522c21c59733218166111e79ca439b0d907d7827e134.jpg);
+  background-size: cover;
+  margin-bottom: 1.35em;
+}
+/* line 11, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_hero-header.scss */
+.hero-header__content {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 65.88078%;
+  padding-bottom: 52px;
+  padding-top: 52px;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.hero-header__content:last-child {
+  margin-right: 0;
+}
+/* line 16, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_hero-header.scss */
+.hero-header__content h1,
+.hero-header__content h2,
+.hero-header__content h3,
+.hero-header__content p {
+  color: white;
+  max-width: 100%;
+  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.75);
+}
+/* line 26, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_hero-header.scss */
+.lt-ie9 .hero-header {
+  height: 309px;
+}
+/* line 30, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_hero-header.scss */
+.hero-header br {
+  display: none;
+}
+@media screen and (min-width: 48em) {
+  /* line 30, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_hero-header.scss */
+  .hero-header br {
+    display: block;
+  }
+}
+
+/* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.page__header h1 {
+  margin: 0;
+}
+/* line 7, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.page__section {
+  margin-top: 1.35em;
+}
+/* line 20, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/mixins/_clearfix.scss */
+.page__section::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+/* line 12, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.page__intro {
+  margin-bottom: 2.7em;
+}
+/* line 16, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.page__icon {
+  float: left;
+  width: 15%;
+  max-width: 50px;
+  margin-right: 5%;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 16, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+  .page__icon {
+    margin-right: 1.35em;
+  }
+}
+/* line 27, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.page__image {
+  display: block;
+  margin-bottom: 1.35em;
+}
+/* line 31, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.page__image:last-child {
+  margin-bottom: 0;
+}
+/* line 35, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.page__image--centered {
+  margin-left: auto;
+  margin-right: auto;
+}
+/* line 40, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.page__image--partner-logos {
+  width: 100%;
+  height: auto;
+}
+/* line 46, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.page__content {
+  float: left;
+  width: 80%;
+}
+/* line 50, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_page.scss */
+.page__content--no-icon {
+  width: auto;
+}
+
+/* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_error-page.scss */
+.error404 .search-form {
+  margin: 0 0 .75em 0;
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.error404 .search-form:last-child {
+  margin-right: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_error-page.scss */
+  .error404 .search-form {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 57.35098%;
+    float: none;
+  }
+  /* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .error404 .search-form:last-child {
+    margin-right: 0;
+  }
+}
+/* line 12, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_error-page.scss */
+.error404 .search-form__submit {
+  background-color: #e2d9cb;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_metadata.scss */
+dl.metadata {
+  font-weight: 500;
+  padding-bottom: 0.675em;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 5, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_metadata.scss */
+  dl.metadata dt {
+    float: left;
+    margin-right: 0.675em;
+  }
+}
+/* line 12, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_metadata.scss */
+dl.metadata dd {
+  font-weight: 400;
+  margin-bottom: 0.675em;
+  margin-left: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 12, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_metadata.scss */
+  dl.metadata dd {
+    margin-bottom: 0;
+    margin-left: 138px;
+  }
+}
+@media screen and (min-width: 37.5em) {
+  /* line 24, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_metadata.scss */
+  dl.metadata--with-long-keys dd {
+    margin-bottom: 0;
+    margin-left: 180px;
+  }
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.sidebar-panel {
+  background-color: #dfd5c5;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+  margin-bottom: 1.35em;
+  padding: 0.675em;
+}
+/* line 8, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.sidebar-panel__title {
+  font-size: 1em;
+  text-transform: none;
+}
+/* line 13, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.sidebar-panel__list {
+  background-color: #F2EEE8;
+  border-bottom: 1px solid #c9c0b1;
+  border-top: 2px solid #d8cfbf;
+  list-style-type: none;
+  margin: 0;
+  max-height: 10000px;
+  overflow: hidden;
+  padding: 0;
+  padding-right: 0.675em -1px;
+  -webkit-transition: max-height .3s ease-out;
+  transition: max-height .3s ease-out;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 13, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+  .sidebar-panel__list {
+    max-height: 200px;
+    overflow-y: scroll;
+  }
+}
+/* line 30, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.lt-ie9 .sidebar-panel__list {
+  max-height: 200px;
+  overflow-y: scroll;
+}
+/* line 36, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.sidebar-panel__list-item {
+  border-bottom: 1px solid #e2d9cb;
+  margin: 0;
+  text-transform: none;
+}
+/* line 41, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.sidebar-panel__list-item:last-child {
+  border-bottom: none;
+}
+/* line 46, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.sidebar-panel__link {
+  border: 0;
+  display: block;
+  padding: 0.3375em;
+  padding-left: 1.5em;
+  position: relative;
+}
+/* line 53, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.sidebar-panel__link:before {
+  border: 1px solid #00549f;
+  border-radius: 2px;
+  content: '';
+  display: block;
+  height: 12px;
+  left: 8px;
+  position: absolute;
+  top: 9px;
+  width: 12px;
+}
+/* line 65, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.sidebar-panel__link:visited {
+  color: #00549f;
+}
+/* line 69, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.sidebar-panel__link:hover {
+  background-color: #e6e2dc;
+  border-bottom: 0;
+}
+/* line 74, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.sidebar-panel__link:focus {
+  border-bottom: 0;
+}
+/* line 78, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.sidebar-panel__link--active:before {
+  background-color: #00549f;
+}
+/* line 83, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_sidebar-panel.scss */
+.sidebar-panel__link--no-box:before {
+  display: none;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.user-navigation {
+  float: right;
+}
+/* line 4, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.user-navigation ul {
+  margin-top: 2.025em;
+  padding: 0;
+}
+/* line 8, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.user-navigation ul li {
+  display: inline;
+  position: relative;
+}
+/* line 12, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.user-navigation ul li:after {
+  color: rgba(250, 250, 250, 0.5);
+  content: '|';
+  font-size: 20px;
+  position: absolute;
+  right: -1px;
+  top: -7px;
+}
+/* line 21, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.user-navigation ul li:last-child:after {
+  content: '';
+}
+/* line 25, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.user-navigation ul li a {
+  background-color: #160d37;
+  border: 0;
+  border-top: 2px #160d37 solid;
+  color: white;
+  margin: 0;
+  padding: 8px 11px 7px;
+  text-decoration: none;
+}
+/* line 34, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.user-navigation ul li a:hover {
+  border-top: 3px solid #e41f13;
+}
+/* line 38, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.user-navigation ul li a.user-navigation-toggle-active {
+  border-top: 3px solid #e41f13;
+}
+/* line 42, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.user-navigation ul li a .icon {
+  background-position: 0 50%;
+  background-repeat: no-repeat;
+  display: inline;
+  padding: 2px 0.675em 2px 1.35em;
+}
+/* line 48, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.user-navigation ul li a .icon-profile {
+  background-image: url(/assets/icons/profile-d077a4a9071d57616d36c5234f327ff71b80ee4ee9cb2e3c88d78a3777edb506.svg);
+}
+/* line 52, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_user-navigation.scss */
+.user-navigation ul li a .icon-sign-in {
+  background-image: url(/assets/icons/sign-in-267c927e8383c0662262ef835d8118eacdc093658c76c7828632c749e806a2b1.svg);
+}
+
+/* line 3, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_steps.scss */
+.dit2017 .steps__heading {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.72;
+  letter-spacing: -0.5px;
+  color: #333333;
+}
+/* line 13, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_steps.scss */
+.dit2017 .step__number {
+  float: left;
+  font-size: 144px;
+  font-weight: 500;
+  letter-spacing: -1.4px;
+  text-align: center;
+  color: #d8d8d8;
+}
+/* line 21, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_steps.scss */
+.dit2017 .step__heading {
+  font-size: 32px;
+  margin-top: 35px;
+}
+/* line 25, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_steps.scss */
+.dit2017 .step__text {
+  margin-top: 12px;
+  font-size: 16px;
+  line-height: 1.38;
+  text-align: left;
+  color: #4a4a4a;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.new-wrapper {
+  border-top: 0;
+  margin-bottom: 80px;
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.new-wrapper:last-child {
+  margin-right: 0;
+}
+
+/* line 8, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__main {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+  background-color: white;
+  padding: 1.35em 0;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.opportunity__main:last-child {
+  margin-right: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 8, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+  .opportunity__main {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 65.88078%;
+  }
+  /* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .opportunity__main:last-child {
+    margin-right: 0;
+  }
+}
+/* line 18, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.lt-ie9 .opportunity__main {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 65.88078%;
+  margin-right: 0;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.lt-ie9 .opportunity__main:last-child {
+  margin-right: 0;
+}
+/* line 23, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__main .opportunity__content {
+  margin-bottom: 3em;
+}
+/* line 26, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__main .opportunity__content .opportunity__teaser {
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1.291666667;
+}
+/* line 32, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__main .opportunity__content p {
+  color: #333333;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 25px;
+}
+/* line 39, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__main .opportunity__content h1 {
+  margin-left: 0;
+  margin-right: 0;
+}
+/* line 43, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__main .opportunity__content h1 span {
+  max-width: 75%;
+}
+/* line 48, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__main .opportunity__content hr {
+  border-color: #e2d9cb;
+}
+/* line 53, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__main .opportunity__content b,
+.opportunity__main .opportunity__content strong {
+  font-weight: normal;
+}
+/* line 58, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__main .opportunity__content i,
+.opportunity__main .opportunity__content em {
+  font-style: normal;
+}
+/* line 63, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__main .opportunity__content ul {
+  list-style: none;
+  margin-bottom: 1.35em;
+  margin-left: 1em;
+  padding-left: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 63, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+  .opportunity__main .opportunity__content ul {
+    margin-left: 0;
+  }
+}
+/* line 73, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__main .opportunity__content ul li {
+  margin-bottom: 0.675em;
+}
+/* line 77, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__main .opportunity__content ul li::before {
+  color: #b00d23;
+  content: "\2022";
+  display: inline-block;
+  margin-left: -1em;
+  width: 1em;
+}
+/* line 86, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__main .opportunity__content ol {
+  counter-reset: li;
+  list-style: none;
+  margin-bottom: 1.35em;
+  margin-left: 1em;
+  padding-left: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 86, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+  .opportunity__main .opportunity__content ol {
+    margin-left: 0;
+  }
+}
+/* line 97, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__main .opportunity__content ol li {
+  counter-increment: li;
+  margin-bottom: 0.675em;
+}
+/* line 102, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__main .opportunity__content ol li::before {
+  color: #b00d23;
+  content: counter(li);
+  direction: rtl;
+  display: inline-block;
+  margin-left: -1.5em;
+  margin-right: 0.5em;
+  margin-top: 1px;
+  text-align: right;
+  width: 1em;
+}
+
+/* line 117, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__information {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+  background-color: #dfd5c5;
+  border-bottom: 0;
+  padding: 1.35em;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.opportunity__information:last-child {
+  margin-right: 0;
+}
+@media screen and (min-width: 37.5em) {
+  /* line 117, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+  .opportunity__information {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 31.76157%;
+    margin-right: 0;
+  }
+  /* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+  .opportunity__information:last-child {
+    margin-right: 0;
+  }
+}
+/* line 129, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.lt-ie9 .opportunity__information {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 23.23176%;
+  margin-right: 0;
+}
+/* line 89, /Users/dituser/.rvm/gems/ruby-2.3.3/gems/neat-1.8.0/app/assets/stylesheets/grid/_span-columns.scss */
+.lt-ie9 .opportunity__information:last-child {
+  margin-right: 0;
+}
+/* line 134, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__information .meta {
+  padding: 1em 0;
+}
+/* line 140, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__information .meta .button, .opportunity__information .meta .legacy .panel .companies-house-search-btn, .legacy .panel .opportunity__information .meta .companies-house-search-btn {
+  width: 100%;
+}
+/* line 144, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__information .meta .meta__item {
+  min-height: 2.0em;
+}
+/* line 146, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__information .meta .meta__item a {
+  border-bottom: 0;
+}
+/* line 150, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__information .meta .meta__item .meta__header {
+  display: block;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.53;
+  margin-bottom: 0;
+}
+/* line 158, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_opportunity.scss */
+.opportunity__information .meta .meta__item .meta__content {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.53;
+}
+
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.dit {
+  font-size: 15px;
+  line-height: 20.25px;
+}
+/* line 6, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.dit header h3 {
+  color: white;
+}
+/* line 11, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.dit header #global-header .header-nav.open {
+  display: block;
+}
+/* line 17, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.dit footer {
+  clear: both;
+  display: block;
+}
+/* line 21, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.dit footer #footer {
+  padding-bottom: 50px;
+  padding-top: 0;
+}
+/* line 26, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.dit footer h3 {
+  padding: 0;
+}
+/* line 30, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.dit footer ul {
+  margin: 0;
+  padding: 0;
+}
+/* line 35, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.dit footer li {
+  margin: 0 0 15px;
+  padding: 0;
+  line-height: 20.25px;
+}
+/* line 40, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.dit footer li a {
+  border: 0 0 1px;
+  margin: 0;
+  padding: 0 0 2px;
+}
+
+/* line 51, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.js-enabled .dit2017 .navigation-toggle {
+  display: none;
+}
+/* line 55, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.js-enabled .dit2017 .navigation-toggle--open {
+  display: block;
+}
+
+@media screen and (min-width: 768px) {
+  /* line 64, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+  .dit2017 li.navigation-toggle-item a {
+    display: inline;
+  }
+}
+/* line 70, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.dit2017 ul {
+  line-height: 25px !important;
+}
+/* line 74, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.dit2017 .button, .dit2017 .legacy .panel .companies-house-search-btn, .legacy .panel .dit2017 .companies-house-search-btn {
+  width: auto;
+}
+/* line 78, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.dit2017 .icon-menu {
+  background-image: url(/assets/icons/menu-222458f3b5f3e2b5e7180c67b42c9357af102e6a42c2b38c9f58749d861f6719.svg) !important;
+}
+
+@media screen and (min-width: 75em) {
+  /* line 82, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+  body#dit .outer-container {
+    max-width: 976px !important;
+  }
+}
+/* line 87, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+.lt-ie9 body#dit .outer-container {
+  width: 976px !important;
+}
+
+/* line 93, /Users/dituser/code/export-opportunities/app/assets/stylesheets/frontend/components/_dit-fixes.scss */
+main {
+  margin-bottom: 1.35em;
+}
+@font-face{font-family:GDS-Logo;src:local("HelveticaNeue"),local("Helvetica Neue"),local("Arial"),local("Helvetica")}.dit .grid-row:after,.dit .section:after{content:"";display:block;clear:both}.dit #footer .footer-wrapper,.dit .section{max-width:960px;margin:0 15px}.dit .grid-row{margin:0 -15px}.dit body,.dit html{font-family:nta,Arial,sans-serif}.dit body,.dit div,.dit footer,.dit h3,.dit header,.dit html,.dit nav{margin:0;padding:0;vertical-align:baseline}.dit html{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;background-color:#dee0e2;-ms-overflow-style:scrollbar;font-size:62.5%;overflow-y:scroll;-webkit-tap-highlight-color:transparent}.dit body{background:#fafafa;line-height:1.5;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;margin:0;color:#4a4a4a;font-family:Roboto,sans-serif;font-size:15px;position:relative}.dit nav ul,.dit ul{list-style:inherit}.dit a:link{color:#005ea5}.dit a:visited{color:#4c2c92}.dit a:active,.dit a:hover{color:#2e8aca}.dit a{-webkit-tap-highlight-color:rgba(0,0,0,.3);-webkit-tap-highlight-color:rgba(0,126,163,.5);tap-highlight-color:rgba(0,126,163,.5)}.dit a:focus{background-color:transparent;outline:#007ea3 solid 3px}.dit #global-header a:focus{color:#0b0c0c}.dit #global-header{width:100%;background-color:#1e1348;padding-bottom:9px;padding-top:15px}.dit #footer{background-color:#1e1348;border-top:0;padding-bottom:50px}.dit #footer .footer-wrapper{background-color:#1e1348;padding-top:40px}.dit #footer a{color:#454a4c}.dit #footer a:hover{color:#171819}@font-face{font-family:GDS-Logo;src:local("HelveticaNeue"),local("Helvetica Neue"),local("Arial"),local("Helvetica")}@font-face{font-family:GDS-Logo;src:local("HelveticaNeue"),local("Helvetica Neue"),local("Arial"),local("Helvetica")}@font-face{font-family:GDS-Logo;src:local("HelveticaNeue"),local("Helvetica Neue"),local("Arial"),local("Helvetica")}@media (min-width:641px){.dit #footer .footer-wrapper{padding-top:60px}.dit .column-one-third{float:left;width:33.33333%}}@font-face{font-family:GDS-Logo;src:local("HelveticaNeue"),local("Helvetica Neue"),local("Arial"),local("Helvetica")}.dit a,.dit div,.dit footer,.dit h3,.dit header,.dit i,.dit img,.dit li,.dit nav,.dit p,.dit ul{border:none;margin:0;padding:0}.dit h3,.dit i,.dit p{font-size:inherit;font-family:inherit;line-height:inherit;font-weight:400}.dit .column-one-third{box-sizing:border-box}.dit .column-two-thirds{box-sizing:border-box}.dit p{margin-top:.3125em;margin-bottom:1.25em;line-height:23px}.dit .icon{display:inline-block;background-position:0 0;background-repeat:no-repeat}.dit ul{list-style-type:none}@font-face{font-family:GDS-Logo;src:local("HelveticaNeue"),local("Helvetica Neue"),local("Arial"),local("Helvetica")}@font-face{font-family:GDS-Logo;src:local("HelveticaNeue"),local("Helvetica Neue"),local("Arial"),local("Helvetica")}@font-face{font-family:GDS-Logo;src:local("HelveticaNeue"),local("Helvetica Neue"),local("Arial"),local("Helvetica")}@media (min-width:641px){.dit .column-two-thirds{float:left;width:66.66667%}.dit p{margin-top:.26316em;margin-bottom:1.05263em}.dit #footer .footer-wrapper,.dit .section{margin:0 30px}}@media (min-width:1020px){.dit #footer .footer-wrapper,.dit .section{margin:0 auto}}@font-face{font-family:GDS-Logo;src:local("HelveticaNeue"),local("Helvetica Neue"),local("Arial"),local("Helvetica")}.dit .column-one-third,.dit .column-one-whole,.dit .column-two-thirds{padding:0 10px}.dit .soft--bottom,.dit .soft--ends{padding-bottom:20px}.dit .text--right{text-align:right}.dit .push--top{margin-top:20px}.dit .push--right{margin-right:20px}.dit .soft--right{padding-right:20px}.dit .soft--ends{padding-top:20px}.dit .soft-half--left{padding-left:10px}.dit .soft-half--ends{padding-bottom:10px;padding-top:10px}.dit .soft-half--sides{padding-left:10px;padding-right:10px}.dit .desktop-only{display:none}.dit .icon-menu{background-image:url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDIwLjEuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAyNy4yNSAyMyIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjcuMjUgMjM7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KCS5zdDB7ZmlsbDpub25lO3N0cm9rZTojRkZGRkZGO3N0cm9rZS13aWR0aDozO3N0cm9rZS1saW5lY2FwOnNxdWFyZTtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cjwvc3R5bGU+CjxsaW5lIGNsYXNzPSJzdDAiIHgxPSIyLjU1IiB5MT0iMy4yNyIgeDI9IjI0LjQ4IiB5Mj0iMy4yNyIvPgo8bGluZSBjbGFzcz0ic3QwIiB4MT0iMi41NSIgeTE9IjExLjY3IiB4Mj0iMjQuNDgiIHkyPSIxMS42NyIvPgo8bGluZSBjbGFzcz0ic3QwIiB4MT0iMi41NSIgeTE9IjIwLjA3IiB4Mj0iMjQuNDgiIHkyPSIyMC4wNyIvPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K)}.dit .background--indigo{background-color:#110b29}.dit .column-one-whole{box-sizing:border-box;width:100%}.dit body,.dit p{font-weight:300}.dit #footer .footer-links a,.dit .font-reg,.dit .nav-intro a{font-weight:400}.dit #global-header .header-nav-link,.dit h3{font-weight:500}.dit .font-xxsmall{font-size:15px}.dit .font-xxxsmall{font-size:14px}.dit .font-white{color:#fff}.dit .font-lighter-grey{color:#dce0df}.dit #global-header .header-main-logo{width:300px}@media (max-width:640px){.dit #global-header .header-main-logo{width:70%}}@media (max-width:960px){.dit .desktop-only{display:block}.dit .section{margin:0 15px}.dit #global-header--right{padding:0;width:100%}}.dit #global-header .header-nav{padding-top:20px;text-align:right}.dit #global-header .header-nav--top{display:none}@media (max-width:960px){.dit #global-header .header-nav{display:none;padding:10px 0;text-align:left}.dit #global-header .header-nav--top{display:block}}.dit #global-header .header-nav-link{display:inline-block;list-style-type:none;padding-left:22px}@media (max-width:960px) and (max-width:960px){.dit #global-header .header-nav-link{width:93%}}@media (max-width:960px) and (max-width:640px){.dit #global-header .header-nav-link{width:85%}}@media (max-width:960px){.dit #global-header .header-nav-link{border-bottom:1px solid #777;border-bottom-color:rgba(220,224,223,.5);margin-left:20px;margin-right:20px;padding:10px 0;position:relative}.dit #global-header .header-nav-link:last-child{border-bottom:0;padding-bottom:0}}.dit #global-header .header-nav-link a{color:#fff;padding-bottom:4px;text-decoration:none}.dit #global-header .header-nav-link a.active,.dit #global-header .header-nav-link a:hover{border-bottom:4px solid #b00d23}@media (max-width:960px){.dit #global-header .header-nav-link a.active,.dit #global-header .header-nav-link a:hover{border-bottom:0}.dit #global-header .header-nav-link a.active:before,.dit #global-header .header-nav-link a:hover:before{border:6px solid #b00d23;content:'';height:10px;left:-20px;position:absolute}.dit #global-header .header-nav-link a:hover:before{border-color:#dce0df}}.dit #global-header .header-nav-link a:hover{border-color:#dce0df}.dit #global-header .header-nav-link:last-child{margin-left:0}@media (max-width:960px){.dit #global-header .header-nav-link a{border-bottom:0}.dit #global-header .header-nav-link:last-child{margin-left:20px}}.dit #global-header .header-nav-toggle{color:#fff;display:none;font-weight:700;position:absolute;right:10px;text-decoration:none;text-transform:uppercase;top:35px}.dit #global-header .header-nav-toggle .icon-menu{height:20px;line-height:31px;margin-left:10px;position:relative;top:4px;width:25px}.dit #global-header .header-nav-toggle:focus{color:#fff;outline:0}@media (max-width:960px){.dit #global-header .header-nav-toggle{display:block}}@media (max-width:640px){.dit #footer .footer-wrapper{padding-top:0}.dit #footer .footer-wrapper .grid-row{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-flow:column;flex-flow:column}.dit #footer .footer-wrapper .grid-row .logo{-webkit-box-ordinal-group:4;-ms-flex-order:3;order:3}.dit #footer .footer-wrapper .grid-row .links{-webkit-box-ordinal-group:3;-ms-flex-order:2;order:2}.dit #footer .footer-wrapper .grid-row .subscribe{-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1}.dit #footer .footer-wrapper .grid-row .subscribe .footer-section{border:0}.dit #footer .footer-links a{margin-left:0}}.dit #footer .footer-links{margin-bottom:15px}.dit #footer .footer-links a{border-bottom:1px solid #777;border-bottom-color:rgba(220,224,223,.5);color:#fff;padding-bottom:2px;text-decoration:none}.dit #footer .footer-links a:hover{border-bottom:1px dashed #fff}.dit #footer .footer-img{width:250px}@media (max-width:960px){.dit #footer .footer-img{width:215px}}.dit #footer .footer-img--top{margin-bottom:10px}.dit #footer .footer-img--eig{width:200px}.dit #footer .footer-section{padding-left:30px}@media (max-width:640px){.dit #footer .footer-section{border-top:1px solid #fff;padding:30px 0}}.dit #footer .footer-section--first{padding-left:0}.dit #footer .footer-header{color:#fff;font-size:20px;margin-bottom:30px}.dit .nav-intro h3,.dit .nav-intro li,.dit .nav-intro ul{display:inline-block}.dit .nav-intro a{border-bottom:1px solid #777;border-bottom-color:rgba(220,224,223,.5);color:#fff;padding-bottom:2px;text-decoration:none}.dit .nav-intro a:hover{border-bottom:1px dashed #fff}@media (max-width:960px){.dit #footer .footer-img--eig{width:150px}.dit .nav-intro{display:none}}
+.dit2017 .button,.dit2017 .link,.dit2017 a{text-decoration:none}@font-face{font-family:Roboto;font-style:normal;font-weight:300;src:local('Roboto Light'),local('Roboto-Light'),url(https://fonts.gstatic.com/s/roboto/v15/Hgo13k-tfSpn0qi1SFdUfaCWcynf_cDxXwCLxiixG1c.ttf) format('truetype')}@font-face{font-family:Roboto;font-style:normal;font-weight:400;src:local('Roboto'),local('Roboto-Regular'),url(https://fonts.gstatic.com/s/roboto/v15/zN7GBFwfMP4uA6AR0HCoLQ.ttf) format('truetype')}@font-face{font-family:Roboto;font-style:normal;font-weight:500;src:local('Roboto Medium'),local('Roboto-Medium'),url(https://fonts.gstatic.com/s/roboto/v15/RxZJdnzeo3R5zSexge8UUaCWcynf_cDxXwCLxiixG1c.ttf) format('truetype')}.dit2017 html{box-sizing:border-box}.dit2017 *,.dit2017 ::after,.dit2017 ::before{box-sizing:inherit}.dit2017 a,.dit2017 body,.dit2017 div,.dit2017 fieldset,.dit2017 footer,.dit2017 form,.dit2017 h1,.dit2017 h2,.dit2017 h3,.dit2017 h4,.dit2017 header,.dit2017 html,.dit2017 i,.dit2017 img,.dit2017 label,.dit2017 legend,.dit2017 li,.dit2017 nav,.dit2017 p,.dit2017 strong,.dit2017 ul{border:0;font:inherit;font-size:100%;margin:0;padding:0;vertical-align:baseline}.dit2017 .button,.dit2017 body{font-family:Roboto,arial,helvetica,sans-serif}.dit2017 .font-base,.dit2017 body{font-size:16px}.dit2017 footer,.dit2017 header,.dit2017 nav{display:block}.dit2017 body{line-height:23px;letter-spacing:0;background-color:#fafafa;color:#333;position:relative;font-weight:300}.dit2017 ul{list-style:none}.dit2017 .text--center{text-align:center}.dit2017 .push--bottom{margin-bottom:20px}.dit2017 .push-half--bottom{margin-bottom:10px}.dit2017 .soft--top{padding-top:20px}.dit2017 .soft--right{padding-right:20px}.dit2017 .soft--left{padding-left:20px}.dit2017 .cf:after{clear:both;content:'';display:table}.dit2017 .float--left{float:left}.dit2017 .visuallyhidden{border:0;clip:rect(0 0 0 0);height:1px;left:-9999em;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px}.dit2017 .footer a,.dit2017 .navigation-main a{color:#fafafa}.dit2017 .footer .footer-bottom,.dit2017 .footer-links--border,.dit2017 .footer-middle-section,.dit2017 .list-separators li:after,.dit2017 .navigation-toggle-middle{color:#756e8f;color:rgba(250,250,250,.5)}.dit2017 .navigation-toggle-item a{border-color:rgba(250,250,250,.5);display:inline}.dit2017 .font-regular,.dit2017 .link{font-weight:400}.dit2017 .button,.dit2017 .h1,.dit2017 h1,.dit2017 h2,.dit2017 h3,.dit2017 h4,.dit2017 strong{font-weight:500}.dit2017 .h1{font-size:48px;letter-spacing:-1px;line-height:58px}@media screen and (min-width:tablet){.dit2017 .h1{font-size:32px;font-weight:500}}@media screen and (min-width:mobile){.dit2017 .h1{font-size:30px;margin-bottom:0}}.dit2017 .h2{font-size:32px;letter-spacing:-.6px;line-height:40px}.dit2017 .h3{font-size:24px;letter-spacing:0;line-height:32px}@media screen and (min-width:mobile){.dit2017 .h3{font-size:19px}}.dit2017 .button,.dit2017 .font-large,.dit2017 .h4{font-size:18px;letter-spacing:0;line-height:25px}.dit2017 .font-white{color:#fafafa}.dit2017 .font-light-grey{color:#dce0df}.dit2017 .font-xsmall{font-size:14px;letter-spacing:normal;line-height:14px}.dit2017 hr{background-color:#4f0b7b;border:0;display:block;height:1px;padding:0}.dit2017 p{margin-bottom:23px}.dit2017 p.font-large{margin-bottom:25px}.dit2017 .outer-container{max-width:1200px;margin-left:auto;margin-right:auto}.dit2017 .outer-container::after{clear:both;content:"";display:block}@media screen and (max-width:1200px){.dit2017 .outer-container{margin:0 30px}}@media screen and (max-width:959px) and (min-width:768px){.dit2017 .outer-container{margin:0 20px}}@media screen and (max-width:767px){.dit2017 .outer-container{margin:0 10px}}.dit2017 .col-1{float:left;display:block;margin-right:1.53846%;width:6.92308%}.dit2017 .col-1:last-child{margin-right:0}.dit2017 .col-3{float:left;display:block;margin-right:1.53846%;width:23.84615%}.dit2017 .col-3:last-child{margin-right:0}.dit2017 .col-4{float:left;display:block;margin-right:1.53846%;width:32.30769%}.dit2017 .col-4:last-child{margin-right:0}.dit2017 .col-6{float:left;display:block;margin-right:1.53846%;width:49.23077%}.dit2017 .col-6:last-child{margin-right:0}.dit2017 .col-8,.dit2017 .col-9{margin-right:1.53846%;display:block;float:left}.dit2017 .col-8{width:66.15385%}.dit2017 .col-9{width:74.61538%}.dit2017 .col-9:last-child{margin-right:0}.dit2017 .background--great-blue{background-color:#1e1348}.dit2017 .background--flag-red{background-color:#b00d23}.dit2017 .background--stone{background-color:#dfd5c5}.dit2017 .background--white{background-color:#fafafa}.dit2017 .background--grey{background-color:#333}.dit2017 .background--mid-grey{background-color:#999}.dit2017 .background--light-grey{background-color:#dce0df}.dit2017 .background--purple{background-color:#4f0b7b}.dit2017 .background--mid-blue{background-color:#00549f}.dit2017 .background--aqua{background-color:#007ea3}.dit2017 .background--dark-navy{background-color:#160d37}.dit2017 .background--dark-blue{background-color:#132965}.dit2017 .background--light-blue{background-color:#00549f}.dit2017 .background--light-aqua{background-color:#8ae2fb}.dit2017 .background--great-red{background-color:#e41f13}.dit2017 a:focus{outline:#ffbf47 solid 3px}.dit2017 .link{border-bottom:1px solid;color:#00549f}.dit2017 .link:hover{border-bottom:1px dashed;color:#007ea3}.dit2017 .link--grey{color:#dce0df;display:block}.dit2017 .link--grey:hover{border-bottom:1px dashed;margin-bottom:-1px}.dit2017 .logo-hmg,.dit2017 .logo-hmg img{display:block}.dit2017 .button,.dit2017 .icon,.dit2017 .list-inline li{display:inline-block}.dit2017 .list{margin-bottom:20px;margin-top:5px;padding:0}.dit2017 .list-item{margin-bottom:13px;padding-left:20px;position:relative}@media screen and (min-width:mobile){.dit2017 .list-item{font-size:15px}}.dit2017 .list-item:before{color:#1e1348;content:'\25CF';left:0;margin-right:10px;position:absolute}.dit2017 .list-separators{font-size:0}.dit2017 .list-separators li{position:relative}.dit2017 .list-separators li:after{content:'|';font-size:20px;position:absolute;right:-1px;top:0}.dit2017 .list-separators li:last-child:after,.dit2017 .list-separators li:nth-child(3):after{content:''}.dit2017 .button-blue{background-color:#00549f;color:#fafafa;outline:0}.dit2017 .button-blue:link,.dit2017 .button-blue:visited{background-color:#00549f;color:#fafafa}.dit2017 .button-blue:hover{background-color:#132965;color:#fafafa}.dit2017 .button-blue:active{background-color:#007ea3;outline:0}.dit2017 .button-blue:focus{outline:#ffbf47 solid 3px}.dit2017 .button-red{background-color:#b00d23;color:#fafafa;outline:0}.dit2017 .button-red:link,.dit2017 .button-red:visited{background-color:#00549f;color:#fafafa}.dit2017 .button-red:hover{background-color:#132965;color:#fafafa}.dit2017 .button-red:active{background-color:#007ea3;outline:0}.dit2017 .button-red:focus{outline:#ffbf47 solid 3px}.dit2017 .button-border{background-color:transparent;color:#00549f;outline:0;border:2px solid;padding-bottom:10px;padding-top:10px}.dit2017 .button-border:hover,.dit2017 .button-border:link,.dit2017 .button-border:visited{background-color:transparent;color:#007ea3}.dit2017 .button-border:active{background-color:#007ea3;outline:0}.dit2017 .button-border:focus,.dit2017 input:focus,.dit2017 select:focus{outline:#ffbf47 solid 3px}.dit2017 .button{border:0;border-radius:3px;box-shadow:none;cursor:pointer;padding:12px 30px}.dit2017 .button-large{font-size:24px;padding:15px 35px}@media screen and (min-width:mobile){.dit2017 .button{font-size:18px;padding:14px;text-align:center;width:100%}}.dit2017 .icon-menu{background-image:url(/images/icons/menu.svg)}.dit2017 .icon{background-position:0 0;background-repeat:no-repeat}.dit2017 .navigation a{display:block}.dit2017 .navigation-main-section{position:relative}.dit2017 .navigation-main li:after{top:7px}.dit2017 .navigation-main a{font-size:15px}.dit2017 .navigation-main-link{margin:3px;outline:#00549f solid 3px;padding:5px 8px 4px}.dit2017 .navigation-main-link--active:after,.dit2017 .navigation-main-link:hover:after{border-top:3px solid #e41f13;content:'';left:0;position:absolute;top:0;width:100%}.dit2017 .navigation-main-link--secondary{outline:#132965 solid 3px}.dit2017 .navigation-main-menu{overflow-x:hidden;padding-right:70px;white-space:nowrap}.dit2017 .navigation-main-menu::-webkit-scrollbar{display:none}.dit2017 .navigation-toggle{padding:28px 0 25px}.dit2017 .navigation-toggle-item{padding:13px 12px 0;position:relative}.dit2017 .navigation-toggle-item:first-child{padding-top:0}.dit2017 .navigation-toggle-item a.last{border:0}.dit2017 .navigation-toggle-item a.navigation-toggle-active,.dit2017 .navigation-toggle-item a:hover{border-bottom-width:1px;border-style:dashed;padding-bottom:2px}@media screen and (max-width:767px){.dit2017 .navigation-main-menu{display:none}.dit2017 .navigation-toggle-item:first-child{padding-top:13px}.dit2017 .navigation-toggle-item a.navigation-toggle-active,.dit2017 .navigation-toggle-item a:hover{border-style:solid;display:block;padding-bottom:10px}.dit2017 .navigation-toggle-item a.navigation-toggle-active:after,.dit2017 .navigation-toggle-item a:hover:after{border-bottom:10px solid transparent;border-left:15px solid #e41f13;border-top:10px solid transparent;content:'';height:0;left:0;position:absolute;top:15px;width:0}.dit2017 .navigation-toggle-item a{border-bottom-width:1px;border-style:solid;display:block;padding-bottom:10px}.dit2017 .navigation-toggle-item a:hover.last{border:0}.dit2017 .navigation-toggle-item{padding-left:25px}.dit2017 .navigation-toggle-services{background-color:#00549f;font-weight:500}.dit2017 .navigation-toggle .outer-container{margin:0;width:100%}.dit2017 .navigation-toggle{padding:0}.dit2017 .navigation-toggle .col-3{float:left;display:block;margin-right:1.53846%;width:100%}.dit2017 .navigation-toggle .col-3:last-child{margin-right:0}}.dit2017 .navigation-toggle-middle{border-left:1px;border-style:solid;padding-left:15px}@media screen and (max-width:767px){.dit2017 .navigation-toggle-middle{border:0;padding:0}}.dit2017 .navigation-main-button{background-color:#00549f;border-left:2px solid #000;border-radius:0;font-size:15px;font-weight:400;padding:8px 10px 5px;position:absolute;right:0;top:0}.dit2017 .navigation-main-button .icon{height:12px;line-height:15px;margin-right:2px;top:1px;width:25px}.dit2017 .navigation-main-button--open,.dit2017 .navigation-main-button:hover{background-color:#160d37;border-top:3px solid #e41f13;bottom:0;display:block;padding-top:5px}.dit2017 .navigation-strip{padding:8px 0 3px}.dit2017 .navigation-strip a{font-size:14px;padding:0 5px 0 2px}.dit2017 .navigation-logo-link{margin-bottom:3px}.dit2017 .navigation-logo{padding:17px 0 4px}@media screen and (max-width:767px){.dit2017 .navigation-main-button--open,.dit2017 .navigation-main-button:hover{border-bottom:0;border-left:0;border-right:0}.dit2017 .navigation-main-button{background:0 0;border:1px solid #756e8f;border-color:rgba(250,250,250,.5);top:-50px}.dit2017 .navigation-strip{float:left;display:block;margin-right:1.53846%;width:100%}.dit2017 .navigation-logo{width:70%}}.dit2017 .navigation-skip-to a{left:-9999em;position:absolute}.dit2017 .navigation-skip-to a:focus{left:0;position:relative}.dit2017 .js-enabled .navigation-toggle,.dit2017 .navigation-skip-to:after{display:none}.dit2017 .js-enabled .navigation-toggle--open{display:block}.dit2017 .footer{font-size:15px;padding-top:40px}.dit2017 .footer-logo{width:200px}@media screen and (max-width:959px) and (min-width:768px){.dit2017 .footer-logo{width:170px}}.dit2017 .footer-links{padding-left:10px}@media screen and (max-width:767px){.dit2017 .footer-logo{width:150px}.dit2017 .footer-links li{padding-bottom:10px}}.dit2017 .footer-links a:hover{border-bottom:1px dashed #fafafa;padding-bottom:2px}@media screen and (max-width:767px){.dit2017 .footer-links--border{border-left:1px;border-style:solid;padding-left:20px}}.dit2017 .footer-middle-section{border-left:1px;border-right:1px;border-style:solid;padding-left:20px}.dit2017 .footer-section{float:left;display:block;margin-right:1.53846%;width:49.23077%}.dit2017 .footer-section:last-child{margin-right:0}@media screen and (max-width:959px) and (min-width:768px){.dit2017 .footer-section .col-4,.dit2017 .footer-section .col-8{float:left;display:block;margin-right:1.53846%;width:49.23077%}.dit2017 .footer-section .col-4:last-child{margin-right:0}}@media screen and (max-width:767px){.dit2017 .footer-middle-section{border:0;padding-left:0}.dit2017 .footer-section{float:left;display:block;margin-right:1.53846%;width:100%;border-bottom:1px solid;color:#756e8f;color:rgba(250,250,250,.5);padding:20px 0}.dit2017 .footer-section:last-child{margin-right:0}.dit2017 .footer-section .col-4,.dit2017 .footer-section .col-8{float:left;display:block;margin-right:1.53846%;width:49.23077%}.dit2017 .footer-section .col-4:last-child{margin-right:0}}.dit2017 .footer-section-right li{padding-left:40px;padding-right:5px}@media screen and (max-width:1200px){.dit2017 .footer-section-right li{padding-left:0}}@media screen and (max-width:959px) and (min-width:768px){.dit2017 .footer-section-right .col-6:nth-child(1){float:left;display:block;margin-right:1.53846%;width:57.69231%}.dit2017 .footer-section-right .col-6:nth-child(2){float:left;display:block;margin-right:1.53846%;width:40.76923%}.dit2017 .footer-section-right .col-6:nth-child(2):last-child{margin-right:0}}.dit2017 .footer-copy{text-align:right}@media screen and (max-width:767px){.dit2017 .footer-section-right li{padding-left:0}.dit2017 .footer-section-right{margin-bottom:10px}.dit2017 .footer-copy{float:left;display:block;margin-right:1.53846%;width:100%;padding:10px 0 20px;text-align:center}.dit2017 .footer-copy:last-child{margin-right:0}.dit2017 .footer .list-separators li{float:left;display:block;margin-right:1.53846%;width:49.23077%}.dit2017 .footer .list-separators li:last-child{margin-right:0}.dit2017 .footer .list-separators li:after{content:''}}.dit2017 .footer .footer-bottom{border-top:1px solid;margin-top:60px;padding-bottom:20px;padding-top:10px}@media screen and (max-width:767px){.dit2017 .footer .footer-bottom{border:0;margin-top:0}.dit2017 .footer{padding-top:0}}
+.lt-ie9 .dit .column-one-third,.lt-ie9 .dit .column-two-thirds{float:left}.lt-ie9 .dit .column-one-third{width:33.33333%}.lt-ie9 .dit .column-two-thirds{width:66.66667%}.lt-ie9 .dit #footer .footer-wrapper,.lt-ie9 .dit .section{margin:0 auto}.lt-ie9 .dit .icon-menu{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAXCAMAAADNyMQcAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRF////////VXz1bAAAAAJ0Uk5T/wDltzBKAAAAIElEQVR42mJgxA0YGBlwARrJ4XMLveWGu98Hj/8AAgwAm80BQomdFrMAAAAASUVORK5CYII=)}
+/* Fix up - needs to be done properly */
+
+
+.dit2017 {
+  -webkit-font-smoothing: auto;
+}
+
+.dit2017 .link--white {
+  color: #ffffff;
+}
+
+.dit2017 .font-light {
+  font-weight: 300;
+}
+
+.dit2017 .font-regular,
+.dit2017 .link {
+  font-weight: 400;
+}
+
+.dit2017 .navigation-strip .list-separators li:nth-child(2) a {
+  padding: 0 15px 0 2px;
+}
+
+.dit2017 .navigation-strip .list-separators li:nth-child(2):after {
+  top: -3px;
+}
+
+.dit2017 .navigation-strip .list-separators li:last-child,
+.dit2017 .navigation-strip .list-separators li:nth-child(3) {
+  padding: 0 0px 0 2px;
+  left: 9px;
+  top: -2px;
+}
+
+.dit2017 .navigation-strip .list-separators li:last-child:after,
+.dit2017 .navigation-strip .list-separators li:nth-child(3):after {
+  content: '';
+}
+
+/* Bring in header login buttons - kludge */
+
+.dit2017 .navigation-strip .navigation-login li:last-child,
+.dit2017 .navigation-strip .navigation-login li:nth-child(2) {
+  top: 0px;
+}
+
+
+.dit2017 .navigation-login {
+  float: right;
+}
+
+.dit2017 .navigation-login .icon {
+  width: auto;
+}
+
+.dit2017 .navigation-login .soft-half--right {
+  padding-right: 10px;
+}
+
+.dit2017 .navigation-login .soft-half--left {
+  padding-left: 10px;
+}
+
+.dit2017 .navigation-login li a {
+  color: white;
+}
+
+@media screen and (max-width: 767px) {
+  .dit2017 .navigation-login li {
+    padding-right: 0; }
+    .dit2017 .navigation-login li .icon {
+      margin-right: 0; }
+    .dit2017 .navigation-login li:after {
+      content: none; }
+  .dit2017 .navigation-login a {
+    padding: 0; }
+}
+
+.dit2017 .navigation-login a:hover:after {
+  border-top: 3px solid #e41f13;
+  content: '';
+  left: 0;
+  position: absolute;
+  top: -8px;
+  width: 100%;
+}
+
+.dit2017 .navigation-login .icon--left {
+    float: left;
+    height: 21px;
+    width: 22px;
+    left: 0;
+    margin-right: 10px;
+    position: relative;
+}
+
+.dit2017 .navigation-login .icon {
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    display: inline-block;
+}
+
+.dit2017 .navigation-login .icon-sign-in {
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjFweCIgaGVpZ2h0PSIyMXB4IiB2aWV3Qm94PSIwIDAgMjEgMjEiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDIxIDIxOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe2ZpbGw6bm9uZTtzdHJva2U6I0ZGRkZGRjtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9LnN0MXtmaWxsOiNGRkZGRkY7fTwvc3R5bGU+PGc+PGNpcmNsZSBjbGFzcz0ic3QwIiBjeD0iMTAuNDUiIGN5PSIxMC41NCIgcj0iOS42MyIvPjxnPjxjaXJjbGUgY2xhc3M9InN0MSIgY3g9IjEwLjQiIGN5PSI4LjAyIiByPSIzLjI5Ii8+PHBhdGggY2xhc3M9InN0MSIgZD0iTTEwLjQ2LDExLjY5Yy0zLjE3LDAtNS44OCwyLjAxLTYuOTUsNC44NGMxLjY1LDIuMDQsNC4xNSwzLjM1LDYuOTUsMy4zNWMyLjgsMCw1LjMxLTEuMyw2Ljk1LTMuMzVDMTYuMzQsMTMuNywxMy42MywxMS42OSwxMC40NiwxMS42OXoiLz48L2c+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjwvc3ZnPg==);
+}
+
+@media screen and (max-width: 767px) {
+  .hide-mobile {
+    display: none;
+  }
+}
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ */
+
+
+
+
+
+
+

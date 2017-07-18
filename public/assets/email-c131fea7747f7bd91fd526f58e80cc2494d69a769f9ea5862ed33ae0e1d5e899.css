@@ -1,0 +1,78 @@
+/* line 1, /Users/dituser/code/export-opportunities/app/assets/stylesheets/email.scss */
+body {
+  margin: 0;
+  padding: 0;
+  color: red;
+  font-size: 14px;
+  color: #121212;
+  font-family: Robo, Arial, Helvetica, sans-serif;
+  line-height: 18px;
+}
+
+/* line 11, /Users/dituser/code/export-opportunities/app/assets/stylesheets/email.scss */
+a {
+  color: #00549f;
+  text-decoration: none;
+}
+
+/* line 16, /Users/dituser/code/export-opportunities/app/assets/stylesheets/email.scss */
+.content-wrap {
+  padding: 30px;
+}
+
+/* line 20, /Users/dituser/code/export-opportunities/app/assets/stylesheets/email.scss */
+.content {
+  max-width: 600px;
+  width: 100%;
+}
+
+/* line 25, /Users/dituser/code/export-opportunities/app/assets/stylesheets/email.scss */
+.pad-below {
+  padding-bottom: 15px;
+}
+
+/* line 29, /Users/dituser/code/export-opportunities/app/assets/stylesheets/email.scss */
+.pad-above {
+  padding-top: 15px;
+}
+
+/* line 33, /Users/dituser/code/export-opportunities/app/assets/stylesheets/email.scss */
+.button {
+  padding: 10px 20px;
+  text-transform: uppercase;
+}
+/* line 36, /Users/dituser/code/export-opportunities/app/assets/stylesheets/email.scss */
+.button > a {
+  color: #ffffff;
+}
+
+/* line 39, /Users/dituser/code/export-opportunities/app/assets/stylesheets/email.scss */
+.small-print, .footer .eig-signature {
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* line 44, /Users/dituser/code/export-opportunities/app/assets/stylesheets/email.scss */
+.footer {
+  max-width: 600px;
+}
+/* line 46, /Users/dituser/code/export-opportunities/app/assets/stylesheets/email.scss */
+.footer .eig-logo {
+  padding-right: 50px;
+}
+/* line 49, /Users/dituser/code/export-opportunities/app/assets/stylesheets/email.scss */
+.footer .eig-signature {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+/* line 56, /Users/dituser/code/export-opportunities/app/assets/stylesheets/email.scss */
+.new-opportunity-box {
+  padding: 5px;
+}
+/* line 58, /Users/dituser/code/export-opportunities/app/assets/stylesheets/email.scss */
+.new-opportunity-box .opportunity-title {
+  text-transform: uppercase;
+  font-weight: bold;
+  padding-bottom: 20px;
+}
