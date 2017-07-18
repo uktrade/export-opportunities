@@ -4,13 +4,10 @@ class EnquiryFeedbackController < ApplicationController
   def new
     @enquiry_feedback = EnquiryFeedback.find(enquiry_feedback_params[:id])
 
-    if @enquiry_feedback.responded_at.nil?
-
-      @enquiry_feedback.update!(
-        initial_response: enquiry_feedback_params[:response],
-        responded_at: Time.zone.now
-      )
-    end
+    @enquiry_feedback.update!(
+      initial_response: enquiry_feedback_params[:response],
+      responded_at: Time.zone.now
+    )
 
     @response_text = response_display_text(enquiry_feedback_params[:response])
     render 'enquiry_feedback/new'
