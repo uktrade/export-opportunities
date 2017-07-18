@@ -64,11 +64,15 @@
     %td.flexibleContainerCell{:align => "right", :valign => "top", :width => "50%"}
       = image_tag('dept_logo_mini-2x.gif', style: "width: 130px; height: 59px; width: px;")
 
-
 - content_for :message_reason do
   %p
     You are receiving this email because you applied for an export opportunity on the great.gov.uk website.
+
 - content_for :footer_links do
-  %div
+  %div{:style => "margin-bottom: 6px;"}
     = link_to('Unsubscribe', feedback_opt_out_url(q: EncryptedParams.encrypt(user_id: @enquiry_feedback.enquiry.user.id)))
     from future 'Give feedback on' emails
+  %div{:style => "margin-bottom: 6px;"}
+    View 
+    = link_to('privacy statement', 'https://www.export.great.gov.uk/privacy-and-cookies/')
+
