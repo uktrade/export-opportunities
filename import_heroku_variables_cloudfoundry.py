@@ -27,7 +27,7 @@ class CopyVariablesHerokuCloudFront(object):
 def main():
     args = parse_args()
     copyVariables = CopyVariablesHerokuCloudFront(args.required_param)
-    copyVariables.readFile()
+    copyVariables.readFile('heroku_vars')
 
 if __name__ == '__main__':
     main()

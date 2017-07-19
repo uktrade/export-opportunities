@@ -34,7 +34,7 @@ gem 'elasticsearch-model', '0.1.9'
 
 # Styling
 gem 'bourbon'
-gem 'neat'
+gem 'neat', '1.8.0'
 gem 'autoprefixer-rails'
 gem 'normalize-scss'
 gem 'sass-rails'
