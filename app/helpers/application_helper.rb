@@ -11,6 +11,12 @@ module ApplicationHelper
     selected_elements + (array - selected_elements)
   end
 
+  def companies_house_url(companies_house_number)
+    return nil unless companies_house_number
+    companies_house_url = Figaro.env.COMPANIES_HOUSE_BASE_URL + companies_house_number
+    companies_house_url
+  end
+
   def trade_profile(companies_house_number)
     return nil unless companies_house_number
     trade_profile_url = Figaro.env.TRADE_PROFILE_PAGE + companies_house_number

@@ -105,8 +105,8 @@
           %th{:scope => 'row'} Company Telephone
           %td= enquiry.company_telephone
         %tr
-          %th{:scope => 'row'} Companies House number
-          %td= enquiry.company_house_number
+          %th{:scope => 'row'} Companies House listing
+          %td= link_to enquiry.company_name, @companies_house_url, target: :blank, :rel => 'noopener noreferrer'
         %tr
           %th{:scope => 'row'} Company Postcode
           %td= enquiry.company_postcode
