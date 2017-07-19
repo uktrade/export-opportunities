@@ -1,6 +1,11 @@
 .promo {
-	@include clearfix;
-	margin-bottom: 20px;
+    @include clearfix;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border-width: 2px;
+    border-color: #ccc;
+    border-style: solid;
+    padding: 20px;
 	&__body {
     @media #{$tablet-s} {
     	float: left;
