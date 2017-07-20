@@ -22,7 +22,9 @@
     /[if lte IE 9]
       = javascript_include_tag 'oldie-support.min'
       = javascript_include_tag 'classlist.polyfill.min'
-      = javascript_include_tag 'eventListener.polyfill.min'        
+      = javascript_include_tag 'eventListener.polyfill.min'
+
+    = render partial: 'google_analytics'     
 
   %body{id: ExportOpportunities.flipper.enabled?(:new_header_and_footer) ? nil : 'dit'}
     = render partial: 'svg_icons'
@@ -52,4 +54,4 @@
       
     = javascript_include_tag 'modernizr.min', defer: true
     = javascript_include_tag 'application'
-    = render partial: 'google_analytics'
+

@@ -1,11 +1,15 @@
-= content_for :hero do
-  %h1 Thanks for your feedback on Export Opportunities
-.panel.summary-panel
-  %p
-  The information you’ve given will help us improve the Export Opportunities service.
-  %p
-  We’d welcome your feedback on any parts of the service.
-  %p
-
-.panel.summary-panel
-  = render 'form', enquiry_feedback: @enquiry_feedback
+%main
+  .enquiry_feedback_form
+    .container
+      .margin-top-30
+        %h1.h1 Thank you
+        %p
+          You selected:
+          %strong
+            = @response_text
+        %p
+          We'd love to know more about why you selected this category 
+          %span.optional
+            (optional)
+        %p
+          = render 'form', enquiry_feedback: @enquiry_feedback

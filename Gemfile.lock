@@ -117,6 +117,8 @@ GEM
       faraday
       multi_json
     erubis (2.7.0)
+    et-orbi (1.0.5)
+      tzinfo
     execjs (2.7.0)
     factory_girl (4.8.0)
       activesupport (>= 3.0.0)
@@ -333,6 +335,8 @@ GEM
       sexp_processor (~> 4.6)
     ruby_parser (3.8.3)
       sexp_processor (~> 4.1)
+    rufus-scheduler (3.4.2)
+      et-orbi (~> 1.0)
     safe_yaml (1.0.4)
     sass (3.4.23)
     sass-rails (5.0.6)
@@ -354,6 +358,9 @@ GEM
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
       redis (~> 3.2, >= 3.2.1)
+    sidekiq-cron (0.6.3)
+      rufus-scheduler (>= 3.3.0)
+      sidekiq (>= 4.2.1)
     simplecov (0.12.0)
       docile (~> 1.1.0)
       json (>= 1.8, < 3)
@@ -432,7 +439,7 @@ DEPENDENCIES
   jquery-rails
   kaminari
   launchy
-  neat
+  neat (= 1.8.0)
   normalize-scss
   omniauth
   omniauth-oauth2 (~> 1.3.1)
@@ -461,6 +468,7 @@ DEPENDENCIES
   sentry-raven
   shoulda-matchers
   sidekiq
+  sidekiq-cron
   simplecov
   stringex
   test_after_commit

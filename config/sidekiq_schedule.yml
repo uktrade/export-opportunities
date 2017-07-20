@@ -1,0 +1,5 @@
+schedule_automated_impact_email_job:
+  cron: "30 8 * * *"
+  class: "SendImpactEmailToMatchingEnquiriesWorker"
+  queue: default
+  active_job: true

@@ -37,10 +37,11 @@
     @media #{$desktop-s} {
       width: auto;
       max-width: none;
-      margin: 0 20px;
+      margin: 0 30px;
       padding: 20px 0 30px 0;
     }
     @media #{$desktop-m} {
+      margin: 0 auto;
       padding: 20px 0 10px 0;
     }
   }
@@ -89,10 +90,6 @@
   }
   &__groupB .filters__item:nth-child(1):after {
     content: none;
-  }
-  &__groupB .filters__item:nth-child(2):after,
-  &__groupB .filters__item:nth-child(3):after{
-    bottom: 0;
   }
   &__label {
     font-size: 18px;
@@ -192,7 +189,6 @@
         margin-bottom: 20px;
       }
       .filters__item__last {
-        margin-top: 23px;
         margin-bottom: 0px;
       }
     }
