@@ -27,7 +27,10 @@
     %td= @enquiry.company_telephone
   %tr
     %th{:scope => 'row'} Companies House listing
-    %td= link_to @enquiry.company_name, @companies_house_url, target: :blank, :rel => 'noopener noreferrer'
+    - if @companies_house_url then
+      %td=link_to @enquiry.company_name, @companies_house_url, target: :blank, :rel => 'noopener noreferrer'
+    - else
+      %td='N/A'
   %tr
     %th{:scope => 'row'} Company Postcode
     %td= @enquiry.company_postcode

@@ -12,7 +12,7 @@ module ApplicationHelper
   end
 
   def companies_house_url(companies_house_number)
-    return nil unless companies_house_number
+    return nil if companies_house_number.nil? || companies_house_number.empty?
     companies_house_url = Figaro.env.COMPANIES_HOUSE_BASE_URL + companies_house_number
     begin
       response = companies_house_url if Net::HTTP.get(URI(companies_house_url))
