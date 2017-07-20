@@ -50,6 +50,24 @@ describe ApplicationHelper do
     end
   end
 
+  describe '#companies house' do
+    it 'returns nil for nil company house number' do
+      result = companies_house_url(nil)
+      expect(result).to eq(nil)
+    end
+
+    it 'returns trade profile for a company house number that we know exists in Profile Staging' do
+      result = companies_house_url('SC406536')
+      expect(result).to_not be(nil)
+      expect(result).to include('SC406536')
+    end
+
+    it 'returns trade profile for a company house number that we know exists in Profile Staging' do
+      result = companies_house_url('SC40 6536')
+      expect(result).to eq(nil)
+    end
+  end
+  
   describe '#trade profile' do
     it 'returns nil for nil company house number' do
       result = trade_profile(nil)

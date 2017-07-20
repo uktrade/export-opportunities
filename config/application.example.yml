@@ -20,6 +20,7 @@ test:
   REDIS_URL: redis://localhost:6379/7
 
 COMPANIES_HOUSE_API_TOKEN: example_token
+COMPANIES_HOUSE_BASE_URL:
 
 # Google Tag Manager for analytics, comma-separated
 GOOGLE_TAG_MANAGER_KEYS:
