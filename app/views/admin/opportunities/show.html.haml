@@ -109,7 +109,7 @@
           - if @companies_house_url then
             %td=link_to @enquiry.company_name, @companies_house_url, target: :blank, :rel => 'noopener noreferrer'
           - else
-            %td='N/A'
+            %td='Not supplied'
         %tr
           %th{:scope => 'row'} Company Postcode
           %td= enquiry.company_postcode
