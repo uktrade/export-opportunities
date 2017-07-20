@@ -14,7 +14,12 @@ module ApplicationHelper
   def companies_house_url(companies_house_number)
     return nil unless companies_house_number
     companies_house_url = Figaro.env.COMPANIES_HOUSE_BASE_URL + companies_house_number
-    companies_house_url
+    begin
+      response = companies_house_url if Net::HTTP.get(URI(companies_house_url))
+    rescue
+      response = nil
+    end
+    response
   end
 
   def trade_profile(companies_house_number)
