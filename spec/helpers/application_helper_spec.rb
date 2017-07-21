@@ -56,13 +56,13 @@ describe ApplicationHelper do
       expect(result).to eq(nil)
     end
 
-    it 'returns trade profile for a company house number that we know exists in Profile Staging' do
+    it 'returns trade profile for a company house number that we know exists in Companies House' do
       result = companies_house_url('SC406536')
       expect(result).to_not be(nil)
       expect(result).to include('SC406536')
     end
 
-    it 'returns trade profile for a company house number that we know exists in Profile Staging' do
+    it 'returns trade profile for a company house number that we know does not exist (invalid format) in Companies House' do
       result = companies_house_url('SC40 6536')
       expect(result).to eq(nil)
     end
