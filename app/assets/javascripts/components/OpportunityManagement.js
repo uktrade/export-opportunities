@@ -12,6 +12,9 @@ ukti.OpportunityManagement = (function() {
 
   var cacheElements = function () {
 		var commentForm = document.getElementById('new_opportunity_comment_form');
+		if (!commentForm) {
+			return;
+		}
 		commentField = commentForm.querySelector('textarea[name="opportunity_comment_form[message]"]');
 		commentFormGroup = commentForm.querySelector('.form-group-related');
 		commentFormErrorEl = commentForm.querySelector('.error-message');
