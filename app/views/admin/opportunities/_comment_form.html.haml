@@ -1,7 +1,7 @@
 = form_for @comment_form, url: admin_opportunity_comments_path(@opportunity) do |f|
   .form-group-related
     = f.label :message, 'Add a comment', class: 'form-label form-label-bold'
-    %span.error-message{:tabindex => '-1'}
+    %span.error-message{:tabindex => '-1', :'aria-hidden' => 'true', :role => 'alert'}
     = f.text_area :message, class: 'form-control'
     %p.form-hint
       Comments posted here are only visible by you and other editors.

@@ -43,11 +43,13 @@ ukti.OpportunityManagement = (function() {
   var addErrorToCommentFormGroup = function () {
 		commentFormGroup.classList.add(errorClass);
 		commentFormErrorEl.innerHTML = errorMessage;
+		commentFormErrorEl.setAttribute('aria-hidden', 'false');
 		commentFormErrorEl.focus();
 	};
 
   var clearErrorFromCommentField = function () {
 		commentFormGroup.classList.remove(errorClass);
+		commentFormErrorEl.setAttribute('aria-hidden', 'true');
 		commentFormErrorEl.innerHTML = '';
 	};
 
