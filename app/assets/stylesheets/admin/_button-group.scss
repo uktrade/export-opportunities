@@ -1,0 +1,9 @@
+.button-group {
+	&-item {
+		margin-bottom: 10px;
+		@media (min-width: 641px) {
+			display: inline-block;
+			margin-bottom: 0;
+		}
+	}
+}

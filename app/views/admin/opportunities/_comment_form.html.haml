@@ -1,7 +1,12 @@
 = form_for @comment_form, url: admin_opportunity_comments_path(@opportunity) do |f|
-  .form-group
+  .form-group-related
     = f.label :message, 'Add a comment', class: 'form-label form-label-bold'
+    %span.error-message{:tabindex => '-1'}
     = f.text_area :message, class: 'form-control'
     %p.form-hint
       Comments posted here are only visible by you and other editors.
-  = f.submit 'Add Comment', class: 'button'
+  .button-group
+    .button-group-item
+      = f.submit 'Add Comment', class: 'button'
+    .button-group-item
+      = button_to "Return to draft with comment", { action: "new" }, class: "button js-button-draft", id: "my_id"

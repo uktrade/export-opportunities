@@ -42,7 +42,7 @@
             =button_to('Trash', admin_opportunity_status_path(@opportunity), method: :delete, class: "button button-danger")
         - if @drafting_button_data.show
           .inline-item
-            =button_to(@drafting_button_data.text, @drafting_button_data.path, method: :patch, params: @drafting_button_data.params, class: "button")
+            =button_to(@drafting_button_data.text, @drafting_button_data.path, method: :patch, params: @drafting_button_data.params, class: "button js-button-draft")
         - if @pending_button_data.show
           .inline-item
             =button_to(@pending_button_data.text, @pending_button_data.path, method: :patch, params: @pending_button_data.params, class: "button")
