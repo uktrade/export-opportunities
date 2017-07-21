@@ -1,7 +1,7 @@
 class EnquiryFeedbackMailerPreview < ActionMailer::Preview
   def request_feedback
     user = User.create(
-       email: 'email@example.com'
+      email: 'email@example.com'
     )
     enquiry = Enquiry.create(
       first_name: 'Bob',
