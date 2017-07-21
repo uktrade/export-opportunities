@@ -44,7 +44,6 @@ class Admin::EnquiriesController < Admin::BaseController
     @enquiry_response = EnquiryResponse.where(enquiry_id: enquiry_id).first
     @trade_profile_url = trade_profile(@enquiry.company_house_number)
     @companies_house_url = companies_house_url(@enquiry.company_house_number)
-    pp @companies_house_url
     authorize @enquiry
   end
 
