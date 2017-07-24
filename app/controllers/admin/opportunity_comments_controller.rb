@@ -7,6 +7,11 @@ class Admin::OpportunityCommentsController < Admin::BaseController
     comment_form.message = comment_params[:message]
 
     if comment_form.post!
+      if params[:commit] == 'Return to draft with comment'
+        authorize(opportunity, :drafting?)
+        DraftStatusSender.new.call(opportunity, current_editor)
+        UpdateOpportunityStatus.new.call(opportunity, 'draft')
+      end
       redirect_to :back, notice: 'Your comment has been posted.'
     else
       redirect_to :back, alert: "Your comment could not be saved. #{comment_form.errors.full_messages.to_sentence}"

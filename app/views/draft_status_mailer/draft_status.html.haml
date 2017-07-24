@@ -1,3 +1,5 @@
-%p Your opportunity has been set to draft. Please login to the admin centre and go here to edit your opportunity:
+%p The following opportunity cannot be published:
+%p
+= link_to @opportunity.title, @opportunity_edit_path
 
-= @opportunity_edit_path
+%p Please read and action the comments before resubmitting.
