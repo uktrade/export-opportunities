@@ -9,5 +9,5 @@
     .button-group-item
       = f.submit 'Add Comment', class: 'button'
     .button-group-item
-      -#= button_to "Return to draft with comment", { action: "new" }, class: "button js-button-draft", id: "my_id"
-      = f.submit 'Return to draft with comment', class: 'button'
+      - if current_editor.administrator?
+        = f.submit 'Return to draft with comment', class: 'button'
