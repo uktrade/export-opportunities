@@ -7,8 +7,8 @@ class Admin::OpportunityCommentsController < Admin::BaseController
     comment_form.message = comment_params[:message]
 
     if comment_form.post!
-      if params[:commit] == 'Return to draft with comment'
-        authorize(opportunity, :drafting?)
+      byebug
+      if params[:commit] == 'Return to draft with comment' && current_editor.role = :administrator
         DraftStatusSender.new.call(opportunity, current_editor)
         UpdateOpportunityStatus.new.call(opportunity, 'draft')
       end
@@ -21,6 +21,6 @@ class Admin::OpportunityCommentsController < Admin::BaseController
   private
 
   def comment_params
-    params.require(:opportunity_comment_form).permit(:message)
+    params.require(:opportunity_comment_form).permit(:message, :opportunity)
   end
 end
