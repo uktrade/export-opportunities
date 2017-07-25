@@ -1,4 +1,5 @@
 require 'matrix'
+require 'csv'
 
 module Admin
   class ReportsController < BaseController
@@ -18,13 +19,16 @@ module Admin
     def index
       authorize :reports
 
-      monthly_report if params[:commit]
+      if params[:commit]
+        csv_data = monthly_report
+        MonthlyCountryReportMailer.send_report(current_editor.email, csv_data).deliver_later!
+      end
     end
 
     private
 
     def monthly_report
-      @result = {}
+      csv = []
       @cen_result = []
       @nbn_result = []
       @row_lines = {}
@@ -105,26 +109,27 @@ module Admin
       cen_results, nbn_results, total_results = calculate_totals(@row_lines, @targets)
       responses_csv = ReportCSV.new(@row_lines, @targets)
 
-      begin
-        response.stream.write("======OPPORTUNITIES=======\n")
+      # begin
+        csv << ("======OPPORTUNITIES=======\n")
         opportunities_csv.each_opportunities do |row|
-          response.stream.write(row)
+          csv << (row)
         end
         results = [cen_results, nbn_results, total_results]
         results.each do |row|
-          response.stream.write(format_opportunity_totals(row))
+          csv << (format_opportunity_totals(row))
         end
-        response.stream.write("======RESPONSES=======\n")
+        csv << ("======RESPONSES=======\n")
         responses_csv.each_responses do |row|
-          response.stream.write(row)
+          csv << (row)
         end
         results = [cen_results, nbn_results, total_results]
         results.each do |row|
-          response.stream.write(format_response_totals(row))
+          csv << (format_response_totals(row))
         end
-      ensure
-        response.stream.close
-      end
+      # ensure
+      #   # response.stream.close
+      # end
+        csv
     end
 
     def calculate_impact_email_stats(start_date = Time.zone.now.beginning_of_day - 1.day, end_date = Time.zone.now)
