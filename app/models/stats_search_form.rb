@@ -8,7 +8,6 @@ class StatsSearchForm
   AllServiceProviders = Struct.new(:name, :id).new('all service providers', 'all')
 
   def initialize(params)
-    byebug
     @service_provider_id = params[:ServiceProvider][':service_provider_ids'].reject { |e| e.to_s.empty? }.map(&:to_i) if params[:ServiceProvider]
     @country_id = if params[:Country] && params[:Country][':country_ids']
                     params[:Country][':country_ids'].reject { |e| e.to_s.empty? }.map(&:to_i)

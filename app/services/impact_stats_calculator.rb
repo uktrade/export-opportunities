@@ -3,7 +3,7 @@ class ImpactStatsCalculator
     sent_date_range = (date_from..date_to)
     responded_date_range = (date_from..Time.zone.now)
     sent = EnquiryFeedback.where(created_at: sent_date_range).count
-    eq = EnquiryFeedback.where.not(responded_at: nil)
+    eq = EnquiryFeedback.where.not(responded_at: nil).where(created_at: sent_date_range)
     eq_responded = eq.where(responded_at: responded_date_range)
     responded = eq_responded.count
     responded_with_feedback = eq_responded.where.not(message: nil).count

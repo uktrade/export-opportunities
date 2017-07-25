@@ -11,7 +11,8 @@ module Admin
 
     def show
       authorize :reports
-      @stats = calculate_impact_email_stats if params[:id] == 'impact_email'
+      start_date = DateTime.new(params['impact_stats_date']['data(1i)'].to_i, params['impact_stats_date']['data(2i)'].to_i, params['impact_stats_date']['data(3i)'].to_i).in_time_zone('UTC').beginning_of_day
+      @stats = calculate_impact_email_stats(start_date, start_date + 1.day) if params[:id] == 'impact_email'
     end
 
     def index
@@ -126,7 +127,7 @@ module Admin
       end
     end
 
-    def calculate_impact_email_stats(start_date = Time.zone.now.beginning_of_day - 1.day, end_date = Time.zone.now.beginning_of_day)
+    def calculate_impact_email_stats(start_date = Time.zone.now.beginning_of_day - 1.day, end_date = Time.zone.now)
       isc = ImpactStatsCalculator.new.call(start_date, end_date)
 
       @impact_stats = ImpactStatsReport.new(

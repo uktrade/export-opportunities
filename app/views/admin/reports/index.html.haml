@@ -1,28 +1,9 @@
 %h1.heading-xlarge Reports
 
--#Individual Country results:
--#- @result&.each do |country|
--#  = country[0]
--#  %br
--#  Published:
--#  = country[1]
--#  = country[3]
--#  %br
--#  Responses:
--#  = country[2]
--#  = country[4]
--#  %br
--#CEN network results:
--#= @cen_result
--#
--#NBN network results:
--#= @nbn_result
-
 - if current_editor && !current_editor.uploader?
   %div.searchPanel
     = form_tag admin_reports_path, method: :get do
       %h1.heading-medium Monthly By Country VS Target Report
-
       %div.form-group
       = submit_tag 'Generate', class: 'button'
 
@@ -30,6 +11,7 @@
   %div.searchPanel
     = form_tag 'reports/impact_email', method: :get do
       %h1.heading-medium Impact Email Report
-
+      %h2#dateInput
+        = date_select :impact_stats_date, :data, order: [:day, :month, :year], selected: Date.today-7.days
       %div.form-group
       = submit_tag 'Start', class: 'button'
