@@ -8,6 +8,8 @@
   .button-group
     .button-group-item
       = f.submit 'Add Comment', class: 'button'
+    .button-group-separator
+      or
     .button-group-item
       - if current_editor.administrator?
-        = f.submit 'Return to draft with comment', class: 'button'
+        = f.submit 'Return to draft with comment', class: 'button js-button-draft'

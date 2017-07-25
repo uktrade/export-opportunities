@@ -4,19 +4,22 @@ var ukti = window.ukti || {};
 ukti.OpportunityManagement = (function() {
   'use strict';
 
-	var commentFormGroup = null,
-			commentFormErrorEl = null,
-			commentField = null,
-			errorClass = 'form-group-error',
-			errorMessage = 'Please add a comment to be sent to the original uploader before returning opportunity to draft state';
+	var commentForm = null,
+		commentFormGroup = null,
+		draftWithCommentButton = null,
+		commentFormErrorEl = null,
+		commentField = null,
+		errorClass = 'form-group-error',
+		errorMessage = 'Please add a comment to be sent to the original uploader before returning opportunity to draft state';
 
   var cacheElements = function () {
-		var commentForm = document.getElementById('new_opportunity_comment_form');
+		commentForm = document.getElementById('new_opportunity_comment_form');
 		if (!commentForm) {
 			return;
 		}
 		commentField = commentForm.querySelector('textarea[name="opportunity_comment_form[message]"]');
 		commentFormGroup = commentForm.querySelector('.form-group-related');
+		draftWithCommentButton = commentForm.querySelector('.js-button-draft');
 		commentFormErrorEl = commentForm.querySelector('.error-message');
   };
 
@@ -41,6 +44,7 @@ ukti.OpportunityManagement = (function() {
   };
 
   var addErrorToCommentFormGroup = function () {
+		clearErrorFromCommentField();
 		commentFormGroup.classList.add(errorClass);
 		commentFormErrorEl.innerHTML = errorMessage;
 		commentFormErrorEl.setAttribute('aria-hidden', 'false');
