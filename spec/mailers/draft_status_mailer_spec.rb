@@ -7,12 +7,12 @@ RSpec.describe DraftStatusMailer, type: :mailer do
       opportunity = create(:opportunity)
       editor = create(:editor)
 
-      DraftStatusMailer.draft_status(opportunity, editor).deliver_later!
+      DraftStatusMailer.send_draft_status(opportunity, editor).deliver_later!
 
       last_delivery = ActionMailer::Base.deliveries.last
 
-      expect(last_delivery.subject).to eql("Action Needed: Your opportunity #{opportunity.title} has been sent to Draft")
-      expect(last_delivery.body.encoded).to include('Your opportunity has been set to draft. Please login to the admin centre and go here to edit your opportunity:')
+      expect(last_delivery.subject).to eql("Returned to draft. Action required")
+      expect(last_delivery.body.encoded).to include('The following opportunity cannot be published:')
       expect(last_delivery.body.encoded).to include(edit_admin_opportunity_path(opportunity))
 
       expect(last_delivery.to).to include(Editor.find(opportunity.author_id).email)
