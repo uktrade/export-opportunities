@@ -72,7 +72,7 @@ class ReportCSV
     ytd_actual = result_line.responses.inject(0, :+)
     line = [
       result_line.country_id,
-      result_line.name
+      result_line.name,
     ]
 
     result_line.responses.each { |elem| line << elem }
@@ -83,7 +83,8 @@ class ReportCSV
       result_line.responses_target,
       report_format_progress(
         ytd_actual,
-        result_line.responses_target),
+        result_line.responses_target
+      ),
     ].each { |elem| line << elem }
 
     CSV.generate_line(line)

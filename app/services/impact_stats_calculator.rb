@@ -1,5 +1,4 @@
 class ImpactStatsCalculator
-
   def call(date_from, date_to)
     sent_date_range = (date_from..date_to)
     responded_date_range = (date_from..Time.zone.now)
@@ -9,21 +8,21 @@ class ImpactStatsCalculator
     responded = eq_responded.count
     responded_with_feedback = eq_responded.where.not(message: nil).count
 
-    option_0 = eq_responded.where(initial_response: 0).count
-    option_1 = eq_responded.where(initial_response: 1).count
-    option_2 = eq_responded.where(initial_response: 2).count
-    option_3 = eq_responded.where(initial_response: 3).count
-    option_4 = eq_responded.where(initial_response: 4).count
+    option0 = eq_responded.where(initial_response: 0).count
+    option1 = eq_responded.where(initial_response: 1).count
+    option2 = eq_responded.where(initial_response: 2).count
+    option3 = eq_responded.where(initial_response: 3).count
+    option4 = eq_responded.where(initial_response: 4).count
 
     OpenStruct.new(
       sent: sent,
       responded: responded,
       responded_with_feedback: responded_with_feedback,
-      option_0: option_0,
-      option_1: option_1,
-      option_2: option_2,
-      option_3: option_3,
-      option_4: option_4,
+      option_0: option0,
+      option_1: option1,
+      option_2: option2,
+      option_3: option3,
+      option_4: option4
     )
   end
 end

@@ -19,12 +19,12 @@ RSpec.feature 'Editors can view reports' do
 
   scenario 'Monthly by country VS target report, CEN network countries' do
     test_totals = {
-        opportunities_published_target_cen: 1,
-        responses_target_cen: 2,
-        opportunities_published_target_nbn: 3,
-        responses_target_nbn: 4,
-        opportunities_published_target_total: 5,
-        responses_target_total: 6,
+      opportunities_published_target_cen: 1,
+      responses_target_cen: 2,
+      opportunities_published_target_nbn: 3,
+      responses_target_nbn: 4,
+      opportunities_published_target_total: 5,
+      responses_target_total: 6,
     }
     allow_any_instance_of(Admin::ReportsController).to receive(:fetch_targets).and_return(test_totals)
     country = create(:country, name: 'Poland', id: 83)

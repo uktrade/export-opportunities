@@ -39,6 +39,7 @@ module Admin
 
             # FIX: current_country here, not country
             country = Country.find(country_id)
+            byebug
             sc = StatsCalculator.new.call(@stats_search_form)
 
             if cen_network?(country_id)
@@ -47,16 +48,16 @@ module Admin
                 @row_lines[current_country.name.to_s].responses << sc.enquiries
               elsif country.responses_target && country.published_target
                 @row_lines[current_country.name.to_s] = CountryReport.new.call(
-                    country_id,
-                    sc.opportunities_published,
-                    sc.enquiries,
-                    current_country.name,
-                    'see CEN',
-                    'see CEN'
+                  country_id,
+                  sc.opportunities_published,
+                  sc.enquiries,
+                  current_country.name,
+                  'see CEN',
+                  'see CEN'
                 )
               else
-                puts ('1cant calculate report for country')
-                puts (current_country)
+                Rails.logger.info'cant calculate report for country:1'
+                Rails.logger.info(current_country)
               end
             elsif nbn_network?(country_id)
               if @row_lines[current_country.name.to_s]
@@ -72,8 +73,8 @@ module Admin
                   'see NBN'
                 )
               else
-                puts ('2cant calculate report for country')
-                puts (current_country)
+                Rails.logger.info'cant calculate report for country:2'
+                Rails.logger.info(current_country)
               end
 
             else
@@ -87,10 +88,11 @@ module Admin
                   sc.enquiries,
                   current_country.name,
                   country.published_target,
-                  country.responses_target)
+                  country.responses_target
+                )
               else
-                puts ('3cant calculate report for country')
-                puts (current_country)
+                Rails.logger.info'cant calculate report for country:3'
+                Rails.logger.info(current_country)
               end
             end
           end
@@ -129,7 +131,7 @@ module Admin
 
     private
 
-    def calculate_impact_email_stats(start_date=Time.zone.now.beginning_of_day-1.day, end_date=Time.zone.now.beginning_of_day)
+    def calculate_impact_email_stats(start_date = Time.zone.now.beginning_of_day - 1.day, end_date = Time.zone.now.beginning_of_day)
       isc = ImpactStatsCalculator.new.call(start_date, end_date)
 
       @impact_stats = ImpactStatsReport.new(
@@ -140,7 +142,7 @@ module Admin
         option_1: isc.option_1,
         option_2: isc.option_2,
         option_3: isc.option_3,
-        option_4: isc.option_4,
+        option_4: isc.option_4
       )
     end
 

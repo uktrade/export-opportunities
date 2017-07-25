@@ -67,7 +67,7 @@ describe ApplicationHelper do
       expect(result).to eq(nil)
     end
   end
-  
+
   describe '#trade profile' do
     it 'returns nil for nil company house number' do
       result = trade_profile(nil)

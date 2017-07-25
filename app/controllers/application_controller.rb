@@ -134,7 +134,6 @@ class ApplicationController < ActionController::Base
     current_editor&.uploader?
   end
 
-
   def staff?
     current_editor&.staff?
   end

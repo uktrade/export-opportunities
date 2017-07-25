@@ -14,7 +14,6 @@ class StatsCalculator
       end
     when 'Country'
       service_providers = []
-
       criteria.country_id.each do |country|
         service_providers << service_providers(country)
       end
