@@ -8,8 +8,13 @@ class StatsSearchForm
   AllServiceProviders = Struct.new(:name, :id).new('all service providers', 'all')
 
   def initialize(params)
+    byebug
     @service_provider_id = params[:ServiceProvider][':service_provider_ids'].reject { |e| e.to_s.empty? }.map(&:to_i) if params[:ServiceProvider]
-    @country_id = params[:Country][':country_ids'].reject { |e| e.to_s.empty? }.map(&:to_i) if params[:Country]
+    @country_id = if params[:Country] && params[:Country][':country_ids']
+                    params[:Country][':country_ids'].reject { |e| e.to_s.empty? }.map(&:to_i)
+                  elsif params[:Country] && params[:Country][:country_ids]
+                    [params[:Country][:country_ids]]
+                  end
     @region_id = params[:Region][':region_ids'].reject { |e| e.to_s.empty? }.map(&:to_i) if params[:Region]
     @granularity = params[:granularity]
     @from_date_field = SelectDateField.new(value: params[:stats_from], default: Time.zone.today - 30)

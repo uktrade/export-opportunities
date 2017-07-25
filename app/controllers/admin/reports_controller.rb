@@ -11,125 +11,120 @@ module Admin
 
     def show
       authorize :reports
-      if params[:id] == 'impact_email'
-        @stats = calculate_impact_email_stats
-      end
+      @stats = calculate_impact_email_stats if params[:id] == 'impact_email'
     end
 
     def index
       authorize :reports
 
-      if params[:commit]
-        @result = {}
-        @cen_result = []
-        @nbn_result = []
-        @row_lines = {}
-        start_date, end_date = date_period
-        Country.all.each do |current_country|
-          country_id = current_country.id
-          (start_date..end_date).group_by { |a| [a.year, a.month] }.map do |group|
-            start_period_date = group.last.first.beginning_of_month
-            end_period_date = group.last.first.end_of_month + 1.day
-            @stats_search_form = StatsSearchForm.new(
-              stats_from: { year: start_period_date.year, month: start_period_date.month, day: start_period_date.day },
-              stats_to: { year: end_period_date.year, month: end_period_date.month, day: end_period_date.day },
-              granularity: 'Country',
-              country: country_id
-            )
-
-            # FIX: current_country here, not country
-            country = Country.find(country_id)
-            byebug
-            sc = StatsCalculator.new.call(@stats_search_form)
-
-            if cen_network?(country_id)
-              if @row_lines[current_country.name.to_s]
-                @row_lines[current_country.name.to_s].opportunities_published << sc.opportunities_published
-                @row_lines[current_country.name.to_s].responses << sc.enquiries
-              elsif country.responses_target && country.published_target
-                @row_lines[current_country.name.to_s] = CountryReport.new.call(
-                  country_id,
-                  sc.opportunities_published,
-                  sc.enquiries,
-                  current_country.name,
-                  'see CEN',
-                  'see CEN'
-                )
-              else
-                Rails.logger.info'cant calculate report for country:1'
-                Rails.logger.info(current_country)
-              end
-            elsif nbn_network?(country_id)
-              if @row_lines[current_country.name.to_s]
-                @row_lines[current_country.name.to_s].opportunities_published << sc.opportunities_published
-                @row_lines[current_country.name.to_s].responses << sc.enquiries
-              elsif country.responses_target && country.published_target
-                @row_lines[current_country.name.to_s] = CountryReport.new.call(
-                  country_id,
-                  sc.opportunities_published,
-                  sc.enquiries,
-                  current_country.name,
-                  'see NBN',
-                  'see NBN'
-                )
-              else
-                Rails.logger.info'cant calculate report for country:2'
-                Rails.logger.info(current_country)
-              end
-
-            else
-              if @row_lines[current_country.name.to_s]
-                @row_lines[current_country.name.to_s].opportunities_published << sc.opportunities_published
-                @row_lines[current_country.name.to_s].responses << sc.enquiries
-              elsif country.responses_target && country.published_target
-                @row_lines[current_country.name.to_s] = CountryReport.new.call(
-                  country_id,
-                  sc.opportunities_published,
-                  sc.enquiries,
-                  current_country.name,
-                  country.published_target,
-                  country.responses_target
-                )
-              else
-                Rails.logger.info'cant calculate report for country:3'
-                Rails.logger.info(current_country)
-              end
-            end
-          end
-        end
-        response.headers['Content-Disposition'] = 'attachment; filename=monthly_by_country_report'
-        response.headers['Content-Type'] = 'text/csv; charset=utf-8'
-
-        opportunities_csv = ReportCSV.new(@row_lines, calculate_months)
-        @targets = fetch_targets
-        cen_results, nbn_results, total_results = calculate_totals(@row_lines, @targets)
-        responses_csv = ReportCSV.new(@row_lines, @targets)
-
-        begin
-          response.stream.write("======OPPORTUNITIES=======\n")
-          opportunities_csv.each_opportunities do |row|
-            response.stream.write(row)
-          end
-          results = [cen_results, nbn_results, total_results]
-          results.each do |row|
-            response.stream.write(format_opportunity_totals(row))
-          end
-          response.stream.write("======RESPONSES=======\n")
-          responses_csv.each_responses do |row|
-            response.stream.write(row)
-          end
-          results = [cen_results, nbn_results, total_results]
-          results.each do |row|
-            response.stream.write(format_response_totals(row))
-          end
-        ensure
-          response.stream.close
-        end
-
-      end
+      monthly_report if params[:commit]
     end
 
     private
+
+    def monthly_report
+      @result = {}
+      @cen_result = []
+      @nbn_result = []
+      @row_lines = {}
+      start_date, end_date = date_period
+      Country.all.each do |current_country|
+        country_id = current_country.id
+        (start_date..end_date).group_by { |a| [a.year, a.month] }.map do |group|
+          start_period_date = group.last.first.beginning_of_month
+          end_period_date = group.last.first.end_of_month + 1.day
+          @stats_search_form = StatsSearchForm.new(
+            stats_from: { year: start_period_date.year, month: start_period_date.month, day: start_period_date.day },
+            stats_to: { year: end_period_date.year, month: end_period_date.month, day: end_period_date.day },
+            granularity: 'Country',
+            Country: { country_ids: country_id }
+          )
+
+          # FIX: current_country here, not country
+          country = Country.find(country_id)
+          sc = StatsCalculator.new.call(@stats_search_form)
+
+          if cen_network?(country_id)
+            if @row_lines[current_country.name.to_s]
+              @row_lines[current_country.name.to_s].opportunities_published << sc.opportunities_published
+              @row_lines[current_country.name.to_s].responses << sc.enquiries
+            elsif country.responses_target && country.published_target
+              @row_lines[current_country.name.to_s] = CountryReport.new.call(
+                country_id,
+                sc.opportunities_published,
+                sc.enquiries,
+                current_country.name,
+                'see CEN',
+                'see CEN'
+              )
+            else
+              Rails.logger.info'cant calculate report for country:1'
+              Rails.logger.info(current_country)
+            end
+          elsif nbn_network?(country_id)
+            if @row_lines[current_country.name.to_s]
+              @row_lines[current_country.name.to_s].opportunities_published << sc.opportunities_published
+              @row_lines[current_country.name.to_s].responses << sc.enquiries
+            elsif country.responses_target && country.published_target
+              @row_lines[current_country.name.to_s] = CountryReport.new.call(
+                country_id,
+                sc.opportunities_published,
+                sc.enquiries,
+                current_country.name,
+                'see NBN',
+                'see NBN'
+              )
+            else
+              Rails.logger.info'cant calculate report for country:2'
+              Rails.logger.info(current_country)
+            end
+          elsif @row_lines[current_country.name.to_s]
+            @row_lines[current_country.name.to_s].opportunities_published << sc.opportunities_published
+            @row_lines[current_country.name.to_s].responses << sc.enquiries
+          elsif country.responses_target && country.published_target
+            @row_lines[current_country.name.to_s] = CountryReport.new.call(
+              country_id,
+              sc.opportunities_published,
+              sc.enquiries,
+              current_country.name,
+              country.published_target,
+              country.responses_target
+            )
+          else
+            Rails.logger.info'cant calculate report for country:3'
+            Rails.logger.info(current_country)
+          end
+        end
+      end
+      response.headers['Content-Disposition'] = 'attachment; filename=monthly_by_country_report'
+      response.headers['Content-Type'] = 'text/csv; charset=utf-8'
+
+      opportunities_csv = ReportCSV.new(@row_lines, calculate_months)
+      @targets = fetch_targets
+      cen_results, nbn_results, total_results = calculate_totals(@row_lines, @targets)
+      responses_csv = ReportCSV.new(@row_lines, @targets)
+
+      begin
+        response.stream.write("======OPPORTUNITIES=======\n")
+        opportunities_csv.each_opportunities do |row|
+          response.stream.write(row)
+        end
+        results = [cen_results, nbn_results, total_results]
+        results.each do |row|
+          response.stream.write(format_opportunity_totals(row))
+        end
+        response.stream.write("======RESPONSES=======\n")
+        responses_csv.each_responses do |row|
+          response.stream.write(row)
+        end
+        results = [cen_results, nbn_results, total_results]
+        results.each do |row|
+          response.stream.write(format_response_totals(row))
+        end
+      ensure
+        response.stream.close
+      end
+    end
 
     def calculate_impact_email_stats(start_date = Time.zone.now.beginning_of_day - 1.day, end_date = Time.zone.now.beginning_of_day)
       isc = ImpactStatsCalculator.new.call(start_date, end_date)

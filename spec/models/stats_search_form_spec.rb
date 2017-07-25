@@ -14,7 +14,7 @@ RSpec.describe StatsSearchForm do
 
   describe '#service_provider_id' do
     it 'returns the id which was passed in' do
-      params = { granularity: 'Country', Region: { region_ids: [''] }, Country: { country_ids: ['120', '2', ''] }, ServiceProvider: { service_provider_ids: ['17'] } }
+      params = { granularity: 'Country', Region: { ':region_ids' => [''] }, Country: { ':country_ids' => ['120', '2', ''] }, ServiceProvider: { ':service_provider_ids' => ['17'] } }
       expect(StatsSearchForm.new(params).service_provider_id).to eq [17]
     end
   end
@@ -55,7 +55,7 @@ RSpec.describe StatsSearchForm do
     it 'is valid when it has a service provider and from- and to- dates' do
       from_date = { year: '2017', month: '1', day: '1' }
       to_date = { year: '2017', month: '2', day: '1' }
-      params = { granularity: 'Country', Region: { region_ids: [''] }, Country: { country_ids: ['120', '2', ''] }, ServiceProvider: { service_provider_ids: ['17'] }, stats_from: from_date, stats_to: to_date }
+      params = { granularity: 'Country', Region: { ':region_ids' => [''] }, Country: { ':country_ids' => ['120', '2', ''] }, ServiceProvider: { ':service_provider_ids' => ['17'] }, stats_from: from_date, stats_to: to_date }
       form = StatsSearchForm.new(params)
       expect(form.valid?).to eq true
       expect(form.error_messages).to be_empty
@@ -70,14 +70,14 @@ RSpec.describe StatsSearchForm do
     it 'is valid when the from_date is before the to_date' do
       earlier_date = { year: '2016', month: '1', day: '1' }
       later_date = { year: '2017', month: '1', day: '1' }
-      params = { granularity: 'Country', Region: { region_ids: [''] }, Country: { country_ids: ['120', '2', ''] }, ServiceProvider: { service_provider_ids: ['17'] }, stats_from: earlier_date, stats_to: later_date }
+      params = { granularity: 'Country', Region: { ':region_ids' => [''] }, Country: { ':country_ids' => ['120', '2', ''] }, ServiceProvider: { ':service_provider_ids' => ['17'] }, stats_from: earlier_date, stats_to: later_date }
       form = StatsSearchForm.new(params)
       expect(form.valid?).to eq true
     end
 
     it 'is valid when the from_date is the same as the to_date' do
       date = { year: '2017', month: '1', day: '1' }
-      params = { granularity: 'Country', Region: { region_ids: [''] }, Country: { country_ids: ['120', '2', ''] }, ServiceProvider: { service_provider_ids: ['17'] }, stats_from: date, stats_to: date }
+      params = { granularity: 'Country', Region: { ':region_ids' => [''] }, Country: { ':country_ids' => ['120', '2', ''] }, ServiceProvider: { ':service_provider_ids' => ['17'] }, stats_from: date, stats_to: date }
       form = StatsSearchForm.new(params)
       expect(form.valid?).to eq true
     end
