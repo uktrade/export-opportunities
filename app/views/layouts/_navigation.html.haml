@@ -14,7 +14,7 @@
       %li
         = link_to 'Stats', admin_stats_path
       %li
-        - if current_editor && current_editor.administrator?
+        - if administrator? || previewer? || publisher?
           = link_to 'Reports', admin_reports_path
 
       - if current_editor
