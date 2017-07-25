@@ -20,7 +20,14 @@ NBN network results:
 
 %div.searchPanel
   = form_tag admin_reports_path, method: :get do
-    %h1.heading-medium Monthly by country VS target report
+    %h1.heading-medium Monthly By Country VS Target Report
+
+    %div.form-group
+    = submit_tag 'Generate', class: 'button'
+
+%div.searchPanel
+  = form_tag 'reports/impact_email', method: :get do
+    %h1.heading-medium Impact Email Report
 
     %div.form-group
     = submit_tag 'Generate', class: 'button'

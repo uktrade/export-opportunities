@@ -77,6 +77,7 @@ Rails.application.routes.draw do
     end
 
     resources :reports do
+      get 'impact_email' => 'reports_controller#impact_email'
     end
 
     root to: redirect('/admin/opportunities')
