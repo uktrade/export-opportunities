@@ -23,7 +23,8 @@ module Admin
         csv_data = monthly_report
 
         MonthlyCountryReportMailer.send_report(csv_data, current_editor.email).deliver_later!
-        redirect_to admin_reports_path, notice: 'The requested Monthly by country vs target report has been emailed to you. Please check your email shortly.'
+        CreateReportAudit.new.call(current_editor, 'monthly_report_country_vs_target', params.to_json)
+        redirect_to admin_reports_path, notice: 'The requested Monthly Outcome against Targets by Country report has been emailed to you.'
       end
     end
 
