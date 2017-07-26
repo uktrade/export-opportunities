@@ -5,10 +5,10 @@ RSpec.feature 'Editors can view reports' do
     now = Time.utc(2015, 6, 23, 5, 0)
 
     service_provider = create(:service_provider, name: 'A provider of services')
-    create(:enquiry_feedback, responded_at: now - 1.day, created_at: now - 1.day, initial_response: 1, message: 'did not win')
-    create(:enquiry_feedback, created_at: now - 1.day)
-    create(:enquiry_feedback, created_at: now - 3.days, responded_at: now - 2.days)
-    create(:enquiry_feedback, responded_at: now - 1.day, created_at: now - 1.day, initial_response: 0)
+    create(:enquiry_feedback, responded_at: now - 1.day, created_at: now - 7.days, initial_response: 1, message: 'did not win')
+    create(:enquiry_feedback, created_at: now - 7.days)
+    create(:enquiry_feedback, created_at: now - 9.days, responded_at: now - 8.days)
+    create(:enquiry_feedback, responded_at: now - 7.days, created_at: now - 7.days, initial_response: 0)
 
     login_as(create(:editor, service_provider: service_provider, role: :administrator))
 
@@ -17,7 +17,6 @@ RSpec.feature 'Editors can view reports' do
 
       click_on 'Start'
 
-      # expect(page).to have_content('Statistics by')
       expect(page).to have_content('3 Impact Emails sent')
       expect(page).to have_content('2 Impact Emails responded')
       expect(page).to have_content('1 Impact Emails responded with feedback')

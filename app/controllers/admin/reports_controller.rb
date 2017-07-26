@@ -21,7 +21,9 @@ module Admin
 
       if params[:commit]
         csv_data = monthly_report
-        MonthlyCountryReportMailer.send_report(current_editor.email, csv_data).deliver_later!
+
+        MonthlyCountryReportMailer.send_report(csv_data, current_editor.email).deliver_later!
+        redirect_to admin_reports_path, notice: 'The requested Monthly by country vs target report has been emailed to you. Please check your email shortly.'
       end
     end
 
@@ -33,7 +35,8 @@ module Admin
       @nbn_result = []
       @row_lines = {}
       start_date, end_date = date_period
-      Country.all.each do |current_country|
+      # Country.all.each do |current_country|
+      Country.all.sample(5) do |current_country|
         country_id = current_country.id
         (start_date..end_date).group_by { |a| [a.year, a.month] }.map do |group|
           start_period_date = group.last.first.beginning_of_month
@@ -101,35 +104,31 @@ module Admin
           end
         end
       end
-      response.headers['Content-Disposition'] = 'attachment; filename=monthly_by_country_report'
-      response.headers['Content-Type'] = 'text/csv; charset=utf-8'
+      # response.headers['Content-Disposition'] = 'attachment; filename=monthly_by_country_report'
+      # response.headers['Content-Type'] = 'text/csv; charset=utf-8'
 
       opportunities_csv = ReportCSV.new(@row_lines, calculate_months)
       @targets = fetch_targets
       cen_results, nbn_results, total_results = calculate_totals(@row_lines, @targets)
       responses_csv = ReportCSV.new(@row_lines, @targets)
 
-      # begin
-        csv << ("======OPPORTUNITIES=======\n")
-        opportunities_csv.each_opportunities do |row|
-          csv << (row)
-        end
-        results = [cen_results, nbn_results, total_results]
-        results.each do |row|
-          csv << (format_opportunity_totals(row))
-        end
-        csv << ("======RESPONSES=======\n")
-        responses_csv.each_responses do |row|
-          csv << (row)
-        end
-        results = [cen_results, nbn_results, total_results]
-        results.each do |row|
-          csv << (format_response_totals(row))
-        end
-      # ensure
-      #   # response.stream.close
-      # end
-        csv
+      csv << ['======OPPORTUNITIES=======\n']
+      opportunities_csv.each_opportunities do |row|
+        csv << CSV.generate_line([row])
+      end
+      results = [cen_results, nbn_results, total_results]
+      results.each do |row|
+        csv << CSV.generate_line([format_opportunity_totals(row)])
+      end
+      csv << ['======RESPONSES=======\n']
+      responses_csv.each_responses do |row|
+        csv << CSV.generate_line([row])
+      end
+      results = [cen_results, nbn_results, total_results]
+      results.each do |row|
+        csv << CSV.generate_line([format_response_totals(row)])
+      end
+      csv
     end
 
     def calculate_impact_email_stats(start_date = Time.zone.now.beginning_of_day - 1.day, end_date = Time.zone.now)
