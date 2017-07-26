@@ -4,6 +4,8 @@ class Editor < ActiveRecord::Base
   has_many :opportunities, foreign_key: 'author_id'
 
   has_many :enquiry_responses
+  has_many :report_audits
+
   enum role: { uploader: 1, publisher: 2, previewer: 3, administrator: 4 }
 
   devise :database_authenticatable,

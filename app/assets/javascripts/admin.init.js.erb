@@ -2,7 +2,6 @@
 var ukti = window.ukti || {};
 
 ukti.config = {
-	//"tinyMcePath" : "<%=image_path('tinymcefull/tinymce.js')%>",
 	"tinyMcePath" : "/js/tinymcefull/tinymce.js",
 	"ckeditorPath" : "/js/ckeditor/ckeditor.js",
 	"textEditorScriptPath" : "<%=image_path('ckeditor/ckeditor.js')%>"
@@ -34,10 +33,18 @@ $('document').ready(function() {
 
 	var oppEditForm = $('form.edit_opportunity');
 	var oppNewForm = $('form.new_opportunity');
-	if (oppEditForm || oppNewEnquiryResponsesControllerForm) {
+	if (oppEditForm || oppNewForm) {
 		datePickerController.createDatePicker({
 			formElements:{'opportunity_response_due_on_3i': '%j', 'opportunity_response_due_on_2i': '%n', 'opportunity_response_due_on_1i': '%Y'},
 			noFadeEffect:true
+		});
+	}
+	var reportsImpactEmailForm = $('form[action="reports/impact_email"]');
+	if (reportsImpactEmailForm) {
+		datePickerController.createDatePicker({
+			formElements:{'impact_stats_date_data_3i': '%j', 'impact_stats_date_data_2i': '%n', 'impact_stats_date_data_1i': '%Y'},
+			noFadeEffect:true,
+			positioned: 'datepicker-holder'
 		});
 	}
 	/* if edit form set behaviour of rag rating */

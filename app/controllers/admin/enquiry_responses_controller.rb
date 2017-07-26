@@ -1,4 +1,5 @@
 class Admin::EnquiryResponsesController < Admin::BaseController
+  include ApplicationHelper
   include ActionController::Live
 
   # Authentication is handled in routes.rb as ActionController::Live
@@ -10,6 +11,7 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   def new
     enquiry_id = params.fetch(:id, nil)
     @enquiry = Enquiry.find(enquiry_id)
+    @companies_house_url = companies_house_url(@enquiry.company_house_number)
 
     @enquiry_response = EnquiryResponse.new
     @enquiry_response.enquiry = @enquiry

@@ -13,6 +13,9 @@
           = link_to 'Editors', admin_editors_path
       %li
         = link_to 'Stats', admin_stats_path
+      %li
+        - if administrator? || previewer? || publisher?
+          = link_to 'Reports', admin_reports_path
 
       - if current_editor
         %li#logout
