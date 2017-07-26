@@ -8,6 +8,7 @@ class Admin::OpportunityStatusController < Admin::BaseController
 
     if new_status == 'draft'
       authorize(opportunity, :drafting?)
+      DraftStatusSender.new.call(opportunity, current_editor)
     elsif new_status == 'pending' && opportunity.status == 'draft'
       authorize(opportunity, :uploader_previewer_restore?)
     else
