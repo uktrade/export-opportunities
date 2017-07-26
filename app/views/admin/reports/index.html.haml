@@ -1,0 +1,19 @@
+%h1.heading-xlarge Reports
+
+- if current_editor && !current_editor.uploader?
+  %div.searchPanel
+    = form_tag admin_reports_path, method: :get do
+      %h1.heading-medium Monthly Outcomes against Targets by Country
+      %div.form-group
+        = submit_tag 'Generate', class: 'button'
+
+- if current_editor && current_editor.administrator?
+  %div.searchPanel
+    = form_tag 'reports/impact_email', method: :get do
+      %h1.heading-medium Impact Email Report
+      %div.form-group
+        %label{:for => "impact", :class => 'visuallyHidden'} Select date:
+        = date_select :impact_stats_date, :data, order: [:day, :month, :year], selected: Date.today-7.days
+        %span{:id=> 'datepicker-holder'}
+      %div.form-group
+        = submit_tag 'Start', class: 'button'

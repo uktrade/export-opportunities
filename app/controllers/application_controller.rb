@@ -29,6 +29,9 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   helper_method :administrator?
+  helper_method :previewer?
+  helper_method :publisher?
+  helper_method :uploader?
   helper_method :staff?
 
   layout :determine_layout
@@ -117,6 +120,18 @@ class ApplicationController < ActionController::Base
 
   def administrator?
     current_editor&.administrator?
+  end
+
+  def previewer?
+    current_editor&.previewer?
+  end
+
+  def publisher?
+    current_editor&.publisher?
+  end
+
+  def uploader?
+    current_editor&.uploader?
   end
 
   def staff?
