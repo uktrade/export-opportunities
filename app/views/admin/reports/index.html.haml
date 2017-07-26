@@ -5,13 +5,15 @@
     = form_tag admin_reports_path, method: :get do
       %h1.heading-medium Monthly By Country VS Target Report
       %div.form-group
-      = submit_tag 'Generate', class: 'button'
+        = submit_tag 'Generate', class: 'button'
 
 - if current_editor && current_editor.administrator?
   %div.searchPanel
     = form_tag 'reports/impact_email', method: :get do
       %h1.heading-medium Impact Email Report
-      %h2#dateInput
-        = date_select :impact_stats_date, :data, order: [:day, :month, :year], selected: Date.today-7.days
       %div.form-group
-      = submit_tag 'Start', class: 'button'
+        %label{:for => "impact", :class => 'visuallyHidden'} Select date:
+        = date_select :impact_stats_date, :data, order: [:day, :month, :year], selected: Date.today-7.days
+        %span{:id=> 'datepicker-holder'}
+      %div.form-group
+        = submit_tag 'Start', class: 'button'
