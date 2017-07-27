@@ -16,7 +16,7 @@ module Admin
       authorize :reports
 
       if params[:commit]
-        SendMonthlyReportToMatchingAdminUser.perform_async(current_editor, params)
+        SendMonthlyReportToMatchingAdminUser.perform_async(current_editor.email, params)
         redirect_to admin_reports_path, notice: 'The requested Monthly Outcome against Targets by Country report has been emailed to you.'
       end
     end
