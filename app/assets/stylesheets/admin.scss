@@ -28,6 +28,7 @@
 @import "govuk_elements/panels";
 @import "govuk_elements/forms";
 @import "govuk_elements/forms/form-validation";
+@import "govuk_elements-latest/assets/sass/elements/forms/form-validation";
 @import "govuk_elements/elements/forms/form-multiple-choice";
 
 // From https://github.com/alphagov/govuk_template/
@@ -57,6 +58,7 @@
 @import "admin/ragg_status";
 @import "admin/optionSelect";
 @import "admin/comment";
+@import "admin/button-group";
 
 // From https://github.com/freqdec/datePicker
 @import "vendor/datepicker";
