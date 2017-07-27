@@ -3,6 +3,18 @@ class EditorPolicy < ApplicationPolicy
     @editor.role == 'administrator'
   end
 
+  def previewer?
+    @editor.role == 'previewer'
+  end
+
+  def publisher?
+    @editor.role == 'publisher'
+  end
+
+  def uploader?
+    @editor.role == 'uploader'
+  end
+
   # draft state is only visible to uploaders/previewers
   def draft_view_state?
     @editor.role == 'uploader' || @editor.role == 'previewer'

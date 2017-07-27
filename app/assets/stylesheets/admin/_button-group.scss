@@ -1,0 +1,21 @@
+.button-group {
+  &-separator {
+    padding: 0px 0px 10px 0px;
+    text-align: center;
+    font-weight: 500;
+    @media (min-width: 641px) {
+      padding: 0px 10px;
+      display: inline-block;
+      vertical-align: middle;
+      position: relative;
+      top: 6px;
+    }
+  }
+  &-item {
+    margin-bottom: 10px;
+    @media (min-width: 641px) {
+      display: inline-block;
+      margin-bottom: 0;
+    }
+  }
+}

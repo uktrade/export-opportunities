@@ -30,11 +30,13 @@ class EnquiryFeedbackController < ApplicationController
   end
 
   def response_display_text(response)
-    text = { won: 'I won the business',
+    text = {
+      won: 'I won the business',
       did_not_win: 'I didn\'t win the business',
       dont_know_outcome: 'I was contacted by the buyer but don\'t yet know the outcome',
       dontknow_want_to_say: 'I don\'t know or I don\'t want to say',
-      no_response: 'I wasn\'t contacted by the buyer' }
+      no_response: 'I wasn\'t contacted by the buyer',
+    }
     text[response]
   end
 end

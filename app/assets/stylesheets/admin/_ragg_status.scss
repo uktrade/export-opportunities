@@ -1,5 +1,8 @@
 
 .ragg_choice {
+	legend {
+		margin-bottom: 15px;
+	}
 	&-red {
 		label {
 			color: $rag-red;

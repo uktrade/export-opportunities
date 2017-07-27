@@ -54,6 +54,23 @@ feature 'Trashing opportunities' do
     expect(page).to have_content('Unpublishable Opportunity, returning to Post')
   end
 
+  scenario 'admin drafting a pending opportunity with comment (bottom button)' do
+    admin = create(:admin)
+    opportunity = create(:opportunity, title: 'Unpublishable Opportunity, returning to Post', status: :pending)
+    login_as(admin)
+
+    visit "/admin/opportunities/#{opportunity.id}"
+
+    fill_in 'opportunity_comment_form_message', with: 'your opportunity cannot be published, please add clear criteria and resubmit'
+
+    click_on('Return to draft with comment')
+    opportunity.reload
+
+    expect(opportunity.status).to eq('draft')
+    expect(page).to have_content('Unpublishable Opportunity, returning to Post')
+    expect(page).to have_content('your opportunity cannot be published, please add clear criteria and resubmit')
+  end
+
   scenario 'Admin restoring a trashed opportunity' do
     admin = create(:admin)
     opportunity = create(:opportunity, title: 'Trashed Opportunity', status: :trash)

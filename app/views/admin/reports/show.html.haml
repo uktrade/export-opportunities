@@ -1,0 +1,45 @@
+%p show impact email report
+
+%section
+  .grid-row
+    .column-one-quarter
+      %div.data.data-panel
+        %span.data-item.bold-xxlarge
+          = number_with_delimiter(@impact_stats.sent)
+        %span.data-item.bold-xsmall Impact Emails sent
+    .column-one-quarter
+      %div.data.data-panel
+        %span.data-item.bold-xxlarge
+          = number_with_delimiter(@impact_stats.responded)
+        %span.data-item.bold-xsmall Impact Emails responded
+    .column-one-quarter
+      %div.data.data-panel
+        %span.data-item.bold-xxlarge
+          = number_with_delimiter(@impact_stats.responded_with_feedback)
+        %span.data-item.bold-xsmall Impact Emails responded with feedback
+  .grid-row
+    .column-one-quarter
+      %div.data
+        %span.data-item.bold-xxlarge
+          = number_with_delimiter(@impact_stats.option_0)
+        %span.data-item.bold-xsmall Won
+    .column-one-quarter
+      %div.data
+        %span.data-item.bold-xxlarge
+          = number_with_delimiter(@impact_stats.option_1)
+        %span.data-item.bold-xsmall Did not win
+    .column-one-quarter
+      %div.data
+        %span.data-item.bold-xxlarge
+          = number_with_delimiter(@impact_stats.option_2)
+        %span.data-item.bold-xsmall Dont know outcome
+    .column-one-quarter
+      %div.data
+        %span.data-item.bold-xxlarge
+          = number_with_delimiter(@impact_stats.option_3)
+        %span.data-item.bold-xsmall Dont know, dont want to say
+    .column-one-quarter
+      %div.data
+        %span.data-item.bold-xxlarge
+          = number_with_delimiter(@impact_stats.option_4)
+        %span.data-item.bold-xsmall No response
