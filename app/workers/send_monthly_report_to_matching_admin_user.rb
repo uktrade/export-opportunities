@@ -7,7 +7,7 @@ class SendMonthlyReportToMatchingAdminUser
 
   sidekiq_options retry: false
 
-  def perform(current_editor, params)
+  def perform(current_editor_email, params)
     csv = []
     @cen_result = []
     @nbn_result = []
@@ -101,8 +101,8 @@ class SendMonthlyReportToMatchingAdminUser
     results.each do |row|
       csv << CSV.generate_line([format_response_totals(row)])
     end
-    MonthlyCountryReportMailer.send_report(csv, current_editor.email).deliver_later!
-    CreateReportAudit.new.call(current_editor, 'monthly_report_country_vs_target', params.to_json)
+    MonthlyCountryReportMailer.send_report(csv, current_editor_email).deliver_later!
+    CreateReportAudit.new.call(current_editor_email, 'monthly_report_country_vs_target', params.to_json)
   end
 
   private
