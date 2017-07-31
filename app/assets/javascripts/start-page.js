@@ -42,7 +42,14 @@ if (selectCustom.length) {
         	e.preventDefault();
 		}
 	});
+
+	selectCustom[0].nextElementSibling.classList.add('select2-container--isNested');
 }
+
+var countrySelect = $('select#countries');
+countrySelect.addClass('new');
+
+//countrySelect.next().addClass('select2-container--isNested');
 
 /* scroll to results if they exist on page */
 document.addEventListener('DOMContentLoaded', function() {

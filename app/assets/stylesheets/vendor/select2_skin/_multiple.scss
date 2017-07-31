@@ -62,6 +62,12 @@
   }
 }
 
+.select2-container--isNested {
+  .select2-results__option {
+    padding: 0;
+  }
+}
+
 html.lt-ie9 {
   .select2-container--flat{
     .select2-selection--multiple{

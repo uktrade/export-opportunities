@@ -11,9 +11,16 @@
           %label{:for => "countries", :class=>"filters__label"}
             Where would you like to sell to?
             %span.brackets (optional)
-          %select.select-custom(data-placeholder='Filter by country'){:multiple => true, :id => 'countries', :name => 'countries[]', autocomplete: 'off'}
-            = options_for_select(@countries.map { |country| [country['name'], country['slug']] },
-            :selected => params[:countries])
+          %select#countries.select-custom.select-custom--has-nested.select2-hidden-accessible{"aria-hidden" => "true", :autocomplete => "off", "data-placeholder" => "Filter by region or country", :multiple => "", :name => "countries[]", :tabindex => "-1"}
+            %optgroup{:label => "Regions"}
+              %option{:value => "region-EU"} Europe
+              %option{:value => "region-Asia"} Asia
+            %optgroup{:label => "Countries"}
+              %option{:value => "afghanistan"} Afghanistan
+              %option{:value => "albania"} Albania
+              %option{:value => "algeria"} Algeria
+              %option{:value => "angola"} Angola
+
       %div.filters__groupB
         %div.filters__item
           %label{:for => "sectors", :class=>"filters__label"} What sectors are relevant to you?
