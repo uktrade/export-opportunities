@@ -65,6 +65,8 @@ gem 'paper_trail'
 # Monitoring
 gem 'sentry-raven'
 
+gem 'notifications-ruby-client'
+
 group :development, :test do
   gem 'byebug'
   gem 'pry-rescue'

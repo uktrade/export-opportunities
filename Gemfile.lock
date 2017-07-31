@@ -195,6 +195,8 @@ GEM
       mini_portile2 (~> 2.1.0)
     normalize-scss (6.0.0)
       sass (~> 3.3)
+    notifications-ruby-client (2.1.0)
+      jwt (~> 1.5)
     oauth2 (1.3.1)
       faraday (>= 0.8, < 0.12)
       jwt (~> 1.0)
@@ -434,6 +436,7 @@ DEPENDENCIES
   launchy
   neat (= 1.8.0)
   normalize-scss
+  notifications-ruby-client
   omniauth
   omniauth-oauth2 (~> 1.3.1)
   paper_trail
