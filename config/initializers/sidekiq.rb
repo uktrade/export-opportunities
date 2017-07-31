@@ -1,30 +1,34 @@
-# SENTINELS = [{host: "exportopps-redis.gds-dev.uktrade.io", port: 26379}]
-# opts = { password: 'l2t5eFUr1d4qr8l2ns83JTpff9p0V5eF22WzMe3OiBnog1yvvMit11X6xF95mTOH' }
-
-redis_conn = proc {
-  Redis.new url: 'redis://exportopps-redis.gds-dev.uktrade.io', sentinels: SENTINELS, role: :master, opts: opts
-}
-
 Sidekiq.configure_server do |config|
-  #config.redis = ConnectionPool.new(size: 5, &redis_conn)
-  config.redis = {
-      master_name: 'redis://exportopps-redis.gds-dev.uktrade.io',
-      sentinels: [
-          'sentinel://exportopps-redis.gds-dev.uktrade.io:26379',
-      ],
-      failover_reconnect_timeout: 20,
-      password: 'l2t5eFUr1d4qr8l2ns83JTpff9p0V5eF22WzMe3OiBnog1yvvMit11X6xF95mTOH',
-  }
+  if Rails.env.development?
+    config.redis = { url: Figaro.env.redis_url! }
+    schedule_file = 'config/sidekiq_schedule.yml'
+
+    if File.exist?(schedule_file) && Sidekiq.server?
+      Sidekiq::Cron::Job.load_from_hash! YAML.load_file(schedule_file)
+    end
+  else
+    config.redis = {
+        master_name: 'redis://' + Figaro.env.redis_sentinel_host!,
+        sentinels: [
+            'sentinel://' + Figaro.env.redis_sentinel_host! + ':26379',
+        ],
+        failover_reconnect_timeout: 20,
+        password: Figaro.env.redis_sentinel_password!,
+    }
+  end
 end
 
 Sidekiq.configure_client do |config|
-  # config.redis = { url: Figaro.env.redis_url! }
-  config.redis = {
-      master_name: 'redis://exportopps-redis.gds-dev.uktrade.io',
-      sentinels: [
-          'sentinel://exportopps-redis.gds-dev.uktrade.io:26379',
-      ],
-      failover_reconnect_timeout: 20,
-      password: 'l2t5eFUr1d4qr8l2ns83JTpff9p0V5eF22WzMe3OiBnog1yvvMit11X6xF95mTOH',
-  }
+  config.redis = if Rails.env.development?
+                   { url: Figaro.env.redis_url! }
+                 else
+                   {
+                       master_name: 'redis://' + Figaro.env.redis_sentinel_host!,
+                       sentinels: [
+                           'sentinel://' + Figaro.env.redis_sentinel_host! + ':26379',
+                       ],
+                       failover_reconnect_timeout: 20,
+                       password: Figaro.env.redis_sentinel_password!,
+                   }
+                 end
 end

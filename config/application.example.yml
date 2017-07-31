@@ -50,3 +50,9 @@ elastic_search_url: 'http://localhost:9200'
 AWS_ACCESS_KEY_ID: ''
 AWS_SECRET_ACCESS_KEY: ''
 AWS_REGION: ''
+
+# gov.uk notify, instead of sendgrid
+GOV_UK_NOTIFY_API_KEY:
+
+redis_sentinel_host:
+redis_sentinel_password:
