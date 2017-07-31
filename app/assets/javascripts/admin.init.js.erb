@@ -47,6 +47,13 @@ $('document').ready(function() {
 			positioned: 'datepicker-holder'
 		});
 	}
+	
+	// Monthly Outcome form 
+	var outcomesReportForm = $('form[action="/admin/reports"]');
+	if (outcomesReportForm.length > 0) {
+		ukti.DisableSubmitButton.init(outcomesReportForm);
+	}
+
 	/* if edit form set behaviour of rag rating */
 	if (oppEditForm.length > 0) {
 		ukti.RaggRating.init(oppEditForm[0]);

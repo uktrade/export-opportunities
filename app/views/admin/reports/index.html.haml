@@ -5,6 +5,7 @@
     = form_tag admin_reports_path, method: :get do
       %h1.heading-medium Monthly Outcomes against Targets by Country
       %div.form-group
+        %input{:name => "commit", :type => "hidden", :value => "Generate"}/
         = submit_tag 'Generate', class: 'button'
 
 - if current_editor && current_editor.administrator?
