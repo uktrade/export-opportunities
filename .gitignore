@@ -40,4 +40,7 @@ node_modules/
 # Ignore public/system files
 public/system
 
+# Ignore carrierwave uploader files
+public/uploads
+
 heroku_config_variables
