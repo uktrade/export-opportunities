@@ -28,7 +28,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def show
-    @opportunity = Opportunity.find(params[:id])
+    @opportunity = Opportunity.includes(:enquiries).find(params[:id])
     @comment_form = OpportunityCommentForm.new(opportunity: @opportunity, author: current_editor)
     @history = OpportunityHistory.new(opportunity: @opportunity)
 

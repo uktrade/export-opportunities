@@ -1,0 +1,25 @@
+
+.tiles {
+  margin-top: 20px;
+}
+
+.tile {
+  background-color: $white;
+  padding: 30px;
+  position: relative;
+  border: 6px $blue_science;
+  border-style: none none solid none;
+  margin: 20px 0px;
+  &_heading {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+    color: $blue_denim;
+    margin-bottom: 30px;
+  }
+  &_text {
+    font-size: 19px;
+    line-height: 1.58;
+    color: $grey;
+  }
+}

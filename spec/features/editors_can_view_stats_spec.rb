@@ -221,7 +221,7 @@ RSpec.feature 'Editors can view stats' do
   end
 
   scenario '(JS true) for a specific region', js: true do
-    skip
+    skip('TODO: maybe we cant see this because of visually-hidden class?')
     region = create(:region, name: 'Latin America', id: 1)
     another_region = create(:region, name: 'North America', id: 2)
     country = create(:country, name: 'Mexico', region: region)

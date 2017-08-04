@@ -1,41 +1,243 @@
-
+/* globals CKEDITOR */
 var ukti = window.ukti || {};
 
-ukti.enquiryResponse = (function($) {
+ukti.EnquiryResponse = (function($) {
   'use strict';
 
-  var initTextEditor = function () {
-    window.tinymce.dom.Event.domLoaded = true;
-    tinymce.init({
-      mode : 'exact',
-      document_base_url: '/js/tinymce',
-      strict_loading_mode : true,
-      selector: '.js-text-editor',
-      height: 500,
-      menubar: false,
-      toolbar: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-      content_css: 'http://www.tinymce.com/css/codepen.min.css',
-      branding: false
-    });
+  var baseEl,
+      focusOutlineClassname = 'focus-outline';
+
+  var config = {
+    errorMessages : {
+      'comment': 'Please enter some comments.',
+      'signature': 'Please enter contact details.'
+    }
   };
-  var initTextEditor2 = function () {
+
+  var setup = function () {
+    var initialResponseType = returnResponseType();
+    setState(initialResponseType);
+  };
+
+  var returnResponseType = function () {
+    return ukti.Utilities.getValueFromRadioButton('enquiry_response[response_type]');
+  };
+
+  var setState = function (mode) {
+    mode = parseInt(mode, 10);
+    switch (mode) {
+      case 2:
+        document.getElementById('custom-response').classList.add('hidden');
+        document.getElementById('signature').classList.add('hidden');
+        document.getElementById('attachments').classList.add('hidden');
+        document.getElementById('submit').classList.add('hidden');
+        updateSubmitButton('Preview');
+        break;
+      case 3:
+        document.getElementById('custom-response').classList.remove('hidden');
+        document.getElementById('signature').classList.add('hidden');
+        document.getElementById('attachments').classList.add('hidden');
+        document.getElementById('submit').classList.remove('hidden');
+        updateSubmitButton('Preview');
+        break;
+      case 4:
+        document.getElementById('custom-response').classList.add('hidden');
+        document.getElementById('signature').classList.add('hidden');
+        document.getElementById('attachments').classList.add('hidden');
+        document.getElementById('submit').classList.remove('hidden');
+        updateSubmitButton('Send');
+        break;
+      case 5:
+        document.getElementById('custom-response').classList.add('hidden');
+        document.getElementById('signature').classList.add('hidden');
+        document.getElementById('attachments').classList.add('hidden');
+        document.getElementById('submit').classList.remove('hidden');
+        updateSubmitButton('Send');
+        break;
+      default:
+        document.getElementById('custom-response').classList.remove('hidden');
+        document.getElementById('signature').classList.remove('hidden');
+        document.getElementById('attachments').classList.remove('hidden');
+        document.getElementById('submit').classList.remove('hidden');
+        updateSubmitButton('Preview');
+      }
+  };
+
+  var tabsCallback = function (index) {
+    setState(index+1);
+    ukti.Forms.clearErrorsFromFields();
+  };
+
+  var updateSubmitButton = function (text) {
+    var button = baseEl.querySelector('input[type=submit]');
+    button.value = text;
+  };
+
+  var initTabs = function () {
+    var el = document.querySelector('.js-tabs');
+    ukti.Tabs.init(el, tabsCallback);
+  };
+
+  var initTextEditor = function () {
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    CKEDITOR.stylesSet.add('mystyles', [
+      // Block-level styles
+      { name: 'Heading 1', element: 'h1'},
+      { name: 'Heading 2', element: 'h2'},
+      { name: 'Heading 3', element: 'h3'},
+      { name: 'Introduction', element: 'p', attributes: { 'class': 'introduction'} },
+      // Inline styles
+      { name: 'Link button', element: 'a', attributes: { 'class': 'button' } },
+      { name: 'List', element: 'ul', attributes: { 'class': 'list list-bullet' } },
+      // Object styles
+      { name: 'Stretch', element: 'img', attributes: { 'class': 'stretch' } },
+    ]);
+<<<<<<< HEAD
+>>>>>>> 9dcebec... (feature) file validation pre upload
+    CKEDITOR.timestamp = Math.random();
+=======
+>>>>>>> 801543d... (fixing) dupliacting tempkates so they are found both by web view and email view - probably some rails thing
+    CKEDITOR.on('instanceReady', function(evt) {
+      var editor = evt.editor;
+      editor.on('focus', function(event) {
+        event.editor.container.$.classList.add(focusOutlineClassname);
+      });
+      editor.on('blur', function(event) {
+        event.editor.container.$.classList.remove(focusOutlineClassname);
+      });
+      editor.on('change', function(event) {
+        event.editor.updateElement();
+      });
+    });
+<<<<<<< HEAD
+=======
+>>>>>>> b466330... (fix) multiple attachments, using carrierwave
+=======
+    CKEDITOR.on('instanceReady', function(evt) {
+      var editor = evt.editor;
+      console.log('The editor named ' + editor.name + ' is now ready');
+      editor.on('focus', function(e) {
+        console.log('The editor named ' + e.editor.name + ' is now focused');
+      });
+      editor.on('blur', function(e) {
+        console.log('The editor named ' + e.editor.name + ' is now blurred');
+      });
+    });
+>>>>>>> 70f4099... (feature) adding frontend stuff
+=======
+=======
+    CKEDITOR.timestamp = Math.random();
+>>>>>>> 717075f... PTU comms in stable
+    CKEDITOR.on('instanceReady', function(evt) {
+      var editor = evt.editor;
+      editor.on('focus', function(event) {
+        event.editor.container.$.classList.add(focusOutlineClassname);
+      });
+      editor.on('blur', function(event) {
+        event.editor.container.$.classList.remove(focusOutlineClassname);
+      });
+    });
+>>>>>>> 3d9e728... (fix) multiple attachments, using carrierwave
     CKEDITOR.replace( 'enquiry_response_email_body');
+=======
+    CKEDITOR.replace( 'enquiry_response_email_body' );
+<<<<<<< HEAD
+>>>>>>> 801543d... (fixing) dupliacting tempkates so they are found both by web view and email view - probably some rails thing
+=======
+    CKEDITOR.replace( 'enquiry_response_signature' );
+  };
+
+  var initToggleFieldEdit = function () {
+    var els = document.querySelectorAll('.js-toggle-field-edit'), i;
+    for (i = 0; i < els.length; ++i) {
+      ukti.ToggleFieldEdit.init(els[i]);
+    }
+>>>>>>> be684af... (test) testing email sig
+  };
+
+  var initUploadWidget = function () {
+    var els = document.querySelectorAll('.uploadWidget'), i;
+    for (i = 0; i < els.length; ++i) {
+      ukti.UploadWidget.init(els[i]);
+    }
   };
 
   var loadTextEditorScript = function () {
-    if (ukti.config.tinyMcePath) {
-        ukti.asyncLoad.init(ukti.config.tinyMcePath, initTextEditor);
-    }
-  };
-
-  var loadTextEditorScript2 = function () {
     if (ukti.config.ckeditorPath) {
-        ukti.asyncLoad.init(ukti.config.ckeditorPath, initTextEditor2);
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+      ukti.asyncLoad.init(ukti.config.ckeditorPath, initTextEditor);
+=======
+        ukti.asyncLoad.init(ukti.config.ckeditorPath, initTextEditor);
+>>>>>>> b466330... (fix) multiple attachments, using carrierwave
+=======
+        ukti.asyncLoad.init(ukti.config.ckeditorPath, initTextEditor);
+>>>>>>> 3d9e728... (fix) multiple attachments, using carrierwave
+=======
+      ukti.asyncLoad.init(ukti.config.ckeditorPath, initTextEditor);
+>>>>>>> 717075f... PTU comms in stable
     }
   };
 
-  var init = function ($form) {
-    loadTextEditorScript2();
+  var formSubmitHandler = function (event) {
+    var errors = [];
+    if ( isSignatureRequired() && isSignatureInvalid() ) {
+      ukti.Forms.addErrorToField(baseEl.querySelector('#enquiry_response_signature'), config.errorMessages.signature);
+      errors.push(config.errorMessages.signature);
+    }
+
+    if ( isCommentRequired() && isCommentInvalid() ) {
+      ukti.Forms.addErrorToField(baseEl.querySelector('#enquiry_response_email_body'), config.errorMessages.comment);
+      errors.push(config.errorMessages.comment);
+    }
+
+    if (errors.length) {
+      event.preventDefault();
+      // add summary
+      return false;
+    }
+    else {
+      return true;
+    }
+  };
+
+  var isSignatureRequired = function () {
+    var response_type = returnResponseType();
+    return (response_type === "1" || response_type === "2");
+  };
+
+  var isSignatureInvalid = function () {
+    var value = baseEl.querySelector('#enquiry_response_signature').value;
+    return ukti.Utilities.isValueEmpty(value);
+  };
+
+  var isCommentRequired = function () {
+    var response_type = returnResponseType();
+    return (response_type === "1" || response_type === "2" || response_type === "3");
+  };
+
+  var isCommentInvalid = function () {
+    var value = baseEl.querySelector('#enquiry_response_email_body').value;
+    return ukti.Utilities.isValueEmpty(value);
+  };
+
+  var initValidation = function () {
+    baseEl.addEventListener('submit', formSubmitHandler);
+  };
+
+  var init = function (form) {
+    baseEl = form;
+    setup();
+    initTabs();
+    loadTextEditorScript();
+    initUploadWidget();
+    initValidation();
   };
 
   return {

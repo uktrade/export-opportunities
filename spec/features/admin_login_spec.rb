@@ -24,7 +24,7 @@ feature 'Logging in as an admin' do
   scenario 'Logging in successfully to help guide' do
     create(:editor, email: 'email@example.com', password: 'wibble-sidecar-sling')
 
-    visit '/admin/help'
+    visit '/admin/help/opportunities'
 
     within '#new_editor' do
       fill_in 'Email',    with: 'email@example.com'
@@ -32,8 +32,38 @@ feature 'Logging in as an admin' do
       click_on 'Log in'
     end
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     expect_editor_to_be_logged_in
+    expect(page.current_url).to include('/admin/help/opportunities')
+=======
     expect(page.current_url).to include('admin/help')
+>>>>>>> c600222... (fix) fixed routes in admin/help to reflect new url layout
+=======
+    expect(page.current_url).to include('/admin/help')
+>>>>>>> a6ae014... (fix) WIP
+  end
+
+  scenario 'visiting admin help guide for opportunities' do
+    editor = create(:editor)
+    login_as(editor)
+
+    visit '/admin/help/opportunities'
+
+    expect_editor_to_be_logged_in
+    expect(page.body).to include('Example of a')
+    expect(page.body).to include('Export opportunities guidance')
+  end
+
+  scenario 'visiting admin help guide for enquiries' do
+    editor = create(:editor)
+    login_as(editor)
+
+    visit '/admin/help/enquiries'
+
+    # we are logged in but can't see the Log out option without js.
+    expect(page).to have_content('Opportunities Enquiries Stats')
+    expect(page).to have_content('This guidance has been designed to help you respond to UK companies')
   end
 
   scenario 'Attempting to log in to an account that does not exist' do

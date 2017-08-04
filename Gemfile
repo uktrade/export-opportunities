@@ -63,8 +63,17 @@ gem 'flipper-redis'
 gem 'flipper-ui'
 gem 'paper_trail'
 
+# aws sdk for s3 storage of post-user communications
+gem 'aws-sdk'
+
 # Monitoring
 gem 'sentry-raven'
+
+# file uploader
+gem 'carrierwave'
+
+# rest client for antivirus scanning
+gem 'rest-client'
 
 group :development, :test do
   gem 'byebug'
@@ -81,6 +90,7 @@ end
 group :test do
   gem 'capybara', require: false
   gem 'capybara-email', require: false
+  gem 'capybara-screenshot'
   gem 'fuubar'
   gem 'shoulda-matchers', require: false
   gem 'rspec-sidekiq'

@@ -40,8 +40,39 @@ node_modules/
 # Ignore public/system files
 public/system
 
+# Ignore carrierwave uploader files
+public/uploads
+
 heroku_config_variables
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 .pre-commit-config.yaml
 public/uploads/
 servers_setup.sh
+=======
+# local deployment scripts 
+*.sh
+
+# pre commit hooks
+.pre-commit-config.yaml
+>>>>>>> b466330... (fix) multiple attachments, using carrierwave
+=======
+# pre commit hooks
+.pre-commit-config.yaml
+public/uploads/
+servers_setup.sh
+
+# local deployment scripts
+*.sh
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+>>>>>>> 3d9e728... (fix) multiple attachments, using carrierwave
+=======
+>>>>>>> 717075f... PTU comms in stable
+=======
+
+# ignore capybara's modified show_page
+public/capybara.html
+>>>>>>> d31bcad... (fix) WIP tests

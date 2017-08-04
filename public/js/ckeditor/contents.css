@@ -6,8 +6,12 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 body
 {
 	/* Font */
+<<<<<<< HEAD
+	font-family: Arial, sans-serif;
+=======
 	font-family: sans-serif, Arial, Verdana, "Trebuchet MS";
-	font-size: 12px;
+>>>>>>> 3d9e728... (fix) multiple attachments, using carrierwave
+	font-size: 16px;
 
 	/* Text color */
 	color: #333;
@@ -20,7 +24,7 @@ body
 
 .cke_editable
 {
-	font-size: 13px;
+	font-size: 16px;
 	line-height: 1.6;
 
 	/* Fix for missing scrollbars with RTL texts. (#10488) */
@@ -30,7 +34,6 @@ body
 blockquote
 {
 	font-style: italic;
-	font-family: Georgia, Times, "Times New Roman", serif;
 	padding: 2px 0;
 	border-style: solid;
 	border-color: #ccc;
