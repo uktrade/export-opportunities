@@ -52,6 +52,7 @@
               %div{id: "companies-house-section", class: "form-group"}
                 = f.label :company_name, "Company Name", class: "required"
                 = f.text_field :company_name, required: "required", class: "short-input"
+                %span.loadingIndicator
                 %button{id: "ch_search", class: "button companies-house-search-btn", type: "button"} Search Companies House
 
                 %div{id: "ch_search-results", class: "form-group"}
