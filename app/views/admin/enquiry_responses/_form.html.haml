@@ -1,5 +1,5 @@
 - enquiry_id = params.fetch(:id)
-= form_for [:admin, enquiries_response] do |f|
+= form_for [:admin, enquiries_response], html: {multipart: true} do |f|
   - if enquiries_response.errors.any?
     .error-summary{:role => 'group', :tabindex => '-1'}
       %h2
@@ -16,16 +16,21 @@
     = f.text_area(:email_body, cols: 40, rows: 15, class: 'form-control js-text-editor')
     = f.hidden_field :enquiry_id, as: :hidden, value: enquiry_id
 
-    = f.label :signature
-    = f.text_area(:signature, cols: 40, rows: 5)
-
-    = f.label :attachments
-    = f.file_field :attachments, multiple: true
-
     %p.form-hint
       This is the email to be sent out to the enquiry user.
 
-  .grid-row
-    .column-one-half
-      .form-group
-        = f.submit 'Send', class: 'button'
+  .form-group
+    .grid-row
+      .column-one-half
+        .uploadWidget
+          %input#enquiry_response_email_attachment.inputfile{:multiple => "multiple", :name => "enquiry_response[email_attachment][]", :type => "file", "data-multiple-caption" => "{count} files selected"}/
+          %label{:for => "enquiry_response_email_attachment"}
+            %svg.icon.icon-upload-file
+              %use{"xlink:href" => "#icon-file-upload"}
+            %span Choose files...
+          %div.panel.panel-border-narrow
+            %ul.list.fileList{"data-default-item" => "No files selected"}
+              %li No files selected
+            %a.bold-xsmall{:href => "#"} Remove files
+  .form-group
+    = f.submit 'Send', class: 'button'
