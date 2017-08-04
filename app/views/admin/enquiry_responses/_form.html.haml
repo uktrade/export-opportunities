@@ -9,6 +9,26 @@
         - enquiries_response.errors.full_messages.each do |message|
           %li= message
 
+  .section-tabs.js-tabs
+    %ul
+      %li.active
+        %a#response-1-tab{:href => "/rsp1"}
+          %span.visuallyhidden> More text
+          Response 1
+          %span.visuallyhidden more text
+      %li
+        %a#response-1-tab{:href => "/r2"}
+          Response 2
+      %li
+        %a#people-tab{:href => "/r3"}
+          Response 2
+      %li
+        %a#people-tab{:href => "/r3"}
+          Response 4
+      %li
+        %a#people-tab{:href => "/r3"}
+          Response 5
+
   .form-group
     = f.label :email_subject, class: 'form-label-bold'
     %p Update on your enquiry for the export opportunity #{Enquiry.find(enquiry_id).opportunity.title}

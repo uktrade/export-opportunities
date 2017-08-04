@@ -17,8 +17,6 @@ ukti.UploadWidget = (function($) {
 		 labelVal = label.innerHTML,
 		 fileName = '';
 
-		debugger;
-
 		if( fileListStore.length > 1 ) {
 			fileName = ( input.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', fileListStore.length );
 		}

@@ -27,6 +27,7 @@
 @import "govuk_elements/tables";
 @import "govuk_elements/panels";
 @import "govuk_elements/forms";
+@import "govuk_elements/lists";
 @import "govuk_elements/forms/form-validation";
 @import "govuk_elements-latest/assets/sass/elements/forms/form-validation";
 @import "govuk_elements/elements/forms/form-multiple-choice";
@@ -35,6 +36,7 @@
 @import "govuk_template/header";
 
 // Opportunities specific styles
+@import "admin/mixins";
 @import "admin/variables";
 @import "admin/colours";
 @import "admin/header";
@@ -68,4 +70,5 @@
 /* these are typically patterns and SASS cribbed from other .gov.uk sites */
 @import "admin/design-patterns/metadata";
 @import "admin/design-patterns/message";
+@import "admin/design-patterns/tabs";
 
