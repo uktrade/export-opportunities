@@ -66,6 +66,12 @@ gem 'paper_trail'
 # Monitoring
 gem 'sentry-raven'
 
+# file uploader
+gem 'carrierwave'
+
+# rest client for antivirus scanning
+gem 'rest-client'
+
 group :development, :test do
   gem 'byebug'
   gem 'pry-rescue'

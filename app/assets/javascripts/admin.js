@@ -10,6 +10,7 @@
 //= require components/DateFilterValidation
 //= require components/DisableSubmitButton
 //= require components/EnquiryResponse
+//= require components/UploadWidget
 //= require components/RaggRating
 //= require components/Stats
 //= require components/OpportunityManagement
