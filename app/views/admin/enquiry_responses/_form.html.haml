@@ -1,4 +1,5 @@
 - enquiry_id = params.fetch(:id)
+
 = form_for [:admin, enquiries_response], html: {multipart: true} do |f|
   - if enquiries_response.errors.any?
     .error-summary{:role => 'group', :tabindex => '-1'}
@@ -12,8 +13,8 @@
   .section-tabs.js-tabs
     %ul
       %li.active
-        %a#response-1-tab{:href => "/rsp1"}
-          %span.visuallyhidden> More text
+        %a#tab-response-1{"aria-controls" => "response-1", "aria-flowto" => "response-1", "aria-selected" => "true", :href => "#response-1", :role => "tab", :tabindex => "0"}  
+          %span.visuallyhidden more text
           Response 1
           %span.visuallyhidden more text
       %li
@@ -29,17 +30,38 @@
         %a#people-tab{:href => "/r3"}
           Response 5
 
+  .js-tab-content.tab-content{"aria-live" => "polite"}
+    #response-1.js-tab-pane.tab-pane.tabs-panel-selected{"aria-expanded" => "true", "aria-hidden" => "false", "aria-labelledby" => "tab-more-information", :role => "tabpanel", :style => "display: block;"}
+      %h5 
+        %strong Explain what happens next
+      %p Let the company know if:
+      %ul.list.list-bullet.margin-bottom-0
+        %li their details will be sent to the buyer
+        %li they will be introduced to the buyer
+        %li they need to contact the buyer
+        %li they need to apply for the tender and include all necessary information 
+
+    #response-2.js-tab-pane.tab-pane.tabs-panel-selected{"aria-expanded" => "true", "aria-hidden" => "false", "aria-labelledby" => "tab-more-information", :role => "tabpanel"}
+      %h5 
+        %strong Explain what happens next
+      %p Let the company know if:
+      %ul.list.list-bullet.margin-bottom-0
+        %li their details will be sent to the buyer
+        %li they will be introduced to the buyer
+        %li they need to contact the buyer
+        %li they need to apply for the tender and include all necessary information 
+
   .form-group
-    = f.label :email_subject, class: 'form-label-bold'
-    %p Update on your enquiry for the export opportunity #{Enquiry.find(enquiry_id).opportunity.title}
     = f.label :email_body, class: 'form-label-bold'
     = f.text_area(:email_body, cols: 40, rows: 15, class: 'form-control js-text-editor')
     = f.hidden_field :enquiry_id, as: :hidden, value: enquiry_id
 
-    %p.form-hint
-      This is the email to be sent out to the enquiry user.
+  .form-group
+    = f.label 'Your contact details', class: 'form-label-bold'
+    = f.text_area(:email_body, cols: 40, rows: 15, class: 'form-control js-text-editor')
 
   .form-group
+    = f.label 'Upload files', class: 'form-label-bold'
     .grid-row
       .column-one-half
         .uploadWidget
@@ -53,4 +75,4 @@
               %li No files selected
             %a.bold-xsmall{:href => "#"} Remove files
   .form-group
-    = f.submit 'Send', class: 'button'
+    = f.submit 'Next', class: 'button'
