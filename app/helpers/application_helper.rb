@@ -22,4 +22,8 @@ module ApplicationHelper
     # TODO: Profile Team should return a proper HTTP code in response
     trade_profile_url if response.eql?('')
   end
+
+  def fetch_santander(search_term)
+    response = JSON.parse(Net::HTTP.get(URI('https://portal.santandertrade.com/api/search.php?words=' + search_term)))
+  end
 end

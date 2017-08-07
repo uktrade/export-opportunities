@@ -1,6 +1,7 @@
 require 'constraints/new_domain_constraint'
 
 class OpportunitiesController < ApplicationController
+  include ApplicationHelper
   protect_from_forgery except: :index
 
   def index
@@ -79,6 +80,12 @@ class OpportunitiesController < ApplicationController
 
     @suppress_subscription_block = params[:suppress_subscription_block].present?
 
+    # Santander API
+    if @search_term
+      response = fetch_santander(@search_term)
+      @santander_count = response['count']
+      @santander_url = response['href']
+    end
     respond_to do |format|
       format.html
       format.js

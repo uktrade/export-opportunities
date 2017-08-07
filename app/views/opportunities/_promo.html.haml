@@ -1,10 +1,11 @@
 %div.promo
   .promo__body
     %p.promo__summary
-      %span.count 76
+      %span.count
+      =@santander_count
       opportunities matching
       %span.keywords
-        "usa"
+      =@search_term
     %p.promo__description Get an exclusive 90-day free trial on Santander's trade portal
-    %a.button.promo__button{:href => 'https://en.santandertrade.com/'} Get access now
+    %a.button.promo__button{:href => @santander_url} Get access now
   .promo__branding
