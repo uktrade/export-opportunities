@@ -10,7 +10,6 @@
         - enquiries_response.errors.full_messages.each do |message|
           %li= message
 
-<<<<<<< HEAD
   .section-tabs.js-tabs
     %ul
       %li.active
@@ -30,27 +29,6 @@
       %li
         %a#people-tab{:href => "/r3"}
           Response 5
-=======
-  .tabs.js-tabs
-    .tablist.js-tablist
-      %ul
-        %li.active
-          %a#tab-response-1{"aria-controls" => "response-1", "aria-flowto" => "response-1", "aria-selected" => "true", :href => "#response-1", :role => "tab", :tabindex => "0"}  
-            %span.visuallyhidden You are
-            Right for opportunity
-        %li
-          %a#response-2-tab{:href => "#r2"}
-            Need more information
-        %li
-          %a#response-3-tab{:href => "/r3"}
-            Not right for opportunity
-        %li
-          %a#response-3-tab{:href => "/r3"}
-            Not UK registered
-        %li
-          %a#response-3-tab{:href => "/r3"}
-            Not for third party
->>>>>>> 140649e94b74106aa42a0c1731394da9f3c09686
 
     .tab-content.js-tab-content{"aria-live" => "polite"}
       #response-1.tab-panel.js-tab-panel.tab-panel-selected{"aria-expanded" => "true", :role => "tabpanel"}
