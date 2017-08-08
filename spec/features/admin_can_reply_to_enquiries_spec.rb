@@ -11,7 +11,30 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('Email body')
 
     email_body_text = Faker::Lorem.words(10).join('-')
+    editor_signature = Faker::Lorem.words(10).join('-')
     fill_in 'enquiry_response_email_body', with: email_body_text
+    fill_in 'enquiry_response_signature', with: editor_signature
+    expect(page).to have_content(email_body_text)
+
+    click_on 'Send'
+
+    expect(page).to have_content('Reply sent successfully')
+  end
+
+  scenario 'reply to an enquiry with attachment' do
+    admin = create(:admin)
+    enquiry = create(:enquiry)
+    login_as(admin)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+    expect(page).to have_content('Email body')
+
+    email_body_text = Faker::Lorem.words(10).join('-')
+    fill_in 'enquiry_response_email_body', with: email_body_text
+    save_and_open_page
+    attach_file 'enquiry_response_attachments', 'spec/files/tender_sample_file.txt'
+
     expect(page).to have_content(email_body_text)
 
     click_on 'Send'
@@ -75,5 +98,108 @@ feature 'admin can reply to enquiries' do
     # enquiry response details should be visible
     expect(page).to have_content(enquiry_response.editor.name)
     expect(page).to have_content(enquiry_response.email_body)
+  end
+
+
+  scenario 'reply to an enquiry with attachment, valid' do
+    admin = create(:admin)
+    enquiry = create(:enquiry)
+    login_as(admin)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+    expect(page).to have_content('Email body')
+
+    email_body_text = Faker::Lorem.words(10).join('-')
+    fill_in 'enquiry_response_email_body', with: email_body_text
+    expect(page).to have_content(email_body_text)
+
+    attach_file 'enquiry_response_attachments', 'spec/files/tender_sample_file.txt'
+
+    click_on 'Send'
+
+    expect(page).to have_content('Reply sent successfully')
+  end
+
+  scenario 'reply to an enquiry with invalid attachment file type' do
+    admin = create(:admin)
+    enquiry = create(:enquiry)
+    login_as(admin)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+    expect(page).to have_content('Email body')
+
+    email_body_text = Faker::Lorem.words(10).join('-')
+    fill_in 'enquiry_response_email_body', with: email_body_text
+    expect(page).to have_content(email_body_text)
+
+    attach_file 'enquiry_response_attachments', 'spec/files/tender_sample_invalid_extension_file'
+
+    click_on 'Send'
+
+    expect(page).to have_content('2 errors prevented this enquiry response from being saved')
+  end
+
+  scenario 'reply to an enquiry with invalid attachment file size' do
+    admin = create(:admin)
+    enquiry = create(:enquiry)
+    login_as(admin)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+    expect(page).to have_content('Email body')
+
+    email_body_text = Faker::Lorem.characters(30)
+    fill_in 'enquiry_response_email_body', with: email_body_text
+    expect(page).to have_content(email_body_text)
+
+    attach_file 'enquiry_response_attachments', 'spec/files/tender_sample_pico_file.txt'
+
+    click_on 'Send'
+
+    expect(page).to have_content('2 errors prevented this enquiry response from being saved')
+  end
+
+  scenario 'reply to an enquiry with invalid mail length (has to be 30 chars)' do
+    admin = create(:admin)
+    enquiry = create(:enquiry)
+    login_as(admin)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+    expect(page).to have_content('Email body')
+
+    email_body_text = Faker::Lorem.characters(29)
+    fill_in 'enquiry_response_email_body', with: email_body_text
+    expect(page).to have_content(email_body_text)
+
+    click_on 'Send'
+
+    expect(page).to have_content('1 error prevented this enquiry response from being saved')
+  end
+
+  scenario 'reply to an enquiry attaching a file with VIRUS' do
+    admin = create(:admin)
+    enquiry = create(:enquiry)
+    login_as(admin)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+    expect(page).to have_content('Email body')
+
+    email_body_text = Faker::Lorem.words(10).join('-')
+    fill_in 'enquiry_response_email_body', with: email_body_text
+    expect(page).to have_content(email_body_text)
+
+    attach_file 'enquiry_response_attachments', 'spec/files/tender_sample_infected_file.txt'
+
+    click_on 'Send'
+
+    expect(page).to have_content('Your attachment is INFECTED. Please contact Export Opportunities helpdesk immediately')
+  end
+
+  scenario 'reply to an enquiry attaching a file that can not be scanned' do
+    skip
   end
 end

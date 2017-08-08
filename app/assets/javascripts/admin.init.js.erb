@@ -2,7 +2,6 @@
 var ukti = window.ukti || {};
 
 ukti.config = {
-	"tinyMcePath" : "/js/tinymcefull/tinymce.js",
 	"ckeditorPath" : "/js/ckeditor/ckeditor.js",
 	"textEditorScriptPath" : "<%=image_path('ckeditor/ckeditor.js')%>"
 };
@@ -10,6 +9,10 @@ ukti.config = {
 $('body').addClass('js-enabled');
 
 $('document').ready(function() {
+  // Toggle hidden content
+  var showHideContent = new GOVUK.ShowHideContent();
+  showHideContent.init();
+
   var $opportunityTitle = $('#opportunity_title');
   if($opportunityTitle.length) {
     ukti.CharacterCounter.init($opportunityTitle, <%= Opportunity::TITLE_LENGTH_LIMIT %>);
@@ -57,4 +60,9 @@ $('document').ready(function() {
 
 	/* Opportunity management */
 	ukti.OpportunityManagement.init();
+
+	/* Enquiry response  */
+	ukti.enquiryResponse.init();
+
+
 });

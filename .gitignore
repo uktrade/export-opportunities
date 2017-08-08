@@ -40,8 +40,16 @@ node_modules/
 # Ignore public/system files
 public/system
 
+# Ignore carrierwave uploader files
+public/uploads
+
 heroku_config_variables
 
+# pre commit hooks
 .pre-commit-config.yaml
 public/uploads/
 servers_setup.sh
+
+# local deployment scripts
+*.sh
+

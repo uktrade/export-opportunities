@@ -7,7 +7,12 @@ $rag-green:#92c569;
 $rag-blue:#3B8EA5;
 $rag-grey:#A5978B;
 
+$green-fun: #008337;
+$amber-buttercup: #f5a623
+
 $colour-message: #d7efd1;
 $colour-warning: #f4d3d3;
 
-//3B8EA5
+$response-type-positive: $green-fun;
+$response-type-negative: $amber-buttercup;
+$response-type-neutral: #f5a623;
