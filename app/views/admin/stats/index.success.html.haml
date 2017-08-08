@@ -23,14 +23,15 @@
         %span.data-item.bold-xsmall Opportunities published
     .column-one-quarter
       %div.data.data-panel
-        %span.data-item.bold-xxlarge 
+        %span.data-item.bold-xxlarge.bold-xxlarge-fit
           = number_with_delimiter(@stats.enquiries)
         %span.data-item.bold-xsmall Enquiries
     .column-one-quarter
-      %div.data
+      %div.data.data-panel
         %span.data-item.bold-xxlarge
           = number_with_delimiter(@stats.enquiry_responses)
-        %span.data-item.bold-xsmall Enquiry Responses (counted at Enquiry Response created at date)
+        %span.data-item.bold-xsmall Enquiry Responses 
+        %span.visuallyhidden (counted at Enquiry Response created at date)
 
 %section
   %h3 Average time to publish an opportunity following submission:
