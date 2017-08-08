@@ -13,6 +13,8 @@ $('document').ready(function() {
   var showHideContent = new GOVUK.ShowHideContent();
   showHideContent.init();
 
+  ukti.Tabs.init();
+
   var $opportunityTitle = $('#opportunity_title');
   if($opportunityTitle.length) {
     ukti.CharacterCounter.init($opportunityTitle, <%= Opportunity::TITLE_LENGTH_LIMIT %>);

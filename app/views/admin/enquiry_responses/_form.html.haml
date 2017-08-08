@@ -10,69 +10,82 @@
         - enquiries_response.errors.full_messages.each do |message|
           %li= message
 
-  .section-tabs.js-tabs
-    %ul
-      %li.active
-        %a#tab-response-1{"aria-controls" => "response-1", "aria-flowto" => "response-1", "aria-selected" => "true", :href => "#response-1", :role => "tab", :tabindex => "0"}  
-          %span.visuallyhidden more text
-          Response 1
-          %span.visuallyhidden more text
-      %li
-        %a#response-1-tab{:href => "/r2"}
-          Response 2
-      %li
-        %a#people-tab{:href => "/r3"}
-          Response 2
-      %li
-        %a#people-tab{:href => "/r3"}
-          Response 4
-      %li
-        %a#people-tab{:href => "/r3"}
-          Response 5
+  .tabs.js-tabs
+    .tablist.js-tablist
+      %ul
+        %li.active
+          %a#tab-response-1{"aria-controls" => "response-1", "aria-flowto" => "response-1", "aria-selected" => "true", :href => "#response-1", :role => "tab", :tabindex => "0"}  
+            %span.visuallyhidden You are
+            Right for opportunity
+        %li
+          %a#response-2-tab{:href => "#r2"}
+            Need more information
+        %li
+          %a#response-3-tab{:href => "/r3"}
+            Not right for opportunity
+        %li
+          %a#response-3-tab{:href => "/r3"}
+            Not UK registered
+        %li
+          %a#response-3-tab{:href => "/r3"}
+            Not for third party
 
-  .js-tab-content.tab-content{"aria-live" => "polite"}
-    #response-1.js-tab-pane.tab-pane.tabs-panel-selected{"aria-expanded" => "true", "aria-hidden" => "false", "aria-labelledby" => "tab-more-information", :role => "tabpanel", :style => "display: block;"}
-      %h5 
-        %strong Explain what happens next
-      %p Let the company know if:
-      %ul.list.list-bullet.margin-bottom-0
-        %li their details will be sent to the buyer
-        %li they will be introduced to the buyer
-        %li they need to contact the buyer
-        %li they need to apply for the tender and include all necessary information 
+    .tab-content.js-tab-content{"aria-live" => "polite"}
+      #response-1.tab-panel.js-tab-panel.tab-panel-selected{"aria-expanded" => "true", :role => "tabpanel"}
+        %h5 
+          %strong Explain what happens next
+        %p Let the company know if:
+        %ul.list.list-bullet.margin-bottom-0
+          %li their details will be sent to the buyer
+          %li they will be introduced to the buyer
+          %li they need to contact the buyer
+          %li they need to apply for the tender and include all necessary information 
 
-    #response-2.js-tab-pane.tab-pane.tabs-panel-selected{"aria-expanded" => "true", "aria-hidden" => "false", "aria-labelledby" => "tab-more-information", :role => "tabpanel"}
-      %h5 
-        %strong Explain what happens next
-      %p Let the company know if:
-      %ul.list.list-bullet.margin-bottom-0
-        %li their details will be sent to the buyer
-        %li they will be introduced to the buyer
-        %li they need to contact the buyer
-        %li they need to apply for the tender and include all necessary information 
+      #response-2.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
+        %h5 
+          %strong  Need more information
+        %p Let the company know if:
+        %ul.list.list-bullet.margin-bottom-0
+          %li their details will be sent to the buyer
+          %li they will be introduced to the buyer
 
-  .form-group
-    = f.label :email_body, class: 'form-label-bold'
-    = f.text_area(:email_body, cols: 40, rows: 15, class: 'form-control js-text-editor')
-    = f.hidden_field :enquiry_id, as: :hidden, value: enquiry_id
+      #response-3.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
+        %h5 
+          %strong  Not right for opportunity
 
-  .form-group
-    = f.label 'Your contact details', class: 'form-label-bold'
-    = f.text_area(:email_body, cols: 40, rows: 15, class: 'form-control js-text-editor')
+      #response-4.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
+        %h5 
+          %strong  Not UK registered
 
-  .form-group
-    = f.label 'Upload files', class: 'form-label-bold'
-    .grid-row
-      .column-one-half
-        .uploadWidget
-          %input#enquiry_response_email_attachment.inputfile{:multiple => "multiple", :name => "enquiry_response[email_attachment][]", :type => "file", "data-multiple-caption" => "{count} files selected"}/
-          %label{:for => "enquiry_response_email_attachment"}
-            %svg.icon.icon-upload-file
-              %use{"xlink:href" => "#icon-file-upload"}
-            %span Choose files...
-          %div.panel.panel-border-narrow
-            %ul.list.fileList{"data-default-item" => "No files selected"}
-              %li No files selected
-            %a.bold-xsmall{:href => "#"} Remove files
+      #response-4.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
+        %h5 
+          %strong  Not UK registered
+
+    .form-group
+      = f.label :email_body, class: 'form-label-bold'
+      = f.text_area(:email_body, cols: 40, rows: 25, class: 'form-control js-text-editor')
+      = f.hidden_field :enquiry_id, as: :hidden, value: enquiry_id
+
+    .form-group
+      .grid-row
+        .column-one-half
+          = f.label 'Your contact details', class: 'form-label-bold'
+          %a.field-edit-button Edit
+          = f.text_area(:email_body, cols: 40, rows: 15, class: 'form-control js-text-editor')
+
+    .form-group
+      = f.label 'Upload files', class: 'form-label-bold'
+      .grid-row
+        .column-one-half
+          .uploadWidget
+            %input#enquiry_response_email_attachment.inputfile{:multiple => "multiple", :name => "enquiry_response[email_attachment][]", :type => "file", "data-multiple-caption" => "{count} files selected"}/
+            %label{:for => "enquiry_response_email_attachment"}
+              %svg.icon.icon-upload-file
+                %use{"xlink:href" => "#icon-file-upload"}
+              %span Add file
+            %div.panel.panel-border-narrow
+              %ul.list.fileList{"data-default-item" => "No files selected"}
+                %li No files selected
+              %a.bold-xsmall{:href => "#"} Remove files
   .form-group
     = f.submit 'Next', class: 'button'
