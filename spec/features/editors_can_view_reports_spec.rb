@@ -17,14 +17,14 @@ RSpec.feature 'Editors can view reports' do
 
       click_on 'Start'
 
-      expect(page).to have_content('3 Impact Emails sent')
-      expect(page).to have_content('2 Impact Emails responded')
-      expect(page).to have_content('1 Impact Emails responded with feedback')
-      expect(page).to have_content('1 Won')
-      expect(page).to have_content('1 Did not win')
-      expect(page).to have_content('0 Dont know outcome')
-      expect(page).to have_content('0 Dont know, dont want to say')
-      expect(page).to have_content('0 No response')
+      expect(page).to have_content('3 sent')
+      expect(page).to have_content('2 responses')
+      expect(page).to have_content('1 responses with feedback')
+      expect(page).to have_content('1 won the business')
+      expect(page).to have_content('1 didn\'t win the business')
+      expect(page).to have_content('0 was contacted, don\'t know outcome')
+      expect(page).to have_content('0 don\'t know / don\'t want to say')
+      expect(page).to have_content('0 wasn\'t contacted')
     end
   end
 
