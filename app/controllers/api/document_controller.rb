@@ -3,15 +3,11 @@ module Api
     skip_before_action :verify_authenticity_token
 
     def index
-      document_id = params[:id].to_i
+      params[:id].to_i
     end
 
     def create
-      pp params
-      pp request.body
-
+      params[:id].to_i
     end
   end
 end
-
-

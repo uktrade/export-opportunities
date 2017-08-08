@@ -32,7 +32,6 @@ feature 'admin can reply to enquiries' do
 
     email_body_text = Faker::Lorem.words(10).join('-')
     fill_in 'enquiry_response_email_body', with: email_body_text
-    save_and_open_page
     attach_file 'enquiry_response_attachments', 'spec/files/tender_sample_file.txt'
 
     expect(page).to have_content(email_body_text)
@@ -99,7 +98,6 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content(enquiry_response.editor.name)
     expect(page).to have_content(enquiry_response.email_body)
   end
-
 
   scenario 'reply to an enquiry with attachment, valid' do
     admin = create(:admin)
