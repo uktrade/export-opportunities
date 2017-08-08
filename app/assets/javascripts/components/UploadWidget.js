@@ -46,15 +46,15 @@ ukti.UploadWidget = (function($) {
 			li.innerHTML = 'File ' + (x + 1) + ':  ' + fileListStore[x].name;
 			list.appendChild(li);
 		}
-  }
+  };
 
   var resetLabel = function () {
 
-  }
+  };
 
   var resetFileList = function () {
   	
-  }
+  };
 
   var attachBehaviour = function () {
 		var inputs = baseEl.querySelectorAll( '.inputfile' );

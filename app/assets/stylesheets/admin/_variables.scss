@@ -1,18 +1,27 @@
 // colour
 $black: #0B0C0E;
 $white: #fffff0;
+
+$grey-athens: #ebecee;
+$grey-silversand: #bfc1c3;
+$grey-rollingstone: #6f777b;
+
+$green-fun: #008337;
+$amber-buttercup: #f5a623;
+$red-crimson: #E41F13;
+
+/* used for the opportunity rating */
 $rag-red: #e25453;
 $rag-amber:#e9a14d;
 $rag-green:#92c569;
 $rag-blue:#3B8EA5;
 $rag-grey:#A5978B;
 
-$green-fun: #008337;
-$amber-buttercup: #f5a623
-
+/* used for message panels */
 $colour-message: #d7efd1;
 $colour-warning: #f4d3d3;
 
+/* used for the enquiry response types */
 $response-type-positive: $green-fun;
-$response-type-negative: $amber-buttercup;
-$response-type-neutral: #f5a623;
+$response-type-negative: $red-crimson;
+$response-type-neutral: $amber-buttercup;

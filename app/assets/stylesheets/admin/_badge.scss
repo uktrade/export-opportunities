@@ -1,0 +1,25 @@
+.badge {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	color: #0B0C0E;
+	line-height: 20px;
+	font-size: 12px;
+	border-radius: 10px
+} 
+
+.badge {
+	&-positive {
+		@extend .marker;
+		background: $green-fun;
+		color: $white;
+	}
+	&-neutral {
+		background: $amber-buttercup;
+		color: $white;
+	}
+	&-negative {
+		background: $red-crimson;
+		color: $white;
+	}
+}

@@ -6,6 +6,7 @@
 //= require datepicker
 //= require moment
 //= require govuk_frontend_toolkit/govuk/show-hide-content
+//= require components/Tabs
 //= require components/AsyncLoad
 //= require components/DateFilterPicker
 //= require components/DateFilterValidation

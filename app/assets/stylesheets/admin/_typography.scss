@@ -51,7 +51,6 @@ p {
   }
 }
 
-
 // Link styles
 a {
   color: $link-colour;
@@ -84,6 +83,12 @@ a:active {
 
 hr.thick {
   height: 2px;
+}
+
+/* for adding outline programatically */
+
+.focus-outline {
+  outline: 3px solid #ffbf47;
 }
 
 .button-reply {
