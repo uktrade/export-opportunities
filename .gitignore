@@ -44,3 +44,9 @@ public/system
 public/uploads
 
 heroku_config_variables
+
+# local deployment scripts 
+*.sh
+
+# pre commit hooks
+.pre-commit-config.yaml

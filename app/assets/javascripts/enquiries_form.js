@@ -2,6 +2,9 @@
   "use strict";
   function renderResults(data) {
     $("#ch_search-results ul").empty();
+    if (data.length < 1) {
+      handleNoResult();
+    }
     for(var i = 0; i < data.length; i++) {
       var item = data[i];
       $("#ch_search-results ul").show();
@@ -15,6 +18,12 @@
         html.appendTo($("#ch_search-results ul"));
     }
     bindResultsEvents();
+  }
+
+  function handleNoResult(data) {
+    $("#ch_search-results ul").show();
+    var html = $('<li class="companieshouse-result">No results found. <br>If you don\'t have a Companies House Number, choose the <strong>\"I don\'t have a Companies House Number\"</strong> option below and enter the company address.</li>');
+        html.appendTo($("#ch_search-results ul"));
   }
 
   function bindResultsEvents() {
@@ -75,12 +84,16 @@
       });
 
       $("#ch_search").bind('click', function(event) {
+        $("#enquiry_company_name").addClass('isLoading');
         $.get({
           url: "/company_details",
           data: {
             search: $("#enquiry_company_name").val(),
           },
           success: function(data) { renderResults(data); },
+          complete: function () {
+            $("#enquiry_company_name").removeClass('isLoading');
+          }
         });
         event.preventDefault();
         event.stopPropagation();
