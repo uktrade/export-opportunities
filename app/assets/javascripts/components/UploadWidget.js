@@ -3,33 +3,11 @@ var ukti = window.ukti || {};
 ukti.UploadWidget = (function($) {
   'use strict';
   var baseEl;
+  var fileInputField;
   var fileListStore = [];
 
   var changeHandler = function(event) {
-  	fileListStore = event.currentTarget.files;
-    updateLabel(event);
-    updateFileList();
-  };
-
-  var updateLabel = function (event) {
-  	var input = event.currentTarget,
-			  label = input.nextElementSibling,
-		 labelVal = label.innerHTML,
-		 fileName = '';
-
-		if( fileListStore.length > 1 ) {
-			fileName = ( input.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', fileListStore.length );
-		}
-		else {
-			fileName = input.value.split( '\\' ).pop();
-		}
-
-		if( fileName ) {
-			label.querySelector( 'span' ).innerHTML = fileName;
-		}
-		else {
-			label.innerHTML = labelVal;	
-		}
+  	uploadFile();
   };
 
   var updateFileList = function () {
@@ -48,13 +26,63 @@ ukti.UploadWidget = (function($) {
 		}
   };
 
-  var resetLabel = function () {
-
-  };
-
   var resetFileList = function () {
   	
   };
+
+  var addToFileList = function () {
+
+  };
+
+  var removeFromFileList = function () {
+
+  };
+
+  var handleUploadFile = function () {
+
+  };
+
+  var handleUploadFileSuccess = function () {
+  	
+  };
+
+  var handleUploadFileError = function () {
+  	
+  };
+
+  var uploadFile = function () {
+  	var fileSelect = baseEl.querySelector( '.inputfile' );
+		// Get the selected files from the input.
+		var files = fileSelect.files;
+		// Create a new FormData object.
+		var formData = new FormData();
+		// Loop through each of the selected files.
+		for (var i = 0; i < files.length; i++) {
+		  var file = files[i];
+		  // Check the file type.
+		  if (!file.type.match('image.*')) {
+		    //continue;
+		  }
+		  // Add the file to the request.
+		  formData.append('photos[]', file, file.name);
+		}
+  	formData.append('name', 'value'); 
+  	debugger;
+
+  	var request = new XMLHttpRequest();
+		request.onreadystatechange = function (oEvent) {  
+	    if (request.readyState === 4) {  
+        if (request.status === 200) {  
+          console.log(request.responseText);  
+        } else {  
+          console.log("Error", request.statusText);  
+        }  
+	    }  
+		};
+		request.open('POST', '/admin/opportunities', true);
+		request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+		request.send(formData);
+  }
 
   var attachBehaviour = function () {
 		var inputs = baseEl.querySelectorAll( '.inputfile' );

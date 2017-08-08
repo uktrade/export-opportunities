@@ -4,6 +4,9 @@
  */
 
 CKEDITOR.editorConfig = function( config ) {
+	// config.contentsCss = [
+	// 	'/images/graphic_crown.png' // any other file to encapsulate custom styles
+	// ];
 	config.toolbarGroups = [
 		{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
 		{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },

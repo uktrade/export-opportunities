@@ -13,21 +13,21 @@
   .tabs.js-tabs
     .tablist.js-tablist
       %ul
-        %li.active
+        %li.positive.active
           %a#tab-response-1{"aria-controls" => "response-1", "aria-flowto" => "response-1", "aria-selected" => "true", :href => "#response-1", :role => "tab", :tabindex => "0"}  
             %span.visuallyhidden You are
             Right for opportunity
-        %li
-          %a#response-2-tab{:href => "#r2"}
+        %li.neutral
+          %a#response-2-tab{:href => "#response-2"}
             Need more information
         %li
-          %a#response-3-tab{:href => "/r3"}
+          %a#response-3-tab{:href => "#response-3"}
             Not right for opportunity
         %li
-          %a#response-3-tab{:href => "/r3"}
+          %a#response-4-tab{:href => "#response-4"}
             Not UK registered
         %li
-          %a#response-3-tab{:href => "/r3"}
+          %a#response-5-tab{:href => "#response-5"}
             Not for third party
 
     .tab-content.js-tab-content{"aria-live" => "polite"}
@@ -52,12 +52,14 @@
       #response-3.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
         %h5 
           %strong  Not right for opportunity
+          %p More stuff
 
       #response-4.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
         %h5 
           %strong  Not UK registered
+          %p More stuff
 
-      #response-4.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
+      #response-5.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
         %h5 
           %strong  Not UK registered
 
@@ -70,10 +72,18 @@
       .grid-row
         .column-one-half
           = f.label 'Your contact details', class: 'form-label-bold'
-          %a.field-edit-button Edit
-          = f.text_area(:email_body, cols: 40, rows: 15, class: 'form-control js-text-editor')
+          %a.field-edit-button{'data-target' => 'enquiry_response_signature'} Edit
+          .panel.panel-border-wide
+            %p.white-space-pre
+              Claire Parsons | Trade Officer
+              British embassy Tel-Aviv | Israel
+              Phone: +44 (0) 123 123 123
+              E-mail: claire.parsons@mobile.trade.gov.uk   
+          %p~ "Claire Parsons | Trade Officer\nBritish embassy Tel-Aviv | Israel\nPhone: +44 (0) 123 123 123\nE-mail: claire.parsons@mobile.trade.gov.uk"     
 
     .form-group
+      %label Add links to relevant documents
+      %p You can add links to documents stored online, for example Google Drive, Dropbox, One-Drive or WeTransfer. Links will expire after 30 days.
       = f.label 'Upload files', class: 'form-label-bold'
       .grid-row
         .column-one-half

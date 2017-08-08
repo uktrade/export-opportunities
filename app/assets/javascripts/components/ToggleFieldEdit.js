@@ -1,20 +1,21 @@
 var ukti = window.ukti || {};
 
-ukti.ToogleFieldEdit = (function($) {
+ukti.ToogleEditField = (function($) {
   'use strict';
+  var selector = 'js-edit-field',
   var baseEl;
   var fileListStore = [];
 
-  var handleToggle = function () {
-
+  var handleToggle = function (event) {
+    debugger;
   }
 
   var attachBehaviour = function() {
-  	var toggler = returnToggler();
+  	var togglers = returnToggler();
   	var togglerParent = _parentEl.querySelector(_togglerParentSelector);
   	toggler.addEventListener('click', function (event) {
   		event.preventDefault();
-			toggleFilters();
+			handleToggle();
   	}, false);
   };
 
