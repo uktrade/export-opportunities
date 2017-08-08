@@ -11,7 +11,7 @@ RSpec.describe DraftStatusMailer, type: :mailer do
 
       last_delivery = ActionMailer::Base.deliveries.last
 
-      expect(last_delivery.subject).to eql("Returned to draft. Action required")
+      expect(last_delivery.subject).to eql('Returned to draft. Action required')
       expect(last_delivery.body.encoded).to include('The following opportunity cannot be published:')
       expect(last_delivery.body.encoded).to include(edit_admin_opportunity_path(opportunity))
 

@@ -106,8 +106,9 @@
           %td= enquiry.company_telephone
         %tr
           %th{:scope => 'row'} Companies House listing
+          - @companies_house_url = companies_house_url(enquiry.company_house_number)
           - if @companies_house_url then
-            %td=link_to @enquiry.company_name, @companies_house_url, target: :blank, :rel => 'noopener noreferrer'
+            %td=link_to enquiry.company_name, @companies_house_url, target: :blank, :rel => 'noopener noreferrer'
           - else
             %td='Not supplied'
         %tr
@@ -118,7 +119,11 @@
           %td= enquiry.company_url
         %tr
           %th{:scope => 'row'} Trade Profile
-          %td= link_to trade_profile(enquiry.company_house_number), trade_profile(enquiry.company_house_number), target: :blank
+          - @trade_profile_url = trade_profile(enquiry.company_house_number)
+          - if @trade_profile_url then
+            %td= link_to enquiry.company_name, @trade_profile_url, target: :blank
+          - else
+            %td='Not supplied'
         %tr
           %th{:scope => 'row'} Existing exporter?
           %td= enquiry.existing_exporter

@@ -180,4 +180,24 @@ feature 'admin can view enquiries' do
       expect(page).to have_content(enquiry.company_name)
     end
   end
+
+  scenario 'enquiries in individual opportunity page have correct trade profile and CH link' do
+    admin = create(:admin)
+    login_as(admin)
+
+    sectors = create_list(:sector, 3)
+    types = create_list(:type, 5)
+    countries = [create(:country, exporting_guide_path: '/somelink')]
+
+    opportunity = create(:opportunity, status: 'publish', sectors: sectors, types: types, countries: countries)
+    enquiry = create(:enquiry, company_house_number: '12345678', opportunity: opportunity)
+
+    allow_any_instance_of(ApplicationHelper).to receive(:companies_house_url).with('12345678').and_return('https://beta.companieshouse.gov.uk/company/10804351')
+    allow_any_instance_of(ApplicationHelper).to receive(:trade_profile).with('12345678').and_return('https://trade.great.gov.uk/amazon')
+
+    visit admin_opportunity_path(opportunity.id)
+
+    expect(page).to have_link(enquiry.company_name, href: 'https://beta.companieshouse.gov.uk/company/10804351')
+    expect(page).to have_link(enquiry.company_name, href: 'https://trade.great.gov.uk/amazon')
+  end
 end
