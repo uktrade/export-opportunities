@@ -8,7 +8,7 @@ feature 'non-existing pages return 404 with an error message' do
     visit '/admin/seriously-this-page-cannot-exist'
 
     expect(page).to have_http_status(:not_found)
-    expect(page).to have_content('EIG Opportunities')
+    expect(page).to have_content('Export Opportunities')
     expect(page).to have_content('Sorry, page not found')
   end
 

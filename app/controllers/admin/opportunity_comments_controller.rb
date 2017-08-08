@@ -7,7 +7,7 @@ class Admin::OpportunityCommentsController < Admin::BaseController
     comment_form.message = comment_params[:message]
 
     if comment_form.post!
-      if params[:commit] == 'Return to draft with comment' && current_editor.role == "administrator"
+      if params[:commit] == 'Return to draft with comment' && current_editor.role == 'administrator'
         DraftStatusSender.new.call(opportunity, current_editor)
         UpdateOpportunityStatus.new.call(opportunity, 'draft')
       end
