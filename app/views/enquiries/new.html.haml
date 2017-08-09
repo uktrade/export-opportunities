@@ -52,6 +52,7 @@
               %div{id: "companies-house-section", class: "form-group"}
                 = f.label :company_name, "Company Name", class: "required"
                 = f.text_field :company_name, required: "required", class: "short-input"
+                %span.loadingIndicator
                 %button{id: "ch_search", class: "button companies-house-search-btn", type: "button"} Search Companies House
 
                 %div{id: "ch_search-results", class: "form-group"}
@@ -60,7 +61,7 @@
               %div#no-companies-house-number-fields
                 .form-group#company_house_number
                   = f.label :company_house_number, "Companies House Number"
-                  = f.text_field :company_house_number
+                  = f.text_field :company_house_number, {disabled: "true"}
                 .form-group
                   = f.label :company_address, "Company Address", class: "required"
                   = f.text_field :company_address, required: "required"

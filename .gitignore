@@ -42,3 +42,6 @@ public/system
 
 heroku_config_variables
 
+.pre-commit-config.yaml
+public/uploads/
+servers_setup.sh
