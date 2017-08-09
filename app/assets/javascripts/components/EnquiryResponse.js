@@ -20,6 +20,13 @@ ukti.enquiryResponse = (function($) {
     CKEDITOR.replace( 'enquiry_response_email_body');
   };
 
+  var initToggleFieldEdit = function () {
+    var els = document.querySelectorAll('.js-toggle-field-edit'), i;
+    for (i = 0; i < els.length; ++i) {
+      ukti.ToggleFieldEdit.init(els[i]);
+    }
+  };
+
   var initUploadWidget = function () {
     var els = document.querySelectorAll('.uploadWidget'), i;
     for (i = 0; i < els.length; ++i) {
@@ -35,6 +42,7 @@ ukti.enquiryResponse = (function($) {
 
   var init = function ($form) {
     loadTextEditorScript();
+    initToggleFieldEdit();
     initUploadWidget();
   };
 

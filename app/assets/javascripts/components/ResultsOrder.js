@@ -1,4 +1,3 @@
-
 var ukti = window.ukti || {};
 
 ukti.ResultsOrder = (function() {

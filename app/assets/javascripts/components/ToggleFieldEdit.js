@@ -1,26 +1,53 @@
 var ukti = window.ukti || {};
 
-ukti.ToogleEditField = (function($) {
+ukti.ToggleFieldEdit = (function($) {
   'use strict';
-  var selector = 'js-edit-field',
-  var baseEl;
-  var fileListStore = [];
+  var baseEl,
+      labelEl,
+      buttonEl,
+      textEl,
+      fieldElWrapper,
+      fieldEl,
+      hiddenClass = 'js-hidden';
+
+  var cacheElements = function (el) {
+    baseEl = el;
+    labelEl = baseEl.querySelector( '.form-label' );
+    buttonEl = baseEl.querySelector( '.js-toggle-field-edit-button' );
+    textEl = baseEl.querySelector( '.js-toggle-field-edit-text' );
+    fieldElWrapper = baseEl.querySelector( '.js-toggle-field-edit-field' );
+    fieldEl = baseEl.querySelector( 'textarea' );
+  };
 
   var handleToggle = function (event) {
-    debugger;
-  }
+    event.preventDefault();
+    textEl.classList.toggle('js-hidden');
+    fieldElWrapper.classList.toggle('js-hidden');
+  };
+
+  var setup = function () {
+    if (fieldEl.value !== '') {
+      setupFieldIsNotEmpty();
+    } else {
+      setupFieldIsEmpty();
+    }
+  };
+
+  var setupFieldIsEmpty = function () {
+
+  };
+
+  var setupFieldIsNotEmpty = function () {
+
+  };
 
   var attachBehaviour = function() {
-  	var togglers = returnToggler();
-  	var togglerParent = _parentEl.querySelector(_togglerParentSelector);
-  	toggler.addEventListener('click', function (event) {
-  		event.preventDefault();
-			handleToggle();
-  	}, false);
+    buttonEl.addEventListener('click', handleToggle, false);
   };
 
   var init = function (el) {
-  	baseEl = el;
+    cacheElements(el);
+    setup();
     attachBehaviour();
   };
 

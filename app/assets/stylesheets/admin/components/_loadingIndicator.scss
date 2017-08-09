@@ -1,0 +1,40 @@
+
+.loadingIndicator {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  clear: both;
+  margin: 0;
+  opacity: 1;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  pointer-events: none;
+	border: 4px rgba(0, 0, 0, 0.25) solid;
+	border-top: 4px black solid;
+	border-radius: 50%;
+	-webkit-animation: spCircRot .6s infinite linear;
+	animation: spCircRot .6s infinite linear;
+}
+
+.isLoading~.loadingIndicator,
+.isLoading .loadingIndicator {
+  opacity: 1;
+}
+
+@-webkit-keyframes spCircRot {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+  }
+}
+@keyframes spCircRot {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}

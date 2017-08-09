@@ -1,29 +1,53 @@
 var ukti = window.ukti || {};
 
-
-
 ukti.UploadWidget = (function($) {
   'use strict';
-  var baseEl;
-  var fileInputField;
-  var fileListStore = [];
 
-  var dummySuccess = {
+  var baseEl,
+      fileInputEl,
+      fileListEl,
+      labelEl,
+      fileListStore = [];
+
+  var dummyError = {
     responseText: '{ "id":"5d6s6d5sd6sd", "filename":"filename.pdf", "base_url":"http://localhits/"}'
   };
 
+  var cacheElements = function () {
+    fileInputEl = baseEl.querySelector( '.inputfile' );
+    fileListEl = baseEl.querySelector( '.fileList' );
+    labelEl = baseEl.querySelector( 'label' );
+  };
+
   var changeHandler = function(event) {
+    /* TODO - check if file selected */
   	uploadFile();
   };
 
+  var addLoadingClass = function(event) {
+    labelEl.classList.add('isLoading');
+  };
+
+  var removeLoadingClass = function(event) {
+    labelEl.classList.remove('isLoading');
+  };
+
+  var handleFileListClick = function (event) {
+    if(event.target.tagName.toLowerCase() === 'a') {
+      event.preventDefault();
+      var index = event.target.href;
+      removeFromFileStore(index);
+      renderFileList();
+    }
+  };
+
   var renderFileList = function () {
-		var list = baseEl.querySelector('.fileList');
-		if(!list || fileListStore.length < 0) {
+		if(!fileListEl || fileListStore.length < 0) {
 			return;
 		}
 
-		while (list.hasChildNodes()) {
-			list.removeChild(list.firstChild);
+		while (fileListEl.hasChildNodes()) {
+			fileListEl.removeChild(fileListEl.firstChild);
 		}
 
 		for (var x = 0; x < fileListStore.length; x++) {
@@ -31,27 +55,16 @@ ukti.UploadWidget = (function($) {
 			li.innerHTML = 'File ' + (x + 1) + ':  ' + fileListStore[x].filename;
       var link = returnRemoveFileLink();
       li.appendChild(link);
-			list.appendChild(li);
+			fileListEl.appendChild(li);
 		}
   };
 
   var returnRemoveFileLink = function () {
+    var index = fileListStore.length + 1;
     var link = document.createElement('a');
-    link.href = '#';
+    link.href = index;
     link.innerHTML = 'Remove';
     return link;
-  };
-
-  var resetFileList = function () {
-  	
-  };
-
-  var addToFileList = function () {
-
-  };
-
-  var removeFromFileList = function (event) {
-    debugger;
   };
 
   var updateFileStore = function (item) {
@@ -59,17 +72,19 @@ ukti.UploadWidget = (function($) {
   };
 
   var removeFromFileStore = function (index) {
-    fileListStore.push(item);
+    var zeroBasedIndex = index - 1;
+    fileListStore.splice(zeroBasedIndex, 1);
   };
 
   var handleUploadFileSuccess = function (response) {
-    var response = JSON.parse(response.responseText);
-    updateFileStore(response);
+    var item = JSON.parse(response.target.responseText);
+    updateFileStore(item);
     renderFileList();
+    removeLoadingClass();
   };
 
-  var handleUploadFileError = function (response) {
-    var response = JSON.parse(response.responseText);
+  var handleUploadFileError = function () {
+    removeLoadingClass();
   };
 
   var uploadFile = function () {
@@ -91,22 +106,25 @@ ukti.UploadWidget = (function($) {
   	formData.append('name', 'value'); 
 
   	var request = new XMLHttpRequest();
-		request.onerror = handleUploadFileError(dummySuccess);
-    request.onload = handleUploadFileSuccess(dummySuccess);
-		request.open('GET', '/api/document', true);
+		request.onerror = handleUploadFileError(dummyError);
+    request.onload = handleUploadFileSuccess;
+		request.open('POST', '/api/document', true);
 		request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 		request.send(formData);
-  }
+    addLoadingClass();
+  };
 
   var attachBehaviour = function () {
 		var inputs = baseEl.querySelectorAll( '.inputfile' );
 		Array.prototype.forEach.call( inputs, function( input ) {
 			input.addEventListener( 'change', changeHandler);
 		});
+    fileListEl.addEventListener("click", handleFileListClick, true);
   };
 
   var init = function (el) {
   	baseEl = el;
+    cacheElements();
     attachBehaviour();
   };
 

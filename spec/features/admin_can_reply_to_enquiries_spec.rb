@@ -56,7 +56,7 @@ feature 'admin can reply to enquiries' do
     fill_in 'enquiry_response_email_body', with: email_body_text
     expect(page).to have_content(email_body_text)
 
-    click_on 'Send'
+    click_on 'Next'
 
     expect(page).to have_content('Reply sent successfully')
   end

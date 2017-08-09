@@ -24,15 +24,24 @@ class Admin::EnquiryResponsesController < Admin::BaseController
 
     authorize @enquiry_response
     if @enquiry_response.errors.empty?
-      @enquiry_response.save
-      EnquiryResponseSender.new.call(@enquiry_response, @enquiry_response.enquiry)
-      redirect_to admin_enquiries_path, notice: 'Reply sent successfully!'
+      @enquiry_response.save!
+
+      render :show, enquiry_response: @enquiry_response
     else
       render :new, status: :unprocessable_entity
     end
   end
 
   def enquiry_responses_params
-    params.require(:enquiry_response).permit(:email_body, :editor_id, :enquiry_id, :signature, attachments: [])
+    params.require(:enquiry_response).permit(:id, :created_at, :updated_at, :email_body, :editor_id, :enquiry_id, :signature, :response_type, attachments: [])
+  end
+
+  def show
+    puts "showing enquiry response"
+  end
+
+  def send_enquiry_response
+    EnquiryResponseSender.new.call(@enquiry_response, @enquiry_response.enquiry)
+    redirect_to admin_enquiries_path, notice: 'Reply sent successfully!'
   end
 end

@@ -13,7 +13,7 @@
     color: black;
     background-color: white;
     border: 2px solid #6f777b;
-    padding: 0.475em 0.9375em 0.4625em;
+    padding: 0.475em 3em 0.4625em 0.9375em;
     display: inline-block;
     cursor: pointer;
   }
@@ -32,14 +32,18 @@
   .inputfile + label * {
     pointer-events: none;
   }
-
   .panel {
     margin-top: 10px;
   }
-
   .fileList {
     a {
       margin-left: 10px;
+    }
+  }
+  label {
+    position: relative;
+    &.isLoading {
+      padding-right: 2em;
     }
   }
 /* consider no-js scenario */

@@ -9,7 +9,6 @@
       %ul
         - enquiries_response.errors.full_messages.each do |message|
           %li= message
-
   .tabs.js-tabs
     .tablist.js-tablist
       %ul
@@ -29,6 +28,8 @@
         %li
           %a#response-5-tab{:href => "#response-5"}
             Not for third party
+      // TODO: need to dynamically change this field via js when user clicks on different tab buttons
+      = f.hidden_field :response_type, as: :hidden, value: 1
 
     .tab-content.js-tab-content{"aria-live" => "polite"}
       #response-1.tab-panel.js-tab-panel.tab-panel-selected{"aria-expanded" => "true", :role => "tabpanel"}
@@ -58,27 +59,33 @@
         %h5 
           %strong  Not UK registered
           %p More stuff
-
       #response-5.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
         %h5 
           %strong  Not UK registered
 
     .form-group
-      = f.label :email_body, class: 'form-label-bold'
+      %h4.form-label-bold Your response
+      = f.label :email_body, class: 'visuallyhidden'
       = f.text_area(:email_body, cols: 40, rows: 25, class: 'form-control js-text-editor')
       = f.hidden_field :enquiry_id, as: :hidden, value: enquiry_id
 
-    .form-group
-      .grid-row
-        .column-one-half
-          = f.label 'Your contact details', class: 'form-label-bold'
-          %a.field-edit-button{'data-target' => 'enquiry_response_signature'} Edit
-          .panel.panel-border-wide
-            %p.white-space-pre
-              Claire Parsons | Trade Officer
-              British embassy Tel-Aviv | Israel
-              Phone: +44 (0) 123 123 123
-              E-mail: claire.parsons@mobile.trade.gov.uk      
+    .grid-row
+      .column-one-half
+        .form-group.js-toggle-field-edit
+          %h4.form-label.form-label-bold
+            Your contact details
+            // TODO: render different elements depending on state of record
+            %a.js-toggle-field-edit-button{'href' => '#', 'data-target' => 'enquiry_response_signature'} Edit
+          %div.js-toggle-field-edit-text.js-hidden
+            .panel.panel-border-wide
+              %p.white-space-pre
+                Claire Parsons | Trade Officer
+                British embassy Tel-Aviv | Israel
+                Phone: +44 (0) 123 123 123
+                E-mail: claire.parsons@mobile.trade.gov.uk
+          %div.js-toggle-field-edit-field
+            = f.label :signature, class: 'visuallyhidden'   
+            = f.text_area(:signature, cols: 40, rows: 15, class: 'form-control')
 
     .form-group
       %label.form-label-bold Add links to relevant documents
@@ -86,14 +93,14 @@
       .grid-row
         .column-one-half
           .uploadWidget
-            %div.panel.panel-border-narrow
-              %ul.list.fileList{"data-default-item" => "No files selected"}
-                %li No files selected
+            // TODO: how do we handle users navigating back? lose files?
+            %ul.list.fileList{"data-default-item" => "No files selected"}
             %input#enquiry_response_email_attachment.inputfile{:multiple => "multiple", :name => "enquiry_response[email_attachment][]", :type => "file", "data-multiple-caption" => "{count} files selected"}/
             %label{:for => "enquiry_response_email_attachment"}
               %svg.icon.icon-upload-file
                 %use{"xlink:href" => "#icon-file-upload"}
               %span Add file
+              %span.loadingIndicator
 
   .form-group
     = f.submit 'Next', class: 'button'
