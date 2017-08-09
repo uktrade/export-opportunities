@@ -25,8 +25,9 @@ class Admin::EnquiryResponsesController < Admin::BaseController
     authorize @enquiry_response
     if @enquiry_response.errors.empty?
       @enquiry_response.save
-      EnquiryResponseSender.new.call(@enquiry_response, @enquiry_response.enquiry)
-      redirect_to admin_enquiries_path, notice: 'Reply sent successfully!'
+      redirect_to admin_enquiry_response_path
+      # EnquiryResponseSender.new.call(@enquiry_response, @enquiry_response.enquiry)
+      # redirect_to admin_enquiries_path, notice: 'Reply sent successfully!'
     else
       render :new, status: :unprocessable_entity
     end
