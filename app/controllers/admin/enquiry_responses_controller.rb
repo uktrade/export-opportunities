@@ -27,8 +27,6 @@ class Admin::EnquiryResponsesController < Admin::BaseController
       @enquiry_response.save!
 
       render :show, enquiry_response: @enquiry_response
-      # EnquiryResponseSender.new.call(@enquiry_response, @enquiry_response.enquiry)
-      # redirect_to admin_enquiries_path, notice: 'Reply sent successfully!'
     else
       render :new, status: :unprocessable_entity
     end
@@ -40,5 +38,10 @@ class Admin::EnquiryResponsesController < Admin::BaseController
 
   def show
     puts "showing enquiry response"
+  end
+
+  def send_enquiry_response
+    EnquiryResponseSender.new.call(@enquiry_response, @enquiry_response.enquiry)
+    redirect_to admin_enquiries_path, notice: 'Reply sent successfully!'
   end
 end

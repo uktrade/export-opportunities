@@ -6,3 +6,7 @@
   %tr
     %th{:scope => 'row'} enquiry
     %td= @enquiry_response.enquiry.inspect
+
+
+= link_to 'Back', :back
+= link_to 'Send', admin_enquiry_response_path(@enquiry_response.id)
