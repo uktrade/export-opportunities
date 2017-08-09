@@ -78,24 +78,22 @@
               Claire Parsons | Trade Officer
               British embassy Tel-Aviv | Israel
               Phone: +44 (0) 123 123 123
-              E-mail: claire.parsons@mobile.trade.gov.uk   
-          %p~ "Claire Parsons | Trade Officer\nBritish embassy Tel-Aviv | Israel\nPhone: +44 (0) 123 123 123\nE-mail: claire.parsons@mobile.trade.gov.uk"     
+              E-mail: claire.parsons@mobile.trade.gov.uk      
 
     .form-group
-      %label Add links to relevant documents
+      %label.form-label-bold Add links to relevant documents
       %p You can add links to documents stored online, for example Google Drive, Dropbox, One-Drive or WeTransfer. Links will expire after 30 days.
-      = f.label 'Upload files', class: 'form-label-bold'
       .grid-row
         .column-one-half
           .uploadWidget
+            %div.panel.panel-border-narrow
+              %ul.list.fileList{"data-default-item" => "No files selected"}
+                %li No files selected
             %input#enquiry_response_email_attachment.inputfile{:multiple => "multiple", :name => "enquiry_response[email_attachment][]", :type => "file", "data-multiple-caption" => "{count} files selected"}/
             %label{:for => "enquiry_response_email_attachment"}
               %svg.icon.icon-upload-file
                 %use{"xlink:href" => "#icon-file-upload"}
               %span Add file
-            %div.panel.panel-border-narrow
-              %ul.list.fileList{"data-default-item" => "No files selected"}
-                %li No files selected
-              %a.bold-xsmall{:href => "#"} Remove files
+
   .form-group
     = f.submit 'Next', class: 'button'

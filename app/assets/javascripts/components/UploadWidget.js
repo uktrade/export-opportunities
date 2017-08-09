@@ -1,29 +1,45 @@
 var ukti = window.ukti || {};
 
+
+
 ukti.UploadWidget = (function($) {
   'use strict';
   var baseEl;
   var fileInputField;
   var fileListStore = [];
 
+  var dummySuccess = {
+    responseText: '{ "id":"5d6s6d5sd6sd", "filename":"filename.pdf", "base_url":"http://localhits/"}'
+  };
+
   var changeHandler = function(event) {
   	uploadFile();
   };
 
-  var updateFileList = function () {
+  var renderFileList = function () {
 		var list = baseEl.querySelector('.fileList');
-		if(!list) {
+		if(!list || fileListStore.length < 0) {
 			return;
 		}
+
 		while (list.hasChildNodes()) {
 			list.removeChild(list.firstChild);
 		}
 
 		for (var x = 0; x < fileListStore.length; x++) {
 			var li = document.createElement('li');
-			li.innerHTML = 'File ' + (x + 1) + ':  ' + fileListStore[x].name;
+			li.innerHTML = 'File ' + (x + 1) + ':  ' + fileListStore[x].filename;
+      var link = returnRemoveFileLink();
+      li.appendChild(link);
 			list.appendChild(li);
 		}
+  };
+
+  var returnRemoveFileLink = function () {
+    var link = document.createElement('a');
+    link.href = '#';
+    link.innerHTML = 'Remove';
+    return link;
   };
 
   var resetFileList = function () {
@@ -34,20 +50,26 @@ ukti.UploadWidget = (function($) {
 
   };
 
-  var removeFromFileList = function () {
-
+  var removeFromFileList = function (event) {
+    debugger;
   };
 
-  var handleUploadFile = function () {
-
+  var updateFileStore = function (item) {
+    fileListStore.push(item);
   };
 
-  var handleUploadFileSuccess = function () {
-  	
+  var removeFromFileStore = function (index) {
+    fileListStore.push(item);
   };
 
-  var handleUploadFileError = function () {
-  	
+  var handleUploadFileSuccess = function (response) {
+    var response = JSON.parse(response.responseText);
+    updateFileStore(response);
+    renderFileList();
+  };
+
+  var handleUploadFileError = function (response) {
+    var response = JSON.parse(response.responseText);
   };
 
   var uploadFile = function () {
@@ -67,19 +89,11 @@ ukti.UploadWidget = (function($) {
 		  formData.append('photos[]', file, file.name);
 		}
   	formData.append('name', 'value'); 
-  	debugger;
 
   	var request = new XMLHttpRequest();
-		request.onreadystatechange = function (oEvent) {  
-	    if (request.readyState === 4) {  
-        if (request.status === 200) {  
-          console.log(request.responseText);  
-        } else {  
-          console.log("Error", request.statusText);  
-        }  
-	    }  
-		};
-		request.open('POST', '/admin/opportunities', true);
+		request.onerror = handleUploadFileError(dummySuccess);
+    request.onload = handleUploadFileSuccess(dummySuccess);
+		request.open('GET', '/api/document', true);
 		request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 		request.send(formData);
   }
