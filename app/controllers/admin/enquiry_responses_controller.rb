@@ -33,6 +33,6 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   end
 
   def enquiry_responses_params
-    params.require(:enquiry_response).permit(:email_body, :editor_id, :enquiry_id, :signature, {attachments: []})
+    params.require(:enquiry_response).permit(:email_body, :editor_id, :enquiry_id, :signature, attachments: [])
   end
 end

@@ -112,12 +112,12 @@ class SendMonthlyReportToMatchingAdminUser
     nbn_target_object = Country.find(29)
     total_target_object = Country.find(28)
     {
-        opportunities_published_target_cen: cen_target_object.published_target,
-        responses_target_cen: cen_target_object.responses_target,
-        opportunities_published_target_nbn: nbn_target_object.published_target,
-        responses_target_nbn: nbn_target_object.responses_target,
-        opportunities_published_target_total: total_target_object.published_target,
-        responses_target_total: total_target_object.responses_target,
+      opportunities_published_target_cen: cen_target_object.published_target,
+      responses_target_cen: cen_target_object.responses_target,
+      opportunities_published_target_nbn: nbn_target_object.published_target,
+      responses_target_nbn: nbn_target_object.responses_target,
+      opportunities_published_target_total: total_target_object.published_target,
+      responses_target_total: total_target_object.responses_target,
     }
   end
 
@@ -188,18 +188,18 @@ class SendMonthlyReportToMatchingAdminUser
   def format_opportunity_totals(row)
     ytd_actual = row.opportunities_published.inject(0, :+)
     line = [
-        row.title.to_s,
+      row.title.to_s,
     ]
 
     row.opportunities_published.to_a.each { |elem| line << elem }
 
     [
+      ytd_actual,
+      row.opportunities_published_target,
+      report_format_progress(
         ytd_actual,
-        row.opportunities_published_target,
-        report_format_progress(
-            ytd_actual,
-            row.opportunities_published_target
-        ),
+        row.opportunities_published_target
+      ),
     ].each { |elem| line << elem }
 
     CSV.generate_line(line)
@@ -208,18 +208,18 @@ class SendMonthlyReportToMatchingAdminUser
   def format_response_totals(row)
     ytd_actual = row.responses.inject(0, :+)
     line = [
-        row.title.to_s,
+      row.title.to_s,
     ]
 
     row.responses.to_a.each { |elem| line << elem }
 
     [
+      ytd_actual,
+      row.responses_target,
+      report_format_progress(
         ytd_actual,
-        row.responses_target,
-        report_format_progress(
-            ytd_actual,
-            row.responses_target
-        ),
+        row.responses_target
+      ),
     ].each { |elem| line << elem }
 
     CSV.generate_line(line)
