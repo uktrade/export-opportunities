@@ -1,0 +1,8 @@
+%h1 Show details of enquiry...
+%table.horizontal
+  %tr
+    %th{:scope => 'row'} enquiry response
+    %td= @enquiry_response.inspect
+  %tr
+    %th{:scope => 'row'} enquiry
+    %td= @enquiry_response.enquiry.inspect

@@ -29,6 +29,8 @@
       %li
         %a#people-tab{:href => "/r3"}
           Response 5
+      // TODO: need to dynamically change this field via js when user clicks on different tab buttons
+      = f.hidden_field :response_type, as: :hidden, value: 1
 
     .tab-content.js-tab-content{"aria-live" => "polite"}
       #response-1.tab-panel.js-tab-panel.tab-panel-selected{"aria-expanded" => "true", :role => "tabpanel"}
@@ -57,10 +59,6 @@
         %h5 
           %strong  Not UK registered
 
-      #response-4.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
-        %h5 
-          %strong  Not UK registered
-
     .form-group
       = f.label :email_body, class: 'form-label-bold'
       = f.text_area(:email_body, cols: 40, rows: 25, class: 'form-control js-text-editor')
@@ -71,7 +69,7 @@
         .column-one-half
           = f.label 'Your contact details', class: 'form-label-bold'
           %a.field-edit-button Edit
-          = f.text_area(:email_body, cols: 40, rows: 15, class: 'form-control js-text-editor')
+          = f.text_area(:signature, cols: 40, rows: 15, class: 'form-control js-text-editor')
 
     .form-group
       = f.label 'Upload files', class: 'form-label-bold'
