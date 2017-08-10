@@ -1,12 +1,28 @@
-%h1 Show details of enquiry...
-%table.horizontal
-  %tr
-    %th{:scope => 'row'} enquiry response
-    %td= @enquiry_response.inspect
-  %tr
-    %th{:scope => 'row'} enquiry
-    %td= @enquiry_response.enquiry.inspect
+/ 
+	=@enquiry_response.inspect
+/ 
+	=@enquiry_response.enquiry.inspect
 
+%h1 Review response to #{@enquiry_response.enquiry.company_name}
+
+%div.panel.panel-border-narrow
+	%p Dear #{@enquiry_response.enquiry.first_name},
+	%p
+		Thank you for your interest in the export opportunity: 
+		%b=@enquiry_response.enquiry.opportunity.title
+
+	%h4 Outcome
+	%p Your application will now move to the next stage. 
+
+	%h4 Reason
+	%p Your application meets the criteria for this opportunity.
+
+	%h4 What next
+	%div.well
+		!=@enquiry_response.email_body
+
+	%h4 Download documents
+	%p Documents will expire after 30 days.
 
 = link_to 'Back', :back
-= link_to 'Send', admin_enquiry_response_path(@enquiry_response.id)
+= link_to 'Send', admin_enquiry_response_path(@enquiry_response.id), class: 'button'

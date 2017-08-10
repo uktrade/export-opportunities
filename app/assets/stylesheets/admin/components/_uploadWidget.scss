@@ -10,10 +10,11 @@
   .inputfile + label {
     font-size: 16px;
     font-weight: 500;
-    color: black;
-    background-color: white;
+    color: $white;
+    background-color: $grey-rollingstone;
+    box-shadow: 0 2px 0 #003618;
     border: 2px solid #6f777b;
-    padding: 0.475em 3em 0.4625em 0.9375em;
+    padding: 0.475em 0.9375em 0.4625em 0.9375em;
     display: inline-block;
     cursor: pointer;
   }
@@ -36,6 +37,14 @@
     margin-top: 10px;
   }
   .fileList {
+    margin-bottom: 10px;
+    li {
+      min-height: 30px;
+      margin-top: 6px;
+      &:first-child {
+        margin-top: 0;
+      }
+    }
     a {
       margin-left: 10px;
     }
@@ -43,7 +52,7 @@
   label {
     position: relative;
     &.isLoading {
-      padding-right: 2em;
+      padding-right: 3em;
     }
   }
 /* consider no-js scenario */

@@ -46,13 +46,11 @@
 }
 @media (min-width: 641px) {
   .tablist ul a {
+    padding: 11px 14px 9px 9px;
     font-size: 16px;
     line-height: 1.56;
-  }
-}
-@media (min-width: 641px) {
-  .tablist ul a {
-    padding: 11px 14px 9px 9px;
+    margin-left: 10px;
+    border: none;
   }
 }
 
@@ -60,12 +58,15 @@
     background: #fff;
     padding: 10px 9px 10px;
     margin: 0 5px 0 0;
-    border-color: $grey-silversand;
+    border: 1px solid $grey-silversand;
 }
 
 @media (min-width: 641px) {
 	.tablist ul li.active a {
+    position: relative;
+    top: 1px;
     padding: 16px 19px 15px 14px;
+    border-width: 1px 1px 0px 1px;
   }
 }
 

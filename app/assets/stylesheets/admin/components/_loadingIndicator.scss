@@ -1,17 +1,17 @@
 
 .loadingIndicator {
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   clear: both;
   margin: 0;
-  opacity: 1;
+  opacity: 0;
   position: absolute;
-  top: 3px;
-  right: 3px;
+  top: 6px;
+  right: 10px;
   pointer-events: none;
-	border: 4px rgba(0, 0, 0, 0.25) solid;
-	border-top: 4px black solid;
+	border: 3px rgba(0, 0, 0, 0.25) solid;
+	border-top: 3px black solid;
 	border-radius: 50%;
 	-webkit-animation: spCircRot .6s infinite linear;
 	animation: spCircRot .6s infinite linear;

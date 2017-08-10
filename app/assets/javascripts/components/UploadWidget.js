@@ -20,8 +20,9 @@ ukti.UploadWidget = (function($) {
   };
 
   var changeHandler = function(event) {
-    /* TODO - check if file selected */
-  	uploadFile();
+    if (event.target.files.length > 0) {
+      uploadFile();
+    }
   };
 
   var addLoadingClass = function(event) {
@@ -52,7 +53,10 @@ ukti.UploadWidget = (function($) {
 
 		for (var x = 0; x < fileListStore.length; x++) {
 			var li = document.createElement('li');
-			li.innerHTML = 'File ' + (x + 1) + ':  ' + fileListStore[x].filename;
+      var span = document.createElement('span');
+      span.className = 'form-control';
+			span.innerHTML = 'File ' + (x + 1) + ':  ' + fileListStore[x].filename;
+      li.appendChild(span);
       var link = returnRemoveFileLink();
       li.appendChild(link);
 			fileListEl.appendChild(li);
@@ -77,10 +81,12 @@ ukti.UploadWidget = (function($) {
   };
 
   var handleUploadFileSuccess = function (response) {
-    var item = JSON.parse(response.target.responseText);
-    updateFileStore(item);
-    renderFileList();
-    removeLoadingClass();
+    setTimeout(function() {
+      var item = JSON.parse(response.target.responseText);
+      updateFileStore(item);
+      renderFileList();
+      removeLoadingClass();
+    }.bind(this), 2000);
   };
 
   var handleUploadFileError = function () {

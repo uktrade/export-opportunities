@@ -5,7 +5,8 @@ ukti.Tabs = (function($) {
 
   var tabs,
   		tabsList,
-      tabPanels;
+      tabPanels,
+      callback;
 
   var cacheElements = function (selector) {
     tabs = $(".js-tabs");
@@ -53,8 +54,9 @@ ukti.Tabs = (function($) {
     tabPanel.attr("aria-hidden", "false").show();
     // Set state of newly selected tab list item
     tab.attr('aria-selected', "true").parent().addClass('active');
-    // Set focus to the first heading in the newly revealed tab content
-    tabPanel.children().first().attr("tabindex", -1).focus();
+    callback(tab);
+    // Set focus?
+    //tabPanel.children().first().attr("tabindex", -1).focus();
   };
 
 	var addListeners = function () {
@@ -63,9 +65,10 @@ ukti.Tabs = (function($) {
         var tab = $(this);
         tab.click(handleTabClick);
     });
-   };
+  };
 
-  var init = function () {
+  var init = function (cb) {
+    callback = cb;
 		cacheElements();
     setup();
 		addListeners();
