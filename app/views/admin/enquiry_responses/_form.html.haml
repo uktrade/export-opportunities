@@ -16,19 +16,19 @@
       .tablist.js-tablist
         %ul
           %li.positive.active
-            %input#response_type_1.visuallyhidden{:name => "response_type", :type => "radio", :value => "1", "aria-controls" => "response-1-tab-content", "aria-expanded" => "true"}/
+            %input#response_type_1.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "1", "aria-controls" => "response-1-tab-content", "aria-expanded" => "true"}/
             %label{:for => "response_type_1"} Right for opportunity
           %li.neutral
-            %input#response_type_2.visuallyhidden{:name => "response_type", :type => "radio", :value => "2", "aria-controls" => "response-2-tab-content"}/
+            %input#response_type_2.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "2", "aria-controls" => "response-2-tab-content"}/
             %label{:for => "response_type_2"} Need more information
           %li
-            %input#response_type_3.visuallyhidden{:name => "response_type", :type => "radio", :value => "3", "aria-controls" => "response-3-tab-content"}/
+            %input#response_type_3.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "3", "aria-controls" => "response-3-tab-content"}/
             %label{:for => "response_type_3"} Not right for opportunity
           %li
-            %input#response_type_4.visuallyhidden{:name => "response_type", :type => "radio", :value => "4", "aria-controls" => "response-4-tab-content"}/
+            %input#response_type_4.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "4", "aria-controls" => "response-4-tab-content"}/
             %label{:for => "response_type_4"} Not UK registered
           %li
-            %input#response_type_5.visuallyhidden{:name => "response_type", :type => "radio", :value => "5", "aria-controls" => "response-5-tab-content"}/
+            %input#response_type_5.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "5", "aria-controls" => "response-5-tab-content"}/
             %label{:for => "response_type_5"} Not for third party
 
       .tab-content.js-tab-content{"aria-live" => "polite"}
