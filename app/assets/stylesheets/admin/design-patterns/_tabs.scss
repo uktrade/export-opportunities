@@ -2,6 +2,9 @@
 	@include clearFix();
   border-bottom: 1px solid $grey-silversand;
   margin: 1.5em 0;
+  label {
+    cursor: pointer;
+  }
 }
 @media (max-width: 640px) {
   .tablist {
@@ -29,7 +32,8 @@
     display: block;
   }
 }
-.tablist ul a {
+.tablist ul a,
+.tablist ul label {
   font-weight: 400;
   text-transform: none;
   font-size: 16px;
@@ -45,7 +49,8 @@
   border-bottom: none;
 }
 @media (min-width: 641px) {
-  .tablist ul a {
+  .tablist ul a,
+  .tablist ul label {
     padding: 11px 14px 9px 9px;
     font-size: 16px;
     line-height: 1.56;
@@ -54,7 +59,8 @@
   }
 }
 
-.tablist ul li.active a {
+.tablist ul li.active a,
+.tablist ul li.active label {
     background: #fff;
     padding: 10px 9px 10px;
     margin: 0 5px 0 0;
@@ -62,7 +68,8 @@
 }
 
 @media (min-width: 641px) {
-	.tablist ul li.active a {
+	.tablist ul li.active a,
+  .tablist ul li.active label {
     position: relative;
     top: 1px;
     padding: 16px 19px 15px 14px;

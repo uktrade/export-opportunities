@@ -1,5 +1,8 @@
 !!!
-%html
+/[if IE 8] <html class="no-js lt-ie10 lt-ie9" lang="en-GB">
+/[if IE 9] <html class="no-js lt-ie10" lang="en-GB">
+/[if gt IE 9]
+%html.no-js{:lang => "en-GB"}
   %head
     %title= "#{t('organisation.name')} - Opportunities"
     = stylesheet_link_tag 'application-admin', media: 'all'

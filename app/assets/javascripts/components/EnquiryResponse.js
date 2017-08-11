@@ -6,6 +6,24 @@ ukti.enquiryResponse = (function($) {
 
   var focusOutlineClassname = 'focus-outline';
 
+  var tabsCallback = function (tab) {
+    if (!tab) {
+      return;
+    }
+    if (tab.id === '#response-4') {
+
+    }
+    
+    if (tab.id === '#response-4') {
+
+    }
+  };
+
+  var initTabs = function () {
+    var el = document.querySelector('.js-tabs');
+    ukti.Tabs.init(el, tabsCallback);
+  };
+
   var initTextEditor = function () {
     CKEDITOR.timestamp = Math.random();
     CKEDITOR.on('instanceReady', function(evt) {
@@ -41,6 +59,7 @@ ukti.enquiryResponse = (function($) {
   };
 
   var init = function ($form) {
+    initTabs();
     loadTextEditorScript();
     initToggleFieldEdit();
     initUploadWidget();
