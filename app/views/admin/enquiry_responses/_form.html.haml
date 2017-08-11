@@ -53,16 +53,26 @@
         #response-3.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
           %h5 
             %strong  Not right for opportunity
-            %p More stuff
+          %p Let the company know if:
+          %ul.list.list-bullet.margin-bottom-0
+            %li their details will be sent to the buyer
+            %li they will be introduced to the buyer
 
         #response-4.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
           %h5 
             %strong  Not UK registered
-            %p More stuff
+          %p Let the company know if:
+          %ul.list.list-bullet.margin-bottom-0
+            %li their details will be sent to the buyer
+            %li they will be introduced to the buyer
 
         #response-5.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
           %h5 
             %strong  Not UK registered
+          %p Let the company know if:
+          %ul.list.list-bullet.margin-bottom-0
+            %li their details will be sent to the buyer
+            %li they will be introduced to the buyer
 
   %fieldset#custom-response
     .form-group
@@ -96,7 +106,7 @@
       .grid-row
         .column-one-half
           .uploadWidget
-            = f.hidden_field :attachments
+            = f.hidden_field :attachments, {:class => "fileListStore"}
             // TODO: how do we handle users navigating back? lose files?
             %ul.list.fileList{"data-default-item" => "No files selected"}
             %input#enquiry_response_email_attachment.inputfile{:multiple => "multiple", :name => "enquiry_response[email_attachment][]", :type => "file", "data-multiple-caption" => "{count} files selected"}/

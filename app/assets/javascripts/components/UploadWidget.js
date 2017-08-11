@@ -5,6 +5,7 @@ ukti.UploadWidget = (function($) {
 
   var baseEl,
       fileInputEl,
+      hiddenInputEl,
       fileListEl,
       labelEl,
       fileListStore = [];
@@ -16,6 +17,7 @@ ukti.UploadWidget = (function($) {
   var cacheElements = function () {
     fileInputEl = baseEl.querySelector( '.inputfile' );
     fileListEl = baseEl.querySelector( '.fileList' );
+    hiddenInputEl = baseEl.querySelector( '.fileListStore' );
     labelEl = baseEl.querySelector( 'label' );
   };
 
@@ -75,6 +77,12 @@ ukti.UploadWidget = (function($) {
     fileListStore.push(item);
   };
 
+  var updateHiddenField = function (item) {
+    if(hiddenInputEl) {
+      hiddenInputEl.value = JSON.stringify(fileListStore);
+    }
+  };
+
   var removeFromFileStore = function (index) {
     var zeroBasedIndex = index - 1;
     fileListStore.splice(zeroBasedIndex, 1);
@@ -84,6 +92,7 @@ ukti.UploadWidget = (function($) {
     setTimeout(function() {
       var item = JSON.parse(response.target.responseText);
       updateFileStore(item);
+      updateHiddenField();
       renderFileList();
       removeLoadingClass();
     }.bind(this), 2000);

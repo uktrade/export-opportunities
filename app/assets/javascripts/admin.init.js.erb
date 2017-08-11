@@ -13,7 +13,6 @@ $('document').ready(function() {
   var showHideContent = new GOVUK.ShowHideContent();
   showHideContent.init();
 
-
   var $opportunityTitle = $('#opportunity_title');
   if($opportunityTitle.length) {
     ukti.CharacterCounter.init($opportunityTitle, <%= Opportunity::TITLE_LENGTH_LIMIT %>);
@@ -63,7 +62,9 @@ $('document').ready(function() {
 	ukti.OpportunityManagement.init();
 
 	/* Enquiry response  */
-	ukti.enquiryResponse.init();
-
+	var EnquiryResponseForm = document.querySelector("form#new_enquiry_response");
+	if (EnquiryResponseForm) {
+		ukti.EnquiryResponse.init(EnquiryResponseForm);	
+	}
 
 });

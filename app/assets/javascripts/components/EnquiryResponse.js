@@ -1,22 +1,32 @@
 /* globals CKEDITOR */
 var ukti = window.ukti || {};
 
-ukti.enquiryResponse = (function($) {
+ukti.EnquiryResponse = (function($) {
   'use strict';
 
-  var focusOutlineClassname = 'focus-outline';
+  var baseEl,
+      focusOutlineClassname = 'focus-outline';
 
   var tabsCallback = function (tab) {
     if (!tab) {
       return;
     }
-    if (tab.id === '#response-4') {
-
+    if (tab[0].htmlFor === 'response_type_4' || tab[0].htmlFor === 'response_type_5') {
+      document.getElementById('custom-response').classList.add('hidden');
+      document.getElementById('signature').classList.add('hidden');
+      document.getElementById('attachments').classList.add('hidden');
+      updateSubmitButton('Send');
+    } else {
+      document.getElementById('custom-response').classList.remove('hidden');
+      document.getElementById('signature').classList.remove('hidden');
+      document.getElementById('attachments').classList.remove('hidden');
+      updateSubmitButton('Preview');
     }
-    
-    if (tab.id === '#response-4') {
+  };
 
-    }
+  var updateSubmitButton = function (text) {
+    var button = baseEl.querySelector('input[type=submit]');
+    button.value = text;
   };
 
   var initTabs = function () {
@@ -58,7 +68,8 @@ ukti.enquiryResponse = (function($) {
     }
   };
 
-  var init = function ($form) {
+  var init = function (form) {
+    baseEl = form;
     initTabs();
     loadTextEditorScript();
     initToggleFieldEdit();
