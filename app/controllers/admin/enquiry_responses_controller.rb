@@ -20,15 +20,7 @@ class Admin::EnquiryResponsesController < Admin::BaseController
 
   def create
     @enquiry_response = EnquiryResponse.new(enquiry_responses_params)
-    @enquiry_response.editor_id = current_editor.id
-
-    authorize @enquiry_response
-    if @enquiry_response.errors.empty?
-      @enquiry_response.save!
-      render :show, enquiry_response: @enquiry_response
-    else
-      render :new, status: :unprocessable_entity
-    end
+    create_or_update
   end
 
   def enquiry_responses_params
@@ -39,8 +31,29 @@ class Admin::EnquiryResponsesController < Admin::BaseController
     puts 'showing enquiry response'
   end
 
+  def update
+    @enquiry_response = EnquiryResponse.where(enquiry_id: enquiry_id.to_i).first
+    @enquiry_response.update!(enquiry_responses_params)
+    create_or_update
+  end
+
   def send_enquiry_response
     EnquiryResponseSender.new.call(@enquiry_response, @enquiry_response.enquiry)
     redirect_to admin_enquiries_path, notice: 'Reply sent successfully!'
+  end
+
+  private
+  
+  def create_or_update
+    @enquiry_response.editor_id = current_editor.id
+
+    authorize @enquiry_response
+    if @enquiry_response.errors.empty?
+      @enquiry_response.save!
+
+      render :show, enquiry_response: @enquiry_response
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 end
