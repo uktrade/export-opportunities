@@ -7,8 +7,8 @@ class DocumentStorage
     @bucket_name = Figaro.env.post_user_communication_s3_bucket!
   end
 
-  def call(params, file)
-    store_file(params[:filename], file)
+  def call(filename, file)
+    store_file(filename, file)
   end
 
   def store_file(filename, file)

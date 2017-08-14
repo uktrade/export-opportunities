@@ -9,10 +9,21 @@ module Api
     end
 
     def create
-      if params['params']
-        DocumentValidation.new.call(params['params'], params['params']['file_blob'])
-
-        @result = request.body
+      params = params['params'] if params
+      if params
+        DocumentValidation.new.call(params, params['file_blob'])
+        res = DocumentStorage.new.call(params['filename'], params['file_blob'])
+        if res
+          document_url = 'https://s3.' + Figaro.env.aws_region! + '.amazonaws.com/' + Figaro.env.post_user_communication_s3_bucket! + '/' + params['filename']
+          short_url = DocumentUrlShortener.new.call(document_url, params['user_id'], params['enquiry_id'])
+        else
+          raise new Exception('cant save file to S3')
+        end
+        @result = {
+          status: 200,
+          id: short_url,
+          base_url: Figaro.env.domain! + '/dashboard/downloads/',
+        }
       else
         d1 = Digest::SHA256.digest(['make ids great again'].pack('H*'))
         d2 = Digest::SHA256.digest(d1)
