@@ -9,8 +9,9 @@ module Api
     end
 
     def create
-      if request.body
-        DocumentValidation.new.call(params['params'], request.body)
+      byebug
+      if request.body and params['params'] and params['params']['file_location']
+        DocumentValidation.new.call(params['params'], params['params']['file_location'])
 
         @result = request.body
       else

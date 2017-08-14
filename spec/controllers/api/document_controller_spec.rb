@@ -6,6 +6,7 @@ RSpec.describe Api::DocumentController, type: :controller do
     @params = {
         user_id: 1,
         original_filename: 'test_filename',
+        file_location: 'spec/files/tender_sample_file.txt',
     }
     doc = File.read('spec/files/tender_sample_file.txt')
     @request.env['RAW_POST_DATA'] = doc
