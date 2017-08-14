@@ -4,6 +4,6 @@ FactoryGirl.define do
     enquiry
 
     email_body { Faker::Lorem.words(50) }
-    attachment { fixture_file_upload('spec/files/tender_sample_file.txt', 'application/text') }
+    signature { Faker::Lorem.words(10) }
   end
 end

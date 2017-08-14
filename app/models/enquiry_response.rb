@@ -12,7 +12,7 @@ class EnquiryResponse < ActiveRecord::Base
   belongs_to :editor
 
   def email_body_length_check
-    if email_body.length < 30 and response_type <= 3
+    if email_body.length < 30 && response_type <= 3
       errors.add(:email_body, 'You need at least 30 characters in your reply')
     end
   end

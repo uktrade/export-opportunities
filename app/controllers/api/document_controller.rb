@@ -1,4 +1,4 @@
-require "digest"
+require 'digest'
 
 module Api
   class DocumentController < ApplicationController
@@ -17,7 +17,7 @@ module Api
           document_url = 'https://s3.' + Figaro.env.aws_region! + '.amazonaws.com/' + Figaro.env.post_user_communication_s3_bucket! + '/' + params['filename']
           short_url = DocumentUrlShortener.new.call(document_url, params['user_id'], params['enquiry_id'])
         else
-          raise new Exception('cant save file to S3')
+          raise Exception, 'cant save file to S3'
         end
         @result = {
           status: 200,
@@ -37,8 +37,8 @@ module Api
         }
 
         @error_result = {
-            status: 500,
-            error_message: 'INTERNAL SERVER ERROR',
+          status: 500,
+          error_message: 'INTERNAL SERVER ERROR',
         }
       end
 

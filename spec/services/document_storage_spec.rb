@@ -6,8 +6,6 @@ RSpec.describe DocumentStorage do
     params = {
       filename: 'test_filename',
     }
-    res = DocumentStorage.new.call(params[:filename], doc)
-    byebug
-    pp res
+    DocumentStorage.new.call(params[:filename], doc)
   end
 end

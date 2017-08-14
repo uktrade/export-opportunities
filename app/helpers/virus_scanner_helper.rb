@@ -1,7 +1,7 @@
 require 'rest-client'
 
 module VirusScannerHelper
-  def scan_clean?(file_path)
+  def scan_clean_by_file_path?(file_path)
     request = RestClient::Request.new(
       method: :post,
       url: Figaro.env.CLAM_AV_HOST,
@@ -20,21 +20,8 @@ module VirusScannerHelper
 
   def scan_clean?(filename, file_blob)
     File.open(filename, 'wb') do |f|
-      f.write file_blob
+      f.write file_blob.read
     end
-    request = RestClient::Request.new(
-      method: :post,
-      url: Figaro.env.CLAM_AV_HOST,
-      payload: {
-          multipart: true,
-          file: File.new(filename, 'rb'),
-      },
-      user: Figaro.env.CLAM_AV_USERNAME,
-      password: Figaro.env.CLAM_AV_PASSWORD
-    )
-
-    response = request.execute
-
-    response.body.eql?('OK') ? true : false
+    scan_clean_by_file_path?(filename)
   end
 end
