@@ -33,4 +33,14 @@ module ApplicationHelper
     # TODO: Profile Team should return a proper HTTP code in response
     trade_profile_url if response.eql?('')
   end
+
+  def is_opportunity_expired(response_due_on)
+    if (response_due_on < Time.zone.now-7.days)
+      response = true
+    else
+      response = false
+    end
+    response
+  end
+
 end

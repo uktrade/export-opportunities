@@ -57,7 +57,7 @@ ukti.UploadWidget = (function($) {
 			var li = document.createElement('li');
       var span = document.createElement('span');
       span.className = 'form-control';
-			span.innerHTML = 'File ' + (x + 1) + ':  ' + fileListStore[x].filename;
+			span.innerHTML = 'File ' + (x + 1) + ':  ' + fileListStore[x].original_filename;
       li.appendChild(span);
       var link = returnRemoveFileLink();
       li.appendChild(link);
@@ -116,7 +116,7 @@ ukti.UploadWidget = (function($) {
 		    //continue;
 		  }
 		  // Add the file to the request.
-		  formData.append('photos[]', file, file.name);
+		  formData.append('file', file, file.name);
 		}
   	formData.append('name', 'value'); 
 

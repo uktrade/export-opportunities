@@ -18,7 +18,7 @@
       - if @enquiry_response.response_type == 2
         = render :partial => "admin/enquiry_responses/snippets/more_information", enquiries_response: @enquiry_response
       - if @enquiry_response.response_type == 3
-        = render :partial => "admin/enquiry_responses/snippets/not_right"
+        = render :partial => "admin/enquiry_responses/snippets/not_right", enquiries_response: @enquiry_response
       - if @enquiry_response.response_type == 4
         = render :partial => "admin/enquiry_responses/snippets/not_uk_registered"
       - if @enquiry_response.response_type == 5
@@ -37,13 +37,13 @@
           !=@enquiry_response.attachments
 
       - if @enquiry_response.response_type == 1
-        = render 'admin/enquiry_responses/snippets/not_right_addendum', enquiries_response: @enquiry_response
+        = render 'admin/enquiry_responses/snippets/right_for_opportunity_addendum', enquiries_response: @enquiry_response
       - if @enquiry_response.response_type == 2
-        = render 'admin/enquiry_responses/snippets/not_right_addendum', enquiries_response: @enquiry_response
+        = render 'admin/enquiry_responses/snippets/more_information_addendum', enquiries_response: @enquiry_response
       - if @enquiry_response.response_type == 3
         = render 'admin/enquiry_responses/snippets/not_right_addendum', enquiries_response: @enquiry_response
       - if @enquiry_response.response_type == 4
-        = render 'admin/enquiry_responses/snippets/not_right_addendum', enquiries_response: @enquiry_response
+        = render 'admin/enquiry_responses/snippets/not_uk_registered_addendum', enquiries_response: @enquiry_response
       - if @enquiry_response.response_type == 4
         = render 'admin/enquiry_responses/snippets/not_right_addendum', enquiries_response: @enquiry_response
 

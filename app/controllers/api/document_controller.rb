@@ -9,7 +9,6 @@ module Api
     end
 
     def create
-      byebug
       if request.body and params['params'] and params['params']['file_location']
         DocumentValidation.new.call(params['params'], params['params']['file_location'])
 
