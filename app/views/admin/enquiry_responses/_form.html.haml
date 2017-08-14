@@ -17,18 +17,23 @@
           %li.positive.active
             %input#response_type_1.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "1", "aria-controls" => "response-1-tab-content", "aria-expanded" => "true"}/
             %label{:for => "response_type_1"} Right for opportunity
+            %span.badge-positive
           %li.neutral
             %input#response_type_2.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "2", "aria-controls" => "response-2-tab-content"}/
             %label{:for => "response_type_2"} Need more information
+            %span.badge-neutral
           %li
-            %input#response_type_3.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "3", "aria-controls" => "response-3-tab-content"}/
+            %input#response_type_3.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "3", "aria-controls" => "response-3-tab-content", "checked" => "checked"}/
             %label{:for => "response_type_3"} Not right for opportunity
+            %span.badge-negative
           %li
             %input#response_type_4.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "4", "aria-controls" => "response-4-tab-content"}/
             %label{:for => "response_type_4"} Not UK registered
+            %span.badge-negative
           %li
             %input#response_type_5.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "5", "aria-controls" => "response-5-tab-content"}/
             %label{:for => "response_type_5"} Not for third party
+            %span.badge-negative
 
       .tab-content.js-tab-content{"aria-live" => "polite"}
         #response-1-tab-panel.tab-panel.js-tab-panel.tab-panel-selected{:role => "tabpanel", "aria-hidden" => "true"}
@@ -54,7 +59,7 @@
             %li EITHER - ask the company for more information so you can make a decision
             %li OR -  make a decision based on the information the company has already provided
 
-        #response-3.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
+        #response-3.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel", "aria-hidden" => "false"}
           %p 
             %strong Your comments will be added to the message sent to the company.
           %p
@@ -62,7 +67,7 @@
             %br
             the product or service is not relevant, the company is not ready to export in this market, or the buyer decided they are not right for the opportunity. 
 
-        #response-4.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
+        #response-4.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel", "aria-hidden" => "true"}
           %p 
             %strong The following message will be sent to the company
           %div.panel.panel-border-narrow
@@ -70,7 +75,7 @@
               .column-one-half
                 = render :partial => "admin/enquiry_responses/snippets/not_uk_registered", enquiries_response: @enquiry_response
 
-        #response-5.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
+        #response-5.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel", "aria-hidden" => "true"}
           %p 
             %strong The following message will be sent to the company
           %div.panel.panel-border-narrow
