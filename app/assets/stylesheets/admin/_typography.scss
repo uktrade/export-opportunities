@@ -94,3 +94,11 @@ hr.thick {
 .button-reply {
 
 }
+
+blockquote {
+  margin: 0 0 30px 0;
+  &.noquotes {
+    padding: 15px;
+    background-color: $grey-gallery;
+  }
+}

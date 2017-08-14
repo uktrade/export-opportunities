@@ -1,12 +1,15 @@
 !!!
-%html
+/[if IE 8] <html class="no-js lt-ie10 lt-ie9" lang="en-GB">
+/[if IE 9] <html class="no-js lt-ie10" lang="en-GB">
+/[if gt IE 9]
+%html.no-js{:lang => "en-GB"}
   %head
     %title= "#{t('organisation.name')} - Opportunities"
     = stylesheet_link_tag 'application-admin', media: 'all'
     = csrf_meta_tags
     /[if lte IE 9]
       = javascript_include_tag 'classlist.polyfill.min'
-      = javascript_include_tag 'eventListener.polyfill.min'  
+      = javascript_include_tag 'eventListener.polyfill.min'
   %body
     = render partial: 'svg_icons'
 
