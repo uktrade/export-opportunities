@@ -45,6 +45,8 @@ GEM
     ast (2.3.0)
     autoprefixer-rails (6.6.1)
       execjs
+    aws-sdk (2.8.10)
+      aws-sdk-resources (= 2.8.10)
     aws-sdk-core (2.8.10)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
@@ -426,6 +428,7 @@ DEPENDENCIES
   active_record_union
   addressable
   autoprefixer-rails
+  aws-sdk
   bourbon
   bullet
   byebug

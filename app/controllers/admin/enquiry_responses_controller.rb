@@ -37,7 +37,7 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   end
 
   def show
-    puts "showing enquiry response"
+    puts 'showing enquiry response'
   end
 
   def send_enquiry_response

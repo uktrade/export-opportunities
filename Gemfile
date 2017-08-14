@@ -63,6 +63,9 @@ gem 'flipper-redis'
 gem 'flipper-ui'
 gem 'paper_trail'
 
+# aws sdk for s3 storage of post-user communications
+gem 'aws-sdk'
+
 # Monitoring
 gem 'sentry-raven'
 

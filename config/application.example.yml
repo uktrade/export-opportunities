@@ -56,3 +56,5 @@ AWS_REGION: ''
 CLAM_AV_HOST: ''
 CLAM_AV_USERNAME: ''
 CLAM_AV_PASSWORD:
+
+post_user_communication_s3_bucket: ''
