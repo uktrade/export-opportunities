@@ -19,13 +19,6 @@ ukti.Tabs = (function($) {
     tabPanels.attr({
       "aria-hidden": "true"
     }).hide();
-    // tabsList.find("li > a").each(
-    //   function(index) {
-    //     var tab = $(this);
-    //     var tabId = "tab-" + tab.attr("href").slice(1);
-    //     addAriaToControls(tab, tabId);
-    //     addAriaToTabPanels(index, tabId);
-    // });
   };
 
   var addAriaToControls = function (tab, tabId) {

@@ -25,6 +25,7 @@
   float: left;
   display: inline;
   list-style: none;
+  position: relative;
 }
 @media (max-width: 640px) {
   .tablist ul li {
@@ -51,7 +52,7 @@
 @media (min-width: 641px) {
   .tablist ul a,
   .tablist ul label {
-    padding: 11px 14px 9px 9px;
+    padding: 11px 44px 9px 9px;
     font-size: 16px;
     line-height: 1.56;
     margin-left: 10px;
@@ -62,7 +63,7 @@
 .tablist ul li.active a,
 .tablist ul li.active label {
     background: #fff;
-    padding: 10px 9px 10px;
+    padding: 11px 24px 9px 9px;
     margin: 0 5px 0 0;
     border: 1px solid $grey-silversand;
 }
@@ -72,7 +73,7 @@
   .tablist ul li.active label {
     position: relative;
     top: 1px;
-    padding: 16px 19px 15px 14px;
+    padding: 14px 44px 20px 14px;
     border-width: 1px 1px 0px 1px;
   }
 }
@@ -85,4 +86,36 @@
   overflow: auto;
   z-index: 5;
 }
+
+/* badges inside tabs */
+
+.tablist ul {
+  li {
+    .badge {
+      position: absolute;
+      top: 12px;
+      right: 20px;
+    }
+  }
+  li.active {
+    .badge {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+    }
+  }
+  @media (min-width: 641px) { 
+  li {
+    .badge {
+      top: 20px;
+    }
+  }
+  li.active {
+    .badge {
+      top: 20px;
+    }
+  }
+  }
+}
+
 
