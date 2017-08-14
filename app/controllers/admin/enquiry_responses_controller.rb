@@ -15,6 +15,7 @@ class Admin::EnquiryResponsesController < Admin::BaseController
 
     @enquiry_response = EnquiryResponse.where(enquiry_id: enquiry_id).first ? EnquiryResponse.where(enquiry_id: enquiry_id).first : EnquiryResponse.new
     @enquiry_response.enquiry = @enquiry
+    @respond_by_date = @enquiry.created_at+5.day
     authorize @enquiry_response
   end
 

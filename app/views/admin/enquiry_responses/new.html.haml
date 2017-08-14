@@ -49,7 +49,7 @@
 %a#reply
 %hr.thick
 
-%h1 Respond by 13 July 2017.
+%h1 Respond by #{@respond_by_date.strftime('%d %B %Y')}.
 %h2 Choose suitable type of response. 
 
 = render 'form', enquiries_response: @enquiry_response
