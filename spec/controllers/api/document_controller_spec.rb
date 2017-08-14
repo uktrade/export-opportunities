@@ -3,31 +3,36 @@ require 'rails_helper'
 RSpec.describe Api::DocumentController, type: :controller do
   before :each do
     sign_in(create(:user))
+    @params = {
+        user_id: 1,
+        original_filename: 'test_filename',
+        file_location: 'spec/files/tender_sample_file.txt',
+    }
+    doc = File.read('spec/files/tender_sample_file.txt')
+    @request.env['RAW_POST_DATA'] = doc
+
   end
 
-  describe 'GET dashboard controller index' do
-    before(:each) do
-      string_inquirer = ActiveSupport::StringInquirer.new('production')
-      allow(Rails).to receive(:env).and_return(string_inquirer)
-    end
+  describe 'POST document controller create' do
+    context 'creates new shortened link' do
+      it 'with valid request' do
+        post :create, format: :json, params: @params
 
-    context 'if it is in production' do
-      it 'redirects to SUD alerts page' do
-        allow(Figaro.env).to receive(:SUD_PROFILE_PAGE_EMAIL_ALERTS).and_return('/sud_alerts')
-
-        get :index, target: 'alerts'
-
-        expect(response).to have_http_status(:redirect)
-        expect(response).to redirect_to('/sud_alerts')
+        expect(response).to have_http_status(200)
+        expect(response.body).to include('$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H')
       end
 
-      it 'redirects to SUD home page' do
-        allow(Figaro.env).to receive(:SUD_PROFILE_PAGE).and_return('/sud_homepage')
+      it 'with invalid request params' do
+        skip
+      end
 
-        get :index
+      it 'with AV server down' do
+        skip('move to feature specs')
+        allow(Figaro.env).to receive(:CLAM_AV_HOST).and_return('a-url-that-does-not-exist.com')
+        post :create, format: :json, params: @params
 
-        expect(response).to have_http_status(:redirect)
-        expect(response).to redirect_to('/sud_homepage')
+        expect(response).to_not be_success
+        expect(response.status).to be(422)
       end
     end
   end
