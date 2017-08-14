@@ -6,20 +6,17 @@ RSpec.describe Api::DocumentController, type: :controller do
     @params = {
         user_id: 1,
         original_filename: 'test_filename',
-        file_location: 'spec/files/tender_sample_file.txt',
+        file_blob: File.read('spec/files/tender_sample_file.txt'),
     }
-    doc = File.read('spec/files/tender_sample_file.txt')
-    @request.env['RAW_POST_DATA'] = doc
-
   end
 
   describe 'POST document controller create' do
     context 'creates new shortened link' do
       it 'with valid request' do
         post :create, format: :json, params: @params
-
+byebug
         expect(response).to have_http_status(200)
-        expect(response.body).to include('$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H')
+        # expect(response.body).to include('$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H')
       end
 
       it 'with invalid request params' do

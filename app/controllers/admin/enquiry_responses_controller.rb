@@ -13,7 +13,7 @@ class Admin::EnquiryResponsesController < Admin::BaseController
     @enquiry = Enquiry.find(enquiry_id)
     @companies_house_url = companies_house_url(@enquiry.company_house_number)
 
-    @enquiry_response = EnquiryResponse.new
+    @enquiry_response = EnquiryResponse.where(enquiry_id: enquiry_id).first ? EnquiryResponse.where(enquiry_id: enquiry_id).first : EnquiryResponse.new
     @enquiry_response.enquiry = @enquiry
     authorize @enquiry_response
   end

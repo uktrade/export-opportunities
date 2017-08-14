@@ -9,9 +9,8 @@ module Api
     end
 
     def create
-      if request.body and params['params'] and params['params']['file_location']
-        DocumentValidation.new.call(params['params'], params['params']['file_location'])
-
+      if params['params'] and params['params']['file_blob']
+        DocumentValidation.new.call(params['params'], params['params']['file_blob'])
         @result = request.body
       else
         d1 = Digest::SHA256.digest(['make ids great again'].pack('H*'))
@@ -22,7 +21,7 @@ module Api
           status: 200,
           id: id,
           original_filename: 'double_sha256_header',
-          base_url: 'http://localhost:3000/dashboard/downloads/' + id,
+          base_url: 'http://localhost:3000/dashboard/downloads/',
         }
 
         @error_result = {
@@ -33,7 +32,8 @@ module Api
 
       respond_to do |format|
         format.json { render status: 200, json: @result }
-        format.js { render status: 200, json: @result }
+        format.js { render status: 200, js: @result }
+        format.html { render status: 200, html: @result }
       end
     end
   end
