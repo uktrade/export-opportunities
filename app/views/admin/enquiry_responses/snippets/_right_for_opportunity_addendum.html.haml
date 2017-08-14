@@ -1,6 +1,5 @@
-=@enquiry_response.enquiry.opportunity.inspect
 
-- if @is_opportunity_expired then
+- if @enquiry_response.enquiry.opportunity.expired? then
 	%p Expired
 
 %p Although you meet the criteria for this opportunity, we cannot guarantee that you will win the business. If you have any questions about this opportunity or our market in general, please do not hesitate to contact me. My details are below.
@@ -8,7 +7,8 @@
 %p New opportunities are added every day. You can increase your chances of success by:
 %ul.list.list-bullet
 	%li signing up to or changing your email alerts so you get the right opportunities sent to you as soon as they’re added
-	%li creating a trade profile so companies looking to buy from your industry have an easy way to find you
+	%li creating a 
+		trade profile so companies looking to buy from your industry have an easy way to find you
 
 %p You can also increase your exporting potential by:
 %ul.list.list-bullet

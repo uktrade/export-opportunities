@@ -25,9 +25,6 @@ class Admin::EnquiryResponsesController < Admin::BaseController
     authorize @enquiry_response
     if @enquiry_response.errors.empty?
       @enquiry_response.save!
-
-      @is_opportunity_expired = is_opportunity_expired(@enquiry_response.enquiry.opportunity.response_due_on)
-    
       render :show, enquiry_response: @enquiry_response
     else
       render :new, status: :unprocessable_entity

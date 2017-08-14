@@ -22,6 +22,5 @@
         %td= enquiry.opportunity.title
         %td.numeric= enquiry.created_at.to_s(:admin_datetime)
         %td= enquiry.enquiry_responses&.exists? ? 'Yes' : 'No'
-        %td=link_to "Reply", new_admin_enquiry_response_path(id: enquiry.id), class: 'button button-reply', params: {id: enquiry.id}
 
 = paginate @enquiries

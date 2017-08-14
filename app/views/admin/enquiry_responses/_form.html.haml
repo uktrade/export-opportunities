@@ -1,6 +1,5 @@
 - enquiry_id = params.fetch(:id)
-
-= form_for [:admin, enquiries_response], html: {multipart: true} do |f|
+= form_for [:admin, enquiries_response], html: {multipart: true, :class => 'enquiry_response'} do |f|
   - if enquiries_response.errors.any?
     .error-summary{:role => 'group', :tabindex => '-1'}
       %h2
@@ -33,50 +32,54 @@
 
       .tab-content.js-tab-content{"aria-live" => "polite"}
         #response-1-tab-panel.tab-panel.js-tab-panel.tab-panel-selected{:role => "tabpanel", "aria-hidden" => "true"}
-          %h5 
-            %strong Explain what happens next
+          %p 
+            %strong Your comments will be added to the message sent to the company.
           %p Let the company know if:
-          %ul.list.list-bullet.margin-bottom-0
-            %li their details will be sent to the buyer
-            %li they will be introduced to the buyer
-            %li they need to contact the buyer
-            %li they need to apply for the tender and include all necessary information 
+          %ul.list.list-bullet
+            %li you will forward their details on to the buyer
+            %li you will introduce them to the buyer
+            %li you will introduce them to the buyer
+            %li they can bid for the tender 
 
         #response-2-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel", "aria-hidden" => "true"}
-          %h5 
-            %strong  Need more information
-          %p Let the company know if:
-          %ul.list.list-bullet.margin-bottom-0
-            %li their details will be sent to the buyer
-            %li they will be introduced to the buyer
+          %p 
+            %strong Your comments will be added to the message sent to the company.
+          - if @enquiry_response.enquiry.opportunity.expired?
+            %p Opportunity expired #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
+          - else
+            %p Opportunity expires #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
+          %p 
+            %strong Explain what information is needed
+          %ul.list.list-bullet
+            %li EITHER - ask the company for more information so you can make a decision
+            %li OR -  make a decision based on the information the company has already provided
 
         #response-3.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
-          %h5 
-            %strong  Not right for opportunity
-          %p Let the company know if:
-          %ul.list.list-bullet.margin-bottom-0
-            %li their details will be sent to the buyer
-            %li they will be introduced to the buyer
+          %p 
+            %strong Your comments will be added to the message sent to the company.
+          %p
+            Explain why, for example:
+            %br
+            the product or service is not relevant, the company is not ready to export in this market, or the buyer decided they are not right for the opportunity. 
 
         #response-4.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
-          %h5 
-            %strong  Not UK registered
-          %p Let the company know if:
-          %ul.list.list-bullet.margin-bottom-0
-            %li their details will be sent to the buyer
-            %li they will be introduced to the buyer
+          %p 
+            %strong The following message will be sent to the company
+          %div.panel.panel-border-narrow
+            .grid-row
+              .column-one-half
+                = render :partial => "admin/enquiry_responses/snippets/not_uk_registered", enquiries_response: @enquiry_response
 
         #response-5.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
-          %h5 
-            %strong  Not UK registered
-          %p Let the company know if:
-          %ul.list.list-bullet.margin-bottom-0
-            %li their details will be sent to the buyer
-            %li they will be introduced to the buyer
+          %p 
+            %strong The following message will be sent to the company
+          %div.panel.panel-border-narrow
+            .grid-row
+              .column-one-half
+                = render :partial => "admin/enquiry_responses/snippets/not_for_third_party", enquiries_response: @enquiry_response
 
   %fieldset#custom-response
     .form-group
-      %h4.form-label-bold Your response
       = f.label :email_body, class: 'visuallyhidden'
       = f.text_area(:email_body, cols: 40, rows: 25, class: 'form-control js-text-editor')
 
@@ -101,8 +104,8 @@
 
   %fieldset#attachments
     .form-group
-      %label.form-label-bold Add links to relevant documents
-      %p You can add links to documents stored online, for example Google Drive, Dropbox, One-Drive or WeTransfer. Links will expire after 30 days.
+      %label.form-label-bold Add relevant documents
+      %p Customer will have 30 days to download the files.
       .grid-row
         .column-one-half
           .uploadWidget

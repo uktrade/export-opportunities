@@ -56,7 +56,7 @@
       = link_to "Back", admin_enquiries_path, class: 'link-back'
     - if !@enquiry_response
       .column-one-half
-        = link_to "Reply", new_admin_enquiry_response_path(id: @enquiry.id), class: 'button button-reply pull-right', params: {id: @enquiry.id}
+        = link_to "Reply", new_admin_enquiry_response_path(id: @enquiry.id) + '#reply', class: 'button button-reply pull-right', params: {id: @enquiry.id}
 
 - if @enquiry_response
   %hr

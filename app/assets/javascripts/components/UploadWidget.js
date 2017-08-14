@@ -116,10 +116,12 @@ ukti.UploadWidget = (function($) {
 		    //continue;
 		  }
 		  // Add the file to the request.
-		  formData.append('file', file, file.name);
+		  formData.append('file_blob', file, file.name);
 		}
-  	formData.append('name', 'value'); 
-
+  	formData.append('user_id', 'sdfsdf'); 
+    formData.append('enquiry_id', 'sdfsdf');
+    formData.append('original_filename', 'sdfsdf');
+    
   	var request = new XMLHttpRequest();
 		request.onerror = handleUploadFileError(dummyError);
     request.onload = handleUploadFileSuccess;
