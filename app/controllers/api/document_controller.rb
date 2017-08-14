@@ -9,7 +9,6 @@ module Api
     end
 
     def create
-      byebug
       if request.body and params['params'] and params['params']['file_location']
         DocumentValidation.new.call(params['params'], params['params']['file_location'])
 
@@ -23,7 +22,7 @@ module Api
           status: 200,
           id: id,
           original_filename: 'double_sha256_header',
-          base_url: 'http://localhost:3000/dashboard/downloads/' + id,
+          base_url: 'http://localhost:3000/dashboard/downloads/',
         }
 
         @error_result = {
