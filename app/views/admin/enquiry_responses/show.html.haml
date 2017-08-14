@@ -18,33 +18,23 @@
       - if @enquiry_response.response_type == 2
         = render :partial => "admin/enquiry_responses/snippets/more_information", enquiries_response: @enquiry_response
       - if @enquiry_response.response_type == 3
-        = render :partial => "admin/enquiry_responses/snippets/not_right"
-      - if @enquiry_response.response_type == 4
-        = render :partial => "admin/enquiry_responses/snippets/not_uk_registered"
-      - if @enquiry_response.response_type == 5
-        = render :partial => "admin/enquiry_responses/snippets/not_for_third_party"
+        = render :partial => "admin/enquiry_responses/snippets/not_right", enquiries_response: @enquiry_response
 
-      - if (@enquiry_response.response_type != 4 && @enquiry_response.response_type != 5)
+      %h4 What next
+      %blockquote.noquotes
+        !=@enquiry_response.email_body
 
-        %h4 What next
-        %blockquote.noquotes
-          !=@enquiry_response.email_body
+      %h4 Download documents
+      %p Documents will expire after 30 days.
 
-        %h4 Download documents
-        %p Documents will expire after 30 days.
-
-        %blockquote.noquotes
-          !=@enquiry_response.attachments
+      %blockquote.noquotes
+        !=@enquiry_response.attachments
 
       - if @enquiry_response.response_type == 1
-        = render 'admin/enquiry_responses/snippets/not_right_addendum', enquiries_response: @enquiry_response
+        = render 'admin/enquiry_responses/snippets/right_for_opportunity_addendum', enquiries_response: @enquiry_response
       - if @enquiry_response.response_type == 2
-        = render 'admin/enquiry_responses/snippets/not_right_addendum', enquiries_response: @enquiry_response
+        = render 'admin/enquiry_responses/snippets/more_information_addendum', enquiries_response: @enquiry_response
       - if @enquiry_response.response_type == 3
-        = render 'admin/enquiry_responses/snippets/not_right_addendum', enquiries_response: @enquiry_response
-      - if @enquiry_response.response_type == 4
-        = render 'admin/enquiry_responses/snippets/not_right_addendum', enquiries_response: @enquiry_response
-      - if @enquiry_response.response_type == 4
         = render 'admin/enquiry_responses/snippets/not_right_addendum', enquiries_response: @enquiry_response
 
       %p=@enquiry_response.signature

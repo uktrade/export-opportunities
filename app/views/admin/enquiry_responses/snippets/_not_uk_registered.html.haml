@@ -1,5 +1,20 @@
+%p Dear #{@enquiry_response.enquiry.first_name},
+%p
+  Thank you for your interest in the export opportunity: 
+  %b=@enquiry_response.enquiry.opportunity.title
+
 %h4 Outcome
-%p Your application is not right this time. 
+%p You are not eligible to apply. 
 
 %h4 Reason
-%p You're not ready to export.
+%p Your company is not UK registered.
+
+%h4 What next
+
+- if @enquiry_response.enquiry.opportunity.expired?
+  %p This opportunity expired on #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
+
+%p If your company is registered in the UK, please make sure you include all the relevant company details - Companies House, UK address and phone number - the next time you apply for an opportunity.
+
+%p The export opportunities team
+

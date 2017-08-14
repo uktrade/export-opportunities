@@ -46,11 +46,10 @@
     %td= @enquiry.data_protection ? 'Yes' : 'No'
 
 %br
+%a#reply
 %hr.thick
 
-%h1 Reply to this enquiry
-%h3 Respond by 13 July 2017.
-
-%p Choose suitable type of response. Your comments will be added to a standard message sent to the company. 
+%h1 Respond by #{@respond_by_date.strftime('%d %B %Y')}.
+%h2 Choose suitable type of response. 
 
 = render 'form', enquiries_response: @enquiry_response
