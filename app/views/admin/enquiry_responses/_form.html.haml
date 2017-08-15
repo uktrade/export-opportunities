@@ -1,4 +1,4 @@
-- enquiry_id = params.fetch(:id)
+- enquiry_id = params['id'].nil? ? params['enquiry_response'].fetch(:enquiry_id) : params.fetch(:id)
 = form_for [:admin, enquiries_response], html: {multipart: true, :class => 'enquiry_response'} do |f|
   - if enquiries_response.errors.any?
     .error-summary{:role => 'group', :tabindex => '-1'}
