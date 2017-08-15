@@ -16,12 +16,16 @@ ukti.Tabs = (function($) {
   };
 
   var setup = function () {
-    tabPanels.attr({
-      "aria-hidden": "true"
-    }).hide();
+    tabPanels.each(
+      function(){
+        if ($(this).attr( 'aria-hidden' ) === 'true') {
+          $(this).hide();
+        }
+    });
   };
 
   var addAriaToControls = function (tab, tabId) {
+    [name*='man']
     tab.attr({
         "id": tabId,
         "aria-selected": "false",
@@ -35,7 +39,7 @@ ukti.Tabs = (function($) {
   var handleTabClick = function (event) {
     var tabPanel,
         tab = $(event.currentTarget);
-    // Prevent default click event
+    // Prevent default click event if an A tag
     //event.preventDefault();
     // Change state of previously selected tabList item
     $(tabsList).find("> li.active").removeClass('active').find("> input").attr("aria-expanded", "false");

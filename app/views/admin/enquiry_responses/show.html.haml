@@ -20,15 +20,17 @@
       - if @enquiry_response.response_type == 3
         = render :partial => "admin/enquiry_responses/snippets/not_right", enquiries_response: @enquiry_response
 
-      %h4 What next
-      %blockquote.noquotes
-        !=@enquiry_response.email_body
+      - if @enquiry_response.response_type == 1 || @enquiry_response.response_type == 2 || @enquiry_response.response_type == 3
+        %h4 What next
+        %blockquote.noquotes
+          !=@enquiry_response.email_body
 
-      %h4 Download documents
-      %p Documents will expire after 30 days.
+      - if @enquiry_response.response_type == 1 || @enquiry_response.response_type == 2
+        %h4 Download documents
+        %p Documents will expire after 30 days.
 
-      %blockquote.noquotes
-        !=@enquiry_response.attachments
+        %blockquote.noquotes
+          !=@enquiry_response.attachments
 
       - if @enquiry_response.response_type == 1
         = render 'admin/enquiry_responses/snippets/right_for_opportunity_addendum', enquiries_response: @enquiry_response
@@ -39,5 +41,10 @@
 
       %p=@enquiry_response.signature
 
-= link_to 'Back', :back
-= link_to 'Send', admin_enquiry_response_path(@enquiry_response.id), class: 'button'
+.button-group
+  .button-group-item
+    = link_to 'Edit', admin_enquiry_response_path(@enquiry_response.id), class: 'button button-neutral'
+  .button-group-separator
+    or
+  .button-group-item
+    = link_to 'Send', admin_enquiry_response_path(@enquiry_response.id), class: 'button'
