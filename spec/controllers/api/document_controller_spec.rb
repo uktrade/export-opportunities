@@ -5,8 +5,9 @@ RSpec.describe Api::DocumentController, type: :controller do
     sign_in(create(:user))
     @params = {
       user_id: 1,
+      enquiry_id: 2,
       original_filename: 'test_filename',
-      file_blob: File.read('spec/files/tender_sample_file.txt'),
+      file_blob: File.open('spec/files/tender_sample_file.txt', 'rb'),
     }
   end
 
@@ -20,9 +21,10 @@ RSpec.describe Api::DocumentController, type: :controller do
       end
 
       it 'with valid real request' do
-        post :create, format: :json, params: @params
+        post :create, format: :json, document: @params
 
         expect(response).to have_http_status(200)
+        expect(response.body).to include('/dashboard/downloads/')
       end
 
       it 'with invalid request params' do
