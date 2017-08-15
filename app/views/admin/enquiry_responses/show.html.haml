@@ -1,8 +1,3 @@
-/ 
-  =@enquiry_response.inspect
-/ 
-  =@enquiry_response.enquiry.inspect
-
 %h1 Preview your reply to #{@enquiry_response.enquiry.company_name}
 
 %div.panel.panel-border-narrow
@@ -43,7 +38,7 @@
 
 .button-group
   .button-group-item
-    = link_to 'Edit', admin_enquiry_response_path(@enquiry_response.id), class: 'button button-neutral'
+    = link_to 'Edit', new_admin_enquiry_response_path(id: @enquiry_response.enquiry.id), class: 'button button-neutral'
   .button-group-separator
     or
   .button-group-item
