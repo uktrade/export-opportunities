@@ -14,7 +14,7 @@
     .tabs.js-tabs
       .tablist.js-tablist
         %ul
-          %li.positive.active
+          %li.positive
             %input#response_type_1.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "1", "aria-controls" => "response-1-tab-content", "aria-expanded" => "true"}/
             %label{:for => "response_type_1"} Right for opportunity
             %span.badge-positive
@@ -22,7 +22,7 @@
             %input#response_type_2.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "2", "aria-controls" => "response-2-tab-content"}/
             %label{:for => "response_type_2"} Need more information
             %span.badge-neutral
-          %li
+          %li.active
             %input#response_type_3.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "3", "aria-controls" => "response-3-tab-content", "checked" => "checked"}/
             %label{:for => "response_type_3"} Not right for opportunity
             %span.badge-negative
@@ -36,7 +36,7 @@
             %span.badge-negative
 
       .tab-content.js-tab-content{"aria-live" => "polite"}
-        #response-1-tab-panel.tab-panel.js-tab-panel.tab-panel-selected{:role => "tabpanel", "aria-hidden" => "true"}
+        #response-1-tab-panel.tab-panel.js-tab-panel{:role => "tabpanel", "aria-hidden" => "true"}
           %p 
             %strong Your comments will be added to the message sent to the company.
           %p Let the company know if:
@@ -46,7 +46,7 @@
             %li you will introduce them to the buyer
             %li they can bid for the tender 
 
-        #response-2-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel", "aria-hidden" => "true"}
+        #response-2-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel", "aria-hidden" => "true"}
           %p 
             %strong Your comments will be added to the message sent to the company.
           - if @enquiry_response.enquiry.opportunity.expired?
@@ -67,7 +67,7 @@
             %br
             the product or service is not relevant, the company is not ready to export in this market, or the buyer decided they are not right for the opportunity. 
 
-        #response-4.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel", "aria-hidden" => "true"}
+        #response-4.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel", "aria-hidden" => "true"}
           %p 
             %strong The following message will be sent to the company
           %div.panel.panel-border-narrow
@@ -75,7 +75,7 @@
               .column-one-half
                 = render :partial => "admin/enquiry_responses/snippets/not_uk_registered", enquiries_response: @enquiry_response
 
-        #response-5.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel", "aria-hidden" => "true"}
+        #response-5.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel", "aria-hidden" => "true"}
           %p 
             %strong The following message will be sent to the company
           %div.panel.panel-border-narrow
@@ -86,9 +86,9 @@
   %fieldset#custom-response
     .form-group
       = f.label :email_body, class: 'visuallyhidden'
-      = f.text_area(:email_body, cols: 40, rows: 25, class: 'form-control js-text-editor')
+      = f.text_area(:email_body, cols: 40, rows: 25, required: true, class: 'form-control js-text-editor')
 
-  %fieldset#signature
+  %fieldset#signature.hidden
     .grid-row
       .column-one-half
         .form-group.js-toggle-field-edit
@@ -110,7 +110,7 @@
             = f.label :signature, class: 'visuallyhidden'   
             = f.text_area(:signature, cols: 40, rows: 15, class: 'form-control')
 
-  %fieldset#attachments
+  %fieldset#attachments.hidden
     .form-group
       %label.form-label-bold Add relevant documents
       %p Customer will have 30 days to download the files.

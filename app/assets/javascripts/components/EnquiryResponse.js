@@ -16,6 +16,9 @@ ukti.EnquiryResponse = (function($) {
       document.getElementById('signature').classList.add('hidden');
       document.getElementById('attachments').classList.add('hidden');
       updateSubmitButton('Send');
+    } else if (tab[0].htmlFor === 'response_type_3') {
+      document.getElementById('signature').classList.add('hidden');
+      document.getElementById('attachments').classList.add('hidden');
     } else {
       document.getElementById('custom-response').classList.remove('hidden');
       document.getElementById('signature').classList.remove('hidden');
