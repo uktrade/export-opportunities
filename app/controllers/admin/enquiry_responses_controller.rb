@@ -15,7 +15,7 @@ class Admin::EnquiryResponsesController < Admin::BaseController
 
     @enquiry_response = EnquiryResponse.where(enquiry_id: enquiry_id).first ? EnquiryResponse.where(enquiry_id: enquiry_id).first : EnquiryResponse.new
     @enquiry_response.enquiry = @enquiry
-    @respond_by_date = @enquiry.created_at+5.day
+    @respond_by_date = @enquiry.created_at + 5.days
     authorize @enquiry_response
   end
 
@@ -29,10 +29,11 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   end
 
   def show
-    puts 'showing enquiry response'
+    Rails.logger.debug 'showing enquiry response'
   end
 
   def update
+    enquiry_id = enquiry_responses_params['enquiry_id']
     @enquiry_response = EnquiryResponse.where(enquiry_id: enquiry_id.to_i).first
     @enquiry_response.update!(enquiry_responses_params)
     create_or_update
@@ -44,7 +45,7 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   end
 
   private
-  
+
   def create_or_update
     @enquiry_response.editor_id = current_editor.id
 

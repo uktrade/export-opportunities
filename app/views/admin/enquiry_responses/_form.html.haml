@@ -99,10 +99,13 @@
           %div.js-toggle-field-edit-text.js-hidden
             .panel.panel-border-wide
               %p.white-space-pre
-                Claire Parsons | Trade Officer
-                British embassy Tel-Aviv | Israel
-                Phone: +44 (0) 123 123 123
-                E-mail: claire.parsons@mobile.trade.gov.uk
+                = current_editor.name
+                Email:
+                = current_editor.email
+                -#Claire Parsons | Trade Officer
+                -#British embassy Tel-Aviv | Israel
+                -#Phone: +44 (0) 123 123 123
+                -#E-mail: claire.parsons@mobile.trade.gov.uk
           %div.js-toggle-field-edit-field
             = f.label :signature, class: 'visuallyhidden'   
             = f.text_area(:signature, cols: 40, rows: 15, class: 'form-control')
