@@ -2,12 +2,14 @@
 = form_for [:admin, enquiries_response], html: {multipart: true, :class => 'enquiry_response'} do |f|
   - if enquiries_response.errors.any?
     .error-summary{:role => 'group', :tabindex => '-1'}
-      %h2
+      %h2.error-summary-heading There was a problem
+      %p
         = pluralize(enquiries_response.errors.count, 'error')
         prevented this enquiry response from being saved:
-      %ul
+      %ul.error-summary-list
         - enquiries_response.errors.full_messages.each do |message|
           %li= message
+
   %fieldset
     %legend.visuallyhidden
       Response type
@@ -16,77 +18,81 @@
         %ul
           %li.positive
             %input#response_type_1.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "1", "aria-controls" => "response-1-tab-content", "aria-expanded" => "true"}/
-            %label{:for => "response_type_1"} Right for opportunity
+            %label{:for => "response_type_1", "tabindex" => "0"} Right for opportunity
             %span.badge-positive
           %li.neutral
             %input#response_type_2.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "2", "aria-controls" => "response-2-tab-content"}/
-            %label{:for => "response_type_2"} Need more information
+            %label{:for => "response_type_2", "tabindex" => "0"} Need more information
             %span.badge-neutral
           %li.active
             %input#response_type_3.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "3", "aria-controls" => "response-3-tab-content", "checked" => "checked"}/
-            %label{:for => "response_type_3"} Not right for opportunity
+            %label{:for => "response_type_3","tabindex" => "0"} Not right for opportunity
             %span.badge-negative
           %li
             %input#response_type_4.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "4", "aria-controls" => "response-4-tab-content"}/
-            %label{:for => "response_type_4"} Not UK registered
+            %label{:for => "response_type_4", "tabindex" => "0"} Not UK registered
             %span.badge-negative
           %li
             %input#response_type_5.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "5", "aria-controls" => "response-5-tab-content"}/
-            %label{:for => "response_type_5"} Not for third party
+            %label{:for => "response_type_5", "tabindex" => "0"} Not for third party
             %span.badge-negative
 
-      .tab-content.js-tab-content{"aria-live" => "polite"}
-        #response-1-tab-panel.tab-panel.js-tab-panel{:role => "tabpanel", "aria-hidden" => "true"}
-          %p 
-            %strong Your comments will be added to the message sent to the company.
-          %p Let the company know if:
-          %ul.list.list-bullet
-            %li you will forward their details on to the buyer
-            %li you will introduce them to the buyer
-            %li you will introduce them to the buyer
-            %li they can bid for the tender 
+      .grid-row
+        .column-one-half
+          .tab-content.js-tab-content{"aria-live" => "polite"}
+            #response-1-tab-panel.tab-panel.js-tab-panel{:role => "tabpanel", "aria-hidden" => "true"}
+              %p 
+                %strong Your comments will be added to the message sent to the company.
+              %p Let the company know if:
+              %ul.list.list-bullet
+                %li you will forward their details on to the buyer
+                %li you will introduce them to the buyer
+                %li you will introduce them to the buyer
+                %li they can bid for the tender 
 
-        #response-2-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel", "aria-hidden" => "true"}
-          %p 
-            %strong Your comments will be added to the message sent to the company.
-          - if @enquiry_response.enquiry.opportunity.expired?
-            %p Opportunity expired #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
-          - else
-            %p Opportunity expires #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
-          %p 
-            %strong Explain what information is needed
-          %ul.list.list-bullet
-            %li EITHER - ask the company for more information so you can make a decision
-            %li OR -  make a decision based on the information the company has already provided
+            #response-2-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel", "aria-hidden" => "true"}
+              %p 
+                %strong Your comments will be added to the message sent to the company.
+              - if @enquiry_response.enquiry.opportunity.expired?
+                %p Opportunity expired #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
+              - else
+                %p Opportunity expires #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
+              %p 
+                %strong Explain what information is needed
+              %ul.list.list-bullet
+                %li EITHER - ask the company for more information so you can make a decision
+                %li OR -  make a decision based on the information the company has already provided
 
-        #response-3.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel", "aria-hidden" => "false"}
-          %p 
-            %strong Your comments will be added to the message sent to the company.
-          %p
-            Explain why, for example:
-            %br
-            the product or service is not relevant, the company is not ready to export in this market, or the buyer decided they are not right for the opportunity. 
+            #response-3.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel", "aria-hidden" => "false"}
+              %p 
+                %strong Your comments will be added to the message sent to the company.
+              %p
+                Explain why, for example:
+                %br
+                the product or service is not relevant, the company is not ready to export in this market, or the buyer decided they are not right for the opportunity. 
 
-        #response-4.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel", "aria-hidden" => "true"}
-          %p 
-            %strong The following message will be sent to the company
-          %div.panel.panel-border-narrow
-            .grid-row
-              .column-one-half
-                = render :partial => "admin/enquiry_responses/snippets/not_uk_registered", enquiries_response: @enquiry_response
+            #response-4.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel", "aria-hidden" => "true"}
+              %p 
+                %strong The following message will be sent to the company
+              %div.panel.panel-border-narrow
+                .grid-row
+                  .column-one-half
+                    = render :partial => "admin/enquiry_responses/snippets/not_uk_registered", enquiries_response: @enquiry_response
 
-        #response-5.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel", "aria-hidden" => "true"}
-          %p 
-            %strong The following message will be sent to the company
-          %div.panel.panel-border-narrow
-            .grid-row
-              .column-one-half
-                = render :partial => "admin/enquiry_responses/snippets/not_for_third_party", enquiries_response: @enquiry_response
+            #response-5.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel", "aria-hidden" => "true"}
+              %p 
+                %strong The following message will be sent to the company
+              %div.panel.panel-border-narrow
+                .grid-row
+                  .column-one-half
+                    = render :partial => "admin/enquiry_responses/snippets/not_for_third_party", enquiries_response: @enquiry_response
 
   %fieldset#custom-response
-    .form-group
-      = f.label :email_body, class: 'visuallyhidden'
-      = f.text_area(:email_body, cols: 40, rows: 25, required: true, class: 'form-control js-text-editor')
+    .grid-row
+      .column-two-thirds
+        .form-group
+          = f.label :email_body, class: 'visuallyhidden'
+          = f.text_area(:email_body, cols: 40, rows: 30, required: true, class: 'form-control js-text-editor')
 
   %fieldset#signature.hidden
     .grid-row
@@ -96,7 +102,8 @@
             Your contact details
             // TODO: render different elements depending on state of record
             %a.js-toggle-field-edit-button{'href' => '#', 'data-target' => 'enquiry_response_signature'} Edit
-          %div.js-toggle-field-edit-text.js-hidden
+          %p.form-hint Only include: full name, role, organisation, city & country, phone number and email.
+          %div.js-toggle-field-edit-text
             .panel.panel-border-wide
               %p.white-space-pre
                 = current_editor.name
@@ -106,21 +113,22 @@
                 -#British embassy Tel-Aviv | Israel
                 -#Phone: +44 (0) 123 123 123
                 -#E-mail: claire.parsons@mobile.trade.gov.uk
-          %div.js-toggle-field-edit-field
+          %div.js-toggle-field-edit-field.js-hidden
             = f.label :signature, class: 'visuallyhidden'   
             = f.text_area(:signature, cols: 40, rows: 15, class: 'form-control')
 
   %fieldset#attachments.hidden
-    .form-group
+    .form-group.form-group-error
       %label.form-label-bold Add relevant documents
-      %p Customer will have 30 days to download the files.
+      %p.form-hint Customer will have 30 days to download the files.
+      %span.error-message File size exceeds the maximum
       .grid-row
         .column-one-half
           .uploadWidget
             = f.hidden_field :attachments, {:class => "fileListStore"}
             // TODO: how do we handle users navigating back? lose files?
             %ul.list.fileList{"data-default-item" => "No files selected"}
-            %input#enquiry_response_email_attachment.inputfile{:multiple => "multiple", :name => "enquiry_response[email_attachment][]", :type => "file", "data-multiple-caption" => "{count} files selected"}/
+            %input#enquiry_response_email_attachment.inputfile{:name => "enquiry_response[email_attachment][]", :type => "file", "data-multiple-caption" => "{count} files selected"}/
             %label{:for => "enquiry_response_email_attachment"}
               %svg.icon.icon-upload-file
                 %use{"xlink:href" => "#icon-file-upload"}
