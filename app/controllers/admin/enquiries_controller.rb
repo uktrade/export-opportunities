@@ -3,7 +3,6 @@ class Admin::EnquiriesController < Admin::BaseController
   include ActionController::Live
   after_action :verify_authorized, except: [:help]
 
-
   # Authentication is handled in routes.rb as ActionController::Live
   # and Devise don't play well together
   #
