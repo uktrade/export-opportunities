@@ -26,7 +26,32 @@ feature 'admin can reply to enquiries' do
 
     expect(page).to have_content(email_body_text)
     expect(page).to have_content('Thank you for your interest in the export opportunity: ' + opportunity.title)
-    expect(page).to have_content('More information is required.')
+    expect(page).to have_content('You have not provided enough information')
+  end
+
+  scenario 'reply to an enquiry with invalid mail length (has to be 30 chars)' do
+    admin = create(:admin)
+    enquiry = create(:enquiry)
+    login_as(admin)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+    expect(page).to have_content('Email body')
+
+    email_body_text = Faker::Lorem.characters(29)
+    editor_signature = Faker::Lorem.words(10).join('-')
+
+    fill_in 'enquiry_response_email_body', with: email_body_text
+    fill_in 'enquiry_response_signature', with: editor_signature
+
+    expect(page).to have_content(email_body_text)
+
+    # need more information
+    choose 'Need more information'
+
+    click_on 'Preview'
+
+    expect(page).to have_content('1 error prevented this enquiry response from being saved')
   end
 
   scenario 'reply to an enquiry with attachment' do
@@ -172,25 +197,6 @@ feature 'admin can reply to enquiries' do
     click_on 'Send'
 
     expect(page).to have_content('2 errors prevented this enquiry response from being saved')
-  end
-
-  scenario 'reply to an enquiry with invalid mail length (has to be 30 chars)' do
-    skip
-    admin = create(:admin)
-    enquiry = create(:enquiry)
-    login_as(admin)
-    visit '/admin/enquiries/' + enquiry.id.to_s
-
-    click_on 'Reply'
-    expect(page).to have_content('Email body')
-
-    email_body_text = Faker::Lorem.characters(29)
-    fill_in 'enquiry_response_email_body', with: email_body_text
-    expect(page).to have_content(email_body_text)
-
-    click_on 'Send'
-
-    expect(page).to have_content('1 error prevented this enquiry response from being saved')
   end
 
   scenario 'reply to an enquiry attaching a file with VIRUS' do

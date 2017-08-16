@@ -9,13 +9,12 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   skip_before_action :authenticate_editor!
 
   def new
-    enquiry_id = params.fetch(:id, nil)
-    @enquiry = Enquiry.find(enquiry_id)
-    @companies_house_url = companies_house_url(@enquiry.company_house_number)
+    @enquiry ||= Enquiry.find(params.fetch(:id, nil))
+    @companies_house_url ||= companies_house_url(@enquiry.company_house_number)
 
-    @enquiry_response = EnquiryResponse.where(enquiry_id: enquiry_id).first ? EnquiryResponse.where(enquiry_id: enquiry_id).first : EnquiryResponse.new
-    @enquiry_response.enquiry = @enquiry
-    @respond_by_date = @enquiry.created_at + 5.days
+    @enquiry_response ||= EnquiryResponse.where(enquiry_id: @enquiry.id).first ? EnquiryResponse.where(enquiry_id: @enquiry.id).first : EnquiryResponse.new
+    @enquiry_response.enquiry ||= @enquiry
+    @respond_by_date ||= @enquiry.created_at + 5.days
     authorize @enquiry_response
   end
 
@@ -50,11 +49,15 @@ class Admin::EnquiryResponsesController < Admin::BaseController
     @enquiry_response.editor_id = current_editor.id
 
     authorize @enquiry_response
-    if @enquiry_response.errors.empty?
-      @enquiry_response.save!
+    if @enquiry_response.errors.empty? && @enquiry_response.valid?
+      @enquiry_response.save
 
       render :show, enquiry_response: @enquiry_response
     else
+      @enquiry = @enquiry_response.enquiry
+      @companies_house_url = companies_house_url(@enquiry.company_house_number)
+      @respond_by_date = @enquiry.created_at + 5.days
+
       render :new, status: :unprocessable_entity
     end
   end

@@ -1,6 +1,8 @@
 class Admin::EnquiriesController < Admin::BaseController
   include ApplicationHelper
   include ActionController::Live
+  after_action :verify_authorized, except: [:help]
+
 
   # Authentication is handled in routes.rb as ActionController::Live
   # and Devise don't play well together
@@ -46,6 +48,8 @@ class Admin::EnquiriesController < Admin::BaseController
     @companies_house_url = companies_house_url(@enquiry.company_house_number)
     authorize @enquiry
   end
+
+  def help; end
 
   private def enquiry_form
     @enquiry_form ||= EnquiryForm.new(params.permit(created_at_from: [:year, :month, :day], created_at_to: [:year, :month, :day]))
