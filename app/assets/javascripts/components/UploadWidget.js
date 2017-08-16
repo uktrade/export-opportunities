@@ -3,12 +3,24 @@ var ukti = window.ukti || {};
 ukti.UploadWidget = (function($) {
   'use strict';
 
+  var config = {
+    maxFiles : 1,
+    maxFileSize : 24000,
+    allowedFileTypes : ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/jpeg', 'image/png'],
+    errorMessages : {
+      'filetype' : 'Error. Wrong file type. Your file should be doc, docx, pdf, ppt, pptx, jpg or png',
+      'filesize' : 'File exceeds max size. Your file should be a maximum size of 25MB',
+      'general' : 'Something has gone wrong. Please try again or (hyperlink) contact us'
+    }
+  };
+
   var baseEl,
       fileInputEl,
       hiddenInputEl,
       fileListEl,
       labelEl,
-      fileListStore = [];
+      fileListStore = [],
+      errors = [];
 
   var dummyError = {
     responseText: '{ "id":"5d6s6d5sd6sd", "filename":"filename.pdf", "base_url":"http://localhits/"}'
@@ -22,9 +34,25 @@ ukti.UploadWidget = (function($) {
   };
 
   var changeHandler = function(event) {
-    if (event.target.files.length > 0) {
+    if (event.target.files.length < 1) {
+      return;
+    }
+    var file = event.target.files[0];
+    debugger;
+    if (checkFile(file)) {
       uploadFile();
     }
+  };
+
+  var checkFile = function(file) {
+    var valid = true;
+    if(config.allowedFileTypes.indexOf(file.type) < 0) {
+      valid = false;
+    }
+    if(file.size > config.maxFileSize) {
+      valid = false;
+    }
+    return valid;
   };
 
   var addLoadingClass = function(event) {
@@ -74,13 +102,33 @@ ukti.UploadWidget = (function($) {
   };
 
   var updateFileStore = function (item) {
+    if (fileListStore.length > config.maxFiles) {
+      return handleFileStoreMaximum();
+    }
     fileListStore.push(item);
+  };
+
+  var handleFileStoreMaxReach = function () {
+    hideAddFileButton();
+  };
+
+  var hideAddFileButton = function () {
+
+  };
+
+  var showAddFileButton = function () {
+    
   };
 
   var updateHiddenField = function (item) {
     if(hiddenInputEl) {
       hiddenInputEl.value = JSON.stringify(fileListStore);
     }
+    //$.cookie('attachments-data', JSON.stringify(fileListStore));
+  };
+
+  var tempSolutionAttachments = function () {
+    var attachments = JSON.parse($.cookie('attachments-data'));
   };
 
   var removeFromFileStore = function (index) {
@@ -111,10 +159,10 @@ ukti.UploadWidget = (function($) {
 		// Loop through each of the selected files.
 		for (var i = 0; i < files.length; i++) {
 		  var file = files[i];
-		  // Check the file type.
-		  if (!file.type.match('image.*')) {
-		    //continue;
-		  }
+		  // // Check the file type.
+		  // if (!file.type.match('image.*')) {
+		  //   //continue;
+		  // }
 		  // Add the file to the request.
 		  formData.append('file_blob', file, file.name);
 		}
@@ -149,5 +197,5 @@ ukti.UploadWidget = (function($) {
     init: init
   };
 
-})();
+})($);
 

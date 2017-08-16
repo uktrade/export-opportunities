@@ -17,8 +17,10 @@ ukti.EnquiryResponse = (function($) {
       document.getElementById('attachments').classList.add('hidden');
       updateSubmitButton('Send');
     } else if (tab[0].htmlFor === 'response_type_3') {
+      document.getElementById('custom-response').classList.remove('hidden');
       document.getElementById('signature').classList.add('hidden');
       document.getElementById('attachments').classList.add('hidden');
+      updateSubmitButton('Preview');
     } else {
       document.getElementById('custom-response').classList.remove('hidden');
       document.getElementById('signature').classList.remove('hidden');
@@ -38,6 +40,20 @@ ukti.EnquiryResponse = (function($) {
   };
 
   var initTextEditor = function () {
+    CKEDITOR.stylesSet.add('mystyles', [
+        // Block-level styles
+        { name: 'Heading 1', element: 'h1'},
+        { name: 'Heading 2', element: 'h2'},
+        { name: 'Heading 3', element: 'h3'},
+        { name: 'Introduction', element: 'p', attributes: { 'class': 'introduction'} },
+
+        // Inline styles
+        { name: 'Link button', element: 'a', attributes: { 'class': 'button' } },
+        { name: 'List', element: 'ul', attributes: { 'class': 'list list-bullet' } },
+
+        // Object styles
+        { name: 'Stretch', element: 'img', attributes: { 'class': 'stretch' } },
+    ]);
     CKEDITOR.timestamp = Math.random();
     CKEDITOR.on('instanceReady', function(evt) {
       var editor = evt.editor;
