@@ -34,7 +34,7 @@ module Api
           status: 200,
           id: id,
           original_filename: 'double_sha256_header',
-          base_url: 'http://localhost:3000/dashboard/downloads/',
+          base_url: 'http://localhost:3000/admin/downloads/',
         }
 
         @error_result = {
