@@ -1,3 +1,4 @@
+- enquiries_count = 0
 = link_to "Back", filtered_admin_opportunities_path, class: 'link-back'
 
 %h1.heading-xlarge
@@ -106,11 +107,15 @@
           %td= enquiry.company_telephone
         %tr
           %th{:scope => 'row'} Companies House listing
-          - @companies_house_url = companies_house_url(enquiry.company_house_number)
-          - if @companies_house_url then
-            %td=link_to enquiry.company_name, @companies_house_url, target: :blank, :rel => 'noopener noreferrer'
+          - enquiries_count = enquiries_count + 1
+          - if enquiries_count <= @enquiries_cutoff
+            - @companies_house_url = companies_house_url(enquiry.company_house_number)
+            - if @companies_house_url then
+              %td=link_to enquiry.company_name, @companies_house_url, target: :blank, :rel => 'noopener noreferrer'
+            - else
+              %td='Not supplied'
           - else
-            %td='Not supplied'
+            %td{class: 'rate_ch_exceeded'}='Rate limit exceeded - ' + enquiry.company_house_number
         %tr
           %th{:scope => 'row'} Company Postcode
           %td= enquiry.company_postcode
@@ -119,11 +124,14 @@
           %td= enquiry.company_url
         %tr
           %th{:scope => 'row'} Trade Profile
-          - @trade_profile_url = trade_profile(enquiry.company_house_number)
-          - if @trade_profile_url then
-            %td= link_to enquiry.company_name, @trade_profile_url, target: :blank
+          - if enquiries_count <= @enquiries_cutoff
+            - @trade_profile_url = trade_profile(enquiry.company_house_number)
+            - if @trade_profile_url then
+              %td= link_to enquiry.company_name, @trade_profile_url, target: :blank
+            - else
+              %td='Not supplied'
           - else
-            %td='Not supplied'
+            %td{class: 'rate_trade_profile_exceeded'}='Rate limit exceeded'
         %tr
           %th{:scope => 'row'} Existing exporter?
           %td= enquiry.existing_exporter
