@@ -24,7 +24,7 @@ feature 'Logging in as an admin' do
   scenario 'Logging in successfully to help guide' do
     create(:editor, email: 'email@example.com', password: 'wibble-sidecar-sling')
 
-    visit '/admin/help'
+    visit '/admin/help/opportunities'
 
     within '#new_editor' do
       fill_in 'Email',    with: 'email@example.com'
@@ -33,7 +33,7 @@ feature 'Logging in as an admin' do
     end
 
     expect_editor_to_be_logged_in
-    expect(page.current_url).to include('admin/help')
+    expect(page.current_url).to include('/admin/help/opportunities')
   end
 
   scenario 'Attempting to log in to an account that does not exist' do

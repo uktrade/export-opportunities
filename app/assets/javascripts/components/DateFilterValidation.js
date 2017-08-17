@@ -73,7 +73,7 @@ ukti.DateFilterValidation = (function($, moment, datePickerController) {
 
     var init = function ($form) {
       if ($form.length) {
-          $form.on('submit', formSubmitHandler);
+        $form.on('submit', formSubmitHandler);
       }
     };
 
