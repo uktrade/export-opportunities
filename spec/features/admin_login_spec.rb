@@ -32,8 +32,31 @@ feature 'Logging in as an admin' do
       click_on 'Log in'
     end
 
-    expect_editor_to_be_logged_in
     expect(page.current_url).to include('/admin/help/opportunities')
+
+  end
+
+  scenario 'visiting admin help guide for opportunities' do
+    editor = create(:editor)
+    login_as(editor)
+
+    visit '/admin/help/opportunities'
+
+    expect_editor_to_be_logged_in
+    expect(page.body).to include('Example of a')
+    expect(page.body).to include('Export opportunities guidance')
+  end
+
+  scenario 'visiting admin help guide for enquiries' do
+    skip('for DB to fill in with appropriate content')
+    editor = create(:editor)
+    login_as(editor)
+
+    visit '/admin/help/enquiries'
+
+    expect_editor_to_be_logged_in
+    expect(page).to include('TADA1')
+    expect(page).to include('TADA2')
   end
 
   scenario 'Attempting to log in to an account that does not exist' do
