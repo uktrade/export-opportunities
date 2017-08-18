@@ -1,6 +1,6 @@
 var ukti = window.ukti || {};
 
-ukti.UploadWidget = (function($) {
+ukti.UploadWidget = (function() {
   'use strict';
 
   var config = {
@@ -23,10 +23,6 @@ ukti.UploadWidget = (function($) {
       formGroupEl,
       errorEl,
       errors = [];
-
-  var dummyError = {
-    responseText: '{ "id":"5d6s6d5sd6sd", "filename":"filename.pdf", "base_url":"http://localhits/"}'
-  };
 
   var cacheElements = function () {
     fileInputEl = baseEl.querySelector( '.inputfile' );
@@ -156,10 +152,6 @@ ukti.UploadWidget = (function($) {
     }
   };
 
-  var tempSolutionAttachments = function () {
-    var attachments = JSON.parse($.cookie('attachments-data'));
-  };
-
   var removeFromFileStore = function (index) {
     var zeroBasedIndex = index - 1;
     fileListStore.splice(zeroBasedIndex, 1);
@@ -232,5 +224,5 @@ ukti.UploadWidget = (function($) {
     init: init
   };
 
-})($);
+})();
 
