@@ -24,7 +24,7 @@ feature 'Logging in as an admin' do
   scenario 'Logging in successfully to help guide' do
     create(:editor, email: 'email@example.com', password: 'wibble-sidecar-sling')
 
-    visit '/admin/help'
+    visit '/admin/help/opportunities'
 
     within '#new_editor' do
       fill_in 'Email',    with: 'email@example.com'
@@ -32,7 +32,8 @@ feature 'Logging in as an admin' do
       click_on 'Log in'
     end
 
-    expect(page.current_url).to include('admin/help')
+    expect(page.current_url).to include('/admin/help/opportunities')
+
   end
 
   scenario 'visiting admin help guide for opportunities' do

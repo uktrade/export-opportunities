@@ -118,10 +118,15 @@
             = f.text_area(:signature, cols: 40, rows: 15, class: 'form-control')
 
   %fieldset#attachments.hidden
-    .form-group.form-group-error
+    .form-group
       %label.form-label-bold Add relevant documents
-      %p.form-hint Customer will have 30 days to download the files.
-      %span.error-message File size exceeds the maximum
+      %span.error-message 
+      %p.form-hint
+        Maximum number of 5 files.
+        %br
+        Allowed document types: doc, docx, pdf, ppt, pptx, jpg or png
+        %br
+        The maximum file size is 25Mb.
       .grid-row
         .column-one-half
           .uploadWidget

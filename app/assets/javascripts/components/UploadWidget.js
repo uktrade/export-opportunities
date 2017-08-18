@@ -4,13 +4,13 @@ ukti.UploadWidget = (function($) {
   'use strict';
 
   var config = {
-    maxFiles : 1,
-    maxFileSize : 24000,
+    maxFiles : 5,
+    maxFileSize : 24000000, // in bytes
     allowedFileTypes : ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/jpeg', 'image/png'],
     errorMessages : {
       'filetype' : 'Error. Wrong file type. Your file should be doc, docx, pdf, ppt, pptx, jpg or png',
-      'filesize' : 'File exceeds max size. Your file should be a maximum size of 25MB',
-      'general' : 'Something has gone wrong. Please try again or (hyperlink) contact us'
+      'filesize' : 'File exceeds max size. Your file can have a maximum size of 25MB',
+      'general' : 'Something has gone wrong. Please try again or contact exportingisgreat@trade.gsi.gov.uk'
     }
   };
 
@@ -20,6 +20,8 @@ ukti.UploadWidget = (function($) {
       fileListEl,
       labelEl,
       fileListStore = [],
+      formGroupEl,
+      errorEl,
       errors = [];
 
   var dummyError = {
@@ -31,6 +33,8 @@ ukti.UploadWidget = (function($) {
     fileListEl = baseEl.querySelector( '.fileList' );
     hiddenInputEl = baseEl.querySelector( '.fileListStore' );
     labelEl = baseEl.querySelector( 'label' );
+    formGroupEl = ukti.Utilities.closestByClass(baseEl, 'form-group');
+    errorEl = formGroupEl.querySelector( '.error-message' );
   };
 
   var changeHandler = function(event) {
@@ -38,21 +42,44 @@ ukti.UploadWidget = (function($) {
       return;
     }
     var file = event.target.files[0];
-    debugger;
-    if (checkFile(file)) {
+    if (isFileValid(file)) {
       uploadFile();
     }
   };
 
-  var checkFile = function(file) {
-    var valid = true;
+  var isFileValid = function(file) {
     if(config.allowedFileTypes.indexOf(file.type) < 0) {
-      valid = false;
+      errors.push(config.errorMessages.filetype);
     }
     if(file.size > config.maxFileSize) {
-      valid = false;
+      errors.push(config.errorMessages.filesize);
     }
-    return valid;
+    if (errors.length) {
+        displayErrors();  
+        return false;
+      }
+      else {
+        clearErrors();
+        return true;
+      }
+  };
+
+  var displayErrors = function () {
+    if (!errorEl) {
+      return;
+    }
+    var html = '';
+    formGroupEl.classList.add('form-group-error');
+    for (var i = 0; i < errors.length; i++) {
+        html += errors[i];
+    }
+    errorEl.innerHTML = html;
+    errors.length = 0;
+  };
+
+  var clearErrors = function () {
+    formGroupEl.classList.remove('form-group-error');
+    errorEl.innerHTML = '';
   };
 
   var addLoadingClass = function(event) {
@@ -77,6 +104,12 @@ ukti.UploadWidget = (function($) {
 			return;
 		}
 
+    if (fileListStore.length === config.maxFiles) {
+      handleMaxFilesReach();
+    } else {
+      showAddFileButton();
+    }
+
 		while (fileListEl.hasChildNodes()) {
 			fileListEl.removeChild(fileListEl.firstChild);
 		}
@@ -85,7 +118,7 @@ ukti.UploadWidget = (function($) {
 			var li = document.createElement('li');
       var span = document.createElement('span');
       span.className = 'form-control';
-			span.innerHTML = 'File ' + (x + 1) + ':  ' + fileListStore[x].original_filename;
+			span.innerHTML = 'File ' + (x + 1) + ':  ' + fileListStore[x].result.original_filename;
       li.appendChild(span);
       var link = returnRemoveFileLink();
       li.appendChild(link);
@@ -102,29 +135,25 @@ ukti.UploadWidget = (function($) {
   };
 
   var updateFileStore = function (item) {
-    if (fileListStore.length > config.maxFiles) {
-      return handleFileStoreMaximum();
-    }
     fileListStore.push(item);
   };
 
-  var handleFileStoreMaxReach = function () {
+  var handleMaxFilesReach = function () {
     hideAddFileButton();
   };
 
   var hideAddFileButton = function () {
-
+    labelEl.classList.add('hidden');
   };
 
   var showAddFileButton = function () {
-    
+    labelEl.classList.remove('hidden');
   };
 
   var updateHiddenField = function (item) {
     if(hiddenInputEl) {
       hiddenInputEl.value = JSON.stringify(fileListStore);
     }
-    //$.cookie('attachments-data', JSON.stringify(fileListStore));
   };
 
   var tempSolutionAttachments = function () {
@@ -137,6 +166,10 @@ ukti.UploadWidget = (function($) {
   };
 
   var handleUploadFileSuccess = function (response) {
+    // TO-DO handle 500s
+    if (response.target.status === 404) {
+      return handleUploadFileError();
+    }
     setTimeout(function() {
       var item = JSON.parse(response.target.responseText);
       updateFileStore(item);
@@ -147,6 +180,8 @@ ukti.UploadWidget = (function($) {
   };
 
   var handleUploadFileError = function () {
+    errors.push(config.errorMessages.general);
+    displayErrors();
     removeLoadingClass();
   };
 
@@ -171,7 +206,7 @@ ukti.UploadWidget = (function($) {
     formData.append('original_filename', 'sdfsdf');
     
   	var request = new XMLHttpRequest();
-		request.onerror = handleUploadFileError(dummyError);
+		request.onerror = handleUploadFileError;
     request.onload = handleUploadFileSuccess;
 		request.open('POST', '/api/document', true);
 		request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');

@@ -5,6 +5,7 @@
 //= require datepicker
 //= require moment
 //= require govuk_frontend_toolkit/govuk/show-hide-content
+//= require helpers/Utilities
 //= require components/CharacterCounter
 //= require components/Tabs
 //= require components/AsyncLoad
