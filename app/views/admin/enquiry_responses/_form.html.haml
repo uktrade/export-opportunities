@@ -1,4 +1,9 @@
+
 - enquiry_id = params['id'].nil? ? params['enquiry_response'].fetch(:enquiry_id) : params.fetch(:id)
+
+- @response_type = @enquiry_response.response_type.nil? ? 3 : @enquiry_response.response_type
+
+
 = form_for [:admin, enquiries_response], html: {multipart: true, :class => 'enquiry_response'} do |f|
   - if enquiries_response.errors.any?
     .error-summary{:role => 'group', :tabindex => '-1'}
@@ -16,24 +21,24 @@
     .tabs.js-tabs
       .tablist.js-tablist
         %ul
-          %li.positive
-            %input#response_type_1.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "1", "aria-controls" => "response-1-tab-content", "aria-expanded" => "true"}/
+          %li{ class: (@response_type == 1 ? 'active' : nil) }
+            %input#response_type_1.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "1", "aria-controls" => "response-1-tab-panel", "aria-expanded" => "true", checked: @response_type == 1 }/
             %label{:for => "response_type_1", "tabindex" => "0"} Right for opportunity
             %span.badge-positive
-          %li.neutral
-            %input#response_type_2.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "2", "aria-controls" => "response-2-tab-content"}/
+          %li{ class: (@response_type == 2 ? 'active' : nil) }
+            %input#response_type_2.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "2", "aria-controls" => "response-2-tab-panel", checked: @response_type == 2}/
             %label{:for => "response_type_2", "tabindex" => "0"} Need more information
             %span.badge-neutral
-          %li.active
-            %input#response_type_3.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "3", "aria-controls" => "response-3-tab-content", "checked" => "checked"}/
+          %li{ class: (@response_type == 3 ? 'active' : nil) }
+            %input#response_type_3.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "3", "aria-controls" => "response-3-tab-panel", checked: @response_type == nil}/
             %label{:for => "response_type_3","tabindex" => "0"} Not right for opportunity
             %span.badge-negative
-          %li
-            %input#response_type_4.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "4", "aria-controls" => "response-4-tab-content"}/
+          %li{ class: (@response_type == 4 ? 'active' : nil) }
+            %input#response_type_4.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "4", "aria-controls" => "response-4-tab-panel", checked: @response_type == 4}/
             %label{:for => "response_type_4", "tabindex" => "0"} Not UK registered
             %span.badge-negative
-          %li
-            %input#response_type_5.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "5", "aria-controls" => "response-5-tab-content"}/
+          %li{ class: (@response_type == 5 ? 'active' : nil) }
+            %input#response_type_5.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "5", "aria-controls" => "response-5-tab-panel", checked: @response_type == 5}/
             %label{:for => "response_type_5", "tabindex" => "0"} Not for third party
             %span.badge-negative
 
@@ -48,7 +53,9 @@
                 %li you will forward their details on to the buyer
                 %li you will introduce them to the buyer
                 %li you will introduce them to the buyer
-                %li they can bid for the tender 
+                %li they can bid for the tender
+
+              %p= link_to 'See more guidance for this type of response', '/admin/help/enquiries', class: 'text', target: 'guidance'
 
             #response-2-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel", "aria-hidden" => "true"}
               %p 
@@ -62,6 +69,8 @@
               %ul.list.list-bullet
                 %li EITHER - ask the company for more information so you can make a decision
                 %li OR -  make a decision based on the information the company has already provided
+
+              %p= link_to 'See more guidance for this type of response', '/admin/help/enquiries', class: 'text', target: 'guidance'
 
             #response-3.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel", "aria-hidden" => "false"}
               %p 
