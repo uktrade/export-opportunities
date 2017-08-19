@@ -3,6 +3,6 @@ class Admin::HelpController < Admin::BaseController
 
   def show
     shorten_link_id = params[:id]
-    DocumentUrlShortener.new.s3_link(current_user, 1,shorten_link_id)
+    DocumentUrlShortener.new.s3_link(current_user, 1, shorten_link_id)
   end
 end

@@ -32,8 +32,7 @@ feature 'Logging in as an admin' do
       click_on 'Log in'
     end
 
-    expect(page.current_url).to include('/admin/help/opportunities')
-
+    expect(page.current_url).to include('/admin/help')
   end
 
   scenario 'visiting admin help guide for opportunities' do
