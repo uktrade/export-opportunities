@@ -4,6 +4,7 @@
 - @response_type = @enquiry_response.response_type.nil? ? 3 : @enquiry_response.response_type
 
 
+
 = form_for [:admin, enquiries_response], html: {multipart: true, :class => 'enquiry_response'} do |f|
   - if enquiries_response.errors.any?
     .error-summary{:role => 'group', :tabindex => '-1'}
@@ -140,6 +141,8 @@
         .column-one-half
           .uploadWidget
             = f.hidden_field :attachments, {:class => "fileListStore"}
+            = f.hidden_field :enquiry_id, as: :hidden, value: enquiry_id
+            = f.hidden_field :user_id, as: :hidden, value: @enquiry.user_id
             // TODO: how do we handle users navigating back? lose files?
             %ul.list.fileList{"data-default-item" => "No files selected"}
             %input#enquiry_response_email_attachment.inputfile{:name => "enquiry_response[email_attachment][]", :type => "file", "data-multiple-caption" => "{count} files selected"}/
@@ -150,5 +153,4 @@
               %span.loadingIndicator
 
   .form-group
-    = f.hidden_field :enquiry_id, as: :hidden, value: enquiry_id
     = f.submit 'Preview', class: 'button'

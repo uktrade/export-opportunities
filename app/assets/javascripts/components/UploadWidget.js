@@ -179,6 +179,8 @@ ukti.UploadWidget = (function() {
 
   var uploadFile = function () {
   	var fileSelect = baseEl.querySelector( '.inputfile' );
+    var userId = baseEl.querySelector('input[name="enquiry_response[user_id]"]').value;
+    var enquiryId = baseEl.querySelector('input[name="enquiry_response[enquiry_id]"]').value;
 		// Get the selected files from the input.
 		var files = fileSelect.files;
 		// Create a new FormData object.
@@ -192,10 +194,13 @@ ukti.UploadWidget = (function() {
 		  // }
 		  // Add the file to the request.
 		  formData.append('enquiry_response[file_blob]', file, file.name);
+      formData.append('enquiry_response[original_filename]', file.name);
 		}
-  	formData.append('enquiry_response[user_id]', 'sdfsdf'); 
-    formData.append('enquiry_response[enquiry_id]', 'sdfsdf');
-    formData.append('enquiry_response[original_filename]', 'sdfsdf');
+
+  	formData.append('enquiry_response[user_id]', userId); 
+    formData.append('enquiry_response[enquiry_id]', enquiryId);
+
+    debugger;
     
   	var request = new XMLHttpRequest();
 		request.onerror = handleUploadFileError;

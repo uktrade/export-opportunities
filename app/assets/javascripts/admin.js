@@ -4,6 +4,7 @@
 //= require datepicker.lang.en.js
 //= require datepicker
 //= require moment
+//= require js.cookie
 //= require govuk_frontend_toolkit/govuk/show-hide-content
 //= require helpers/Utilities
 //= require components/CharacterCounter
