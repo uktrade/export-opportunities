@@ -55,6 +55,7 @@ feature 'admin can reply to enquiries' do
   end
 
   scenario 'reply to an enquiry with attachment' do
+    skip
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
