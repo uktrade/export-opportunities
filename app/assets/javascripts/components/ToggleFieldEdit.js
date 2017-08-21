@@ -1,6 +1,8 @@
+/* globals Cookies */
+
 var ukti = window.ukti || {};
 
-ukti.ToggleFieldEdit = (function($) {
+ukti.ToggleFieldEdit = (function(Cookies) {
   'use strict';
   var baseEl,
       labelEl,
@@ -21,8 +23,8 @@ ukti.ToggleFieldEdit = (function($) {
 
   var handleToggle = function (event) {
     event.preventDefault();
-    textEl.classList.toggle('js-hidden');
-    fieldElWrapper.classList.toggle('js-hidden');
+    textEl.classList.toggle(hiddenClass);
+    fieldElWrapper.classList.toggle(hiddenClass);
   };
 
   var handleChange = function (event) {
@@ -42,14 +44,14 @@ ukti.ToggleFieldEdit = (function($) {
   };
 
   var hasSignatureValue = function () {
-    fieldElWrapper.classList.add('js-hidden');
+    fieldElWrapper.classList.add(hiddenClass);
     updateText();
     updateField();
   };
 
   var noSignatureValue = function () {
-    textEl.classList.add('js-hidden');
-    buttonEl.add('js-hidden');
+    textEl.classList.add(hiddenClass);
+    buttonEl.add(hiddenClass);
   };
 
   var updateText = function () {
@@ -77,5 +79,5 @@ ukti.ToggleFieldEdit = (function($) {
     init: init
   };
 
-})();
+})(Cookies);
 

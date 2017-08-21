@@ -89,7 +89,7 @@ ukti.UploadWidget = (function() {
   var handleFileListClick = function (event) {
     if(event.target.tagName.toLowerCase() === 'a') {
       event.preventDefault();
-      var index = event.target.href;
+      var index = event.target.getAttribute('href');
       removeFromFileStore(index);
       renderFileList();
     }
@@ -114,16 +114,16 @@ ukti.UploadWidget = (function() {
 			var li = document.createElement('li');
       var span = document.createElement('span');
       span.className = 'form-control';
-			span.innerHTML = 'File ' + (x + 1) + ':  ' + fileListStore[x].result.original_filename;
+			span.innerHTML = 'File ' + (x + 1) + ':  ' + fileListStore[x].result.id.original_filename;
       li.appendChild(span);
-      var link = returnRemoveFileLink();
+      var link = returnRemoveFileLink(x + 1);
       li.appendChild(link);
 			fileListEl.appendChild(li);
 		}
   };
 
   var returnRemoveFileLink = function () {
-    var index = fileListStore.length + 1;
+    var index = fileListStore.length;
     var link = document.createElement('a');
     link.href = index;
     link.innerHTML = 'Remove';
@@ -188,10 +188,6 @@ ukti.UploadWidget = (function() {
 		// Loop through each of the selected files.
 		for (var i = 0; i < files.length; i++) {
 		  var file = files[i];
-		  // // Check the file type.
-		  // if (!file.type.match('image.*')) {
-		  //   //continue;
-		  // }
 		  // Add the file to the request.
 		  formData.append('enquiry_response[file_blob]', file, file.name);
       formData.append('enquiry_response[original_filename]', file.name);
@@ -199,8 +195,6 @@ ukti.UploadWidget = (function() {
 
   	formData.append('enquiry_response[user_id]', userId); 
     formData.append('enquiry_response[enquiry_id]', enquiryId);
-
-    debugger;
     
   	var request = new XMLHttpRequest();
 		request.onerror = handleUploadFileError;
