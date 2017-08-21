@@ -10,6 +10,7 @@ module Api
 
     def create
       doc_params = params['document']
+      byebug
       if doc_params
         DocumentValidation.new.call(doc_params, doc_params['file_blob'])
         res = DocumentStorage.new.call(doc_params['original_filename'], doc_params['file_blob'].path)
@@ -34,7 +35,7 @@ module Api
           status: 200,
           id: id,
           original_filename: 'double_sha256_header',
-          base_url: 'http://localhost:3000/dashboard/downloads/',
+          base_url: 'http://localhost:3000/admin/downloads/',
         }
 
         @error_result = {
