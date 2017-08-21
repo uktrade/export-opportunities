@@ -65,7 +65,7 @@ feature 'admin can reply to enquiries' do
 
     email_body_text = Faker::Lorem.words(10).join('-')
     fill_in 'enquiry_response_email_body', with: email_body_text
-    byebug
+
     attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file.txt'
 
     expect(page).to have_content(email_body_text)

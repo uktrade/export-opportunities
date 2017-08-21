@@ -18,7 +18,7 @@ module Api
         DocumentValidation.new.call(doc_params, doc_params['file_blob'])
         res = DocumentStorage.new.call(original_filename, doc_params['file_blob'].path)
         if res
-          s3_filename = enquiry_id + '_' + user_id + '_' + original_filename
+          s3_filename = enquiry_id.to_s + '_' + user_id.to_s + '_' + original_filename
           document_url = 'https://s3.' + Figaro.env.aws_region! + '.amazonaws.com/' + Figaro.env.post_user_communication_s3_bucket! + '/' + s3_filename
           short_url = DocumentUrlShortener.new.shorten_link(document_url, user_id, enquiry_id, original_filename)
         else
