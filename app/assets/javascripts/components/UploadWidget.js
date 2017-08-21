@@ -191,17 +191,17 @@ ukti.UploadWidget = (function() {
 		  //   //continue;
 		  // }
 		  // Add the file to the request.
-		  formData.append('file_blob', file, file.name);
+		  formData.append('enquiry_response[file_blob]', file, file.name);
 		}
-  	formData.append('user_id', 'sdfsdf'); 
-    formData.append('enquiry_id', 'sdfsdf');
-    formData.append('original_filename', 'sdfsdf');
+  	formData.append('enquiry_response[user_id]', 'sdfsdf'); 
+    formData.append('enquiry_response[enquiry_id]', 'sdfsdf');
+    formData.append('enquiry_response[original_filename]', 'sdfsdf');
     
   	var request = new XMLHttpRequest();
 		request.onerror = handleUploadFileError;
     request.onload = handleUploadFileSuccess;
 		request.open('POST', '/api/document', true);
-		request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+		//request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 		request.send(formData);
     addLoadingClass();
   };
