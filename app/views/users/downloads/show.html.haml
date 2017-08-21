@@ -1,0 +1,16 @@
+.container
+  .legacy.margin-top-30
+    %h1 Your file
+    %p
+
+    %table.horizontal
+      - if @result
+        %tr
+          %th{scope: 'row'} File URL:
+          %td= link_to @result.s3_url, @result.s3_url
+      - else
+        %tr
+          %th{scope: 'row'} no file found or file expired
+          %td please contact the post
+
+    %a.button.button-blue{href: dashboard_path} Go back

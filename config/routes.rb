@@ -23,8 +23,10 @@ Rails.application.routes.draw do
     }
 
   get '/dashboard' => 'users/dashboard#index', as: 'dashboard'
+  # get '/dashboard/downloads' => 'users/downloads'
   scope '/dashboard', as: :dashboard do
     resources :enquiries, only: [:show], controller: 'users/enquiries'
+    resources :downloads, only: [:show], controller: 'users/downloads'
   end
 
   # Legacy dashboard index page

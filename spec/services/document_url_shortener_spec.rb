@@ -6,8 +6,8 @@ RSpec.describe DocumentUrlShortener do
   end
 
   it 'gets a shortened link from the S3 url' do
-    DocumentUrlShortener.new.shorten_link('https://s3.amazonaws.com/export-opportunities-test-bucket/test_file', 1, 1, 'test_file')
-    res = DocumentUrlShortener.new.s3_link(1, 1, 'test_file')
+    document_url_shortener = DocumentUrlShortener.new.shorten_link('https://s3.amazonaws.com/export-opportunities-test-bucket/test_file', 1, 1, 'test_file')
+    res = DocumentUrlShortener.new.s3_link(1, 1, document_url_shortener.hashed_id)
 
     expect(res.s3_link).to eq 'https://s3.amazonaws.com/export-opportunities-test-bucket/test_file'
   end
