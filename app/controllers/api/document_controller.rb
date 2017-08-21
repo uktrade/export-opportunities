@@ -10,6 +10,7 @@ module Api
 
     def create
       doc_params = params['document']
+      byebug
       if doc_params
         DocumentValidation.new.call(doc_params, doc_params['file_blob'])
         res = DocumentStorage.new.call(doc_params['original_filename'], doc_params['file_blob'].path)

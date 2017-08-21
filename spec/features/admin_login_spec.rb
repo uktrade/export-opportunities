@@ -8,7 +8,6 @@ feature 'Logging in as an admin' do
   end
 
   scenario 'Logging in successfully' do
-
     create(:editor, email: 'email@example.com', password: 'wibble-sidecar-sling')
 
     visit new_editor_session_path
