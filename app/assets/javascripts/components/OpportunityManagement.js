@@ -35,7 +35,7 @@ ukti.OpportunityManagement = (function() {
   };
 
   var draftButtonHandler = function (event) {
-		if (isValueEmpty(commentField.value)) {
+		if (ukti.Utilities.isValueEmpty(commentField.value)) {
 			event.preventDefault();
 			addErrorToCommentFormGroup();
 		} else {
@@ -55,10 +55,6 @@ ukti.OpportunityManagement = (function() {
 		commentFormGroup.classList.remove(errorClass);
 		commentFormErrorEl.setAttribute('aria-hidden', 'true');
 		commentFormErrorEl.innerHTML = '';
-	};
-
-	var isValueEmpty = function (value) {
-		return (/^ *$/.test(value));
 	};
 
   var init = function () {

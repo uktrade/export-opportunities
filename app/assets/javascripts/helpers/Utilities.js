@@ -13,8 +13,13 @@ ukti.Utilities = (function($) {
 		return el;
   };
 
+	var isValueEmpty = function (value) {
+		return (/^ *$/.test(value));
+	};
+
   return {
-    closestByClass: closestByClass
+    closestByClass: closestByClass,
+    isValueEmpty: isValueEmpty
   };
 
 })();
