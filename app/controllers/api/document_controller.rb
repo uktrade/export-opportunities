@@ -9,14 +9,18 @@ module Api
     end
 
     def create
-      doc_params = params['document']
-      byebug
+      doc_params = params['enquiry_response']
+      # byebug
       if doc_params
+        enquiry_id = doc_params['enquiry_id']
+        user_id = doc_params['user_id']
+        original_filename = doc_params['original_filename']
         DocumentValidation.new.call(doc_params, doc_params['file_blob'])
-        res = DocumentStorage.new.call(doc_params['original_filename'], doc_params['file_blob'].path)
+        res = DocumentStorage.new.call(original_filename, doc_params['file_blob'].path)
         if res
-          document_url = 'https://s3.' + Figaro.env.aws_region! + '.amazonaws.com/' + Figaro.env.post_user_communication_s3_bucket! + '/' + doc_params['original_filename']
-          short_url = DocumentUrlShortener.new.shorten_link(document_url, doc_params['user_id'], doc_params['enquiry_id'], doc_params['original_filename'])
+          s3_filename = enquiry_id + '_' + user_id + '_' + original_filename
+          document_url = 'https://s3.' + Figaro.env.aws_region! + '.amazonaws.com/' + Figaro.env.post_user_communication_s3_bucket! + '/' + s3_filename
+          short_url = DocumentUrlShortener.new.shorten_link(document_url, user_id, enquiry_id, original_filename)
         else
           raise Exception, 'cant save file to S3'
         end
