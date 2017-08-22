@@ -24,7 +24,8 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   end
 
   def enquiry_responses_params
-    params.require(:enquiry_response).permit(:id, :created_at, :updated_at, :email_body, :editor_id, :enquiry_id, :signature, :response_type, :attachments)
+    byebug
+    params.require(:enquiry_response).permit(:id, :created_at, :updated_at, :email_attachment, :email_body, :editor_id, :enquiry_id, :signature, :documents, :response_type, attachments: [id: {} ])
   end
 
   def preview
@@ -38,10 +39,10 @@ class Admin::EnquiryResponsesController < Admin::BaseController
     create_or_update
   end
 
-  def send
-    EnquiryResponseSender.new.call(@enquiry_response, @enquiry_response.enquiry)
-    redirect_to admin_enquiries_path, notice: 'Reply sent successfully!'
-  end
+  # def send
+  #   EnquiryResponseSender.new.call(@enquiry_response, @enquiry_response.enquiry)
+  #   redirect_to admin_enquiries_path, notice: 'Reply sent successfully!'
+  # end
 
   private
 
@@ -52,7 +53,7 @@ class Admin::EnquiryResponsesController < Admin::BaseController
     if @enquiry_response.errors.empty? && @enquiry_response.valid?
       @enquiry_response.save
 
-      render :preview, enquiry_response: @enquiry_response
+      render :show, enquiry_response: @enquiry_response
     else
       @enquiry = @enquiry_response.enquiry
       @companies_house_url = companies_house_url(@enquiry.company_house_number)
