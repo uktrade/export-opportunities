@@ -24,7 +24,7 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   end
 
   def enquiry_responses_params
-    params.require(:enquiry_response).permit(:id, :created_at, :updated_at, :email_body, :editor_id, :enquiry_id, :signature, :response_type, attachments: [])
+    params.require(:enquiry_response).permit(:id, :created_at, :updated_at, :email_body, :editor_id, :enquiry_id, :signature, :response_type, :attachments)
   end
 
   def show
