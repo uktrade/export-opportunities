@@ -33,6 +33,13 @@ ukti.UploadWidget = (function() {
     errorEl = formGroupEl.querySelector( '.error-message' );
   };
 
+  var setup = function () {
+    if(hiddenInputEl && !ukti.Utilities.isValueEmpty(hiddenInputEl.value)) {
+      fileListStore = JSON.parse(hiddenInputEl.value);
+      renderFileList();
+    }
+  };
+
   var changeHandler = function(event) {
     if (event.target.files.length < 1) {
       return;
@@ -216,6 +223,7 @@ ukti.UploadWidget = (function() {
   var init = function (el) {
   	baseEl = el;
     cacheElements();
+    setup();
     attachBehaviour();
   };
 
