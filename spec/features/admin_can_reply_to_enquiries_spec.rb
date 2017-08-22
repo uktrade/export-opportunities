@@ -55,7 +55,6 @@ feature 'admin can reply to enquiries' do
   end
 
   scenario 'reply to an enquiry with attachment' do
-    skip
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
@@ -64,14 +63,13 @@ feature 'admin can reply to enquiries' do
     click_on 'Reply'
     expect(page).to have_content('Email body')
 
-    email_body_text = Faker::Lorem.words(10).join('-')
+    email_body_text = Faker::Lorem.words(15).join('-')
     fill_in 'enquiry_response_email_body', with: email_body_text
 
     attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file.txt'
 
     expect(page).to have_content(email_body_text)
-
-    click_on 'Send'
+    click_on 'Preview'
 
     expect(page).to have_content('Reply sent successfully')
   end
