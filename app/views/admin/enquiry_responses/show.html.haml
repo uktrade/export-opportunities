@@ -23,11 +23,16 @@
           !=@enquiry_response.email_body
 
       - if @enquiry_response.response_type == 1 || @enquiry_response.response_type == 2
-        %h4 Download documents
-        %p Documents will expire after 30 days.
+      
+        - if @enquiry_response.documents?
+          %h4 Download documents
+          %p Documents will expire after 30 days.
 
-        %blockquote.noquotes
-          !=@enquiry_response.attachments
+          %blockquote.noquotes
+            %ul.list.list-bullet
+              - @documents = JSON.parse(@enquiry_response.documents)
+              - @documents.each do |document|
+                %li #{document['result']['id']['original_filename']}
 
       - if @enquiry_response.response_type == 1
         = render 'admin/enquiry_responses/snippets/right_for_opportunity_addendum', enquiries_response: @enquiry_response
@@ -36,8 +41,7 @@
       - if @enquiry_response.response_type == 3
         = render 'admin/enquiry_responses/snippets/not_right_addendum', enquiries_response: @enquiry_response
 
-      %p=@enquiry_response.signature
-
+      %p.white-space-pre=@enquiry_response.signature
 
 .button-group
   .button-group-item

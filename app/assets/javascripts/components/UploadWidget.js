@@ -10,7 +10,7 @@ ukti.UploadWidget = (function() {
     errorMessages : {
       'filetype' : 'Error. Wrong file type. Your file should be doc, docx, pdf, ppt, pptx, jpg or png',
       'filesize' : 'File exceeds max size. Your file can have a maximum size of 25MB',
-      'general' : 'Something has gone wrong. Please try again or contact exportingisgreat@trade.gsi.gov.uk'
+      'general' : 'Something has gone wrong. Please try again. If the problem persists, contact us.'
     }
   };
 
@@ -98,6 +98,7 @@ ukti.UploadWidget = (function() {
       event.preventDefault();
       var index = event.target.getAttribute('href');
       removeFromFileStore(index);
+      updateHiddenField();
       renderFileList();
     }
   };
@@ -154,8 +155,8 @@ ukti.UploadWidget = (function() {
   };
 
   var updateHiddenField = function (item) {
-    if(hiddenInputEl) {
-      hiddenInputEl.value = JSON.stringify(fileListStore);
+    if( hiddenInputEl ) {
+      hiddenInputEl.value = fileListStore.length ? JSON.stringify(fileListStore) : '';
     }
   };
 
@@ -165,20 +166,14 @@ ukti.UploadWidget = (function() {
   };
 
   var handleUploadFileSuccess = function (response) {
-    // TO-DO handle 500s
-    if (response.target.status === 404) {
-      return handleUploadFileError();
-    }
-    setTimeout(function() {
-      var item = JSON.parse(response.target.responseText);
-      updateFileStore(item);
-      updateHiddenField();
-      renderFileList();
-      removeLoadingClass();
-    }.bind(this), 2000);
+    var item = JSON.parse(response.responseText);
+    updateFileStore(item);
+    updateHiddenField();
+    renderFileList();
+    removeLoadingClass();
   };
 
-  var handleUploadFileError = function () {
+  var handleUploadFileError = function (xhr, status) {
     errors.push(config.errorMessages.general);
     displayErrors();
     removeLoadingClass();
@@ -203,12 +198,20 @@ ukti.UploadWidget = (function() {
   	formData.append('enquiry_response[user_id]', userId); 
     formData.append('enquiry_response[enquiry_id]', enquiryId);
     
-  	var request = new XMLHttpRequest();
+  	var request = new XMLHttpRequest(); 
 		request.onerror = handleUploadFileError;
     request.onload = handleUploadFileSuccess;
-		request.open('POST', '/api/document', true);
-		//request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-		request.send(formData);
+    request.open('POST', '/api/document', true);
+		request.onreadystatechange = function () {
+      if ( request.readyState === 4 ) {
+        if ( request.status == 200 ) { 
+          handleUploadFileSuccess(request); 
+        } else { 
+          handleUploadFileError(request, request.status); 
+        } 
+      }
+    };
+    request.send(formData);
     addLoadingClass();
   };
 

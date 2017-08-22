@@ -16,24 +16,14 @@ ukti.Tabs = (function($) {
   };
 
   var setup = function () {
-    tabPanels.each(
-      function(){
-        if ($(this).attr( 'aria-hidden' ) === 'true') {
-          $(this).hide();
+    $(tabsList).find("> li").each(
+      function(index){
+        if ($(this).hasClass( 'active' )) {
+          $(tabPanels).eq(index).attr("aria-hidden", "false");
+        } else {
+          $(tabPanels).eq(index).attr("aria-hidden", "true").hide();
         }
     });
-  };
-
-  var addAriaToControls = function (tab, tabId) {
-    [name*='man']
-    tab.attr({
-        "id": tabId,
-        "aria-selected": "false",
-    }).parent().attr("role", "presentation");
-  };
-
-  var addAriaToTabPanels  = function (index, tabId) {
-		$(tabPanels).eq(index).attr("aria-labelledby", tabId);
   };
 
   var handleTabClick = function (event) {
