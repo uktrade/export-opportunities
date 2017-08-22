@@ -57,7 +57,9 @@ Rails.application.routes.draw do
 
     authenticated :editor do
       resources :enquiries, only: [:index, :show]
-      resources :enquiry_responses
+      resources :enquiry_responses do
+        get 'email_send', :on => :collection
+      end
     end
 
     resources :opportunities, only: [:index, :show, :new, :create, :edit, :update] do
