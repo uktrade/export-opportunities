@@ -1,0 +1,11 @@
+- if @enquiry_response.response_type == 1 || @enquiry_response.response_type == 2 || @enquiry_response.response_type == 3
+  %h4 What next
+  %blockquote.noquotes.html-editor-preview
+    !=@enquiry_response.email_body
+
+  - if @enquiry_response.response_type == 1 || @enquiry_response.response_type == 2
+    %h4 Download documents
+    %p Documents will expire after 30 days.
+
+    %blockquote.noquotes
+      !=@enquiry_response.attachments
