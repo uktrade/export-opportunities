@@ -20,4 +20,5 @@
 
 %p The export opportunities team
 
-=yield
+- if params && params[:_method] == 'patch'
+  =render partial:'enquiry_response_mailer/submit_buttons'

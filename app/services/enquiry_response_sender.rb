@@ -28,7 +28,7 @@ class EnquiryResponseSender
         EnquiryResponseMailer.not_uk_registered(enquiry_response, editor_email, reply_to_address).deliver_later!
         # layout '../admin/enquiry_responses/snippets/_not_uk_registered'
       when 5
-        EnquiryResponseMailer.not_third_party(enquiry_response, editor_email, reply_to_address).deliver_later!
+        EnquiryResponseMailer.not_for_third_party(enquiry_response, editor_email, reply_to_address).deliver_later!
         # layout '../admin/enquiry_responses/snippets/_not_for_third_party'
     end
     # EnquiryResponseMailer.send_enquiry_response(enquiry_response, enquiry).deliver_later!

@@ -1,6 +1,5 @@
 class EnquiryResponseMailer < ApplicationMailer
   layout 'eig-email'
-  # layout 'enquiry_response_right_mailer/right_for_opportunity'
 
   def right_for_opportunity(enquiry_response, editor_email, reply_to_address)
     @enquiry_response = enquiry_response

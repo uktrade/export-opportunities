@@ -68,6 +68,7 @@ class Admin::EnquiryResponsesController < Admin::BaseController
       @enquiry_response.save
 
       enquiry_response_type = @enquiry_response.response_type
+      @web_view = true
       case enquiry_response_type
         when 1
           render 'enquiry_response_mailer/right_for_opportunity'
@@ -78,7 +79,9 @@ class Admin::EnquiryResponsesController < Admin::BaseController
         when 4
           render 'enquiry_response_mailer/not_uk_registered'
         when 5
+
           render 'enquiry_response_mailer/not_for_third_party'
+
           # render 'enquiry_response_mailer/submit_buttons'
       end
     else
