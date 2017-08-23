@@ -3,8 +3,6 @@
 
 - @response_type = @enquiry_response.response_type.nil? ? 3 : @enquiry_response.response_type
 
-
-
 = form_for [:admin, enquiries_response], html: {multipart: true, :class => 'enquiry_response'} do |f|
   - if enquiries_response.errors.any?
     .error-summary{:role => 'group', :tabindex => '-1'}
@@ -46,7 +44,7 @@
       .grid-row
         .column-one-half
           .tab-content.js-tab-content{"aria-live" => "polite"}
-            #response-1-tab-panel.tab-panel.js-tab-panel{:role => "tabpanel", "aria-hidden" => "true"}
+            #response-1-tab-panel.tab-panel.js-tab-panel{:role => "tabpanel"}
               %p 
                 %strong Your comments will be added to the message sent to the company.
               %p Let the company know if:
@@ -58,7 +56,7 @@
 
               %p= link_to 'See more guidance for this type of response', '/admin/help/enquiries', class: 'text', target: 'guidance'
 
-            #response-2-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel", "aria-hidden" => "true"}
+            #response-2-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel"}
               %p 
                 %strong Your comments will be added to the message sent to the company.
               - if @enquiry_response.enquiry.opportunity.expired?
@@ -73,7 +71,7 @@
 
               %p= link_to 'See more guidance for this type of response', '/admin/help/enquiries', class: 'text', target: 'guidance'
 
-            #response-3.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel", "aria-hidden" => "false"}
+            #response-3-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
               %p 
                 %strong Your comments will be added to the message sent to the company.
               %p
@@ -81,7 +79,7 @@
                 %br
                 the product or service is not relevant, the company is not ready to export in this market, or the buyer decided they are not right for the opportunity. 
 
-            #response-4.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel", "aria-hidden" => "true"}
+            #response-4-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel"}
               %p 
                 %strong The following message will be sent to the company
               %div.panel.panel-border-narrow
@@ -89,7 +87,7 @@
                   .column-one-half
                     = render :partial => "admin/enquiry_responses/snippets/not_uk_registered", enquiries_response: @enquiry_response
 
-            #response-5.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel", "aria-hidden" => "true"}
+            #response-5-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel"}
               %p 
                 %strong The following message will be sent to the company
               %div.panel.panel-border-narrow
@@ -133,7 +131,7 @@
       .grid-row
         .column-one-half
           .uploadWidget
-            = f.hidden_field :attachments, {:class => "fileListStore"}
+            = f.hidden_field :documents, {:class => "fileListStore"}
             = f.hidden_field :enquiry_id, as: :hidden, value: enquiry_id
             = f.hidden_field :user_id, as: :hidden, value: @enquiry.user_id
             // TODO: how do we handle users navigating back? lose files?

@@ -7,6 +7,13 @@ ukti.EnquiryResponse = (function($) {
   var baseEl,
       focusOutlineClassname = 'focus-outline';
 
+  var config = {
+    errorMessages : {
+      'comments': 'You need at least 30 characters in your reply.',
+      'signature': 'You must enter a signature.'
+    }
+  };
+
   var tabsCallback = function (tab) {
     if (!tab) {
       return;
@@ -87,12 +94,45 @@ ukti.EnquiryResponse = (function($) {
     }
   };
 
+  var formSubmitHandler = function (event) {
+    var errors = [];
+    if ( isSignatureRequired() && isSignatureInvalid() ) {
+      errors.push(config.errorMessages.empty);
+    }
+    if (errors.length) {
+      event.preventDefault();
+      addErrorToField();  
+      return false;
+    }
+    else {
+      return true;
+    }
+  };
+
+  var isSignatureRequired = function () {
+    var response_type = baseEl.elements['enquiry_response[response_type]'].value;
+    return (response_type === "1" || response_type === "2");
+  };
+
+  var isSignatureValid = function () {
+    var signature = baseEl.elements['enquiry_response[signature]'].value;
+    return !ukti.Utilities.isValueEmpty(signature);
+  };
+
+  var addErrorToField = function () {
+  };
+
+  var initValidation = function () {
+    baseEl.addEventListener('submit', formSubmitHandler);
+  };
+
   var init = function (form) {
     baseEl = form;
     initTabs();
     loadTextEditorScript();
     initToggleFieldEdit();
     initUploadWidget();
+    initValidation();
   };
 
   return {
