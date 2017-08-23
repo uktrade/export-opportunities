@@ -14,16 +14,16 @@ class EnquiryResponseSender
                        end
 
     case enquiry_response_type
-      when 1
-        EnquiryResponseMailer.right_for_opportunity(enquiry_response, editor_email, reply_to_address).deliver_later!
-      when 2
-        EnquiryResponseMailer.more_information(enquiry_response, editor_email, reply_to_address).deliver_later!
-      when 3
-        EnquiryResponseMailer.not_right_for_opportunity(enquiry_response, editor_email, reply_to_address).deliver_later!
-      when 4
-        EnquiryResponseMailer.not_uk_registered(enquiry_response, editor_email, reply_to_address).deliver_later!
-      when 5
-        EnquiryResponseMailer.not_for_third_party(enquiry_response, editor_email, reply_to_address).deliver_later!
+    when 1
+      EnquiryResponseMailer.right_for_opportunity(enquiry_response, editor_email, reply_to_address).deliver_later!
+    when 2
+      EnquiryResponseMailer.more_information(enquiry_response, editor_email, reply_to_address).deliver_later!
+    when 3
+      EnquiryResponseMailer.not_right_for_opportunity(enquiry_response, editor_email, reply_to_address).deliver_later!
+    when 4
+      EnquiryResponseMailer.not_uk_registered(enquiry_response, editor_email, reply_to_address).deliver_later!
+    when 5
+      EnquiryResponseMailer.not_for_third_party(enquiry_response, editor_email, reply_to_address).deliver_later!
     end
     # EnquiryResponseMailer.send_enquiry_response(enquiry_response, enquiry).deliver_later!
   end
