@@ -7,6 +7,7 @@
 //= require js.cookie
 //= require govuk_frontend_toolkit/govuk/show-hide-content
 //= require helpers/Utilities
+//= require helpers/Form
 //= require components/CharacterCounter
 //= require components/Tabs
 //= require components/AsyncLoad

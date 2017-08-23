@@ -100,6 +100,7 @@
       .column-two-thirds
         .form-group
           = f.label :email_body, class: 'visuallyhidden'
+          %span.error-message 
           = f.text_area(:email_body, cols: 40, rows: 30, required: true, class: 'form-control js-text-editor')
 
   %fieldset#signature.hidden
@@ -108,14 +109,14 @@
         .form-group.js-toggle-field-edit
           %h4.form-label.form-label-bold
             Your contact details
-            // TODO: render different elements depending on state of record
             %a.js-toggle-field-edit-button{'href' => '#', 'data-target' => 'enquiry_response_signature'} Edit
           %p.form-hint Only include: full name, role, organisation, city & country, phone number and email.
           %div.js-toggle-field-edit-text
             .panel.panel-border-wide
               %p.white-space-pre
           %div.js-toggle-field-edit-field
-            = f.label :signature, class: 'visuallyhidden'   
+            = f.label :signature, class: 'visuallyhidden'
+            %span.error-message 
             = f.text_area(:signature, cols: 40, rows: 15, class: 'form-control')
 
   %fieldset#attachments.hidden

@@ -4,7 +4,7 @@ ukti.Utilities = (function($) {
   'use strict';
 
   var closestByClass = function (el, className) {
-		while (el.className !== className) {
+		while (el.className && el.className.indexOf(className) < 0) {
 			el = el.parentNode;
 			if (!el) {
 				return null;
