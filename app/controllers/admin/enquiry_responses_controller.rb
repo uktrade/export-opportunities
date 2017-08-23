@@ -79,7 +79,6 @@ class Admin::EnquiryResponsesController < Admin::BaseController
         when 4
           render 'enquiry_response_mailer/not_uk_registered'
         when 5
-
           render 'enquiry_response_mailer/not_for_third_party'
 
           # render 'enquiry_response_mailer/submit_buttons'

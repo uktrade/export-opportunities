@@ -32,6 +32,4 @@
   %li reading our guidance on exporting - for all levels of exporters
   %li contacting your local International Trade Adviser for tailored support
 
-
-- if params && params[:commit]
-  =render partial:'enquiry_response_mailer/submit_buttons'
+=render partial:'enquiry_response_mailer/submit_buttons' unless @mailer_view

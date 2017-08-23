@@ -20,5 +20,4 @@
 %p I need more information from you to see if you meet the criteria for this opportunity.
 %p You need to provide the following information before this opportunity expires on #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}.
 
-- if params && params[:commit]
-  =render partial:'enquiry_response_mailer/submit_buttons'
+=render partial:'enquiry_response_mailer/submit_buttons' unless @mailer_view

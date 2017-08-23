@@ -32,5 +32,4 @@
 
 %p=@enquiry_response.signature
 
-- if params && params[:commit]
-  =render partial:'enquiry_response_mailer/submit_buttons'
+=render partial:'enquiry_response_mailer/submit_buttons' unless @mailer_view
