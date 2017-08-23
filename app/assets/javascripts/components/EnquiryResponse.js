@@ -9,7 +9,7 @@ ukti.EnquiryResponse = (function($) {
 
   var config = {
     errorMessages : {
-      'comment': 'You need at least 30 characters in your reply.',
+      'comment': 'Please enter a comment.',
       'signature': 'You must enter a signature.'
     }
   };
@@ -53,11 +53,9 @@ ukti.EnquiryResponse = (function($) {
         { name: 'Heading 2', element: 'h2'},
         { name: 'Heading 3', element: 'h3'},
         { name: 'Introduction', element: 'p', attributes: { 'class': 'introduction'} },
-
         // Inline styles
         { name: 'Link button', element: 'a', attributes: { 'class': 'button' } },
         { name: 'List', element: 'ul', attributes: { 'class': 'list list-bullet' } },
-
         // Object styles
         { name: 'Stretch', element: 'img', attributes: { 'class': 'stretch' } },
     ]);
@@ -95,7 +93,6 @@ ukti.EnquiryResponse = (function($) {
   };
 
   var formSubmitHandler = function (event) {
-    debugger;
     var errors = [];
     if ( isSignatureRequired() && isSignatureInvalid() ) {
       ukti.Forms.addErrorToField(baseEl.elements['enquiry_response[signature]'], config.errorMessages.signature);
