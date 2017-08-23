@@ -17,16 +17,19 @@ class EnquiryResponseSender
       when 1
         EnquiryResponseMailer.right_for_opportunity(enquiry_response, editor_email, reply_to_address).deliver_later!
       when 2
-        layout '../admin/enquiry_responses/snippets/_more_information'
-        layout '../admin/enquiry_responses/snippets/_more_information_addendum'
+        EnquiryResponseMailer.more_information(enquiry_response, editor_email, reply_to_address).deliver_later!
+        # layout '../admin/enquiry_responses/snippets/_more_information'
+        # layout '../admin/enquiry_responses/snippets/_more_information_addendum'
       when 3
         EnquiryResponseMailer.not_right_for_opportunity(enquiry_response, editor_email, reply_to_address).deliver_later!
       # layout '../admin/enquiry_responses/snippets/_not_right'
         # layout '../admin/enquiry_responses/snippets/_not_right_addendum'
       when 4
-        layout '../admin/enquiry_responses/snippets/_not_uk_registered'
+        EnquiryResponseMailer.not_uk_registered(enquiry_response, editor_email, reply_to_address).deliver_later!
+        # layout '../admin/enquiry_responses/snippets/_not_uk_registered'
       when 5
-        layout '../admin/enquiry_responses/snippets/_not_for_third_party'
+        EnquiryResponseMailer.not_third_party(enquiry_response, editor_email, reply_to_address).deliver_later!
+        # layout '../admin/enquiry_responses/snippets/_not_for_third_party'
     end
     # EnquiryResponseMailer.send_enquiry_response(enquiry_response, enquiry).deliver_later!
   end

@@ -55,7 +55,7 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   def email_send
     enquiry_response = EnquiryResponse.find(params[:enquiry_response_id])
     EnquiryResponseSender.new.call(enquiry_response, enquiry_response.enquiry)
-    redirect_to admin_enquiries_path, notice: 'Reply sent successfully!'
+    redirect_to admin_enquiries_path(reply_sent: true)
   end
 
   private
@@ -72,10 +72,14 @@ class Admin::EnquiryResponsesController < Admin::BaseController
         when 1
           render 'enquiry_response_mailer/right_for_opportunity'
         when 2
+          render 'enquiry_response_mailer/more_information'
         when 3
           render 'enquiry_response_mailer/not_right_for_opportunity'
         when 4
+          render 'enquiry_response_mailer/not_uk_registered'
         when 5
+          render 'enquiry_response_mailer/not_for_third_party'
+          # render 'enquiry_response_mailer/submit_buttons'
       end
     else
       @enquiry = @enquiry_response.enquiry
