@@ -20,11 +20,5 @@
 %p I need more information from you to see if you meet the criteria for this opportunity.
 %p You need to provide the following information before this opportunity expires on #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}.
 
-
-.button-group
-  .button-group-item
-    = link_to 'Edit', new_admin_enquiry_response_path(id: @enquiry_response.enquiry.id) + '#reply', class: 'button button-neutral'
-  .button-group-separator
-    or
-  .button-group-item
-    = link_to 'Send', { controller: 'admin/enquiry_responses', action:'email_send', enquiry_response_id: @enquiry_response.id }, class: 'button'
+- if params && params[:commit]
+  =render partial:'enquiry_response_mailer/submit_buttons'
