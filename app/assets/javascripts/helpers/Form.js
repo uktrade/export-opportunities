@@ -1,6 +1,6 @@
 var ukti = window.ukti || {};
 
-ukti.Form = (function($) {
+ukti.Forms = (function($) {
   'use strict';
 
   var addErrorSummmary = function (el, errors) {
@@ -9,7 +9,7 @@ ukti.Form = (function($) {
         html += errors[i];
     }
     errorEl.innerHTML = error;
-  }
+  };
 
   var addErrorToField = function (el, error) {
   	var html = '';
@@ -26,14 +26,25 @@ ukti.Form = (function($) {
 
   var clearErrorFromField = function (el) {
   	var formGroupEl = ukti.Utilities.closestByClass(el, 'form-group');
-  	errorEl = formGroupEl.querySelector( '.error-message' );
+  	var errorEl = formGroupEl.querySelector( '.error-message' );
     formGroupEl.classList.remove('form-group-error');
     errorEl.innerHTML = '';
   };
 
+  var clearErrorsFromFields = function (form) {
+  	var formGroups = document.getElementsByClassName( 'form-group-error' );
+		for(var i = 0; i < formGroups.length; i++) {
+			debugger;
+			formGroups.item(i);
+		}
+		var errorMessages = document.getElementsByClassName( '.error-message' );
+
+  };
+
   return {
     addErrorToField: addErrorToField,
-    clearErrorFromField: clearErrorFromField
+    clearErrorFromField: clearErrorFromField,
+    clearErrorsFromFields: clearErrorsFromFields
   };
 
 })();

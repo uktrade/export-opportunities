@@ -1,4 +1,5 @@
-=@enquiry_response.inspect
+/
+  =@enquiry_response.inspect
 
 %div.panel.panel-border-narrow
   .grid-row
@@ -8,28 +9,28 @@
         Thank you for your interest in the export opportunity:
         %b=@enquiry_response.enquiry.opportunity.title
 
-%h4 Outcome
-%p Your application will not be taken any further.
+      %h4 Outcome
+      %p Your application will not be taken any further.
 
-%h4 Reason
-%p Your application does not meet the criteria for this opportunity.
+      %h4 Reason
+      %p Your application does not meet the criteria for this opportunity.
 
-= render 'enquiry_response_mailer/editable_content', enquiry_response: @enquiry_response
+      = render 'enquiry_response_mailer/editable_content', enquiry_response: @enquiry_response
 
-%p New opportunities are added every day. You can increase your chances of success by:
-%ul.list.list-bullet
-  %li signing up to or changing your email alerts so you get the right opportunities sent to you as soon as they’re added
-  %li creating a trade profile so companies looking to buy from your industry have an easy way to find you
+      %p New opportunities are added every day. You can increase your chances of success by:
+      %ul.list.list-bullet
+        %li signing up to or changing your email alerts so you get the right opportunities sent to you as soon as they’re added
+        %li creating a trade profile so companies looking to buy from your industry have an easy way to find you
 
-%p You can also increase your exporting potential by:
-%ul.list.list-bullet
-  %li researching overseas markets with our exporting country guides
-  %li getting export finance, insurance advice and support from UK Export Finance
-  %li reading our guidance on exporting - for all levels of exporters
-  %li contacting your local International Trade Adviser for tailored support
+      %p You can also increase your exporting potential by:
+      %ul.list.list-bullet
+        %li researching overseas markets with our exporting country guides
+        %li getting export finance, insurance advice and support from UK Export Finance
+        %li reading our guidance on exporting - for all levels of exporters
+        %li contacting your local International Trade Adviser for tailored support
 
-%p The export opportunities team
+      %p The export opportunities team
 
-%p=@enquiry_response.signature
+      %p=@enquiry_response.signature
 
 =render partial:'enquiry_response_mailer/submit_buttons' unless @mailer_view

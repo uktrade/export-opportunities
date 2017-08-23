@@ -95,18 +95,17 @@ ukti.EnquiryResponse = (function($) {
   };
 
   var formSubmitHandler = function (event) {
+    debugger;
     var errors = [];
     if ( isSignatureRequired() && isSignatureInvalid() ) {
-      ukti.Form.addErrorToField(baseEl.elements['enquiry_response[signature]'], config.errorMessages.signature);
+      ukti.Forms.addErrorToField(baseEl.elements['enquiry_response[signature]'], config.errorMessages.signature);
       errors.push(config.errorMessages.signature);
     }
 
     if ( isCommentRequired() && isCommentInvalid() ) {
-      ukti.Form.addErrorToField(baseEl.elements['enquiry_response[email_body]'], config.errorMessages.comment);
+      ukti.Forms.addErrorToField(baseEl.elements['enquiry_response[email_body]'], config.errorMessages.comment);
       errors.push(config.errorMessages.comment);
     }
-
-    debugger;
 
     if (errors.length) {
       event.preventDefault();
@@ -116,10 +115,6 @@ ukti.EnquiryResponse = (function($) {
     else {
       return true;
     }
-  };
-
-  var vaildateSignature = function () {
-    baseEl.elements['enquiry_response[response_type]']
   };
 
   var isSignatureRequired = function () {
@@ -153,6 +148,7 @@ ukti.EnquiryResponse = (function($) {
     initToggleFieldEdit();
     initUploadWidget();
     initValidation();
+    ukti.Forms.clearErrorsFromFields();
   };
 
   return {
