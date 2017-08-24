@@ -13,7 +13,7 @@ class EnquiryResponse < ActiveRecord::Base
   belongs_to :editor
 
   def email_body_length_check
-    if email_body.length < 1 && response_type <= 3
+    if email_body.empty? && response_type <= 3
       errors.add(:email_body, 'Please add a comment.')
     end
   end

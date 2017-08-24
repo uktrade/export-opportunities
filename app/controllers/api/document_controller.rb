@@ -15,7 +15,8 @@ module Api
         enquiry_id = doc_params['enquiry_id']
         user_id = doc_params['user_id']
         original_filename = doc_params['original_filename']
-        DocumentValidation.new.call(doc_params, doc_params['file_blob'])
+        validation_result = DocumentValidation.new.call(doc_params, doc_params['file_blob'])
+        return validation_result if validation_result['errors']
         res = DocumentStorage.new.call(original_filename, doc_params['file_blob'].path)
         if res
           s3_filename = enquiry_id.to_s + '_' + user_id.to_s + '_' + original_filename

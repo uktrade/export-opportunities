@@ -1,17 +1,18 @@
 class EnquiryResponseMailer < ApplicationMailer
   layout 'eig-email'
 
-  def right_for_opportunity(enquiry_response, editor_email, reply_to_address)
+  def right_for_opportunity(enquiry_response, editor_email)
     @mailer_view = true
     @enquiry_response = enquiry_response
-    mail from: editor_email.to_s, name: 'Export opportunities', reply_to: reply_to_address, sender: 'noreply@export.great.gov.uk', to: enquiry_response.enquiry.user.email, bcc: editor_email, subject: "Update on your enquiry for the export opportunity #{enquiry_response.enquiry.opportunity.title}"
+    mail from: editor_email.to_s, name: 'Export opportunities', reply_to: editor_email, sender: 'noreply@export.great.gov.uk', to: enquiry_response.enquiry.user.email, bcc: editor_email, subject: "Update on your enquiry for the export opportunity #{enquiry_response.enquiry.opportunity.title}"
   end
 
-  def more_information(enquiry_response, editor_email, reply_to_address)
+  def more_information(enquiry_response, editor_email)
     @mailer_view = true
     @enquiry_response = enquiry_response
-    mail from: editor_email.to_s, name: 'Export opportunities', reply_to: reply_to_address, sender: 'noreply@export.great.gov.uk', to: enquiry_response.enquiry.user.email, bcc: editor_email, subject: "Update on your enquiry for the export opportunity #{enquiry_response.enquiry.opportunity.title}"
+    mail from: editor_email.to_s, name: 'Export opportunities', reply_to: editor_email, sender: 'noreply@export.great.gov.uk', to: enquiry_response.enquiry.user.email, bcc: editor_email, subject: "Update on your enquiry for the export opportunity #{enquiry_response.enquiry.opportunity.title}"
   end
+
   def not_right_for_opportunity(enquiry_response, editor_email, reply_to_address)
     @mailer_view = true
     @enquiry_response = enquiry_response
@@ -29,5 +30,4 @@ class EnquiryResponseMailer < ApplicationMailer
     @enquiry_response = enquiry_response
     mail from: editor_email.to_s, name: 'Export opportunities', reply_to: reply_to_address, sender: 'noreply@export.great.gov.uk', to: enquiry_response.enquiry.user.email, bcc: editor_email, subject: "Update on your enquiry for the export opportunity #{enquiry_response.enquiry.opportunity.title}"
   end
-
 end

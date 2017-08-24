@@ -6,7 +6,7 @@ ukti.UploadWidget = (function() {
   var config = {
     maxFiles : 5,
     maxFileSize : 24000000, // in bytes
-    allowedFileTypes : ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/jpeg', 'image/png'],
+    allowedFileTypes : ['txt', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/jpeg', 'image/png'],
     errorMessages : {
       'filetype' : 'Error. Wrong file type. Your file should be doc, docx, pdf, ppt, pptx, jpg or png.',
       'filesize' : 'File exceeds max size. Your file can have a maximum size of 25MB.',

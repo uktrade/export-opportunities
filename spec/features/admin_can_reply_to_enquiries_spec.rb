@@ -30,6 +30,7 @@ feature 'admin can reply to enquiries' do
   end
 
   scenario 'reply to an enquiry with invalid mail length (has to be 30 chars)' do
+    skip('TODO: unskip once we reintroduce the 30 chars limit')
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
@@ -54,7 +55,7 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('1 error prevented this enquiry response from being saved')
   end
 
-  scenario 'reply to an enquiry with attachment' do
+  scenario 'reply to an enquiry with attachment choosing right for opportunity' do
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
@@ -64,6 +65,9 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('Email body')
 
     email_body_text = Faker::Lorem.words(15).join('-')
+
+    choose 'Right for opportunity'
+
     fill_in 'enquiry_response_email_body', with: email_body_text
 
     attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file.txt'
@@ -71,11 +75,14 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content(email_body_text)
     click_on 'Preview'
 
-    expect(page).to have_content('Reply sent successfully')
+    expect(page).to have_content('Your application will now move to the next stage')
+
+    click_on 'Send'
+
+    expect(page).to have_content('reply sent successfully')
   end
 
-  scenario 'reply to an enquiry as an uploader from the same service provider' do
-    skip
+  scenario 'reply to an enquiry as an uploader from the same service provider, need more information choice' do
     service_provider = create(:service_provider)
     uploader = create(:uploader, service_provider_id: service_provider.id)
     opportunity = create(:opportunity, service_provider_id: service_provider.id)
@@ -90,13 +97,18 @@ feature 'admin can reply to enquiries' do
     fill_in 'enquiry_response_email_body', with: email_body_text
     expect(page).to have_content(email_body_text)
 
-    click_on 'Next'
+    choose 'Need more information'
 
-    expect(page).to have_content('Reply sent successfully')
+    click_on 'Preview'
+
+    expect(page).to have_content('need more information')
+
+    click_on 'Send'
+
+    expect(page).to have_content('reply sent successfully')
   end
 
-  scenario 'reply to an enquiry as an uploader for the opportunity' do
-    skip
+  scenario 'reply to an enquiry as an uploader for the opportunity, not right for opportunity choice' do
     create(:service_provider)
     uploader = create(:uploader)
     opportunity = create(:opportunity, author: uploader)
@@ -111,13 +123,44 @@ feature 'admin can reply to enquiries' do
     fill_in 'enquiry_response_email_body', with: email_body_text
     expect(page).to have_content(email_body_text)
 
+    choose 'Not right for opportunity'
+
+    click_on 'Preview'
+
+    expect(page).to have_content('Your application does not meet the criteria for this opportunity')
+
     click_on 'Send'
 
-    expect(page).to have_content('Reply sent successfully')
+    expect(page).to have_content('reply sent successfully')
+  end
+
+  scenario 'reply to an enquiry as a previewer for the opportunity, not uk business' do
+    create(:service_provider)
+    previewer = create(:previewer)
+    opportunity = create(:opportunity, author: previewer)
+    enquiry = create(:enquiry, opportunity: opportunity)
+    login_as(previewer)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+    expect(page).to have_content('Email body')
+
+    email_body_text = Faker::Lorem.words(10).join('-')
+    fill_in 'enquiry_response_email_body', with: email_body_text
+    expect(page).to have_content(email_body_text)
+
+    choose 'Not UK registered'
+
+    click_on 'Preview'
+
+    expect(page).to have_content('is not UK registered')
+
+    click_on 'Send'
+
+    expect(page).to have_content('reply sent successfully')
   end
 
   scenario 'view enquiry response details at bottom of enquiry page' do
-    skip
     # create an enquiry and a response
     admin = create(:admin)
     enquiry = create(:enquiry)
@@ -198,8 +241,8 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('2 errors prevented this enquiry response from being saved')
   end
 
-  scenario 'reply to an enquiry attaching a file with VIRUS' do
-    skip
+  scenario 'reply to an enquiry attaching a file with VIRUS', js: true do
+    skip('TODO: poltergeist cant click on XY error..')
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
@@ -209,14 +252,16 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('Email body')
 
     email_body_text = Faker::Lorem.words(10).join('-')
+
+    choose 'Right for opportunity'
+
     fill_in 'enquiry_response_email_body', with: email_body_text
     expect(page).to have_content(email_body_text)
 
-    attach_file 'enquiry_response_attachments', 'spec/files/tender_sample_infected_file.txt'
+    attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_infected_file.txt'
 
-    click_on 'Send'
-
-    expect(page).to have_content('Your attachment is INFECTED. Please contact Export Opportunities helpdesk immediately')
+    expect(page).to have_content('Something has gone wrong. Please try again. If the problem persists, contact us.')
+    expect(page).to have_content('tender_sample_infected_file')
   end
 
   scenario 'reply to an enquiry attaching a file that can not be scanned' do

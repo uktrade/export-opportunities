@@ -26,19 +26,6 @@ RSpec.describe Api::DocumentController, type: :controller do
         expect(response).to have_http_status(200)
         expect(response.body).to include('/dashboard/downloads/')
       end
-
-      it 'with invalid request params' do
-        skip
-      end
-
-      it 'with AV server down' do
-        skip('move to feature specs')
-        allow(Figaro.env).to receive(:CLAM_AV_HOST).and_return('a-url-that-does-not-exist.com')
-        post :create, format: :json, params: @params
-
-        expect(response).to_not be_success
-        expect(response.status).to be(422)
-      end
     end
   end
 end

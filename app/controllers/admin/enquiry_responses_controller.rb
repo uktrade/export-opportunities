@@ -38,7 +38,7 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   end
 
   def enquiry_responses_params
-    params.require(:enquiry_response).permit(:id, :created_at, :updated_at, :email_attachment, :email_body, :editor_id, :enquiry_id, :signature, :documents, :response_type, attachments: [id: {} ])
+    params.require(:enquiry_response).permit(:id, :created_at, :updated_at, :email_attachment, :email_body, :editor_id, :enquiry_id, :signature, :documents, :response_type, attachments: [id: {}])
   end
 
   def preview
@@ -70,18 +70,16 @@ class Admin::EnquiryResponsesController < Admin::BaseController
       enquiry_response_type = @enquiry_response.response_type
       @web_view = true
       case enquiry_response_type
-        when 1
-          render 'enquiry_response_mailer/right_for_opportunity'
-        when 2
-          render 'enquiry_response_mailer/more_information'
-        when 3
-          render 'enquiry_response_mailer/not_right_for_opportunity'
-        when 4
-          render 'enquiry_response_mailer/not_uk_registered'
-        when 5
-          render 'enquiry_response_mailer/not_for_third_party'
-
-          # render 'enquiry_response_mailer/submit_buttons'
+      when 1
+        render 'enquiry_response_mailer/right_for_opportunity'
+      when 2
+        render 'enquiry_response_mailer/more_information'
+      when 3
+        render 'enquiry_response_mailer/not_right_for_opportunity'
+      when 4
+        render 'enquiry_response_mailer/not_uk_registered'
+      when 5
+        render 'enquiry_response_mailer/not_for_third_party'
       end
     else
       @enquiry = @enquiry_response.enquiry
