@@ -4,19 +4,19 @@
   %b=@enquiry_response.enquiry.opportunity.title
 
 %h4 Outcome
-%p You are not eligible to submit a proposal. 
+%p You are not eligible for this opportunity.
 
 %h4 Reason
-%p Your company is not UK registered.
+%p You are a third party - for example an agent, broker or other intermediary -  representing another company. The buyer will only talk directly with UK companies.
 
 %h4 What next
 
-%p If your company is registered in the UK please resubmit below and include your company details: company name, UK address and phone number.
-
-%p= link_to @enquiry_response.enquiry.opportunity.title, opportunity_path(@enquiry_response.enquiry.opportunity), { :class=>"link" }
-
 - if @enquiry_response.enquiry.opportunity.expired?
   %p This opportunity expired on #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
+
+%p If you are a UK company please make sure you explain how your company meets the criteria the next time you apply for an opportunity.
+
+%p If you are representing a UK company, please tell your client they must apply for an opportunity directly.
 
 %p The export opportunities team
 

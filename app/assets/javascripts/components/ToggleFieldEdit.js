@@ -29,14 +29,13 @@ ukti.ToggleFieldEdit = (function(Cookies) {
 
   var handleChange = function (event) {
     var fieldValue = event.target.value;
-    if (!ukti.Utilities.isValueEmpty(fieldValue)) {
-      Cookies.set('last_enquiry_response_signature', fieldValue);
-    }
+    Cookies.set('last_enquiry_response_signature', fieldValue);
     updateText();
   };
 
   var setup = function () {
-    if (Cookies.get('last_enquiry_response_signature')) {
+    var text = Cookies.get('last_enquiry_response_signature');
+    if (!ukti.Utilities.isValueEmpty(text)) {
       hasSignatureValue();
     } else {
       noSignatureValue();

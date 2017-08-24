@@ -42,7 +42,7 @@ ukti.Tabs = (function($) {
     tab.attr('aria-selected', "true").parent().addClass('active');
 
     if (callback) {
-      callback(tab);
+      callback(tab.parent().index());
     }
     // Set focus?
     //tabPanel.children().first().attr("tabindex", -1).focus();

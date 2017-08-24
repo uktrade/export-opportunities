@@ -21,23 +21,23 @@
       .tablist.js-tablist
         %ul
           %li{ class: (@response_type == 1 ? 'active' : nil) }
-            %input#response_type_1.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "1", "aria-controls" => "response-1-tab-panel", "aria-expanded" => "true", checked: @response_type == 1 }/
+            %input#response_type_1.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "1", "aria-controls" => "response-1-tab-panel", "aria-expanded" => "true", checked: (@response_type == 1 ? 'checked' : nil) }/
             %label{:for => "response_type_1", "tabindex" => "0"} Right for opportunity
             %span.badge-positive
           %li{ class: (@response_type == 2 ? 'active' : nil) }
-            %input#response_type_2.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "2", "aria-controls" => "response-2-tab-panel", checked: @response_type == 2}/
+            %input#response_type_2.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "2", "aria-controls" => "response-2-tab-panel", checked: (@response_type == 2 ? 'checked' : nil) }/
             %label{:for => "response_type_2", "tabindex" => "0"} Need more information
             %span.badge-neutral
           %li{ class: (@response_type == 3 ? 'active' : nil) }
-            %input#response_type_3.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "3", "aria-controls" => "response-3-tab-panel", checked: @response_type == nil}/
+            %input#response_type_3.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "3", "aria-controls" => "response-3-tab-panel", checked: (@response_type == 3 ? 'checked' : nil)}/
             %label{:for => "response_type_3","tabindex" => "0"} Not right for opportunity
             %span.badge-negative
           %li{ class: (@response_type == 4 ? 'active' : nil) }
-            %input#response_type_4.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "4", "aria-controls" => "response-4-tab-panel", checked: @response_type == 4}/
+            %input#response_type_4.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "4", "aria-controls" => "response-4-tab-panel", checked: (@response_type == 4 ? 'checked' : nil)}/
             %label{:for => "response_type_4", "tabindex" => "0"} Not UK registered
             %span.badge-negative
           %li{ class: (@response_type == 5 ? 'active' : nil) }
-            %input#response_type_5.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "5", "aria-controls" => "response-5-tab-panel", checked: @response_type == 5}/
+            %input#response_type_5.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "5", "aria-controls" => "response-5-tab-panel", checked: (@response_type == 4 ? 'checked' : nil)}/
             %label{:for => "response_type_5", "tabindex" => "0"} Not for third party
             %span.badge-negative
 
@@ -85,7 +85,7 @@
               %div.panel.panel-border-narrow
                 .grid-row
                   .column-one-half
-                    = render :partial => "admin/enquiry_responses/snippets/not_uk_registered", enquiries_response: @enquiry_response
+                    = render 'enquiry_response_mailer/not_uk_registered', enquiries_response: @enquiry_response
 
             #response-5-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel"}
               %p 
@@ -93,7 +93,7 @@
               %div.panel.panel-border-narrow
                 .grid-row
                   .column-one-half
-                    = render :partial => "admin/enquiry_responses/snippets/not_for_third_party", enquiries_response: @enquiry_response
+                    = render "enquiry_response_mailer/not_for_third_party", enquiries_response: @enquiry_response
 
   %fieldset#custom-response
     .grid-row

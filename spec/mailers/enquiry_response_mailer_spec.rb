@@ -63,7 +63,7 @@ RSpec.describe EnquiryResponseMailer, type: :mailer do
       expect(last_delivery.bcc).to include(enquiry_response.editor.email)
       expect(last_delivery.reply_to).to include(reply_to_address)
       expect(last_delivery.parts.first.body.raw_source).to include('Your company is not UK registered.')
-      expect(last_delivery.parts.first.body.raw_source).to include('include all the relevant company details - Company number, UK')
+      expect(last_delivery.parts.first.body.raw_source).to include('include your company details')
     end
 
     it 'sends an enquiry response to the person creating the enquiry and the editor responding to it with response type 5 (not for third party)' do

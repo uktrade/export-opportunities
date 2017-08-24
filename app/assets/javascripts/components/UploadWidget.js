@@ -68,24 +68,6 @@ ukti.UploadWidget = (function() {
       }
   };
 
-  // var displayErrors = function () {
-  //   if (!errorEl) {
-  //     return;
-  //   }
-  //   var html = '';
-  //   formGroupEl.classList.add('form-group-error');
-  //   for (var i = 0; i < errors.length; i++) {
-  //       html += errors[i];
-  //   }
-  //   errorEl.innerHTML = html;
-  //   errors.length = 0;
-  // };
-
-  // var clearErrors = function () {
-  //   formGroupEl.classList.remove('form-group-error');
-  //   errorEl.innerHTML = '';
-  // };
-
   var addLoadingClass = function(event) {
     labelEl.classList.add('isLoading');
   };
@@ -178,7 +160,7 @@ ukti.UploadWidget = (function() {
 
   var handleUploadFileError = function (xhr, status) {
     errors.push(config.errorMessages.general);
-    displayErrors();
+    ukti.Forms.addErrorsToField(baseEl, errors);
     removeLoadingClass();
   };
 
