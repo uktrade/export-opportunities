@@ -5,6 +5,12 @@ class DocumentValidation
     validate_params(params)
 
     clamav_scan(params['original_filename'], file)
+
+    unless @result
+      @result = {
+        status: 200,
+      }
+    end
   end
 
   def validate_params(params)
@@ -14,21 +20,24 @@ class DocumentValidation
           type: 'missing parameter',
           message: 'no user id',
         },
-      } end
+      }
+    end
     unless params['enquiry_id']
       @result = {
         errors: {
           type: 'missing parameter',
           message: 'no enquiry id found',
         },
-      } end
+      }
+    end
     unless params['original_filename']
       @result = {
         errors: {
           type: 'missing parameter',
           message: 'no original filename found',
         },
-      } end
+      }
+    end
   end
 
   def clamav_scan(filename, file_blob)
@@ -38,7 +47,8 @@ class DocumentValidation
           type: 'virus found',
           message: 'file is not clean',
         },
-    } end
+      }
+    end
   rescue SocketError => e
     Rails.logger.error 'cant reach server', e
     raise Exception, 'Cant reach server'

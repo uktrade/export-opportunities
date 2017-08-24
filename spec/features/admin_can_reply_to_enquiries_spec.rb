@@ -30,6 +30,7 @@ feature 'admin can reply to enquiries' do
   end
 
   scenario 'reply to an enquiry with invalid mail length (has to be 30 chars)' do
+    skip('TODO: unskip once we reintroduce the 30 chars limit')
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
