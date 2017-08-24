@@ -9,10 +9,17 @@ ukti.EnquiryResponse = (function($) {
 
   var config = {
     errorMessages : {
-      'comment': 'Please enter a comment.',
-      'signature': 'You must enter a signature.'
+      'comment': 'Please enter some comments.',
+      'signature': 'Please enter contact details.'
     }
   };
+
+  var setup = function () {
+    var initialResponseType = baseEl.elements['enquiry_response[response_type]'].value;
+    if ( initialResponseType === '4' || initialResponseType === '5') {
+      document.getElementById('custom-response').classList.add('hidden');
+    }
+  }
 
   var tabsCallback = function (tab) {
     if (!tab) {
@@ -34,6 +41,7 @@ ukti.EnquiryResponse = (function($) {
       document.getElementById('attachments').classList.remove('hidden');
       updateSubmitButton('Preview');
     }
+    ukti.Forms.clearErrorsFromFields();
   };
 
   var updateSubmitButton = function (text) {
@@ -140,12 +148,12 @@ ukti.EnquiryResponse = (function($) {
 
   var init = function (form) {
     baseEl = form;
+    setup();
     initTabs();
     loadTextEditorScript();
     initToggleFieldEdit();
     initUploadWidget();
     initValidation();
-    ukti.Forms.clearErrorsFromFields();
   };
 
   return {

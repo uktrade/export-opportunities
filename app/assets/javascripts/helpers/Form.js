@@ -1,22 +1,26 @@
 var ukti = window.ukti || {};
 
-ukti.Forms = (function($) {
+ukti.Forms = (function() {
   'use strict';
 
+  var config = {
+    formGroupClass: 'form-group',
+    formGroupErrorClass: 'form-group-error',
+    errorSelector: '.error-message'
+  };
+
   var addErrorSummmary = function (el, errors) {
-  	var errorEl;
+  	var html;
     for (var i = 0; i < errors.length; i++) {
         html += errors[i];
     }
-    errorEl.innerHTML = error;
   };
 
   var addErrorToField = function (el, error) {
-  	var html = '';
-		var formGroupEl = ukti.Utilities.closestByClass(el, 'form-group');
-  	var errorEl = formGroupEl.querySelector( '.error-message' );
+		var formGroupEl = returnFormGroup(el);
+  	var errorEl = returnErrorEl(formGroupEl);
   	if (formGroupEl) {
-    	formGroupEl.classList.add('form-group-error');
+    	formGroupEl.classList.add(config.formGroupErrorClass);
   	}
     if(errorEl) {
     	errorEl.innerHTML = error;
@@ -24,25 +28,41 @@ ukti.Forms = (function($) {
 		return el;
   };
 
+  var addErrorsToField = function (el, errors) {
+    var html = '';
+    for (var i = 0; i < errors.length; i++) {
+        html += errors[i];
+    }
+    addErrorToField(el, html);
+  };
+
   var clearErrorFromField = function (el) {
-  	var formGroupEl = ukti.Utilities.closestByClass(el, 'form-group');
-  	var errorEl = formGroupEl.querySelector( '.error-message' );
-    formGroupEl.classList.remove('form-group-error');
+  	var formGroupEl = returnFormGroup(el);
+  	var errorEl = returnErrorEl(formGroupEl);
+    formGroupEl.classList.remove(config.formGroupErrorClass);
     errorEl.innerHTML = '';
   };
 
   var clearErrorsFromFields = function (form) {
-  	var formGroups = document.getElementsByClassName( 'form-group-error' );
-		for(var i = 0; i < formGroups.length; i++) {
-			debugger;
-			formGroups.item(i);
+  	var formGroups = document.getElementsByClassName( config.formGroupErrorClass );
+    var formGroupsArray = Array.prototype.slice.call(formGroups);
+		for(var i = 0; i < formGroupsArray.length; i++) {
+      console.log(formGroupsArray[i]);
+			clearErrorFromField(formGroupsArray[i]);
 		}
-		var errorMessages = document.getElementsByClassName( '.error-message' );
+  };
 
+  var returnErrorEl = function (el) {
+    return el.querySelector( config.errorSelector );
+  };
+
+  var returnFormGroup = function (el) {
+    return ukti.Utilities.closestByClass(el, config.formGroupClass);
   };
 
   return {
     addErrorToField: addErrorToField,
+    addErrorsToField: addErrorsToField,
     clearErrorFromField: clearErrorFromField,
     clearErrorsFromFields: clearErrorsFromFields
   };

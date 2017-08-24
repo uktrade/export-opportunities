@@ -8,8 +8,8 @@ ukti.UploadWidget = (function() {
     maxFileSize : 24000000, // in bytes
     allowedFileTypes : ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/jpeg', 'image/png'],
     errorMessages : {
-      'filetype' : 'Error. Wrong file type. Your file should be doc, docx, pdf, ppt, pptx, jpg or png',
-      'filesize' : 'File exceeds max size. Your file can have a maximum size of 25MB',
+      'filetype' : 'Error. Wrong file type. Your file should be doc, docx, pdf, ppt, pptx, jpg or png.',
+      'filesize' : 'File exceeds max size. Your file can have a maximum size of 25MB.',
       'general' : 'Something has gone wrong. Please try again. If the problem persists, contact us.'
     }
   };
@@ -58,32 +58,33 @@ ukti.UploadWidget = (function() {
       errors.push(config.errorMessages.filesize);
     }
     if (errors.length) {
-        displayErrors();  
+        ukti.Forms.addErrorsToField(baseEl, errors);
+        errors.length = 0;
         return false;
       }
       else {
-        clearErrors();
+        ukti.Forms.clearErrorFromField(baseEl);
         return true;
       }
   };
 
-  var displayErrors = function () {
-    if (!errorEl) {
-      return;
-    }
-    var html = '';
-    formGroupEl.classList.add('form-group-error');
-    for (var i = 0; i < errors.length; i++) {
-        html += errors[i];
-    }
-    errorEl.innerHTML = html;
-    errors.length = 0;
-  };
+  // var displayErrors = function () {
+  //   if (!errorEl) {
+  //     return;
+  //   }
+  //   var html = '';
+  //   formGroupEl.classList.add('form-group-error');
+  //   for (var i = 0; i < errors.length; i++) {
+  //       html += errors[i];
+  //   }
+  //   errorEl.innerHTML = html;
+  //   errors.length = 0;
+  // };
 
-  var clearErrors = function () {
-    formGroupEl.classList.remove('form-group-error');
-    errorEl.innerHTML = '';
-  };
+  // var clearErrors = function () {
+  //   formGroupEl.classList.remove('form-group-error');
+  //   errorEl.innerHTML = '';
+  // };
 
   var addLoadingClass = function(event) {
     labelEl.classList.add('isLoading');
@@ -107,6 +108,8 @@ ukti.UploadWidget = (function() {
 		if(!fileListEl || fileListStore.length < 0) {
 			return;
 		}
+
+    ukti.Forms.clearErrorFromField(baseEl);
 
     if (fileListStore.length === config.maxFiles) {
       handleMaxFilesReach();
