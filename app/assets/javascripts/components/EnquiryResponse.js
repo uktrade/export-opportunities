@@ -9,7 +9,7 @@ ukti.EnquiryResponse = (function($) {
 
   var config = {
     errorMessages : {
-      'comments': 'You need at least 30 characters in your reply.',
+      'comment': 'Please enter a comment.',
       'signature': 'You must enter a signature.'
     }
   };
@@ -53,11 +53,9 @@ ukti.EnquiryResponse = (function($) {
         { name: 'Heading 2', element: 'h2'},
         { name: 'Heading 3', element: 'h3'},
         { name: 'Introduction', element: 'p', attributes: { 'class': 'introduction'} },
-
         // Inline styles
         { name: 'Link button', element: 'a', attributes: { 'class': 'button' } },
         { name: 'List', element: 'ul', attributes: { 'class': 'list list-bullet' } },
-
         // Object styles
         { name: 'Stretch', element: 'img', attributes: { 'class': 'stretch' } },
     ]);
@@ -97,11 +95,18 @@ ukti.EnquiryResponse = (function($) {
   var formSubmitHandler = function (event) {
     var errors = [];
     if ( isSignatureRequired() && isSignatureInvalid() ) {
-      errors.push(config.errorMessages.empty);
+      ukti.Forms.addErrorToField(baseEl.elements['enquiry_response[signature]'], config.errorMessages.signature);
+      errors.push(config.errorMessages.signature);
     }
+
+    if ( isCommentRequired() && isCommentInvalid() ) {
+      ukti.Forms.addErrorToField(baseEl.elements['enquiry_response[email_body]'], config.errorMessages.comment);
+      errors.push(config.errorMessages.comment);
+    }
+
     if (errors.length) {
       event.preventDefault();
-      addErrorToField();  
+      // add summary
       return false;
     }
     else {
@@ -114,12 +119,19 @@ ukti.EnquiryResponse = (function($) {
     return (response_type === "1" || response_type === "2");
   };
 
-  var isSignatureValid = function () {
-    var signature = baseEl.elements['enquiry_response[signature]'].value;
-    return !ukti.Utilities.isValueEmpty(signature);
+  var isSignatureInvalid = function () {
+    var value = baseEl.elements['enquiry_response[signature]'].value;
+    return ukti.Utilities.isValueEmpty(value);
   };
 
-  var addErrorToField = function () {
+  var isCommentRequired = function () {
+    var response_type = baseEl.elements['enquiry_response[response_type]'].value;
+    return (response_type === "1" || response_type === "2" || response_type === "3");
+  };
+
+  var isCommentInvalid = function () {
+    var value = baseEl.elements['enquiry_response[email_body]'].value;
+    return ukti.Utilities.isValueEmpty(value);
   };
 
   var initValidation = function () {
@@ -133,6 +145,7 @@ ukti.EnquiryResponse = (function($) {
     initToggleFieldEdit();
     initUploadWidget();
     initValidation();
+    ukti.Forms.clearErrorsFromFields();
   };
 
   return {

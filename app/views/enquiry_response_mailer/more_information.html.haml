@@ -1,4 +1,5 @@
-=@enquiry_response.inspect
+/
+  =@enquiry_response.inspect
 
 %div.panel.panel-border-narrow
   .grid-row
@@ -8,16 +9,16 @@
         Thank you for your interest in the export opportunity:
         %b=@enquiry_response.enquiry.opportunity.title
 
-%h4 Outcome
-%p Your application can not be taken any further. 
+      %h4 Outcome
+      %p Your application can not be taken any further. 
 
-%h4 Reason
-%p You have not provided enough information.
+      %h4 Reason
+      %p You have not provided enough information.
 
-= render 'enquiry_response_mailer/editable_content', enquiry_response: @enquiry_response
+      = render 'enquiry_response_mailer/editable_content', enquiry_response: @enquiry_response
 
 
-%p I need more information from you to see if you meet the criteria for this opportunity.
-%p You need to provide the following information before this opportunity expires on #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}.
+      %p I need more information from you to see if you meet the criteria for this opportunity.
+      %p You need to provide the following information before this opportunity expires on #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}.
 
-=render partial:'enquiry_response_mailer/submit_buttons' unless @mailer_view
+      =render partial:'enquiry_response_mailer/submit_buttons' unless @mailer_view
