@@ -79,7 +79,7 @@ feature 'admin can reply to enquiries' do
 
     click_on 'Send'
 
-    expect(page).to have_content('reply sent successfully')
+    expect(page).to have_content('Reply sent successfully')
   end
 
   scenario 'reply to an enquiry as an uploader from the same service provider, need more information choice' do
@@ -105,7 +105,7 @@ feature 'admin can reply to enquiries' do
 
     click_on 'Send'
 
-    expect(page).to have_content('reply sent successfully')
+    expect(page).to have_content('Reply sent successfully')
   end
 
   scenario 'reply to an enquiry as an uploader for the opportunity, not right for opportunity choice' do
@@ -131,7 +131,7 @@ feature 'admin can reply to enquiries' do
 
     click_on 'Send'
 
-    expect(page).to have_content('reply sent successfully')
+    expect(page).to have_content('Reply sent successfully')
   end
 
   scenario 'reply to an enquiry as a previewer for the opportunity, not uk business' do
@@ -157,7 +157,7 @@ feature 'admin can reply to enquiries' do
 
     click_on 'Send'
 
-    expect(page).to have_content('reply sent successfully')
+    expect(page).to have_content('Reply sent successfully')
   end
 
   scenario 'view enquiry response details at bottom of enquiry page' do

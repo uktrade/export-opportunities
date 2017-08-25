@@ -1,6 +1,11 @@
 - if params[:reply_sent]
-  %h1.heading-large reply sent successfully
-  %h2 please log into CDMS
+  %div.alert.flash.info
+    %h2.margin-top-0 Reply sent successfully
+    %p
+      Remember to record a new 
+      %a{:href => "https://crm.cdms.ukti.gov.uk/"} CDMS Service delivery:
+      %strong
+        EIG Website, Export Opps
 
 %h1.heading-xlarge Enquiries
 

@@ -35,7 +35,7 @@ ukti.ToggleFieldEdit = (function(Cookies) {
 
   var setup = function () {
     var text = Cookies.get('last_enquiry_response_signature');
-    if (!ukti.Utilities.isValueEmpty(text)) {
+    if (text && !ukti.Utilities.isValueEmpty(text)) {
       hasSignatureValue();
     } else {
       noSignatureValue();

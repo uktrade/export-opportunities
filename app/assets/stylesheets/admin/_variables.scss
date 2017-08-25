@@ -10,6 +10,7 @@ $grey-gallery: #efefef;
 
 $green-fun: #008337;
 $green-country: #003717;
+$green-flower: #c3e8d2;
 $amber-buttercup: #f5a623;
 $red-crimson: #E41F13;
 
@@ -25,7 +26,7 @@ $colour-message: #d7efd1;
 $colour-warning: #f4d3d3;
 
 /* used for confirmation messaging panels */
-$colour-positive: #c3e8d2;
+$colour-positive: $green-flower;
 
 /* used for the enquiry response types */
 $response-type-positive: $green-fun;
