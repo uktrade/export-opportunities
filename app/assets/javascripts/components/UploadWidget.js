@@ -9,7 +9,7 @@ ukti.UploadWidget = (function() {
     allowedFileTypes : ['txt', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/jpeg', 'image/png'],
     errorMessages : {
       'filetype' : 'Error. Wrong file type. Your file should be doc, docx, pdf, ppt, pptx, jpg or png.',
-      'filesize' : 'File exceeds max size. Your file can have a maximum size of 25MB.',
+      'filesize' : 'File exceeds max size. Your file can have a maximum size of 25Mb.',
       'general' : 'Something has gone wrong. Please try again. If the problem persists, contact us.'
     }
   };
