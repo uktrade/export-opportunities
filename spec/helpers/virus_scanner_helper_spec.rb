@@ -1,5 +1,7 @@
 require 'rails_helper'
 
+# These tests require internet connection to the ClamAV DIT server
+
 describe VirusScannerHelper do
   describe '#virus scanner with local file' do
     it 'scan an infected file' do

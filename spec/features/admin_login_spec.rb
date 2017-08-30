@@ -22,7 +22,6 @@ feature 'Logging in as an admin' do
   end
 
   scenario 'Logging in successfully to help guide' do
-    skip('TODO: fix')
     create(:editor, email: 'email@example.com', password: 'wibble-sidecar-sling')
 
     visit '/admin/help/opportunities'
@@ -48,15 +47,15 @@ feature 'Logging in as an admin' do
   end
 
   scenario 'visiting admin help guide for enquiries' do
-    skip('for DB to fill in with appropriate content')
     editor = create(:editor)
     login_as(editor)
 
     visit '/admin/help/enquiries'
 
-    expect_editor_to_be_logged_in
-    expect(page).to include('TADA1')
-    expect(page).to include('TADA2')
+    # we are logged in but can't see the Log out option without js.
+    expect(page).to have_content('Opportunities Enquiries Stats')
+    expect(page).to have_content('Tell a company they are not right for opportunity')
+    expect(page).to have_content('If Opp not yet expired:')
   end
 
   scenario 'Attempting to log in to an account that does not exist' do

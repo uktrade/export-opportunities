@@ -21,6 +21,7 @@ RSpec.describe Api::DocumentController, type: :controller do
       end
 
       it 'with valid real request' do
+        # TODO: test without network connection. fails at logging.
         post :create, format: :json, enquiry_response: @params
 
         expect(response).to have_http_status(200)

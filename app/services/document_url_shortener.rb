@@ -1,6 +1,6 @@
 class DocumentUrlShortener
   # shorten a url, only accessible to user_id for enquiry_id
-  def shorten_link(s3_url, user_id, enquiry_id, original_filename)
+  def shorten_and_save_link(s3_url, user_id, enquiry_id, original_filename)
     hashed_id = hash_link(s3_url, user_id, enquiry_id)
     save_link(user_id, enquiry_id, original_filename, hashed_id, s3_url)
   end
