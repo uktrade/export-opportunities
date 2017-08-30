@@ -14,10 +14,21 @@
     background-color: $grey-rollingstone;
     box-shadow: 0 2px 0 #003618;
     border: 2px solid #6f777b;
-    padding: 0.475em 0.9375em 0.4625em 0.9375em;
+    padding: 0.375em 0.9375em 0.3625em 0.9375em;
     display: inline-block;
     cursor: pointer;
   }
+  .inputfile {
+    &.disabled + label,
+    &[disabled="disabled"] + label,
+    &[disabled] + label {
+      zoom: 1;
+      filter: alpha(opacity=50);
+      opacity: 0.5;
+      cursor: default;
+    } 
+  }
+
   .inputfile + label svg {
       width: 1em;
       height: 1em;
