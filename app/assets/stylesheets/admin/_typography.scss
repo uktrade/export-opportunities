@@ -85,3 +85,11 @@ a:active {
 .button-reply {
 
 }
+
+/* quick fix to fit big number */
+.bold-xxlarge-fit {
+  @include media(tablet) {
+    font-size: 70px;
+    line-height: 80px;
+  }
+}
