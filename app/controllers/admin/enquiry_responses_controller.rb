@@ -18,20 +18,6 @@ class Admin::EnquiryResponsesController < Admin::BaseController
     authorize @enquiry_response
   end
 
-  # def show
-  #   byebug
-  #   enquiry_response_type = @enquiry_response.response_type
-  #   case enquiry_response_type
-  #     when 1
-  #       render 'enquiry_response_mailer/not_right_for_opportunity'
-  #     when 2
-  #     when 3
-  #       render 'enquiry_response_mailer/right_for_opportunity'
-  #     when 4
-  #     when 5
-  #   end
-  # end
-
   def create
     @enquiry_response = EnquiryResponse.new(enquiry_responses_params)
     create_or_update

@@ -15,6 +15,8 @@ class DocumentUrlShortener
     ).first
   end
 
+  private
+
   def hash_link(s3_url, user_id, enquiry_id)
     d1 = Digest::SHA256.digest([s3_url, user_id, enquiry_id].pack('H*'))
     d2 = Digest::SHA256.digest(d1)

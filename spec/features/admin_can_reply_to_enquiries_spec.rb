@@ -55,6 +55,26 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('1 error prevented this enquiry response from being saved')
   end
 
+  scenario 'reply to an enquiry with blank mail - FAIL' do
+    admin = create(:admin)
+    enquiry = create(:enquiry)
+    login_as(admin)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+    expect(page).to have_content('Email body')
+
+    editor_signature = Faker::Lorem.words(10).join('-')
+
+    fill_in 'enquiry_response_signature', with: editor_signature
+
+    choose 'Need more information'
+
+    click_on 'Preview'
+
+    expect(page).to have_content('1 error prevented this enquiry response from being saved')
+  end
+
   scenario 'reply to an enquiry with attachment choosing right for opportunity' do
     admin = create(:admin)
     enquiry = create(:enquiry)
@@ -154,6 +174,32 @@ feature 'admin can reply to enquiries' do
     click_on 'Preview'
 
     expect(page).to have_content('is not UK registered')
+byebug
+    click_on 'Send'
+
+    expect(page).to have_content('Reply sent successfully')
+  end
+
+  scenario 'reply to an enquiry as a previewer for the opportunity, not for third party' do
+    create(:service_provider)
+    previewer = create(:previewer)
+    opportunity = create(:opportunity, author: previewer)
+    enquiry = create(:enquiry, opportunity: opportunity)
+    login_as(previewer)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+    expect(page).to have_content('Email body')
+
+    email_body_text = Faker::Lorem.words(10).join('-')
+    fill_in 'enquiry_response_email_body', with: email_body_text
+    expect(page).to have_content(email_body_text)
+
+    choose 'Not for third party'
+
+    click_on 'Preview'
+
+    expect(page).to have_content('You are a third party')
 
     click_on 'Send'
 
@@ -178,8 +224,7 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content(enquiry_response.email_body)
   end
 
-  scenario 'reply to an enquiry with attachment, valid' do
-    skip
+  scenario 'reply to an enquiry with attachment, valid, right for opportunity', js: true do
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
@@ -189,18 +234,22 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('Email body')
 
     email_body_text = Faker::Lorem.words(10).join('-')
-    fill_in 'enquiry_response_email_body', with: email_body_text
-    expect(page).to have_content(email_body_text)
+    fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
 
-    attach_file 'enquiry_response_attachments', 'spec/files/tender_sample_file.txt'
+    # choose right for opportunity
+    page.find('#response_type_1').trigger('click')
+    attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file.pdf', visible: false
+
+    click_on 'Preview'
+
+    wait_for_ajax
 
     click_on 'Send'
 
     expect(page).to have_content('Reply sent successfully')
   end
 
-  scenario 'reply to an enquiry with invalid attachment file type' do
-    skip
+  scenario 'reply to an enquiry with invalid attachment file type', js: true do
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
@@ -210,14 +259,14 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('Email body')
 
     email_body_text = Faker::Lorem.words(10).join('-')
-    fill_in 'enquiry_response_email_body', with: email_body_text
-    expect(page).to have_content(email_body_text)
 
-    attach_file 'enquiry_response_attachments', 'spec/files/tender_sample_invalid_extension_file'
+    fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
 
-    click_on 'Send'
+    # choose right for opportunity
+    page.find('#response_type_1').trigger('click')
+    attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_invalid_extension_file', visible: false
 
-    expect(page).to have_content('2 errors prevented this enquiry response from being saved')
+    expect(page.body).to have_content('Wrong file type. Your file should be doc, docx, pdf, ppt, pptx, jpg or png')
   end
 
   scenario 'reply to an enquiry with invalid attachment file size' do
@@ -266,5 +315,14 @@ feature 'admin can reply to enquiries' do
 
   scenario 'reply to an enquiry attaching a file that can not be scanned' do
     skip
+  end
+
+  # helper method to fill in our lovely ckeditor textarea
+  def fill_in_ckeditor(locator, opts)
+    content = opts.fetch(:with).to_json # convert to a safe javascript string
+    page.execute_script <<-SCRIPT
+    CKEDITOR.instances['#{locator}'].setData(#{content});
+    $('textarea##{locator}').text(#{content});
+    SCRIPT
   end
 end
