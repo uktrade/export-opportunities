@@ -5,13 +5,12 @@ class DocumentUrlShortener
     save_link(user_id, enquiry_id, original_filename, hashed_id, s3_url)
   end
 
-  def s3_link(user_id, enquiry_id, hashed_id)
-    raise Exception, 'need either one of user or enquiry id as input' unless user_id || enquiry_id
+  def s3_link(user_id, hashed_id)
+    raise Exception, 'need either one of user or enquiry id as input' unless user_id
     raise Exception, 'need hashed_id as input' unless hashed_id
 
     DocumentUrlMapper.where(
       user_id: user_id,
-      # enquiry_id: enquiry_id,
       hashed_id: hashed_id
     ).first
   end
