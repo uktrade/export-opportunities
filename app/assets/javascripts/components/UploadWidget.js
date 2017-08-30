@@ -96,7 +96,7 @@ ukti.UploadWidget = (function() {
     if (fileListStore.length === config.maxFiles) {
       handleMaxFilesReach();
     } else {
-      showAddFileButton();
+      enableField();
     }
 
 		while (fileListEl.hasChildNodes()) {
@@ -115,8 +115,7 @@ ukti.UploadWidget = (function() {
 		}
   };
 
-  var returnRemoveFileLink = function () {
-    var index = fileListStore.length;
+  var returnRemoveFileLink = function (index) {
     var link = document.createElement('a');
     link.href = index;
     link.innerHTML = 'Remove';
@@ -128,15 +127,17 @@ ukti.UploadWidget = (function() {
   };
 
   var handleMaxFilesReach = function () {
-    hideAddFileButton();
+    disableField();
   };
 
-  var hideAddFileButton = function () {
-    labelEl.classList.add('hidden');
+  var disableField = function () {
+    fileInputEl.setAttribute('disabled', 'disabled');
+    fileInputEl.setAttribute('aria-disabled', 'true');
   };
 
-  var showAddFileButton = function () {
-    labelEl.classList.remove('hidden');
+  var enableField = function () {
+    fileInputEl.removeAttribute('disabled');
+    fileInputEl.removeAttribute('aria-disabled');
   };
 
   var updateHiddenField = function (item) {
