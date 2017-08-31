@@ -174,7 +174,7 @@ feature 'admin can reply to enquiries' do
     click_on 'Preview'
 
     expect(page).to have_content('is not UK registered')
-byebug
+
     click_on 'Send'
 
     expect(page).to have_content('Reply sent successfully')
