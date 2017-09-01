@@ -5,5 +5,16 @@
 %h4 Reason
 %p Your application meets the criteria for this opportunity.
 
-%h4 Download documents
+- if @enquiry_response.documents.present?
+  %h4 Download documents
+  %p Documents will expire after 30 days.
+
+  %blockquote.noquotes
+    %ul.list.list-bullet
+      - @documents = JSON.parse(@enquiry_response.documents)
+      - @documents.each do |document|
+        %li 
+          %a{:href => "#{document['result']['base_url']}/#{document['result']['id']['hashed_id']}"} #{document['result']['id']['original_filename']}
+
+
 

@@ -1,125 +1,135 @@
-/normalise response type code
-- @response_type = @enquiry.enquiry_responses.first.response_type.nil? ? 0 : @enquiry.enquiry_responses.first.response_type
 
 .container
   .legacy.margin-top-30
-    %section#opportunity
-      %h1 You applied for this opportunity:
-      %h2 #{@enquiry.opportunity.title.strip}
-      %p #{@enquiry.opportunity.teaser.strip}
-      %h3 Essential information
-      .meta
-        .meta__item
-          %h4.meta__header
-            Sectors:
-          %p.meta__content
-            = @enquiry.opportunity.sectors.pluck(:name).to_sentence
-        .meta__item
-          %h4.meta__header
-            Opportunity type:
-          %p.meta__content
-            = @enquiry.opportunity.types.pluck(:name).to_sentence
-        .meta__item
-          %h4.meta__header
-            Value of contract:
-          %p.meta__content
-            - if @enquiry.opportunity.values.any?
-              = @enquiry.opportunity.values.first.name
-            - else
-              Value unknown
-        .meta__item
-          %h4.meta__header
-            Applications received:
-          %p.meta__content
-            = @enquiry.opportunity.enquiries.size
+    %h1 You applied for this opportunity: 
+  .row
+    .column-4
+      &nbsp;
+      #sticky-panel
+        .article-navigation
+          %h4.margin-top-30 Page contents
+          %ul
+            %li
+              %a{:href =>'#dit'} Your submission
+            %li
+              %a{:href =>'#next-steps'} Outcome and next steps
+            %li
+              %a{:href =>'#suggestions'} Opportunity
+    .column-8
+      .legacy.margin-top-30
+        %section#enquiry-details
+          %h2 #{@enquiry.opportunity.title.strip}"
+          %p Sent on: #{@enquiry.created_at}
+          =present_html_or_formatted_text(@enquiry.company_explanation)
+          %h3 Details you gave us
+          .meta
+            .meta__item
+              %h4.meta__header
+                Company sectors:
+              %p.meta__content
+                = @enquiry.company_sector
+            .meta__item
+              %h4.meta__header
+                Existing exporter:
+              %p.meta__content
+                = @enquiry.existing_exporter
+          - if @enquiry.company_url.nil? & @enquiry.company_url.empty?
+            .meta__item
+              %h4.meta__header
+                Company website:
+              %p.meta__content= link_to @enquiry.company_url, @enquiry.company_url
+          - if @enquiry.company_house_number
+            .meta__item
+              %h4.meta__header
+                Companies house record:
+              %p.meta__content= link_to @enquiry.company_url, @enquiry.company_url
 
-    %hr
+        %hr
 
-    %section#enquiry-details
-      %h1 Your proposal
-      %p Sent on: #{@enquiry.created_at}
-      =present_html_or_formatted_text(@enquiry.company_explanation)
-      %h3 Details you gave us
-      .meta
-        .meta__item
-          %h4.meta__header
-            Company sectors:
-          %p.meta__content
-            = @enquiry.company_sector
-        .meta__item
-          %h4.meta__header
-            Existing exporter:
-          %p.meta__content
-            = @enquiry.existing_exporter
-      - if @enquiry.company_url.nil? & @enquiry.company_url.empty?
-        .meta__item
-          %h4.meta__header
-            Company website:
-          %p.meta__content= link_to @enquiry.company_url, @enquiry.company_url
-      - if @enquiry.company_house_number
-        .meta__item
-          %h4.meta__header
-            Companies house record:
-          %p.meta__content= link_to @enquiry.company_url, @enquiry.company_url
+        %section#next-steps
+          %h2 Outcome and next steps
 
-    %hr
+          - case @response_type
+            - when 0
+              = 'Your application is under consideration.'
+            - when 1
+              = render 'users/enquiries/snippets/outcome/right', enquiry_response: @enquiry_response
+            - when 2
+              = render 'users/enquiries/snippets/outcome/need_more_information', enquiry_response: @enquiry_response
+            - when 3
+              = render 'users/enquiries/snippets/outcome/not_right', enquiry_response: @enquiry_response
+            - when 4
+              = render 'users/enquiries/snippets/outcome/not_uk_registered', enquiry_response: @enquiry_response
+            - when 5
+              = render 'users/enquiries/snippets/outcome/not_for_third_party', enquiry_response: @enquiry_response
 
-    %section#next-steps
-      %h1 Next steps
+        %hr
 
-      - case @response_type
-        - when 0
-          = 'Just base it off the fact there is no response yet'
-        - when 1
-          = render 'users/enquiries/snippets/outcome/right', enquiries_response: @enquiry.enquiry_responses.first
-        - when '2'
-          = render 'users/enquiries/snippets/outcome/right', enquiries_response: @enquiry.enquiry_responses.first
-        - when '3'
-          = render 'users/enquiries/snippets/outcome/right', enquiries_response: @enquiry.enquiry_responses.first
-        - when '4'
-          = render 'users/enquiries/snippets/outcome/right', enquiries_response: @enquiry.enquiry_responses.first
-        - when '5'
-          = render 'users/enquiries/snippets/outcome/right', enquiries_response: @enquiry.enquiry_responses.first
-      
-      - if @enquiry.enquiry_responses&.exists?
-        
-      - else
+        %section#suggestions
+          %h2 Additional suggestions
 
+          - case @response_type
+            - when 0
+              = 'Just base it off the fact there is no response yet'
+            - when 1
+              = render 'users/enquiries/snippets/suggestions/right', enquiry_response: @enquiry_response
+            - when 2
+              = render 'users/enquiries/snippets/suggestions/need_more_information', enquiry_response: @enquiry_response
+            - when 3
+              = render 'users/enquiries/snippets/suggestions/not_right', enquiry_response: @enquiry_response
+            - when 4
+              = render 'users/enquiries/snippets/suggestions/not_uk_registered', enquiry_response: @enquiry_response
+            - when 5
+              = render 'users/enquiries/snippets/suggestions/not_for_third_party', enquiry_response: @enquiry_response
 
-    %hr
+        %hr
 
-    %section#suggestions
-      %h1 Additional suggestions
+        %section#opportunity
+          %h3 #{@enquiry.opportunity.title.strip}
+          %p #{@enquiry.opportunity.teaser.strip}
+          %h3 Essential information
+          .meta
+            .meta__item
+              %h4.meta__header
+                Sectors:
+              %p.meta__content
+                = @enquiry.opportunity.sectors.pluck(:name).to_sentence
+            .meta__item
+              %h4.meta__header
+                Opportunity type:
+              %p.meta__content
+                = @enquiry.opportunity.types.pluck(:name).to_sentence
+            .meta__item
+              %h4.meta__header
+                Value of contract:
+              %p.meta__content
+                - if @enquiry.opportunity.values.any?
+                  = @enquiry.opportunity.values.first.name
+                - else
+                  Value unknown
+            .meta__item
+              %h4.meta__header
+                Applications received:
+              %p.meta__content
+                = @enquiry.opportunity.enquiries.size
 
-      - case @response_type
-        - when 0
-          = 'Just base it off the fact there is no response yet'
-        - when 1
-          = render 'users/enquiries/snippets/suggestions/right', enquiries_response: @enquiry.enquiry_responses.first
-        - when '2'
-          = render 'users/enquiries/snippets/suggestions/right', enquiries_response: @enquiry.enquiry_responses.first
-        - when '3'
-          = render 'users/enquiries/snippets/suggestions/right', enquiries_response: @enquiry.enquiry_responses.first
-        - when '4'
-          = render 'users/enquiries/snippets/suggestions/right', enquiries_response: @enquiry.enquiry_responses.first
-        - when '5'
-          = render 'users/enquiries/snippets/suggestions/right', enquiries_response: @enquiry.enquiry_responses.first
-    %br
-    %br
-    %br
-    %br
-    %br
-    %br
-    %br
-    %br
-    %br
-    %br
-    %br
-    %br
-    %br
-    %br
-    %br
-    %br
+        %hr
+        %br
+        %br
+        %br
+        %br
+        %br
+        %br
+        %br
+        %br
+        %br
+        %br
+        %br
+        %br
+        %br
+        %br
+        %br
+        %br
 
     =@enquiry.inspect
     %br

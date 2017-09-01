@@ -6,7 +6,9 @@ h1,
   line-height: 1.25;
   letter-spacing: -0.9px;
   @media #{$tablet-s} {
-		width: 60%;
+    &.constrained-width {
+      width: 60%;
+    }
   }
   @media #{$tablet-m} {
 		font-size:48px;
