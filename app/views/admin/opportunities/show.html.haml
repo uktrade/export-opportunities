@@ -115,7 +115,7 @@
             - else
               %td='Not supplied'
           - else
-            %td{class: 'rate_ch_exceeded'}='Rate limit exceeded - ' + enquiry.company_house_number
+            %td{class: 'rate_ch_exceeded'}=enquiry.company_house_number
         %tr
           %th{:scope => 'row'} Company Postcode
           %td= enquiry.company_postcode
@@ -131,7 +131,7 @@
             - else
               %td='Not supplied'
           - else
-            %td{class: 'rate_trade_profile_exceeded'}='Rate limit exceeded'
+            %td{class: 'rate_trade_profile_exceeded'}=link_to 'Please check individual enquiry here', admin_enquiry_url(enquiry.id)
         %tr
           %th{:scope => 'row'} Existing exporter?
           %td= enquiry.existing_exporter

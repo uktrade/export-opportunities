@@ -28,7 +28,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def show
-    @enquiries_cutoff = 30
+    @enquiries_cutoff = 20
     @opportunity = Opportunity.find(params[:id])
     @comment_form = OpportunityCommentForm.new(opportunity: @opportunity, author: current_editor)
     @history = OpportunityHistory.new(opportunity: @opportunity)
