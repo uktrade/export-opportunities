@@ -31,7 +31,7 @@ feature 'admin can reply to enquiries' do
   end
 
   scenario 'reply to an enquiry with invalid mail length (has to be 30 chars)' do
-    skip('TODO: unskip once we reintroduce the 30 chars limit')
+    skip('TODO: reintroduce once we reintroduce the 30 chars limit')
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
@@ -167,28 +167,29 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('Email body')
 
     email_body_text = Faker::Lorem.words(10).join('-')
-    fill_in 'enquiry_response_email_body', with: email_body_text
-    expect(page).to have_content(email_body_text)
+    fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
 
-    choose 'Not UK registered'
+    expect(page.body).to have_content(email_body_text)
 
-    click_on 'Preview'
+    page.find('#li4').click
 
-    expect(page).to have_content('is not UK registered')
+    wait_for_ajax
 
     click_on 'Send'
 
-    expect(page).to have_content('Reply sent successfully')
+    expect(page).to have_content('Your company is not UK registered')
   end
 
   scenario 'reply to an enquiry as a previewer for the opportunity, not for third party - with js', js: true do
+    # slightly wider window for capybara to allow enough space for screenshot_and_open_page
+    page.driver.resize(1300, 1240)
+
     create(:service_provider)
     previewer = create(:previewer)
     opportunity = create(:opportunity, author: previewer)
     enquiry = create(:enquiry, opportunity: opportunity)
     login_as(previewer)
     visit '/admin/enquiries/' + enquiry.id.to_s
-# byebug
     click_on 'Reply'
 
     wait_for_ajax
@@ -199,14 +200,13 @@ feature 'admin can reply to enquiries' do
     fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
     # expect(page).to have_content(email_body_text)
 
-    page.find('#response_type_5').trigger('click')
+    page.find('#li5').click
 
     wait_for_ajax
 
-
     click_on 'Send'
 
-    expect(page).to have_content('Remember to record a new CDMS Service delivery: EIG Website, Export Opps')
+    expect(page).to have_content('You are a third party')
   end
 
   scenario 'reply to an enquiry with attachment, valid, right for opportunity - with js', js: true do
@@ -248,14 +248,14 @@ feature 'admin can reply to enquiries' do
     fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
 
     # choose right for opportunity
-    page.find('#response_type_1').trigger('click')
+    page.find('#li1').click
     attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_invalid_extension_file', visible: false
 
     expect(page.body).to have_content('Wrong file type. Your file should be doc, docx, pdf, ppt, pptx, jpg or png')
   end
 
-  scenario 'reply to an enquiry with invalid attachment file size' do
-    skip
+  scenario 'reply to an enquiry with invalid attachment file size - with js', js: true do
+    skip('we dont check for file size in controller')
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
@@ -265,18 +265,25 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('Email body')
 
     email_body_text = Faker::Lorem.characters(30)
-    fill_in 'enquiry_response_email_body', with: email_body_text
-    expect(page).to have_content(email_body_text)
+    fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
 
-    attach_file 'enquiry_response_attachments', 'spec/files/tender_sample_pico_file.txt'
+    expect(page.body).to have_content(email_body_text)
 
-    click_on 'Send'
+    page.find('#li3').click
+
+    wait_for_ajax
+
+    attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_pico_file.txt', visible: false
+
+    click_on 'Preview'
 
     expect(page).to have_content('2 errors prevented this enquiry response from being saved')
   end
 
   scenario 'reply to an enquiry attaching a file with VIRUS - with js', js: true do
-    skip('TODO: poltergeist cant click on XY error..')
+    Capybara.raise_server_errors = false
+    page.driver.browser.js_errors = false
+
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
@@ -287,15 +294,14 @@ feature 'admin can reply to enquiries' do
 
     email_body_text = Faker::Lorem.words(10).join('-')
 
-    choose 'Right for opportunity'
+    page.find('#li1').click
 
-    fill_in 'enquiry_response_email_body', with: email_body_text
-    expect(page).to have_content(email_body_text)
+    fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
+    expect(page.body).to have_content(email_body_text)
 
-    attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_infected_file.txt'
+    attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_infected_file.pdf', visible: false
 
     expect(page).to have_content('Something has gone wrong. Please try again. If the problem persists, contact us.')
-    expect(page).to have_content('tender_sample_infected_file')
   end
 
   scenario 'reply to an enquiry attaching a file that can not be scanned' do

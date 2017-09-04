@@ -23,7 +23,6 @@ require 'support/elastic_search'
 require 'support/request_spec_helper'
 require 'capybara-screenshot/rspec'
 
-
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|

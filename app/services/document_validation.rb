@@ -6,7 +6,9 @@ class DocumentValidation
 
     clamav_scan(params['original_filename'], file)
 
-    unless @result
+    if @result
+      @result
+    else
       @result = {
         status: 200,
       }

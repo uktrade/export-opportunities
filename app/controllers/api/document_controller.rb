@@ -16,21 +16,26 @@ module Api
         user_id = doc_params['user_id']
         original_filename = doc_params['original_filename']
         validation_result = DocumentValidation.new.call(doc_params, doc_params['file_blob'])
-        return validation_result if validation_result['errors']
+        return validation_result if validation_result[:errors]
         res = DocumentStorage.new.call(original_filename, doc_params['file_blob'].path)
         if res
           s3_filename = enquiry_id.to_s + '_' + user_id.to_s + '_' + original_filename
           document_url = 'https://s3.' + Figaro.env.aws_region_ptu! + '.amazonaws.com/' + Figaro.env.post_user_communication_s3_bucket! + '/' + s3_filename
           short_url = DocumentUrlShortener.new.shorten_and_save_link(document_url, user_id, enquiry_id, original_filename)
         else
-          raise Exception, 'cant save file to S3'
+          return {
+            errors: {
+              type: 'error saving',
+              message: 'couldnt store file to S3',
+            },
+          }
         end
         @result = {
           status: 200,
           id: short_url,
           base_url: Figaro.env.domain! + '/dashboard/downloads/',
         }
-      # FakeAPI for testing
+        # FakeAPI for testing
       else
         d1 = Digest::SHA256.digest(['make ids great again'].pack('H*'))
         d2 = Digest::SHA256.digest(d1)
@@ -50,8 +55,8 @@ module Api
       end
       respond_to do |format|
         format.json { render json: { result: @result }, status: 200 }
-        # format.js { render js: @result }
-        # format.html { render html: @result }
+        format.js { render json: { result: @result }, status: 200 }
+        format.html { render json: { result: @result }, status: 200 }
       end
     end
   end
