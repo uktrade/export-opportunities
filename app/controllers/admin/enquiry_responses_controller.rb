@@ -38,8 +38,9 @@ class Admin::EnquiryResponsesController < Admin::BaseController
     create_or_update
   end
 
-  def email_send
-    enquiry_response = EnquiryResponse.find(params[:enquiry_response_id])
+  def email_send(enq_res = nil)
+    enquiry_response_id = enq_res || params[:enquiry_response_id]
+    enquiry_response = EnquiryResponse.find(enquiry_response_id)
     EnquiryResponseSender.new.call(enquiry_response, enquiry_response.enquiry)
     redirect_to admin_enquiries_path(reply_sent: true)
   end
@@ -63,9 +64,9 @@ class Admin::EnquiryResponsesController < Admin::BaseController
       when 3
         render 'enquiry_response_mailer/_not_right_for_opportunity'
       when 4
-        render 'enquiry_response_mailer/_not_uk_registered'
+        email_send(@enquiry_response.id)
       when 5
-        render 'enquiry_response_mailer/_not_for_third_party'
+        email_send(@enquiry_response.id)
       end
     else
       @enquiry = @enquiry_response.enquiry

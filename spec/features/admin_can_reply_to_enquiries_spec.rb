@@ -184,7 +184,7 @@ feature 'admin can reply to enquiries' do
 
     click_on 'Send'
 
-    expect(page).to have_content('Your company is not UK registered')
+    expect(page).to have_content('Reply sent successfully Remember to record a new CDMS Service delivery')
   end
 
   scenario 'reply to an enquiry as a previewer for the opportunity, not for third party - with js', js: true do
@@ -213,7 +213,7 @@ feature 'admin can reply to enquiries' do
 
     click_on 'Send'
 
-    expect(page).to have_content('You are a third party')
+    expect(page).to have_content('Reply sent successfully Remember to record a new CDMS Service delivery')
   end
 
   scenario 'reply to an enquiry with attachment, valid, right for opportunity - with js', js: true do
@@ -261,8 +261,8 @@ feature 'admin can reply to enquiries' do
     expect(page.body).to have_content('Wrong file type. Your file should be doc, docx, pdf, ppt, pptx, jpg or png')
   end
 
-  scenario 'reply to an enquiry with invalid attachment file size - with js', js: true do
-    skip('we dont check for file size in controller')
+  scenario 'reply to an enquiry with invalid attachments, more than 5 - with js', js: true do
+    skip
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
@@ -276,15 +276,23 @@ feature 'admin can reply to enquiries' do
 
     expect(page.body).to have_content(email_body_text)
 
-    page.find('#li3').click
+    page.find('#li1').click
 
     wait_for_ajax
 
-    attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_pico_file.txt', visible: false
+    attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file.pdf', visible: false
+    attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file_2.pdf', visible: false
+    attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file_3.pdf', visible: false
+    attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file_4.pdf', visible: false
+    attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file_5.pdf', visible: false
+
+    wait_for_ajax
+
+    attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file_6.pdf', visible: false
 
     click_on 'Preview'
 
-    expect(page).to have_content('2 errors prevented this enquiry response from being saved')
+    expect(page).to have_content('1 error prevented this enquiry response from being saved')
   end
 
   scenario 'reply to an enquiry attaching a file with VIRUS - with js', js: true do
