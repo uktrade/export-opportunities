@@ -90,6 +90,7 @@ end
 group :test do
   gem 'capybara', require: false
   gem 'capybara-email', require: false
+  gem 'capybara-screenshot'
   gem 'fuubar'
   gem 'shoulda-matchers', require: false
   gem 'rspec-sidekiq'

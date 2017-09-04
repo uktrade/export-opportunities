@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'spec/support/integration_helpers'
 
 feature 'admin can reply to enquiries' do
   scenario 'reply to an enquiry' do
@@ -154,7 +155,7 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('Reply sent successfully')
   end
 
-  scenario 'reply to an enquiry as a previewer for the opportunity, not uk business' do
+  scenario 'reply to an enquiry as a previewer for the opportunity, not uk business - with js', js: true do
     create(:service_provider)
     previewer = create(:previewer)
     opportunity = create(:opportunity, author: previewer)
@@ -180,51 +181,35 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('Reply sent successfully')
   end
 
-  scenario 'reply to an enquiry as a previewer for the opportunity, not for third party' do
+  scenario 'reply to an enquiry as a previewer for the opportunity, not for third party - with js', js: true do
     create(:service_provider)
     previewer = create(:previewer)
     opportunity = create(:opportunity, author: previewer)
     enquiry = create(:enquiry, opportunity: opportunity)
     login_as(previewer)
     visit '/admin/enquiries/' + enquiry.id.to_s
-
+# byebug
     click_on 'Reply'
+
+    wait_for_ajax
+
     expect(page).to have_content('Email body')
 
     email_body_text = Faker::Lorem.words(10).join('-')
-    fill_in 'enquiry_response_email_body', with: email_body_text
-    expect(page).to have_content(email_body_text)
+    fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
+    # expect(page).to have_content(email_body_text)
 
-    choose 'Not for third party'
+    page.find('#response_type_5').trigger('click')
 
-    click_on 'Preview'
+    wait_for_ajax
 
-    expect(page).to have_content('You are a third party')
 
     click_on 'Send'
 
-    expect(page).to have_content('Reply sent successfully')
+    expect(page).to have_content('Remember to record a new CDMS Service delivery: EIG Website, Export Opps')
   end
 
-  scenario 'view enquiry response details at bottom of enquiry page' do
-    # create an enquiry and a response
-    admin = create(:admin)
-    enquiry = create(:enquiry)
-    enquiry_response = create(:enquiry_response, enquiry: enquiry)
-
-    # visit enquiry page
-    login_as(admin)
-    visit '/admin/enquiries/' + enquiry.id.to_s
-
-    # reply button should not be visible
-    expect(page).not_to have_content('Reply')
-
-    # enquiry response details should be visible
-    expect(page).to have_content(enquiry_response.editor.name)
-    expect(page).to have_content(enquiry_response.email_body)
-  end
-
-  scenario 'reply to an enquiry with attachment, valid, right for opportunity', js: true do
+  scenario 'reply to an enquiry with attachment, valid, right for opportunity - with js', js: true do
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
@@ -249,7 +234,7 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('Reply sent successfully')
   end
 
-  scenario 'reply to an enquiry with invalid attachment file type', js: true do
+  scenario 'reply to an enquiry with invalid attachment file type - with js', js: true do
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
@@ -290,7 +275,7 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('2 errors prevented this enquiry response from being saved')
   end
 
-  scenario 'reply to an enquiry attaching a file with VIRUS', js: true do
+  scenario 'reply to an enquiry attaching a file with VIRUS - with js', js: true do
     skip('TODO: poltergeist cant click on XY error..')
     admin = create(:admin)
     enquiry = create(:enquiry)
@@ -315,6 +300,24 @@ feature 'admin can reply to enquiries' do
 
   scenario 'reply to an enquiry attaching a file that can not be scanned' do
     skip
+  end
+
+  scenario 'view enquiry response details at bottom of enquiry page' do
+    # create an enquiry and a response
+    admin = create(:admin)
+    enquiry = create(:enquiry)
+    enquiry_response = create(:enquiry_response, enquiry: enquiry)
+
+    # visit enquiry page
+    login_as(admin)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    # reply button should not be visible
+    expect(page).not_to have_content('Reply')
+
+    # enquiry response details should be visible
+    expect(page).to have_content(enquiry_response.editor.name)
+    expect(page).to have_content(enquiry_response.email_body)
   end
 
   # helper method to fill in our lovely ckeditor textarea

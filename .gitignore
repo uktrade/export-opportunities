@@ -52,3 +52,6 @@ servers_setup.sh
 
 # local deployment scripts
 *.sh
+
+# ignore capybara's modified show_page
+public/capybara.html
