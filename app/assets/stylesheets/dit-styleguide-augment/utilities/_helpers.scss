@@ -34,7 +34,20 @@
   }
 }
 
+/* fix */
 
 .navigation-main-button {
   right:10px;
 }
+
+/* sticky content */
+
+@media (min-width: 768px) {
+  .stuck {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+}
+
+
