@@ -2,6 +2,13 @@ require 'rails_helper'
 require 'spec/support/integration_helpers'
 
 feature 'admin can reply to enquiries' do
+  after(:all) do
+    # clean up our files
+    Dir["#{Rails.root}/tender_sample_*.pdf"].each do |file|
+      File.delete(file)
+    end
+  end
+
   scenario 'reply to an enquiry' do
     admin = create(:admin)
     opportunity = create(:opportunity)
