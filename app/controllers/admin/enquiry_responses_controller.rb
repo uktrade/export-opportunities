@@ -39,11 +39,11 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   end
 
   def email_send(enquiry_response_id = nil)
-    enquiry_response_id = enquiry_response_id || params[:enquiry_response_id]
+    enquiry_response_id ||= params[:enquiry_response_id]
     enquiry_response = EnquiryResponse.find(enquiry_response_id)
     EnquiryResponseSender.new.call(enquiry_response, enquiry_response.enquiry)
 
-    enquiry_response.completed_at = DateTime.now
+    enquiry_response.completed_at = Time.zone.now
     enquiry_response.save!
 
     redirect_to admin_enquiries_path(reply_sent: true)
@@ -52,7 +52,7 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   private
 
   def create_or_update
-   @enquiry_response.editor_id = current_editor.id
+    @enquiry_response.editor_id = current_editor.id
 
     authorize @enquiry_response
     if @enquiry_response.errors.empty? && @enquiry_response.valid?
