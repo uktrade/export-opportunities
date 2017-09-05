@@ -262,7 +262,7 @@ feature 'admin can reply to enquiries' do
   end
 
   scenario 'reply to an enquiry with invalid attachments, more than 5 - with js', js: true do
-    skip
+    skip('cant attach files using capybara')
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)

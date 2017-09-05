@@ -24,7 +24,7 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   end
 
   def enquiry_responses_params
-    params.require(:enquiry_response).permit(:id, :created_at, :updated_at, :email_attachment, :email_body, :editor_id, :enquiry_id, :signature, :documents, :response_type, attachments: [id: {}])
+    params.require(:enquiry_response).permit(:id, :created_at, :updated_at, :email_attachment, :email_body, :editor_id, :enquiry_id, :signature, :documents, :response_type, :completed_at, attachments: [id: {}])
   end
 
   def preview
@@ -38,17 +38,21 @@ class Admin::EnquiryResponsesController < Admin::BaseController
     create_or_update
   end
 
-  def email_send(enq_res = nil)
-    enquiry_response_id = enq_res || params[:enquiry_response_id]
+  def email_send(enquiry_response_id = nil)
+    enquiry_response_id = enquiry_response_id || params[:enquiry_response_id]
     enquiry_response = EnquiryResponse.find(enquiry_response_id)
     EnquiryResponseSender.new.call(enquiry_response, enquiry_response.enquiry)
+
+    enquiry_response.completed_at = DateTime.now
+    enquiry_response.save!
+
     redirect_to admin_enquiries_path(reply_sent: true)
   end
 
   private
 
   def create_or_update
-    @enquiry_response.editor_id = current_editor.id
+   @enquiry_response.editor_id = current_editor.id
 
     authorize @enquiry_response
     if @enquiry_response.errors.empty? && @enquiry_response.valid?
