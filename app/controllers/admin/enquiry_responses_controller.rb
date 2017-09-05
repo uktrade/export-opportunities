@@ -18,27 +18,13 @@ class Admin::EnquiryResponsesController < Admin::BaseController
     authorize @enquiry_response
   end
 
-  # def show
-  #   byebug
-  #   enquiry_response_type = @enquiry_response.response_type
-  #   case enquiry_response_type
-  #     when 1
-  #       render 'enquiry_response_mailer/not_right_for_opportunity'
-  #     when 2
-  #     when 3
-  #       render 'enquiry_response_mailer/right_for_opportunity'
-  #     when 4
-  #     when 5
-  #   end
-  # end
-
   def create
     @enquiry_response = EnquiryResponse.new(enquiry_responses_params)
     create_or_update
   end
 
   def enquiry_responses_params
-    params.require(:enquiry_response).permit(:id, :created_at, :updated_at, :email_attachment, :email_body, :editor_id, :enquiry_id, :signature, :documents, :response_type, attachments: [id: {}])
+    params.require(:enquiry_response).permit(:id, :created_at, :updated_at, :email_attachment, :email_body, :editor_id, :enquiry_id, :signature, :documents, :response_type, :completed_at, attachments: [id: {}])
   end
 
   def preview
@@ -52,9 +38,14 @@ class Admin::EnquiryResponsesController < Admin::BaseController
     create_or_update
   end
 
-  def email_send
-    enquiry_response = EnquiryResponse.find(params[:enquiry_response_id])
+  def email_send(enquiry_response_id = nil)
+    enquiry_response_id ||= params[:enquiry_response_id]
+    enquiry_response = EnquiryResponse.find(enquiry_response_id)
     EnquiryResponseSender.new.call(enquiry_response, enquiry_response.enquiry)
+
+    enquiry_response.completed_at = Time.zone.now
+    enquiry_response.save!
+
     redirect_to admin_enquiries_path(reply_sent: true)
   end
 
@@ -77,9 +68,9 @@ class Admin::EnquiryResponsesController < Admin::BaseController
       when 3
         render 'enquiry_response_mailer/_not_right_for_opportunity'
       when 4
-        render 'enquiry_response_mailer/_not_uk_registered'
+        email_send(@enquiry_response.id)
       when 5
-        render 'enquiry_response_mailer/_not_for_third_party'
+        email_send(@enquiry_response.id)
       end
     else
       @enquiry = @enquiry_response.enquiry

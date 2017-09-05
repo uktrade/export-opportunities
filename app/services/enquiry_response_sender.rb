@@ -1,6 +1,5 @@
 class EnquiryResponseSender
   def call(enquiry_response, enquiry)
-    enquiry_response = enquiry_response
     enquiry_response_type = enquiry_response.response_type
     @enquiry = enquiry
     editor_email = enquiry_response.editor.email
