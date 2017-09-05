@@ -1,0 +1,18 @@
+=@enquiry_response.inspect
+.row
+  .column-4
+    .tile
+    - if  @enquiry_response.enquiry.existing_exporter = 'Not yet'
+      %p If you are new to exporting 
+      %a{:href=>'https://www.export.great.gov.uk/new/'} Exporting guides
+    - else
+      %p If you have exported before 
+      %a{:href=>'https://www.export.great.gov.uk/occasional/'} Exporting guides
+  .column-4
+    .tile
+      %h5 Country guide
+      %p Whether you are new to exporting or not you can
+  .column-4
+    .tile
+      %h5 Speak with a trade advisor
+      %p Whether you are new to exporting or not you can

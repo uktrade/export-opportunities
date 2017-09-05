@@ -7,6 +7,7 @@
 //= require components/SearchFilter
 //= require components/ResultsOrder
 //= require components/ScrollTo
+//= require components/EqualHeight
 //= require start-page
 
 //= require enquiries_form

@@ -1,13 +1,13 @@
-
+- @response_type = 5
 .container
   .legacy.margin-top-30
-    %h1 You applied for this opportunity: 
+    %h1 You applied for this opportunity
   .row
     .column-4
       &nbsp;
       #sticky-panel
         .article-navigation
-          %h4.margin-top-30 Page contents
+          %h4.article-navigation_heading Page contents:
           %ul
             %li
               %a{:href =>'#dit'} Your submission
@@ -53,34 +53,15 @@
             - when 0
               = 'Your application is under consideration.'
             - when 1
-              = render 'users/enquiries/snippets/outcome/right', enquiry_response: @enquiry_response
+              = render 'users/enquiries/includes/outcome/right', enquiry_response: @enquiry_response
             - when 2
-              = render 'users/enquiries/snippets/outcome/need_more_information', enquiry_response: @enquiry_response
+              = render 'users/enquiries/includes/outcome/need_more_information', enquiry_response: @enquiry_response
             - when 3
-              = render 'users/enquiries/snippets/outcome/not_right', enquiry_response: @enquiry_response
+              = render 'users/enquiries/includes/outcome/not_right', enquiry_response: @enquiry_response
             - when 4
-              = render 'users/enquiries/snippets/outcome/not_uk_registered', enquiry_response: @enquiry_response
+              = render 'users/enquiries/includes/outcome/not_uk_registered', enquiry_response: @enquiry_response
             - when 5
-              = render 'users/enquiries/snippets/outcome/not_for_third_party', enquiry_response: @enquiry_response
-
-        %hr
-
-        %section#suggestions
-          %h2 Additional suggestions
-
-          - case @response_type
-            - when 0
-              = 'Just base it off the fact there is no response yet'
-            - when 1
-              = render 'users/enquiries/snippets/suggestions/right', enquiry_response: @enquiry_response
-            - when 2
-              = render 'users/enquiries/snippets/suggestions/need_more_information', enquiry_response: @enquiry_response
-            - when 3
-              = render 'users/enquiries/snippets/suggestions/not_right', enquiry_response: @enquiry_response
-            - when 4
-              = render 'users/enquiries/snippets/suggestions/not_uk_registered', enquiry_response: @enquiry_response
-            - when 5
-              = render 'users/enquiries/snippets/suggestions/not_for_third_party', enquiry_response: @enquiry_response
+              = render 'users/enquiries/includes/outcome/not_for_third_party', enquiry_response: @enquiry_response
 
         %hr
 
@@ -113,71 +94,121 @@
               %p.meta__content
                 = @enquiry.opportunity.enquiries.size
 
-        %hr
-        %br
-        %br
-        %br
-        %br
-        %br
-        %br
-        %br
-        %br
-        %br
-        %br
-        %br
-        %br
-        %br
-        %br
-        %br
-        %br
+.bg-offwhite
+  .container
+    %section#suggestions
+      %h2 Additional suggestions
+      - case @response_type
+        - when 0
+          = 'Just base it off the fact there is no response yet'
+        - when 1
+          = render 'users/enquiries/includes/suggestions/right', enquiry_response: @enquiry_response
+        - when 2
+          = render 'users/enquiries/includes/suggestions/need_more_information', enquiry_response: @enquiry_response
+        - when 3
+          = render 'users/enquiries/includes/suggestions/not_right', enquiry_response: @enquiry_response
+        - when 4
+          = render 'users/enquiries/includes/suggestions/not_uk_registered', enquiry_response: @enquiry_response
+        - when 5
+          = render 'users/enquiries/includes/suggestions/not_for_third_party', enquiry_response: @enquiry_response
 
-    =@enquiry.inspect
-    %br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br
+%br 
 
-    =@enquiry.opportunity.inspect
-    %br
 
-    =@enquiry.enquiry_responses.first.inspect
+=@enquiry.inspect
+%br
+
+=@enquiry.opportunity.inspect
+%br
+
+=@enquiry.enquiry_responses.first.inspect
 
 
-    %h1 Enquiry for &ldquo;#{@enquiry.opportunity.title.strip}&rdquo;
-    %p Applied on: #{@enquiry.created_at}
+%h1 Enquiry for &ldquo;#{@enquiry.opportunity.title.strip}&rdquo;
+%p Applied on: #{@enquiry.created_at}
 
-    %table.horizontal
-      %tr
-        %th{:scope => 'row'} Name
-        %td= @enquiry.first_name + ' ' + @enquiry.last_name
-      %tr
-        %th{:scope => 'row'} Email address
-        %td= @enquiry.email
-      %tr
-        %th{:scope => 'row'} Telephone number
-        %td= @enquiry.company_telephone
-      %tr
-        %th{scope: 'row'} Company name
-        %td= @enquiry.company_name
-      %tr
-        %th{scope: 'row'} Company address
-        %td
-          = @enquiry.company_address
-          %br
-          = @enquiry.company_postcode
-      - if @enquiry.company_url
-        %tr
-          %th{scope: 'row'} Company URL
-          %td= link_to @enquiry.company_url, @enquiry.company_url
-      - if @enquiry.company_house_number
-        %tr
-          %th{:scope => 'row'} Companies House Number
-          %td #{@enquiry.company_house_number}
-      %tr
-        %th{:scope => 'row'} Have you sold products or services to overseas customers?
-        %td= @enquiry.existing_exporter
-      %tr
-        %th{:scope => 'row'} Sector
-        %td= @enquiry.company_sector
-      %tr
-        %th{:scope => 'row'} How do you meet the requirements for this opportunity?
-        %td= present_html_or_formatted_text(@enquiry.company_explanation)
+%table.horizontal
+  %tr
+    %th{:scope => 'row'} Name
+    %td= @enquiry.first_name + ' ' + @enquiry.last_name
+  %tr
+    %th{:scope => 'row'} Email address
+    %td= @enquiry.email
+  %tr
+    %th{:scope => 'row'} Telephone number
+    %td= @enquiry.company_telephone
+  %tr
+    %th{scope: 'row'} Company name
+    %td= @enquiry.company_name
+  %tr
+    %th{scope: 'row'} Company address
+    %td
+      = @enquiry.company_address
+      %br
+      = @enquiry.company_postcode
+  - if @enquiry.company_url
+    %tr
+      %th{scope: 'row'} Company URL
+      %td= link_to @enquiry.company_url, @enquiry.company_url
+  - if @enquiry.company_house_number
+    %tr
+      %th{:scope => 'row'} Companies House Number
+      %td #{@enquiry.company_house_number}
+  %tr
+    %th{:scope => 'row'} Have you sold products or services to overseas customers?
+    %td= @enquiry.existing_exporter
+  %tr
+    %th{:scope => 'row'} Sector
+    %td= @enquiry.company_sector
+  %tr
+    %th{:scope => 'row'} How do you meet the requirements for this opportunity?
+    %td= present_html_or_formatted_text(@enquiry.company_explanation)
 
-    %a.button.button-blue{href: dashboard_path} Go back
+%a.button.button-blue{href: dashboard_path} Go back
