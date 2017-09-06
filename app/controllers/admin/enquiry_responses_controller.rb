@@ -11,7 +11,6 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   def new
     @enquiry ||= Enquiry.find(params.fetch(:id, nil))
     @companies_house_url ||= companies_house_url(@enquiry.company_house_number)
-
     @enquiry_response ||= EnquiryResponse.where(enquiry_id: @enquiry.id).first ? EnquiryResponse.where(enquiry_id: @enquiry.id).first : EnquiryResponse.new
     @enquiry_response.enquiry ||= @enquiry
     @respond_by_date ||= @enquiry.created_at + 5.days
@@ -41,10 +40,12 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   def email_send(enquiry_response_id = nil)
     enquiry_response_id ||= params[:enquiry_response_id]
     enquiry_response = EnquiryResponse.find(enquiry_response_id)
-    EnquiryResponseSender.new.call(enquiry_response, enquiry_response.enquiry)
+    authorize enquiry_response
 
-    enquiry_response.completed_at = Time.zone.now
+    enquiry_response['completed_at'] = Time.zone.now
     enquiry_response.save!
+
+    EnquiryResponseSender.new.call(enquiry_response, enquiry_response.enquiry)
 
     redirect_to admin_enquiries_path(reply_sent: true)
   end
