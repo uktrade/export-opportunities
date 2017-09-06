@@ -1,12 +1,12 @@
 class StatsCalculator
-  Stats = ImmutableStruct.new(:opportunities_submitted, :opportunities_published, :enquiries, :enquiry_responses, :average_age_when_published)
+  Stats = ImmutableStruct.new(:opportunities_submitted, :opportunities_published, :enquiries, :enquiry_response, :average_age_when_published)
 
   def call(criteria)
     date_range = (criteria.date_from..criteria.date_to)
     case criteria.granularity
     when 'ServiceProvider'
       if criteria.all_service_providers?
-        opportunities_submitted, opportunities_published, enquiries, enquiry_responses = global_results(date_range)
+        opportunities_submitted, opportunities_published, enquiries, enquiry_response = global_results(date_range)
       else
         opportunities_submitted = Opportunity.where(service_provider_id: criteria.service_provider_id, created_at: date_range).count
         opportunities_published = Opportunity.where(service_provider_id: criteria.service_provider_id, first_published_at: date_range)
@@ -19,7 +19,7 @@ class StatsCalculator
       end
       service_providers = service_providers.uniq.flatten
 
-      opportunities_submitted, opportunities_published, enquiries, enquiry_responses = results_with_filters(service_providers, date_range)
+      opportunities_submitted, opportunities_published, enquiries, enquiry_response = results_with_filters(service_providers, date_range)
     when 'Region'
       service_providers = []
       countries_arr = []
@@ -34,15 +34,15 @@ class StatsCalculator
       end
       service_providers = service_providers.uniq.flatten
 
-      opportunities_submitted, opportunities_published, enquiries, enquiry_responses = results_with_filters(service_providers, date_range)
+      opportunities_submitted, opportunities_published, enquiries, enquiry_response = results_with_filters(service_providers, date_range)
     when 'Universe'
-      opportunities_submitted, opportunities_published, enquiries, enquiry_responses = global_results(date_range)
+      opportunities_submitted, opportunities_published, enquiries, enquiry_response = global_results(date_range)
     end
 
     Stats.new(opportunities_submitted: opportunities_submitted,
               opportunities_published: opportunities_published.count,
               enquiries: enquiries,
-              enquiry_responses: enquiry_responses,
+              enquiry_response: enquiry_response,
               average_age_when_published: average_age_when_published(opportunities_published))
   end
 
@@ -52,16 +52,16 @@ class StatsCalculator
     opportunities_submitted = Opportunity.where(created_at: date_range).count
     opportunities_published = Opportunity.where(first_published_at: date_range)
     enquiries = Enquiry.joins(:opportunity).where(created_at: date_range).count
-    enquiry_responses = EnquiryResponse.joins(:enquiry).where(created_at: date_range).count
-    [opportunities_submitted, opportunities_published, enquiries, enquiry_responses]
+    enquiry_response = EnquiryResponse.joins(:enquiry).where(created_at: date_range).count
+    [opportunities_submitted, opportunities_published, enquiries, enquiry_response]
   end
 
   def results_with_filters(service_providers, date_range)
     opportunities_submitted = Opportunity.where(service_provider_id: service_providers.map(&:id), created_at: date_range).count
     opportunities_published = Opportunity.where(service_provider_id: service_providers.map(&:id), first_published_at: date_range)
     enquiries = Enquiry.joins(:opportunity).where(opportunities: { service_provider_id: service_providers.map(&:id) }, created_at: date_range).count
-    enquiry_responses = Enquiry.joins(:enquiry_responses).joins(:opportunity).where(opportunities: { service_provider_id: service_providers.map(&:id) }, enquiry_responses: { created_at: date_range }).count
-    [opportunities_submitted, opportunities_published, enquiries, enquiry_responses]
+    enquiry_response = Enquiry.joins(:enquiry_response).joins(:opportunity).where(opportunities: { service_provider_id: service_providers.map(&:id) }, enquiry_response: { created_at: date_range }).select('count(*)')
+    [opportunities_submitted, opportunities_published, enquiries, enquiry_response]
   end
 
   def average_age_when_published(opportunities)

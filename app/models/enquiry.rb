@@ -1,11 +1,12 @@
 class Enquiry < ActiveRecord::Base
   belongs_to :opportunity, counter_cache: :enquiries_count, required: true
   belongs_to :user
+  attr_accessor :status
 
   # enquiry feedback is the response from users at the impact email links
   has_one :feedback, class_name: 'EnquiryFeedback'
   # enquiry response is the response a post will provide back to the enquiry from the admin centre
-  has_many :enquiry_responses
+  has_one :enquiry_response
 
   COMPANY_EXPLANATION_MAXLENGTH = 1100.freeze
   EXISTING_EXPORTER_CHOICES = [

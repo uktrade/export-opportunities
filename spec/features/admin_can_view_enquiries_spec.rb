@@ -11,6 +11,25 @@ feature 'admin can view enquiries' do
     expect(page).to have_content(enquiry.company_name)
   end
 
+  scenario 'viewing a list of all NOT replied enquiries and all replied enquiries' do
+    admin = create(:admin)
+    enquiry = create(:enquiry)
+    another_enquiry = create(:enquiry)
+    create(:enquiry_response, enquiry: enquiry)
+    login_as(admin)
+    visit admin_opportunities_path
+
+    click_on 'Enquiries'
+    expect(page).to have_content(enquiry.company_name)
+
+    click_on 'Not replied'
+    expect(page).to_not have_content(enquiry.company_name)
+    expect(page).to have_content(another_enquiry.company_name)
+
+    click_on 'Replied'
+    expect(page).to have_content(enquiry.company_name)
+  end
+
   scenario 'viewing which enquiries are replied' do
     admin = create(:admin)
 
