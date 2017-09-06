@@ -155,7 +155,7 @@ feature 'admin can reply to enquiries' do
 
     click_on 'Preview'
 
-    expect(page).to have_content('Your application does not meet the criteria for this opportunity')
+    expect(page).to have_content('Your proposal does not meet the criteria for this opportunity')
 
     click_on 'Send'
 
