@@ -22,28 +22,39 @@ ukti.EnquiryResponse = (function($) {
   var setState = function (mode) {
     mode = parseInt(mode, 10);
     switch (mode) {
+      case 2:
+        document.getElementById('custom-response').classList.add('hidden');
+        document.getElementById('signature').classList.add('hidden');
+        document.getElementById('attachments').classList.add('hidden');
+        document.getElementById('submit').classList.add('hidden');
+        updateSubmitButton('Preview');
+        break;
       case 3:
         document.getElementById('custom-response').classList.remove('hidden');
         document.getElementById('signature').classList.add('hidden');
         document.getElementById('attachments').classList.add('hidden');
+        document.getElementById('submit').classList.remove('hidden');
         updateSubmitButton('Preview');
         break;
       case 4:
         document.getElementById('custom-response').classList.add('hidden');
         document.getElementById('signature').classList.add('hidden');
         document.getElementById('attachments').classList.add('hidden');
+        document.getElementById('submit').classList.remove('hidden');
         updateSubmitButton('Send');
         break;
       case 5:
         document.getElementById('custom-response').classList.add('hidden');
         document.getElementById('signature').classList.add('hidden');
         document.getElementById('attachments').classList.add('hidden');
+        document.getElementById('submit').classList.remove('hidden');
         updateSubmitButton('Send');
         break;
       default:
         document.getElementById('custom-response').classList.remove('hidden');
         document.getElementById('signature').classList.remove('hidden');
         document.getElementById('attachments').classList.remove('hidden');
+        document.getElementById('submit').classList.remove('hidden');
         updateSubmitButton('Preview');
       }
   };

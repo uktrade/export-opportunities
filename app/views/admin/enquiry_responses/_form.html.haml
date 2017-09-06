@@ -57,43 +57,41 @@
               %p= link_to 'See more guidance for this type of response', '/admin/help/enquiries', class: 'text', target: 'guidance'
 
             #response-2-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel"}
+              %p In case you cannot decide if the company is 'Right' or 'Not right' for this opportunity based on the information provided:
+              %ol 
+                %li Contact the company no later than 13 July 2017 and ask them to provide the missing information.
+                %li Once you have received the information, select the appropriate type of response.
+
+              %p If you do not hear back from the company, make a decision based on the information you have available.
+
+              %p 
+                %strong This proposal will remain marked not replied if you do not complete these steps.
+
+            #response-3-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
               %p 
                 %strong Your comments will be added to the message sent to the company.
               - if @enquiry_response.enquiry.opportunity.expired?
                 %p Opportunity expired #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
               - else
                 %p Opportunity expires #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
-              %p 
-                %strong Explain what information is needed
-              %ul.list.list-bullet
-                %li EITHER - ask the company for more information so you can make a decision
-                %li OR -  make a decision based on the information the company has already provided
-
-              %p= link_to 'See more guidance for this type of response', '/admin/help/enquiries', class: 'text', target: 'guidance'
-
-            #response-3-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
-              %p 
-                %strong Your comments will be added to the message sent to the company.
               %p
-                Explain why, for example:
+                %strong Explain your decision:
                 %br
-                the product or service is not relevant, the company is not ready to export in this market, or the buyer decided they are not right for the opportunity. 
+                For example, the product or service is not relevant, the company is not ready to export in this market, or the buyer decided they are not right for the opportunity.
+                
+              %p= link_to 'See more guidance for this type of response', '/admin/help/enquiries', class: 'text', target: 'guidance'
 
             #response-4-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel"}
               %p 
                 %strong The following message will be sent to the company
               %div.panel.panel-border-narrow
-                .grid-row
-                  .column-one-half
-                    = render 'enquiry_response_mailer/not_uk_registered', enquiries_response: @enquiry_response
+                = render 'enquiry_response_mailer/not_uk_registered', enquiries_response: @enquiry_response
 
             #response-5-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel"}
               %p 
                 %strong The following message will be sent to the company
               %div.panel.panel-border-narrow
-                .grid-row
-                  .column-one-half
-                    = render "enquiry_response_mailer/not_for_third_party", enquiries_response: @enquiry_response
+                = render "enquiry_response_mailer/not_for_third_party", enquiries_response: @enquiry_response
 
   %fieldset#custom-response
     .grid-row
@@ -108,7 +106,7 @@
       .column-one-half
         .form-group.js-toggle-field-edit
           %h4.form-label.form-label-bold
-            Your contact details
+            Contact details
             %a.js-toggle-field-edit-button{'href' => '#', 'data-target' => 'enquiry_response_signature'} Edit
           %p.form-hint Only include: full name, role, organisation, city & country, phone number and email.
           %div.js-toggle-field-edit-text
@@ -144,5 +142,6 @@
               %span Add file
               %span.loadingIndicator
 
-  .form-group
-    = f.submit 'Preview', class: 'button'
+  %fieldset#submit
+    .form-group
+      = f.submit 'Preview', class: 'button'

@@ -10,24 +10,17 @@
         %b=@enquiry_response.enquiry.opportunity.title
 
       %h4 Outcome
-      %p Your application will not be taken any further.
+      %p Your proposal will not be taken any further.
 
       %h4 Reason
-      %p Your application does not meet the criteria for this opportunity.
+      %p Your proposal does not meet the criteria for this opportunity.
 
       = render 'enquiry_response_mailer/editable_content', enquiry_response: @enquiry_response
 
-      %p New opportunities are added every day. You can increase your chances of success by:
-      %ul.list.list-bullet
-        %li signing up to or changing your email alerts so you get the right opportunities sent to you as soon as they’re added
-        %li creating a trade profile so companies looking to buy from your industry have an easy way to find you
-
-      %p You can also increase your exporting potential by:
-      %ul.list.list-bullet
-        %li researching overseas markets with our exporting country guides
-        %li getting export finance, insurance advice and support from UK Export Finance
-        %li reading our guidance on exporting - for all levels of exporters
-        %li contacting your local International Trade Adviser for tailored support
+      %h4 What next
+      %p Review your proposal and additional recommendations
+      %p= link_to @enquiry_response.enquiry.opportunity.title.strip, dashboard_enquiry_url(@enquiry_response.enquiry.id)
+      %br
 
       %p The export opportunities team
 
