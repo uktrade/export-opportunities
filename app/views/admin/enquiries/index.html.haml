@@ -15,7 +15,7 @@
     %li{class: (@filters.selected_status.nil? ? 'admin__filter-selected' : '')}
       = link_to('All', admin_enquiries_path())
       = link_to('Replied', admin_enquiries_url(status: 'replied'))
-      = link_to('Not replied', admin_enquiries_path(status: 'not_replied'))
+      = link_to('To reply', admin_enquiries_path(status: 'not_replied'))
 
 %div
   = form_tag admin_enquiries_path(format: :csv), method: :get, format: :csv do
@@ -28,16 +28,19 @@
 
 %table
   %thead
-    %th{:width => '35%'} Company
-    %th{:width => '35%'} Opportunity
-    %th.numeric{:width => '10%'} Applied On
-    %th{:width => '10%'} Replied
+    %th{width: '30%'} Company
+    %th{width: '30%'} Opportunity
+    %th.numeric{width: '10%'} Applied On
+    %th{status: '10%'} Status
+    %th{width: '10%'} Replied
   %tbody
     - @enquiries.each do |enquiry|
       %tr
         %td= link_to enquiry.company_name, admin_enquiry_path(enquiry)
         %td= enquiry.opportunity.title
         %td.numeric= enquiry.created_at.to_s(:admin_datetime)
+        %td= enquiry.response_status
+        -#%td.numeric= (enquiry.enquiry_response.completed_at - enquiry.created_at).to_s(:admin_datetime)
         %td= enquiry.enquiry_response ? 'Yes' : 'No'
 
 = paginate @enquiries

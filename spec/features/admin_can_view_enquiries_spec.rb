@@ -22,7 +22,7 @@ feature 'admin can view enquiries' do
     click_on 'Enquiries'
     expect(page).to have_content(enquiry.company_name)
 
-    click_on 'Not replied'
+    click_on 'To reply'
     expect(page).to_not have_content(enquiry.company_name)
     expect(page).to have_content(another_enquiry.company_name)
 

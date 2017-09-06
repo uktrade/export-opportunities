@@ -3,6 +3,10 @@ class EnquiryResponsePolicy < ApplicationPolicy
     true
   end
 
+  def email_send?
+    show?
+  end
+
   def update?
     show?
   end

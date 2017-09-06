@@ -2,6 +2,7 @@ class Enquiry < ActiveRecord::Base
   belongs_to :opportunity, counter_cache: :enquiries_count, required: true
   belongs_to :user
   attr_accessor :status
+  attr_accessor :response_status
 
   # enquiry feedback is the response from users at the impact email links
   has_one :feedback, class_name: 'EnquiryFeedback'
@@ -38,5 +39,22 @@ class Enquiry < ActiveRecord::Base
     Addressable::URI.heuristic_parse(self[:company_url]).to_s
   rescue Addressable::URI::InvalidURIError
     self[:company_url].to_s
+  end
+
+  def response_status
+    if enquiry_response
+      delta_enquiry_response = enquiry_response['completed_at'] - created_at
+
+      'Replied in ' + (delta_enquiry_response/86_400).floor.to_s + ' day(s)'
+    else
+      delta_enquiry = Time.zone.now - created_at
+      days_left = ((7 * 86_400 - delta_enquiry).abs / 86_400).floor
+
+      if delta_enquiry < 7 * 86_400
+        days_left.to_s + ' days left'
+      else
+        days_left.to_s + ' days overdue'
+      end
+    end
   end
 end
