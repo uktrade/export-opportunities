@@ -51,6 +51,17 @@ p {
   }
 }
 
+p.large {
+  @include core-19;
+  margin-top: em(5, 16);
+  margin-bottom: em(15, 16);
+  line-height: 1.25;
+  @include media(tablet) {
+    margin-top: em(5);
+    margin-bottom: em(15);
+  }
+}
+
 // Link styles
 a {
   color: $link-colour;

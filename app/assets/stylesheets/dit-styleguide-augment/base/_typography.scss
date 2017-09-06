@@ -67,6 +67,12 @@ p.large,
   line-height: 1.39;
 }
 
+p.lead {
+  font-size: 24px;
+  line-height: 1.5;
+  color: $grey;
+}
+
 /* The below are not used yet */
 
 blockquote {
