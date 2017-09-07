@@ -28,6 +28,8 @@ class Enquiry < ActiveRecord::Base
 
   paginates_per 25
 
+  scope :sent, -> { where.not(completed_at: nil) }
+
   def self.initialize_from_existing(old_enquiry)
     return Enquiry.new unless old_enquiry
     Enquiry.new(old_enquiry.attributes.except('company_explanation', 'id'))
@@ -42,13 +44,13 @@ class Enquiry < ActiveRecord::Base
   end
 
   def response_status
-    if enquiry_response
+    if enquiry_response #&& enquiry_response['completed_at']
       delta_enquiry_response = enquiry_response['completed_at'] - created_at
 
-      'Replied in ' + (delta_enquiry_response/86_400).floor.to_s + ' day(s)'
+      'Replied in ' + (delta_enquiry_response / 86_400).floor.to_s + ' day(s)'
     else
       delta_enquiry = Time.zone.now - created_at
-      days_left = ((7 * 86_400 - delta_enquiry).abs / 86_400).floor
+      days_left = ((7 * 86_400 - delta_enquiry).abs / 86_400).round
 
       if delta_enquiry < 7 * 86_400
         days_left.to_s + ' days left'
