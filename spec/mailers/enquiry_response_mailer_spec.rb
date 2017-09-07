@@ -46,8 +46,8 @@ RSpec.describe EnquiryResponseMailer, type: :mailer do
       expect(last_delivery.to).to include(enquiry.user.email)
       expect(last_delivery.bcc).to include(enquiry_response.editor.email)
       expect(last_delivery.reply_to).to include(reply_to_address)
-      expect(last_delivery.parts.first.body.raw_source).to include('Your application will not be taken any further.')
-      expect(last_delivery.parts.first.body.raw_source).to include('Your application does not meet the criteria for this opportunity.')
+      expect(last_delivery.parts.first.body.raw_source).to include('Your proposal will not be taken any further')
+      expect(last_delivery.parts.first.body.raw_source).to include('Your proposal does not meet the criteria for this opportunity')
     end
 
     it 'sends an enquiry response to the person creating the enquiry and the editor responding to it with response type 4 (not uk registered)' do

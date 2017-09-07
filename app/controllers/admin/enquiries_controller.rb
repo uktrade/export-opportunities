@@ -58,6 +58,7 @@ class Admin::EnquiriesController < Admin::BaseController
   def show
     enquiry_id = params.fetch(:id, nil)
     @enquiry = Enquiry.find(enquiry_id)
+
     @enquiry_response = EnquiryResponse.where(enquiry_id: enquiry_id).first
     @trade_profile_url = trade_profile(@enquiry.company_house_number)
     @companies_house_url = companies_house_url(@enquiry.company_house_number)
@@ -111,6 +112,6 @@ class Admin::EnquiriesController < Admin::BaseController
 
   private def next_enquiry
     enquiry = Enquiry.joins('left outer join enquiry_responses on enquiry_responses.enquiry_id = enquiries.id').where('completed_at is null').order('enquiries.created_at asc').first
-    { url: admin_enquiry_url(enquiry), id: enquiry.id }
+    { url: admin_enquiry_url(enquiry), id: enquiry.id } unless enquiry.nil?
   end
 end
