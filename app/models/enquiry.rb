@@ -44,7 +44,7 @@ class Enquiry < ActiveRecord::Base
   end
 
   def response_status
-    if enquiry_response #&& enquiry_response['completed_at']
+    if enquiry_response
       delta_enquiry_response = enquiry_response['completed_at'] - created_at
 
       'Replied in ' + (delta_enquiry_response / 86_400).floor.to_s + ' day(s)'

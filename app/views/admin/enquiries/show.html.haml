@@ -72,5 +72,11 @@
       %th{:scope => 'row'} Action Editor Email
       %td= @enquiry_response.editor.email
     %tr
-      %th{:scope => 'row'} Sent Time
-      %td= @enquiry_response.created_at
+      %th{:scope => 'row'} Date of Response
+      %td= @enquiry_response.created_at.to_s + " ( #{@enquiry.response_status} )"
+    %tr
+      %th{:scope => 'row'} Response Type
+      %td= @enquiry_response.response_type_to_human
+    %tr
+      %th{:scope => 'row'} Documents
+      %td= @enquiry_response.documents_list
