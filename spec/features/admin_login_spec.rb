@@ -54,8 +54,7 @@ feature 'Logging in as an admin' do
 
     # we are logged in but can't see the Log out option without js.
     expect(page).to have_content('Opportunities Enquiries Stats')
-    expect(page).to have_content('Tell a company they are not right for opportunity')
-    expect(page).to have_content('If Opp not yet expired:')
+    expect(page).to have_content('This guidance has been designed to help you respond to UK companies')
   end
 
   scenario 'Attempting to log in to an account that does not exist' do
