@@ -30,7 +30,7 @@ feature 'admin can view enquiries' do
     expect(page).to have_content(another_enquiry.company_name)
 
     click_on 'Replied'
-    byebug
+
     expect(page).to have_content('Replied in 0 day(s)')
     expect(page).to have_content(enquiry.company_name)
   end

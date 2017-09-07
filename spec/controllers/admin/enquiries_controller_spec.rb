@@ -14,7 +14,6 @@ describe Admin::EnquiriesController, type: :controller do
       enquiry_response = create(:enquiry_response, enquiry: enquiry)
 
       get :index
-      byebug
       # let(:opportunity) { create(:opportunity) }
       # let(:enquiry) { create(:enquiry) }
       # let(:enquiry_response) { create(:enquiry_response) }
