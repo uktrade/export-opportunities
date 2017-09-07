@@ -32,6 +32,7 @@ class Admin::EnquiriesController < Admin::BaseController
     respond_to do |format|
       format.html do
         @enquiries = @enquiries.includes(:opportunity).page(params[:paged])
+        # @next_enquiry = next_enquiry
       end
       format.csv do
         @enquiries = policy_scope(Enquiry).all.order(created_at: :desc)
@@ -105,5 +106,12 @@ class Admin::EnquiriesController < Admin::BaseController
         @available_status << name
       end
     end
+  end
+
+  private def next_enquiry
+    byebug
+    enquiry = Enquiry.includes(:enquiry_response).where.not({ enquiry_response: {completed_at: nil } }).first
+    # .order({ enquiry: {created_at: 'asc'}}).first
+    {url: 'http://www.google.com', id: 1}
   end
 end

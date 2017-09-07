@@ -21,9 +21,9 @@ class EnquiryQuery
     query = query.order(order_sql)
 
     if @status == 'replied'
-      query = query.joins(:enquiry_response).sent
+      query = query.joins(:enquiry_response).where.not(enquiry_responses: { id: nil })
     elsif @status == 'not_replied'
-      query = query.includes(:enquiry_response).sent.where(enquiry_responses: { id: nil })
+      query = query.includes(:enquiry_response).where(enquiry_responses: { id: nil })
     end
 
     # Secondary sort order to prevent pagination weirdness
