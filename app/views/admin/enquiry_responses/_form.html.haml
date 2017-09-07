@@ -132,7 +132,7 @@
           .uploadWidget
             = f.hidden_field :documents, {:class => "fileListStore"}
             = f.hidden_field :enquiry_id, as: :hidden, value: enquiry_id
-            = f.hidden_field :user_id, as: :hidden, value: @enquiry.user_id
+            -#= f.hidden_field :user_id, as: :hidden, value: @enquiry.user_id
             // TODO: how do we handle users navigating back? lose files?
             %ul.list.fileList{"data-default-item" => "No files selected"}
             %input#enquiry_response_email_attachment.inputfile{:name => "enquiry_response[email_attachment][]", :type => "file", "data-multiple-caption" => "{count} files selected"}/

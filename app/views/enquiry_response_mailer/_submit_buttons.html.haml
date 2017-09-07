@@ -5,4 +5,4 @@
   .button-group-separator
     or
   .button-group-item
-    = link_to 'Send', { controller: 'admin/enquiry_responses', action:'email_send', enquiry_response_id: @enquiry_response.id }, class: 'button'
+    = link_to 'Send', { controller: 'admin/enquiry_responses', action:'email_send', enquiry_response_id: @enquiry_response.id, method: :post }, class: 'button'
