@@ -15,7 +15,7 @@ feature 'admin can view enquiries' do
     admin = create(:admin)
     enquiry = create(:enquiry)
     another_enquiry = create(:enquiry)
-    create(:enquiry_response, enquiry: enquiry)
+    create(:enquiry_response, response_type: 1, enquiry: enquiry)
     login_as(admin)
     visit admin_opportunities_path
 
@@ -89,6 +89,7 @@ feature 'admin can view enquiries' do
   scenario 'view details of an enquiry' do
     admin = create(:admin)
     enquiry = create(:enquiry)
+    create(:enquiry_response, response_type: 1, enquiry: enquiry)
     login_as(admin)
     visit admin_opportunities_path
 
@@ -96,7 +97,7 @@ feature 'admin can view enquiries' do
     expect(page).to have_content(enquiry.company_name)
 
     click_on enquiry.company_name
-
+byebug
     expect(page).to have_link(enquiry.opportunity.title)
     expect(page).to have_content(enquiry.company_name)
     expect(page).to have_content(enquiry.email)

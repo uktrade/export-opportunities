@@ -110,7 +110,6 @@ class Admin::EnquiriesController < Admin::BaseController
 
   private def next_enquiry
     enquiry = Enquiry.joins('left outer join enquiry_responses on enquiry_responses.enquiry_id = enquiries.id').where('completed_at is null').order('enquiries.created_at asc').first
-    # .order({ enquiry: {created_at: 'asc'}}).first
-    {url: admin_enquiry_url(enquiry), id: enquiry.id}
+    { url: admin_enquiry_url(enquiry), id: enquiry.id }
   end
 end
