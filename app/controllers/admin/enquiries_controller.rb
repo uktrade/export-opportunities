@@ -32,6 +32,7 @@ class Admin::EnquiriesController < Admin::BaseController
     respond_to do |format|
       format.html do
         @enquiries = @enquiries.includes(:opportunity).page(params[:paged])
+
         @next_enquiry = next_enquiry if params[:reply_sent]
       end
       format.csv do
