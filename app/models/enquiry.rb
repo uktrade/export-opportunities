@@ -45,6 +45,7 @@ class Enquiry < ActiveRecord::Base
 
   def response_status
     if enquiry_response
+      Rails.logger.error("message not sent: #{enquiry_response.inspect}") and return 'Not sent, please retry' unless enquiry_response['completed_at']
       delta_enquiry_response = enquiry_response['completed_at'] - created_at
 
       'Replied in ' + (delta_enquiry_response / 86_400).floor.to_s + ' day(s)'
