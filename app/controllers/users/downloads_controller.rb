@@ -14,7 +14,7 @@ module Users
     end
 
     def logged_in_user_id
-      current_user.uid # TODO: mock or 3
+      current_user.uid.to_i # TODO: mock or 3
     end
   end
 end
