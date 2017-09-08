@@ -183,13 +183,9 @@ ukti.UploadWidget = (function() {
 
   	formData.append('enquiry_response[user_id]', userId); 
     formData.append('enquiry_response[enquiry_id]', enquiryId);
-
-    // formData.append('dataType', 'script');
-    // formData.append('contentType', 'text/javascript');
     
   	var request = new XMLHttpRequest(); 
 		request.onerror = handleUploadFileError;
-    request.onload = handleUploadFileSuccess;
     request.open('POST', '/api/document', true);
 		request.onreadystatechange = function () {
       if ( request.readyState === 4 ) {
