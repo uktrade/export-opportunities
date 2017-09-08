@@ -11,11 +11,15 @@ feature 'admin can view enquiries' do
     expect(page).to have_content(enquiry.company_name)
   end
 
-  scenario 'viewing a list of all NOT replied enquiries and all replied enquiries', js: true do
+  scenario 'viewing a list of all NOT replied enquiries and all replied enquiries' do
     admin = create(:admin)
     enquiry = create(:enquiry)
     another_enquiry = create(:enquiry)
-    create(:enquiry_response, response_type: 1, enquiry: enquiry)
+    es = create(:enquiry_response, response_type: 1, enquiry: enquiry)
+    # because it's a hash
+    es['completed_at'] = Time.zone.now
+    es.save!
+
     login_as(admin)
     visit admin_opportunities_path
 
@@ -53,15 +57,15 @@ feature 'admin can view enquiries' do
     expect(page).to have_selector('th', text: 'Company')
     expect(page).to have_selector('th', text: 'Opportunity')
     expect(page).to have_selector('th', text: 'Applied On')
-    expect(page).to have_selector('th', text: 'Replied')
+    expect(page).to have_selector('th', text: 'Status')
 
     first_row = page.find('tbody tr:nth-child(1)')
     second_row = page.find('tbody tr:nth-child(2)')
 
-    expect(first_row).to have_content('No')
+    expect(first_row).to have_content('days overdue')
     expect(first_row).to have_content('UK Leaky Boathouses')
 
-    expect(second_row).to have_content('Yes')
+    expect(second_row).to have_content('Not sent, please retry')
     expect(second_row).to have_content('UK Boathouses Inc')
   end
 
@@ -97,7 +101,7 @@ feature 'admin can view enquiries' do
     expect(page).to have_content(enquiry.company_name)
 
     click_on enquiry.company_name
-byebug
+
     expect(page).to have_link(enquiry.opportunity.title)
     expect(page).to have_content(enquiry.company_name)
     expect(page).to have_content(enquiry.email)

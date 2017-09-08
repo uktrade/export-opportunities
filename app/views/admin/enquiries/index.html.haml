@@ -7,7 +7,10 @@
       %strong
         EIG Website, Export Opps
     %p
-      %a{:href => @next_enquiry[:url]} Reply to next Enquiry
+      - if @next_enquiry
+        %a{:href => @next_enquiry[:url]} Reply to next Enquiry
+      - else
+        You are all done, Congrats :)
 
 %h1.heading-xlarge Enquiries
 

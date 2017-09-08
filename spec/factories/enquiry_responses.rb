@@ -6,6 +6,7 @@ FactoryGirl.define do
     email_body { Faker::Lorem.words(50) }
     signature { Faker::Lorem.words(10) }
     completed_at { Time.zone.now }
-    response_type { Faker::Number.between(1, 5) }
+    response_type { [1, 3, 4, 5].sample }
+    documents { {} }
   end
 end
