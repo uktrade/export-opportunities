@@ -17,9 +17,26 @@ ukti.Utilities = (function($) {
 		return (/^ *$/.test(value));
 	};
 
+  var getValueFromRadioButton = function (name) {
+   var buttons = document.getElementsByName(name);
+   for(var i = 0; i < buttons.length; i++) {
+      var button = buttons[i];
+      if(button.checked) {
+        return button.value;
+      }
+   }
+   return null;
+  };
+
+  var removeEl = function (el) {
+    el.parentNode.removeChild(el);
+  };
+
   return {
     closestByClass: closestByClass,
-    isValueEmpty: isValueEmpty
+    isValueEmpty: isValueEmpty,
+    getValueFromRadioButton: getValueFromRadioButton,
+    removeEl: removeEl
   };
 
 })();

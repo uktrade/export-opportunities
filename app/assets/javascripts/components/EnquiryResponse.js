@@ -15,8 +15,12 @@ ukti.EnquiryResponse = (function($) {
   };
 
   var setup = function () {
-    var initialResponseType = baseEl.elements['enquiry_response[response_type]'].value;
+    var initialResponseType = returnResponseType();
     setState(initialResponseType);
+  };
+
+  var returnResponseType = function () {
+    return ukti.Utilities.getValueFromRadioButton('enquiry_response[response_type]');
   };
 
   var setState = function (mode) {
@@ -125,12 +129,12 @@ ukti.EnquiryResponse = (function($) {
   var formSubmitHandler = function (event) {
     var errors = [];
     if ( isSignatureRequired() && isSignatureInvalid() ) {
-      ukti.Forms.addErrorToField(baseEl.elements['enquiry_response[signature]'], config.errorMessages.signature);
+      ukti.Forms.addErrorToField(baseEl.querySelector('#enquiry_response_signature'), config.errorMessages.signature);
       errors.push(config.errorMessages.signature);
     }
 
     if ( isCommentRequired() && isCommentInvalid() ) {
-      ukti.Forms.addErrorToField(baseEl.elements['enquiry_response[email_body]'], config.errorMessages.comment);
+      ukti.Forms.addErrorToField(baseEl.querySelector('#enquiry_response_email_body'), config.errorMessages.comment);
       errors.push(config.errorMessages.comment);
     }
 
@@ -145,22 +149,22 @@ ukti.EnquiryResponse = (function($) {
   };
 
   var isSignatureRequired = function () {
-    var response_type = baseEl.elements['enquiry_response[response_type]'].value;
+    var response_type = returnResponseType();
     return (response_type === "1" || response_type === "2");
   };
 
   var isSignatureInvalid = function () {
-    var value = baseEl.elements['enquiry_response[signature]'].value;
+    var value = baseEl.querySelector('#enquiry_response_signature').value;
     return ukti.Utilities.isValueEmpty(value);
   };
 
   var isCommentRequired = function () {
-    var response_type = baseEl.elements['enquiry_response[response_type]'].value;
+    var response_type = returnResponseType();
     return (response_type === "1" || response_type === "2" || response_type === "3");
   };
 
   var isCommentInvalid = function () {
-    var value = baseEl.elements['enquiry_response[email_body]'].value;
+    var value = baseEl.querySelector('#enquiry_response_email_body').value;
     return ukti.Utilities.isValueEmpty(value);
   };
 

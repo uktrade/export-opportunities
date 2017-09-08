@@ -40,8 +40,17 @@ ukti.UploadWidget = (function() {
     }
   };
 
+  var supportsFormData = function () {
+    return !! window.FormData;
+  };
+
+  var handleNoSupport = function () {
+    var el = ukti.Forms.returnFormGroup(baseEl);
+    ukti.Utilities.removeEl(el);
+  };
+
   var changeHandler = function(event) {
-    if (event.target.files.length < 1) {
+    if (event.target.files && event.target.files.length < 1) {
       return;
     }
     var file = event.target.files[0];
@@ -196,7 +205,13 @@ ukti.UploadWidget = (function() {
         } 
       }
     };
-    request.send(formData);
+    /* check for polyfill use */
+    if (formData.fake) {
+      request.setRequestHeader("Content-Type", "multipart/form-data; boundary="+ formData.boundary);
+      request.sendAsBinary(formData.toString());
+    } else {
+      request.send(formData);
+    }
     addLoadingClass();
   };
 
@@ -210,6 +225,10 @@ ukti.UploadWidget = (function() {
 
   var init = function (el) {
   	baseEl = el;
+    if (!supportsFormData()) {
+      handleNoSupport();
+      return;
+    }
     cacheElements();
     setup();
     attachBehaviour();

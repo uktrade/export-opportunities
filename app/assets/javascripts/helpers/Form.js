@@ -64,7 +64,8 @@ ukti.Forms = (function() {
     addErrorToField: addErrorToField,
     addErrorsToField: addErrorsToField,
     clearErrorFromField: clearErrorFromField,
-    clearErrorsFromFields: clearErrorsFromFields
+    clearErrorsFromFields: clearErrorsFromFields,
+    returnFormGroup: returnFormGroup
   };
 
 })();
