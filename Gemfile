@@ -75,6 +75,9 @@ gem 'carrierwave'
 # rest client for antivirus scanning
 gem 'rest-client'
 
+# gov notify ruby client
+gem 'notifications-ruby-client'
+
 group :development, :test do
   gem 'byebug'
   gem 'pry-rescue'
