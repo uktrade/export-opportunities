@@ -6,11 +6,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 body
 {
 	/* Font */
-<<<<<<< HEAD
 	font-family: Arial, sans-serif;
-=======
-	font-family: sans-serif, Arial, Verdana, "Trebuchet MS";
->>>>>>> 3d9e728... (fix) multiple attachments, using carrierwave
 	font-size: 16px;
 
 	/* Text color */

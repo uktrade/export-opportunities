@@ -63,27 +63,11 @@
 @import "admin/comment";
 @import "admin/button-group";
 @import "admin/components/uploadWidget";
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 @import "admin/components/loadingIndicator";
 @import "admin/components/htmlEditorPreview";
->>>>>>> 9dcebec... (feature) file validation pre upload
 @import "admin/badge";
-<<<<<<< HEAD
-=======
->>>>>>> b466330... (fix) multiple attachments, using carrierwave
-=======
->>>>>>> 3d9e728... (fix) multiple attachments, using carrierwave
-=======
-@import "admin/badge";
->>>>>>> 717075f... PTU comms in stable
-=======
 @import "admin/confirmationMessage";
 
->>>>>>> e720233... (feature) styling confirmation in usual way
 
 // From https://github.com/freqdec/datePicker
 @import "vendor/datepicker";
@@ -93,4 +77,3 @@
 @import "admin/design-patterns/metadata";
 @import "admin/design-patterns/message";
 @import "admin/design-patterns/tabs";
-

@@ -2,103 +2,81 @@
 
 var ukti = window.ukti || {};
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-ukti.ToogleEditField = (function($) {
-=======
 ukti.ToggleFieldEdit = (function(Cookies) {
->>>>>>> 13799ba... (feature) showinf file name in attachments list
-  'use strict';
-  var selector = 'js-edit-field',
-  var baseEl;
-  var fileListStore = [];
+    'use strict';
+    var baseEl,
+        labelEl,
+        buttonEl,
+        textEl,
+        fieldElWrapper,
+        fieldEl,
+        hiddenClass = 'js-hidden';
 
-  var handleToggle = function (event) {
-<<<<<<< HEAD
-    debugger;
-  }
+    var cacheElements = function (el) {
+        baseEl = el;
+        labelEl = baseEl.querySelector( '.form-label' );
+        buttonEl = baseEl.querySelector( '.js-toggle-field-edit-button' );
+        textEl = baseEl.querySelector( '.js-toggle-field-edit-text' );
+        fieldElWrapper = baseEl.querySelector( '.js-toggle-field-edit-field' );
+        fieldEl = baseEl.querySelector( 'textarea' );
+    };
 
-  var attachBehaviour = function() {
-  	var togglers = returnToggler();
-  	var togglerParent = _parentEl.querySelector(_togglerParentSelector);
-  	toggler.addEventListener('click', function (event) {
-  		event.preventDefault();
-			handleToggle();
-=======
-ukti.ToogleFieldEdit = (function($) {
-  'use strict';
-  var baseEl;
-  var fileListStore = [];
+    var handleToggle = function (event) {
+        event.preventDefault();
+        textEl.classList.toggle(hiddenClass);
+        fieldElWrapper.classList.toggle(hiddenClass);
+    };
 
-  var handleToggle = function () {
+    var handleChange = function (event) {
+        var fieldValue = event.target.value;
+        Cookies.set('last_enquiry_response_signature', fieldValue);
+        updateText();
+    };
 
-  }
+    var setup = function () {
+        var text = Cookies.get('last_enquiry_response_signature');
+        if (text && !ukti.Utilities.isValueEmpty(text)) {
+            hasSignatureValue();
+        } else {
+            noSignatureValue();
+        }
+    };
 
-  var attachBehaviour = function() {
-  	var toggler = returnToggler();
-  	var togglerParent = _parentEl.querySelector(_togglerParentSelector);
-  	toggler.addEventListener('click', function (event) {
-  		event.preventDefault();
-			toggleFilters();
->>>>>>> 717075f... PTU comms in stable
-  	}, false);
-=======
-    event.preventDefault();
-    textEl.classList.toggle(hiddenClass);
-    fieldElWrapper.classList.toggle(hiddenClass);
-  };
+    var hasSignatureValue = function () {
+        fieldElWrapper.classList.add(hiddenClass);
+        updateText();
+        updateField();
+    };
 
-  var handleChange = function (event) {
-    var fieldValue = event.target.value;
-    Cookies.set('last_enquiry_response_signature', fieldValue);
-    updateText();
-  };
+    var noSignatureValue = function () {
+        textEl.classList.add(hiddenClass);
+        buttonEl.classList.add(hiddenClass);
+        fieldEl.value = '[full name],\n[role],\n[organisation name],\n[city & country],\n[phone number],\n[email]';
+    };
 
-  var setup = function () {
-    var text = Cookies.get('last_enquiry_response_signature');
-    if (text && !ukti.Utilities.isValueEmpty(text)) {
-      hasSignatureValue();
-    } else {
-      noSignatureValue();
-    }
-  };
+    var updateText = function () {
+        var text = Cookies.get('last_enquiry_response_signature');
+        textEl.querySelector( '.white-space-pre' ).innerHTML = text;
+    };
 
-  var hasSignatureValue = function () {
-    fieldElWrapper.classList.add(hiddenClass);
-    updateText();
-    updateField();
-  };
+    var updateField = function () {
+        var text = Cookies.get('last_enquiry_response_signature');
+        fieldEl.value = text;
+    };
 
-  var noSignatureValue = function () {
-    textEl.classList.add(hiddenClass);
-    buttonEl.classList.add(hiddenClass);
-    fieldEl.value = '[full name],\n[role],\n[organisation name],\n[city & country],\n[phone number],\n[email]';
-  };
+    var attachBehaviour = function() {
+        buttonEl.addEventListener('click', handleToggle, false);
+        fieldEl.addEventListener('change', handleChange, false);
+    };
 
-  var updateText = function () {
-    var text = Cookies.get('last_enquiry_response_signature');
-    textEl.querySelector( '.white-space-pre' ).innerHTML = text;
-  };
+    var init = function (el) {
+        cacheElements(el);
+        setup();
+        attachBehaviour();
+    };
 
-  var updateField = function () {
-    var text = Cookies.get('last_enquiry_response_signature');
-    fieldEl.value = text;
-  };
-
-  var attachBehaviour = function() {
-    buttonEl.addEventListener('click', handleToggle, false);
-    fieldEl.addEventListener('change', handleChange, false);
->>>>>>> 19b3357... (feature) saving signature with cookie
-  };
-
-  var init = function (el) {
-  	baseEl = el;
-    attachBehaviour();
-  };
-
-  return {
-    init: init
-  };
+    return {
+        init: init
+    };
 
 })(Cookies);
-

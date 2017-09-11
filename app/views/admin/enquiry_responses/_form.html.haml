@@ -1,41 +1,9 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-- enquiry_id = params.fetch(:id)
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> b466330... (fix) multiple attachments, using carrierwave
-=======
-
->>>>>>> 70f4099... (feature) adding frontend stuff
-=======
-
->>>>>>> 3d9e728... (fix) multiple attachments, using carrierwave
-= form_for [:admin, enquiries_response], html: {multipart: true} do |f|
-=======
-=======
-- enquiry_id = params['id'].nil? ? params['enquiry_response'].fetch(:enquiry_id) : params.fetch(:id)
->>>>>>> 1c766d9... (fix) validation for enquiry response email field.
-=======
 
 - enquiry_id = params['id'].nil? ? params['enquiry_response'].fetch(:enquiry_id) : params.fetch(:id)
 
 - @response_type = @enquiry_response.response_type.nil? ? 3 : @enquiry_response.response_type
 
-<<<<<<< HEAD
-
-<<<<<<< HEAD
->>>>>>> a281d76... (fetaure) maintaining state of tabs =when clciking edit to go back
-=======
-
->>>>>>> e2c3ab0... (feature) adding user id and enquiry id to ajax request
-=======
->>>>>>> a59a4db... (feature) adding client side validation to signature field
 = form_for [:admin, enquiries_response], html: {multipart: true, :class => 'enquiry_response'} do |f|
->>>>>>> 3e78ebd... (feature) getting copy in there
   - if enquiries_response.errors.any?
     .error-summary{:role => 'group', :tabindex => '-1'}
       %h2.error-summary-heading There was a problem
@@ -45,47 +13,7 @@
       %ul.error-summary-list
         - enquiries_response.errors.full_messages.each do |message|
           %li= message
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  .tabs.js-tabs
-    .tablist.js-tablist
-      %ul
-        %li.positive.active
-          %a#tab-response-1{"aria-controls" => "response-1", "aria-flowto" => "response-1", "aria-selected" => "true", :href => "#response-1", :role => "tab", :tabindex => "0"}  
-            %span.visuallyhidden You are
-            Right for opportunity
-        %li.neutral
-          %a#response-2-tab{:href => "#response-2"}
-            Need more information
-        %li
-          %a#response-3-tab{:href => "#response-3"}
-            Not right for opportunity
-        %li
-          %a#response-4-tab{:href => "#response-4"}
-            Not UK registered
-        %li
-          %a#response-5-tab{:href => "#response-5"}
-            Not for third party
-
-    .tab-content.js-tab-content{"aria-live" => "polite"}
-      #response-1.tab-panel.js-tab-panel.tab-panel-selected{"aria-expanded" => "true", :role => "tabpanel"}
-        %h5 
-          %strong Explain what happens next
-        %p Let the company know if:
-        %ul.list.list-bullet.margin-bottom-0
-          %li their details will be sent to the buyer
-          %li they will be introduced to the buyer
-          %li they need to contact the buyer
-          %li they need to apply for the tender and include all necessary information 
-=======
-=======
-
->>>>>>> 9dcebec... (feature) file validation pre upload
   %fieldset
     %legend.visuallyhidden
       Response type
@@ -108,37 +36,16 @@
             %input#response_type_4.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "4", "aria-controls" => "response-4-tab-panel", checked: (@response_type == 4 ? 'checked' : nil)}/
             %label{:for => "response_type_4", "tabindex" => "0"} Not UK registered
             %span.badge-negative
-<<<<<<< HEAD
-<<<<<<< HEAD
-          %li
-            %input#response_type_5.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "5", "aria-controls" => "response-5-tab-content"}/
-<<<<<<< HEAD
-            %label{:for => "response_type_5"} Not for third party
-<<<<<<< HEAD
->>>>>>> e0291aa... (feature) changing to use labels for radios for response type
-=======
-=======
-=======
-          %li{ class: (@response_type == 5 ? 'active' : nil) }
-<<<<<<< HEAD
-            %input#response_type_5.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "5", "aria-controls" => "response-5-tab-panel", checked: @response_type == 5}/
->>>>>>> a281d76... (fetaure) maintaining state of tabs =when clciking edit to go back
-=======
-=======
           %li{ class: (@response_type == 5 ? 'active' : nil), id: 'li5' }
->>>>>>> ef24665... (fix) make tests great again.
             %input#response_type_5.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "5", "aria-controls" => "response-5-tab-panel", checked: (@response_type == 4 ? 'checked' : nil)}/
->>>>>>> 801543d... (fixing) dupliacting tempkates so they are found both by web view and email view - probably some rails thing
             %label{:for => "response_type_5", "tabindex" => "0"} Not for third party
->>>>>>> 9dcebec... (feature) file validation pre upload
             %span.badge-negative
->>>>>>> c527f4b... (feature) adding coloured badges to tabs
 
       .grid-row
         .column-one-half
           .tab-content.js-tab-content{"aria-live" => "polite"}
             #response-1-tab-panel.tab-panel.js-tab-panel{:role => "tabpanel"}
-              %p 
+              %p
                 %strong Your comments will be added to the message sent to the company.
               %p Let the company know if:
               %ul.list.list-bullet
@@ -151,17 +58,17 @@
 
             #response-2-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel"}
               %p In case you cannot decide if the company is 'Right' or 'Not right' for this opportunity based on the information provided:
-              %ol 
+              %ol
                 %li Contact the company no later than 13 July 2017 and ask them to provide the missing information.
                 %li Once you have received the information, select the appropriate type of response.
 
               %p If you do not hear back from the company, make a decision based on the information you have available.
 
-              %p 
+              %p
                 %strong This proposal will remain marked not replied if you do not complete these steps.
 
             #response-3-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
-              %p 
+              %p
                 %strong Your comments will be added to the message sent to the company.
               - if @enquiry_response.enquiry.opportunity.expired?
                 %p Opportunity expired #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
@@ -171,233 +78,27 @@
                 %strong Explain your decision:
                 %br
                 For example, the product or service is not relevant, the company is not ready to export in this market, or the buyer decided they are not right for the opportunity.
-                
+
               %p= link_to 'See guidance for this response', '/admin/help/enquiries#response_3', class: 'text', target: 'guidance'
 
             #response-4-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel"}
-              %p 
+              %p
                 %strong The following message will be sent to the company
               %div.panel.panel-border-narrow
                 = render 'enquiry_response_mailer/not_uk_registered', enquiries_response: @enquiry_response
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-    .form-group
-      = f.label :email_body, class: 'form-label-bold'
-      = f.text_area(:email_body, cols: 40, rows: 25, class: 'form-control js-text-editor')
-      = f.hidden_field :enquiry_id, as: :hidden, value: enquiry_id
-
-    .form-group
-      .grid-row
-        .column-one-half
-          = f.label 'Your contact details', class: 'form-label-bold'
-          %a.field-edit-button{'data-target' => 'enquiry_response_signature'} Edit
-          .panel.panel-border-wide
-            %p.white-space-pre
-              Claire Parsons | Trade Officer
-              British embassy Tel-Aviv | Israel
-              Phone: +44 (0) 123 123 123
-              E-mail: claire.parsons@mobile.trade.gov.uk      
-
-    .form-group
-      %label.form-label-bold Add links to relevant documents
-      %p You can add links to documents stored online, for example Google Drive, Dropbox, One-Drive or WeTransfer. Links will expire after 30 days.
-      .grid-row
-        .column-one-half
-          .uploadWidget
-            %div.panel.panel-border-narrow
-              %ul.list.fileList{"data-default-item" => "No files selected"}
-                %li No files selected
-            %input#enquiry_response_email_attachment.inputfile{:multiple => "multiple", :name => "enquiry_response[email_attachment][]", :type => "file", "data-multiple-caption" => "{count} files selected"}/
-            %label{:for => "enquiry_response_email_attachment"}
-              %svg.icon.icon-upload-file
-                %use{"xlink:href" => "#icon-file-upload"}
-              %span Add file
-
-  .form-group
-    = f.submit 'Next', class: 'button'
-=======
-  .section-tabs.js-tabs
-    %ul
-      %li.active
-        %a#tab-response-1{"aria-controls" => "response-1", "aria-flowto" => "response-1", "aria-selected" => "true", :href => "#response-1", :role => "tab", :tabindex => "0"}  
-=======
-=======
->>>>>>> 717075f... PTU comms in stable
-=======
->>>>>>> 3933272... WIP
-  .section-tabs.js-tabs
-    %ul
-      %li.active
-        %a#tab-response-1{"aria-controls" => "response-1", "aria-flowto" => "response-1", "aria-selected" => "true", :href => "#response-1", :role => "tab", :tabindex => "0"}
->>>>>>> 3d9e728... (fix) multiple attachments, using carrierwave
-          %span.visuallyhidden more text
-          Response 1
-          %span.visuallyhidden more text
-      %li
-        %a#response-1-tab{:href => "/r2"}
-          Response 2
-      %li
-        %a#people-tab{:href => "/r3"}
-          Response 2
-      %li
-        %a#people-tab{:href => "/r3"}
-          Response 4
-      %li
-        %a#people-tab{:href => "/r3"}
-          Response 5
-      // TODO: need to dynamically change this field via js when user clicks on different tab buttons
-      = f.hidden_field :response_type, as: :hidden, value: 1
-
-    .tab-content.js-tab-content{"aria-live" => "polite"}
-      #response-1.tab-panel.js-tab-panel.tab-panel-selected{"aria-expanded" => "true", :role => "tabpanel"}
-        %h5 
-          %strong Explain what happens next
-        %p Let the company know if:
-        %ul.list.list-bullet.margin-bottom-0
-          %li their details will be sent to the buyer
-          %li they will be introduced to the buyer
-          %li they need to contact the buyer
-          %li they need to apply for the tender and include all necessary information 
-
-      #response-2.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
-        %h5 
-          %strong  Need more information
-        %p Let the company know if:
-        %ul.list.list-bullet.margin-bottom-0
-          %li their details will be sent to the buyer
-          %li they will be introduced to the buyer
-
-      #response-3.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
-        %h5 
-          %strong  Not right for opportunity
-
-<<<<<<< HEAD
-  .form-group
-    = f.label 'Your contact details', class: 'form-label-bold'
-<<<<<<< HEAD
-    = f.text_area(:email_body, cols: 40, rows: 15, class: 'form-control js-text-editor')
-=======
-    = f.text_area(:signature, cols: 40, rows: 15, class: 'form-control js-text-editor')
-=======
-      #response-4.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
-        %h5 
-          %strong  Not UK registered
->>>>>>> 717075f... PTU comms in stable
-
-<<<<<<< HEAD
-      #response-4.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
-        %h5 
-          %strong  Not UK registered
-
-<<<<<<< HEAD
-    %p.form-hint
-      This is the email to be sent out to the enquiry user.
->>>>>>> 3d9e728... (fix) multiple attachments, using carrierwave
-=======
-=======
->>>>>>> 13a6c19... (fix) enquiry response passes on params to the next page on clicking next
-    .form-group
-      = f.label :email_body, class: 'form-label-bold'
-      = f.text_area(:email_body, cols: 40, rows: 25, class: 'form-control js-text-editor')
-      = f.hidden_field :enquiry_id, as: :hidden, value: enquiry_id
->>>>>>> 717075f... PTU comms in stable
-
-    .form-group
-      .grid-row
-        .column-one-half
-          = f.label 'Your contact details', class: 'form-label-bold'
-          %a.field-edit-button Edit
-          = f.text_area(:signature, cols: 40, rows: 15, class: 'form-control js-text-editor')
-
-    .form-group
-      = f.label 'Upload files', class: 'form-label-bold'
-      .grid-row
-        .column-one-half
-          .uploadWidget
-            %input#enquiry_response_email_attachment.inputfile{:multiple => "multiple", :name => "enquiry_response[email_attachment][]", :type => "file", "data-multiple-caption" => "{count} files selected"}/
-            %label{:for => "enquiry_response_email_attachment"}
-              %svg.icon.icon-upload-file
-                %use{"xlink:href" => "#icon-file-upload"}
-              %span Add file
-            %div.panel.panel-border-narrow
-              %ul.list.fileList{"data-default-item" => "No files selected"}
-                %li No files selected
-              %a.bold-xsmall{:href => "#"} Remove files
-  .form-group
-<<<<<<< HEAD
-<<<<<<< HEAD
-    = f.submit 'Send', class: 'button'
->>>>>>> b466330... (fix) multiple attachments, using carrierwave
-=======
-    = f.submit 'Next', class: 'button'
->>>>>>> 70f4099... (feature) adding frontend stuff
-=======
-    = f.submit 'Next', class: 'button'
->>>>>>> 3d9e728... (fix) multiple attachments, using carrierwave
-=======
-  .form-group
-    %h4.form-label-bold Your response
-    = f.label :email_body, class: 'visuallyhidden'
-    = f.text_area(:email_body, cols: 40, rows: 25, class: 'form-control js-text-editor')
-=======
-        #response-5.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
-<<<<<<< HEAD
-          %h5 
-            %strong  Not UK registered
-<<<<<<< HEAD
->>>>>>> e0291aa... (feature) changing to use labels for radios for response type
-=======
-          %p Let the company know if:
-          %ul.list.list-bullet.margin-bottom-0
-            %li their details will be sent to the buyer
-            %li they will be introduced to the buyer
->>>>>>> cdf0a1c... (feature) adding snippets
-=======
-=======
-        #response-5.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel", "aria-hidden" => "true"}
->>>>>>> c527f4b... (feature) adding coloured badges to tabs
-=======
-        #response-5.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel", "aria-hidden" => "true"}
->>>>>>> c142d9c... (feature) adding some more display logic
-          %p 
-            %strong The following message will be sent to the company
-          %div.panel.panel-border-narrow
-            .grid-row
-              .column-one-half
-                = render :partial => "admin/enquiry_responses/snippets/not_for_third_party", enquiries_response: @enquiry_response
->>>>>>> 3e78ebd... (feature) getting copy in there
-=======
-            #response-5.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel", "aria-hidden" => "true"}
-=======
             #response-5-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel"}
->>>>>>> a59a4db... (feature) adding client side validation to signature field
-              %p 
+              %p
                 %strong The following message will be sent to the company
               %div.panel.panel-border-narrow
-<<<<<<< HEAD
-                .grid-row
-                  .column-one-half
-<<<<<<< HEAD
-                    = render :partial => "admin/enquiry_responses/snippets/not_for_third_party", enquiries_response: @enquiry_response
->>>>>>> 9dcebec... (feature) file validation pre upload
-=======
-                    = render "enquiry_response_mailer/not_for_third_party", enquiries_response: @enquiry_response
->>>>>>> 801543d... (fixing) dupliacting tempkates so they are found both by web view and email view - probably some rails thing
-=======
                 = render "enquiry_response_mailer/not_for_third_party", enquiries_response: @enquiry_response
->>>>>>> 0fc8f01... (feature) V7 of the content and V3 of the guidance
 
   %fieldset#custom-response
     .grid-row
       .column-two-thirds
         .form-group
           = f.label :email_body, class: 'visuallyhidden'
-          %span.error-message 
+          %span.error-message
           = f.text_area(:email_body, cols: 40, rows: 30, required: true, class: 'form-control js-text-editor')
 
   %fieldset#signature.hidden
@@ -413,13 +114,13 @@
               %p.white-space-pre
           %div.js-toggle-field-edit-field
             = f.label :signature, class: 'visuallyhidden'
-            %span.error-message 
+            %span.error-message
             = f.text_area(:signature, cols: 40, rows: 15, class: 'form-control js-text-editor')
 
   %fieldset#attachments.hidden
     .form-group
       %label.form-label-bold Add relevant documents
-      %span.error-message 
+      %span.error-message
       %p.form-hint
         Maximum number of 5 files.
         %br
@@ -441,12 +142,6 @@
               %span Add file
               %span.loadingIndicator
 
-<<<<<<< HEAD
-  .form-group
-    = f.submit 'Preview', class: 'button'
->>>>>>> 8a9a34f... (feature) getting preview page up there
-=======
   %fieldset#submit
     .form-group
       = f.submit 'Preview', class: 'button'
->>>>>>> 0fc8f01... (feature) V7 of the content and V3 of the guidance

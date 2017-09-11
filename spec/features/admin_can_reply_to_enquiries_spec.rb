@@ -116,7 +116,6 @@ feature 'admin can reply to enquiries' do
     choose 'Need more information'
 
     expect(page).to have_content('Contact the company')
-
   end
 
   scenario 'reply to an enquiry as an uploader for the opportunity, not right for opportunity choice' do
@@ -221,7 +220,6 @@ feature 'admin can reply to enquiries' do
     wait_for_ajax
     # page.should_not have_selector?('.isLoading')
 
-byebug
     click_on 'Preview'
 
     wait_for_ajax
@@ -342,7 +340,6 @@ byebug
     $('textarea##{locator}').text(#{content});
     SCRIPT
   end
-
 
   def reload_page
     visit current_path

@@ -23,25 +23,19 @@
         %span.data-item.bold-xsmall Opportunities published
     .column-one-quarter
       %div.data.data-panel
-        %span.data-item.bold-xxlarge.bold-xxlarge-fit
+        %span.data-item.bold-xxlarge
           = number_with_delimiter(@stats.enquiries)
         %span.data-item.bold-xsmall Enquiries
     .column-one-quarter
-      %div.data.data-panel
+      %div.data
         %span.data-item.bold-xxlarge
-<<<<<<< HEAD
-          = number_with_delimiter(@stats.enquiry_responses)
-        %span.data-item.bold-xsmall Enquiry Responses 
-        %span.visuallyhidden (counted at Enquiry Response created at date)
-=======
           = number_with_delimiter(@stats.enquiry_response)
         %span.data-item.bold-xsmall Enquiry Responses (counted at Enquiry Response created at date)
->>>>>>> 385c133... (fix) refactored tests after changing 1-many to 1-1 for enquiries-enquiry responses
 
 %section
   %h3 Average time to publish an opportunity following submission:
   %div.data
-    %span.data-item.bold-xlarge 
+    %span.data-item.bold-xlarge
       = @stats.average_age_when_published
 
 = render partial: 'stats_search_form', locals: { stats_search_form: @stats_search_form }

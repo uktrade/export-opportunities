@@ -9,40 +9,15 @@ module Api
     end
 
     def create
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-      params = params['params'] if params
-      if params
-        DocumentValidation.new.call(params, params['file_blob'])
-        res = DocumentStorage.new.call(params['filename'], params['file_blob'])
-=======
-      doc_params = params['document']
-      byebug
-=======
       doc_params = params['enquiry_response']
       # byebug
->>>>>>> 9c3cef5... (fix) end 2 end working of uploading attachment to PTU comms
       if doc_params
         enquiry_id = doc_params['enquiry_id']
         user_id = doc_params['user_id']
         original_filename = doc_params['original_filename']
-<<<<<<< HEAD
-        DocumentValidation.new.call(doc_params, doc_params['file_blob'])
-<<<<<<< HEAD
-        res = DocumentStorage.new.call(doc_params['original_filename'], doc_params['file_blob'].path)
->>>>>>> 1e3fbad... (fix) end 2 end post file to document_controller (minus storing in DB for ditly)
-=======
-=======
         validation_result = DocumentValidation.new.call(doc_params, doc_params['file_blob'])
-<<<<<<< HEAD
-        return validation_result if validation_result['errors']
->>>>>>> 881f569... (fix) rubocop fixes
-=======
         return validation_result if validation_result[:errors]
->>>>>>> ef24665... (fix) make tests great again.
         res = DocumentStorage.new.call(original_filename, doc_params['file_blob'].path)
->>>>>>> 9c3cef5... (fix) end 2 end working of uploading attachment to PTU comms
         if res
           s3_filename = enquiry_id.to_s + '_' + user_id.to_s + '_' + original_filename
           document_url = 'https://s3.' + Figaro.env.aws_region_ptu! + '.amazonaws.com/' + Figaro.env.post_user_communication_s3_bucket! + '/' + s3_filename
@@ -60,20 +35,7 @@ module Api
           id: short_url,
           base_url: Figaro.env.domain! + '/dashboard/downloads/',
         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-      if request.body and params['params'] and params['params']['file_location']
-        DocumentValidation.new.call(params['params'], params['params']['file_location'])
-
-        @result = request.body
->>>>>>> 767f228... (feature) adding expired app helper
-=======
-      # FakeAPI for testing
->>>>>>> 1e3fbad... (fix) end 2 end post file to document_controller (minus storing in DB for ditly)
-=======
         # FakeAPI for testing
->>>>>>> ef24665... (fix) make tests great again.
       else
         d1 = Digest::SHA256.digest(['make ids great again'].pack('H*'))
         d2 = Digest::SHA256.digest(d1)

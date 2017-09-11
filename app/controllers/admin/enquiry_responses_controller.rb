@@ -19,19 +19,7 @@ class Admin::EnquiryResponsesController < Admin::BaseController
 
   def create
     @enquiry_response = EnquiryResponse.new(enquiry_responses_params)
-<<<<<<< HEAD
     create_or_update
-=======
-    @enquiry_response.editor_id = current_editor.id
-
-    authorize @enquiry_response
-    if @enquiry_response.errors.empty?
-      @enquiry_response.save!
-      render :show, enquiry_response: @enquiry_response
-    else
-      render :new, status: :unprocessable_entity
-    end
->>>>>>> 767f228... (feature) adding expired app helper
   end
 
   def enquiry_responses_params

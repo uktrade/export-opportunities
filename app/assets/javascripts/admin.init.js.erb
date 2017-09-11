@@ -2,88 +2,69 @@
 var ukti = window.ukti || {};
 
 ukti.config = {
-	"ckeditorPath" : "/js/ckeditor/ckeditor.js",
-	"textEditorScriptPath" : "<%=image_path('ckeditor/ckeditor.js')%>"
+    "ckeditorPath" : "/js/ckeditor/ckeditor.js",
+    "textEditorScriptPath" : "<%=image_path('ckeditor/ckeditor.js')%>"
 };
 
 $('body').addClass('js-enabled');
 
 $('document').ready(function() {
-  // Toggle hidden content
-  var showHideContent = new GOVUK.ShowHideContent();
-  showHideContent.init();
+    // Toggle hidden content
+    var showHideContent = new GOVUK.ShowHideContent();
+    showHideContent.init();
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  ukti.Tabs.init();
-=======
->>>>>>> e0291aa... (feature) changing to use labels for radios for response type
+    var $opportunityTitle = $('#opportunity_title');
+    if($opportunityTitle.length) {
+        ukti.CharacterCounter.init($opportunityTitle, <%= Opportunity::TITLE_LENGTH_LIMIT %>);
+    }
+    var $opportunityTeaser = $('#opportunity_teaser');
+    if($opportunityTeaser.length) {
+        ukti.CharacterCounter.init($opportunityTeaser, <%= Opportunity::TEASER_LENGTH_LIMIT %>);
+    }
+    var downloadOppsForm = $('.opportunities_download_form');
+    if (downloadOppsForm.length > 0) {
+        ukti.DisableSubmitButton.init(downloadOppsForm);
+        ukti.DateFilterValidation.init(downloadOppsForm);
+        ukti.DateFilterPicker.init(downloadOppsForm);
+    }
+    var downloadEnqForm = $('form[action="/admin/enquiries.csv"]');
+    if (downloadEnqForm.length > 0) {
+        ukti.DisableSubmitButton.init(downloadEnqForm);
+        ukti.DateFilterValidation.init(downloadEnqForm);
+        ukti.DateFilterPicker.init(downloadEnqForm);
+    }
 
-=======
->>>>>>> 70f4099... (feature) adding frontend stuff
-=======
->>>>>>> 3d9e728... (fix) multiple attachments, using carrierwave
-=======
-  ukti.Tabs.init();
+    var oppEditForm = $('form.edit_opportunity');
+    var oppNewForm = $('form.new_opportunity');
+    if (oppEditForm || oppNewForm) {
+        datePickerController.createDatePicker({
+            formElements:{'opportunity_response_due_on_3i': '%j', 'opportunity_response_due_on_2i': '%n', 'opportunity_response_due_on_1i': '%Y'},
+            noFadeEffect:true
+        });
+    }
+    var reportsImpactEmailForm = $('form[action="reports/impact_email"]');
+    if (reportsImpactEmailForm) {
+        datePickerController.createDatePicker({
+            formElements:{'impact_stats_date_data_3i': '%j', 'impact_stats_date_data_2i': '%n', 'impact_stats_date_data_1i': '%Y'},
+            noFadeEffect:true,
+            positioned: 'datepicker-holder'
+        });
+    }
+  /* if edit form set behaviour of rag rating */
+    if (oppEditForm.length > 0) {
+        ukti.RaggRating.init(oppEditForm[0]);
+    }
 
->>>>>>> 717075f... PTU comms in stable
-=======
->>>>>>> cdf0a1c... (feature) adding snippets
-  var $opportunityTitle = $('#opportunity_title');
-  if($opportunityTitle.length) {
-    ukti.CharacterCounter.init($opportunityTitle, <%= Opportunity::TITLE_LENGTH_LIMIT %>);
-  }
-  var $opportunityTeaser = $('#opportunity_teaser');
-  if($opportunityTeaser.length) {
-    ukti.CharacterCounter.init($opportunityTeaser, <%= Opportunity::TEASER_LENGTH_LIMIT %>);
-  }
-	var downloadOppsForm = $('.opportunities_download_form');
-	if (downloadOppsForm.length > 0) {
-		ukti.DisableSubmitButton.init(downloadOppsForm);
-		ukti.DateFilterValidation.init(downloadOppsForm);
-		ukti.DateFilterPicker.init(downloadOppsForm);
-	}
-	var downloadEnqForm = $('form[action="/admin/enquiries.csv"]');
-	if (downloadEnqForm.length > 0) {
-		ukti.DisableSubmitButton.init(downloadEnqForm);
-		ukti.DateFilterValidation.init(downloadEnqForm);
-		ukti.DateFilterPicker.init(downloadEnqForm);
-	}
+  /* attach show/hide behaviour */
+    ukti.ShowHide.init();
 
-	var oppEditForm = $('form.edit_opportunity');
-	var oppNewForm = $('form.new_opportunity');
-	if (oppEditForm || oppNewForm) {
-		datePickerController.createDatePicker({
-			formElements:{'opportunity_response_due_on_3i': '%j', 'opportunity_response_due_on_2i': '%n', 'opportunity_response_due_on_1i': '%Y'},
-			noFadeEffect:true
-		});
-	}
-	var reportsImpactEmailForm = $('form[action="reports/impact_email"]');
-	if (reportsImpactEmailForm) {
-		datePickerController.createDatePicker({
-			formElements:{'impact_stats_date_data_3i': '%j', 'impact_stats_date_data_2i': '%n', 'impact_stats_date_data_1i': '%Y'},
-			noFadeEffect:true,
-			positioned: 'datepicker-holder'
-		});
-	}
-	/* if edit form set behaviour of rag rating */
-	if (oppEditForm.length > 0) {
-		ukti.RaggRating.init(oppEditForm[0]);
-	}
+  /* Opportunity management */
+    ukti.OpportunityManagement.init();
 
-	/* attach show/hide behaviour */
-	ukti.ShowHide.init();
-
-	/* Opportunity management */
-	ukti.OpportunityManagement.init();
-
-	/* Enquiry response  */
-	var EnquiryResponseForm = document.querySelector("form.enquiry_response");
-	if (EnquiryResponseForm) {
-		ukti.EnquiryResponse.init(EnquiryResponseForm);	
-	}
+  /* Enquiry response  */
+    var EnquiryResponseForm = document.querySelector("form.enquiry_response");
+    if (EnquiryResponseForm) {
+        ukti.EnquiryResponse.init(EnquiryResponseForm);
+    }
 
 });

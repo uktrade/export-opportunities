@@ -32,16 +32,7 @@ feature 'Logging in as an admin' do
       click_on 'Log in'
     end
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    expect_editor_to_be_logged_in
-    expect(page.current_url).to include('/admin/help/opportunities')
-=======
-    expect(page.current_url).to include('admin/help')
->>>>>>> c600222... (fix) fixed routes in admin/help to reflect new url layout
-=======
     expect(page.current_url).to include('/admin/help')
->>>>>>> a6ae014... (fix) WIP
   end
 
   scenario 'visiting admin help guide for opportunities' do
