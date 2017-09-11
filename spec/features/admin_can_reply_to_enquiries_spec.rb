@@ -9,7 +9,7 @@ feature 'admin can reply to enquiries' do
     end
   end
 
-  scenario 'reply to an enquiry' do
+  scenario 'reply to an enquiry - need more information' do
     admin = create(:admin)
     opportunity = create(:opportunity)
     enquiry = create(:enquiry, opportunity: opportunity)
@@ -17,24 +17,10 @@ feature 'admin can reply to enquiries' do
     visit '/admin/enquiries/' + enquiry.id.to_s
 
     click_on 'Reply'
-    expect(page).to have_content('Email body')
-
-    email_body_text = Faker::Lorem.words(10).join('-')
-    editor_signature = Faker::Lorem.words(10).join('-')
-    fill_in 'enquiry_response_email_body', with: email_body_text
-    fill_in 'enquiry_response_signature', with: editor_signature
-
-    expect(page).to have_content(email_body_text)
-
     # need more information
     choose 'Need more information'
 
-    # go to next page, preview
-    click_on 'Preview'
-
-    expect(page).to have_content(email_body_text)
-    expect(page).to have_content('Thank you for your interest in the export opportunity: ' + opportunity.title)
-    expect(page).to have_content('You have not provided enough information')
+    expect(page).to have_content('Contact the company')
   end
 
   scenario 'reply to an enquiry with invalid mail length (has to be 30 chars)' do
