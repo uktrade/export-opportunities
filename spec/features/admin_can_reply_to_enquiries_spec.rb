@@ -200,7 +200,7 @@ feature 'admin can reply to enquiries' do
 
     # choose right for opportunity
     page.find('#li1').click
-    allow_any_instance_of(DocumentController).to receive(:create).and_return(true)
+    # allow_any_instance_of(DocumentController).to receive(:create).and_return(true)
     attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file.pdf', visible: false
 
     wait_for_ajax
