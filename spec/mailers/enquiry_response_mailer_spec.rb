@@ -19,21 +19,6 @@ RSpec.describe EnquiryResponseMailer, type: :mailer do
       expect(last_delivery.parts.first.body.raw_source).to include('Your application meets the criteria for this opportunity.')
     end
 
-    it 'sends an enquiry response to the person creating the enquiry and the editor responding to it with response type 2 (needs more information)' do
-      enquiry = create(:enquiry)
-      enquiry_response = create(:enquiry_response, enquiry: enquiry, response_type: 2)
-
-      EnquiryResponseMailer.more_information(enquiry_response, enquiry_response.editor.email).deliver_later!
-      last_delivery = ActionMailer::Base.deliveries.last
-
-      expect(last_delivery.subject).to eql("Update on your enquiry for the export opportunity #{enquiry_response.enquiry.opportunity.title}")
-      expect(last_delivery.to).to include(enquiry.user.email)
-      expect(last_delivery.bcc).to include(enquiry_response.editor.email)
-      expect(last_delivery.reply_to).to include(enquiry_response.editor.email)
-      expect(last_delivery.parts.first.body.raw_source).to include('Your application can not be taken any further.')
-      expect(last_delivery.parts.first.body.raw_source).to include('You have not provided enough information.')
-    end
-
     it 'sends an enquiry response to the person creating the enquiry and the editor responding to it with response type 3 (NOT right for opportunity)' do
       enquiry = create(:enquiry)
       enquiry_response = create(:enquiry_response, enquiry: enquiry, response_type: 3)

@@ -45,22 +45,10 @@ feature 'admin can reply to enquiries' do
     visit '/admin/enquiries/' + enquiry.id.to_s
 
     click_on 'Reply'
-    expect(page).to have_content('Email body')
-
-    email_body_text = Faker::Lorem.characters(29)
-    editor_signature = Faker::Lorem.words(10).join('-')
-
-    fill_in 'enquiry_response_email_body', with: email_body_text
-    fill_in 'enquiry_response_signature', with: editor_signature
-
-    expect(page).to have_content(email_body_text)
-
     # need more information
     choose 'Need more information'
 
-    click_on 'Preview'
-
-    expect(page).to have_content('1 error prevented this enquiry response from being saved')
+    expect(page).to have_content('Contact the company')
   end
 
   scenario 'reply to an enquiry with blank mail - FAIL' do
@@ -127,13 +115,8 @@ feature 'admin can reply to enquiries' do
 
     choose 'Need more information'
 
-    click_on 'Preview'
+    expect(page).to have_content('Contact the company')
 
-    expect(page).to have_content('need more information')
-
-    click_on 'Send'
-
-    expect(page).to have_content('Reply sent successfully')
   end
 
   scenario 'reply to an enquiry as an uploader for the opportunity, not right for opportunity choice' do
