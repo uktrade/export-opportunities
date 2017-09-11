@@ -25,5 +25,6 @@ CKEDITOR.editorConfig = function( config ) {
     ];
     // For inline style definition.
     config.stylesSet = 'my_styles';
+    config.defaultLanguage = 'en';
     config.removeButtons = 'Underline,Subscript,Superscript,Cut,Copy,Paste,PasteText,PasteFromWord,Undo,Redo,Scayt,Link,Unlink,Anchor,About,RemoveFormat,Strike,Blockquote,Styles,Image,Maximize,Table,HorizontalRule,SpecialChar,Format,Source';
 };
