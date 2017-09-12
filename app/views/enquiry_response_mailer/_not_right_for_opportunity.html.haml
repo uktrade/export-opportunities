@@ -15,11 +15,9 @@
       %h3 Reason
       %p Your proposal does not meet the criteria for this opportunity.
 
+      %h3 What next
       = render 'enquiry_response_mailer/editable_content', enquiry_response: @enquiry_response
 
-      %h3 What next
-      %p Review your proposal and additional recommendations
-      %p= link_to @enquiry_response.enquiry.opportunity.title.strip, dashboard_enquiry_url(@enquiry_response.enquiry.id)
       %br
 
       %p The export opportunities team
