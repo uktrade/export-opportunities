@@ -18,7 +18,6 @@
 
       %p Although you meet the criteria for this opportunity, we cannot guarantee that you will win the business. If you have any questions about this opportunity or our market in general, please do not hesitate to contact us.
 
-      %p.white-space-pre
-        !=@enquiry_response.signature
+      %p!=@enquiry_response.signature
 
 =render partial:'enquiry_response_mailer/submit_buttons' unless @mailer_view

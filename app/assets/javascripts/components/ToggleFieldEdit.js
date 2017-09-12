@@ -51,7 +51,7 @@ ukti.ToggleFieldEdit = (function(Cookies) {
     var noSignatureValue = function () {
       textEl.classList.add(hiddenClass);
       buttonEl.classList.add(hiddenClass);
-      fieldEl.value = '[full name],\n[role],\n[organisation name],\n[city & country],\n[phone number],\n[email]';
+      fieldEl.value = '[full name],</br>[role],</br>[organisation name],</br>[city & country],</br>[phone number],</br>[email]';
     };
 
     var updateText = function () {
