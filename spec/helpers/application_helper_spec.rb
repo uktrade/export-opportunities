@@ -56,6 +56,7 @@ describe ApplicationHelper do
       expect(result).to eq(nil)
     end
 
+    # This test requires internet connection to Trade Profile API
     it 'returns trade profile for a company house number that we know exists in Companies House' do
       result = companies_house_url('SC406536')
       expect(result).to_not be(nil)
@@ -74,6 +75,7 @@ describe ApplicationHelper do
       expect(result).to eq(nil)
     end
 
+    # This test requires internet connection to Trade Profile API
     it 'returns trade profile for a company house number that we know exists in Profile Staging' do
       result = trade_profile('SC406536')
       expect(result).to_not be(nil)

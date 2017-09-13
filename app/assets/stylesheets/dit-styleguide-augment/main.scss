@@ -24,6 +24,9 @@
 @import "components/sidepanel";
 @import "components/radios";
 @import "components/loading-indicators";
+/* used on the enquiry status page */
+@import "components/metadata";
+@import "components/tiles";
 
 /* Special case */
 @import "components/_enquiry_feedback_form";

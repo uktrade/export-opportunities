@@ -7,7 +7,7 @@ FactoryGirl.define do
     name { Faker::Name.name }
     confirmed_at { DateTime.current }
     role 1
-    deactivated_at nil
+    deactivated_at { nil }
 
     factory :admin do
       role 4
