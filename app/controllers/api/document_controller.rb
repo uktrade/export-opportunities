@@ -9,6 +9,12 @@ module Api
     end
 
     def create
+      @error = {
+        errors: {
+          type: 'virus found',
+          message: 'file is not clean',
+        },
+      }
       doc_params = params['enquiry_response']
       # byebug
       if doc_params
@@ -54,9 +60,9 @@ module Api
         }
       end
       respond_to do |format|
-        format.json { render json: { result: @result }, status: 200 }
-        format.js { render json: { result: @result }, status: 200 }
-        format.html { render json: { result: @result }, status: 200 }
+        format.json { render json: { result: @error }, status: 200 }
+        format.js { render json: { result: @error }, status: 200 }
+        format.html { render json: { result: @error }, status: 200 }
       end
     end
   end
