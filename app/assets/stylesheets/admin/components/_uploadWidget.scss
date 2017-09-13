@@ -1,0 +1,70 @@
+.uploadWidget {
+  .inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+  .inputfile + label {
+    font-size: 16px;
+    font-weight: 500;
+    color: $white;
+    background-color: $grey-rollingstone;
+    box-shadow: 0 2px 0 #003618;
+    border: 2px solid #6f777b;
+    padding: 0.375em 0.9375em 0.3625em 0.9375em;
+    display: inline-block;
+    cursor: pointer;
+  }
+  .inputfile {
+    &.disabled + label,
+    &[disabled="disabled"] + label,
+    &[disabled] + label {
+      zoom: 1;
+      filter: alpha(opacity=50);
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
+
+  .inputfile + label svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    margin-top: -0.25em;
+    margin-right: 0.25em;
+  }
+  .inputfile:focus + label {
+    border: 2px solid #ffbf47;
+    outline: none;
+  }
+  .inputfile + label * {
+    pointer-events: none;
+  }
+  .panel {
+    margin-top: 10px;
+  }
+  .fileList {
+    margin-bottom: 10px;
+    li {
+      min-height: 30px;
+      margin-top: 6px;
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+    a {
+      margin-left: 10px;
+    }
+  }
+  label {
+    position: relative;
+    &.isLoading {
+      padding-right: 3em;
+    }
+  }
+  /* consider no-js scenario */
+}

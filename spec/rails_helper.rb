@@ -21,6 +21,7 @@ require 'support/appear_before'
 require 'support/webmock'
 require 'support/elastic_search'
 require 'support/request_spec_helper'
+require 'capybara-screenshot/rspec'
 
 ActiveRecord::Migration.maintain_test_schema!
 

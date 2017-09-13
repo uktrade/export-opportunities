@@ -1,4 +1,28 @@
+- if params[:reply_sent]
+  %div.alert.flash.info
+    %h2.margin-top-0 Reply sent successfully
+    %p
+      Remember to record a new 
+      %a{:href => "https://crm.cdms.ukti.gov.uk/"} CDMS Service delivery:
+      %strong
+        EIG Website, Export Opps
+    %p.margin-top-10 
+      - if @next_enquiry
+        %a{:href => @next_enquiry[:url], :class => 'button'} Reply to next Enquiry
+      - else
+        You are all done, Congrats :)
+
 %h1.heading-xlarge Enquiries
+
+.admin__filter-panel
+  Filter by status:
+  %ul
+    %li{class: (@filters.selected_status.nil? ? 'admin__filter-selected' : '')}
+      = link_to('All', admin_enquiries_path())
+    %li{class: (@filters.selected_status == 'replied' ? 'admin__filter-selected' : '')}
+      = link_to('Replied', admin_enquiries_url(status: 'replied'))
+    %li{class: (@filters.selected_status == 'not_replied' ? 'admin__filter-selected' : '')}
+      = link_to('To reply', admin_enquiries_path(status: 'not_replied'))
 
 %div
   = form_tag admin_enquiries_path(format: :csv), method: :get, format: :csv do
@@ -11,16 +35,19 @@
 
 %table
   %thead
-    %th{:width => '35%'} Company
-    %th{:width => '35%'} Opportunity
-    %th.numeric{:width => '10%'} Applied On
-    %th{:width => '10%'} Replied
+    %th{width: '35%'} Company
+    %th{width: '35%'} Opportunity
+    %th.numeric{width: '10%'} Applied On
+    %th{status: '10%'} Status
+    -#%th{width: '10%'} Replied
   %tbody
     - @enquiries.each do |enquiry|
       %tr
         %td= link_to enquiry.company_name, admin_enquiry_path(enquiry)
         %td= enquiry.opportunity.title
         %td.numeric= enquiry.created_at.to_s(:admin_datetime)
-        %td= enquiry.enquiry_responses&.exists? ? 'Yes' : 'No'
+        %td= enquiry.response_status
+        -#%td.numeric= (enquiry.enquiry_response.completed_at - enquiry.created_at).to_s(:admin_datetime)
+        -#%td= enquiry.enquiry_response ? 'Yes' : 'No'
 
 = paginate @enquiries

@@ -11,8 +11,9 @@ RSpec.describe Admin::ReportsController, type: :controller do
     let(:country) { create(:country) }
 
     it 'renders an index page' do
-      skip('TODO: fix')
-      expect(get(:index, commit: :Generate)).to render_template('admin/reports/index')
+      response = get(:index, commit: 'Generate')
+
+      expect(response.inspect).to have_content('The requested Monthly Outcome against Targets by Country report has been emailed to you.')
     end
   end
 end

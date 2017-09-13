@@ -45,7 +45,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit, js: true do
     opportunity = create(:opportunity, :published)
     opportunity_with_market = create(:opportunity, :published, countries: [country])
 
-    sleep 1
+    sleep 2
     visit opportunities_path
 
     within('.filters') do
