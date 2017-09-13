@@ -13,13 +13,6 @@ RSpec.describe Api::DocumentController, type: :controller do
 
   describe 'POST document controller create' do
     context 'creates new shortened link' do
-      it 'with valid fakeapi request' do
-        post :create, format: :json, params: @params
-
-        expect(response).to have_http_status(200)
-        # expect(response.body).to include('$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H')
-      end
-
       it 'with valid real request' do
         # TODO: test without network connection. fails at logging.
         post :create, format: :json, enquiry_response: @params

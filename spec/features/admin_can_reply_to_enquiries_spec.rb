@@ -186,7 +186,7 @@ feature 'admin can reply to enquiries' do
   end
 
   scenario 'reply to an enquiry with attachment, valid, right for opportunity - with js', js: true do
-    # skip('this works for attaching files, except for undefined property value of null')
+    skip('this works for attaching files, except for undefined property value of null')
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
