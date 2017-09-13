@@ -1,0 +1,11 @@
+---
+applications:
+- name: sidekiq-worker
+  memory: 256M
+  instances: 1
+  path: .
+  command: bundle exec sidekiq
+  no-route: true
+  services:
+  - sidekiq-redis:
+  - sidekiq-mysql:

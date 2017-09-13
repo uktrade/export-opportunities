@@ -75,6 +75,8 @@ gem 'carrierwave'
 # rest client for antivirus scanning
 gem 'rest-client'
 
+gem 'uuidtools'
+
 group :development, :test do
   gem 'byebug'
   gem 'pry-rescue'
