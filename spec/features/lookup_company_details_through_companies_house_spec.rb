@@ -24,7 +24,7 @@ feature 'Looking up company details through Companies House API', js: true do
     visit opportunity_path(opportunity)
 
     within '.opportunity__information' do
-      click_on 'Apply for this opportunity'
+      click_on 'Submit your proposal'
     end
 
     expect(find_field('enquiry_company_name').value).to be_blank
@@ -79,7 +79,7 @@ feature 'Looking up company details through Companies House API', js: true do
     visit opportunity_path(opportunity)
 
     within '.opportunity__information' do
-      click_on 'Apply for this opportunity'
+      click_on 'Submit your proposal'
     end
 
     within '.your-business' do
@@ -121,7 +121,7 @@ feature 'Looking up company details through Companies House API', js: true do
     visit opportunity_path(opportunity)
 
     within '.opportunity__information' do
-      click_on 'Apply for this opportunity'
+      click_on 'Submit your proposal'
     end
 
     within '.your-business' do
@@ -145,7 +145,7 @@ feature 'Looking up company details through Companies House API', js: true do
     fill_in 'enquiry_company_explanation', with: 'We are awesome.'
     select sector.name, from: 'enquiry_company_sector'
     select 'Not yet', from: 'enquiry_existing_exporter'
-    click_on 'Apply now'
+    click_on 'Submit'
 
     expect(opportunity.enquiries.size).to eq(1)
   end
@@ -155,7 +155,7 @@ feature 'Looking up company details through Companies House API', js: true do
     visit opportunity_path(opportunity)
 
     within '.opportunity__information' do
-      click_on 'Apply for this opportunity'
+      click_on 'Submit your proposal'
     end
 
     within '.your-business' do

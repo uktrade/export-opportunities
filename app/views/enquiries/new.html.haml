@@ -1,6 +1,8 @@
 .container
   .legacy.margin-top-30
-    %h1.h1 Apply now
+    %h1.h1
+      You are submitting a proposal for
+      %span.colon-spacer :
     %h2.h2= @opportunity.title
     %p.large.width-60 Tell us how you can meet the requirements for this opportunity and an expert will contact you within five working days to discuss any next steps.
 
@@ -81,16 +83,16 @@
               = f.label :company_sector, "Please indicate which sector you work in", class: "required"
               = f.select(:company_sector, Sector.pluck(:name).to_a, required: "required", prompt: 'Sector')
             .form-group
-              = f.label :company_explanation, "Tell us how you can meet the requirements for this opportunity", class: "required"
+              = f.label :company_explanation, "Tell us what your company does and how it meets the requirements for this opportunity. This is your chance to make your company stand out.", class: "required"
               %p.form-hint
                 (max
                 = number_with_delimiter(Enquiry::COMPANY_EXPLANATION_MAXLENGTH)
                 characters incl. spaces)
-              = f.text_area :company_explanation, {required: "required", rows: "8", maxlength: Enquiry::COMPANY_EXPLANATION_MAXLENGTH}
+              = f.text_area :company_explanation, {required: "required", rows: "8"}
 
             .form-group
               %label
                 = f.check_box :data_protection
                 = "I agree my details may be used for marketing by #{t('organisation.name')} and trusted partners (optional)"
 
-            = f.submit 'Apply now', class: 'button'
+            = f.submit 'Submit', class: 'button'

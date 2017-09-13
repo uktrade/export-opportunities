@@ -13,7 +13,7 @@
 
 %p If your company is registered in the UK please resubmit below and include your company details: company name, UK address and phone number.
 
-%p= link_to @enquiry_response.enquiry.opportunity.title, opportunity_path(@enquiry_response.enquiry.opportunity), { :class=>"link" }
+%p= link_to @enquiry_response.enquiry.opportunity.title, opportunity_url(@enquiry_response.enquiry.opportunity), { :class=>"link" }
 
 - if @enquiry_response.enquiry.opportunity.expired?
   %p This opportunity expired on #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}

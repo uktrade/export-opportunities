@@ -63,8 +63,8 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
       expect(page).to have_link c.name
     end
 
-    expect(page).to have_link 'Apply for this opportunity'
-    expect(page).to have_content('Applications received: 3')
+    expect(page).to have_link 'Submit your proposal'
+    expect(page).to have_content('Applications received 3')
   end
 
   scenario 'country with a link to exporting guide' do
