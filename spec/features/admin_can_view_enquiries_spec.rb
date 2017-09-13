@@ -35,7 +35,7 @@ feature 'admin can view enquiries' do
 
     click_on 'Replied'
 
-    expect(page).to have_content('Replied in 0 day(s)')
+    expect(page).to have_content('Replied 0 days after')
     expect(page).to have_content(enquiry.company_name)
   end
 
@@ -65,7 +65,7 @@ feature 'admin can view enquiries' do
     expect(first_row).to have_content('days overdue')
     expect(first_row).to have_content('UK Leaky Boathouses')
 
-    expect(second_row).to have_content('Not sent, please retry')
+    expect(second_row).to have_content('Pending')
     expect(second_row).to have_content('UK Boathouses Inc')
   end
 
