@@ -162,12 +162,12 @@ ukti.UploadWidget = (function() {
     };
 
     var handleUploadFileSuccess = function (response) {
-      var response = JSON.parse(response.responseText);
-      if ( response.errors ) {
-        handleUploadFileError(response.errors.type);
+      var data = JSON.parse(response.responseText);
+      if ( data.errors && data.errors.type ) {
+        handleUploadFileError(data.errors.type);
         return;
       }
-      updateFileStore(response);
+      updateFileStore(data);
       updateHiddenField();
       renderFileList();
       removeLoadingClass();
