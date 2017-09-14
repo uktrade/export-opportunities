@@ -46,11 +46,18 @@
 
 .row {
   @include row;
+    &.collapse {
+    @for $i from 1 through $grid-columns {
+      .column-#{$i} {
+        padding: 0
+      }
+    }
+  }
 }
 
 @for $i from 1 through $grid-columns {      
   .column-#{$i} {
-        @include col(1, $i, $align: middle);
+      @include col(1, $i, $align: middle);
     }         
  } 
 

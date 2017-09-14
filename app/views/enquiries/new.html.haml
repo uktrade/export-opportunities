@@ -82,9 +82,9 @@
               = f.label :company_sector, "Select your sector", class: "required"
               = f.select(:company_sector, Sector.pluck(:name).to_a, required: "required", prompt: 'Sector')
             .form-group
-              .row
-                .column-
-              = f.label :company_explanation, "Explain what your company does and how it meets the requirements for this opportunity. This is your chance to promote your company and make your proposal stand out", class: "required"
+              .row.collapse
+                .column-9
+                  = f.label :company_explanation, "Explain what your company does and how it meets the requirements for this opportunity. This is your chance to promote your company and make your proposal stand out.", class: "required"
               = f.text_area :company_explanation, {required: "required", rows: "8"}
 
             .form-group
