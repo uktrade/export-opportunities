@@ -213,8 +213,8 @@ RSpec.feature 'users can apply for opportunities', js: true do
 
   def fill_in_exporting_experience
     select 'Not yet', from: 'Have you sold products or services to overseas customers?'
-    select Sector.all.sample.name, from: 'Please indicate which sector you work in'
-    fill_in 'Tell us what your company does and how it meets the requirements for this opportunity. This is your chance to make your company stand out.', with: Faker::Company.bs
+    select Sector.all.sample.name, from: 'Select your sector'
+    fill_in :enquiry_company_explanation, with: Faker::Company.bs
   end
 
   def tick_data_protection_checkbox

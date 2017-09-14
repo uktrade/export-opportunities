@@ -4,7 +4,6 @@
       You are submitting a proposal for
       %span.colon-spacer :
     %h2.h2= @opportunity.title
-    %p.large.width-60 Tell us how you can meet the requirements for this opportunity and an expert will contact you within five working days to discuss any next steps.
 
     %div#register-an-interest-form
       .register-form.panel
@@ -80,14 +79,12 @@
               = f.label :existing_exporter, "Have you sold products or services to overseas customers?", class: "required"
               = f.select(:existing_exporter, Enquiry::EXISTING_EXPORTER_CHOICES, required: "required", prompt: 'Select')
             .form-group
-              = f.label :company_sector, "Please indicate which sector you work in", class: "required"
+              = f.label :company_sector, "Select your sector", class: "required"
               = f.select(:company_sector, Sector.pluck(:name).to_a, required: "required", prompt: 'Sector')
             .form-group
-              = f.label :company_explanation, "Tell us what your company does and how it meets the requirements for this opportunity. This is your chance to make your company stand out.", class: "required"
-              %p.form-hint
-                (max
-                = number_with_delimiter(Enquiry::COMPANY_EXPLANATION_MAXLENGTH)
-                characters incl. spaces)
+              .row
+                .column-
+              = f.label :company_explanation, "Explain what your company does and how it meets the requirements for this opportunity. This is your chance to promote your company and make your proposal stand out", class: "required"
               = f.text_area :company_explanation, {required: "required", rows: "8"}
 
             .form-group
