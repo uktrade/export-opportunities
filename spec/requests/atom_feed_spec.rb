@@ -110,7 +110,7 @@ RSpec.describe 'Viewing the ATOM feed for opportunities', :elasticsearch, :commi
       get '/opportunities.atom'
       body = parse_xml(response.body)
 
-      expect(body.xpath("//feed/link[@rel='next']/@href").value).to eql 'http://www.example.com/opportunities.atom?paged=2'
+      expect(body.css('feed > link[rel=next]').attr('href').text).to eql 'http://www.example.com/opportunities.atom?paged=2'
 
       sleep 1
       get '/opportunities.atom?paged=2'
