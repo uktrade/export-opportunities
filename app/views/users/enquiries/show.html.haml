@@ -44,7 +44,7 @@
             %p.medium= @enquiry.opportunity.enquiries.size
         .accordion-section
           .accordion-section-header{:tabindex=>"0"}
-            %h3.heading-medium Your submission
+            %h3.heading-medium Your proposal
           .accordion-section-body
             %h5.bold.margin-top-15 Sent on: #{@enquiry.created_at}
             .p-children-medium
@@ -70,7 +70,7 @@
             .margin-top-15
               - case @response_type
                 - when 0
-                  = 'Your application is under consideration.'
+                  %p.medium Your proposal is under consideration.
                 - when 1
                   = render 'users/enquiries/includes/outcome/right', enquiry_response: @enquiry_response
                 - when 2
@@ -88,7 +88,7 @@
             .margin-top-15
               - case @response_type
                 - when 0
-                  = 'Just base it off the fact there is no response yet'
+                  %p.medium Your proposal is under consideration.
                 - when 1
                   = render 'users/enquiries/includes/suggestions/right', enquiry_response: @enquiry_response
                 - when 2
