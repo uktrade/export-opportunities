@@ -17,6 +17,9 @@ body.js-enabled {
 .center {
 	text-align: center;
 }
+.margin-top-15 {
+	margin-top: 20px;
+}
 .margin-top-20 {
 	margin-top: 20px;
 }
@@ -25,6 +28,34 @@ body.js-enabled {
 }
 .margin-bottom-12 {
 	margin-bottom: 12px;
+}
+.margin-bottom-30 {
+	margin-bottom: 12px;
+}
+
+.r-margin-bottom-15 {
+	margin-bottom: 15px;
+}
+.r-margin-bottom-30 {
+	margin-bottom: 15px;
+	  @media #{$tablet-m} {
+    margin-bottom: 30px;
+  }
+}
+.r-margin-top-60 {
+	margin-top: 30px;
+	  @media #{$tablet-m} {
+    margin-top: 60px;
+  }
+}
+.r-margin-bottom-60 {
+	margin-bottom: 30px;
+	  @media #{$tablet-m} {
+    margin-bottom: 60px;
+  }
+}
+.margin-bottom-60 {
+	margin-bottom: 60px;
 }
 .padding-top-30 {
 	padding-top: 30px!important;

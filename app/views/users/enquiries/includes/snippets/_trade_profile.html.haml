@@ -1,7 +1,5 @@
 - unless trade_profile(@enquiry.company_house_number)
-  .column-4
-    .tile
-      %h4
-        %a{:href => "#{Figaro.env.TRADE_PROFILE_CREATE_PAGE}#{@enquiry.company_house_number}"} Create a Trade Profile
-      %p Get a trade profile for your company to promote your business to thousands of overseas buyers
+  %li
+    %p.medium
+      %a{:href => "#{Figaro.env.TRADE_PROFILE_CREATE_PAGE}#{@enquiry.company_house_number}"} Create a Trade Profile
 

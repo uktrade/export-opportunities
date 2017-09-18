@@ -1,74 +1,73 @@
 .container
-  .legacy.margin-top-30
-    %h1 You applied for this opportunity
-  .row.collapse
-    .column-9
+  .row
+    .column-9.collapse
+      .r-margin-top-60.r-margin-bottom-30
+        %h1 #{@enquiry.opportunity.title.strip}
+        %ul.inline.margin-top-15
+          %li 
+            %span.regular Sectors: 
+            %span.bold
+              = @enquiry.opportunity.sectors.pluck(:name).to_sentence
+          - if @enquiry.opportunity.types.any?
+            %li 
+              %span.regular Opportunity type: 
+              %span.bold
+                = @enquiry.opportunity.types.pluck(:name).to_sentence
+          %li 
+            %span.regular Value of contract: 
+            %span.bold
+              - if @enquiry.opportunity.values.any?
+                = @enquiry.opportunity.values.pluck(:name).to_sentence
+              - else
+                Value unknown
+  .row
+    .column-9.collapse
       .accordion
         .accordion-section
           .accordion-section-header{:tabindex=>"0"}
             %h3.heading-medium Opportunity details
           .accordion-section-body
-            %h4.margin-top-30 #{@enquiry.opportunity.title.strip}
-            %p #{@enquiry.opportunity.teaser.strip}
-            %h4 Essential information
-            .meta
-              .meta__item
-                %h4.meta__header
-                  Sectors:
-                %p.meta__content
-                  = @enquiry.opportunity.sectors.pluck(:name).to_sentence
-              .meta__item
-                %h4.meta__header
-                  Opportunity type:
-                %p.meta__content
-                  = @enquiry.opportunity.types.pluck(:name).to_sentence
-              .meta__item
-                %h4.meta__header
-                  Value of contract:
-                %p.meta__content
-                  - if @enquiry.opportunity.values.any?
-                    = @enquiry.opportunity.values.first.name
-                  - else
-                    Value unknown
-              .meta__item
-                %h4.meta__header
-                  Applications received:
-                %p.meta__content
-                  = @enquiry.opportunity.enquiries.size
+            %h5.bold.margin-top-15 #{@enquiry.opportunity.title.strip}
+            %p.medium #{@enquiry.opportunity.teaser.strip}
+            %h5.bold.margin-top-15 Essential information
+            %h5.bold Sectors:
+            %p.medium= @enquiry.opportunity.sectors.pluck(:name).to_sentence
+            %h5.bold Opportunity type:
+            %p.medium= @enquiry.opportunity.types.pluck(:name).to_sentence
+            %h5.bold Value of contract:
+            %p.medium
+              - if @enquiry.opportunity.values.any?
+                = @enquiry.opportunity.values.first.name
+              - else
+                Value unknown
+            %h5.bold Applications received:
+            %p.medium= @enquiry.opportunity.enquiries.size
         .accordion-section
           .accordion-section-header{:tabindex=>"0"}
             %h3.heading-medium Your submission
           .accordion-section-body
-            %h4.margin-top-30 Sent on: #{@enquiry.created_at}
-            =present_html_or_formatted_text(@enquiry.company_explanation)
+            %h5.bold.margin-top-15 Sent on: #{@enquiry.created_at}
+            .p-children-medium
+              =present_html_or_formatted_text(@enquiry.company_explanation)
 
-            %h4 Details you gave us
-            .meta
-              .meta__item
-                %h4.meta__header
-                  Company sectors:
-                %p.meta__content
-                  = @enquiry.company_sector
-              .meta__item
-                %h4.meta__header
-                  Existing exporter:
-                %p.meta__content
-                  = @enquiry.existing_exporter
+            %h5.bold.margin-top-15 Details you gave us
+            %h5.bold Company sectors:
+            %p.medium= @enquiry.company_sector
+
+            %h5.bold Existing exporter:
+            %p.medium= @enquiry.existing_exporter
             - if @enquiry.company_url.nil? & @enquiry.company_url.empty?
-              .meta__item
-                %h4.meta__header
-                  Company website:
-                %p.meta__content= link_to @enquiry.company_url, @enquiry.company_url
-            - if @enquiry.company_house_number
-              .meta__item
-                %h4.meta__header
-                  Companies house record:
-                %p.meta__content= link_to @enquiry.company_url, @enquiry.company_url
+              %h5.bold Company website:
+              %p.medium = link_to @enquiry.company_url, @enquiry.company_url
+            - @companies_house_url = companies_house_url(@enquiry.company_house_number)
+            - if @companies_house_url
+              %h5.bold Companies house record:
+              %p.medium=link_to @enquiry.company_name, @companies_house_url, target: '_blank', :rel => 'noopener noreferrer'
         .accordion-section
           .accordion-section-header{:tabindex=>"0"}
             %h3.heading-medium Outcome and next steps
           .accordion-section-body
-            .margin-top-30
+            .margin-top-15
               - case @response_type
                 - when 0
                   = 'Your application is under consideration.'
@@ -82,24 +81,27 @@
                   = render 'users/enquiries/includes/outcome/not_uk_registered', enquiry_response: @enquiry_response
                 - when 5
                   = render 'users/enquiries/includes/outcome/not_for_third_party', enquiry_response: @enquiry_response
+        .accordion-section
+          .accordion-section-header{:tabindex=>"0"}
+            %h3.heading-medium Additional suggestions
+          .accordion-section-body
+            .margin-top-15
+              - case @response_type
+                - when 0
+                  = 'Just base it off the fact there is no response yet'
+                - when 1
+                  = render 'users/enquiries/includes/suggestions/right', enquiry_response: @enquiry_response
+                - when 2
+                  = render 'users/enquiries/includes/suggestions/need_more_information', enquiry_response: @enquiry_response
+                - when 3
+                  = render 'users/enquiries/includes/suggestions/not_right', enquiry_response: @enquiry_response
+                - when 4
+                  = render 'users/enquiries/includes/suggestions/not_uk_registered', enquiry_response: @enquiry_response
+                - when 5
+                  = render 'users/enquiries/includes/suggestions/not_for_third_party', enquiry_response: @enquiry_response
 
-.bg-offwhite.margin-top-30
-  .container
-    %section#suggestions
-      %h2.padding-top-30 Additional suggestions
-      - case @response_type
-        - when 0
-          = 'Just base it off the fact there is no response yet'
-        - when 1
-          = render 'users/enquiries/includes/suggestions/right', enquiry_response: @enquiry_response
-        - when 2
-          = render 'users/enquiries/includes/suggestions/need_more_information', enquiry_response: @enquiry_response
-        - when 3
-          = render 'users/enquiries/includes/suggestions/not_right', enquiry_response: @enquiry_response
-        - when 4
-          = render 'users/enquiries/includes/suggestions/not_uk_registered', enquiry_response: @enquiry_response
-        - when 5
-          = render 'users/enquiries/includes/suggestions/not_for_third_party', enquiry_response: @enquiry_response
+
+
 
 %br
 %br
