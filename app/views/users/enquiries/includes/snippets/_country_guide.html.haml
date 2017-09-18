@@ -3,11 +3,11 @@
 - if essential_information_required
   - @enquiry_response.enquiry.opportunity.countries.with_exporting_guide.each do |country|
     %li
-      %p.medium
+      %p.medium.margin-bottom-5 
         = link_to "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank' do
           Guide to #{country.name}
   - if @enquiry_response.enquiry.opportunity.types.aid_funded.any?
     %li
-      %p.medium
+      %p.medium.margin-bottom-5 
         = link_to 'https://www.gov.uk/guidance/aid-funded-business', target: '_blank' do
           Your guide for aid funded business

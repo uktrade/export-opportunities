@@ -11,4 +11,5 @@
         - @documents = JSON.parse(@enquiry_response.documents)
         - @documents.each do |document|
           %li 
-            %a{:href => "#{document['result']['base_url']}/#{document['result']['id']['hashed_id']}"} #{document['result']['id']['original_filename']}
+            %a{:href => "#{document['result']['base_url']}/#{document['result']['id']['hashed_id']}"}
+              #{document['result']['id']['original_filename']}

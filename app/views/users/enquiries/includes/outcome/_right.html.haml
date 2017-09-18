@@ -13,8 +13,9 @@
     %ul.list.list-bullet
       - @documents = JSON.parse(@enquiry_response.documents)
       - @documents.each do |document|
-        %li 
-          %a{:href => "#{document['result']['base_url']}/#{document['result']['id']['hashed_id']}"} #{document['result']['id']['original_filename']}
+        %li
+          %p.medium.margin-bottom-5
+            %a{:href => "#{document['result']['base_url']}#{document['result']['id']['hashed_id']}"} #{document['result']['id']['original_filename']}
 
 
 
