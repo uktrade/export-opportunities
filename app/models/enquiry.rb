@@ -11,10 +11,10 @@ class Enquiry < ActiveRecord::Base
 
   COMPANY_EXPLANATION_MAXLENGTH = 1100.freeze
   EXISTING_EXPORTER_CHOICES = [
-      'Not yet',
-      'Yes, in the last year',
-      'Yes, 1-2 years ago',
-      'Yes, over 2 years ago',
+    'Not yet',
+    'Yes, in the last year',
+    'Yes, 1-2 years ago',
+    'Yes, over 2 years ago',
   ].freeze
 
   validates :first_name, :last_name, :company_telephone, \
