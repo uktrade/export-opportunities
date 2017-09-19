@@ -6,12 +6,11 @@
 %p.medium Your proposal meets the criteria for this opportunity.
 
 - if @enquiry_response.documents.present?
+- @documents = JSON.parse(@enquiry_response.documents)
   %h5.bold Download documents
   %p.medium Documents will expire after 30 days.
-
-  %blockquote.noquotes
+  .inset
     %ul.list.list-bullet
-      - @documents = JSON.parse(@enquiry_response.documents)
       - @documents.each do |document|
         %li
           %p.medium.margin-bottom-5
