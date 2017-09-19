@@ -5,7 +5,19 @@ deployment:
   continuous-deployment:
     branch: /feature.*/
     commands:
-      - sh ./bin/cfdeploy.sh
+      - |
+        cat >~/.netrc <<EOF
+        machine api.heroku.com
+          login $HEROKU_EMAIL
+          password $HEROKU_TOKEN
+        machine git.heroku.com
+          login $HEROKU_EMAIL
+          password $HEROKU_TOKEN
+        EOF
+      - chmod 600 ~/.netrc
+      - NAME=$(echo $CIRCLE_BRANCH | sed 's,/,-,g')
+      - python ./config/scripts/import_heroku_variables_cloudfoundry.py --source staging-new-design-eig --destination $NAME-$CIRCLE_PROJECT_REPONAME
+      - cf push $NAME-$CIRCLE_PROJECT_REPONAME
   staging:
     branch: develop
     commands:
