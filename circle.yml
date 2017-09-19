@@ -5,7 +5,7 @@ deployment:
   continuous-deployment:
     branch: /feature.*/
     commands:
-      - bin/cfdeploy.sh
+      - sh ./bin/cfdeploy.sh
   staging:
     branch: develop
     commands:
@@ -33,3 +33,8 @@ dependencies:
     - elasticsearch-5.2.2/bin/elasticsearch: {background: true}
     # Make sure that Elasticsearch is up before running tests:
     - sleep 10 && wget --waitretry=5 --retry-connrefused -v http://127.0.0.1:9200/
+    - curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
+    - sudo dpkg -i cf-cli_amd64.deb
+    - cf -v
+    - cf login -a https://api.cloud.service.gov.uk -u $CF_USERNAME -p $CF_PASS -o $CF_ORG -s $CF_SPACE
+
