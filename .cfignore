@@ -61,3 +61,6 @@ public/capybara.html
 
 # dont push my local env vars to CF
 application.yml
+
+# ignore vendor files
+vendor/
