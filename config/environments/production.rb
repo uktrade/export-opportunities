@@ -81,15 +81,13 @@ Rails.application.configure do
   #   enable_starttls_auto: true,
   # }
 
-  config.action_mailer.smtp_settings= {
+  config.action_mailer.smtp_settings = {
     address: 'email-smtp.eu-west-1.amazonaws.com',
     authentication: :login,
     user_name: Figaro.env.AMAZON_SES_USERNAME!,
     password: Figaro.env.AMAZON_SES_PASSWORD!,
     enable_starttls_auto: true,
-    # tls: true,
-    # ssl: true,
-    port: '25'
+    port: '25',
   }
 
   # Only log mailer actions of 'info' and above

@@ -5,6 +5,8 @@ deployment:
   continuous-deployment:
     branch: /feature.*/
     commands:
+      - "[[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow"
+      - git push -f git@heroku.com:${CIRCLE_PROJECT_REPONAME}-cont-depl.git ${CIRCLE_BRANCH}:master
       - |
         cat >~/.netrc <<EOF
         machine api.heroku.com
