@@ -38,6 +38,16 @@ Rails.application.configure do
     port: '1025',
     domain: 'develop@exportingisgreat.gov.uk',
   }
+  # config.action_mailer.smtp_settings= {
+  #   address: 'email-smtp.eu-west-1.amazonaws.com',
+  #   authentication: :login,
+  #   user_name: Figaro.env.AMAZON_SES_USERNAME!,
+  #   password: Figaro.env.AMAZON_SES_PASSWORD!,
+  #   enable_starttls_auto: true,
+  #   # tls: true,
+  #   # ssl: true,
+  #   port: '25'
+  # }
 
   config.after_initialize do
     Bullet.enable = true
