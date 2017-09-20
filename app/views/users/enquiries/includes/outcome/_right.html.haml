@@ -1,10 +1,16 @@
 
+
+
 %h5.bold Outcome
 %p.medium Your application will now move to the next stage. 
 
 %h5.bold Reason
 %p.medium Your proposal meets the criteria for this opportunity.
 
+%blockquote.border-narrow
+  .p-children-medium
+    =present_html_or_formatted_text(@enquiry_response.email_body)
+  
 - if @enquiry_response.documents.present?
 - @documents = JSON.parse(@enquiry_response.documents)
   %h5.bold Download documents
@@ -15,6 +21,8 @@
         %li
           %p.medium.margin-bottom-5
             %a{:href => "#{document['result']['base_url']}#{document['result']['id']['hashed_id']}"} #{document['result']['id']['original_filename']}
+
+
 
 
 
