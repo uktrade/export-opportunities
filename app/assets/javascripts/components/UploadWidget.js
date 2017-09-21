@@ -247,5 +247,4 @@ ukti.UploadWidget = (function() {
     return {
       init: init
     };
-
 })();
