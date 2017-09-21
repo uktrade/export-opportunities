@@ -29,10 +29,10 @@
           .accordion-section-body
             .margin-top-15.r-margin-bottom-30
               %p.note
-                - if @enquiry_response.enquiry.opportunity.expired?
-                  Opportunity expired on #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
+                - if @enquiry.opportunity.expired?
+                  Opportunity expired on #{@enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
                 - else
-                  Opportunity expires on #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
+                  Opportunity expires on #{@enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
               %h5.bold #{@enquiry.opportunity.title.strip}
               %p.medium #{@enquiry.opportunity.teaser.strip}
               %h5.bold.margin-top-15 Essential information
@@ -75,21 +75,21 @@
             %h3.heading-medium Outcome and next steps
           .accordion-section-body
             .margin-top-15.r-margin-bottom-30
-              - if (:@response_type != 0)
+              - if (@response_type != 0)
                 %p.note Sent on #{@enquiry_response[:completed_at].strftime('%d %B %Y')}
-                - case @response_type
-                  - when 0
-                    %p.medium Your proposal is under consideration.
-                  - when 1
-                    = render 'users/enquiries/includes/outcome/right', enquiry_response: @enquiry_response
-                  - when 2
-                    = render 'users/enquiries/includes/outcome/need_more_information', enquiry_response: @enquiry_response
-                  - when 3
-                    = render 'users/enquiries/includes/outcome/not_right', enquiry_response: @enquiry_response
-                  - when 4
-                    = render 'users/enquiries/includes/outcome/not_uk_registered', enquiry_response: @enquiry_response
-                  - when 5
-                    = render 'users/enquiries/includes/outcome/not_for_third_party', enquiry_response: @enquiry_response
+              - case @response_type
+                - when 0
+                  %p.medium Your proposal is under consideration.
+                - when 1
+                  = render 'users/enquiries/includes/outcome/right', enquiry_response: @enquiry_response
+                - when 2
+                  = render 'users/enquiries/includes/outcome/need_more_information', enquiry_response: @enquiry_response
+                - when 3
+                  = render 'users/enquiries/includes/outcome/not_right', enquiry_response: @enquiry_response
+                - when 4
+                  = render 'users/enquiries/includes/outcome/not_uk_registered', enquiry_response: @enquiry_response
+                - when 5
+                  = render 'users/enquiries/includes/outcome/not_for_third_party', enquiry_response: @enquiry_response
         .accordion-section
           .accordion-section-header{:tabindex=>"0"}
             %h3.heading-medium Additional suggestions
