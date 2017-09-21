@@ -63,4 +63,4 @@ public/capybara.html
 application.yml
 
 # ignore vendor files
-vendor/
+# vendor/

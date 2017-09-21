@@ -127,6 +127,7 @@ GEM
     elasticsearch-transport (5.0.3)
       faraday
       multi_json
+    encryptor (3.0.0)
     erubis (2.7.0)
     et-orbi (1.0.5)
       tzinfo
@@ -379,6 +380,8 @@ GEM
     sidekiq-cron (0.6.3)
       rufus-scheduler (>= 3.3.0)
       sidekiq (>= 4.2.1)
+    sidekiq-field-encryptor (0.1.1)
+      encryptor
     simplecov (0.12.0)
       docile (~> 1.1.0)
       json (>= 1.8, < 3)
@@ -495,6 +498,7 @@ DEPENDENCIES
   shoulda-matchers
   sidekiq
   sidekiq-cron
+  sidekiq-field-encryptor
   simplecov
   stringex
   test_after_commit
