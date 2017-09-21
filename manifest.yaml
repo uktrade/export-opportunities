@@ -1,0 +1,3 @@
+---
+applications:
+  - buildpack: https://github.com/cloudfoundry-incubator/multi-buildpack.git

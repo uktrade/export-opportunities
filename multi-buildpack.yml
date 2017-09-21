@@ -1,0 +1,4 @@
+---
+buildpacks:
+  - https://github.com/heroku/heroku-buildpack-redis.git
+  - https://github.com/cloudfoundry/ruby-buildpack.git#v1.7.1

@@ -1,9 +1,0 @@
----
-applications:
-- name: export-opportunities-staging-worker
-  memory: 256M
-  instances: 1
-  path: .
-  command: bundle exec sidekiq -q default -q mailers
-  no-route: true
-
