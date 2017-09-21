@@ -1,4 +1,8 @@
-
+%h5.bold Increase your export potential:
+.inset
+  %ul.list.list-bullet
+    = render 'users/enquiries/includes/snippets/alerts', enquiry_response: @enquiry_response
+ 
 %h5.bold Get more support with:
 .inset
   %ul.list.list-bullet
@@ -6,9 +10,5 @@
     = render 'users/enquiries/includes/snippets/country_guide', enquiry_response: @enquiry_response
     = render 'users/enquiries/includes/snippets/trade_profile', enquiry_response: @enquiry_response
 
-%h5.bold Increase your export potential:
-.inset
-  %ul.list.list-bullet
-    = render 'users/enquiries/includes/snippets/alerts', enquiry_response: @enquiry_response
- 
+
 
