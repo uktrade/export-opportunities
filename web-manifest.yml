@@ -1,0 +1,5 @@
+---
+applications:
+- name: export-opportunities-staging
+  memory: 512M
+  buildpack: ruby_buildpack
