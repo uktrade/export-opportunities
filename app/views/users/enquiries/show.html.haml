@@ -30,9 +30,9 @@
             .margin-top-15.r-margin-bottom-30
               %p.note
                 - if @enquiry_response.enquiry.opportunity.expired?
-                  Opportunity expired #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
+                  Opportunity expired on #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
                 - else
-                  Opportunity expires #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
+                  Opportunity expires on #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
               %h5.bold #{@enquiry.opportunity.title.strip}
               %p.medium #{@enquiry.opportunity.teaser.strip}
               %h5.bold.margin-top-15 Essential information
