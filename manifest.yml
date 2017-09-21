@@ -1,0 +1,11 @@
+---
+applications:
+- name: export-opportunities-stgov
+  memory: 512M
+  buildpack: ruby_buildpack
+- name: export-opportunities-stgov-worker
+  memory: 256M
+  instances: 1
+  path: .
+  command: bundle exec sidekiq -q default -q mailers
+  no-route: true
