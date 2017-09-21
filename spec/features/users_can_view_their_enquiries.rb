@@ -113,7 +113,7 @@ feature 'User can view their enquiries' do
     expect(page).to have_text('Your company is not UK registered')
 
     expect(page).to have_text('Additional suggestions')
-    expect(page).to have_link('Find UK companies', :href => 'https://trade.great.gov.uk')
+    expect(page).to have_link('Find UK companies', href: 'https://trade.great.gov.uk')
   end
 
   scenario 'Viewing an individual enquiry - enquiry HAS been responded to - Not right for opportunity' do
@@ -230,8 +230,6 @@ feature 'User can view their enquiries' do
     login_as(user, scope: :user)
 
     visit '/dashboard/enquiries/' + enquiry.id.to_s
-
-    byebug
 
     expect(page).to have_text('Your animals are safe with us')
     expect(page).to have_text('Animal husbandry')
