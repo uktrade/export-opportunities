@@ -157,7 +157,6 @@ feature 'User can view their enquiries' do
     expect(page).to have_link('Amend your email alerts')
 
     expect(page).to have_link('Advice and guidance on exporting', :href => 'https://www.export.great.gov.uk/new/')
-    expect(page).to have_link('Get help with finance', :href => 'https://www.export.great.gov.uk/get-finance/')
     expect(page).to have_link('Contact a trade advisor', :href => 'https://www.contactus.trade.gov.uk/office-finder/N0WT')
   
   end
