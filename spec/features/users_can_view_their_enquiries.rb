@@ -113,7 +113,7 @@ feature 'User can view their enquiries' do
     expect(page).to have_text('Your company is not UK registered')
 
     expect(page).to have_text('Additional suggestions')
-    expect(page).to have_link('Find UK companies', href: 'https://trade.great.gov.uk')
+    expect(page).to have_link('Visit our international site', href: 'https://trade.great.gov.uk')
   end
 
   scenario 'Viewing an individual enquiry - enquiry HAS been responded to - Not right for opportunity' do
@@ -132,7 +132,7 @@ feature 'User can view their enquiries' do
       company_house_number: '123456',
       company_postcode: 'NOWT',
       company_url: 'http://verdi.com',
-      existing_exporter: 'Yes, in the last year',
+      existing_exporter: 'Not yet',
       company_sector: 'Animal husbandry',
       company_explanation: 'Your animals are safe with us',
       data_protection: false)
@@ -153,9 +153,12 @@ feature 'User can view their enquiries' do
     expect(page).to have_text('Your proposal does not meet the criteria for this opportunity')
 
     expect(page).to have_text('Additional suggestions')
-    expect(page).to have_link('Guidance', :href => 'https://www.export.great.gov.uk/new/')
     expect(page).to have_link('Create a Trade Profile', :href => 'https://find-a-buyer.export.great.gov.uk/register/company?company_number=123456')
-    expect(page).to have_link('Find a trade advisor', :href => 'https://www.contactus.trade.gov.uk/office-finder/NOWT')
+    expect(page).to have_link('Amend your email alerts')
+
+    expect(page).to have_link('Advice and guidance on exporting', :href => 'https://www.export.great.gov.uk/new/')
+    expect(page).to have_link('Get help with finance', :href => 'https://www.export.great.gov.uk/get-finance/')
+    expect(page).to have_link('Contact a trade advisor', :href => 'https://www.contactus.trade.gov.uk/office-finder/N0WT')
   
   end
 
@@ -186,11 +189,9 @@ feature 'User can view their enquiries' do
 
     visit '/dashboard/enquiries/' + enquiry.id.to_s
 
-    save_and_open_page
-
     expect(page).to have_text('Your animals are safe with us')
     expect(page).to have_text('Animal husbandry')
-    expect(page).to have_text('Not yet')
+    expect(page).to have_text('Yes, in the last year')
     expect(page).to have_text('Verdi Plc')
 
     expect(page).to have_text('Outcome and next steps')
@@ -198,13 +199,15 @@ feature 'User can view their enquiries' do
     expect(page).to have_text('Your proposal meets the criteria for this opportunity')
 
     expect(page).to have_text('Additional suggestions')
-    expect(page).to have_link('Guidance', :href => 'https://www.export.great.gov.uk/new/')
     expect(page).to have_link('Create a Trade Profile', :href => 'https://find-a-buyer.export.great.gov.uk/register/company?company_number=654321')
-    expect(page).to have_link('UK Export finance', :href => 'https://www.export.great.gov.uk/get-finance/')
-    expect(page).to have_link('Find a trade advisor', :href => 'https://www.contactus.trade.gov.uk/office-finder/N0WT')
+    expect(page).to have_link('Amend your email alerts')
+
+    expect(page).to have_link('Advice and guidance on exporting', :href => 'https://www.export.great.gov.uk/new/')
+    expect(page).to have_link('Get help with finance', :href => 'https://www.export.great.gov.uk/get-finance/')
+    expect(page).to have_link('Contact a trade advisor', :href => 'https://www.contactus.trade.gov.uk/office-finder/N0WT')
   end
 
-  scenario 'Viewing an individual enquiry - enquiry HAS been responded to - Right for opportunity - With attachment', js: true do
+  scenario 'Viewing an individual enquiry - enquiry HAS been responded to - Right for opportunity - With attachment', skip: true do
     user = create(:user, email: 'john@green.com')
     country = create(:country, name: 'Lithuania')
     opportunity = create(:opportunity, :published, countries: [country], title: 'Great Opportunity!', slug: 'great-opportunity')
@@ -220,7 +223,7 @@ feature 'User can view their enquiries' do
                      company_house_number: '654321',
                      company_postcode: 'N0WT',
                      company_url: 'http://verdi.com',
-                     existing_exporter: 'Yes, in the last year',
+                     existing_exporter: 'Not yet',
                      company_sector: 'Animal husbandry',
                      company_explanation: 'Your animals are safe with us',
                      data_protection: false)
@@ -230,6 +233,8 @@ feature 'User can view their enquiries' do
     login_as(user, scope: :user)
 
     visit '/dashboard/enquiries/' + enquiry.id.to_s
+
+        save_and_open_page
 
     expect(page).to have_text('Your animals are safe with us')
     expect(page).to have_text('Animal husbandry')
@@ -241,11 +246,20 @@ feature 'User can view their enquiries' do
     expect(page).to have_text('Your proposal meets the criteria for this opportunity')
 
     expect(page).to have_text('Additional suggestions')
-    expect(page).to have_link('Guidance', :href => 'https://www.export.great.gov.uk/new/')
-    # expect(page).to have_link('Create a Trade Profile', :href => 'https://find-a-buyer.export.great.gov.uk/register/company?company_number=654321')
-    expect(page).to have_link('UK Export finance', :href => 'https://www.export.great.gov.uk/get-finance/')
-    expect(page).to have_link('Find a trade advisor', :href => 'https://www.contactus.trade.gov.uk/office-finder/N0WT')
+    #https://stage.profile.uktrade.io/export-opportunities/email-alerts/
+    expect(page).to have_link('Amend your email alerts')
+    
+    expect(page).to have_link('Advice and guidance on exporting', :href => 'https://www.export.great.gov.uk/new/')
+    expect(page).to have_link('Read our exporting country guide to Lithunia', :href => 'https://www.gov.uk/government/publications/exporting-to-lithuania')
+      
+    expect(page).to have_text('Additional suggestions')
+    expect(page).to have_link('Create a Trade Profile', :href => 'https://find-a-buyer.export.great.gov.uk/register/company?company_number=654321')
+    expect(page).to have_link('Get help with finance', :href => 'https://www.export.great.gov.uk/get-finance/')
+    expect(page).to have_link('Contact a trade advisor', :href => 'https://www.contactus.trade.gov.uk/office-finder/N0WT')
   end
+
+  scenario 'Viewing enquiry using tabs - JavaScript On', skip: true do
+  end 
 
   scenario 'Viewing the list of enquiries', skip: true do
     user = create(:user, email: 'me@example.com')
