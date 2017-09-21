@@ -71,24 +71,24 @@ Rails.application.configure do
 
   # Where emails are sent from
   config.action_mailer.delivery_method = :smtp
-  # config.action_mailer.smtp_settings = {
-  #   address: Figaro.env.MAILER_HOST!,
-  #   port: Figaro.env.MAILER_PORT!,
-  #   authentication: :plain,
-  #   user_name: ENV['SENDGRID_USERNAME'],
-  #   password: ENV['SENDGRID_PASSWORD'],
-  #   domain: Figaro.env.MAILER_DOMAIN!,
-  #   enable_starttls_auto: true,
-  # }
-
   config.action_mailer.smtp_settings = {
-    address: 'email-smtp.eu-west-1.amazonaws.com',
-    authentication: :login,
-    user_name: Figaro.env.AMAZON_SES_USERNAME!,
-    password: Figaro.env.AMAZON_SES_PASSWORD!,
+    address: Figaro.env.MAILER_HOST!,
+    port: Figaro.env.MAILER_PORT!,
+    authentication: :plain,
+    user_name: ENV['SENDGRID_USERNAME'],
+    password: ENV['SENDGRID_PASSWORD'],
+    domain: Figaro.env.MAILER_DOMAIN!,
     enable_starttls_auto: true,
-    port: '25',
   }
+
+  # config.action_mailer.smtp_settings = {
+  #   address: 'email-smtp.eu-west-1.amazonaws.com',
+  #   authentication: :login,
+  #   user_name: Figaro.env.AMAZON_SES_USERNAME!,
+  #   password: Figaro.env.AMAZON_SES_PASSWORD!,
+  #   enable_starttls_auto: true,
+  #   port: '25',
+  # }
 
   # Only log mailer actions of 'info' and above
   mailer_logger = Logger.new(STDOUT)

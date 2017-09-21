@@ -1,11 +1,5 @@
 ---
 applications:
-- name: sidekiq
-  memory: 256M
-  instances: 1
-  host: sidekiq
-  domain: ${target-base}
-  path: .
-  services:
-  - sidekiq-mysql:
-  - sidekiq-redis:
+- name: export-opportunities-staging
+  memory: 512M
+  buildpack: ruby_buildpack
