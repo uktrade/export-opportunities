@@ -34,9 +34,6 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :help
-    # get '/help', to:} 'help#index'
-    # get '/help/opportunities', to: 'opportunities#help'
-    # get '/help/enquiries', to: 'enquiries#help'
 
     devise_for :editors,
       singular: :editor,
