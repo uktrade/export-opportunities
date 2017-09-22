@@ -7,6 +7,7 @@ feature 'User can view their enquiries' do
     opportunity = create(:opportunity, title: 'Great Opportunity!', slug: 'great-opportunity')
     create(:sector, name: 'Animal husbandry')
 
+
     enquiry = create(:enquiry,
       opportunity: opportunity,
       user: user,
@@ -66,6 +67,7 @@ feature 'User can view their enquiries' do
 
     visit '/dashboard/enquiries/' + enquiry.id.to_s
 
+
     expect(page).to have_text('Your animals are safe with us')
     expect(page).to have_text('Animal husbandry')
     expect(page).to have_text('Yes, in the last year')
@@ -98,6 +100,7 @@ feature 'User can view their enquiries' do
       data_protection: false)
 
     enquiry_response = create(:enquiry_response, response_type: 4, enquiry: enquiry)
+
 
     login_as(user, scope: :user)
 
@@ -138,6 +141,7 @@ feature 'User can view their enquiries' do
       data_protection: false)
 
     enquiry_response = create(:enquiry_response, response_type: 3, enquiry: enquiry)
+
 
     login_as(user, scope: :user)
 
@@ -184,6 +188,7 @@ feature 'User can view their enquiries' do
 
     enquiry_response = create(:enquiry_response, response_type: 1, enquiry: enquiry)
 
+
     login_as(user, scope: :user)
 
     visit '/dashboard/enquiries/' + enquiry.id.to_s
@@ -229,6 +234,7 @@ feature 'User can view their enquiries' do
 
     enquiry_response = create(:enquiry_response, :has_document, response_type: 1, enquiry: enquiry)
 
+
     login_as(user, scope: :user)
 
     visit '/dashboard/enquiries/' + enquiry.id.to_s
@@ -257,10 +263,8 @@ feature 'User can view their enquiries' do
     expect(page).to have_link('Contact a trade advisor', :href => 'https://www.contactus.trade.gov.uk/office-finder/N0WT')
   end
 
-  scenario 'Viewing enquiry using tabs - JavaScript On', skip: true do
-  end 
-
-  scenario 'Viewing the list of enquiries', skip: true do
+  scenario 'Viewing the list of enquiries' do
+    skip
     user = create(:user, email: 'me@example.com')
     opportunity = create(:opportunity, title: 'Hello World', slug: 'hello-world')
     create(:enquiry, opportunity: opportunity, user: user)
@@ -272,7 +276,8 @@ feature 'User can view their enquiries' do
     expect(page).to have_content('Hello World')
   end
 
-  scenario 'Viewing enquiries for expired and non-expired opportunities', skip: true do
+  scenario 'Viewing enquiries for expired and non-expired opportunities' do
+    skip
     user = create(:user, email: 'email@example.com')
 
     create(:enquiry,
@@ -292,7 +297,8 @@ feature 'User can view their enquiries' do
     expect(items.last).to have_content 'Opportunity expires on'
   end
 
-  scenario 'Viewing the list of enquiries, with no enquiries', skip: true do
+  scenario 'Viewing the list of enquiries, with no enquiries' do
+    skip
     user = create(:user)
 
     login_as(user, scope: :user)
@@ -301,7 +307,8 @@ feature 'User can view their enquiries' do
     expect(page).to have_text('You have not yet applied for any export opportunities')
   end
 
-  scenario 'Viewing the list of enquiries only shows my enquiries', skip: true do
+  scenario 'Viewing the list of enquiries only shows my enquiries' do
+    skip
     user = create(:user, email: 'me@example.com')
     other_user = create(:user, email: 'other@example.com')
 
@@ -317,7 +324,8 @@ feature 'User can view their enquiries' do
     expect(page).not_to have_link(t('enquiry.view'), href: "/dashboard/enquiries/#{other_enquiry.id}")
   end
 
-  scenario 'Viewing an individual enquiry', skip: true do
+  scenario 'Viewing an individual enquiry' do
+    skip
     user = create(:user, email: 'john@green.com')
     opportunity = create(:opportunity, title: 'Great Opportunity!', slug: 'great-opportunity')
     create(:sector, name: 'Animal husbandry')
@@ -357,7 +365,8 @@ feature 'User can view their enquiries' do
   end
 
   context 'when the company URL did not include a protocol' do
-    scenario 'does not link to a relative URL', skip: true do
+    scenario 'does not link to a relative URL' do
+      skip
       user = create(:user, email: 'john@green.com')
       opportunity = create(:opportunity, title: 'Great Opportunity!', slug: 'great-opportunity')
       create(:sector, name: 'Animal husbandry')
