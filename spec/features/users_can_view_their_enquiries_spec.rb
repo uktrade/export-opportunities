@@ -161,7 +161,7 @@ feature 'User can view their enquiries' do
     expect(page).to have_link('Amend your email alerts')
 
     expect(page).to have_link('Advice and guidance on exporting', :href => 'https://www.export.great.gov.uk/new/')
-    expect(page).to have_link('Contact a trade advisor', :href => 'https://www.contactus.trade.gov.uk/office-finder/N0WT')
+    expect(page).to have_link('Contact a trade advisor', :href => 'https://www.contactus.trade.gov.uk/office-finder/NOWT')
   
   end
 
@@ -211,9 +211,9 @@ feature 'User can view their enquiries' do
     expect(page).to have_link('Contact a trade advisor', :href => 'https://www.contactus.trade.gov.uk/office-finder/N0WT')
   end
 
-  scenario 'Viewing an individual enquiry - enquiry HAS been responded to - Right for opportunity - With attachment', skip: true do
+  scenario 'Viewing an individual enquiry - enquiry HAS been responded to - Right for opportunity - With Downloads' do
     user = create(:user, email: 'john@green.com')
-    country = create(:country, name: 'Lithuania')
+    country = create(:country, name: 'Lithuania', exporting_guide_path: '/government/publications/exporting-to-lithuania')
     opportunity = create(:opportunity, :published, countries: [country], title: 'Great Opportunity!', slug: 'great-opportunity')
 
     enquiry = create(:enquiry,
@@ -234,6 +234,7 @@ feature 'User can view their enquiries' do
 
     enquiry_response = create(:enquiry_response, :has_document, response_type: 1, enquiry: enquiry)
 
+    puts enquiry_response
 
     login_as(user, scope: :user)
 
@@ -249,13 +250,14 @@ feature 'User can view their enquiries' do
     expect(page).to have_text('Outcome and next steps')
     expect(page).to have_text('Your application will now move to the next stage.')
     expect(page).to have_text('Your proposal meets the criteria for this opportunity')
-
+    expect(page).to have_text('Download documents')
+    
     expect(page).to have_text('Additional suggestions')
-    #https://stage.profile.uktrade.io/export-opportunities/email-alerts/
+
     expect(page).to have_link('Amend your email alerts')
     
     expect(page).to have_link('Advice and guidance on exporting', :href => 'https://www.export.great.gov.uk/new/')
-    expect(page).to have_link('Read our exporting country guide to Lithunia', :href => 'https://www.gov.uk/government/publications/exporting-to-lithuania')
+    expect(page).to have_link('Read our exporting country guide to Lithuania', :href => 'https://www.gov.uk/government/publications/exporting-to-lithuania')
       
     expect(page).to have_text('Additional suggestions')
     expect(page).to have_link('Create a Trade Profile', :href => 'https://find-a-buyer.export.great.gov.uk/register/company?company_number=654321')

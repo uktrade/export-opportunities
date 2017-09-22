@@ -20,7 +20,7 @@
       - @documents.each do |document|
         %li
           %p.medium.margin-bottom-5
-            %a{:href => "#{document['result']['base_url']}#{document['result']['id']['hashed_id']}"} #{document['result']['id']['original_filename']}
+            #{document.result.id.original_filename}
 
 
 
