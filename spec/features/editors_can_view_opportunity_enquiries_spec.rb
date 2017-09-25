@@ -27,10 +27,10 @@ feature 'admin can view enquiries in opportunity show page' do
     expect(page.body).to have_content(enquiries_list[10].company_name)
   end
 
-  scenario 'only first 30 enquiries have trade profile URL' do
+  scenario 'only first 20 enquiries have trade profile URL' do
     admin = create(:admin)
     opportunity = create(:opportunity, :published, title: 'Hello World', slug: 'hello-world')
-    create_list(:enquiry, 32, opportunity: opportunity)
+    create_list(:enquiry, 22, opportunity: opportunity)
 
     login_as(admin)
     visit admin_opportunities_path
