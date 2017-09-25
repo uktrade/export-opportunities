@@ -79,8 +79,8 @@
   }
 }
 
-.tablist ul li.active:first-child a, 
-.tablist ul li.active:first-child label {
+.tablist ul li:first-child a, 
+.tablist ul li:first-child label {
   margin-left: 0;
 }
 
