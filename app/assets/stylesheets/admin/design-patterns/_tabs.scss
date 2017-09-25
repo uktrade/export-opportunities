@@ -55,16 +55,17 @@
     padding: 11px 44px 9px 9px;
     font-size: 16px;
     line-height: 1.56;
-    margin-left: 10px;
+    margin-left: 5px;
     border: none;
   }
+
 }
 
 .tablist ul li.active a,
 .tablist ul li.active label {
   background: #fff;
-  padding: 11px 24px 9px 9px;
-  margin: 0 5px 0 0;
+  padding: 10px 24px 10px 10px;
+  margin: 0px 5px 0px 5px;
   border: 1px solid $grey-silversand;
 }
 
@@ -76,6 +77,11 @@
     padding: 14px 44px 20px 14px;
     border-width: 1px 1px 0px 1px;
   }
+}
+
+.tablist ul li:first-child a, 
+.tablist ul li:first-child label {
+  margin-left: 0;
 }
 
 .tab-panel {
