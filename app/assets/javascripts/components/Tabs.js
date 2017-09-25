@@ -44,15 +44,21 @@ ukti.Tabs = (function($) {
     if (callback) {
       callback(tab.parent().index());
     }
-    // Set focus?
-    //tabPanel.children().first().attr("tabindex", -1).focus();
+  };
+
+  var handleTabKeyDown = function (event) {
+    var code = event.which;
+    if ((code === 13) || (code === 32)) {
+      handleTabClick(event);
+    }
   };
 
 	var addListeners = function () {
 		$(tabsList).find("li > label").each(
       function(index){
         var tab = $(this);
-        tab.click(handleTabClick);
+        tab[0].addEventListener('click', handleTabClick);
+        tab[0].addEventListener('keydown', handleTabKeyDown);
     });
   };
 
@@ -69,5 +75,3 @@ ukti.Tabs = (function($) {
   };
 
 })($);
-
-
