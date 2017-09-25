@@ -163,8 +163,8 @@ ukti.UploadWidget = (function() {
 
     var handleUploadFileSuccess = function (response) {
       var response = JSON.parse(response.responseText);
-      if ( response.errors ) {
-        handleUploadFileError(response.errors.type);
+      if ( response.result && response.result.errors ) {
+        handleUploadFileError(response.result.errors.type);
         return;
       }
       updateFileStore(response);
