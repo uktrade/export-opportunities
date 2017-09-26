@@ -5,6 +5,7 @@ deployment:
   continuous-deployment:
     branch: /feature.*/
     commands:
+      - git stash --all
       - cf push export-opportunities-stgov
   staging:
     branch: develop
