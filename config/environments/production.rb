@@ -71,16 +71,32 @@ Rails.application.configure do
 
   # Where emails are sent from
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address: Figaro.env.MAILER_HOST!,
-    port: Figaro.env.MAILER_PORT!,
+
+  response = RestClient.get "https://mailtrap.io/api/v1/inboxes.json?api_token=#{Figaro.env.MAILTRAP_API_TOKEN!}"
+
+  first_inbox = JSON.parse(response)[0] # get first inbox
+
+  ActionMailer::Base.smtp_settings = {
+    user_name: first_inbox['username'],
+    password: first_inbox['password'],
+    address: first_inbox['domain'],
+    domain: first_inbox['domain'],
+    port: first_inbox['smtp_ports'][0],
     authentication: :plain,
-    user_name: ENV['SENDGRID_USERNAME'],
-    password: ENV['SENDGRID_PASSWORD'],
-    domain: Figaro.env.MAILER_DOMAIN!,
-    enable_starttls_auto: true,
   }
 
+  # existing heroku config
+  # config.action_mailer.smtp_settings = {
+  #   address: Figaro.env.MAILER_HOST!,
+  #   port: Figaro.env.MAILER_PORT!,
+  #   authentication: :plain,
+  #   user_name: ENV['SENDGRID_USERNAME'],
+  #   password: ENV['SENDGRID_PASSWORD'],
+  #   domain: Figaro.env.MAILER_DOMAIN!,
+  #   enable_starttls_auto: true,
+  # }
+
+  # amazon ses config
   # config.action_mailer.smtp_settings = {
   #   address: 'email-smtp.eu-west-1.amazonaws.com',
   #   authentication: :login,

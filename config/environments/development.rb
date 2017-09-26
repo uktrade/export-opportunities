@@ -38,6 +38,7 @@ Rails.application.configure do
     port: '1025',
     domain: 'develop@exportingisgreat.gov.uk',
   }
+
   # config.action_mailer.smtp_settings= {
   #   address: 'email-smtp.eu-west-1.amazonaws.com',
   #   authentication: :login,
