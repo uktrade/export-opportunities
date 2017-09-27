@@ -57,6 +57,21 @@ feature 'Logging in as an admin' do
     expect(page).to have_content('This guidance has been designed to help you respond to UK companies')
   end
 
+  scenario 'visiting admin old sign in page after we have signed in' do
+    editor = create(:editor)
+    login_as(editor)
+
+    visit '/admin/help/enquiries'
+
+    # we are logged in but can't see the Log out option without js.
+    expect(page).to have_content('Opportunities Enquiries Stats')
+    expect(page).to have_content('This guidance has been designed to help you respond to UK companies')
+
+    visit '/admin/editors/sign_in'
+
+    expect_editor_to_be_logged_in
+  end
+
   scenario 'Attempting to log in to an account that does not exist' do
     visit new_editor_session_path
 
