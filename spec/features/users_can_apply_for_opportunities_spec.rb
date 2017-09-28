@@ -30,7 +30,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
 
       fill_in_form
       click_on 'Apply now'
-
+byebug
       expect(page).to have_content 'Thank you for your enquiry'
       expect(page).to have_link 'View your enquiries to date'
     end
