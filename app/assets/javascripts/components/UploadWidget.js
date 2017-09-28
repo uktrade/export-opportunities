@@ -187,7 +187,7 @@ ukti.UploadWidget = (function() {
     var uploadFile = function () {
       var fileSelect = baseEl.querySelector( '.inputfile' );
       var userId = baseEl.querySelector('input[name="enquiry_response[user_id]"]').value;
-      var enquiryId = baseEl.querySelector('input[name="enquiry_response[enquiry_id]"]').value;
+      var enquiryId = document.querySelector('input[name="enquiry_response[enquiry_id]"]').value;
       // Get the selected files from the input.
       var files = fileSelect.files;
       // Create a new FormData object.
