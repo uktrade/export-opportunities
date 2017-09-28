@@ -1,41 +1,41 @@
 %h1 Enquiry for &ldquo;#{@enquiry.opportunity.title.strip}&rdquo;
-  %p Applied on: #{@enquiry.created_at}
+%p Applied on: #{@enquiry.created_at}
 
-  %table.horizontal
+%table.horizontal
+  %tr
+    %th{:scope => 'row'} Name
+    %td= @enquiry.first_name + ' ' + @enquiry.last_name
+  %tr
+    %th{:scope => 'row'} Email address
+    %td= @enquiry.email
+  %tr
+    %th{:scope => 'row'} Telephone number
+    %td= @enquiry.company_telephone
+  %tr
+    %th{scope: 'row'} Company name
+    %td= @enquiry.company_name
+  %tr
+    %th{scope: 'row'} Company address
+    %td
+      = @enquiry.company_address
+      %br
+      = @enquiry.company_postcode
+  - if @enquiry.company_url
     %tr
-      %th{:scope => 'row'} Name
-      %td= @enquiry.first_name + ' ' + @enquiry.last_name
+      %th{scope: 'row'} Company URL
+      %td= link_to @enquiry.company_url, @enquiry.company_url
+  - if @enquiry.company_house_number
     %tr
-      %th{:scope => 'row'} Email address
-      %td= @enquiry.email
-    %tr
-      %th{:scope => 'row'} Telephone number
-      %td= @enquiry.company_telephone
-    %tr
-      %th{scope: 'row'} Company name
-      %td= @enquiry.company_name
-    %tr
-      %th{scope: 'row'} Company address
-      %td
-        = @enquiry.company_address
-        %br
-        = @enquiry.company_postcode
-    - if @enquiry.company_url
-      %tr
-        %th{scope: 'row'} Company URL
-        %td= link_to @enquiry.company_url, @enquiry.company_url
-    - if @enquiry.company_house_number
-      %tr
-        %th{:scope => 'row'} Companies House Number
-        %td #{@enquiry.company_house_number}
-    %tr
-      %th{:scope => 'row'} Have you sold products or services to overseas customers?
-      %td= @enquiry.existing_exporter
-    %tr
-      %th{:scope => 'row'} Sector
-      %td= @enquiry.company_sector
-    %tr
-      %th{:scope => 'row'} How do you meet the requirements for this opportunity?
-      %td= present_html_or_formatted_text(@enquiry.company_explanation)
+      %th{:scope => 'row'} Companies House Number
+      %td #{@enquiry.company_house_number}
+  %tr
+    %th{:scope => 'row'} Have you sold products or services to overseas customers?
+    %td= @enquiry.existing_exporter
+  %tr
+    %th{:scope => 'row'} Sector
+    %td= @enquiry.company_sector
+  %tr
+    %th{:scope => 'row'} How do you meet the requirements for this opportunity?
+    %td= present_html_or_formatted_text(@enquiry.company_explanation)
 
-  %a.button.button-blue{href: dashboard_path} Go back
+%a.button.button-blue{href: dashboard_path} Go back
