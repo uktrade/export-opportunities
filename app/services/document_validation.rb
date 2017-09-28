@@ -18,6 +18,7 @@ class DocumentValidation
   def validate_params(params)
     unless params['user_id']
       @result = {
+        status: 200,
         errors: {
           type: 'missing parameter',
           message: 'no user id',
@@ -26,6 +27,7 @@ class DocumentValidation
     end
     unless params['enquiry_id']
       @result = {
+        status: 200,
         errors: {
           type: 'missing parameter',
           message: 'no enquiry id found',
@@ -34,6 +36,7 @@ class DocumentValidation
     end
     unless params['original_filename']
       @result = {
+        status: 200,
         errors: {
           type: 'missing parameter',
           message: 'no original filename found',
@@ -45,6 +48,7 @@ class DocumentValidation
   def clamav_scan(filename, file_blob)
     unless scan_clean?(filename, file_blob)
       @result = {
+        status: 200,
         errors: {
           type: 'virus found',
           message: 'file is not clean',
