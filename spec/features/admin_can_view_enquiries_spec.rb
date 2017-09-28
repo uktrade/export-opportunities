@@ -11,6 +11,34 @@ feature 'admin can view enquiries' do
     expect(page).to have_content(enquiry.company_name)
   end
 
+  scenario 'viewing a list of all NOT replied enquiries and all replied enquiries' do
+    admin = create(:admin)
+    enquiry = create(:enquiry)
+    another_enquiry = create(:enquiry)
+    es = create(:enquiry_response, response_type: 1, enquiry: enquiry)
+    # because it's a hash
+    es['completed_at'] = Time.zone.now
+    es.save!
+
+    login_as(admin)
+    visit admin_opportunities_path
+
+    click_on 'Enquiries'
+
+    expect(page).to have_content(enquiry.company_name)
+    expect(page).to have_content(another_enquiry.company_name)
+
+    click_on 'To reply'
+    expect(page).to_not have_content(enquiry.company_name)
+    expect(page).to have_content('7 days left')
+    expect(page).to have_content(another_enquiry.company_name)
+
+    click_on 'Replied'
+
+    expect(page).to have_content('Replied 0 days after')
+    expect(page).to have_content(enquiry.company_name)
+  end
+
   scenario 'viewing which enquiries are replied' do
     admin = create(:admin)
 
@@ -29,15 +57,15 @@ feature 'admin can view enquiries' do
     expect(page).to have_selector('th', text: 'Company')
     expect(page).to have_selector('th', text: 'Opportunity')
     expect(page).to have_selector('th', text: 'Applied On')
-    expect(page).to have_selector('th', text: 'Replied')
+    expect(page).to have_selector('th', text: 'Status')
 
     first_row = page.find('tbody tr:nth-child(1)')
     second_row = page.find('tbody tr:nth-child(2)')
 
-    expect(first_row).to have_content('No')
+    expect(first_row).to have_content('days overdue')
     expect(first_row).to have_content('UK Leaky Boathouses')
 
-    expect(second_row).to have_content('Yes')
+    expect(second_row).to have_content('Pending')
     expect(second_row).to have_content('UK Boathouses Inc')
   end
 
@@ -65,6 +93,7 @@ feature 'admin can view enquiries' do
   scenario 'view details of an enquiry' do
     admin = create(:admin)
     enquiry = create(:enquiry)
+    create(:enquiry_response, response_type: 1, enquiry: enquiry)
     login_as(admin)
     visit admin_opportunities_path
 

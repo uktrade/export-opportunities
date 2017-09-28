@@ -54,9 +54,9 @@
   .grid-row
     .column-one-half
       = link_to "Back", admin_enquiries_path, class: 'link-back'
-    - if !@enquiry_response
+    - if !@enquiry_response || !@enquiry_response['completed_at']
       .column-one-half
-        = link_to "Reply", new_admin_enquiry_response_path(id: @enquiry.id), class: 'button button-reply pull-right', params: {id: @enquiry.id}
+        = link_to "Reply", new_admin_enquiry_response_path(id: @enquiry.id) + '#reply', class: 'button button-reply pull-right', params: {id: @enquiry.id}
 
 - if @enquiry_response
   %hr
@@ -72,5 +72,11 @@
       %th{:scope => 'row'} Action Editor Email
       %td= @enquiry_response.editor.email
     %tr
-      %th{:scope => 'row'} Sent Time
-      %td= @enquiry_response.created_at
+      %th{:scope => 'row'} Date of Response
+      %td= @enquiry_response.created_at.to_s + " ( #{@enquiry.response_status} )"
+    %tr
+      %th{:scope => 'row'} Response Type
+      %td= @enquiry_response.response_type_to_human
+    %tr
+      %th{:scope => 'row'} Documents
+      %td= @enquiry_response.documents_list

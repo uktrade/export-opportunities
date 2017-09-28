@@ -1,0 +1,21 @@
+%p Dear #{@enquiry_response.enquiry.first_name},
+%p
+  Thank you for your interest in the export opportunity: 
+  %b=@enquiry_response.enquiry.opportunity.title
+
+%h3 Outcome
+%p You are not eligible for this opportunity.
+
+%h3 Reason
+%p You are a third party - for example an agent, broker or other intermediary - representing another company. On this occasion the buyer will only talk directly with UK companies.
+
+%h3 What next
+
+- if @enquiry_response.enquiry.opportunity.expired?
+  %p This opportunity expired on #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
+
+%p If you are a UK company and not a third party please submit a new proposal and explain how your company meets the criteria the next time you apply for an opportunity.
+
+%br
+
+%p The export opportunities team

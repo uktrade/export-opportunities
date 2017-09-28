@@ -3,6 +3,14 @@ class EnquiryResponsePolicy < ApplicationPolicy
     true
   end
 
+  def email_send?
+    show?
+  end
+
+  def update?
+    show?
+  end
+
   def show?
     editor_is_admin_or_publisher_or_previewer? || editor_is_opportunity_author? || editor_is_in_opportunity_service_provider?
   end

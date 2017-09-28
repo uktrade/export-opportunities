@@ -23,15 +23,17 @@ Rails.application.routes.draw do
     }
 
   get '/dashboard' => 'users/dashboard#index', as: 'dashboard'
+  # get '/dashboard/downloads' => 'users/downloads'
   scope '/dashboard', as: :dashboard do
     resources :enquiries, only: [:show], controller: 'users/enquiries'
+    resources :downloads, only: [:show], controller: 'users/downloads'
   end
 
   # Legacy dashboard index page
   get '/dashboard/enquiries', to: redirect('/dashboard')
 
   namespace :admin do
-    get '/help', to: 'opportunities#help'
+    resources :help
 
     devise_for :editors,
       singular: :editor,
@@ -52,7 +54,9 @@ Rails.application.routes.draw do
 
     authenticated :editor do
       resources :enquiries, only: [:index, :show]
-      resources :enquiry_responses
+      resources :enquiry_responses do
+        get 'email_send', on: :collection
+      end
     end
 
     resources :opportunities, only: [:index, :show, :new, :create, :edit, :update] do
@@ -153,6 +157,7 @@ Rails.application.routes.draw do
   end
 
   get '/api/profile_dashboard', action: :index, controller: 'api/profile_dashboard', format: 'json', via: [:get]
+  post '/api/document/', action: :create, controller: 'api/document'
 
   match '*path', to: 'errors#not_found', via: [:get, :post, :patch, :put, :delete]
 

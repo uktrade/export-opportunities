@@ -1,13 +1,6 @@
+%a.link-back{:href=>admin_enquiry_path(@enquiry)} Back
 
-%h1 NEW ENQUIRY RESPONSE
-
-= render 'form', enquiries_response: @enquiry_response
-
-
-
-
-
-%h1 Your Enquiry Information:
+%h1 Enquiry from #{@enquiry.company_name}
 %table.horizontal
   %tr
     %th{:scope => 'row'} Opportunity
@@ -51,3 +44,12 @@
   %tr
     %th{:scope => 'row'} Data Protection
     %td= @enquiry.data_protection ? 'Yes' : 'No'
+
+%br
+%a#reply
+%hr.thick
+
+%h1 Respond by #{@respond_by_date.strftime('%d %B %Y')}.
+%h2 Choose most suitable response.
+
+= render 'form',  enquiry: @enquiry, enquiries_response: @enquiry_response, respond_by_date: @respond_by_date

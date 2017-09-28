@@ -20,7 +20,7 @@
       .form-group
         = f.label :service_provider, 'Service provider', value: :id, class: 'form-label'
         = f.collection_select :service_provider_id, @service_providers, :id, :name, { prompt: '', selected: resource.service_provider&.id }, class: 'form-control'
-        %p.form-hint Only Uploaders are assigned a service provider. Leave blank for Administrators, Publishers and Previewers.
+        %p.form-hint You must assign a service provider so you can view your reports.
 
       .form-group
         = f.submit "Create Editor", :class => 'button'

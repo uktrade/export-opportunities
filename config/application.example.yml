@@ -51,3 +51,12 @@ elastic_search_url: 'http://localhost:9200'
 AWS_ACCESS_KEY_ID: ''
 AWS_SECRET_ACCESS_KEY: ''
 AWS_REGION: ''
+
+#clamAV virus scanning
+CLAM_AV_HOST: ''
+CLAM_AV_USERNAME: ''
+CLAM_AV_PASSWORD:
+
+post_user_communication_s3_bucket: ''
+
+OFFICE_FINDER_BASE_URL: ''

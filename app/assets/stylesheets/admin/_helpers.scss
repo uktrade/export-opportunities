@@ -7,8 +7,8 @@
 }
 
 .hidden, .js-enabled .js-hidden  {
-	display: none;
-	visibility: hidden;
+	display: none !important;
+	visibility: hidden !important;
 }
 
 .margin-top {
@@ -17,6 +17,10 @@
 
 .margin-top-0 {
 	margin-top: 0px;
+}
+
+.margin-top-10 {
+  margin-top: 10px;
 }
 
 .margin-bottom-0 {
@@ -37,4 +41,8 @@
   width: 1px;
   padding: 0;
   border: 0;
+}
+
+.white-space-pre {
+  white-space: pre-wrap;
 }

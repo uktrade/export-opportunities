@@ -1,0 +1,19 @@
+/
+  Used in email
+%div.panel.panel-border-narrow
+  %p Dear #{@enquiry_response.enquiry.first_name},
+  %p
+    Thank you for your interest in the export opportunity:
+    %b=@enquiry_response.enquiry.opportunity.title
+
+  %h3 Outcome
+  %p Your proposal will not be taken any further.
+
+  %h3 Reason
+  %p Your proposal does not meet the criteria for this opportunity.
+
+  = render 'enquiry_response_mailer/editable_content', enquiry_response: @enquiry_response
+
+  %p The export opportunities team
+
+=render partial:'enquiry_response_mailer/submit_buttons' unless @mailer_view

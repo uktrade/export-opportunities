@@ -45,6 +45,8 @@ GEM
     ast (2.3.0)
     autoprefixer-rails (6.6.1)
       execjs
+    aws-sdk (2.8.10)
+      aws-sdk-resources (= 2.8.10)
     aws-sdk-core (2.8.10)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
@@ -72,6 +74,13 @@ GEM
     capybara-email (2.5.0)
       capybara (~> 2.4)
       mail
+    capybara-screenshot (1.0.17)
+      capybara (>= 1.0, < 3)
+      launchy
+    carrierwave (1.1.0)
+      activemodel (>= 4.0.0)
+      activesupport (>= 4.0.0)
+      mime-types (>= 1.16)
     ckeditor (4.2.3)
       cocaine
       orm_adapter (~> 0.5.0)
@@ -99,6 +108,8 @@ GEM
       devise (>= 3.2, < 4.0)
     diff-lcs (1.2.5)
     docile (1.1.5)
+    domain_name (0.5.20170404)
+      unf (>= 0.0.5, < 1.0.0)
     elasticsearch (5.0.3)
       elasticsearch-api (= 5.0.3)
       elasticsearch-transport (= 5.0.3)
@@ -159,6 +170,8 @@ GEM
     hashdiff (0.3.2)
     hashie (3.5.5)
     htmlentities (4.3.4)
+    http-cookie (1.0.3)
+      domain_name (~> 0.5)
     i18n (0.7.0)
     immutable-struct (2.2.2)
     interception (0.5)
@@ -193,6 +206,7 @@ GEM
     neat (1.8.0)
       sass (>= 3.3)
       thor (~> 0.19)
+    netrc (0.11.0)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
     normalize-scss (6.0.0)
@@ -293,6 +307,10 @@ GEM
     request_store (1.3.2)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
+    rest-client (2.0.2)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
@@ -383,6 +401,9 @@ GEM
     timecop (0.8.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.4)
     unicode-display_width (1.1.2)
     uniform_notifier (1.10.0)
     vcr (3.0.3)
@@ -410,11 +431,14 @@ DEPENDENCIES
   active_record_union
   addressable
   autoprefixer-rails
+  aws-sdk
   bourbon
   bullet
   byebug
   capybara
   capybara-email
+  capybara-screenshot
+  carrierwave
   ckeditor
   database_cleaner
   devise
@@ -458,6 +482,7 @@ DEPENDENCIES
   rails_12factor
   redis
   redis-namespace
+  rest-client
   rspec-collection_matchers
   rspec-rails
   rspec-sidekiq

@@ -44,6 +44,16 @@ heroku_config_variables
 
 *.sh
 
+# local deployment scripts
+*.sh
+
+# pre commit hooks
 .pre-commit-config.yaml
 public/uploads/
 servers_setup.sh
+
+# Ignore carrierwave uploader files
+public/uploads
+
+# ignore capybara's modified show_page
+public/capybara.html

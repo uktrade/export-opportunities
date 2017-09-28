@@ -1,0 +1,15 @@
+.confirmationMessage {
+	border-left-style: solid;
+	padding: 1em;
+	margin-bottom: 0.75em;
+	h1 {
+
+	}
+	p {
+		
+	}
+	&-positive {
+		background-color: $green-flower;
+		border-color: $green-fun;
+	}
+}

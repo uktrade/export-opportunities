@@ -51,6 +51,16 @@ p {
   }
 }
 
+p.large {
+  @include core-19;
+  margin-top: em(5, 16);
+  margin-bottom: em(15, 16);
+  line-height: 1.25;
+  @include media(tablet) {
+    margin-top: em(5);
+    margin-bottom: em(15);
+  }
+}
 
 // Link styles
 a {
@@ -82,14 +92,24 @@ a:active {
   }
 }
 
+hr.thick {
+  height: 2px;
+}
+
+/* for adding outline programatically */
+
+.focus-outline {
+  outline: 3px solid #ffbf47;
+}
+
 .button-reply {
 
 }
 
-/* quick fix to fit big number */
-.bold-xxlarge-fit {
-  @include media(tablet) {
-    font-size: 70px;
-    line-height: 80px;
+blockquote {
+  margin: 0 0 30px 0;
+  &.noquotes {
+    padding: 15px;
+    background-color: $grey-gallery;
   }
 }
