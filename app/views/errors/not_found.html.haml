@@ -1,2 +1,17 @@
 = content_for :errors do
   %h1= t('errors.not_found')
+  .margin-top-30 
+    %p.large If you entered a web address please check it was correct.
+
+    %p.large
+      If you followed a link here
+      = succeed '.' do
+        =link_to 'let us know', "#{Figaro.env.CONTACT_US_FORM}"
+
+    %p.large
+      =link_to 'Go to the homepage', "#{Figaro.env.EX_OPPS_HOMEPAGE}"
+
+    %br
+    %br
+    %br
+
