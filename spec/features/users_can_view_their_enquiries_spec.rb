@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 feature 'User can view their enquiries' do
-
   scenario 'Viewing the list of enquiries' do
     skip
     user = create(:user, email: 'me@example.com')

@@ -13,7 +13,6 @@ class Admin::EnquiryResponsesController < Admin::BaseController
     @companies_house_url ||= companies_house_url(@enquiry.company_house_number)
     @enquiry_response ||= EnquiryResponse.where(enquiry_id: @enquiry.id).first ? EnquiryResponse.where(enquiry_id: @enquiry.id).first : EnquiryResponse.new
     @enquiry_response.enquiry ||= @enquiry
-    byebug
     @respond_by_date ||= @enquiry.created_at + 5.days
     authorize @enquiry_response
   end

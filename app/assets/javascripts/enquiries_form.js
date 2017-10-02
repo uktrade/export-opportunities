@@ -111,7 +111,7 @@
     return false;
   });
 
-  // Hack to force Safari to submit, to get around browser incompatiblity
+  // Hack to force Safari to submit, to get around browser incompatibility
   // with the HTML5 Validation API. -TM
   var isSafari = navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
                navigator.userAgent && !navigator.userAgent.match('CriOS');
