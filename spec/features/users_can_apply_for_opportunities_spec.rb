@@ -33,6 +33,45 @@ RSpec.feature 'users can apply for opportunities', js: true do
 
       expect(page).to have_content 'Thank you for your enquiry'
       expect(page).to have_link 'View your enquiries to date'
+
+      visit 'enquiries/great-opportunity'
+    end
+
+    scenario 'if they are logged in, apply with company house number', js: true do
+      mock_sso_with(email: 'enquirer@exporter.com')
+      company_detail = {
+        name: 'Boring Export Company',
+        number: 123_456_78,
+        postcode: 'sw1a',
+      }
+      allow_any_instance_of(CompanyHouseFinder).to receive(:call).and_return([company_detail])
+
+      visit 'enquiries/great-opportunity'
+
+      expect(page).not_to have_field 'Email Address'
+
+      fill_in_your_details
+
+      fill_in 'enquiry[company_name]', with: 'Boring Export Company'
+
+      click_on 'Search Companies House'
+
+      wait_for_ajax
+
+      click_on 'Boring Export Company'
+
+      fill_in 'Company Address', with: '3 whp'
+      fill_in_exporting_experience
+      tick_data_protection_checkbox
+
+      click_on 'Apply now'
+
+      expect(page).to have_content 'Thank you for your enquiry'
+      expect(page).to have_link 'View your enquiries to date'
+
+      visit 'enquiries/great-opportunity'
+
+      expect(find_field('enquiry_company_house_number').value).to eq '12345678'
     end
 
     scenario 'if they are not logged in' do

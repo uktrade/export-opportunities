@@ -1,9 +1,8 @@
 require 'rails_helper'
 
 feature 'User can view their enquiries' do
-  before { skip }
-
   scenario 'Viewing the list of enquiries' do
+    skip
     user = create(:user, email: 'me@example.com')
     opportunity = create(:opportunity, title: 'Hello World', slug: 'hello-world')
     create(:enquiry, opportunity: opportunity, user: user)
@@ -16,6 +15,7 @@ feature 'User can view their enquiries' do
   end
 
   scenario 'Viewing enquiries for expired and non-expired opportunities' do
+    skip
     user = create(:user, email: 'email@example.com')
 
     create(:enquiry,
@@ -36,6 +36,7 @@ feature 'User can view their enquiries' do
   end
 
   scenario 'Viewing the list of enquiries, with no enquiries' do
+    skip
     user = create(:user)
 
     login_as(user, scope: :user)
@@ -45,6 +46,7 @@ feature 'User can view their enquiries' do
   end
 
   scenario 'Viewing the list of enquiries only shows my enquiries' do
+    skip
     user = create(:user, email: 'me@example.com')
     other_user = create(:user, email: 'other@example.com')
 
@@ -65,7 +67,7 @@ feature 'User can view their enquiries' do
     opportunity = create(:opportunity, title: 'Great Opportunity!', slug: 'great-opportunity')
     create(:sector, name: 'Animal husbandry')
 
-    create(:enquiry,
+    enquiry = create(:enquiry,
       opportunity: opportunity,
       user: user,
       first_name: 'John',
@@ -82,9 +84,7 @@ feature 'User can view their enquiries' do
       data_protection: false)
 
     login_as(user, scope: :user)
-    visit dashboard_path
-
-    click_link t('enquiry.view')
+    visit dashboard_enquiry_path(enquiry.id)
 
     expect(page).to have_text(user.email)
     expect(page).to have_text('John Green')
@@ -105,15 +105,13 @@ feature 'User can view their enquiries' do
       opportunity = create(:opportunity, title: 'Great Opportunity!', slug: 'great-opportunity')
       create(:sector, name: 'Animal husbandry')
 
-      create(:enquiry,
+      enquiry = create(:enquiry,
         opportunity: opportunity,
         user: user,
         company_url: 'www.example.com')
 
       login_as(user, scope: :user)
-      visit dashboard_path
-
-      click_link t('enquiry.view')
+      visit dashboard_enquiry_path(enquiry.id)
 
       expect(page).to have_text(user.email)
 
