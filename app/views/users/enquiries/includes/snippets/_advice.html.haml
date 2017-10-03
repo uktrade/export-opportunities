@@ -1,7 +1,6 @@
-.column-4
-  .tile
-    - if  enquiry_response.enquiry.existing_exporter = 'Not yet'
-      %a{:href=>'https://www.export.great.gov.uk/new/'} Guidance
+%li
+  %p.medium.margin-bottom-5 
+    - if enquiry_response.enquiry.existing_exporter = 'Not yet'
+      %a{:href=>'https://www.export.great.gov.uk/new/'} Advice and guidance on exporting
     - else 
-      %a{:href=>'https://www.export.great.gov.uk/occasional/'} Exporting guides
-    %p Learn exporting topics in greater detail. Our knowledge comes from subject matter experts, so you’ll be learning accurate information from the best.
+      %a{:href=>'https://www.export.great.gov.uk/occasional/'} Advice and guidance on exporting

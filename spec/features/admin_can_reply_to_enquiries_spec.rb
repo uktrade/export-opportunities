@@ -95,10 +95,6 @@ feature 'admin can reply to enquiries' do
     click_on 'Reply'
     expect(page).to have_content('Email body')
 
-    email_body_text = Faker::Lorem.words(10).join('-')
-    fill_in 'enquiry_response_email_body', with: email_body_text
-    expect(page).to have_content(email_body_text)
-
     choose 'Need more information'
 
     expect(page).to have_content('Contact the company')

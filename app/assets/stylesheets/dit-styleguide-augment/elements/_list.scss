@@ -1,0 +1,15 @@
+/* Lists */
+
+// Inline lists
+ul.inline {
+  li {
+    display: inline-block;
+    margin-right: 8px;
+  }
+}
+
+// Bulleted lists
+ul.list-bullet {
+  list-style-type: disc;
+  padding-left: 20px;
+}

@@ -1,41 +1,121 @@
-%h1 Enquiry for &ldquo;#{@enquiry.opportunity.title.strip}&rdquo;
-%p Applied on: #{@enquiry.created_at}
+.container
+  .row
+    .column-9.collapse
+      .r-margin-top-60.r-margin-bottom-30
+        %h1 #{@enquiry.opportunity.title.strip}
+        %ul.inline.margin-top-15
+          %li 
+            %span.regular Sectors: 
+            %span.bold
+              = @enquiry.opportunity.sectors.pluck(:name).to_sentence
+          - if @enquiry.opportunity.types.any?
+            %li 
+              %span.regular Opportunity type: 
+              %span.bold
+                = @enquiry.opportunity.types.pluck(:name).to_sentence
+          %li 
+            %span.regular Value of contract: 
+            %span.bold
+              - if @enquiry.opportunity.values.any?
+                = @enquiry.opportunity.values.pluck(:name).to_sentence
+              - else
+                Value unknown
+  .row
+    .column-9.collapse
+      .accordion
+        .accordion-section
+          .accordion-section-header{:tabindex=>"0"}
+            %h3.heading-medium Opportunity details
+          .accordion-section-body
+            .margin-top-15.r-margin-bottom-30
+              %p.note
+                - if @enquiry.opportunity.expired?
+                  Opportunity expired on #{@enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
+                - else
+                  Opportunity expires on #{@enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
+              %h5.bold #{@enquiry.opportunity.title.strip}
+              %p.medium #{@enquiry.opportunity.teaser.strip}
+              %h5.bold.margin-top-15 Essential information
+              %h5.bold Sectors:
+              %p.medium= @enquiry.opportunity.sectors.pluck(:name).to_sentence
+              %h5.bold Opportunity type:
+              %p.medium= @enquiry.opportunity.types.pluck(:name).to_sentence
+              %h5.bold Value of contract:
+              %p.medium
+                - if @enquiry.opportunity.values.any?
+                  = @enquiry.opportunity.values.first.name
+                - else
+                  Value unknown
+              %h5.bold Applications received:
+              %p.medium= @enquiry.opportunity.enquiries.size
+        .accordion-section
+          .accordion-section-header{:tabindex=>"0"}
+            %h3.heading-medium Your proposal
+          .accordion-section-body
+            .margin-top-15.r-margin-bottom-30
+              %p.note Submitted on: #{@enquiry.created_at.strftime('%d %B %Y')}
+              .p-children-medium
+                =present_html_or_formatted_text(@enquiry.company_explanation)
 
-%table.horizontal
-  %tr
-    %th{:scope => 'row'} Name
-    %td= @enquiry.first_name + ' ' + @enquiry.last_name
-  %tr
-    %th{:scope => 'row'} Email address
-    %td= @enquiry.email
-  %tr
-    %th{:scope => 'row'} Telephone number
-    %td= @enquiry.company_telephone
-  %tr
-    %th{scope: 'row'} Company name
-    %td= @enquiry.company_name
-  %tr
-    %th{scope: 'row'} Company address
-    %td
-      = @enquiry.company_address
-      %br
-      = @enquiry.company_postcode
-  - if @enquiry.company_url
-    %tr
-      %th{scope: 'row'} Company URL
-      %td= link_to @enquiry.company_url, @enquiry.company_url
-  - if @enquiry.company_house_number
-    %tr
-      %th{:scope => 'row'} Companies House Number
-      %td #{@enquiry.company_house_number}
-  %tr
-    %th{:scope => 'row'} Have you sold products or services to overseas customers?
-    %td= @enquiry.existing_exporter
-  %tr
-    %th{:scope => 'row'} Sector
-    %td= @enquiry.company_sector
-  %tr
-    %th{:scope => 'row'} How do you meet the requirements for this opportunity?
-    %td= present_html_or_formatted_text(@enquiry.company_explanation)
+              %h5.bold.margin-top-15 Details you gave us
+              %h5.bold Company sectors:
+              %p.medium= @enquiry.company_sector
 
-%a.button.button-blue{href: dashboard_path} Go back
+              %h5.bold Existing exporter:
+              %p.medium= @enquiry.existing_exporter
+              - if @enquiry.company_url.nil? & @enquiry.company_url.empty?
+                %h5.bold Company website:
+                %p.medium = link_to @enquiry.company_url, @enquiry.company_url
+              - @companies_house_url = companies_house_url(@enquiry.company_house_number)
+              - if @companies_house_url
+                %h5.bold Companies house record:
+                %p.medium=link_to @enquiry.company_name, @companies_house_url, target: '_blank', :rel => 'noopener noreferrer'
+        .accordion-section
+          .accordion-section-header{:tabindex=>"0"}
+            %h3.heading-medium Outcome and next steps
+          .accordion-section-body
+            .margin-top-15.r-margin-bottom-30
+              - if (@response_type != 0)
+                %p.note Sent on #{@enquiry_response[:completed_at]&.strftime('%d %B %Y')}
+              - case @response_type
+                - when 0
+                  %p.medium Your proposal is under consideration.
+                - when 1
+                  = render 'users/enquiries/includes/outcome/right', enquiry_response: @enquiry_response
+                - when 2
+                  = render 'users/enquiries/includes/outcome/need_more_information', enquiry_response: @enquiry_response
+                - when 3
+                  = render 'users/enquiries/includes/outcome/not_right', enquiry_response: @enquiry_response
+                - when 4
+                  = render 'users/enquiries/includes/outcome/not_uk_registered', enquiry_response: @enquiry_response
+                - when 5
+                  = render 'users/enquiries/includes/outcome/not_for_third_party', enquiry_response: @enquiry_response
+        .accordion-section
+          .accordion-section-header{:tabindex=>"0"}
+            %h3.heading-medium Additional suggestions
+          .accordion-section-body
+            .margin-top-15.r-margin-bottom-30
+              - case @response_type
+                - when 0
+                  %p.medium Your proposal is under consideration.
+                - when 1
+                  = render 'users/enquiries/includes/suggestions/right', enquiry_response: @enquiry_response
+                - when 2
+                  = render 'users/enquiries/includes/suggestions/need_more_information', enquiry_response: @enquiry_response
+                - when 3
+                  = render 'users/enquiries/includes/suggestions/not_right', enquiry_response: @enquiry_response
+                - when 4
+                  = render 'users/enquiries/includes/suggestions/not_uk_registered', enquiry_response: @enquiry_response
+                - when 5
+                  = render 'users/enquiries/includes/suggestions/not_for_third_party', enquiry_response: @enquiry_response
+
+%br
+%br
+%br
+/=@enquiry.inspect
+
+/=@enquiry.opportunity.inspect
+
+/=@enquiry_response.inspect
+
+
