@@ -61,20 +61,20 @@ ukti.UploadWidget = (function() {
     };
 
     var isFileValid = function(file) {
-      if(config.allowedFileTypes.indexOf(file.type) < 0) {
-        errors.push(config.errorMessages.filetype);
+      if (config.allowedFileTypes.indexOf(file.type) < 0) {
+          errors.push(config.errorMessages.filetype);
       }
-      if(file.size > config.maxFileSize) {
-        errors.push(config.errorMessages.filesize);
+      if (file.size > config.maxFileSize) {
+          errors.push(config.errorMessages.filesize);
       }
       if (errors.length) {
-        ukti.Forms.addErrorsToField(baseEl, errors);
-        errors.length = 0;
-        return false;
+          ukti.Forms.addErrorsToField(baseEl, errors);
+          errors.length = 0;
+          return false;
       }
       else {
-        ukti.Forms.clearErrorFromField(baseEl);
-        return true;
+          ukti.Forms.clearErrorFromField(baseEl);
+          return true;
       }
     };
 
@@ -151,7 +151,7 @@ ukti.UploadWidget = (function() {
     };
 
     var updateHiddenField = function (item) {
-      if( hiddenInputEl ) {
+      if ( hiddenInputEl ) {
         hiddenInputEl.value = fileListStore.length ? JSON.stringify(fileListStore) : '';
       }
     };
