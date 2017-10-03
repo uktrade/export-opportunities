@@ -19,6 +19,24 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     expect(page).to have_no_content('Boring opportunity')
   end
 
+  scenario 'users can find an opportunity including apostroph\'s ' do
+    create(:opportunity, status: 'publish', title: 'Children\'s opportunity')
+    create(:opportunity, status: 'publish', title: 'Childrens opportunity')
+
+    sleep 1
+    visit opportunities_path
+
+    expect(page).to have_content('What product or service are you selling?')
+
+    within '#search-form' do
+      fill_in 's', with: "Children\'s"
+      page.find('.filters__searchbutton').click
+    end
+
+    expect(page).to have_content("Children's opportunity")
+    expect(page).to have_content('Childrens opportunity')
+  end
+
   scenario 'users sees results that match differing stemmed versions of their keywords' do
     create(:opportunity, status: 'publish', title: 'Innovative products for fish catching')
     create(:opportunity, status: 'publish', title: 'Award-winning jam and marmalade required')
