@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 feature 'User can view their enquiries' do
-
   scenario 'Viewing an individual enquiry - enquiry has NOT been responded to' do
     user = create(:user, email: 'john@green.com')
     opportunity = create(:opportunity, title: 'Great Opportunity!', slug: 'great-opportunity')
@@ -264,7 +263,7 @@ feature 'User can view their enquiries' do
     expect(page).to have_link('Get help with finance', :href => 'https://www.export.great.gov.uk/get-finance/')
     expect(page).to have_link('Contact a trade advisor', :href => 'https://www.contactus.trade.gov.uk/office-finder/N0WT')
   end
-
+  
   scenario 'Viewing the list of enquiries' do
     skip
     user = create(:user, email: 'me@example.com')
@@ -374,21 +373,20 @@ feature 'User can view their enquiries' do
       create(:sector, name: 'Animal husbandry')
 
       create(:enquiry,
-        opportunity: opportunity,
-        user: user,
-        company_url: 'www.example.com')
+      opportunity: opportunity,
+      user: user,
+      company_url: 'www.example.com')
 
       login_as(user, scope: :user)
       visit dashboard_path
 
       click_link t('enquiry.view')
-
+      
       expect(page).to have_text(user.email)
 
       expect(page).to have_link('www.example.com', href: 'http://www.example.com')
     end
   end
-
 
   def fill_in_ckeditor(locator, opts)
     content = opts.fetch(:with).to_json # convert to a safe javascript string
@@ -422,7 +420,4 @@ feature 'User can view their enquiries' do
     choose 'Not for third party'
     click_on 'Send'
   end
-
-
-
 end

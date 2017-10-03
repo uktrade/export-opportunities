@@ -61,7 +61,7 @@
               %div#no-companies-house-number-fields
                 .form-group#company_house_number
                   = f.label :company_house_number, "Companies House Number"
-                  = f.text_field :company_house_number, {disabled: "true"}
+                  = f.text_field :company_house_number, readonly: true
                 .form-group
                   = f.label :company_address, "Company Address", class: "required"
                   = f.text_field :company_address, required: "required"
