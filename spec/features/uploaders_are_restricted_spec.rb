@@ -168,7 +168,7 @@ feature 'Uploaders are restricted' do
     visit '/admin/editors'
 
     expect(page.status_code).to eq(404)
-    expect(page).to have_text('Sorry, page not found')
+    expect(page).to have_text('This page cannot be found')
     expect(page).to_not have_selector(:link_or_button, 'Editors')
   end
 
@@ -179,7 +179,7 @@ feature 'Uploaders are restricted' do
     visit 'admin/editors/new'
 
     expect(page.status_code).to eq(404)
-    expect(page).to have_text('Sorry, page not found')
+    expect(page).to have_text('This page cannot be found')
     expect(page).to_not have_selector(:link_or_button, 'Editors')
   end
 end
