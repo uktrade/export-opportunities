@@ -8,24 +8,24 @@ RSpec.describe 'Error routing' do
   it 'routes /500 via GET' do
     get '/500'
     expect(response).to have_http_status(500)
-    expect(response.body).to include('Sorry, something went wrong')
+    expect(response.body).to include('This page is unavailable')
   end
 
   it 'routes /404 via GET' do
     get '/404'
     expect(response).to have_http_status(404)
-    expect(response.body).to include('Sorry, page not found')
+    expect(response.body).to include('This page cannot be found')
   end
 
   it 'routes /500 via POST' do
     post '/500', foo: 'bar'
     expect(response).to have_http_status(500)
-    expect(response.body).to include('Sorry, something went wrong')
+    expect(response.body).to include('This page is unavailable')
   end
 
   it 'routes /404 via POST' do
     post '/404', foo: 'bar'
     expect(response).to have_http_status(404)
-    expect(response.body).to include('Sorry, page not found')
+    expect(response.body).to include('This page cannot be found')
   end
 end
