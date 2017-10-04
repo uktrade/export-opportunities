@@ -1,9 +1,9 @@
 ---
 applications:
-- name: export-opportunities
+- name: export-opportunities-continuous-deployment
   memory: 512M
   buildpack: ruby_buildpack
-- name: export-opportunities-worker
+- name: export-opportunities-worker-continuous-deployment
   memory: 256M
   instances: 1
   path: .
