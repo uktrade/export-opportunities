@@ -64,3 +64,6 @@ application.yml
 
 # ignore vendor files
 # vendor/
+
+# ignoring gemfile
+Gemfile
