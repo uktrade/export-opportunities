@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    sinatra (2.0.0)
     actionmailer (4.2.7.1)
       actionpack (= 4.2.7.1)
       actionview (= 4.2.7.1)
