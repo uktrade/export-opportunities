@@ -4,3 +4,7 @@
 
 %h5.bold Reason
 %p.medium Your proposal does not meet the criteria for this opportunity.
+
+%blockquote.border-narrow
+  .p-children-medium
+    =present_html_or_formatted_text(@enquiry_response.email_body)
