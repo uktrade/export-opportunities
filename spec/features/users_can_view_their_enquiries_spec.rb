@@ -112,8 +112,7 @@ feature 'User can view their enquiries' do
     expect(page).to have_text('Your company is not UK registered')
 
     expect(page).to have_text('Additional suggestions')
-
-    expect(page).to have_link('Visit our international site', href: 'https://trade.great.gov.uk')
+    expect(page).to have_link('Visit our international site', href: Figaro.env.TRADE_GREAT_GOV_UK)
   end
 
   scenario 'Viewing an individual enquiry - enquiry HAS been responded to - Not right for opportunity' do
@@ -130,7 +129,7 @@ feature 'User can view their enquiries' do
       company_name: 'Verdi Plc',
       company_address: 'Via del Corso, Rome',
       company_house_number: '123456',
-      company_postcode: 'NOWT',
+      company_postcode: 'N0WT',
       company_url: 'http://verdi.com',
       existing_exporter: 'Not yet',
       company_sector: 'Animal husbandry',
@@ -157,7 +156,7 @@ feature 'User can view their enquiries' do
     expect(page).to have_link('Amend your email alerts')
 
     expect(page).to have_link('Advice and guidance on exporting', href: 'https://www.export.great.gov.uk/new/')
-    expect(page).to have_link('Contact a trade advisor', href: 'https://www.contactus.trade.gov.uk/office-finder/NOWT')
+    expect(page).to have_link('Contact a trade advisor', href: 'https://www.contactus.trade.gov.uk/office-finder/N0WT')
   end
 
   scenario 'Viewing an individual enquiry - enquiry HAS been responded to - Right for opportunity' do

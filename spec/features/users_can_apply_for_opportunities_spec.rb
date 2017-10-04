@@ -31,8 +31,8 @@ RSpec.feature 'users can apply for opportunities', js: true do
       fill_in_form
       click_on 'Submit'
 
-      expect(page).to have_content 'Thank you for your enquiry'
-      expect(page).to have_link 'View your enquiries to date'
+      expect(page).to have_content 'Your details have been submitted and will be reviewed by our team'
+      expect(page).to have_link 'View your proposals to date'
 
       visit 'enquiries/great-opportunity'
     end
@@ -64,10 +64,10 @@ RSpec.feature 'users can apply for opportunities', js: true do
       fill_in_exporting_experience
       tick_data_protection_checkbox
 
-      click_on 'Apply now'
+      click_on 'Submit'
 
-      expect(page).to have_content 'Thank you for your enquiry'
-      expect(page).to have_link 'View your enquiries to date'
+      expect(page).to have_content 'Your details have been submitted and will be reviewed by our team'
+      expect(page).to have_link 'View your proposals to date'
 
       visit 'enquiries/great-opportunity'
 
