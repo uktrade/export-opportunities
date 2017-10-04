@@ -1,9 +1,9 @@
 ---
 applications:
-- name: export-opportunities-stgov
+- name: export-opportunities
   memory: 512M
   buildpack: ruby_buildpack
-- name: export-opportunities-stgov-worker
+- name: export-opportunities-worker
   memory: 256M
   instances: 1
   path: .
