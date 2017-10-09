@@ -51,8 +51,12 @@ p {
   &.large {
     font-size: 18px;
     font-weight:400;
-    font-size: 18px;
     line-height: 1.39;
+  }
+  &.larger {
+    font-size: 19px;
+    font-weight:400;
+    line-height: 30px;
   }
   &.width-60 {
     @include media($medium-screen) {

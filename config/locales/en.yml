@@ -54,7 +54,7 @@ en:
     subscriptions_section_heading: Your email alerts
     account_section_heading: Your account
   errors:
-    not_found: Sorry, page not found
+    not_found: This page cannot be found
     guessable_password: |
       is too easy to guess.
       Consider using a short phrase made up of several unrelated words.

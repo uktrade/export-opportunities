@@ -95,7 +95,7 @@ class OpportunitiesController < ApplicationController
 
   private def search_term
     return nil unless params[:s]
-    params[:s].gsub(alphanumeric_words).to_a.join(' ')
+    params[:s].delete("'").gsub(alphanumeric_words).to_a.join(' ')
   end
 
   private def alphanumeric_words

@@ -8,6 +8,7 @@
 //= require components/ResultsOrder
 //= require components/ScrollTo
 //= require components/EqualHeight
+//= require components/Accordion
 //= require start-page
 
 //= require enquiries_form

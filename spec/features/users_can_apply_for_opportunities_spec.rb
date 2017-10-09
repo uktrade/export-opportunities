@@ -29,10 +29,49 @@ RSpec.feature 'users can apply for opportunities', js: true do
       expect(page).not_to have_field 'Email Address'
 
       fill_in_form
-      click_on 'Apply now'
+      click_on 'Submit'
 
-      expect(page).to have_content 'Thank you for your enquiry'
-      expect(page).to have_link 'View your enquiries to date'
+      expect(page).to have_content 'Your details have been submitted and will be reviewed by our team'
+      expect(page).to have_link 'View your proposals to date'
+
+      visit 'enquiries/great-opportunity'
+    end
+
+    scenario 'if they are logged in, apply with company house number', js: true do
+      mock_sso_with(email: 'enquirer@exporter.com')
+      company_detail = {
+        name: 'Boring Export Company',
+        number: 123_456_78,
+        postcode: 'sw1a',
+      }
+      allow_any_instance_of(CompanyHouseFinder).to receive(:call).and_return([company_detail])
+
+      visit 'enquiries/great-opportunity'
+
+      expect(page).not_to have_field 'Email Address'
+
+      fill_in_your_details
+
+      fill_in 'enquiry[company_name]', with: 'Boring Export Company'
+
+      click_on 'Search Companies House'
+
+      wait_for_ajax
+
+      click_on 'Boring Export Company'
+
+      fill_in 'Company Address', with: '3 whp'
+      fill_in_exporting_experience
+      tick_data_protection_checkbox
+
+      click_on 'Submit'
+
+      expect(page).to have_content 'Your details have been submitted and will be reviewed by our team'
+      expect(page).to have_link 'View your proposals to date'
+
+      visit 'enquiries/great-opportunity'
+
+      expect(find_field('enquiry_company_house_number').value).to eq '12345678'
     end
 
     scenario 'if they are not logged in' do
@@ -75,7 +114,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
       visit 'enquiries/great-opportunity'
 
       fill_in_form
-      click_on 'Apply now'
+      click_on 'Submit'
 
       expect(page).to have_content 'We noticed that you don\'t have a trade profile.'
     end
@@ -141,14 +180,14 @@ RSpec.feature 'users can apply for opportunities', js: true do
     create(:sector)
     visit "enquiries/#{opportunity.slug}"
 
-    click_on 'Apply now'
+    click_on 'Submit'
     expect(page).not_to have_content('Thank you')
   end
 
   private
 
   def be_an_enquiry_form
-    have_selector('h1', text: 'Apply now')
+    have_selector('h1', text: 'You are submitting a proposal for')
   end
 
   def fill_in_form
@@ -174,8 +213,8 @@ RSpec.feature 'users can apply for opportunities', js: true do
 
   def fill_in_exporting_experience
     select 'Not yet', from: 'Have you sold products or services to overseas customers?'
-    select Sector.all.sample.name, from: 'Please indicate which sector you work in'
-    fill_in 'Tell us how you can meet the requirements for this opportunity', with: Faker::Company.bs
+    select Sector.all.sample.name, from: 'Select your sector'
+    fill_in :enquiry_company_explanation, with: Faker::Company.bs
   end
 
   def tick_data_protection_checkbox
@@ -186,6 +225,6 @@ RSpec.feature 'users can apply for opportunities', js: true do
     visit "enquiries/#{opportunity.slug}"
 
     fill_in_form
-    click_on 'Apply now'
+    click_on 'Submit'
   end
 end

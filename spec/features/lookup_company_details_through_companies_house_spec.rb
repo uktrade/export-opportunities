@@ -24,11 +24,11 @@ feature 'Looking up company details through Companies House API', js: true do
     visit opportunity_path(opportunity)
 
     within '.opportunity__information' do
-      click_on 'Apply for this opportunity'
+      click_on 'Submit your proposal'
     end
 
     expect(find_field('enquiry_company_name').value).to be_blank
-    expect(find_field('enquiry_company_house_number', disabled: true).value).to be_blank
+    expect(find_field('enquiry_company_house_number').value).to be_blank
     expect(find_field('enquiry_company_postcode').value).to be_blank
 
     expect(page).to have_content 'Search Companies House'
@@ -47,7 +47,7 @@ feature 'Looking up company details through Companies House API', js: true do
     click_on 'DXW LTD'
 
     expect(find_field('enquiry_company_name').value).to eql('DXW LTD')
-    expect(find_field('enquiry_company_house_number', disabled: true).value).to eql('09421914')
+    expect(find_field('enquiry_company_house_number').value).to eql('09421914')
     expect(find_field('enquiry_company_postcode').value).to eql('W1U 8EW')
   end
 
@@ -71,7 +71,7 @@ feature 'Looking up company details through Companies House API', js: true do
 
     click_on 'DXW LTD'
 
-    expect(find_field('enquiry_company_house_number', disabled: true).value).to eql('09421914')
+    expect(find_field('enquiry_company_house_number').value).to eql('09421914')
   end
 
   scenario 'enquiries can search multiple times without refreshing the page' do
@@ -79,7 +79,7 @@ feature 'Looking up company details through Companies House API', js: true do
     visit opportunity_path(opportunity)
 
     within '.opportunity__information' do
-      click_on 'Apply for this opportunity'
+      click_on 'Submit your proposal'
     end
 
     within '.your-business' do
@@ -96,7 +96,7 @@ feature 'Looking up company details through Companies House API', js: true do
     click_on 'DXW LTD'
 
     expect(find_field('enquiry_company_name').value).to eql('DXW LTD')
-    expect(find_field('enquiry_company_house_number', disabled: true).value).to eql('09421914')
+    expect(find_field('enquiry_company_house_number').value).to eql('09421914')
     expect(find_field('enquiry_company_postcode').value).to eql('W1U 8EW')
 
     within '.your-business' do
@@ -111,7 +111,7 @@ feature 'Looking up company details through Companies House API', js: true do
     click_on 'DXW test'
 
     expect(find_field('enquiry_company_name').value).to eql('DXW test')
-    expect(find_field('enquiry_company_house_number', disabled: true).value).to eql('07593934')
+    expect(find_field('enquiry_company_house_number').value).to eql('07593934')
     expect(find_field('enquiry_company_postcode').value).to eql('W1B 3HH')
   end
 
@@ -121,7 +121,7 @@ feature 'Looking up company details through Companies House API', js: true do
     visit opportunity_path(opportunity)
 
     within '.opportunity__information' do
-      click_on 'Apply for this opportunity'
+      click_on 'Submit your proposal'
     end
 
     within '.your-business' do
@@ -145,7 +145,7 @@ feature 'Looking up company details through Companies House API', js: true do
     fill_in 'enquiry_company_explanation', with: 'We are awesome.'
     select sector.name, from: 'enquiry_company_sector'
     select 'Not yet', from: 'enquiry_existing_exporter'
-    click_on 'Apply now'
+    click_on 'Submit'
 
     expect(opportunity.enquiries.size).to eq(1)
   end
@@ -155,7 +155,7 @@ feature 'Looking up company details through Companies House API', js: true do
     visit opportunity_path(opportunity)
 
     within '.opportunity__information' do
-      click_on 'Apply for this opportunity'
+      click_on 'Submit your proposal'
     end
 
     within '.your-business' do

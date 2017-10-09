@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
 
-ruby '2.3.3'
+ruby '2.3.4'
 
-gem 'rails', '< 5'
+gem 'rails', '4.2.10'
+gem 'bundler', '1.14.6'
 gem 'puma'
 gem 'pg'
 gem 'sidekiq'

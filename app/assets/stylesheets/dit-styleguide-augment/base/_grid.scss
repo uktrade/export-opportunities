@@ -42,15 +42,26 @@
       vertical-align: $align;
     }
     &.fluid { width: percentage($col/$sum); }
+    &.collapse { 
+      padding-left: 0px;
+      padding-right: 0px;
+    }
 }
 
 .row {
   @include row;
+    &.collapse {
+    @for $i from 1 through $grid-columns {
+      .column-#{$i} {
+        padding: 0
+      }
+    }
+  }
 }
 
 @for $i from 1 through $grid-columns {      
   .column-#{$i} {
-        @include col(1, $i, $align: middle);
+      @include col(1, $i, $align: middle);
     }         
  } 
 

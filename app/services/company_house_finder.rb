@@ -3,6 +3,7 @@ class CompanyHouseFinder
 
   def call(search_terms)
     results = search_companies(search_terms)
+
     if response_valid?(results)
       return results['items'].map { |company| CompanyDetail.new(company.to_h) }
     else

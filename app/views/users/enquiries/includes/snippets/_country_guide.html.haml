@@ -1,15 +1,13 @@
 
 - essential_information_required = @enquiry_response.enquiry.opportunity.countries.with_exporting_guide.any? || @enquiry_response.enquiry.opportunity.types.aid_funded.any?
 - if essential_information_required
-  .column-4
-    .tile
-      - @enquiry_response.enquiry.opportunity.countries.with_exporting_guide.each do |country|
-        %h4 
-          = link_to "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank' do
-            Guide to #{country.name}
-        %p Learn exporting topics in greater detail. Our knowledge comes from subject matter experts, so you’ll be learning accurate information from the best.
-      - if @enquiry_response.enquiry.opportunity.types.aid_funded.any?
-        %h4
-          = link_to 'https://www.gov.uk/guidance/aid-funded-business', target: '_blank' do
-            Your guide for aid funded business
-        %p Learn exporting topics in greater detail. Our knowledge comes from subject matter experts, so you’ll be learning accurate information from the best.
+  - @enquiry_response.enquiry.opportunity.countries.with_exporting_guide.each do |country|
+    %li
+      %p.medium.margin-bottom-5 
+        = link_to "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank' do
+          Read our exporting country guide to #{country.name}
+  - if @enquiry_response.enquiry.opportunity.types.aid_funded.any?
+    %li
+      %p.medium.margin-bottom-5 
+        = link_to 'https://www.gov.uk/guidance/aid-funded-business', target: '_blank' do
+          Your guide for aid funded business

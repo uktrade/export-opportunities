@@ -5,6 +5,7 @@
 %html.no-js{:lang => "en-GB"}
   / <![endif]
   %head
+    %meta{:content => "IE=edge", "http-equiv" => "X-UA-Compatible"}/
     %meta{:charset => "utf-8"}
     %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}
     %meta{:content => "UsYPpFjZgK_HPJX0BmyaiSEFr6VDk-8kD4NARXzhhCE", :name => "google-site-verification"}
@@ -40,8 +41,9 @@
     %main.main{:role => "main"}
 
       - if content_for?(:errors)
-        %header.panel.panel--primary
-          = yield(:errors)
+        .container
+          .legacy.margin-top-30 
+            = yield(:errors)
 
       = content_for :title
       - flash.each do |type, message|

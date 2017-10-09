@@ -1,18 +1,12 @@
-=@enquiry_response.inspect
-.row
-  .column-4
-    .tile
-    - if  @enquiry_response.enquiry.existing_exporter = 'Not yet'
-      %p If you are new to exporting 
-      %a{:href=>'https://www.export.great.gov.uk/new/'} Exporting guides
-    - else
-      %p If you have exported before 
-      %a{:href=>'https://www.export.great.gov.uk/occasional/'} Exporting guides
-  .column-4
-    .tile
-      %h5 Country guide
-      %p Whether you are new to exporting or not you can
-  .column-4
-    .tile
-      %h5 Speak with a trade advisor
-      %p Whether you are new to exporting or not you can
+%h5.bold Increase your export potential:
+.inset
+  %ul.list.list-bullet
+    = render 'users/enquiries/includes/snippets/trade_profile', enquiry_response: @enquiry_response
+    = render 'users/enquiries/includes/snippets/alerts', enquiry_response: @enquiry_response
+
+%h5.bold Get more support:
+.inset
+  %ul.list.list-bullet
+    = render 'users/enquiries/includes/snippets/advice', enquiry_response: @enquiry_response
+    = render 'users/enquiries/includes/snippets/country_guide', enquiry_response: @enquiry_response
+
