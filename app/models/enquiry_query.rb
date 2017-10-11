@@ -30,6 +30,7 @@ class EnquiryQuery
     query = query.order(created_at: :desc)
 
     # Without an argument, .count will produce invalid SQL in this context
+    # byebug
     @count = query.count(:all)
 
     query.page(@page).per(@per_page)

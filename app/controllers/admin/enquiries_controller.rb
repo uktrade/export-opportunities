@@ -1,5 +1,5 @@
 class Admin::EnquiriesController < Admin::BaseController
-  ENQUIRIES_PER_PAGE = 5
+  ENQUIRIES_PER_PAGE = 20
   include ApplicationHelper
   include ActionController::Live
   after_action :verify_authorized, except: [:help]
@@ -20,7 +20,7 @@ class Admin::EnquiriesController < Admin::BaseController
       status: @filters.selected_status,
       sort: @filters.sort,
       page: @filters.page,
-      per_page: ENQUIRIES_PER_PAGE
+      # per_page: ENQUIRIES_PER_PAGE
     )
 
     @enquiry_form = enquiry_form
@@ -30,9 +30,12 @@ class Admin::EnquiriesController < Admin::BaseController
 
     respond_to do |format|
       format.html do
-        @enquiries = @enquiries.includes(:opportunity).page(params[:paged])
+        @enquiries = @enquiries.includes(:opportunity)
 
         @next_enquiry = next_enquiry if params[:reply_sent]
+
+        @enquiries = @enquiries.page(params[:paged])
+
       end
       format.csv do
         @enquiries = policy_scope(Enquiry).all.order(created_at: :desc)
@@ -109,8 +112,18 @@ class Admin::EnquiriesController < Admin::BaseController
     end
   end
 
-  private def next_enquiry
-    enquiry = Enquiry.joins('left outer join enquiry_responses on enquiry_responses.enquiry_id = enquiries.id').where('completed_at is null').order('enquiries.created_at asc').first
-    { url: admin_enquiry_url(enquiry), id: enquiry.id } unless enquiry.nil?
+  def next_enquiry
+    query = EnquiryQuery.new(
+      scope: policy_scope(Enquiry).includes(:enquiry_response),
+      sort: EnquirySort.new(default_column: 'created_at', default_order: 'asc'),
+      page: 1,
+      per_page: 1,
+    )
+    enquiries = query.enquiries
+
+    enquiries.each do |enq|
+      return { url: admin_enquiry_url(enq), id: enq['id'] } if !enq.enquiry_response || enq.enquiry_response['completed_at'].blank?
+    end
+    return nil
   end
 end
