@@ -55,3 +55,4 @@ public/uploads
 
 # ignore capybara's modified show_page
 public/capybara.html
+vendor/bundle/*
