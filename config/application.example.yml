@@ -68,3 +68,8 @@ TRADE_PROFILE_CREATE_PAGE: 'https://find-a-buyer.export.great.gov.uk/register/co
 # Supress Announcement - we detect its presence or absence and only need it in CI environment
 SUPPRESS_ANNOUNCEMENT: "true"
 
+GREAT_GOV_URL: 'https://great.gov.uk/export'
+EXPORT_READINESS_URL: 'https://great.gov.uk/export'
+SELLING_ONLINE_OVERSEAS_URL: 'https://selling-online-overseas.export.great.gov.uk'
+FIND_A_BUYER_URL: 'https://find-a-buyer.export.great.gov.uk'
+EVENTS_URL: 'https://events.trade.gov.uk'

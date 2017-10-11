@@ -1,8 +1,10 @@
+//= require config
 //= require jquery
+//= require redesign-oct-2017/script
+//= require redesign-oct-2017/account
 //= require jquery.placeholder.min
 //= require jquery.charactercounter
 //= require select2
-//= require waypoints.min
 //
 //= require components/SearchFilter
 //= require components/ResultsOrder
@@ -17,4 +19,5 @@
 //= require legacy_wordpress/html5shiv
 //= require legacy_wordpress/json2
 //
-//= require dit-toggle
+
+

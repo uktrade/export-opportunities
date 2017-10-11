@@ -16,10 +16,10 @@
 
 /* Bring in styleguide css files */
 // = require dit-styleguide/main
+// = require dit-styleguide/ie8
 
-/* Bring in styleguide css files */
-// = require redesign-oct-2017/static-header-footer
-// = require redesign-oct-2017/patches.css
+/* Patch for styleguide icon path issue */
+// = require dit-styleguide-patch
 
 /* New styles to be rolled into a style library */
 // = require dit-styleguide-augment/main

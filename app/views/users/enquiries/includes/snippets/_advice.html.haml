@@ -1,6 +1,6 @@
 %li
   %p.medium.margin-bottom-5 
     - if enquiry_response.enquiry.existing_exporter = 'Not yet'
-      %a{:href=>'https://www.export.great.gov.uk/new/'} Advice and guidance on exporting
+      %a{href: cms_url_for('/new')} Advice and guidance on exporting
     - else 
-      %a{:href=>'https://www.export.great.gov.uk/occasional/'} Advice and guidance on exporting
+      %a{href: cms_url_for('occasional')} Advice and guidance on exporting

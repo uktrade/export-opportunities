@@ -1,0 +1,8 @@
+/* path to images */
+#menu .ExpanderControl::before, #menu .ExpanderControl.active:before {
+  background-image: url(/static/images/icons/sprite-plus-minus.gif);
+}
+/* fixes */
+#header-menu .home img {
+  margin-bottom: 0px;
+}

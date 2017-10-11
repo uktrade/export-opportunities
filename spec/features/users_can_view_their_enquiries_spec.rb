@@ -155,7 +155,7 @@ feature 'User can view their enquiries' do
     expect(page).to have_link('Create a Trade Profile', href: 'https://find-a-buyer.export.great.gov.uk/register/company?company_number=123456')
     expect(page).to have_link('Amend your email alerts')
 
-    expect(page).to have_link('Advice and guidance on exporting', href: 'https://www.export.great.gov.uk/new/')
+    expect(page).to have_link('Advice and guidance on exporting')
     expect(page).to have_link('Contact a trade advisor', href: 'https://www.contactus.trade.gov.uk/office-finder/N0WT')
   end
 
@@ -199,8 +199,8 @@ feature 'User can view their enquiries' do
     expect(page).to have_link('Create a Trade Profile', href: 'https://find-a-buyer.export.great.gov.uk/register/company?company_number=654321')
     expect(page).to have_link('Amend your email alerts')
 
-    expect(page).to have_link('Advice and guidance on exporting', href: 'https://www.export.great.gov.uk/new/')
-    expect(page).to have_link('Get help with finance', href: 'https://www.export.great.gov.uk/get-finance/')
+    expect(page).to have_link('Advice and guidance on exporting')
+    expect(page).to have_link('Get help with finance')
     expect(page).to have_link('Contact a trade advisor', href: 'https://www.contactus.trade.gov.uk/office-finder/N0WT')
   end
 
@@ -247,12 +247,12 @@ feature 'User can view their enquiries' do
 
     expect(page).to have_link('Amend your email alerts')
 
-    expect(page).to have_link('Advice and guidance on exporting', href: 'https://www.export.great.gov.uk/new/')
+    expect(page.find('a', text: 'Advice and guidance on exporting')['href']).to have_content('/new')
     expect(page).to have_link('Read our exporting country guide to Lithuania', href: 'https://www.gov.uk/government/publications/exporting-to-lithuania')
 
     expect(page).to have_text('Additional suggestions')
     expect(page).to have_link('Create a Trade Profile', href: 'https://find-a-buyer.export.great.gov.uk/register/company?company_number=654321')
-    expect(page).to have_link('Get help with finance', href: 'https://www.export.great.gov.uk/get-finance/')
+    expect(page.find('a', text: 'Get help with finance')['href']).to have_content('/get-finance')
     expect(page).to have_link('Contact a trade advisor', href: 'https://www.contactus.trade.gov.uk/office-finder/N0WT')
   end
 
