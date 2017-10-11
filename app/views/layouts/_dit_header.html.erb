@@ -1,0 +1,93 @@
+<header id="header" class="static-header-footer"><a id="skip-link" href="#content" class="verbose">Skip to main content</a>
+  <section role="dialog" data-component="language-selector-dialog" data-lang="en" data-label="UK" data-name="English" class="language-selector-dialog">
+    <h2 id="great-languages-selector">Go to our international site</h2>
+    <p>The UK supports international trade and investment, and welcomes travellers and students from across the world.</p>
+    <div data-node="languages" class="languages">
+      <ul aria-labelledby="great-languages-selector" class="navigation">
+        <li><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/international?lang=en">English (International)</a></li>
+        <li><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/international?lang=zh">中国</a></li>
+        <li><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/international?lang=de">Deutsch</a></li>
+        <li><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/international?lang=ja">日本語</a></li>
+        <li><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/international?lang=es">Español</a></li>
+        <li><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/international?lang=fr">Français</a></li>
+        <li><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/international?lang=pt">Português</a></li>
+        <li><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/international?lang=ar">عربى</a></li>
+      </ul>
+    </div>
+  </section>
+  <div id="header-bar">
+    <div class="container top-bar">
+      <div class="account-locale-links">
+        <ul aria-label="Account links" class="navigation account-links">
+        <% if not @current_user %>
+          <li class="anonymous"><a href="<%=Figaro.env.SSO_ENDPOINT_BASE_URI %>accounts/signup" class="register">Register</a>
+          </li>
+          <li class="anonymous"><a href="<%=dashboard_path%>" class="signin">Sign in</a>
+          </li>
+        <% else %>
+          <li class="authenticated"><a href="<%=dashboard_path%>" class="profile">Profile</a>
+          </li>
+          <li class="authenticated"><a href="<%=destroy_user_session_path%>" class="signout">Sign out</a>
+          </li>
+        <% end %>
+        </ul><span class="greeting"></span>
+      </div>
+    </div>
+    <div class="container">
+      <a class="dit-logo" href="<%=Figaro.env.EXPORT_READINESS_URL %>">
+        <img src="<%=asset_path('logos/DfIT_WHITE_AW.png')%>" alt="Home">
+      </a>
+    </div>
+  </div>
+  <div id="header-menu">
+    <div class="container">
+      <nav id="menu">
+        <ul class="navigation level-1">
+          <li><a href="<%=Figaro.env.EXPORT_READINESS_URL %>">Home</a>
+          </li>
+          <li><a href="#export-readiness-links-list" id="export-readiness-links" class="list-header">Export readiness</a>
+            <ul id="export-readiness-links-list" aria-labelledby="export-readiness-links" class="navigation level-2">
+              <li class="items-3"><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/new">I&#39;m new to exporting</a>
+              </li>
+              <li class="items-3"><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/occasional">I export occasionally</a>
+              </li>
+              <li class="items-3"><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/regular">I&#39;m a regular exporter</a>
+              </li>
+            </ul>
+          </li>
+          <li><a href="#guidance-links-list" id="guidance-links" class="list-header">Guidance</a>
+            <ul id="guidance-links-list" aria-labelledby="guidance-links" class="navigation level-2">
+              <li class="items-6"><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/market-research">Market research</a>
+              </li>
+              <li class="items-6"><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/customer-insight">Customer insight</a>
+              </li>
+              <li class="items-6"><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/finance">Finance</a>
+              </li>
+              <li class="items-6"><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/business-planning">Business planning</a>
+              </li>
+              <li class="items-6"><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/getting-paid">Getting paid</a>
+              </li>
+              <li class="items-6"><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/operations-and-compliance">Operations and compliance</a>
+              </li>
+            </ul>
+          </li>
+          <li><a href="#services-links-list" id="services-links" class="list-header">Services</a>
+            <ul id="services-links-list" aria-labelledby="services-links" class="navigation level-2">
+              <li class="items-5"><a href="<%=Figaro.env.FIND_A_BUYER_URL %>">Create an export profile</a><span class="description">Get promoted internationally with a great.gov.uk trade profile</span>
+              </li>
+              <li class="items-5"><a href="<%=Figaro.env.SELLING_ONLINE_OVERSEAS_URL %>">Sell online overseas</a><span class="description">Find the right marketplace for your business and access special offers for sellers</span>
+              </li>
+              <li class="items-5"><a href="<%=Figaro.env.EXPORT_OPPORTUNITIES_URL %>">Find export opportunities</a><span class="description">Find and apply for overseas opportunities</span>
+              </li>
+              <li class="items-5"><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/get-finance">Get finance</a><span class="description">Get the finance you need to compete and grow</span>
+              </li>
+              <li class="items-5"><a href="<%=Figaro.env.EVENTS_URL %>">Attend events</a><span class="description">Sign up for networking events and trade missions</span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+</header>
