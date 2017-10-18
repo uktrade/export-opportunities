@@ -17,12 +17,6 @@
 
       = render 'enquiry_response_mailer/editable_content', enquiry_response: @enquiry_response
 
-      %h3 What next
-
-      %p Review your proposal and addtional recomendations. 
-
-      %p= link_to "#{Figaro.env.DOMAIN}/dashboard/enquiries/#{@enquiry_response.enquiry_id}", "#{Figaro.env.DOMAIN}/dashboard/enquiries/#{@enquiry_response.enquiry_id}", { :class=>"link" }
-
       %br
 
       %p The export opportunities team
