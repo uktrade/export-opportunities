@@ -12,9 +12,6 @@ describe Admin::EnquiriesController, type: :controller do
       create(:enquiry_response, enquiry: enquiry)
 
       get :index
-      # let(:opportunity) { create(:opportunity) }
-      # let(:enquiry) { create(:enquiry) }
-      # let(:enquiry_response) { create(:enquiry_response) }
     end
   end
 end

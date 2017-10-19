@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 
-ruby '2.3.4'
+ruby '2.4'
 
 gem 'rails', '4.2.10'
 gem 'bundler', '1.14.6'
-gem 'puma'
+gem 'puma', '3.8.0'
 gem 'pg'
 gem 'sidekiq'
 gem 'sidekiq-cron'

@@ -109,8 +109,18 @@ class Admin::EnquiriesController < Admin::BaseController
     end
   end
 
-  private def next_enquiry
-    enquiry = Enquiry.joins('left outer join enquiry_responses on enquiry_responses.enquiry_id = enquiries.id').where('completed_at is null').order('enquiries.created_at asc').first
-    { url: admin_enquiry_url(enquiry), id: enquiry.id } unless enquiry.nil?
+  def next_enquiry
+    query = EnquiryQuery.new(
+      scope: policy_scope(Enquiry).includes(:enquiry_response),
+      sort: EnquirySort.new(default_column: 'created_at', default_order: 'asc'),
+      page: 1,
+      per_page: 100,
+    )
+    enquiries = query.enquiries
+
+    enquiries.each do |enq|
+      return { url: admin_enquiry_url(enq), id: enq['id'] } if !enq.enquiry_response || enq.enquiry_response['completed_at'].blank?
+    end
+    return nil
   end
 end
