@@ -259,7 +259,7 @@ GEM
       binding_of_caller (>= 0.7)
       pry (>= 0.9.11)
     public_suffix (2.0.5)
-    puma (3.6.2)
+    puma (3.8.0)
     pundit (1.1.0)
       activesupport (>= 3.0.0)
     pundit-matchers (1.1.0)
@@ -477,7 +477,7 @@ DEPENDENCIES
   pry-rails
   pry-rescue
   pry-stack_explorer
-  puma
+  puma (= 3.8.0)
   pundit
   pundit-matchers
   rails (= 4.2.10)
@@ -506,7 +506,7 @@ DEPENDENCIES
   yajl-ruby
 
 RUBY VERSION
-   ruby 2.3.4p301
+   ruby 2.4.0p0
 
 BUNDLED WITH
    1.14.6

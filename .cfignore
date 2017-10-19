@@ -63,7 +63,7 @@ public/capybara.html
 application.yml
 
 # ignore vendor files
-# vendor/
+vendor/bundle/
 
 # ignoring gemfile
 # Gemfile

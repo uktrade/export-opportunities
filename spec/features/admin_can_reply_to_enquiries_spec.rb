@@ -149,7 +149,7 @@ feature 'admin can reply to enquiries' do
     click_on 'Send'
 
     expect(page).to have_content('Reply sent successfully Remember to record a new CDMS Service delivery')
-    expect(page).to have_content('You are all done, Congrats :)')
+    expect(page).to have_content('You have no more enquiries to respond to')
   end
 
   scenario 'reply to an enquiry as a previewer for the opportunity, not for third party - with js', js: true do
@@ -312,6 +312,75 @@ feature 'admin can reply to enquiries' do
     # enquiry response details should be visible
     expect(page).to have_content(enquiry_response.editor.name)
     expect(page).to have_content(enquiry_response.email_body)
+  end
+
+  scenario 'view and reply to next enquiry, unauthorised-1055 with js, uploader does not get next enquiry to reply from admin', js: true do
+    # create admin opportunity
+    admin = create(:admin)
+    admin_opportunity = create(:opportunity, author: admin)
+    create(:enquiry, opportunity: admin_opportunity)
+
+    # create uploader opportunity
+    uploader = create(:uploader)
+    opportunity = create(:opportunity, author: uploader)
+    enquiry = create(:enquiry, opportunity: opportunity)
+
+    login_as(uploader)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+    expect(page).to have_content('Email body')
+
+    email_body_text = Faker::Lorem.words(10).join('-')
+    fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
+
+    expect(page.body).to have_content(email_body_text)
+
+    page.find('#li4').click
+
+    wait_for_ajax
+
+    click_on 'Send'
+
+    expect(page).to have_content('Reply sent successfully Remember to record a new CDMS Service delivery')
+
+    # should not see the second enquiry
+    expect(page).to_not have_content('Unauthorised')
+    expect(page).to have_content('You have no more enquiries to respond to')
+  end
+
+  scenario 'view and reply to next enquiry, unauthorised-1055 with js, admin DOES get next enquiry to reply from uploader', js: true do
+    # create admin opportunity
+    admin = create(:admin)
+    admin_opportunity = create(:opportunity, author: admin)
+    create(:enquiry, opportunity: admin_opportunity)
+
+    # create uploader opportunity
+    uploader = create(:uploader)
+    opportunity = create(:opportunity, author: uploader)
+    enquiry = create(:enquiry, opportunity: opportunity)
+
+    login_as(admin)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+    expect(page).to have_content('Email body')
+
+    email_body_text = Faker::Lorem.words(10).join('-')
+    fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
+
+    expect(page.body).to have_content(email_body_text)
+
+    page.find('#li4').click
+
+    wait_for_ajax
+
+    click_on 'Send'
+
+    expect(page).to have_content('Reply sent successfully Remember to record a new CDMS Service delivery')
+
+    # should not see the second enquiry
+    expect(page).to have_content('Reply to next Enquiry')
   end
 
   # helper method to fill in our lovely ckeditor textarea
