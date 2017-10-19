@@ -17,6 +17,7 @@ RSpec.describe EnquiryResponseMailer, type: :mailer do
       expect(last_delivery.reply_to).to include(enquiry_response.editor.email)
       expect(last_delivery.parts.first.body.raw_source).to include('Your application will now move to the next stage.')
       expect(last_delivery.parts.first.body.raw_source).to include('Your application meets the criteria for this opportunity.')
+      expect(last_delivery.parts.first.body.raw_source).to include('Review your proposal and addtional recommendations')
     end
 
     it 'sends an enquiry response to the person creating the enquiry and the editor responding to it with response type 3 (NOT right for opportunity)' do
@@ -49,6 +50,8 @@ RSpec.describe EnquiryResponseMailer, type: :mailer do
       expect(last_delivery.reply_to).to include(reply_to_address)
       expect(last_delivery.parts.first.body.raw_source).to include('Your company is not UK registered.')
       expect(last_delivery.parts.first.body.raw_source).to include('include your company details')
+      expect(last_delivery.parts.first.body.raw_source).to include('Review your proposal and addtional recommendations')
+    
     end
 
     it 'sends an enquiry response to the person creating the enquiry and the editor responding to it with response type 5 (not for third party)' do
@@ -64,7 +67,7 @@ RSpec.describe EnquiryResponseMailer, type: :mailer do
       expect(last_delivery.bcc).to include(enquiry_response.editor.email)
       expect(last_delivery.reply_to).to include(reply_to_address)
       expect(last_delivery.parts.first.body.raw_source).to include('You are a third party - for example an agent, broker or other')
-      expect(last_delivery.parts.first.body.raw_source).to include('intermediary - representing another company. On this occasion the buyer')
+      expect(last_delivery.parts.first.body.raw_source).to include('Review your proposal and addtional recommendations')
     end
   end
 end
