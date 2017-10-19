@@ -64,7 +64,7 @@ RSpec.describe EnquiryResponseMailer, type: :mailer do
       expect(last_delivery.bcc).to include(enquiry_response.editor.email)
       expect(last_delivery.reply_to).to include(reply_to_address)
       expect(last_delivery.parts.first.body.raw_source).to include('You are a third party - for example an agent, broker or other')
-      expect(last_delivery.parts.first.body.raw_source).to include('intermediary - representing another company. The buyer will only')
+      expect(last_delivery.parts.first.body.raw_source).to include('intermediary - representing another company. On this occasion the buyer')
     end
   end
 end
