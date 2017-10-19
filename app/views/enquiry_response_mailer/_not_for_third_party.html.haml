@@ -18,6 +18,10 @@
 
 %p If you are representing a UK company please tell your client they must submit a proposal directly.
 
+%h3 Review your proposal and addtional recommendations
+
+%p= link_to "#{Figaro.env.DOMAIN}/dashboard/enquiries/#{@enquiry_response.enquiry_id}", "#{Figaro.env.DOMAIN}/dashboard/enquiries/#{@enquiry_response.enquiry_id}", { :class=>"link" }
+
 %br
 
 %p The export opportunities team
