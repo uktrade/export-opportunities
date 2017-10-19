@@ -1,5 +1,5 @@
 class Admin::EnquiriesController < Admin::BaseController
-  ENQUIRIES_PER_PAGE = 20
+  ENQUIRIES_PER_PAGE = 5
   include ApplicationHelper
   include ActionController::Live
   after_action :verify_authorized, except: [:help]
@@ -20,7 +20,7 @@ class Admin::EnquiriesController < Admin::BaseController
       status: @filters.selected_status,
       sort: @filters.sort,
       page: @filters.page,
-      # per_page: ENQUIRIES_PER_PAGE
+      per_page: ENQUIRIES_PER_PAGE
     )
 
     @enquiry_form = enquiry_form
@@ -30,12 +30,9 @@ class Admin::EnquiriesController < Admin::BaseController
 
     respond_to do |format|
       format.html do
-        @enquiries = @enquiries.includes(:opportunity)
+        @enquiries = @enquiries.includes(:opportunity).page(params[:paged])
 
         @next_enquiry = next_enquiry if params[:reply_sent]
-
-        @enquiries = @enquiries.page(params[:paged])
-
       end
       format.csv do
         @enquiries = policy_scope(Enquiry).all.order(created_at: :desc)
@@ -117,7 +114,7 @@ class Admin::EnquiriesController < Admin::BaseController
       scope: policy_scope(Enquiry).includes(:enquiry_response),
       sort: EnquirySort.new(default_column: 'created_at', default_order: 'asc'),
       page: 1,
-      per_page: 1,
+      per_page: 100,
     )
     enquiries = query.enquiries
 

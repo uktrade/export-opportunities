@@ -39,6 +39,36 @@ feature 'admin can view enquiries' do
     expect(page).to have_content(enquiry.company_name)
   end
 
+  scenario 'viewing a list of all NOT replied enquiries and all replied enquiries as an uploader' do
+    uploader = create(:editor, role: 1, service_provider: ServiceProvider.create(name:'athena'))
+    opportunity = create(:opportunity, service_provider: uploader.service_provider)
+
+    enquiry = create(:enquiry, opportunity: opportunity)
+    another_enquiry = create(:enquiry, opportunity: opportunity)
+    es = create(:enquiry_response, response_type: 1, enquiry: enquiry)
+    # because it's a hash
+    es['completed_at'] = Time.zone.now
+    es.save!
+
+    login_as(uploader)
+    visit admin_opportunities_path
+
+    click_on 'Enquiries'
+
+    expect(page).to have_content(enquiry.company_name)
+    expect(page).to have_content(another_enquiry.company_name)
+
+    click_on 'To reply'
+    expect(page).to_not have_content(enquiry.company_name)
+    expect(page).to have_content('7 days left')
+    expect(page).to have_content(another_enquiry.company_name)
+
+    click_on 'Replied'
+
+    expect(page).to have_content('Replied 0 days after')
+    expect(page).to have_content(enquiry.company_name)
+  end
+
   scenario 'viewing which enquiries are replied' do
     admin = create(:admin)
 

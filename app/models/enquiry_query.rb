@@ -21,16 +21,18 @@ class EnquiryQuery
     query = query.order(order_sql)
 
     if @status == 'replied'
-      query = query.joins(:enquiry_response).where.not(enquiry_responses: { id: nil })
+      query = query.joins('left outer join enquiry_responses on enquiry_responses.enquiry_id=enquiries.id')
+      query = query.where('enquiry_responses.id is not null')
     elsif @status == 'not_replied'
-      query = query.includes(:enquiry_response).where(enquiry_responses: { id: nil })
+      query = query.joins('left outer join enquiry_responses on enquiry_responses.enquiry_id=enquiries.id')
+      query = query.where('enquiry_responses.id is null')
     end
 
     # Secondary sort order to prevent pagination weirdness
     query = query.order(created_at: :desc)
 
     # Without an argument, .count will produce invalid SQL in this context
-    # byebug
+
     @count = query.count(:all)
 
     query.page(@page).per(@per_page)
