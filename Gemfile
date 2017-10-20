@@ -76,6 +76,9 @@ gem 'carrierwave'
 # rest client for antivirus scanning
 gem 'rest-client'
 
+# force hostname in rack level
+gem 'rack-canonical-host'
+
 group :development, :test do
   gem 'byebug'
   gem 'pry-rescue'
