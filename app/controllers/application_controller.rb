@@ -5,6 +5,14 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActionController::InvalidAuthenticityToken, with: :invalid_authenticity_token
 
+  def default_url_options
+    if Rails.env.production?
+      {host: Figaro.env.domain!}
+    else
+      {host: 'http://localhost:3000'}
+    end
+  end
+
   def basic_auth
     return unless Figaro.env.staging_http_user? && Figaro.env.staging_http_pass?
     authenticate_or_request_with_http_basic do |name, password|
