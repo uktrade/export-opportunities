@@ -73,9 +73,9 @@ class ApplicationController < ActionController::Base
     result = res_opportunities_count && res_subscriptions_count
     case result
     when true
-      render json: { status: 'OK', result: res }, status: 200
+      render json: { git_revision: ExportOpportunities::REVISION, status: 'OK', result: res }, status: 200
     else
-      render json: { status: 'error', result: res }, status: 500
+      render json: { git_revision: ExportOpportunities::REVISION, status: 'error', result: res }, status: 500
     end
   end
 

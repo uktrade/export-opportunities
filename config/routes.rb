@@ -1,5 +1,3 @@
-Rails.application.routes.default_url_options[:host] = Figaro.env.domain!
-
 Rails.application.routes.draw do
   if Rails.env.development?
     require 'sidekiq/web'
