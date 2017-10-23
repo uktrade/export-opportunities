@@ -3,7 +3,7 @@ class EnquiryResponseSender
     enquiry_response_type = enquiry_response.response_type
     @enquiry = enquiry
     editor_email = enquiry_response.editor.email
-    no_reply_address = 'noreply@export.great.gov.uk'
+    no_reply_address = Figaro.env.MAILER_FROM_ADDRESS!
 
     reply_to_address = if [1, 2].include? enquiry_response_type
                          editor_email.to_s
