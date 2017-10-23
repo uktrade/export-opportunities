@@ -16,7 +16,7 @@ RSpec.describe DraftStatusMailer, type: :mailer do
       expect(last_delivery.body.encoded).to include(edit_admin_opportunity_path(opportunity))
 
       expect(last_delivery.to).to include(Editor.find(opportunity.author_id).email)
-      expect(last_delivery.from).to include('notifications@export.great.gov.uk')
+      expect(last_delivery.from).to include('exportopportunities@trade.gsi.gov.uk')
       expect(last_delivery.bcc).to include(editor.email)
     end
   end
