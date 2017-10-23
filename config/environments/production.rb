@@ -87,7 +87,7 @@ Rails.application.configure do
     authentication: :login,
     user_name: Figaro.env.AMAZON_SES_USERNAME!,
     password: Figaro.env.AMAZON_SES_PASSWORD!,
-    domain: Figaro.env.MAILER_DOMAIN!,
+    # domain: Figaro.env.MAILER_DOMAIN!,
     enable_starttls_auto: true,
   }
 
