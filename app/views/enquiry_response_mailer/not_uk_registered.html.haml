@@ -18,6 +18,10 @@
 - if @enquiry_response.enquiry.opportunity.expired?
   %p This opportunity expired on #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
 
+%h3 Review your proposal and additional recommendations 
+
+%p= link_to "#{Figaro.env.DOMAIN}/dashboard/enquiries/#{@enquiry_response.enquiry_id}", "#{Figaro.env.DOMAIN}/dashboard/enquiries/#{@enquiry_response.enquiry_id}", { class: 'link' } 
+
 %br
 
 %p The export opportunities team
