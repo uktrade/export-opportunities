@@ -114,13 +114,13 @@ class Admin::EnquiriesController < Admin::BaseController
       scope: policy_scope(Enquiry).includes(:enquiry_response),
       sort: EnquirySort.new(default_column: 'created_at', default_order: 'asc'),
       page: 1,
-      per_page: 100,
+      per_page: 100
     )
     enquiries = query.enquiries
 
     enquiries.each do |enq|
       return { url: admin_enquiry_url(enq), id: enq['id'] } if !enq.enquiry_response || enq.enquiry_response['completed_at'].blank?
     end
-    return nil
+    nil
   end
 end

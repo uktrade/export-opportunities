@@ -18,6 +18,8 @@
 - if @enquiry_response.enquiry.opportunity.expired?
   %p This opportunity expired on #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
 
+%br
+
 %p The export opportunities team
 
 =render partial:'enquiry_response_mailer/submit_buttons' unless @mailer_view

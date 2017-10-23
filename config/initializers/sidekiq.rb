@@ -1,3 +1,6 @@
+require 'sidekiq'
+require 'sidekiq/web'
+
 Sidekiq.configure_server do |config|
   config.redis = { url: Figaro.env.redis_url! }
   schedule_file = 'config/sidekiq_schedule.yml'
@@ -9,4 +12,8 @@ end
 
 Sidekiq.configure_client do |config|
   config.redis = { url: Figaro.env.redis_url! }
+end
+
+Sidekiq::Web.use(Rack::Auth::Basic) do |user, password|
+  [user, password] == [Figaro.env.sidekiq_username!, Figaro.env.sidekiq_password!]
 end

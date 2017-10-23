@@ -40,7 +40,7 @@ feature 'admin can view enquiries' do
   end
 
   scenario 'viewing a list of all NOT replied enquiries and all replied enquiries as an uploader' do
-    uploader = create(:editor, role: 1, service_provider: ServiceProvider.create(name:'athena'))
+    uploader = create(:editor, role: 1, service_provider: ServiceProvider.create(name: 'athena'))
     opportunity = create(:opportunity, service_provider: uploader.service_provider)
 
     enquiry = create(:enquiry, opportunity: opportunity)
