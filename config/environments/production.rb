@@ -82,12 +82,12 @@ Rails.application.configure do
   # }
 
   config.action_mailer.smtp_settings = {
-    address: 'email-smtp.eu-west-1.amazonaws.com',
-    port: '25',
+    address: Figaro.env.MAILER_HOST!,
+    port: Figaro.env.MAILER_PORT!,
     authentication: :login,
     user_name: Figaro.env.AMAZON_SES_USERNAME!,
     password: Figaro.env.AMAZON_SES_PASSWORD!,
-    # domain: Figaro.env.MAILER_DOMAIN!,
+    domain: Figaro.env.MAILER_DOMAIN!,
     enable_starttls_auto: true,
   }
 
