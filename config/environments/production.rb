@@ -84,7 +84,7 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address: Figaro.env.MAILER_HOST!,
     port: Figaro.env.MAILER_PORT!,
-    authentication: :plain,
+    authentication: :login,
     user_name: Figaro.env.AMAZON_SES_USERNAME!,
     password: Figaro.env.AMAZON_SES_PASSWORD!,
     # domain: Figaro.env.MAILER_DOMAIN!,
