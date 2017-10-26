@@ -8,6 +8,6 @@ class DraftStatusMailer < ApplicationMailer
     @opportunity_edit_path = edit_admin_opportunity_url(opportunity)
     @opportunity = opportunity
 
-    mail from: 'exportopportunities@trade.gsi.gov.uk', name: 'Export opportunities', sender: Figaro.env.MAILER_FROM_ADDRESS!, to: opportunity_author.email, bcc: editor_email, subject: 'Returned to draft. Action required'
+    mail name: 'Export opportunities', from: Figaro.env.MAILER_FROM_ADDRESS!, to: opportunity_author.email, bcc: editor_email, subject: 'Returned to draft. Action required'
   end
 end

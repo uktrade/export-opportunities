@@ -72,7 +72,7 @@ Rails.application.configure do
   # Where emails are sent from
   config.action_mailer.delivery_method = :smtp
 
-  if Figaro.env.AMAZON_SES_USERNAME! && Figaro.env.AMAZON_SES_PASSWORD!
+  if Figaro.env.AMAZON_SES_USERNAME && Figaro.env.AMAZON_SES_PASSWORD
     config.action_mailer.smtp_settings = {
       address: Figaro.env.MAILER_HOST!,
       port: Figaro.env.MAILER_PORT!,

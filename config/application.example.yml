@@ -11,6 +11,7 @@ DOMAIN: "http://localhost:3000"
 MAILER_HOST: "127.0.0.1"
 MAILER_PORT: "1025"
 MAILER_FROM_ADDRESS: "develop@exportingisgreat.gov.uk"
+MAILER_NOREPLY_ADDRESS: 'noreply@exportingisgreat.gov.uk'
 
 # Redis
 REDIS_URL: redis://localhost:6379
