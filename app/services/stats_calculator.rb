@@ -61,6 +61,7 @@ class StatsCalculator
     opportunities_published = Opportunity.where(service_provider_id: service_providers.map(&:id), first_published_at: date_range)
     enquiries = Enquiry.joins(:opportunity).where(opportunities: { service_provider_id: service_providers.map(&:id) }, created_at: date_range).count
     enquiry_response = Enquiry.joins(:enquiry_response).joins(:opportunity).where(opportunities: { service_provider_id: service_providers.map(&:id) }, enquiry_response: { created_at: date_range }).where.not(enquiry_response: { completed_at: nil }).select('count(*)')
+    byebug
     [opportunities_submitted, opportunities_published, enquiries, enquiry_response]
   end
 
