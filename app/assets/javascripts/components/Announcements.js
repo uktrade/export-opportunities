@@ -1,24 +1,39 @@
+/* globals A11yDialog, Cookies */
+
 var ukti = window.ukti || {};
 
-ukti.announcements = (function($) {
+ukti.announcements = (function(A11yDialog, Cookies) {
   'use strict';
 
-  var currentUpdateCode = 'update-feb-2017-seen';
-  var previousUpdateCode = 'update-march-2017-seen';
+  var config = {
+    DAYS_TO_EXPIRY: 14,
+    COOKIE_NAME : 'UPDATE-APRIL-2017-ACCEPTED' // change this when you want to make a new announcement
+  };
 
-  Cookies.set(currentUpdateCode, 'true', { expires: 7 });
+  var makeAnnouncement = function () {
+    var el = document.getElementById('my-accessible-dialog');
+    var dialogue = new A11yDialog(el);
+    dialogue.show();
+    setCookie();
+  };
+
+  var userHasReadLatestUpdate = function () {
+    return Cookies.get(config.COOKIE_NAME);
+  };
+
+  var setCookie = function () {
+    Cookies.set(config.COOKIE_NAME, 'true', { expires: config.DAYS_TO_EXPIRY });
+  };
 
   var init = function () {
-    var el = document.getElementById('my-accessible-dialog');
-    var dialog = new A11yDialog(el);
-    // Show the dialog
-    dialog.show();
-    // Hide the dialog
-    //dialog.hide();
+    if (userHasReadLatestUpdate()) {
+      return;
+    }
+    makeAnnouncement();
   };
 
   return {
     init: init
   };
 
-})();
+})(A11yDialog, Cookies);

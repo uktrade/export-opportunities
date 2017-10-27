@@ -1,25 +1,33 @@
 <!--
-  Dialog container related notes:
-  - It is not the actual dialog window, just the container with which the script interacts.
-  - It has to have the `aria-hidden="true"` attribute (if omitted, the script
-  will add it on instantiation anyway).
-  - It can have a different id than `my-accessible-dialog`, but it needs an `id`
-  anyway.
+  Dialogue container
 -->
 <div class="dialog" aria-hidden="true" id="my-accessible-dialog">
   <div class="dialog-overlay" tabindex="-1" data-a11y-dialog-hide></div>
   <div class="dialog-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription" role="dialog">
     <div role="document">
-      <button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialog window">&times;</button>
+      <!--<button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialogue window">&times;</button>-->
 
-      <h1 id="dialogTitle">Updates</h1>
+      <h1 id="dialogTitle">October 2017 service update</h1>
 
-      <p id="dialogDescription">We have some new updates</p>
+      <span class="dialogueMeta">Published on:  23rd October 2017</span>
 
-      <form action="/admin" method="get" target="_blank">
-        <label for="email">Read?</label>
-        <input type="checkbox" name="EMAIL" id="email" placeholder="john.doe@gmail.com" required>
-        <button type="submit" name="button">Agree</button>
+      <p id="dialogDescription">Hi, [your name], we've introduced some changes to the service:  </p>
+
+      <ul>
+        <li>Admin Centre - respond to UK companies directly by choosing 1 of 4 responses</li>
+        <li>see which enquiries you have replied to, and which still need a response</li>
+        <li>writing guidance has changed – see the 2 new sign off lines</li>
+        <li>Public Site - designed a 'Single Application View' for UK companies which lets them access  all their proposals from one place, and includes suggested next steps and  recommendations</li>
+      </ul>
+
+      <form action="/admin" method="get" target="_self">
+        <div class="multiple-choice">
+          <input id="waste-type-1" name="waste-types" type="checkbox" value="waste-animal">
+          <label for="waste-type-1">I agree</label>
+        </div>
+        <div class="form-group">
+          <input class="button" value="Continue"></input>
+        </div>
       </form>
     </div>
   </div>
