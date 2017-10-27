@@ -59,6 +59,7 @@
 
       = content_for?(:content) ? yield(:content) : yield
 
+    = render 'admin/includes/dialogue'
     = javascript_include_tag 'modernizr.min'
     = javascript_include_tag 'application'
     = javascript_include_tag 'admin'

@@ -9,6 +9,8 @@ ukti.config = {
 $('body').addClass('js-enabled');
 
 $('document').ready(function() {
+    // announcements
+    ukti.announcements.init();
     // Toggle hidden content
     var showHideContent = new GOVUK.ShowHideContent();
     showHideContent.init();
