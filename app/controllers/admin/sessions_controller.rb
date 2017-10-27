@@ -1,12 +1,14 @@
 class Admin::SessionsController < Devise::SessionsController
   def after_sign_in_path_for(resource)
     loc = stored_location_for(resource)
-    if loc
-      loc.include?('/admin/help') ? loc : admin_opportunities_path
-    else
-      admin_opportunities_path
+    pp "location to redirect:"
+    pp loc
+    pp admin_opportunities_path
+    return loc if loc
+      # loc.include?('/admin/help') || loc.include?('/admin/enquiries') ? loc : admin_opportunities_path
+    admin_opportunities_path
     end
-  end
+
 
   def after_sign_out_path_for(_resource)
     new_editor_session_path

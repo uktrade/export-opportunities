@@ -2,8 +2,8 @@ class Admin::BaseController < ApplicationController
   include Pundit
   after_action :verify_authorized
 
-  before_action :authenticate_editor!
-  before_action :sign_out_if_deactivated!
+  # before_action :authenticate_editor!
+  # before_action :sign_out_if_deactivated!
   before_action :set_raven_context
 
   layout 'admin'
@@ -20,7 +20,8 @@ class Admin::BaseController < ApplicationController
   private
 
   def sign_out_if_deactivated!
-    if current_editor.deactivated?
+    # redirect_to new_editor_session_path unless current_editor
+    if current_editor && current_editor.deactivated?
       sign_out(current_editor)
       redirect_to new_editor_session_path
     end

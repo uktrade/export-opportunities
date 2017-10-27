@@ -55,6 +55,11 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :enquiries, only: [:index, :show, :new, :create, :edit, :update] do
+      authenticated :editor do
+      end
+    end
+
     resources :opportunities, only: [:index, :show, :new, :create, :edit, :update] do
       authenticated :editor do
         collection do

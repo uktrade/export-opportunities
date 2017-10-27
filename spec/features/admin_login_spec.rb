@@ -7,6 +7,14 @@ feature 'Logging in as an admin' do
     expect_editor_to_be_logged_out
   end
 
+  scenario 'Unauthenticated editor visits help and enquiries pages' do
+    visit '/admin/help/opportunities'
+    expect_editor_to_be_logged_out
+    visit '/admin/enquiries'
+    expect(page).to_not have_text('This page cannot be found')
+    expect(page).to have_text('Log in')
+  end
+
   scenario 'Logging in successfully' do
     create(:editor, email: 'email@example.com', password: 'wibble-sidecar-sling')
 
