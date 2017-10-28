@@ -1,34 +1,45 @@
 <!--
   Dialogue container
 -->
-<div class="dialog" aria-hidden="true" id="my-accessible-dialog">
+<div class="dialog" aria-hidden="true" id="announcement-dialog">
   <div class="dialog-overlay" tabindex="-1" data-a11y-dialog-hide></div>
   <div class="dialog-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription" role="dialog">
     <div role="document">
-      <!--<button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialogue window">&times;</button>-->
+      <div class="grid-row">
+        <div class="column-two-thirds">
+          <!--<button data-a11y-dialog-hide class="dialog-close" aria-label="Close this dialogue window">&times;</button>-->
 
-      <h1 id="dialogTitle">October 2017 service update</h1>
+          <h1 class="dialogue__title">October 2017 service update</h1>
 
-      <span class="dialogueMeta">Published on:  23rd October 2017</span>
+          <div class="metadata">
+            <dl>
+              <dt> Published by:</dt>
+              <dd>7th September 2017</dd>
+            <dl>
+          </div>
 
-      <p id="dialogDescription">Hi, [your name], we've introduced some changes to the service:  </p>
+          <p class="dialogue__p">Hi, <% %>, we've introduced some changes to the service:  </p>
 
-      <ul>
-        <li>Admin Centre - respond to UK companies directly by choosing 1 of 4 responses</li>
-        <li>see which enquiries you have replied to, and which still need a response</li>
-        <li>writing guidance has changed – see the 2 new sign off lines</li>
-        <li>Public Site - designed a 'Single Application View' for UK companies which lets them access  all their proposals from one place, and includes suggested next steps and  recommendations</li>
-      </ul>
+          <ul class="list list-bullet">
+            <li>Admin Centre - respond to UK companies directly by choosing 1 of 4 responses</li>
+            <li>see which enquiries you have replied to, and which still need a response</li>
+            <li>writing guidance has changed – see the 2 new sign off lines</li>
+            <li>Public Site - designed a 'Single Application View' for UK companies which lets them access  all their proposals from one place, and includes suggested next steps and  recommendations</li>
+          </ul>
 
-      <form action="/admin" method="get" target="_self">
-        <div class="multiple-choice">
-          <input id="waste-type-1" name="waste-types" type="checkbox" value="waste-animal">
-          <label for="waste-type-1">I agree</label>
+          <form action="/admin" method="get" target="_self" class="dialogue__form">
+            <div class="form-group">
+              <div class="multiple-choice">
+                <input id="announcement-accept" name="announcement-accept" type="checkbox" value="true">
+                <label for="announcement-accept">I have read the service update</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <input type="submit" name="commit" value="Continue" class="button">
+            </div>
+          </form>
         </div>
-        <div class="form-group">
-          <input class="button" value="Continue"></input>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>

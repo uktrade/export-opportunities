@@ -25,11 +25,12 @@
   position: fixed;
   top: 140px;
   left: 0;
+  padding: 0em 1em;
 }
 
 @media screen and (min-width: 700px) {
   .dialog-content {
-    padding: 2em;
+    padding: 0em 2em;
   }
 }
 
