@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.4.0'
+ruby '2.4'
 
 gem 'rails', '4.2.10'
 gem 'bundler', '1.14.6'
@@ -8,6 +8,7 @@ gem 'puma', '3.8.0'
 gem 'pg'
 gem 'sidekiq'
 gem 'sidekiq-cron'
+gem 'sidekiq-failures'
 gem 'redis'
 gem 'redis-namespace'
 gem 'faraday'
@@ -33,6 +34,7 @@ gem 'kaminari'
 gem 'faraday_middleware-aws-signers-v4'
 gem 'elasticsearch-rails', '0.1.9'
 gem 'elasticsearch-model', '0.1.9'
+gem 'devise_security_extension'
 
 # Styling
 gem 'bourbon'
