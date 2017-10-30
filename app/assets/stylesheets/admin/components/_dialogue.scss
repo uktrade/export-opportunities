@@ -22,7 +22,7 @@
 
 .dialog-content {
   z-index: 3;
-  position: fixed;
+  position: absolute;
   top: 140px;
   left: 0;
   padding: 0em 1em;
@@ -42,6 +42,8 @@
   letter-spacing: 0.2px;
   text-align: left;
   color: #333333;
+  margin-top: 0.625em;
+  margin-bottom: 0.625em;
 }
 
 .dialog .meta {

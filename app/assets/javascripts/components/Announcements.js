@@ -12,20 +12,29 @@ ukti.announcements = (function(A11yDialog, Cookies) {
 
   var el,
       form,
-      dialogue;
+      dialogue,
+      mainEl;
 
   var cacheElements = function () {
+    mainEl = document.getElementById('content');
     el = document.getElementById('announcement-dialog');
     form = el.querySelector( '.dialogue__form' );
   };
 
   var makeAnnouncement = function () {
-    addListeners();
     dialogue = new A11yDialog(el);
+    addListeners();
     dialogue.show();
   };
 
   var addListeners = function() {
+    dialogue.on('show', function (dialogEl, event) {
+      mainEl.classList.add('hidden');
+    });
+
+    dialogue.on('hide', function (dialogEl, event) {
+      mainEl.classList.remove('hidden');
+    });
     form.addEventListener('submit', handleFormSubmit);
   };
 
@@ -47,21 +56,15 @@ ukti.announcements = (function(A11yDialog, Cookies) {
   };
 
   var init = function () {
+    cacheElements();
     if (!el) {
       return;
     }
     if (userHasAcceptedAnnouncement()) {
       return;
     }
-    cacheElements();
     makeAnnouncement();
   };
-
-  //suppress on CI
-
-  // page.driver.browser.set_cookie("auth_token=#{user.auth_token}")
-  // suppress announcement flag? or nag?
-  // https://stackoverflow.com/questions/4770025/how-to-disable-scrolling-temporarily
 
   return {
     init: init

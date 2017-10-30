@@ -80,6 +80,8 @@ Rails.application.routes.draw do
       get 'impact_email' => 'reports_controller#impact_email'
     end
 
+    get 'updates' => 'updates#index'
+
     root to: redirect('/admin/opportunities')
   end
 
