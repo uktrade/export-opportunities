@@ -47,15 +47,17 @@ ukti.announcements = (function(A11yDialog, Cookies) {
   };
 
   var init = function () {
-    cacheElements();
     if (!el) {
       return;
     }
     if (userHasAcceptedAnnouncement()) {
       return;
     }
+    cacheElements();
     makeAnnouncement();
   };
+
+  //suppress on CI
 
   // page.driver.browser.set_cookie("auth_token=#{user.auth_token}")
   // suppress announcement flag? or nag?
