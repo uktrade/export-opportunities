@@ -34,7 +34,7 @@
     %td
       .inline
         .inline-item
-          =@opportunity.status&.titleize
+          =opportunity_status_link(@opportunity.status)
         - if @publishing_button_data.show
           .inline-item
             =button_to(@publishing_button_data.text, @publishing_button_data.path, method: :patch, params: @publishing_button_data.params, class: "button")

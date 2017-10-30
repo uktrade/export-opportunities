@@ -70,7 +70,7 @@
           = link_to opportunity_link_text, admin_opportunity_path(opportunity)
           - if opportunity.expired?
             %span.expired Expired
-        %td= opportunity.status&.titleize
+        %td= opportunity_status_link(opportunity.status)
         %td= opportunity.service_provider&.name
         %td.numeric= opportunity.enquiries.size
         %td.numeric= opportunity.created_at.to_s(:admin_datetime)
