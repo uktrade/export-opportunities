@@ -25,6 +25,8 @@ deployment:
       - heroku run rake db:migrate --app staging-new-design-eig:
           timeout: 400
 machine:
+  ruby:
+    version: 2.4.0
   services:
     - 'redis'
 dependencies:
