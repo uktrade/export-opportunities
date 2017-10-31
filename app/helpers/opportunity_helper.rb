@@ -1,5 +1,4 @@
 module OpportunityHelper
-
   def toggle_show_expired_link(label, show_expired:)
     show_expired = nil unless show_expired == true
     link_to label, session[:opportunity_filters].merge(show_expired: show_expired)
@@ -10,7 +9,7 @@ module OpportunityHelper
     when 'publish' then 'Published'
     when 'trash' then 'Trashed'
     when 'pending' then 'Pending'
-    when 'draft' then 'Draft'   
+    when 'draft' then 'Draft'
     else
       string.to_s.titleize
     end
