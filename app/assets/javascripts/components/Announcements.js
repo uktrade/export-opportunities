@@ -6,8 +6,9 @@ ukti.announcements = (function(A11yDialog, Cookies) {
   'use strict';
 
   var config = {
-    DAYS_TO_EXPIRY: 31,
-    COOKIE_NAME : 'UPDATE-APRIL-2017-ACCEPTED' // change this when you want to make a new announcement
+    EXCLUDE_PATHS : ['/admin/updates'],
+    DAYS_TO_EXPIRY: 90,
+    COOKIE_NAME : 'UPDATE-NOVEMBER-2017-ACCEPTED' // change this when you want to make a new announcement
   };
 
   var el,
@@ -51,19 +52,31 @@ ukti.announcements = (function(A11yDialog, Cookies) {
     return Cookies.get(config.COOKIE_NAME);
   };
 
+  var includeCurrentPage = function () {
+    var path = window.location.pathname;
+    return !config.EXCLUDE_PATHS.indexOf(path);
+  };
+
   var setUserHasAcceptedAnnouncement = function () {
     Cookies.set(config.COOKIE_NAME, 'true', { expires: config.DAYS_TO_EXPIRY });
   };
 
-  var init = function () {
-    cacheElements();
+  var determineIfAnnouncementRequired = function () {
+    if (userHasAcceptedAnnouncement() ) {
+      return;
+    }
+    if (includeCurrentPage() ) {
+      return;
+    }
     if (!el) {
       return;
     }
-    if (userHasAcceptedAnnouncement()) {
-      return;
-    }
     makeAnnouncement();
+  };
+
+  var init = function () {
+    cacheElements();
+    determineIfAnnouncementRequired();
   };
 
   return {

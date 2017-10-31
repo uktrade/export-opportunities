@@ -7,7 +7,7 @@
 }
 
 /* -------------------------------------------------------------------------- *\
- * Styling to make the dialog look like a dialog
+ * Styling of dialogue
  * -------------------------------------------------------------------------- */
 
 .dialog-overlay {
@@ -34,8 +34,7 @@
   }
 }
 
-.dialog h1 {
-  font-family: Roboto;
+.dialogue__title {
   font-size: 48px;
   font-weight: bold;
   line-height: 1.21;
@@ -47,7 +46,6 @@
 }
 
 .dialog .meta {
-  font-family: Roboto;
   font-size: 16px;
   line-height: 1.44;
   text-align: left;
@@ -60,7 +58,7 @@
   color: #333333;
 }
 
-.dialog .list {
+.dialogue__list  {
   font-size: 16px;
   line-height: 1.44;
   color: #333333;
