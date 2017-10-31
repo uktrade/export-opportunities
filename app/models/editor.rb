@@ -10,7 +10,7 @@ class Editor < ActiveRecord::Base
 
   devise :database_authenticatable,
     :recoverable, :rememberable, :trackable, :validatable,
-    :registerable, :confirmable, :async, :lockable
+    :registerable, :confirmable, :async, :lockable, :session_limitable
 
   validates :password, strong_password: true, if: :password_required?
 
