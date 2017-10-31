@@ -1,42 +1,45 @@
 <!--
   Dialogue container
 -->
-<div class="dialog" aria-hidden="true" id="announcement-dialog">
-  <div class="dialog-overlay" tabindex="-1" data-a11y-dialog-hide></div>
-  <div class="dialog-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription" role="dialog">
+<div class="dialogue" aria-hidden="true" id="announcement-dialog">
+  <div class="dialogue-overlay" tabindex="-1" data-a11y-dialog-hide></div>
+  <div class="dialogue-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription" role="dialog">
     <div role="document">
       <div class="grid-row">
         <div class="column-two-thirds">
 
           <h1 class="dialogue__title">October 2017 service update</h1>
 
-          <div class="metadata">
+          <div class="dialogue__metadata metadata">
             <dl>
               <dt>Published on:</dt>
               <dd>30th October 2017</dd>
             <dl>
           </div>
 
-          <p class="dialogue__p">We've introduced some changes to the service:  </p>
+          <div class="dialogue__content">
 
-          <ul class="list list-bullet">
-            <li>respond to UK companies directly by choosing 1 of 4 responses</li>
-            <li>see which enquiries you have replied to, and which still need a response</li>
-            <li>writing guidance has changed – see the 2 new sign off lines</li>
-            <li>Public Site - designed a 'Single Application View' for UK companies which lets them access  all their proposals from one place, and includes suggested next steps and  recommendations</li>
-          </ul>
+            <p class="dialogue__p">We've introduced some changes to the service:  </p>
 
-          <form action="/admin" method="get" target="_self" class="dialogue__form">
-            <div class="form-group">
-              <div class="multiple-choice">
-                <input id="announcement-accept" name="announcement-accept" type="checkbox" value="true">
-                <label for="announcement-accept">I have read the service update</label>
+            <ul class="dialogue__list list list-bullet">
+              <li>respond to UK companies directly by choosing 1 of 4 responses</li>
+              <li>see which enquiries you have replied to, and which still need a response</li>
+              <li>writing guidance has changed – see the 2 new sign off lines</li>
+              <li>Public Site - designed a 'Single Application View' for UK companies which lets them access  all their proposals from one place, and includes suggested next steps and  recommendations</li>
+            </ul>
+
+            <form action="/admin" method="get" target="_self" class="dialogue__form">
+              <div class="form-group">
+                <div class="multiple-choice">
+                  <input id="announcement-accept" name="announcement-accept" type="checkbox" value="true">
+                  <label for="announcement-accept">I have read the service update</label>
+                </div>
               </div>
-            </div>
-            <div class="form-group">
-              <input type="submit" name="commit" value="Continue" class="button">
-            </div>
-          </form>
+              <div class="form-group">
+                <input type="submit" name="commit" value="Continue" class="button">
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

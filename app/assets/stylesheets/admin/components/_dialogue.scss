@@ -2,7 +2,7 @@
  * Necessary styling for the dialog to work
  * -------------------------------------------------------------------------- */
 
-.dialog[aria-hidden="true"] {
+.dialogue[aria-hidden="true"] {
   display: none;
 }
 
@@ -10,7 +10,7 @@
  * Styling of dialogue
  * -------------------------------------------------------------------------- */
 
-.dialog-overlay {
+.dialogue-overlay {
   z-index: 2;
   background-color: white;
   position: fixed;
@@ -20,7 +20,7 @@
   right: 0;
 }
 
-.dialog-content {
+.dialogue-content {
   z-index: 3;
   position: absolute;
   top: 140px;
@@ -29,56 +29,58 @@
 }
 
 @media screen and (min-width: 700px) {
-  .dialog-content {
+  .dialogue-content {
     padding: 0em 2em;
   }
 }
 
-.dialogue__title {
-  font-size: 48px;
-  font-weight: bold;
-  line-height: 1.21;
-  letter-spacing: 0.2px;
-  text-align: left;
-  color: #333333;
-  margin-top: 0.625em;
-  margin-bottom: 0.625em;
-}
+/* -------------------------------------------------------------------------- *\
+ * Styling of dialogue body
+ * -------------------------------------------------------------------------- */
 
-.dialog .meta {
+.dialogue {
+  &__title {
+    font-size: 48px;
+    font-weight: bold;
+    line-height: 1.21;
+    letter-spacing: 0.2px;
+    text-align: left;
+    color: #333333;
+    margin-top: 10px;
+    margin-bottom: 15px;
+  }
+  &__metadata {
+    font-size: 16px;
+    line-height: 1.44;
+    text-align: left;
+    color: #333333;
+  }
+  &__content {
+    margin-top: 45px;
+  }
+  &__p {
+    font-size: 16px;
+    line-height: 1.44;
+    color: #333333;
+  }
+  &__list {
   font-size: 16px;
   line-height: 1.44;
-  text-align: left;
   color: #333333;
-}
-
-.dialpog .para {
+  margin-top: 15px;
+  }
+  &__form {
+    margin-top: 45px;
+  }
+  &__label {
   font-size: 16px;
   line-height: 1.44;
   color: #333333;
-}
-
-.dialogue__list  {
-  font-size: 16px;
-  line-height: 1.44;
-  color: #333333;
-}
-
-.dialog .label {
-  font-size: 16px;
-  line-height: 1.44;
-  color: #333333;
-}
-
-@media screen and (min-width: 700px) {
-  .dialog-close {
-    top: 1em;
-    right: 1em;
   }
 }
 
 /* -------------------------------------------------------------------------- *\
- * Extra dialog styling for modals
+ * Extra styling for modals
  * -------------------------------------------------------------------------- */
 
 .modal-overlay {
@@ -116,5 +118,11 @@
   text-align: center;
   cursor: pointer;
   transition: 0.15s;
+}
+@media screen and (min-width: 700px) {
+  .modal-close {
+    top: 1em;
+    right: 1em;
+  }
 }
 
