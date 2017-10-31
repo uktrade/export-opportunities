@@ -3,7 +3,7 @@ test:
     - RAILS_ENV=test bundle exec rspec -r rspec_junit_formatter --format progress --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml
 deployment:
   continuous-deployment:
-    branch: fix/missing-SAV-link
+    branch: feature/1087-announcements
     commands:
       - "[[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow"
       - git push -f git@heroku.com:${CIRCLE_PROJECT_REPONAME}-cont-depl.git ${CIRCLE_BRANCH}:master
@@ -25,6 +25,8 @@ deployment:
       - heroku run rake db:migrate --app staging-new-design-eig:
           timeout: 400
 machine:
+  ruby:
+    version: 2.4.0
   services:
     - 'redis'
 dependencies:
