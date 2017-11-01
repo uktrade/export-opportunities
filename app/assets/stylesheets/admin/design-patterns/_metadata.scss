@@ -17,7 +17,7 @@
     float: left;
     clear: left;
     width: auto;
-    min-width: 120px
+    color: #6f777b;
 }
 
 @media (min-width: 641px) {
@@ -28,7 +28,8 @@
 
 .metadata dd {
     float: left;
-    width: 55%
+    width: 55%;
+    color: #6f777b;
 }
 
 @media (min-width: 641px) {
