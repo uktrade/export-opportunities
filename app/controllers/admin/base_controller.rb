@@ -2,8 +2,8 @@ class Admin::BaseController < ApplicationController
   include Pundit
   after_action :verify_authorized
 
-  # before_action :authenticate_editor!
-  # before_action :sign_out_if_deactivated!
+  before_action :authenticate_editor!
+  before_action :sign_out_if_deactivated!
   before_action :set_raven_context
 
   layout 'admin'
