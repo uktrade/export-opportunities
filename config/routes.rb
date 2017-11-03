@@ -14,9 +14,9 @@ Rails.application.routes.draw do
   get '/sign_in', to: redirect('/dashboard')
 
   devise_for :subscriptions,
-             controllers: {
-                 confirmations: 'subscriptions',
-             }
+    controllers: {
+      confirmations: 'subscriptions',
+    }
 
   get '/dashboard' => 'users/dashboard#index', as: 'dashboard'
   # get '/dashboard/downloads' => 'users/downloads'
@@ -32,11 +32,11 @@ Rails.application.routes.draw do
     resources :help
 
     devise_for :editors,
-               singular: :editor,
-               only: [:registrations, :sessions, :passwords, :unlocks],
-               path_names: {
-                   sign_up: 'new',
-               }
+      singular: :editor,
+      only: [:registrations, :sessions, :passwords, :unlocks],
+      path_names: {
+        sign_up: 'new',
+      }
 
     devise_scope :editor do
       get '/editor/confirmation', to: 'confirmations#show', as: :editor_confirmation
@@ -161,6 +161,6 @@ Rails.application.routes.draw do
   match '*path', to: 'errors#not_found', via: [:get, :post, :patch, :put, :delete]
 
   match '(*path)',
-        to: ->(_env) { [405, { 'Content-Type' => 'text/plain' }, ["\n"]] },
-        via: [:options]
+    to: ->(_env) { [405, { 'Content-Type' => 'text/plain' }, ["\n"]] },
+    via: [:options]
 end

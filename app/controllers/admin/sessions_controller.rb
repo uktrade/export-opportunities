@@ -18,4 +18,3 @@ class Admin::SessionsController < Devise::SessionsController
     super
   end
 end
-
