@@ -1,14 +1,7 @@
 class Admin::EnquiriesController < Admin::BaseController
   ENQUIRIES_PER_PAGE = 5
   include ApplicationHelper
-  include ActionController::Live
   after_action :verify_authorized, except: [:help]
-
-  # Authentication is handled in routes.rb as ActionController::Live
-  # and Devise don't play well together
-  #
-  # https://github.com/plataformatec/devise/issues/2332
-  skip_before_action :authenticate_editor!
 
   def index
     @filters = EnquiryFilters.new(filter_params)
@@ -16,11 +9,11 @@ class Admin::EnquiriesController < Admin::BaseController
     session[:enquiry_filters] = filter_params
 
     query = EnquiryQuery.new(
-      scope: policy_scope(Enquiry).includes(:enquiry_response),
-      status: @filters.selected_status,
-      sort: @filters.sort,
-      page: @filters.page,
-      per_page: ENQUIRIES_PER_PAGE
+        scope: policy_scope(Enquiry).includes(:enquiry_response),
+        status: @filters.selected_status,
+        sort: @filters.sort,
+        page: @filters.page,
+        per_page: ENQUIRIES_PER_PAGE
     )
 
     @enquiry_form = enquiry_form
@@ -111,10 +104,10 @@ class Admin::EnquiriesController < Admin::BaseController
 
   def next_enquiry
     query = EnquiryQuery.new(
-      scope: policy_scope(Enquiry).includes(:enquiry_response),
-      sort: EnquirySort.new(default_column: 'created_at', default_order: 'asc'),
-      page: 1,
-      per_page: 100
+        scope: policy_scope(Enquiry).includes(:enquiry_response),
+        sort: EnquirySort.new(default_column: 'created_at', default_order: 'asc'),
+        page: 1,
+        per_page: 100
     )
     enquiries = query.enquiries
 
