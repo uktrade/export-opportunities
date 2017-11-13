@@ -7,14 +7,7 @@
       .form-group
         = f.label :email, :class => 'form-label'
         = f.email_field :email, autofocus: true, :class => 'form-control'
-
-      %p
-        %strong
-          On 6th December, all passwords were reset.
-        If you haven't changed your password since then, you will need to
-        = succeed "." do
-          = link_to 'reset your password', new_editor_password_path
-
+          
       .form-group
         = f.label :password, :class => 'form-label'
         = f.password_field :password, autocomplete: "off", :class => 'form-control'
