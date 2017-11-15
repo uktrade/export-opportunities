@@ -97,6 +97,32 @@ feature 'Logging in as an editor' do
       expect(@editor.reload.confirmed_at).to be_nil
     end
   end
+
+  scenario 'user signing in from multiple browsers' do
+    admin = create(:admin)
+
+    in_browser(:one) do
+      login_as(admin)
+
+      visit '/admin/opportunities'
+      expect(page).to have_content('Opportunities')
+    end
+
+    in_browser(:two) do
+      login_as(admin)
+
+      visit '/admin/enquiries'
+      expect(page).to have_content('Enquiries')
+    end
+
+    in_browser(:one) do
+      # devise_security_extensions should log out the first user's session.
+      visit '/admin/enquiries'
+
+      expect(page).to have_content('Your login credentials were used in another browser. Please sign in again to continue in this browser.')
+      expect(page).to_not have_content('opportunities')
+    end
+  end
 end
 
 private
@@ -117,4 +143,13 @@ end
 
 def logged_in_text
   'Title'
+end
+
+def in_browser(name)
+  old_session = Capybara.session_name
+
+  Capybara.session_name = name
+  yield
+
+  Capybara.session_name = old_session
 end

@@ -7,8 +7,11 @@ module OpportunityHelper
   def opportunity_status_link(string)
     case string
     when 'publish' then 'Published'
+    when 'trash' then 'Trashed'
+    when 'pending' then 'Pending'
+    when 'draft' then 'Draft'
     else
-      string.titleize
+      string.to_s.titleize
     end
   end
 

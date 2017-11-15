@@ -8,7 +8,7 @@ RSpec.feature 'Admin can filter opportunities' do
 
     expect(page).to have_link('Published')
     expect(page).to have_link('Pending')
-    expect(page).to have_link('Trash')
+    expect(page).to have_link('Trashed')
     expect(page).to have_link('Draft')
   end
 
@@ -19,7 +19,7 @@ RSpec.feature 'Admin can filter opportunities' do
 
     expect(page).to have_link('Published')
     expect(page).to have_link('Pending')
-    expect(page).to have_link('Trash')
+    expect(page).to have_link('Trashed')
     expect(page).to have_link('Draft')
   end
 
@@ -30,7 +30,7 @@ RSpec.feature 'Admin can filter opportunities' do
 
     expect(page).to have_link('Published')
     expect(page).to have_link('Pending')
-    expect(page).to have_link('Trash')
+    expect(page).to have_link('Trashed')
     expect(page).to_not have_link('Draft')
   end
 
@@ -41,10 +41,10 @@ RSpec.feature 'Admin can filter opportunities' do
 
     expect(page).to have_link('Published')
     expect(page).to have_link('Pending')
-    expect(page).to have_link('Trash')
+    expect(page).to have_link('Trashed')
     expect(page).to_not have_link('Draft')
   end
-  scenario 'Editor preference for showing and hiding expired opportunities persists when changing filters (All,Pending,Published,Trash)' do
+  scenario 'Editor preference for showing and hiding expired opportunities persists when changing filters (All,Pending,Published,Trashed)' do
     login_as(create(:publisher))
     visit admin_opportunities_path
 
@@ -142,7 +142,7 @@ RSpec.feature 'Admin can filter opportunities' do
     expect(page).to have_selector('tr.opportunity', count: 1)
     expect(page).to have_no_text expired_pending_opportunity.title
 
-    within('.admin__filter-panel') { click_link('Trash') }
+    within('.admin__filter-panel') { click_link('Trashed') }
     expect(page).to have_selector('tr.opportunity', count: 1)
     expect(page).to have_text trashed_opportunity.title
     expect(page).to have_no_text expired_trashed_opportunity.title

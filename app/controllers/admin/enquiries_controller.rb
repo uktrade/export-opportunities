@@ -1,14 +1,7 @@
 class Admin::EnquiriesController < Admin::BaseController
   ENQUIRIES_PER_PAGE = 5
   include ApplicationHelper
-  include ActionController::Live
   after_action :verify_authorized, except: [:help]
-
-  # Authentication is handled in routes.rb as ActionController::Live
-  # and Devise don't play well together
-  #
-  # https://github.com/plataformatec/devise/issues/2332
-  skip_before_action :authenticate_editor!
 
   def index
     @filters = EnquiryFilters.new(filter_params)

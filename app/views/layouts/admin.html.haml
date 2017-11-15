@@ -28,8 +28,7 @@
 
     #global-header-bar
 
-    %main#content{:role => 'main'}
-
+    .container
       .phase-banner-alpha
         %p
           %strong.phase-tag ALPHA
@@ -37,6 +36,16 @@
             This is a new service – your
             = link_to 'feedback', "mailto:#{t('organisation.feedback_email')}?subject=EIG%20alpha%20feedback"
             will help us to improve it.
+
+
+
+    %main#content{:role => 'main'}
+      - if current_editor
+        .alert.flash.notice
+          %p
+            Changes to sign-off line
+            = link_to 'Read more', "/admin/updates"
+        %br
 
       - if flash[:alert]
         .alert.flash.error
@@ -59,7 +68,8 @@
 
       = content_for?(:content) ? yield(:content) : yield
 
+    - if current_editor
+      = render 'admin/includes/dialogue'
     = javascript_include_tag 'modernizr.min'
-    = javascript_include_tag 'application'
     = javascript_include_tag 'admin'
     = render partial: 'google_analytics'

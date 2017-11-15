@@ -2,7 +2,7 @@ class Admin::SessionsController < Devise::SessionsController
   def after_sign_in_path_for(resource)
     loc = stored_location_for(resource)
     if loc
-      loc.include?('/admin/help') ? loc : admin_opportunities_path
+      loc
     else
       admin_opportunities_path
     end

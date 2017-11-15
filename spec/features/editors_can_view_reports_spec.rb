@@ -35,4 +35,20 @@ RSpec.feature 'Editors can view reports' do
 
     expect(page).to_not have_content('Start')
   end
+
+  scenario 'Monthly by country VS target report, base case' do
+    country = create(:country, name: 'Italy')
+    nassau = create(:service_provider, name: 'Nassau', country: country)
+    mexico = create(:service_provider, name: 'Mexico', country: country)
+
+    create(:opportunity, :published, service_provider: nassau, first_published_at: Date.new(2017, 4, 13))
+    create(:opportunity, :published, service_provider: mexico, first_published_at: Date.new(2017, 5, 20))
+
+    login_as(create(:editor, role: :administrator))
+    visit '/admin/reports'
+
+    click_on 'Generate'
+
+    expect(page).to have_content('The requested Monthly Outcome against Targets by Country report has been emailed to you')
+  end
 end

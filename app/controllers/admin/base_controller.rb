@@ -20,7 +20,8 @@ class Admin::BaseController < ApplicationController
   private
 
   def sign_out_if_deactivated!
-    if current_editor.deactivated?
+    # redirect_to new_editor_session_path unless current_editor
+    if current_editor && current_editor.deactivated?
       sign_out(current_editor)
       redirect_to new_editor_session_path
     end

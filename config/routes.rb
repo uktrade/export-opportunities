@@ -48,8 +48,9 @@ Rails.application.routes.draw do
 
     resources :editors, only: [:index, :show, :edit, :update]
 
+    resources :enquiries
+
     authenticated :editor do
-      resources :enquiries, only: [:index, :show]
       resources :enquiry_responses do
         get 'email_send', on: :collection
       end
@@ -79,6 +80,8 @@ Rails.application.routes.draw do
     resources :reports do
       get 'impact_email' => 'reports_controller#impact_email'
     end
+
+    get 'updates' => 'updates#index'
 
     root to: redirect('/admin/opportunities')
   end

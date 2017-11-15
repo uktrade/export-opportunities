@@ -218,6 +218,7 @@ RSpec.feature 'Editors can view stats' do
     end
 
     expect(page).to have_content(t('admin.stats.opportunities_published', count: 2))
+    expect(page).to have_content('0 Enquiry Responses (counted at Enquiry Response created at date)')
   end
 
   scenario '(JS true) for a specific region', js: true do
