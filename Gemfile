@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
-ruby '2.4.1'
+ruby '2.4.2'
 
 gem 'rails', '4.2.10'
-gem 'bundler', '1.14.6'
+gem 'bundler', '1.16.0'
 gem 'puma', '3.8.0'
 gem 'pg'
 gem 'sidekiq'
@@ -56,7 +56,7 @@ gem 'hairtrigger'
 gem 'active_record_union'
 
 # Parsing JSON
-gem 'yajl-ruby'
+gem 'yajl-ruby', '>= 1.3.1'
 
 # Developer tools
 gem 'pry-rails'
@@ -87,7 +87,7 @@ end
 
 group :development do
   gem 'web-console'
-  gem 'rubocop', require: false
+  gem 'rubocop', '~> 0.49.0', require: false
 end
 
 group :test do

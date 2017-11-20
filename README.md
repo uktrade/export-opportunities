@@ -21,6 +21,11 @@ $ cp config/application.example.yml config/application.yml
 
 * Have an instance of elasticsearch running (can be default localhost:9200) and configured in your `application.yml`
 
+* After setting up your database with rake db:migrate, you need to run the 2 elasticsearch rake tasks to setup the elasticsearch indexes:
+    * rake elasticsearch:import_opportunities
+    * rake elasticsearc:import_subscriptions
+    
+
 ## Running tests
 
 Install [PhantomJS](http://phantomjs.org/), then run tests with `bundle exec rspec`
