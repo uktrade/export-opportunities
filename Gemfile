@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.4.2'
+ruby '2.4.1'
 
 gem 'rails', '4.2.10'
 gem 'bundler', '1.16.0'
@@ -15,6 +15,8 @@ gem 'faraday'
 gem 'figaro'
 gem 'friendly_id'
 gem 'immutable-struct'
+
+gem 'nokogiri', '1.8.1'
 
 # Authentication & authorisation
 gem 'devise'
