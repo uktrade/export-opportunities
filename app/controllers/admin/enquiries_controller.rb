@@ -87,7 +87,7 @@ class Admin::EnquiriesController < Admin::BaseController
   end
 
   private def filter_params
-    params.permit(:status, { sort: %i[column order] }, :company_name, :created_at, :paged, {opportunity: :title})
+    params.permit(:status, { sort: %i[column order] }, :company_name, :created_at, :paged, opportunity: :title)
   end
 
   private def filter_status(current_user)

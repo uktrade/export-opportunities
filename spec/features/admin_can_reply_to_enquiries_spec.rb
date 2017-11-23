@@ -2,7 +2,6 @@ require 'rails_helper'
 require 'spec/support/integration_helpers'
 
 feature 'admin can reply to enquiries' do
-
   after(:all) do
     # clean up our files
     Dir[Rails.root.join('tender_sample_*.pdf')].each do |file|
@@ -141,7 +140,7 @@ feature 'admin can reply to enquiries' do
 
     email_body_text = Faker::Lorem.words(10).join('-')
     fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
-    byebug
+
     expect(page.body).to have_content(email_body_text)
 
     page.find('#li4').click
@@ -257,8 +256,6 @@ feature 'admin can reply to enquiries' do
     attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file.pdf', visible: false
 
     wait_for_ajax
-
-    byebug
 
     attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file_2.pdf', visible: false
 
