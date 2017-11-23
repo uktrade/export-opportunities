@@ -21,7 +21,7 @@ module ExportOpportunities
     config.autoload_paths += Dir[Rails.root.join("lib")]
     config.autoload_paths += Dir[Rails.root.join("lib", "modules")]
     config.autoload_paths += Dir[Rails.root.join("lib", "omniauth", "strategies")]
-    config.action_view.sanitized_allowed_tags = %w(p em i strong b ul li ol)
+    config.action_view.sanitized_allowed_tags = %w[p em i strong b ul li ol]
     config.action_view.sanitized_allowed_attributes = []
 
     config.exceptions_app = routes

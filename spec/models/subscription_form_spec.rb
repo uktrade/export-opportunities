@@ -16,10 +16,10 @@ RSpec.describe SubscriptionForm do
         params = {
           query: {
             search_term: 'Industrial Lubricant',
-            countries: %w(france),
-            sectors: %w(industy),
-            types: %w(public),
-            value: %w(10),
+            countries: %w[france],
+            sectors: %w[industy],
+            types: %w[public],
+            value: %w[10],
           },
         }
 
@@ -44,10 +44,10 @@ RSpec.describe SubscriptionForm do
         params = {
           query: {
             search_term: 'Industial Lubricant',
-            countries: %w(france germany),
-            sectors: %w(industy oils),
-            types: %w(public private),
-            value: %w(10 100 150),
+            countries: %w[france germany],
+            sectors: %w[industy oils],
+            types: %w[public private],
+            value: %w[10 100 150],
           },
         }
 
@@ -197,12 +197,12 @@ RSpec.describe SubscriptionForm do
       america = create(:country, slug: 'america')
       france = create(:country, slug: 'france')
 
-      params = { query: { countries: %w(america france) } }
+      params = { query: { countries: %w[america france] } }
       expect(SubscriptionForm.new(params).countries).to eq [america, france]
     end
 
     it 'invalid when a country cannot be not found' do
-      params = { query: { countries: %w(america france) } }
+      params = { query: { countries: %w[america france] } }
       subscription = SubscriptionForm.new(params)
       expect(subscription).not_to be_valid
       expect(subscription.errors.full_messages).to include('Countries cannot be found')
@@ -218,12 +218,12 @@ RSpec.describe SubscriptionForm do
       aerospace = create(:sector, slug: 'aerospace')
       fisheries = create(:sector, slug: 'fisheries')
 
-      params = { query: { sectors: %w(aerospace fisheries) } }
+      params = { query: { sectors: %w[aerospace fisheries] } }
       expect(SubscriptionForm.new(params).sectors).to eq [aerospace, fisheries]
     end
 
     it 'invalid when a sector cannot be not found' do
-      params = { query: { sectors: %w(aerospace fisheries) } }
+      params = { query: { sectors: %w[aerospace fisheries] } }
       subscription = SubscriptionForm.new(params)
       expect(subscription).not_to be_valid
       expect(subscription.errors.full_messages).to include('Sectors cannot be found')
@@ -260,12 +260,12 @@ RSpec.describe SubscriptionForm do
       middle = create(:value, slug: 'middle')
       none = create(:value, slug: 'none')
 
-      params = { query: { values: %w(middle none) } }
+      params = { query: { values: %w[middle none] } }
       expect(SubscriptionForm.new(params).values).to eq [middle, none]
     end
 
     it 'invalid when a value cannot be found' do
-      params = { query: { values: %w(middle none) } }
+      params = { query: { values: %w[middle none] } }
       subscription = SubscriptionForm.new(params)
       expect(subscription).not_to be_valid
       expect(subscription.errors.full_messages).to include('Values cannot be found')

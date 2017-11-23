@@ -133,11 +133,11 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
 
   scenario 'Opportunity view should render plain text nicely' do
     example = <<-EOD
-Our clients in Hackistan want to import the finest Wimbledon wombles.
+  Our clients in Hackistan want to import the finest Wimbledon wombles.
 
-Wombles from Richmond or Hammersmith or Barnes or Westminster will not do.
+  Wombles from Richmond or Hammersmith or Barnes or Westminster will not do.
 
-They must be from Wimbledon.
+  They must be from Wimbledon.
 EOD
 
     op = create(:opportunity, status: 'publish', description: example)
@@ -147,9 +147,9 @@ EOD
 
   scenario "Opportunity view shouldn't use simple_format when HTML present" do
     example = <<-EOD
-Lorem ipsum. <b>Dolor sit amet!</b>
+  Lorem ipsum. <b>Dolor sit amet!</b>
 
-We shall rapidiously right-shore fully tested sources.
+  We shall rapidiously right-shore fully tested sources.
 EOD
 
     op = create(:opportunity, description: example)

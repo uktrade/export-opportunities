@@ -12,7 +12,7 @@ class EnquiryPolicy < ApplicationPolicy
   end
 
   def editor_is_in_opportunity_service_provider?
-    return false unless @editor.service_provider.present?
+    return false if @editor.service_provider.blank?
     @record.opportunity.service_provider == @editor.service_provider
   end
 
@@ -25,7 +25,7 @@ class EnquiryPolicy < ApplicationPolicy
     end
 
     def resolve
-      if %w(administrator previewer publisher).include? editor.role
+      if %w[administrator previewer publisher].include? editor.role
         scope.all
       else
         scope.joins(:opportunity)

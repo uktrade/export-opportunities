@@ -47,12 +47,12 @@ class OpportunitiesController < ApplicationController
     # pass sort correct column down to the view
     @sort_column_name = sort_column
 
-    if atom_request?
-      @sort = OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
-    else
-      @sort = OpportunitySort.new(default_column: 'response_due_on', default_order: 'asc')
-        .update(column: sort_column, order: sort_order)
-    end
+    @sort = if atom_request?
+              OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
+            else
+              OpportunitySort.new(default_column: 'response_due_on', default_order: 'asc')
+                .update(column: sort_column, order: sort_order)
+            end
 
     @query = Opportunity.public_search(
       search_term: @search_term,
@@ -103,7 +103,7 @@ class OpportunitiesController < ApplicationController
   end
 
   private def atom_request?
-    %i(atom xml).include?(request.format.symbol)
+    %i[atom xml].include?(request.format.symbol)
   end
 
   private def new_domain?(request)

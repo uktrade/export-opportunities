@@ -4,7 +4,7 @@ class CreateOpportunitySlug
   end
 
   def call(opportunity)
-    return unless opportunity.title.present?
+    return if opportunity.title.blank?
 
     slug = opportunity.title.parameterize
 

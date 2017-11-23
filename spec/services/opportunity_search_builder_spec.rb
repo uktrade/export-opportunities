@@ -49,13 +49,13 @@ RSpec.describe OpportunitySearchBuilder do
     end
 
     it 'filters by multiple sectors' do
-      builder = OpportunitySearchBuilder.new(sectors: %w(food drink), sort: @sort).call
+      builder = OpportunitySearchBuilder.new(sectors: %w[food drink], sort: @sort).call
 
       expected_sectors_hash = {
         bool: {
           should: {
             terms: {
-              "sectors.slug": %w(food drink),
+              "sectors.slug": %w[food drink],
             },
           },
         },
@@ -66,13 +66,13 @@ RSpec.describe OpportunitySearchBuilder do
     end
 
     it 'filters by multiple countries' do
-      builder = OpportunitySearchBuilder.new(countries: %w(albania iran), sort: @sort).call
+      builder = OpportunitySearchBuilder.new(countries: %w[albania iran], sort: @sort).call
 
       expected_sectors_hash = {
         bool: {
           should: {
             terms: {
-              "countries.slug": %w(albania iran),
+              "countries.slug": %w[albania iran],
             },
           },
         },

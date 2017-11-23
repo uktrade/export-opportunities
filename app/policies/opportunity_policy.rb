@@ -71,7 +71,7 @@ class OpportunityPolicy < ApplicationPolicy
   end
 
   def editor_has_same_service_provider?
-    return false unless @editor.service_provider.present?
+    return false if @editor.service_provider.blank?
     @record.service_provider == @editor.service_provider
   end
 
@@ -84,7 +84,7 @@ class OpportunityPolicy < ApplicationPolicy
     end
 
     def resolve
-      return scope.all if %w(administrator publisher previewer).include? editor.role
+      return scope.all if %w[administrator publisher previewer].include? editor.role
       scope.published
         .union(scope.where(author: @editor))
         .union(scope.where.not(service_provider: nil).where(service_provider: @editor.service_provider))

@@ -27,7 +27,7 @@ shared_examples_for 'has complex password' do
 
   it 'is invalid for passwords that match banned patterns' do
     aggregate_failures do
-      %w(password987654321 ilovedxwyeah 12345678901).each do |password|
+      %w[password987654321 ilovedxwyeah 12345678901].each do |password|
         resource.password = password
         expect(resource).to have(1).error_on(:password),
           "expected #{password} to be invalid but it was valid"
@@ -36,7 +36,7 @@ shared_examples_for 'has complex password' do
   end
 
   it 'loads in a password blacklist from a file' do
-    blacklist = %w(a_bad_passw0rd another_b4d_1)
+    blacklist = %w[a_bad_passw0rd another_b4d_1]
 
     stub_blacklist_loader(blacklist)
 
@@ -51,7 +51,7 @@ shared_examples_for 'has complex password' do
 
   it 'ignores case when checking patterns' do
     aggregate_failures do
-      %w(Password987654321 iLoveDXWyEAH!).each do |password|
+      %w[Password987654321 iLoveDXWyEAH!].each do |password|
         resource.password = password
         expect(resource).to have(1).error_on(:password),
           "expected #{password} to be invalid but it was valid"
@@ -60,12 +60,12 @@ shared_examples_for 'has complex password' do
   end
 
   it 'ignores case when checking banned_passwords' do
-    blacklist = %w(a_bad_passw0rd AnOther_b4d_1)
+    blacklist = %w[a_bad_passw0rd AnOther_b4d_1]
 
     stub_blacklist_loader(blacklist)
 
     aggregate_failures do
-      %w(a_BAD_pAssw0rd another_b4d_1).each do |password|
+      %w[a_BAD_pAssw0rd another_b4d_1].each do |password|
         resource.password = password
         expect(resource).to have(1).error_on(:password),
           "expected #{password} to be invalid but it was valid"

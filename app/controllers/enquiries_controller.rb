@@ -8,11 +8,11 @@ class EnquiriesController < ApplicationController
     @opportunity = Opportunity.published.find_by!(slug: params[:slug])
     redirect_to opportunity_path(@opportunity) if @opportunity.expired?
 
-    if enquiry_current_user
-      @enquiry = Enquiry.initialize_from_existing(enquiry_current_user.enquiries.last)
-    else
-      @enquiry = Enquiry.new
-    end
+    @enquiry = if enquiry_current_user
+                 Enquiry.initialize_from_existing(enquiry_current_user.enquiries.last)
+               else
+                 Enquiry.new
+               end
   end
 
   def create
@@ -29,19 +29,19 @@ class EnquiriesController < ApplicationController
   end
 
   private def enquiry_params
-    params.require(:enquiry).permit([
-                                      :first_name,
-                                      :last_name,
-                                      :company_telephone,
-                                      :company_name,
-                                      :company_address,
-                                      :company_house_number,
-                                      :company_postcode,
-                                      :company_url,
-                                      :existing_exporter,
-                                      :company_sector,
-                                      :company_explanation,
-                                      :data_protection,
+    params.require(:enquiry).permit(%i[
+                                      first_name
+                                      last_name
+                                      company_telephone
+                                      company_name
+                                      company_address
+                                      company_house_number
+                                      company_postcode
+                                      company_url
+                                      existing_exporter
+                                      company_sector
+                                      company_explanation
+                                      data_protection
                                     ])
   end
 

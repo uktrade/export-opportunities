@@ -1,5 +1,5 @@
 class Admin::HelpController < Admin::BaseController
-  after_action :verify_authorized, except: [:index, :show]
+  after_action :verify_authorized, except: %i[index show]
 
   def show
     page_url = params[:id]

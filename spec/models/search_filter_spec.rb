@@ -6,7 +6,7 @@ RSpec.describe SearchFilter, type: :service do
       create(:sector, slug: 'airports')
 
       params = {
-        sectors: %w(mind-control airports),
+        sectors: %w[mind-control airports],
       }
 
       filters = SearchFilter.new(params)
@@ -21,7 +21,7 @@ RSpec.describe SearchFilter, type: :service do
       create(:country, slug: 'australia')
 
       params = {
-        countries: %w(australia hackistan),
+        countries: %w[australia hackistan],
       }
 
       filters = SearchFilter.new(params)
@@ -36,7 +36,7 @@ RSpec.describe SearchFilter, type: :service do
       create(:type, slug: 'public-sector')
 
       params = {
-        types: %w(evil-empire public-sector),
+        types: %w[evil-empire public-sector],
       }
 
       filters = SearchFilter.new(params)
@@ -51,7 +51,7 @@ RSpec.describe SearchFilter, type: :service do
       create(:value, slug: 'unknown')
 
       params = {
-        values: %w(nothing unknown),
+        values: %w[nothing unknown],
       }
 
       filters = SearchFilter.new(params)

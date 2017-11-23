@@ -42,11 +42,11 @@ RSpec.describe SubscriptionSearchBuilder do
     end
 
     it 'filters by multiple sectors' do
-      builder = SubscriptionSearchBuilder.new(sectors: %w(food drink)).call
+      builder = SubscriptionSearchBuilder.new(sectors: %w[food drink]).call
 
       expected_sectors_hash = {
         terms: {
-          'sectors.id': %w(food drink),
+          'sectors.id': %w[food drink],
         },
       }
 
@@ -55,11 +55,11 @@ RSpec.describe SubscriptionSearchBuilder do
     end
 
     it 'filters by multiple countries' do
-      builder = SubscriptionSearchBuilder.new(countries: %w(albania iran)).call
+      builder = SubscriptionSearchBuilder.new(countries: %w[albania iran]).call
 
       expected_sectors_hash = {
         terms: {
-          'countries.id': %w(albania iran),
+          'countries.id': %w[albania iran],
         },
       }
 

@@ -47,7 +47,7 @@ class Opportunity < ActiveRecord::Base
   has_paper_trail class_name: 'OpportunityVersion', only: [:status]
 
   extend FriendlyId
-  friendly_id :title, use: [:slugged, :finders]
+  friendly_id :title, use: %i[slugged finders]
 
   CONTACTS_PER_OPPORTUNITY = 2
   paginates_per 20
@@ -60,12 +60,12 @@ class Opportunity < ActiveRecord::Base
   include PgSearch
 
   pg_search_scope :fuzzy_match,
-    against: [:title, :teaser, :description],
+    against: %i[title teaser description],
     using: { tsearch: { tsvector_column: 'tsv', dictionary: 'english' } }
 
   pg_search_scope :admin_match,
-    against: [:title, :teaser, :description],
-    associated_against: { author: [:name, :email] },
+    against: %i[title teaser description],
+    associated_against: { author: %i[name email] },
     using: { tsearch: { tsvector_column: 'tsv', dictionary: 'english' } }
 
   scope :published, -> { where(status: Opportunity.statuses[:publish]) }
@@ -117,7 +117,7 @@ class Opportunity < ActiveRecord::Base
 
   def as_indexed_json(_ = {})
     as_json(
-      only: [:title, :teaser, :description, :created_at, :updated_at, :status, :response_due_on, :first_published_at],
+      only: %i[title teaser description created_at updated_at status response_due_on first_published_at],
       include: {
         countries: { only: :slug },
         types: { only: :slug },

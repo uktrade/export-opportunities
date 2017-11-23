@@ -73,7 +73,7 @@ class Subscription < ActiveRecord::Base
 
   def as_indexed_json(_ = {})
     as_json(
-      only: [:search_term, :confirmed_at, :unsubscribed_at],
+      only: %i[search_term confirmed_at unsubscribed_at],
       include: {
         countries: { only: :id },
         types: { only: :id },

@@ -42,7 +42,7 @@ class StatsSearchForm
   end
 
   def all_service_providers?
-    'all' == service_provider_id
+    service_provider_id == 'all'
   end
 
   def service_providers

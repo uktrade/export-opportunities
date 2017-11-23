@@ -2,7 +2,7 @@ require 'net/http'
 
 module ApplicationHelper
   def present_html_or_formatted_text(text)
-    return '' unless text.present?
+    return '' if text.blank?
     return simple_format(text) if HTMLComparison.new.tags?(text)
     sanitize(text)
   end
@@ -12,7 +12,7 @@ module ApplicationHelper
   end
 
   def companies_house_url(companies_house_number)
-    return nil if companies_house_number.nil? || companies_house_number.empty?
+    return nil if companies_house_number.blank?
     companies_house_url = Figaro.env.COMPANIES_HOUSE_BASE_URL + companies_house_number
     begin
       response = companies_house_url if Net::HTTP.get(URI(companies_house_url))

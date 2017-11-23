@@ -39,7 +39,7 @@ describe Admin::RegistrationsController, type: :controller do
         expect(response.status).not_to eq 302
       end
 
-      %w(uploader publisher administrator).each do |role|
+      %w[uploader publisher administrator].each do |role|
         it 'assigns the role #{role}' do
           post :create, editor: { email: "#{SecureRandom.hex}@example.com", name: 'Mx A Smith', role: role }
           expect(Editor.last.role).to eq role

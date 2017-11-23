@@ -4,7 +4,7 @@ require 'spec/support/integration_helpers'
 feature 'admin can reply to enquiries' do
   after(:all) do
     # clean up our files
-    Dir["#{Rails.root}/tender_sample_*.pdf"].each do |file|
+    Dir[Rails.root.join('tender_sample_*.pdf')].each do |file|
       File.delete(file)
     end
   end

@@ -33,7 +33,7 @@ Rails.application.routes.draw do
 
     devise_for :editors,
       singular: :editor,
-      only: [:registrations, :sessions, :passwords, :unlocks],
+      only: %i[registrations sessions passwords unlocks],
       path_names: {
         sign_up: 'new',
       }
@@ -46,7 +46,7 @@ Rails.application.routes.draw do
       delete 'editors/deactivate/:id', to: 'registrations#destroy', as: :editor_deactivate
     end
 
-    resources :editors, only: [:index, :show, :edit, :update]
+    resources :editors, only: %i[index show edit update]
 
     resources :enquiries
 
@@ -56,16 +56,16 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :opportunities, only: [:index, :show, :new, :create, :edit, :update] do
+    resources :opportunities, only: %i[index show new create edit update] do
       authenticated :editor do
         collection do
-          resources :downloads, only: [:new, :create], controller: 'opportunity_downloads', as: :opportunity_downloads
+          resources :downloads, only: %i[new create], controller: 'opportunity_downloads', as: :opportunity_downloads
         end
 
-        resources :comments, only: [:create], controller: 'opportunity_comments'
+        resources :comments, only: %i[create], controller: 'opportunity_comments'
       end
 
-      resource :status, only: [:update, :destroy], controller: 'opportunity_status'
+      resource :status, only: %i[update destroy], controller: 'opportunity_status'
     end
 
     require 'constraints/flipper_admin_constraint'
@@ -91,12 +91,12 @@ Rails.application.routes.draw do
 
   resources :company_details, only: [:index]
 
-  resources :opportunities, only: [:index, :show]
+  resources :opportunities, only: %i[index show]
 
   # site's root page
   root 'opportunities#index'
 
-  resources :subscriptions, only: [:create, :show, :destroy, :update]
+  resources :subscriptions, only: %i[create show destroy update]
   resources :pending_subscriptions, only: [:create]
   get '/pending_subscriptions/:id' => 'pending_subscriptions#update', as: :update_pending_subscription
 
@@ -104,7 +104,7 @@ Rails.application.routes.draw do
   get '/subscriptions/unsubscribe/:id' => 'subscriptions#destroy', as: :unsubscribe
   patch '/subscriptions/explain/:id' => 'subscriptions#update', as: :explain_unsubscribe
 
-  resources :bulk_subscriptions, only: [:index, :create]
+  resources :bulk_subscriptions, only: %i[index create]
   # for old emails, which may still have the v1 prefix
   # TODO: delete this when old subscription emails are sufficiently old
   get '/v1/subscriptions/unsubscribe/:id' => 'subscriptions#destroy'
@@ -158,7 +158,7 @@ Rails.application.routes.draw do
   get '/api/profile_dashboard', action: :index, controller: 'api/profile_dashboard', format: 'json', via: [:get]
   post '/api/document/', action: :create, controller: 'api/document'
 
-  match '*path', to: 'errors#not_found', via: [:get, :post, :patch, :put, :delete]
+  match '*path', to: 'errors#not_found', via: %i[get post patch put delete]
 
   match '(*path)',
     to: ->(_env) { [405, { 'Content-Type' => 'text/plain' }, ["\n"]] },

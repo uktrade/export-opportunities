@@ -83,7 +83,7 @@ RSpec.describe User do
         info = double(:info, email: 'stub@example.com')
         auth = double(:auth, uid: '5678', provider: 'exporting_is_great', info: info)
 
-        expect { User.from_omniauth(auth) }.not_to change { User.count }
+        expect { User.from_omniauth(auth) }.not_to(change { User.count })
 
         new_user = User.find_by(email: 'stub@example.com')
         expect(new_user.uid).to eql '5678'
@@ -111,7 +111,7 @@ RSpec.describe User do
         info = double(:info, email: 'new@example.com')
         auth = double(:auth, uid: '5678', provider: 'exporting_is_great', info: info)
 
-        expect { User.from_omniauth(auth) }.not_to change { User.count }
+        expect { User.from_omniauth(auth) }.not_to(change { User.count })
 
         updated_user = User.find_by(uid: '5678', provider: 'exporting_is_great')
         expect(updated_user.email).to eql 'new@example.com'
