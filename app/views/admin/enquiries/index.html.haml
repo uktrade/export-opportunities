@@ -35,8 +35,8 @@
 
 %table
   %thead
-    %th{width: '35%'} Company
-    %th{width: '35%'} Opportunity
+    %th{width: '35%'}= sortable(:enquiry_filters, 'company_name', 'Company', 'asc', @filters.sort)
+    %th{width: '35%'}= sortable(:enquiry_filters, 'opportunity', 'Opportunity', 'asc', @filters.sort)
     %th.numeric{width: '10%'} Applied On
     %th{status: '10%'} Status
   %tbody

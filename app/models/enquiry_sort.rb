@@ -1,6 +1,6 @@
 class EnquirySort
   attr_reader :column, :order
-  VALID_SORT_COLUMNS = %w[company_name created_at].freeze # enquiry_response opportunity
+  VALID_SORT_COLUMNS = %w[company_name opportunity created_at].freeze # enquiry_response opportunity
   VALID_SORT_ORDERS = %w[desc asc].freeze
 
   def initialize(default_column:, default_order:)

@@ -4,14 +4,14 @@ var ukti = window.ukti || {};
 ukti.config = {
     "ckeditorPath" : "/js/ckeditor/ckeditor.js",
     "textEditorScriptPath" : "<%=image_path('ckeditor/ckeditor.js')%>",
-    "SUPPRESS_ANNOUNCEMENT" : "<%= (Figaro.env.SUPPRESS_ANNOUNCEMENT?) ? true : false %>"
+    "SUPPRESS_ANNOUNCEMENT" : "<%= Figaro.env.SUPPRESS_ANNOUNCEMENT %>"
 };
 
 $('body').addClass('js-enabled');
 
 $('document').ready(function() {
     // Announcements
-    if (ukti.config.SUPPRESS_ANNOUNCEMENT !== 'true') {
+    if (ukti.config.SUPPRESS_ANNOUNCEMENT != 'true') {
         ukti.announcements.init();
     }
     // Toggle hidden content

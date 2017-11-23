@@ -22,7 +22,7 @@ module Helpers
 end
 
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, timeout: 2.minutes, phantomjs_options: ['--load-images=no'])
+  Capybara::Poltergeist::Driver.new(app, {timeout: 2.minutes, phantomjs_options: ['--load-images=no'], :phantomjs_logger => File.open("#{Rails.root}/log/test_phantomjs.log", "a")})
 end
 
 RSpec.configure do |config|
