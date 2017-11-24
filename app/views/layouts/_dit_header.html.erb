@@ -19,16 +19,16 @@
     <div class="container top-bar">
       <div class="account-locale-links">
         <ul aria-label="Account links" class="navigation account-links">
-        <% if current_user %>
-              <li class="authenticated"><a href="<%=dashboard_path%>" class="profile">Profile</a>
-              </li>
-              <li class="authenticated"><a href="<%=destroy_user_session_path%>" class="signout">Sign out</a>
-              </li>
+        <% if !current_user %>
+          <li class="anonymous"><a href="<%=Figaro.env.SSO_ENDPOINT_BASE_URI %>accounts/signup" class="register">Register</a>
+          </li>
+          <li class="anonymous"><a href="<%=dashboard_path%>" class="signin">Sign in</a>
+          </li>
         <% else %>
-              <li class="anonymous"><a href="<%=Figaro.env.SSO_ENDPOINT_BASE_URI %>accounts/signup" class="register">Register</a>
-              </li>
-              <li class="anonymous"><a href="<%=dashboard_path%>" class="signin">Sign in</a>
-              </li>
+          <li class="authenticated"><a href="<%=dashboard_path%>" class="profile">Profile</a>
+          </li>
+          <li class="authenticated"><a href="<%=destroy_user_session_path%>" class="signout">Sign out</a>
+          </li>
         <% end %>
         </ul><span class="greeting"></span>
       </div>
@@ -73,11 +73,11 @@
           </li>
           <li><a href="#services-links-list" id="services-links" class="list-header">Services</a>
             <ul id="services-links-list" aria-labelledby="services-links" class="navigation level-2">
-              <li class="items-5"><a href="<%=Figaro.env.FIND_A_BUYER_URL %>">Create an export profile</a><span class="description">Get promoted internationally with a great.gov.uk trade profile</span>
+              <li class="items-5"><a href="<%=Figaro.env.EXPORT_OPPORTUNITIES_URL %>">Find export opportunities</a><span class="description">Find and apply for overseas opportunities</span>
               </li>
               <li class="items-5"><a href="<%=Figaro.env.SELLING_ONLINE_OVERSEAS_URL %>">Sell online overseas</a><span class="description">Find the right marketplace for your business and access special offers for sellers</span>
               </li>
-              <li class="items-5"><a href="<%=Figaro.env.EXPORT_OPPORTUNITIES_URL %>">Find export opportunities</a><span class="description">Find and apply for overseas opportunities</span>
+              <li class="items-5"><a href="<%=Figaro.env.FIND_A_BUYER_URL %>">Create an export profile</a><span class="description">Get promoted internationally with a great.gov.uk trade profile</span>
               </li>
               <li class="items-5"><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/get-finance">Get finance</a><span class="description">Get the finance you need to compete and grow</span>
               </li>
@@ -94,5 +94,3 @@
 
 <!-- needs to be added in assets.rb for production pre-compilation too -->
 <%= stylesheet_link_tag('header-footer') %>
-
-

@@ -181,7 +181,7 @@ dit.responsive = (new function () {
   **/
   function getResponsiveValue() {
     return Number($("#" + RESPONSIVE_ELEMENT_ID).css("z-index"));
-  }
+  };
 
   /* Create and append a hidden element to track the responsive
   * size. Note: You need to add CSS to set the z-index property
@@ -284,7 +284,7 @@ dit.responsive = (new function () {
     addResponsiveSizes(breakpoints);
     addResponsiveTrackingElement();
     bindResizeEvent();
-  };
+  }
 });
 // Scroll Related Functions.
 // Requires main dit.js file
