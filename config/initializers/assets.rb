@@ -1,4 +1,5 @@
 Rails.application.config.sass.precision = 8
+Rails.application.config.assets.precompile += %w[header-footer.css]
 Rails.application.config.assets.precompile += %w[application-admin.css]
 Rails.application.config.assets.precompile += %w[application.css application-legacy.css email.css]
 Rails.application.config.assets.precompile += %w[dit-ie8-2017.css]
