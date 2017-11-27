@@ -32,7 +32,7 @@ ukti.announcements = (function(A11yDialog, Cookies) {
 
   var addListeners = function() {
     dialogue.on('show', function (dialogEl, event) {
-      mainEl.classList.add('hidden');
+      //mainEl.classList.add('hidden');
     });
 
     dialogue.on('hide', function (dialogEl, event) {
