@@ -19,7 +19,9 @@ ukti.announcements = (function(A11yDialog, Cookies) {
   var cacheElements = function () {
     mainEl = document.getElementById('content');
     el = document.getElementById('announcement-dialog');
-    form = el.querySelector( '.dialogue__form' );
+    if(el) {
+        form = el.querySelector('.dialogue__form');
+    }
   };
 
   var makeAnnouncement = function () {

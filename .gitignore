@@ -58,3 +58,4 @@ public/uploads
 public/capybara.html
 
 vendor/bundle/*
+vendor/cache/*
