@@ -33,12 +33,11 @@ ukti.announcements = (function(A11yDialog, Cookies) {
   var addListeners = function() {
     dialogue.on('show', function (dialogEl, event) {
       mainEl.classList.add('hidden');
-      // $('.announcement-notice').each(function()  {$(this).removeClass('hidden');});
+
     });
 
     dialogue.on('hide', function (dialogEl, event) {
       mainEl.classList.remove('hidden');
-        document.body.getElementsByClassName('announcement-notice').each(function()  {this.remove('hidden');});
     });
     form.addEventListener('submit', handleFormSubmit);
   };
@@ -66,7 +65,8 @@ ukti.announcements = (function(A11yDialog, Cookies) {
   };
 
   var determineIfAnnouncementRequired = function () {
-    if (userHasAcceptedAnnouncement() ) {
+  console.log(userHasAcceptedAnnouncement());
+  if (userHasAcceptedAnnouncement() ) {
       return;
     }
     if (includeCurrentPage() ) {
