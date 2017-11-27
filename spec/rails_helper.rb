@@ -65,6 +65,12 @@ RSpec.configure do |config|
   config.after(:each) do |_example|
     OmniAuth.config.mock_auth[:exporting_is_great] = nil
   end
+
+  config.include ShowMeTheCookies, type: :feature
+
+  config.before(:each, js: true) do
+    create_cookie('UPDATE-NOVEMBER-2017-ACCEPTED', true)
+  end
 end
 
 RSpec::Sidekiq.configure do |config|

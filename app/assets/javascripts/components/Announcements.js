@@ -65,7 +65,6 @@ ukti.announcements = (function(A11yDialog, Cookies) {
   };
 
   var determineIfAnnouncementRequired = function () {
-  console.log(userHasAcceptedAnnouncement());
   if (userHasAcceptedAnnouncement() ) {
       return;
     }

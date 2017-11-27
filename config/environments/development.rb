@@ -45,10 +45,4 @@ Rails.application.configure do
     Bullet.enable = true
     Bullet.rails_logger = true
   end
-
-  config.assets.js_compressor = :uglifier
-  config.assets.css_compressor = :sass
-  config.assets.compile = true
-  config.assets.digest = true
-  config.assets.debug = true
 end
