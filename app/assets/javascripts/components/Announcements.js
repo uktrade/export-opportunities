@@ -32,11 +32,13 @@ ukti.announcements = (function(A11yDialog, Cookies) {
 
   var addListeners = function() {
     dialogue.on('show', function (dialogEl, event) {
-      //mainEl.classList.add('hidden');
+      mainEl.classList.add('hidden');
+      // $('.announcement-notice').each(function()  {$(this).removeClass('hidden');});
     });
 
     dialogue.on('hide', function (dialogEl, event) {
       mainEl.classList.remove('hidden');
+        document.body.getElementsByClassName('announcement-notice').each(function()  {this.remove('hidden');});
     });
     form.addEventListener('submit', handleFormSubmit);
   };
