@@ -23,8 +23,8 @@ RSpec.feature 'Editors can view stats' do
 
       click_on 'Stats'
 
-      expect(page).to have_select('stats_from_year', options: %w(1967 1968 1969 1970))
-      expect(page).to have_select('stats_to_year', options: %w(1967 1968 1969 1970))
+      expect(page).to have_select('stats_from_year', options: %w[1967 1968 1969 1970])
+      expect(page).to have_select('stats_to_year', options: %w[1967 1968 1969 1970])
 
       expect(page.find('#stats_from_year').value).to eq '1970'
       expect(page.find('#stats_from_month').value).to eq '9'

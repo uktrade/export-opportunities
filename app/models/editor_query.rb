@@ -13,12 +13,12 @@ class EditorQuery
   end
 
   private def fetch_editors
-    if @sort.column == 'service_provider_name'
-      order_sql = "service_providers.name #{@sort.order} NULLS LAST"
-    else
-      # We trust these values because they were whitelisted in EditorSort
-      order_sql = "editors.#{@sort.column} #{@sort.order} NULLS LAST"
-    end
+    order_sql = if @sort.column == 'service_provider_name'
+                  "service_providers.name #{@sort.order} NULLS LAST"
+                else
+                  # We trust these values because they were whitelisted in EditorSort
+                  "editors.#{@sort.column} #{@sort.order} NULLS LAST"
+                end
 
     query = @scope.order(order_sql)
 

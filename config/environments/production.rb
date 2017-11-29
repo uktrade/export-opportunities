@@ -72,27 +72,27 @@ Rails.application.configure do
   # Where emails are sent from
   config.action_mailer.delivery_method = :smtp
 
-  if Figaro.env.AMAZON_SES_USERNAME && Figaro.env.AMAZON_SES_PASSWORD
-    config.action_mailer.smtp_settings = {
-      address: Figaro.env.MAILER_HOST!,
-      port: Figaro.env.MAILER_PORT!,
-      authentication: :login,
-      user_name: Figaro.env.AMAZON_SES_USERNAME!,
-      password: Figaro.env.AMAZON_SES_PASSWORD!,
-      # domain: Figaro.env.MAILER_DOMAIN!,
-      enable_starttls_auto: true,
-    }
-  else
-    config.action_mailer.smtp_settings = {
-      address: Figaro.env.MAILER_HOST!,
-      port: Figaro.env.MAILER_PORT!,
-      authentication: :plain,
-      user_name: Figaro.env.MAILTRAP_USERNAME!,
-      password: Figaro.env.MAILTRAP_PASSWORD!,
-      domain: Figaro.env.MAILER_DOMAIN!,
-      enable_starttls_auto: true,
-    }
-  end
+  config.action_mailer.smtp_settings = if Figaro.env.AMAZON_SES_USERNAME && Figaro.env.AMAZON_SES_PASSWORD
+                                         {
+                                           address: Figaro.env.MAILER_HOST!,
+                                           port: Figaro.env.MAILER_PORT!,
+                                           authentication: :login,
+                                           user_name: Figaro.env.AMAZON_SES_USERNAME!,
+                                           password: Figaro.env.AMAZON_SES_PASSWORD!,
+                                           # domain: Figaro.env.MAILER_DOMAIN!,
+                                           enable_starttls_auto: true,
+                                         }
+                                       else
+                                         {
+                                           address: Figaro.env.MAILER_HOST!,
+                                           port: Figaro.env.MAILER_PORT!,
+                                           authentication: :plain,
+                                           user_name: Figaro.env.MAILTRAP_USERNAME!,
+                                           password: Figaro.env.MAILTRAP_PASSWORD!,
+                                           domain: Figaro.env.MAILER_DOMAIN!,
+                                           enable_starttls_auto: true,
+                                         }
+                                       end
 
   # Only log mailer actions of 'info' and above
   mailer_logger = Logger.new(STDOUT)

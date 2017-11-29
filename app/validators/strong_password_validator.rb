@@ -44,17 +44,17 @@ class PasswordPrefixChecker
     @banned_prefixes.any? { |prefix| password.downcase.start_with? prefix }
   end
 
-  BANNED_PREFIXES = %w(
+  BANNED_PREFIXES = %w[
     password
     ilove
     12345
-  ).freeze
+  ].freeze
 end
 
 # Responsible for loading in a list of passwords from a file
 class PasswordBlacklistLoader
   def initialize
-    @blacklist_file_path = "#{Rails.root}/config/banned_passwords.yml"
+    @blacklist_file_path = Rails.root.join('config', 'banned_passwords.yml')
   end
 
   def load_passwords

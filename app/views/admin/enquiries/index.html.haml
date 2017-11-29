@@ -2,10 +2,8 @@
   %div.alert.flash.info
     %h2.margin-top-0 Reply sent successfully
     %p
-      Remember to record a new 
-      %a{:href => "https://crm.cdms.ukti.gov.uk/"} CDMS Service delivery:
-      %strong
-        EIG Website, Export Opps
+      Remember to record a new interaction in
+      %a{:href => 'https://datahub.trade.gov.uk'} Data Hub.
     %p.margin-top-10 
       - if @next_enquiry
         %a{:href => @next_enquiry[:url], :class => 'button'} Reply to next Enquiry
@@ -35,8 +33,8 @@
 
 %table
   %thead
-    %th{width: '35%'} Company
-    %th{width: '35%'} Opportunity
+    %th{width: '35%'}= sortable(:enquiry_filters, 'company_name', 'Company', 'asc', @filters.sort)
+    %th{width: '35%'}= sortable(:enquiry_filters, 'opportunity', 'Opportunity', 'asc', @filters.sort)
     %th.numeric{width: '10%'} Applied On
     %th{status: '10%'} Status
   %tbody

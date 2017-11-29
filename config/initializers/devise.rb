@@ -268,7 +268,7 @@ end
 
 Rails.application.config.to_prepare do
   Devise::SessionsController.layout 'admin'
-  Devise::RegistrationsController.layout proc { |_controller| user_signed_in? ? 'admin' : 'application' }
+  Devise::RegistrationsController.layout(proc { |_controller| user_signed_in? ? 'admin' : 'application' })
   Devise::ConfirmationsController.layout 'admin'
   Devise::PasswordsController.layout 'admin'
   Devise::UnlocksController.layout 'admin'

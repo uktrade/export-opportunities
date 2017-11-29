@@ -41,7 +41,7 @@ class SendMonthlyReportToMatchingAdminUser
               'see CEN'
             )
           else
-            Rails.logger.info'cant calculate report for country:1'
+            Rails.logger.info 'cant calculate report for country:1'
             Rails.logger.info(current_country)
           end
         elsif nbn_network?(country_id)
@@ -58,7 +58,7 @@ class SendMonthlyReportToMatchingAdminUser
               'see NBN'
             )
           else
-            Rails.logger.info'cant calculate report for country:2'
+            Rails.logger.info 'cant calculate report for country:2'
             Rails.logger.info(current_country)
           end
         elsif @row_lines[current_country.name.to_s]
@@ -74,7 +74,7 @@ class SendMonthlyReportToMatchingAdminUser
             current_country.responses_target
           )
         else
-          Rails.logger.info'cant calculate report for country:3'
+          Rails.logger.info 'cant calculate report for country:3'
           Rails.logger.info(current_country)
         end
       end
@@ -134,7 +134,7 @@ class SendMonthlyReportToMatchingAdminUser
   def calculate_months
     result = []
     current_year = Time.zone.today.year.to_s[2, 3]
-    months_arr = %w(Apr May Jun Jul Aug Sep Oct Nov Dec Jan Feb Mar)
+    months_arr = %w[Apr May Jun Jul Aug Sep Oct Nov Dec Jan Feb Mar]
     months_arr.each_with_index do |month, index|
       result << if index < 9
                   month + '-' + current_year

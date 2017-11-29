@@ -4,7 +4,7 @@ require 'spec/support/integration_helpers'
 feature 'admin can reply to enquiries' do
   after(:all) do
     # clean up our files
-    Dir["#{Rails.root}/tender_sample_*.pdf"].each do |file|
+    Dir[Rails.root.join('tender_sample_*.pdf')].each do |file|
       File.delete(file)
     end
   end
@@ -131,6 +131,7 @@ feature 'admin can reply to enquiries' do
     previewer = create(:previewer)
     opportunity = create(:opportunity, author: previewer)
     enquiry = create(:enquiry, opportunity: opportunity)
+
     login_as(previewer)
     visit '/admin/enquiries/' + enquiry.id.to_s
 
@@ -148,7 +149,7 @@ feature 'admin can reply to enquiries' do
 
     click_on 'Send'
 
-    expect(page).to have_content('Reply sent successfully Remember to record a new CDMS Service delivery')
+    expect(page).to have_content('Reply sent successfully Remember to record a new interaction in Data Hub')
     expect(page).to have_content('You have no more enquiries to respond to')
   end
 
@@ -178,7 +179,7 @@ feature 'admin can reply to enquiries' do
 
     click_on 'Send'
 
-    expect(page).to have_content('Reply sent successfully Remember to record a new CDMS Service delivery')
+    expect(page).to have_content('Reply sent successfully Remember to record a new interaction in Data Hub.')
   end
 
   scenario 'reply to an enquiry with attachment, valid, right for opportunity - with js', js: true do
@@ -232,7 +233,10 @@ feature 'admin can reply to enquiries' do
   end
 
   scenario 'reply to an enquiry with invalid attachments, more than 5 - with js', js: true do
-    skip('cant attach files using capybara')
+    skip('cant attach files with js using capybara')
+    Capybara.raise_server_errors = false
+    page.driver.browser.js_errors = false
+
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
@@ -242,18 +246,29 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('Email body')
 
     email_body_text = Faker::Lorem.characters(30)
+
+    page.find('#li1').click
+
     fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
 
     expect(page.body).to have_content(email_body_text)
 
-    page.find('#li1').click
+    attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file.pdf', visible: false
 
     wait_for_ajax
 
-    attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file.pdf', visible: false
     attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file_2.pdf', visible: false
+
+    wait_for_ajax
+
     attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file_3.pdf', visible: false
+
+    wait_for_ajax
+
     attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file_4.pdf', visible: false
+
+    wait_for_ajax
+
     attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file_5.pdf', visible: false
 
     wait_for_ajax
@@ -266,7 +281,6 @@ feature 'admin can reply to enquiries' do
   end
 
   scenario 'reply to an enquiry attaching a file with VIRUS - with js', js: true do
-    skip('this works for attaching files, except for undefined property value of null')
     Capybara.raise_server_errors = false
     page.driver.browser.js_errors = false
 
@@ -287,11 +301,7 @@ feature 'admin can reply to enquiries' do
 
     attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_infected_file.pdf', visible: false
 
-    expect(page).to have_content('Something has gone wrong. Please try again. If the problem persists, contact us.')
-  end
-
-  scenario 'reply to an enquiry attaching a file that can not be scanned' do
-    skip
+    expect(page).to have_content('Error. Virus detected in this file')
   end
 
   scenario 'view enquiry response details at bottom of enquiry page' do
@@ -342,7 +352,7 @@ feature 'admin can reply to enquiries' do
 
     click_on 'Send'
 
-    expect(page).to have_content('Reply sent successfully Remember to record a new CDMS Service delivery')
+    expect(page).to have_content('Reply sent successfully Remember to record a new interaction in Data Hub')
 
     # should not see the second enquiry
     expect(page).to_not have_content('Unauthorised')
@@ -377,7 +387,7 @@ feature 'admin can reply to enquiries' do
 
     click_on 'Send'
 
-    expect(page).to have_content('Reply sent successfully Remember to record a new CDMS Service delivery')
+    expect(page).to have_content('Reply sent successfully Remember to record a new interaction in Data Hub')
 
     # should not see the second enquiry
     expect(page).to have_content('Reply to next Enquiry')

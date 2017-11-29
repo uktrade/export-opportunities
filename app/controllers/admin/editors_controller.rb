@@ -71,6 +71,6 @@ class Admin::EditorsController < Admin::BaseController
   end
 
   private def editor_filters
-    params.permit({ sort: [:column, :order] }, :name, :email, :role, :last_sign_in_at, :service_provider, :paged, :show_deactivated)
+    params.permit({ sort: %i[column order] }, :name, :email, :role, :last_sign_in_at, :service_provider, :paged, :show_deactivated)
   end
 end

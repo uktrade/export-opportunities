@@ -15,16 +15,24 @@ class EnquiryQuery
   end
 
   private def fetch_enquiries
-    query = @scope.distinct
+    query = if @sort.column == 'opportunity' && !status_selected
+              @scope.includes(:opportunity)
+            else
+              @scope.distinct
+            end
 
-    order_sql = "enquiries.#{@sort.column} #{@sort.order} NULLS LAST"
+    order_sql = if @sort.column == 'opportunity'
+                  "opportunities.title #{@sort.order} NULLS LAST"
+                else
+                  "enquiries.#{@sort.column} #{@sort.order} NULLS LAST"
+                end
     query = query.order(order_sql)
 
     if @status == 'replied'
-      query = query.joins('left outer join enquiry_responses on enquiry_responses.enquiry_id=enquiries.id')
+      query = query.joins('left outer join enquiry_responses on enquiry_responses.enquiry_id=enquiries.id') unless @sort.column == 'opportunity' && status_selected
       query = query.where('enquiry_responses.id is not null')
     elsif @status == 'not_replied'
-      query = query.joins('left outer join enquiry_responses on enquiry_responses.enquiry_id=enquiries.id')
+      query = query.joins('left outer join enquiry_responses on enquiry_responses.enquiry_id=enquiries.id') unless @sort.column == 'opportunity' && status_selected
       query = query.where('enquiry_responses.id is null')
     end
 
@@ -36,5 +44,9 @@ class EnquiryQuery
     @count = query.count(:all)
 
     query.page(@page).per(@per_page)
+  end
+
+  private def status_selected
+    @status == 'replied' || @status == 'not_replied'
   end
 end

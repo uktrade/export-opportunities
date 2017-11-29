@@ -14,9 +14,9 @@ class EnquiryForm
 
   private def parse_date(params)
     return nil if params.nil?
-    return nil unless params[:year].present?
-    return nil unless params[:month].present?
-    return nil unless params[:day].present?
+    return nil if params[:year].blank?
+    return nil if params[:month].blank?
+    return nil if params[:day].blank?
     Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
   end
 end

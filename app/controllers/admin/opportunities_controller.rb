@@ -132,11 +132,11 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def create_contacts_attributes
-    [:name, :email]
+    %i[name email]
   end
 
   def update_contacts_attributes
-    [:name, :email, :id, :opportunity_id]
+    %i[name email id opportunity_id]
   end
 
   ButtonData = Struct.new(:show, :text, :path, :params)
@@ -181,7 +181,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   private def filter_params
-    params.permit(:status, { sort: [:column, :order] }, :show_expired, :s, :paged)
+    params.permit(:status, { sort: %i[column order] }, :show_expired, :s, :paged)
   end
 
   private def filter_status(current_user)
@@ -203,11 +203,11 @@ class Admin::OpportunitiesController < Admin::BaseController
       @selected_status = params[:status]
       @sort_params = params.fetch(:sort, {})
 
-      if @selected_status == 'pending' && @sort_params.empty?
-        @sort = OpportunitySort.new(default_column: 'ragg', default_order: 'asc')
-      else
-        @sort = OpportunitySort.new(default_column: 'created_at', default_order: 'desc').update(column: @sort_params[:column], order: @sort_params[:order])
-      end
+      @sort = if @selected_status == 'pending' && @sort_params.empty?
+                OpportunitySort.new(default_column: 'ragg', default_order: 'asc')
+              else
+                OpportunitySort.new(default_column: 'created_at', default_order: 'desc').update(column: @sort_params[:column], order: @sort_params[:order])
+              end
       @hide_expired = !params[:show_expired]
       # Allowing a non-sanitized search input past this layer **only** for the view.
       # The intent is not to give away how the inputs are being stripped to the user.

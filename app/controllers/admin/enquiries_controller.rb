@@ -79,7 +79,7 @@ class Admin::EnquiriesController < Admin::BaseController
   end
 
   private def enquiry_form
-    @enquiry_form ||= EnquiryForm.new(params.permit(created_at_from: [:year, :month, :day], created_at_to: [:year, :month, :day]))
+    @enquiry_form ||= EnquiryForm.new(params.permit(created_at_from: %i[year month day], created_at_to: %i[year month day]))
   end
 
   private def download_filename
@@ -87,7 +87,7 @@ class Admin::EnquiriesController < Admin::BaseController
   end
 
   private def filter_params
-    params.permit(:status, { sort: [:column, :order] }, :company_name, :created_at, :paged)
+    params.permit(:status, { sort: %i[column order] }, :company_name, :created_at, :paged, opportunity: :title)
   end
 
   private def filter_status(current_user)

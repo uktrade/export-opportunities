@@ -58,4 +58,7 @@ Rails.application.configure do
 
   # Run background jobs inline
   config.active_job.queue_adapter = :inline
+
+  # don't show announcements
+  # ENV['SUPPRESS_ANNOUNCEMENT'] = 'true'
 end

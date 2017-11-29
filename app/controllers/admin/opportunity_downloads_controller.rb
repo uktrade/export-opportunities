@@ -50,9 +50,9 @@ class Admin::OpportunityDownloadsController < Admin::BaseController
   end
 
   private def parse_date(params)
-    raise ArgumentError, 'Invalid date: year was blank' unless params[:year].present?
-    raise ArgumentError, 'Invalid date: month was blank' unless params[:month].present?
-    raise ArgumentError, 'Invalid date: day was blank' unless params[:day].present?
+    raise ArgumentError, 'Invalid date: year was blank' if params[:year].blank?
+    raise ArgumentError, 'Invalid date: month was blank' if params[:month].blank?
+    raise ArgumentError, 'Invalid date: day was blank' if params[:day].blank?
     Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
   end
 end
