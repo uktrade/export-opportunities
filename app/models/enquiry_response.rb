@@ -31,6 +31,7 @@ class EnquiryResponse < ActiveRecord::Base
 
   def documents_list
     return 'Not available' unless response_type == 1
+    return 'none' if documents.blank?
     file_list = ''
     begin
       docs = JSON.parse(documents)

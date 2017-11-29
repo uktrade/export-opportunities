@@ -23,20 +23,6 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('Contact the company')
   end
 
-  scenario 'reply to an enquiry with invalid mail length (has to be 30 chars)' do
-    skip('TODO: reintroduce once we reintroduce the 30 chars limit')
-    admin = create(:admin)
-    enquiry = create(:enquiry)
-    login_as(admin)
-    visit '/admin/enquiries/' + enquiry.id.to_s
-
-    click_on 'Reply'
-    # need more information
-    choose 'Need more information'
-
-    expect(page).to have_content('Contact the company')
-  end
-
   scenario 'reply to an enquiry with blank mail - FAIL' do
     admin = create(:admin)
     enquiry = create(:enquiry)
@@ -55,6 +41,91 @@ feature 'admin can reply to enquiries' do
     click_on 'Preview'
 
     expect(page).to have_content('1 error prevented this enquiry response from being saved')
+  end
+
+  scenario 'reply to an enquiry, right for opportunity' do
+    admin = create(:admin)
+    enquiry = create(:enquiry)
+    login_as(admin)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+    expect(page).to have_content('Email body')
+
+    email_body_text = Faker::Lorem.words(15).join('-')
+
+    choose 'Right for opportunity'
+
+    fill_in 'enquiry_response_email_body', with: email_body_text
+
+    click_on 'Preview'
+
+    expect(page).to have_content('Your application will now move to the next stage')
+
+    click_on 'Send'
+
+    expect(page).to have_content('Reply sent successfully')
+  end
+
+  scenario 'reply to an enquiry, go back, select it again from pending, right for opportunity' do
+    admin = create(:admin)
+    enquiry = create(:enquiry)
+    login_as(admin)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+    expect(page).to have_content('Email body')
+
+    email_body_text = Faker::Lorem.words(15).join('-')
+
+    choose 'Right for opportunity'
+
+    fill_in 'enquiry_response_email_body', with: email_body_text
+
+    click_on 'Preview'
+
+    expect(page).to have_content('Your application will now move to the next stage')
+
+    # go back to enquiry show page, select enquiry to reply again from scratch
+    visit '/admin/enquiries/' + enquiry.id.to_s
+    click_on 'Reply'
+    choose 'Right for opportunity'
+    click_on 'Preview'
+
+    click_on 'Send'
+
+    expect(page).to have_content('Reply sent successfully')
+  end
+
+  scenario 'reply to an enquiry as a previewer for the opportunity, right for opportunity - with js', js: true do
+    create(:service_provider)
+    previewer = create(:previewer)
+    opportunity = create(:opportunity, author: previewer)
+    enquiry = create(:enquiry, opportunity: opportunity)
+
+    login_as(previewer)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+    expect(page).to have_content('Email body')
+
+    email_body_text = Faker::Lorem.words(10).join('-')
+    fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
+
+    expect(page.body).to have_content(email_body_text)
+
+    page.find('#li1').click
+
+    wait_for_ajax
+
+    click_on 'Preview'
+
+    wait_for_ajax
+
+    click_on 'Send'
+
+    expect(page).to have_content('Reply sent successfully Remember to record a new CDMS Service delivery')
+    expect(page).to have_content('You have no more enquiries to respond to')
   end
 
   scenario 'reply to an enquiry with attachment choosing right for opportunity' do
@@ -183,7 +254,6 @@ feature 'admin can reply to enquiries' do
   end
 
   scenario 'reply to an enquiry with attachment, valid, right for opportunity - with js', js: true do
-    skip('this works for attaching files, except for undefined property value of null')
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
