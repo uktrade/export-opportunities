@@ -179,7 +179,7 @@ feature 'admin can reply to enquiries' do
 
     click_on 'Send'
 
-    expect(page).to have_content('Reply sent successfully Remember to record a new interaction in Data Hub')
+    expect(page).to have_content('Reply sent successfully Remember to record a new interaction in Data Hub.')
   end
 
   scenario 'reply to an enquiry with attachment, valid, right for opportunity - with js', js: true do
