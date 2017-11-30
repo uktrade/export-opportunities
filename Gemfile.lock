@@ -378,6 +378,8 @@ GEM
     sexp_processor (4.7.0)
     shoulda-matchers (3.1.1)
       activesupport (>= 4.0.0)
+    show_me_the_cookies (3.1.0)
+      capybara (~> 2.0)
     sidekiq (4.2.7)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
@@ -410,6 +412,8 @@ GEM
     timecop (0.8.1)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
+    uglifier (3.2.0)
+      execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.4)
@@ -504,6 +508,7 @@ DEPENDENCIES
   sdoc
   sentry-raven
   shoulda-matchers
+  show_me_the_cookies
   sidekiq
   sidekiq-cron
   sidekiq-failures
@@ -511,6 +516,7 @@ DEPENDENCIES
   stringex
   test_after_commit
   timecop
+  uglifier
   vcr
   web-console
   webmock
