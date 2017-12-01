@@ -1,7 +1,7 @@
-// Main dit.js file
+// Main headerFooter.js file
 // Expected to hold global variables, messages, and provide base to namespaces
 
-var dit = {
+var headerFooter = {
   // Namespace to be populated by external files
   classes: {},
   components: {},
@@ -17,9 +17,9 @@ var dit = {
 
 // REQUIRES
 // jQuery
-// dit.js
+// headerFooter.js
 
-dit.utils = (new function () {
+headerFooter.utils = (new function () {
 
   /* Attempt to generate a unique string
   * e.g. For HTML ID attribute.
@@ -30,7 +30,7 @@ dit.utils = (new function () {
   }
 
   /* Attempt to run a namespaced function from passed string.
-  * e.g. dit.utils.executeNamespacedFunction("dit.utils.generateUniqueStr");
+  * e.g. headerFooter.utils.executeNamespacedFunction("headerFooter.utils.generateUniqueStr");
   * @namespace (String) Namespaced function like above example.
   **/
   this.executeNamespacedFunction = function (namespace) {
@@ -67,7 +67,7 @@ dit.utils = (new function () {
     var lasttop;
 
     function align(items) {
-      var max = dit.utils.maxHeight(items);
+      var max = headerFooter.utils.maxHeight(items);
       items.height(max + "px");
     }
 
@@ -145,10 +145,10 @@ dit.utils = (new function () {
 // E.g.
 //
 // Requires...
-// dit.js
+// headerFooter.js
 //
 
-dit.responsive = (new function () {
+headerFooter.responsive = (new function () {
 
   // Constants
   var RESET_EVENT = "dit:responsive:reset";
@@ -171,7 +171,7 @@ dit.responsive = (new function () {
   * Use CSS media queries to control z-index values of the
   * #RESPONSIVE_ELEMENT_ID hidden element. Detected value
   * should match up with index number of _responsiveValues
-  * array. dit.responsive.mode() will return a string that
+  * array. headerFooter.responsive.mode() will return a string that
   * should give the current responsive mode.
   * E.g. For _responsiveValues array ["desktop", "table", "mobile"],
   * the expected z-index values would be:
@@ -205,7 +205,7 @@ dit.responsive = (new function () {
   }
 
   /* Create in-page <style> tag containing set media query
-  * breakpoints passed to dit.responsive.init()
+  * breakpoints passed to headerFooter.responsive.init()
   * @queries (Object) Media queries and label - e.g. { desktop: "min-width: 1200px" }
   **/
   function addResponsiveSizes(queries) {
@@ -287,9 +287,9 @@ dit.responsive = (new function () {
   }
 });
 // Scroll Related Functions.
-// Requires main dit.js file
+// Requires main headerFooter.js file
 
-dit.scroll = (new function () {
+headerFooter.scroll = (new function () {
   this.scrollPosition = 0;
 
   this.disable = function () {
@@ -320,8 +320,8 @@ dit.scroll = (new function () {
 *
 * REQUIRES:
 * jquery
-* dit.js
-* dit.utils.js
+* headerFooter.js
+* headerFooter.utils.js
 *
 **/
 (function($, utils, classes) {
@@ -454,6 +454,9 @@ dit.scroll = (new function () {
     var EXPANDER = this;
 
     EXPANDER.$control.on(KEY, function(e) {
+      if(event.shiftKey && event.keyCode == 9) {
+        EXPANDER.close();
+      }
       // keypress charCode=0, keyCode=13 = enter
       if (e.which !== 9 && e.which !== 13) {
         e.preventDefault();
@@ -461,12 +464,12 @@ dit.scroll = (new function () {
       Expander.focus.call(EXPANDER);
 
       switch(e.which) {
-        case 37: // Fall through.
+        case 38: // Fall through.
         case 27:
         EXPANDER.close();
         break;
         case 13: // Fall through
-        case 39:
+        case 40:
         if(EXPANDER.state === OPEN) {
           // Move though any detected links.
           Expander.move.call(EXPANDER, e);
@@ -643,7 +646,7 @@ dit.scroll = (new function () {
     this.config.cleanup();
   }
 
-})(jQuery, dit.utils, dit.classes);
+})(jQuery, headerFooter.utils, headerFooter.classes);
 
 /* Class will add a controller before the $target element.
 * The triggered event will toggle a class on the target element and controller.
@@ -655,9 +658,9 @@ dit.scroll = (new function () {
 *
 * REQUIRES:
 * jquery
-* dit.js
-* dit.utils.js
-* dit.classes.expander.js
+* headerFooter.js
+* headerFooter.utils.js
+* headerFooter.classes.expander.js
 *
 **/
 
@@ -686,16 +689,16 @@ dit.scroll = (new function () {
   }
 
   classes.Accordion = Accordion;
-})(jQuery, dit.utils, dit.classes);
+})(jQuery, headerFooter.utils, headerFooter.classes);
 
 // Menu Component Functionality.
 //
 // Requires...
-// dit.js
-// dit.class.expander.js
-// dit.classes.accordion.js
+// headerFooter.js
+// headerFooter.class.expander.js
+// headerFooter.classes.accordion.js
 
-dit.components.menu = (new function() {
+headerFooter.components.menu = (new function() {
 
   // Constants
   var MENU_ACTIVATOR_ID = "menu-activator";
@@ -736,7 +739,7 @@ dit.components.menu = (new function() {
     $(SELECTOR_MENU_LISTS).each(function() {
       var $this = $(this);
       // Add to _expanders support reset()
-      _expanders.push(new dit.classes.Expander($this, {
+      _expanders.push(new headerFooter.classes.Expander($this, {
         hover: true,
         wrap: true,
         $control: $("#" + $this.attr("aria-labelledby"))
@@ -762,7 +765,7 @@ dit.components.menu = (new function() {
   * and attempts to setup the appropriate functionality.
   **/
   function setupResponsiveView() {
-    var mode = dit.responsive.mode();
+    var mode = headerFooter.responsive.mode();
     this.mode = mode;
     switch(mode) {
       case "desktop":
@@ -790,13 +793,13 @@ dit.components.menu = (new function() {
     return $button;
   }
 
-  /* Bind listener for the dit.responsive.reset event
+  /* Bind listener for the headerFooter.responsive.reset event
   * to reset the view when triggered.
   **/
   function bindResponsiveListener() {
-    $(document.body).on(dit.responsive.reset, function(e, mode) {
-      if(mode !== dit.components.menu.mode) {
-        dit.components.menu.reset();
+    $(document.body).on(headerFooter.responsive.reset, function(e, mode) {
+      if(mode !== headerFooter.components.menu.mode) {
+        headerFooter.components.menu.reset();
       }
     });
   }
@@ -823,7 +826,7 @@ dit.components.menu = (new function() {
     var $menu = $(SELECTOR_MENU);
     $menu.before($control);
     $menu.each(function() {
-      _expanders.push(new dit.classes.Expander($(this), {
+      _expanders.push(new headerFooter.classes.Expander($(this), {
         blur: false,
         $control: $control,
         complete: fixTabletTabbingIssue,
@@ -840,13 +843,13 @@ dit.components.menu = (new function() {
     var expanders = [];
     $(SELECTOR_MENU_LISTS).each(function() {
       var $this = $(this);
-      expanders.push(new dit.classes.Expander($this, {
+      expanders.push(new headerFooter.classes.Expander($this, {
         $control: $("#" + $this.attr("aria-labelledby"))
       }));
     });
 
     // Make array of expanders into an accordion.
-    new dit.classes.Accordion(expanders, "open", "close");
+    new headerFooter.classes.Accordion(expanders, "open", "close");
 
     // Add to _expanders for reset() support.
     _expanders.push.apply(_expanders, expanders);
@@ -879,23 +882,23 @@ dit.components.menu = (new function() {
 //
 // Requires
 // jQuery
-// dit.js
-// dit.components.js
+// headerFooter.js
+// headerFooter.components.js
 //
-dit.header = (new function () {
+headerFooter.menu = (new function () {
   // Page init
   this.init = function() {
-    dit.responsive.init({
+    headerFooter.responsive.init({
       "desktop": "min-width: 768px",
       "tablet" : "max-width: 767px",
       "mobile" : "max-width: 480px"
     });
 
     delete this.init; // Run once
-    dit.components.menu.init();
+    headerFooter.components.menu.init();
   }
 });
 
 $(document).ready(function() {
-  dit.header.init();
+  headerFooter.menu.init();
 });
