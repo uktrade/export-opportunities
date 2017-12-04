@@ -8,7 +8,7 @@ ukti.announcements = (function(A11yDialog, Cookies) {
   var config = {
     EXCLUDE_PATHS : ['/admin/updates'],
     DAYS_TO_EXPIRY: 90,
-    COOKIE_NAME : 'UPDATE-NOVEMBER-2017-ACCEPTED' // change this when you want to make a new announcement
+    COOKIE_NAME : 'UPDATE-DECEMBER-2017-ACCEPTED' // change this when you want to make a new announcement
   };
 
   var el,
@@ -32,7 +32,7 @@ ukti.announcements = (function(A11yDialog, Cookies) {
 
   var addListeners = function() {
     dialogue.on('show', function (dialogEl, event) {
-      // mainEl.classList.add('hidden');
+      mainEl.classList.add('hidden');
     });
 
     dialogue.on('hide', function (dialogEl, event) {
