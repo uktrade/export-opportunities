@@ -16,14 +16,16 @@ class EnquiryQuery
 
   private def fetch_enquiries
     query = if @sort.column == 'opportunity' && !status_selected
-              @scope.includes(:opportunity)
+              @scope.joins(:opportunity)
             else
               @scope.distinct
             end
 
     order_sql = if @sort.column == 'opportunity'
+                  @count = query.count
                   "opportunities.title #{@sort.order} NULLS LAST"
                 else
+                  @count = query.count(:all)
                   "enquiries.#{@sort.column} #{@sort.order} NULLS LAST"
                 end
     query = query.order(order_sql)
@@ -40,8 +42,6 @@ class EnquiryQuery
     query = query.order(created_at: :desc)
 
     # Without an argument, .count will produce invalid SQL in this context
-
-    @count = query.count(:all)
 
     query.page(@page).per(@per_page)
   end
