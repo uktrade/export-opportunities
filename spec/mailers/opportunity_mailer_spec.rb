@@ -11,7 +11,7 @@ RSpec.describe OpportunityMailer, type: :mailer do
       OpportunityMailer.send_opportunity(opportunity, subscription).deliver_later!
       last_delivery = ActionMailer::Base.deliveries.last
 
-      expect(last_delivery.subject).to eql 'New opportunity from Exporting is GREAT: ' + opportunity.title
+      expect(last_delivery.subject).to eql 'New opportunity from Export opportunities: ' + opportunity.title
       expect(last_delivery.to).to include(user.email)
       expect(last_delivery.to_s).to include(opportunity.title)
       expect(last_delivery.to_s).to include(opportunity.teaser)

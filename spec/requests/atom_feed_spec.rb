@@ -15,6 +15,7 @@ RSpec.describe 'Viewing the ATOM feed for opportunities', :elasticsearch, :commi
       first_published_at: DateTime.new(2016, 9, 11, 18, 0, 0).utc)
 
     sleep 1
+    
     get '/opportunities.atom'
 
     body = parse_xml(response.body)
@@ -23,7 +24,7 @@ RSpec.describe 'Viewing the ATOM feed for opportunities', :elasticsearch, :commi
     expect(response.headers['Content-Type']).to eql 'application/atom+xml; charset=utf-8'
 
     expect(body.at_css('feed > id').text).to eql 'tag:www.example.com,2016:/opportunities'
-    expect(body.at_css('feed > title').text).to eql 'Exporting is GREAT'
+    expect(body.at_css('feed > title').text).to eql 'Export opportunities'
     expect(body.at_css('feed > subtitle').text).to eql 'The demand is out there. You could be too.'
     expect(body.at_css('feed > updated').text).to eql '2016-09-20T18:00:00Z'
 

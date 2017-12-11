@@ -85,6 +85,7 @@ group :development, :test do
   gem 'pry-rescue'
   gem 'pry-stack_explorer'
   gem 'bullet'
+  gem 'uglifier'
 end
 
 group :development do
@@ -115,6 +116,7 @@ group :test do
   gem 'vcr'
   gem 'test_after_commit'
   gem 'elasticsearch-extensions'
+  gem 'show_me_the_cookies'
 end
 
 group :production do

@@ -41,9 +41,9 @@
 
     %main#content{:role => 'main'}
       - if current_editor
-        .alert.flash.notice
+        .alert.flash.notice.announcement-notice
           %p
-            Changes to sign-off line
+            Ability to sort columns in Enquiries tab
             = link_to 'Read more', "/admin/updates"
         %br
 
@@ -68,8 +68,8 @@
 
       = content_for?(:content) ? yield(:content) : yield
 
-      - if current_editor
-        = render 'admin/includes/dialogue'
+    - if current_editor
+      = render 'admin/includes/dialogue'
     = javascript_include_tag 'modernizr.min'
     = javascript_include_tag 'admin'
     = render partial: 'google_analytics'

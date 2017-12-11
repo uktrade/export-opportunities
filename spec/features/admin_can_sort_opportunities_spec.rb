@@ -116,6 +116,31 @@ feature 'Admins sorting the list of opportunities', :elasticsearch, :commit do
     expect(page.find('tbody tr:nth-child(3)')).to have_content(first_opportunity.title)
   end
 
+  scenario 'Sort by Service provider' do
+    uploader = create(:uploader)
+    # first_service_provider = create(:service_provider, name: 'Italy Rome')
+    # second_service_provider = create(:service_provider, name: 'Italy Naples')
+    # third_service_provider = create(:service_provider, name: 'France Paris')
+
+    first_opportunity = create(:opportunity, title: 'Aardvark', created_at: 2.months.ago, response_due_on: 12.months.from_now, service_provider: uploader.service_provider)
+    second_opportunity = create(:opportunity, title: 'Bear', created_at: 3.months.ago, response_due_on: 24.months.from_now, service_provider: uploader.service_provider)
+    third_opportunity = create(:opportunity, title: 'Capybara', created_at: 1.month.ago, response_due_on: 18.months.from_now, service_provider: uploader.service_provider)
+
+    login_as(uploader)
+    visit admin_opportunities_path
+
+    # Sorted in reverse date order by default
+    expect(page.find('tbody tr:nth-child(1)')).to have_content(third_opportunity.title)
+    expect(page.find('tbody tr:nth-child(2)')).to have_content(first_opportunity.title)
+    expect(page.find('tbody tr:nth-child(3)')).to have_content(second_opportunity.title)
+
+    click_on 'Service provider'
+
+    expect(page.find('tbody tr:nth-child(1)')).to have_content(third_opportunity.title)
+    expect(page.find('tbody tr:nth-child(2)')).to have_content(second_opportunity.title)
+    expect(page.find('tbody tr:nth-child(3)')).to have_content(first_opportunity.title)
+  end
+
   scenario 'Editors can toggle the sort order by clicking on the header repeatedly' do
     publisher = create(:publisher)
 

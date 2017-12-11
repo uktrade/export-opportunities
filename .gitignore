@@ -39,6 +39,7 @@ node_modules/
 
 # Ignore public/system files
 public/system
+public/assets
 
 heroku_config_variables
 
@@ -59,3 +60,4 @@ public/uploads
 public/capybara.html
 
 vendor/bundle/*
+# vendor/cache/*

@@ -36,6 +36,7 @@
 @import "govuk_template/header";
 
 // Opportunities specific styles
+@import "admin/components/dialogue";
 @import "admin/mixins";
 @import "admin/variables";
 @import "admin/colours";
@@ -65,7 +66,6 @@
 @import "admin/components/uploadWidget";
 @import "admin/components/loadingIndicator";
 @import "admin/components/htmlEditorPreview";
-@import "admin/components/dialogue";
 @import "admin/badge";
 @import "admin/confirmationMessage";
 

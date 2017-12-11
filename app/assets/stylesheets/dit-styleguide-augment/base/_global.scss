@@ -3,6 +3,25 @@ body {
 	overflow-x: hidden;
 	background:	$white;
 }
+
+/* beware .container stlename clash with header/footer css */
+main.main {
+	clear: both;
+}
+
+main.main .container {
+  margin: 0 auto;
+  max-width: $max-width;
+  padding: 0 10px;
+  @media #{$tablet-m} {
+    padding: 0 30px;
+  }
+  @media #{$desktop-m} {
+    padding: 0;
+  }
+  @include clearfix;
+}
+
 .img {
 	display:block;
 	&__fluid {

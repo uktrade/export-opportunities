@@ -9,11 +9,11 @@ $(document).ready(function () {
   // Where .multiple-choice uses the data-target attribute
   // to toggle hidden content
   var showHideContent = new GOVUK.ShowHideContent()
-  showHideContent.init()
+  showHideContent.init();
 
   // Use GOV.UK shim-links-with-button-role.js to trigger a link styled to look like a button,
   // with role="button" when the space key is pressed.
-  GOVUK.shimLinksWithButtonRole.init()
+  GOVUK.shimLinksWithButtonRole.init();
 
   // Details/summary polyfill
   // See /javascripts/vendor/details.polyfill.js
@@ -28,11 +28,11 @@ $(window).load(function () {
       $('.error-summary a').click(function (e) {
         e.preventDefault()
         var href = $(this).attr('href')
-        $(href).focus()
-      })
+        $(href).focus();
+      });
     } else {
       // Otherwise, set focus to the field with the error
-      $('.error input:first').focus()
+      $('.error input:first').focus();
     }
   }
 })

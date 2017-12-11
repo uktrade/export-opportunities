@@ -29,6 +29,8 @@ Rails.application.configure do
 
   config.assets.quiet = true
 
+  config.assets.css_compressor = :sass
+
   # Make links in emails work
   config.action_mailer.default_url_options = { host: Figaro.env.DOMAIN! }
   config.action_mailer.asset_host = Figaro.env.DOMAIN!
