@@ -1,7 +1,7 @@
 
 - enquiry_id = params['id'].nil? ? params['enquiry_response'].fetch(:enquiry_id) : params.fetch(:id)
 
-- @response_type = @enquiry_response.response_type.nil? ? 3 : @enquiry_response.response_type
+- @response_type = @enquiry_response.response_type.nil? ? 1 : @enquiry_response.response_type
 
 = form_for [:admin, enquiries_response], html: {multipart: true, :class => 'enquiry_response'} do |f|
   - if enquiries_response.errors.any?
@@ -44,7 +44,7 @@
       .grid-row
         .column-one-half
           .tab-content.js-tab-content{"aria-live" => "polite"}
-            #response-1-tab-panel.tab-panel.js-tab-panel{:role => "tabpanel"}
+            #response-1-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
               %p
                 %strong Your comments will be added to the message sent to the company.
               %p Let the company know if:
@@ -67,7 +67,7 @@
               %p
                 %strong This proposal will remain marked not replied if you do not complete these steps.
 
-            #response-3-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "true", :role => "tabpanel"}
+            #response-3-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel"}
               %p
                 %strong Your comments will be added to the message sent to the company.
               - if @enquiry_response.enquiry.opportunity.expired?

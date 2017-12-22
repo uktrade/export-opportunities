@@ -15,7 +15,7 @@ RSpec.describe 'Viewing the ATOM feed for opportunities', :elasticsearch, :commi
       first_published_at: DateTime.new(2016, 9, 11, 18, 0, 0).utc)
 
     sleep 1
-    
+
     get '/opportunities.atom'
 
     body = parse_xml(response.body)

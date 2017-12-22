@@ -1,5 +1,6 @@
 //= require config
 //= require jquery
+//= require header-footer
 //= require redesign-oct-2017/account
 //= require jquery.placeholder.min
 //= require jquery.charactercounter
@@ -17,6 +18,3 @@
 //
 //= require legacy_wordpress/html5shiv
 //= require legacy_wordpress/json2
-//= require header-footer
-
-
