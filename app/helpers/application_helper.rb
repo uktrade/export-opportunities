@@ -24,14 +24,18 @@ module ApplicationHelper
 
   def trade_profile(companies_house_number)
     return nil unless companies_house_number
-    trade_profile_url = Figaro.env.TRADE_PROFILE_PAGE + companies_house_number
+    trade_profile_url = Figaro.env.TRADE_PROFILE_PAGE + companies_house_number + '/'
     begin
-      response = Net::HTTP.get(URI(trade_profile_url))
+      response = Net::HTTP.get_response(URI.parse(trade_profile_url.to_s))
     rescue
       response = nil
     end
-    # TODO: Profile Team should return a proper HTTP code in response
-    trade_profile_url if response.eql?('')
+    if response.nil? || response.code == '404'
+      return nil
+    else
+      return trade_profile_url
+    end
+
   end
 
   def opportunity_expired?(response_due_on)
