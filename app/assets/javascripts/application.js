@@ -1,6 +1,4 @@
 //= require config
-//= require jquery
-//= require header-footer
 //= require redesign-oct-2017/account
 //= require jquery.placeholder.min
 //= require jquery.charactercounter

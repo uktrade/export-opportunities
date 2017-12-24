@@ -90,6 +90,6 @@ function init () {
   }
 }
 
-//init();
+init();
 
 })();
