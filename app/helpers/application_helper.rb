@@ -35,7 +35,6 @@ module ApplicationHelper
     else
       return trade_profile_url
     end
-
   end
 
   def opportunity_expired?(response_due_on)
