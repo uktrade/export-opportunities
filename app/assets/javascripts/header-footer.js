@@ -464,12 +464,12 @@ headerFooter.scroll = (new function () {
       Expander.focus.call(EXPANDER);
 
       switch(e.which) {
-        case 38: // Fall through.
+        case 37: // Fall through.
         case 27:
         EXPANDER.close();
         break;
         case 13: // Fall through
-        case 40:
+        case 39:
         if(EXPANDER.state === OPEN) {
           // Move though any detected links.
           Expander.move.call(EXPANDER, e);
