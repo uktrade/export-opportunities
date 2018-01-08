@@ -31,7 +31,12 @@ describe EnquiryCSV do
         data_protection: true
       )
 
-      expected_row = "Pig Ltd,Peppa,Pig,Victoria Street,AB1 1BA,01234 567890,2017/01/17 12:00,Agriculture,France - shoes needed,France,peppa@pig.com,France Paris,Yes,N/A,#{enquiry.opportunity_id},1234,http://pig.com/,Not yet,\"We would like to\nexport.\"\n"
+      enquiry_response = create(:enquiry_response, enquiry: enquiry, response_type: 1, email_body: 'we love Peppa the Pig')
+      enquiry_response['completed_at'] = Time.utc(2018, 1, 8, 12, 0, 0)
+
+      enquiry_response.save!
+
+      expected_row = "Pig Ltd,Peppa,Pig,Victoria Street,AB1 1BA,01234 567890,2017/01/17 12:00,Agriculture,France - shoes needed,France,peppa@pig.com,France Paris,Yes,N/A,1234,http://pig.com/,Not yet,\"We would like to\nexport.\",Right for opportunity,we love Peppa the Pig,2018/01/08 12:00\n"
 
       expect { |row| subject.each(&row) }.to yield_successive_args(expected_header, expected_row)
     end
@@ -42,7 +47,7 @@ describe EnquiryCSV do
       opportunity.save(validate: false)
       user = create(:user, email: 'peppa@pig.com')
 
-      enquiry = create(
+      create(
         :enquiry,
         opportunity: opportunity,
         first_name: 'Peppa',
@@ -61,13 +66,13 @@ describe EnquiryCSV do
         data_protection: true
       )
 
-      expected_row = "Pig Ltd,Peppa,Pig,Victoria Street,AB1 1BA,01234 567890,2017/01/17 12:00,Agriculture,Germany - sausages needed,,peppa@pig.com,,Yes,N/A,#{enquiry.opportunity_id},1234,http://pig.com/,Not yet,\"We would like to\nexport.\"\n"
+      expected_row = "Pig Ltd,Peppa,Pig,Victoria Street,AB1 1BA,01234 567890,2017/01/17 12:00,Agriculture,Germany - sausages needed,,peppa@pig.com,,Yes,N/A,1234,http://pig.com/,Not yet,\"We would like to\nexport.\",none,none,none\n"
 
       expect { |row| subject.each(&row) }.to yield_successive_args(expected_header, expected_row)
     end
   end
 
   def expected_header
-    "Company Name,First Name,Last Name,Company Address,Company Postcode,Company Telephone number,Date response submitted,Company's Sector,Opportunity Title,Countries,Email Address,Service provider,Terms accepted,webUserId,Opportunity ID,Companies House Number,Company URL,Have they sold products or services to overseas customers?,How the company can meet the requirements in this opportunity\n"
+    "Company Name,First Name,Last Name,Company Address,Company Postcode,Company Telephone number,Date response submitted,Company's Sector,Opportunity Title,Countries,Email Address,Service provider,Terms accepted,Companies House Number,Company URL,Have they sold products or services to overseas customers?,How the company can meet the requirements in this opportunity,Enquiry response reply,Enquiry response text,Enquiry response timestamp\n"
   end
 end

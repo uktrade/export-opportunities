@@ -28,21 +28,9 @@ class Admin::EnquiriesController < Admin::BaseController
         @next_enquiry = next_enquiry if params[:reply_sent]
       end
       format.csv do
-        @enquiries = policy_scope(Enquiry).all.order(created_at: :desc)
-        @enquiries = @enquiries.where(created_at: @enquiry_form.from..@enquiry_form.to) if @enquiry_form.dates?
-
-        response.headers['Content-Disposition'] = "attachment; filename=\"#{download_filename}\""
-        response.headers['Content-Type'] = 'text/csv'
-
-        csv = EnquiryCSV.new(@enquiries)
-
-        begin
-          csv.each do |row|
-            response.stream.write(row)
-          end
-        ensure
-          response.stream.close
-        end
+        enquiries = policy_scope(Enquiry).includes(:enquiry_response).all.order(created_at: :desc)
+        SendEnquiriesReportToMatchingAdminUser.perform_async(current_editor.email, enquiries.pluck(:id), @enquiry_form.from, @enquiry_form.to, false) if @enquiry_form.dates?
+        redirect_to admin_enquiries_path, notice: 'The requested Enquiries report has been emailed to you.'
       end
     end
   end

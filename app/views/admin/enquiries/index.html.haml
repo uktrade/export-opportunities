@@ -29,7 +29,7 @@
     = select_date 1.day.ago, prefix: :created_at_from, class: 'form-control', id: 'created_at_from'
     = label_tag :created_at_to, 'To'
     = select_date Date.today, prefix: :created_at_to, class: 'form-control', id: 'created_at_to'
-    = submit_tag 'Download as CSV', class: 'button'
+    = submit_tag 'Generate Report', class: 'button'
 
 %table
   %thead

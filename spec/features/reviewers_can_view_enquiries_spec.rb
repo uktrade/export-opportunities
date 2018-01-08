@@ -66,8 +66,6 @@ feature 'previewers can view enquiries' do
     expect(page).to have_content(enquiry.opportunity.countries[0].name)
     expect(page).to have_content(user.email)
     expect(page).to have_content(enquiry.opportunity.service_provider.name)
-    expect(page).to have_content('Yes')
-    expect(page).to have_content(enquiry.opportunity.id)
     expect(page).to have_content(enquiry.company_house_number)
     expect(page).to have_content(enquiry.company_url)
     expect(page).to have_content(enquiry.existing_exporter)

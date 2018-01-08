@@ -99,16 +99,16 @@ feature 'Administering opportunities' do
     login_as(uploader)
     visit admin_opportunities_path
     click_on 'New opportunity'
+
     click_on 'Create Opportunity'
 
     expect(page.status_code).to eq 422
-    expect(page).to have_text('6 errors prevented this opportunity from being saved')
+    expect(page).to have_text('5 errors prevented this opportunity from being saved')
     expect(page).to have_text('Title is missing')
     expect(page).to have_text("#{t('activerecord.attributes.opportunity.teaser')} is missing")
     expect(page).to have_text("#{t('activerecord.attributes.opportunity.response_due_on')} is missing")
     expect(page).to have_text('Description is missing')
     expect(page).to have_text('Contacts are missing (2 are required)')
-    expect(page).to have_text('Service provider is missing')
 
     fill_in 'Title', with: 'A chance to begin again in a golden land of opportunity and adventure'
     fill_in t('admin.opportunity.teaser_field'), with: 'A new life awaits you in the off-world colonies!'
@@ -295,7 +295,7 @@ feature 'Administering opportunities' do
   end
 
   context 'service provider dropdown behaviour' do
-    scenario 'is not automatically populated by defualt' do
+    scenario 'is not automatically populated by default' do
       uploader = create(:editor, role: :uploader)
       create(:service_provider)
 
@@ -303,8 +303,7 @@ feature 'Administering opportunities' do
 
       visit '/admin/opportunities'
       click_on 'New opportunity'
-
-      expect(page).to have_select('opportunity[service_provider_id]', selected: [])
+      expect(page).to have_select('opportunity[service_provider_id]')
     end
 
     scenario 'automatically selects the editor’s service provider if available' do

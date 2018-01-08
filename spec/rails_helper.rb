@@ -69,7 +69,7 @@ RSpec.configure do |config|
   config.include ShowMeTheCookies, type: :feature
 
   config.before(:each, js: true) do
-    create_cookie('UPDATE-NOVEMBER-2017-ACCEPTED', true)
+    create_cookie('UPDATE-DECEMBER-2017-ACCEPTED', true)
   end
 end
 

@@ -9,7 +9,7 @@ gem 'pg'
 gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'sidekiq-failures'
-gem 'redis'
+gem 'redis', '3.3.3'
 gem 'redis-namespace'
 gem 'faraday'
 gem 'figaro'
@@ -79,6 +79,9 @@ gem 'carrierwave'
 
 # rest client for antivirus scanning
 gem 'rest-client'
+
+# zipping for email attachments over 10MB
+gem 'rubyzip'
 
 group :development, :test do
   gem 'byebug'
