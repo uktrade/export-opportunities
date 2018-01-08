@@ -40,13 +40,6 @@
 
 
     %main#content{:role => 'main'}
-      - if current_editor
-        .alert.flash.notice.announcement-notice
-          %p
-            Ability to sort columns in Enquiries tab
-            = link_to 'Read more', "/admin/updates"
-        %br
-
       - if flash[:alert]
         .alert.flash.error
           - if flash[:alert] == t('devise.failure.invalid')
