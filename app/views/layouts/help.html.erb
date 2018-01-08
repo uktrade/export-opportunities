@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html class="no-js lt-ie10 lt-ie9" lang="en-GB"> <![endif]-->
+<!--[if IE 9]> <html class="no-js lt-ie10" lang="en-GB"> <![endif]-->
+<!--[if gt IE 9]>  <![endif]-->
+<html class='no-js' lang='en-GB'>
+<head>
+  <title><%= t('organisation.name') %> - Guidance</title>
+  <%= stylesheet_link_tag 'updated/admin', media: 'all' %>
+  <%= stylesheet_link_tag 'updated/layouts/help', media: 'all' %>
+  <%= csrf_meta_tags %>
+  <%= render partial: 'admin/includes/global_script_tags' %>
+</head>
+<body class="help">
+  <%= render partial: 'admin/includes/header' %>
+
+  <main id="main" role="main" class="container">
+    <%= render partial: 'admin/includes/phase_banner' %>
+    <%= render partial: 'admin/includes/flash_error' %>
+    <%= render partial: 'admin/includes/flash_notice' %>
+    <%= content_for?(:errors) ? yield(:errors) : "" %>
+    <%= content_for?(:content) ? yield(:content) : yield %>
+  </main>
+
+  <%= render partial: 'admin/includes/footer' %>
+</body>
+</html>
