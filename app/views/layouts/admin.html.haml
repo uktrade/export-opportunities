@@ -32,10 +32,7 @@
       .phase-banner-alpha
         %p
           %strong.phase-tag ALPHA
-          %span
-            This is a new service – your
-            = link_to 'feedback', "mailto:#{t('organisation.feedback_email')}?subject=EIG%20alpha%20feedback"
-            will help us to improve it.
+          %span This is a new service – your feedback will help us to improve it.
 
 
 
@@ -63,6 +60,12 @@
 
     - if current_editor
       = render 'admin/includes/dialogue'
+
+    %footer
+      .container
+        Do you have other suggestions? Please
+        %a(href="mailto:#{t('organisation.feedback_email')}?subject=EIG%20alpha%20feedback") email us with your feedback
+
     = javascript_include_tag 'modernizr.min'
     = javascript_include_tag 'admin'
     = render partial: 'google_analytics'
