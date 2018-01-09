@@ -1,7 +1,7 @@
 .hero {
   &__main {
     background-color: $offwhite;
-    overflow-x: hidden;
+    //overflow-x: hidden;
     @media #{$mobile-l} {
       background-image: asset-url('backgrounds/export-opps-medium.jpg');
       background-size: cover;

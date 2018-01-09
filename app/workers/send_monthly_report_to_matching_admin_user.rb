@@ -4,7 +4,6 @@ require 'csv'
 class SendMonthlyReportToMatchingAdminUser
   include ReportHelper
   include Sidekiq::Worker
-
   sidekiq_options retry: false
 
   def perform(current_editor_email, params)
@@ -105,8 +104,6 @@ class SendMonthlyReportToMatchingAdminUser
     CreateReportAudit.new.call(current_editor_email, 'monthly_report_country_vs_target', params.to_json)
   end
 
-  private
-
   def fetch_targets
     cen_target_object = Country.find(13)
     nbn_target_object = Country.find(29)
@@ -126,23 +123,32 @@ class SendMonthlyReportToMatchingAdminUser
   end
 
   def date_period
-    start_date = Date.new(Time.zone.today.year, 4, 1)
+    start_date = Date.new(financial_year_end, 4, 1)
     end_date = start_date + 1.year - 1.day
     [start_date, end_date]
   end
 
   def calculate_months
     result = []
-    current_year = Time.zone.today.year.to_s[2, 3]
+    year = financial_year_end
     months_arr = %w[Apr May Jun Jul Aug Sep Oct Nov Dec Jan Feb Mar]
     months_arr.each_with_index do |month, index|
       result << if index < 9
-                  month + '-' + current_year
+                  month + '-' + year.to_s[2, 3]
                 else
-                  month + '-' + (current_year.to_i + 1).to_s
+                  month + '-' + (year.to_s[2, 3].to_i + 1).to_s
                 end
     end
     result
+  end
+
+  def financial_year_end
+    today = Time.zone.now
+    if today.month < 4
+      (today.year - 1)
+    else
+      today.year
+    end
   end
 
   def calculate_totals(row_lines, targets)
