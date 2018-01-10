@@ -1,17 +1,10 @@
 class Admin::HelpController < Admin::BaseController
-  after_action :verify_authorized, except: %i[index show]
+  rescue_from ActionView::MissingTemplate, :with => :render_error_not_found
+  after_action :verify_authorized, except: %i[index show article]
 
   def show
     page_url = params[:id]
     case page_url
-
-    when 'how-to-assess-a-uk-company'
-      render 'admin/help/how_to_assess_a_uk_company/overview'
-    when 'right-for-opportunity-responses'
-      render 'admin/help/right_for_opportunity_responses/overview'
-   when 'not-right-for-opportunity-responses'
-      render 'admin/help/not_right_for_opportunity_responses/overview'
-
     when 'opportunities'
       render 'admin/opportunities/help'
     when 'enquiries'
@@ -19,6 +12,21 @@ class Admin::HelpController < Admin::BaseController
     else
       render 'errors/not_found'
     end
+  end
+
+  def article
+    article_id = normalise params[:id]
+    section_id = normalise params[:section]
+    render "admin/help/%s/%s" % [article_id, section_id]
+  end
+  
+  def normalise(str="")
+    pp str
+    str.gsub "-", "_"
+  end
+
+  def render_error_not_found
+    render "errors/not_found"
   end
 
 end

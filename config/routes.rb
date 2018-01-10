@@ -1,3 +1,4 @@
+# coding: utf-8
 Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
 
@@ -29,7 +30,9 @@ Rails.application.routes.draw do
   get '/dashboard/enquiries', to: redirect('/dashboard')
 
   namespace :admin do
-    resources :help
+    get 'help', to: 'help#index'
+    get 'help/:id', to: 'help#show'
+    get 'help/:id/:section', to: 'help#article'
 
     devise_for :editors,
                singular: :editor,
@@ -154,7 +157,7 @@ Rails.application.routes.draw do
     get '/rails/mailers' => 'rails/mailers#index'
     get '/rails/mailers/*path' => 'rails/mailers#preview'
   end
-
+ 
   get '/api/profile_dashboard', action: :index, controller: 'api/profile_dashboard', format: 'json', via: [:get]
   post '/api/document/', action: :create, controller: 'api/document'
 
