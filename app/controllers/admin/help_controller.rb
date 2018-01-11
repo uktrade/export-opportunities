@@ -16,12 +16,13 @@ class Admin::HelpController < Admin::BaseController
 
   def article
     article_id = normalise params[:id]
-    section_id = normalise params[:section]
-    render "admin/help/%s/%s" % [article_id, section_id]
+    article = "admin/help/%s" % [article_id]
+    @article_path = "/%s" % [article] 
+    @section_id = params[:section]
+    render article
   end
   
   def normalise(str="")
-    pp str
     str.gsub "-", "_"
   end
 
