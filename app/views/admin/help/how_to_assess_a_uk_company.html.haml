@@ -1,11 +1,14 @@
+- article = HelpArticlePresenter.new(@article_path)
+
 %h1 How to assess a UK company
+
 .contents
   %ol
-    %li= link_to "Overview", @article_path + "/overview"
-    %li= link_to "Eligibility", @article_path + "/eligibility"
-    %li= link_to "Suitability", @article_path + "/suitability"
-    %li= link_to "Select a decision", @article_path + "/select-a-decision"
-    %li= link_to "How to write a response", @article_path + "/how-to-write-a-response"
+    %li= link_to article.section "Overview"
+    %li= link_to article.section "Eligibility"
+    %li= link_to article.section "Suitability"
+    %li= link_to article.section "Select a decision"
+    %li= link_to article.section "How to write a response"
 
 - if @section_id.eql? "overview"
   %p You will need to assess whether a company is both eligible and suitable for the opportunity it has applied for. To do this, you must cross reference the information the company has included in its application with its website and Companies House profile. Do not just assume that the information contained in the application is accurate.
