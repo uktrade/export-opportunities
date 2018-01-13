@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html class="no-js lt-ie10 lt-ie9" lang="en-GB"> <![endif]-->
+<!--[if IE 9]> <html class="no-js lt-ie10" lang="en-GB"> <![endif]-->
+<!--[if gt IE 9]>  <![endif]-->
+<html class='no-js' lang='en-GB'>
+<head>
+  <title><%= t('organisation.name') %> - Opportunities</title>
+  <%= stylesheet_link_tag 'application-admin', media: 'all' %>
+  <%= csrf_meta_tags %>
+  <!--[if lte IE 9]>
+    <%= javascript_include_tag 'classlist.polyfill.min' %>
+    <%= javascript_include_tag 'eventListener.polyfill.min' %>
+  <![endif]-->
+</head>
+<body>
+  <%= render partial: 'svg_icons' %>
+
+  <header id="global-header" class="with-proposition">
+    <div class="header-wrapper">
+      <div class="header-global">
+        <div class="header-logo">
+          <a href="/" title="Go to the Opportunities homepage" id="logo" class="content">
+            <img src="/images/graphic_crown.png" width="36" height="31" alt="">
+            <%= t('organisation.name') %>
+          </a>
+        </div>
+      </div>
+      <div class="header-proposition">
+        <div class="content">
+          <%= render partial: 'layouts/navigation' %>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div id="global-header-bar"></div>
+
+  <div class="container">
+    <div class="phase-banner-alpha">
+      <p>
+        <strong class="phase-tag">ALPHA</strong>
+        <span>This is a new service – your feedback will help us to improve it.</span>
+      </p>
+    </div>
+  </div>
+
+  <main id="content" role="main">
+    <% if flash[:alert] %>
+      <div class="alert flash error">
+        <% if flash[:alert] == t('devise.failure.invalid') %>
+          <p><%= t('devise.failure.invalid') %></p>
+          <p>Some users have been unable to log in with their previous password. If you encounter this problem, please <% link_to 'reset your password', new_editor_password_path %>.</p>
+        <% else %>
+          <p><%= flash[:alert] %></p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if flash[:notice] %>
+      <div class="alert flash info">
+        <p><%= flash[:notice] %></p>
+      </div>
+    <% end %>
+
+    <%= content_for?(:errors) ? yield(:errors) : "" %>
+    <%= content_for?(:content) ? yield(:content) : yield %>
+
+    <h1><%= @article.title %></h1>
+    <div class="index">
+      <ol>
+        <% @article.sections.each do |s| %>
+        <li><%= link_to s[:heading], s[:url] %></li>
+        <% end %>
+      </ol>
+    </div>
+
+    <div class="content">
+      <h2><%= @article.current_section[:heading] %></h2>
+      <%= @article.current_section[:content].html_safe %>
+    </div>
+
+    <div class="page-controls">
+      <button>Print</button> 
+    </div>
+
+    <% if current_editor %>
+      <%=render 'admin/includes/dialogue' %>
+    <% end %>
+  </main>
+
+  <footer>
+    <div class="container">
+      Do you have other suggestions? Please
+      <a href="mailto:#{t('organisation.feedback_email')}?subject=EIG%20alpha%20feedback">email us with your feedback</a>
+    </div>
+  </footer>
+
+  <%= javascript_include_tag 'modernizr.min' %>
+  <%= javascript_include_tag 'admin' %>
+  <%= render partial: 'google_analytics' %>
+</body>
+</html>

@@ -18,7 +18,7 @@ class Admin::HelpController < Admin::BaseController
 
   def article
     @article = HelpArticlePresenter.new(params[:id], params[:section])
-    render @article.view
+    render @article.content
   end
 
   def render_error_not_found
