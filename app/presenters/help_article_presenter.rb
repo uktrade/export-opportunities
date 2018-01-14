@@ -1,9 +1,10 @@
 class HelpArticlePresenter < BasePresenter
-  attr_reader :content, :sections, :title
+  attr_reader :content, :related_links, :sections, :title
 
   def initialize(url, section_id="")
     @section_id = section_id
     @url = url
+    @related_links = Array.new
     @sections = Array.new
   end
 
@@ -14,8 +15,14 @@ class HelpArticlePresenter < BasePresenter
   end
 
   def set_title(title="")
-    pp title
     @title = title
+  end
+
+  def set_related_link(text, href)
+    @related_links.push({
+      :text => text,
+      :href => href
+    })
   end
 
   def set_section(heading="", content="")

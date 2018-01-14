@@ -83,6 +83,16 @@
       <button>Print</button> 
     </div>
 
+
+    <div class="related-links">
+      <h2>Other Guidance</h2>
+      <ol>
+        <% @article.related_links.each do |s| %>
+        <li><%= link_to s[:text], s[:href] %></li>
+        <% end %>
+      </ol>
+    </div>
+
     <% if current_editor %>
       <%=render 'admin/includes/dialogue' %>
     <% end %>
