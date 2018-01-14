@@ -1,16 +1,10 @@
 class HelpArticlePresenter < BasePresenter
   attr_reader :content, :sections, :title
 
-  def initialize(article_id="", section_id="")
-    @article_id = id_to_file(article_id)
+  def initialize(url, section_id="")
     @section_id = section_id
-    @content = "admin/help/%s" % [@article_id]
+    @url = url
     @sections = Array.new
-  end
- 
-  def id_to_file(str="")
-    str = str.gsub "-", "_"
-    str.gsub(/[^0-9a-z] /i, '')
   end
 
   def text_to_id(str="")
@@ -20,16 +14,17 @@ class HelpArticlePresenter < BasePresenter
   end
 
   def set_title(title="")
+    pp title
     @title = title
   end
 
   def set_section(heading="", content="")
-    id = text_to_id(heading)
+    section_id = text_to_id(heading)
     @sections.push({
-      :id => id,
+      :id => section_id,
       :heading => heading,
       :content => content,
-      :url => "/%s/%s" % [@content, id] 
+      :url => "/%s/%s" % [@url, section_id] 
     }) 
   end
 
