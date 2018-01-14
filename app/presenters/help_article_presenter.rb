@@ -24,7 +24,7 @@ class HelpArticlePresenter < BasePresenter
       :href => href
     })
   end
-
+ 
   def set_section(heading="", content="")
     section_id = text_to_id(heading)
     @sections.push({
@@ -45,4 +45,26 @@ class HelpArticlePresenter < BasePresenter
     return section
   end
 
+  def pagination
+    links = {}
+    index = @sections.find_index(current_section)
+
+    # previous section
+    p = index - 1
+    if p >= 0
+      links[:previous] = @sections[p]
+    end
+
+    # next section
+    n = index + 1
+    if n < @sections.length
+      links[:next] = @sections[n]
+    end
+
+    return links
+  end
+
 end
+
+
+1

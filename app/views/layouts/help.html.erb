@@ -79,8 +79,24 @@
       <%= @article.current_section[:content].html_safe %>
     </div>
 
+    <div class="pagination">
+      <% if @article.pagination.has_key? :previous %>
+        <a class="prevous" href="<%= @article.pagination[:previous][:url] %>">
+          Previous
+          <span><%= @article.pagination[:previous][:heading] %></span>	
+        </a>
+      <% end %>
+
+      <% if @article.pagination.has_key? :next %>
+        <a class="next" href="<%= @article.pagination[:next][:url] %>">
+          <span>Next</span>
+          <%= @article.pagination[:next][:heading] %>
+        </a>
+      <% end %>
+    </div>
+
     <div class="page-controls">
-      <button>Print</button> 
+      <button>Print</button>
     </div>
 
 
