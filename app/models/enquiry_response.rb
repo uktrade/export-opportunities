@@ -33,7 +33,7 @@ class EnquiryResponse < ActiveRecord::Base
     return 'Not available' unless response_type == 1
     file_list = ''
     begin
-      docs = JSON.parse(documents)
+      docs = JSON.parse(documents || '')
       docs.each do |document|
         file_list << document['result']['id']['original_filename'] + ' '
       end
