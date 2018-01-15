@@ -1,5 +1,4 @@
 //= require config
-//= require redesign-oct-2017/account
 //= require jquery.placeholder.min
 //= require jquery.charactercounter
 //= require select2
