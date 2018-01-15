@@ -73,3 +73,6 @@ EXPORT_READINESS_URL: 'https://great.gov.uk/export'
 SELLING_ONLINE_OVERSEAS_URL: 'https://selling-online-overseas.export.great.gov.uk'
 FIND_A_BUYER_URL: 'https://find-a-buyer.export.great.gov.uk'
 EVENTS_URL: 'https://events.trade.gov.uk'
+
+REPORT_TARGETS_URL: 'https://private-url-with-csv-formatted-file'
+UNSUBSCRIBE_EMAILS_URL: 'https://private-url-with-csv-formatted-file'
