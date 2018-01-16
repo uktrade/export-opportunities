@@ -42,7 +42,7 @@ Configure your editor's syntax checker to flag up rubocop rules.
 
 * There was originally a model called `User` which stored details of people who could access the admin site. This has been renamed to `Editor`, so `User` can be instead used for end-users who subscribe and apply for opportunities.
 
-* Editors can be one of three roles: Uploader, Publisher or Administrator:
+* Editors can be one of four roles: Uploader, Previewer, Publisher or Administrator:
 
   * **Uploaders** can add new opportunities and edit ones they created. Can view only opportunities and enquiries of his own or that belong to the service provider he belongs to. 
   * **Previewers** can view all opportunities, edit none. Can view all opportunities and enquiries.
@@ -55,8 +55,8 @@ MIT licensed. See the bundled LICENSE file for more details.
   
 ## Deployment
   
-* You can deploy the project on Heroku with minimum effort as long as you setup environmental variables like you would do in localhost.
+* You can deploy the project on Heroku or CF Gov PaaS with minimum effort as long as you setup environmental variables like you would do in localhost.
 
 ## Contribution
 
-You are welcome to contribute, please get in touch with [Alex Giamas](mailto:alexandros.giamas@digital.trade.gov.uk), [Dermot Byrne](mailto:dermot.byrne@digital.trade.gov.uk) or [Mateusz Lapsa Malawski](mailto:mateusz.lapsa-malawski@digital.trade.gov.uk).
+You are welcome to contribute, please get in touch with [Alex Giamas](mailto:alexandros.giamas@digital.trade.gov.uk), [Steven Burnell](mailto:steve.burnell@digital.trade.gov.uk) or [Mateusz Lapsa Malawski](mailto:mateusz.lapsa-malawski@digital.trade.gov.uk).
