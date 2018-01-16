@@ -1,0 +1,207 @@
+/*
+ * Main stylesheet to support the admin section of site.
+ * Only add global admin styles to this file. 
+ *
+ * Individual layout-specific styles should be added to relevant layout files.
+ */
+
+@import "updated/_vars";
+@import "updated/_colours";
+@import "updated/_fonts";
+@import "updated/_mixins";
+@import "updated/_layout";
+
+
+/* Hidden or disabled
+ *********************/
+.js-header-toggle.menu {
+  display: none;
+}
+
+
+/* General 
+ *********************/
+a,
+.link {
+  background-color: transparent;
+  border: none;
+  color: $blue-1;
+  cursor: pointer;
+  font-family: $font-family-standard;
+  font-size: $font-size-body-s;
+  padding: 0;
+  text-decoration: underline;
+
+  &:active,
+  &:hover {
+    color: $blue-2;
+  }
+  
+  &:focus {
+    outline: $focus-yellow solid 3px;
+  }
+
+  .icon {
+    margin-right: 5px;
+    vertical-align: bottom;
+  }
+}
+
+body {
+  box-sizing: border-box;
+  color: $grey-1;
+  font-family: $font-family-standard;
+  font-size: $font-size-body-m;
+  font-weight: normal;
+  line-height: 1.1em;
+  margin: 0;
+  padding: 0;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+  font-size: $font-size-heading-l;
+  font-weight: bold;
+  line-height: 1.1em;
+  margin: 0 0 $spacing-2 0;
+}
+
+h2 {
+  font-size: $font-size-heading-m;
+  font-weight: bold;
+  margin: 0 0 $spacing-3 0;
+}
+
+li {
+  margin-bottom: $spacing-4;
+}
+
+p {
+  margin: 0 0 $spacing-3 0;
+}
+
+.button {
+  @include button($green-1, $green-2);
+
+  &[disabled="disabled"] {
+    @include button-disabled;
+  }
+  
+  &:focus {
+    outline: $focus-yellow solid 3px;
+  }
+}
+
+.container {
+  @include container;
+}
+
+
+
+/* Menu (primary navigation)
+ ****************************/
+#menu  {
+  @include columns(8, right);
+
+  a {
+    color: $white;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  li {
+    display: inline-block;
+    margin: 0 $spacing-4 0 0;
+  }
+
+  .title {
+    color: $white;
+    display: inline-block;
+    font-size: $font-size-body-l;
+    font-weight: bold;
+    margin: 0 0 8px 0;
+  }
+}
+
+.navigation {
+  margin: 0;
+  padding: 0;
+
+  li {
+    list-style: none;
+    padding: 0;
+    &::before {
+      display: none;
+    }
+  }
+}
+
+
+/* Header
+ *********************/
+#header {
+  background-color: $black;
+  min-height: 58px;
+  padding: $spacing-4 0 0 0;
+}
+
+#logout {
+  float: right;
+  margin-right: 0;
+  position: relative;
+  right: -$spacing-4;
+  top: -20px;
+}
+
+#logo {
+  color: $white;
+  display: inline-block;
+  font-size: $font-size-body-xl;
+  font-weight: bold;
+  margin-top: 5px;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  img {
+    position: relative;
+    top: 4px;
+  }
+}
+
+#phase-banner {
+  border-top: $red-1 solid 10px;
+  margin-bottom: $spacing-3;
+  padding-top: 7px;
+
+  strong {
+    background-color: $red-2;
+    color: $white;
+    display: inline-block;
+    margin-right: 5px;
+    padding: 2px 5px;
+    text-transform: uppercase;
+  }
+}
+
+
+/* Footer
+ ************************/
+.feedback-section {
+  border-top: $grey-2 solid 1px;
+  padding: $spacing-3 0;
+
+  p {
+    font-size: $font-size-body-s;
+  }
+}
+
+#footer {
+  clear: both;
+}

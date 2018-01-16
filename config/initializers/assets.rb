@@ -23,6 +23,9 @@ Rails.application.config.assets.precompile += %w[admin.js]
 Rails.application.config.assets.precompile += %w[header-footer.js]
 Rails.application.config.assets.precompile += %w[jquery3.2.0.js]
 
+# New design update stuff after this point.
+Rails.application.config.assets.precompile += %w( updated/admin.css )
+Rails.application.config.assets.precompile += %w( updated/layouts/help-article.css )
 
 # Add additional assets to the asset load path.
 # Rails.application.config.assets.paths << Emoji.images_path

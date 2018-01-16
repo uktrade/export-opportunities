@@ -1,0 +1,25 @@
+/%a{:href => '#proposition-links', :class => 'js-header-toggle menu'} Menu
+%nav#menu
+  = link_to "Export Opportunities", admin_opportunities_path, :class => 'title'
+
+  - if controller_name != 'sessions'
+    %ul.navigation
+      %li
+        = link_to 'Opportunities', admin_opportunities_path
+      %li
+        = link_to 'Enquiries', admin_enquiries_path
+      - if administrator?
+        %li
+          = link_to 'Editors', admin_editors_path
+      %li
+        = link_to 'Stats', admin_stats_path
+      %li
+        - if administrator? || previewer? || publisher?
+          = link_to 'Reports', admin_reports_path
+
+      - if current_editor
+        %li#logout
+          = button_to('Log out', destroy_editor_session_path, :class => 'button', :method => :delete)
+      - else
+        %li#login
+          = link_to('Log in', new_editor_session_path, :class => 'button')
