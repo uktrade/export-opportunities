@@ -84,3 +84,25 @@
     text-decoration: underline;
   }
 }
+
+.examples {
+  border: $grey-3 solid 1px;
+  list-style: none;
+  padding: $spacing-3;
+  
+  li {
+    margin-bottom: $spacing-2;
+  }
+
+  &:before {
+    background-color: $grey-3;
+    color: $white;
+    content: "Examples";
+    display: inline-block;
+    font-size: $font-size-body-s;
+    left: -$spacing-3;
+    padding: 5px;
+    position: relative;
+    top: -$spacing-3;
+  }
+}
