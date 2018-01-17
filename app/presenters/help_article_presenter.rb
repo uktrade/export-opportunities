@@ -1,5 +1,5 @@
 class HelpArticlePresenter < BasePresenter
-  attr_reader :content, :related_links, :sections, :title
+  attr_reader :content, :related_links, :sections, :title, :url
 
   def initialize(url, section_id="")
     @section_id = section_id
