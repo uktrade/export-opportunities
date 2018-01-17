@@ -26,6 +26,10 @@
 
 .article-content {
   margin-bottom: $spacing-1;
+
+  ul {
+    margin-bottom: $spacing-3;
+  }
 }
 
 .article-index {

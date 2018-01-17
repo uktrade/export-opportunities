@@ -85,6 +85,11 @@ li {
 
 p {
   margin: 0 0 $spacing-3 0;
+  line-height: 1.5em;
+}
+
+ul {
+  margin-bottom: $spacing-3;
 }
 
 .button {
@@ -101,6 +106,19 @@ p {
 
 .container {
   @include container;
+}
+
+.navigation {
+  margin: 0;
+  padding: 0;
+
+  li {
+    list-style: none;
+    padding: 0;
+    &::before {
+      display: none;
+    }
+  }
 }
 
 #main {
@@ -181,19 +199,6 @@ p {
     font-size: $font-size-body-l;
     font-weight: bold;
     margin: 0 0 8px 0;
-  }
-}
-
-.navigation {
-  margin: 0;
-  padding: 0;
-
-  li {
-    list-style: none;
-    padding: 0;
-    &::before {
-      display: none;
-    }
   }
 }
 
