@@ -8,10 +8,7 @@
   <%= stylesheet_link_tag 'updated/admin', media: 'all' %>
   <%= stylesheet_link_tag 'updated/layouts/help', media: 'all' %>
   <%= csrf_meta_tags %>
-  <!--[if lte IE 9]>
-    <%= javascript_include_tag 'classlist.polyfill.min' %>
-    <%= javascript_include_tag 'eventListener.polyfill.min' %>
-  <![endif]-->
+  <%= render partial: 'admin/includes/global_script_tags' %>
 </head>
 <body class="help">
   <header id="header">
@@ -40,9 +37,5 @@
       </div>
     </div>
   </footer>
-
-  <%= javascript_include_tag 'modernizr.min' %>
-  <%= javascript_include_tag 'admin' %>
-  <%= render partial: 'google_analytics' %>
 </body>
 </html>
