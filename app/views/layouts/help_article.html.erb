@@ -4,7 +4,9 @@
 <!--[if gt IE 9]>  <![endif]-->
 <html class='no-js' lang='en-GB'>
 <head>
-  <title><%= t('organisation.name') %> - Opportunities</title>
+  <%= content_for?(:content) ? yield(:content) : yield %>
+
+  <title><%= t('organisation.name') %> - <%= @article.title %></title>
   <%= stylesheet_link_tag 'updated/admin', media: 'all' %>
   <%= stylesheet_link_tag 'updated/layouts/help', media: 'all' %>
   <%= csrf_meta_tags %>
@@ -28,7 +30,6 @@
       <%= render partial: 'admin/includes/flash_error' %>
       <%= render partial: 'admin/includes/flash_notice' %>
       <%= content_for?(:errors) ? yield(:errors) : "" %>
-      <%= content_for?(:content) ? yield(:content) : yield %>
 
       <h1><%= @article.title %></h1>
       <div class="article-index">
