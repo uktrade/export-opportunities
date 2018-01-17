@@ -6,14 +6,14 @@
 <head>
   <title><%= t('organisation.name') %> - Opportunities</title>
   <%= stylesheet_link_tag 'updated/admin', media: 'all' %>
-  <%= stylesheet_link_tag 'updated/layouts/help-article', media: 'all' %>
+  <%= stylesheet_link_tag 'updated/layouts/help', media: 'all' %>
   <%= csrf_meta_tags %>
   <!--[if lte IE 9]>
     <%= javascript_include_tag 'classlist.polyfill.min' %>
     <%= javascript_include_tag 'eventListener.polyfill.min' %>
   <![endif]-->
 </head>
-<body class="help-article">
+<body class="help help-article">
   <%= render partial: 'svg_icons' %>
 
   <header id="header">
@@ -84,9 +84,9 @@
       </div>
 
       <div class="article-controls">
-        <button class="link">
+        <a href="/<%= @article.url %>/print">
           <%= image_tag "icons/print.png", :class => "icon", :alt => "", :width => "16" %>Print entire guide
-        </button>
+        </a>
       </div>
 
     </article>
