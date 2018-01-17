@@ -98,6 +98,53 @@ p {
 }
 
 
+// COMPONENTS
+// -------------------------------------
+.content-directory {
+  margin-bottom: $spacing-3;
+  padding-bottom: $spacing-1;
+
+  a {
+    font-size: $font-size-body-l;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  li {
+    margin-bottom: $spacing-3;
+  }
+
+  .title {
+    font-size: $font-size-body-l;
+    font-weight: normal;
+    margin-bottom: $spacing-2;
+  }
+}
+
+.content-meta {
+  @include clear_floats;
+  margin-bottom: $spacing-3;
+  position: relative;
+  top: -$spacing-3;
+
+  dd {
+    float: left;
+    font-size: $font-size-body-s;
+    margin: 0 0 10px 0;
+  }
+
+  dt {
+    clear: left;
+    float: left;
+    font-size: $font-size-body-s;
+    margin: 0 $spacing-3 10px 0;
+
+    &:after {
+      content: ":";
+    }
+  }
+}
+
 
 /* Menu (primary navigation)
  ****************************/

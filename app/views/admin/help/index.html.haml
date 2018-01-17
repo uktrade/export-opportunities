@@ -1,15 +1,16 @@
 %h1 Guidance 
-/ TODO: Something less manual
-= render partial: "admin/includes/published", locals: {by: "Content community", updated: "about 1 month ago"} 
+/ TODO: Something less manual??
+= render partial: "admin/includes/content_meta", locals: {by: "Content community", updated: "about 1 month ago"} 
 
-%h2 Find out how to assess and respond to an enquiry
-%ul.contents
-  %li
-    %a(href="/admin/help/how-to-assess-a-uk-company/overview") How to assess a UK company
-  %li
-    %a(href="/admin/help/right-for-opportunity-responses/overview") Responding to UK companies who are 'Right for opportunity'
-  %li
-    %a(href="/admin/help/not-right-for-opportunity-responses/overview") Responding to UK companies who are 'Not right for opportunity'
+%section.content-directory
+  %h2.title Find out how to assess and respond to an enquiry
+  %ul.navigation
+    %li
+      %a(href="/admin/help/how-to-assess-a-uk-company/overview") How to assess a UK company
+    %li
+      %a(href="/admin/help/right-for-opportunity-responses/overview") Responding to UK companies who are 'Right for opportunity'
+    %li
+      %a(href="/admin/help/not-right-for-opportunity-responses/overview") Responding to UK companies who are 'Not right for opportunity'
 
 
 
