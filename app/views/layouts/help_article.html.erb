@@ -37,7 +37,13 @@
       <div class="article-index">
         <ol>
           <% @article.sections.each do |s| %>
-          <li><%= link_to s[:heading], s[:url] %></li>
+            <li>
+              <% if s[:current] %>
+                <span class="selected"><%= s[:heading] %></span>
+              <% else %>
+                <%= link_to s[:heading], s[:url] %>
+              <% end %>
+            </li>
           <% end %>
         </ol>
       </div>

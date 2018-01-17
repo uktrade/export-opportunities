@@ -31,14 +31,15 @@ class HelpArticlePresenter < BasePresenter
       :id => section_id,
       :heading => heading,
       :content => content,
-      :url => "/%s/%s" % [@url, section_id] 
+      :url => "/%s/%s" % [@url, section_id],
+      :current => (section_id.eql? @section_id) ? true : false 
     }) 
   end
 
   def current_section
     section = @sections[0]
     @sections.each do |s|
-      if s[:id].eql? @section_id
+      if s[:current]
         section = s
       end
     end
