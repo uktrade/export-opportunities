@@ -1,6 +1,12 @@
 %h1 Guidance 
--# TODO: Something less manual??
-= render partial: "admin/includes/content_meta", locals: {by: "Content community", updated: "about 1 month ago"} 
+%dl.content-meta
+  %dt Published by
+  %dd
+    Content community
+  %dt Last updated
+  %dd
+    -# TODO: Should this be something less manual??
+    about 1 month ago
 
 %section.content-directory
   %h2.title Find out how to assess and respond to an enquiry
@@ -11,12 +17,3 @@
       %a(href="/admin/help/right-for-opportunity-responses/overview") Responding to UK companies who are 'Right for opportunity'
     %li
       %a(href="/admin/help/not-right-for-opportunity-responses/overview") Responding to UK companies who are 'Not right for opportunity'
-
-
-
--# TODO: Expect to delete but clarify with Alex
-  %div
-    %h3.heading-medium
-      = link_to('Opportunities', '/admin/help/opportunities')
-    %h3.heading-medium
-      = link_to('Enquiries', '/admin/help/enquiries')
