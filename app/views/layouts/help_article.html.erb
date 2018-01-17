@@ -28,23 +28,8 @@
     <%= render partial: 'admin/includes/phase_banner' %>
 
     <article>
-      <% if flash[:alert] %>
-        <div class="alert flash error">
-          <% if flash[:alert] == t('devise.failure.invalid') %>
-            <p><%= t('devise.failure.invalid') %></p>
-            <p>Some users have been unable to log in with their previous password. If you encounter this problem, please <% link_to 'reset your password', new_editor_password_path %>.</p>
-          <% else %>
-            <p><%= flash[:alert] %></p>
-          <% end %>
-        </div>
-      <% end %>
-
-      <% if flash[:notice] %>
-        <div class="alert flash info">
-          <p><%= flash[:notice] %></p>
-        </div>
-      <% end %>
-
+      <%= render partial: 'admin/includes/flash_error' %>
+      <%= render partial: 'admin/includes/flash_notice' %>
       <%= content_for?(:errors) ? yield(:errors) : "" %>
       <%= content_for?(:content) ? yield(:content) : yield %>
 
