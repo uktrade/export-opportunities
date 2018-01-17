@@ -15,6 +15,13 @@
   }
 }
 
+@mixin clear-floats {
+  &:after {
+    clear: both;
+    content: "";
+    display: block;
+  }
+}
 
 // BUTTONS
 @mixin button($colour-1, $colour-2) {
