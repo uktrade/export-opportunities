@@ -3,6 +3,10 @@ class Admin::HelpController < Admin::BaseController
   after_action :verify_authorized, except: %i[index show article]
   helper_method :sections_links
 
+  def index
+    render layout: "help"
+  end
+
   def show
     page_url = params[:id]
     case page_url
@@ -18,7 +22,7 @@ class Admin::HelpController < Admin::BaseController
   def article
     article_path = "admin/help/" + id_to_file(params[:id])
     @article = HelpArticlePresenter.new(article_path, params[:section])
-    render article_path, layout: "help"
+    render article_path, layout: "help_article"
   end
 
   def render_error_not_found

@@ -6,14 +6,13 @@
 <head>
   <title><%= t('organisation.name') %> - Opportunities</title>
   <%= stylesheet_link_tag 'updated/admin', media: 'all' %>
-  <%= stylesheet_link_tag 'updated/layouts/help-article', media: 'all' %>
   <%= csrf_meta_tags %>
   <!--[if lte IE 9]>
     <%= javascript_include_tag 'classlist.polyfill.min' %>
     <%= javascript_include_tag 'eventListener.polyfill.min' %>
   <![endif]-->
 </head>
-<body class="help-article">
+<body class="help">
   <%= render partial: 'svg_icons' %>
 
   <header id="header">
@@ -32,73 +31,26 @@
       <span>This is a new service – your feedback will help us to improve it.</span>
 	  </p>
 
-    <article>
-      <% if flash[:alert] %>
-        <div class="alert flash error">
-          <% if flash[:alert] == t('devise.failure.invalid') %>
-            <p><%= t('devise.failure.invalid') %></p>
-            <p>Some users have been unable to log in with their previous password. If you encounter this problem, please <% link_to 'reset your password', new_editor_password_path %>.</p>
-          <% else %>
-            <p><%= flash[:alert] %></p>
-          <% end %>
-        </div>
-      <% end %>
-
-      <% if flash[:notice] %>
-        <div class="alert flash info">
-          <p><%= flash[:notice] %></p>
-        </div>
-      <% end %>
-
-      <%= content_for?(:errors) ? yield(:errors) : "" %>
-      <%= content_for?(:content) ? yield(:content) : yield %>
-
-      <h1><%= @article.title %></h1>
-      <div class="article-index">
-        <ol>
-          <% @article.sections.each do |s| %>
-          <li><%= link_to s[:heading], s[:url] %></li>
-          <% end %>
-        </ol>
-      </div>
-
-      <div class="article-content">
-        <h2><%= @article.current_section[:heading] %></h2>
-        <%= @article.current_section[:content].html_safe %>
-      </div>
-
-      <div class="article-pagination">
-        <% if @article.pagination.has_key? :previous %>
-          <a class="previous" href="<%= @article.pagination[:previous][:url] %>">
-            <span class="label">Previous</span>
-            <span class="title"><%= @article.pagination[:previous][:heading] %></span>	
-          </a>
-        <% end %>
-
-        <% if @article.pagination.has_key? :next %>
-          <a class="next" href="<%= @article.pagination[:next][:url] %>">
-            <span class="label">Next</span>
-            <span class="title"><%= @article.pagination[:next][:heading] %></span>
-          </a>
+    <% if flash[:alert] %>
+      <div class="alert flash error">
+        <% if flash[:alert] == t('devise.failure.invalid') %>
+          <p><%= t('devise.failure.invalid') %></p>
+          <p>Some users have been unable to log in with their previous password. If you encounter this problem, please <% link_to 'reset your password', new_editor_password_path %>.</p>
+        <% else %>
+          <p><%= flash[:alert] %></p>
         <% end %>
       </div>
+    <% end %>
 
-      <div class="article-controls">
-        <button class="link">
-          <%= image_tag "icons/print.png", :class => "icon", :alt => "", :width => "16" %>Print entire guide
-        </button>
+    <% if flash[:notice] %>
+      <div class="alert flash info">
+        <p><%= flash[:notice] %></p>
       </div>
+    <% end %>
 
-    </article>
+    <%= content_for?(:errors) ? yield(:errors) : "" %>
+    <%= content_for?(:content) ? yield(:content) : yield %>
 
-    <aside>
-      <h2>Other Guidance</h2>
-      <ul class="navigation">
-        <% @article.related_links.each do |s| %>
-          <li><%= link_to s[:text], s[:href] %></li>
-        <% end %>
-      </ol>
-    </aside>
   </main>
 
   <footer id="footer">

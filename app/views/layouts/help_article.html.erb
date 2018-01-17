@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html class="no-js lt-ie10 lt-ie9" lang="en-GB"> <![endif]-->
+<!--[if IE 9]> <html class="no-js lt-ie10" lang="en-GB"> <![endif]-->
+<!--[if gt IE 9]>  <![endif]-->
+<html class='no-js' lang='en-GB'>
+<head>
+  <title><%= t('organisation.name') %> - Opportunities</title>
+  <%= stylesheet_link_tag 'updated/admin', media: 'all' %>
+  <%= stylesheet_link_tag 'updated/layouts/help-article', media: 'all' %>
+  <%= csrf_meta_tags %>
+  <!--[if lte IE 9]>
+    <%= javascript_include_tag 'classlist.polyfill.min' %>
+    <%= javascript_include_tag 'eventListener.polyfill.min' %>
+  <![endif]-->
+</head>
+<body class="help-article">
+  <%= render partial: 'svg_icons' %>
+
+  <header id="header">
+    <div class="container">
+      <a href="/" title="Go to the Opportunities homepage" id="logo">
+        <img src="/images/graphic_crown.png" height="31" alt="">
+        <%= t('organisation.name') %>
+      </a>
+      <%= render partial: 'admin/includes/menu' %>
+    </div>
+  </header>
+
+  <main id="main" role="main" class="container">
+    <p id="phase-banner">
+      <strong>ALPHA</strong>
+      <span>This is a new service – your feedback will help us to improve it.</span>
+	  </p>
+
+    <article>
+      <% if flash[:alert] %>
+        <div class="alert flash error">
+          <% if flash[:alert] == t('devise.failure.invalid') %>
+            <p><%= t('devise.failure.invalid') %></p>
+            <p>Some users have been unable to log in with their previous password. If you encounter this problem, please <% link_to 'reset your password', new_editor_password_path %>.</p>
+          <% else %>
+            <p><%= flash[:alert] %></p>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if flash[:notice] %>
+        <div class="alert flash info">
+          <p><%= flash[:notice] %></p>
+        </div>
+      <% end %>
+
+      <%= content_for?(:errors) ? yield(:errors) : "" %>
+      <%= content_for?(:content) ? yield(:content) : yield %>
+
+      <h1><%= @article.title %></h1>
+      <div class="article-index">
+        <ol>
+          <% @article.sections.each do |s| %>
+          <li><%= link_to s[:heading], s[:url] %></li>
+          <% end %>
+        </ol>
+      </div>
+
+      <div class="article-content">
+        <h2><%= @article.current_section[:heading] %></h2>
+        <%= @article.current_section[:content].html_safe %>
+      </div>
+
+      <div class="article-pagination">
+        <% if @article.pagination.has_key? :previous %>
+          <a class="previous" href="<%= @article.pagination[:previous][:url] %>">
+            <span class="label">Previous</span>
+            <span class="title"><%= @article.pagination[:previous][:heading] %></span>	
+          </a>
+        <% end %>
+
+        <% if @article.pagination.has_key? :next %>
+          <a class="next" href="<%= @article.pagination[:next][:url] %>">
+            <span class="label">Next</span>
+            <span class="title"><%= @article.pagination[:next][:heading] %></span>
+          </a>
+        <% end %>
+      </div>
+
+      <div class="article-controls">
+        <button class="link">
+          <%= image_tag "icons/print.png", :class => "icon", :alt => "", :width => "16" %>Print entire guide
+        </button>
+      </div>
+
+    </article>
+
+    <aside>
+      <h2>Other Guidance</h2>
+      <ul class="navigation">
+        <% @article.related_links.each do |s| %>
+          <li><%= link_to s[:text], s[:href] %></li>
+        <% end %>
+      </ol>
+    </aside>
+  </main>
+
+  <footer id="footer">
+    <div class="container">
+      <div class="feedback-section">
+        <p>Do you have other suggestions? Please <a href="mailto:#{t('organisation.feedback_email')}?subject=EIG%20alpha%20feedback">email us with your feedback</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <%= javascript_include_tag 'modernizr.min' %>
+  <%= javascript_include_tag 'admin' %>
+  <%= render partial: 'google_analytics' %>
+</body>
+</html>
