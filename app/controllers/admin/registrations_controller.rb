@@ -4,7 +4,7 @@ class Admin::RegistrationsController < Devise::RegistrationsController
   before_action :configure_permitted_parameters
   before_action :load_service_providers
 
-  # skip_before_action :require_no_authentication
+  skip_before_action :require_no_authentication, raise: false
 
   rescue_from Pundit::NotAuthorizedError, with: :not_found
 
