@@ -243,7 +243,7 @@ GEM
     nio4r (2.2.0)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
-    normalize-scss (6.0.0)
+    normalize-scss (7.0.0)
       sass (~> 3.3)
     oauth2 (1.4.0)
       faraday (>= 0.8, < 0.13)
