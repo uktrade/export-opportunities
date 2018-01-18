@@ -8,17 +8,17 @@
       <div class="account-locale-links">
         <ul aria-label="Account links" class="navigation account-links">
         <% if !current_user %>
-          <li class="anonymous"><a href="<%=Figaro.env.SSO_ENDPOINT_BASE_URI %>accounts/signup" class="register">Register</a></li>
-          <li class="anonymous"><a href="<%=dashboard_path%>" class="signin">Sign in</a></li>
+          <li class="anonymous"><a id="header-register-link" href="<%=Figaro.env.SSO_ENDPOINT_BASE_URI %>accounts/signup" class="register">Register</a></li>
+          <li class="anonymous"><a id="header-sign-in-link" href="<%=dashboard_path%>" class="signin">Sign in</a></li>
         <% else %>
-          <li class="authenticated"><a href="<%=dashboard_path%>" class="profile">Profile</a></li>
-          <li class="authenticated"><a href="<%=destroy_user_session_path%>" class="signout">Sign out</a></li>
+          <li class="authenticated"><a id="header-profile-link" href="<%=dashboard_path%>" class="profile">Profile</a></li>
+          <li class="authenticated"><a id="header-sign-out-link" href="<%=destroy_user_session_path%>" class="signout">Sign out</a></li>
         <% end %>
         </ul><span class="greeting"></span>
       </div>
     </div>
     <div class="container">
-      <a class="dit-logo" href="<%=Figaro.env.EXPORT_READINESS_URL %>">
+      <a id="header-dit-logo" class="dit-logo" href="<%=Figaro.env.GREAT_GOV_URL %>">
         <img src="<%=asset_path('logos/DfIT_WHITE_AW.png')%>" alt="Home">
       </a>
     </div>
@@ -27,32 +27,46 @@
     <div class="container">
       <nav id="menu">
         <ul class="navigation level-1">
-          <li><a href="<%=Figaro.env.EXPORT_READINESS_URL %>">Home</a>
+          <li>
+            <a href="<%=Figaro.env.GREAT_GOV_URL %>" id="header-home-link">Home</a>
+          </li>
+          <li>
+            <a href="<%=Figaro.env.GREAT_GOV_URL %>/custom" id="header-custom-page-link">Your export journey</a>
           </li>
           <li><a href="#export-readiness-links-list" id="export-readiness-links" class="list-header">Export readiness</a>
             <ul id="export-readiness-links-list" aria-labelledby="export-readiness-links" class="navigation level-2">
-              <li class="items-3"><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/new">I&#39;m new to exporting</a></li>
-              <li class="items-3"><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/occasional">I export occasionally</a></li>
-              <li class="items-3"><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/regular">I&#39;m a regular exporter</a></li>
+              <li class="items-3"><a id="header-export-readiness-new" href="<%=Figaro.env.GREAT_GOV_URL %>/new">I&#39;m new to exporting</a></li>
+              <li class="items-3"><a id="header-export-readiness-occasional" href="<%=Figaro.env.GREAT_GOV_URL %>/occasional">I export occasionally</a></li>
+              <li class="items-3"><a id="header-export-readiness-regular" href="<%=Figaro.env.GREAT_GOV_URL %>/regular">I&#39;m a regular exporter</a></li>
             </ul>
           </li>
-          <li><a href="#guidance-links-list" id="guidance-links" class="list-header">Guidance</a>
-            <ul id="guidance-links-list" aria-labelledby="guidance-links" class="navigation level-2">
-              <li class="items-6"><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/market-research">Market research</a></li>
-              <li class="items-6"><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/customer-insight">Customer insight</a></li>
-              <li class="items-6"><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/finance">Finance</a></li>
-              <li class="items-6"><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/business-planning">Business planning</a></li>
-              <li class="items-6"><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/getting-paid">Getting paid</a></li>
-              <li class="items-6"><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/operations-and-compliance">Operations and compliance</a></li>
+          <li><a href="#guidance-links-list" id="header-guidance-links" class="list-header">Guidance</a>
+            <ul id="guidance-links-list" aria-labelledby="header-guidance-links" class="navigation level-2">
+              <li class="items-6"><a id="header-guidance-market-research" href="<%=Figaro.env.GREAT_GOV_URL %>/market-research">Market research</a></li>
+              <li class="items-6"><a id="header-guidance-customer-insight" href="<%=Figaro.env.GREAT_GOV_URL %>/customer-insight">Customer insight</a></li>
+              <li class="items-6"><a id="header-guidance-finance" href="<%=Figaro.env.GREAT_GOV_URL %>/finance">Finance</a></li>
+              <li class="items-6"><a id="header-guidance-business-planning" href="<%=Figaro.env.GREAT_GOV_URL %>/business-planning">Business planning</a></li>
+              <li class="items-6"><a id="header-guidance-getting-paid" href="<%=Figaro.env.GREAT_GOV_URL %>/getting-paid">Getting paid</a></li>
+              <li class="items-6"><a id="header-guidance-operations-and-compliance" href="<%=Figaro.env.GREAT_GOV_URL %>/operations-and-compliance">Operations and compliance</a></li>
             </ul>
           </li>
-          <li><a href="#services-links-list" id="services-links" class="list-header">Services</a>
-            <ul id="services-links-list" aria-labelledby="services-links" class="navigation level-2">
-              <li class="items-5"><a href="<%=Figaro.env.FIND_A_BUYER_URL %>">Create an export profile</a><span class="description">Get promoted internationally with a great.gov.uk trade profile</span></li>
-              <li class="items-5"><a href="<%=Figaro.env.SELLING_ONLINE_OVERSEAS_URL %>">Sell online overseas</a><span class="description">Find the right marketplace for your business and access special offers for sellers</span></li>
-              <li class="items-5"><a href="<%=Figaro.env.EXPORT_OPPORTUNITIES_URL %>">Find export opportunities</a><span class="description">Find and apply for overseas opportunities</span></li>
-              <li class="items-5"><a href="<%=Figaro.env.EXPORT_READINESS_URL %>/get-finance">Get finance</a><span class="description">Get the finance you need to compete and grow</span></li>
-              <li class="items-5"><a href="<%=Figaro.env.EVENTS_URL %>">Attend events</a><span class="description">Sign up for networking events and trade missions</span></li>
+          <li><a href="#services-links-list" id="header-services-links" class="list-header">Services</a>
+            <ul id="services-links-list" aria-labelledby="header-services-links" class="navigation level-2">
+              <li class="items-5">
+                <a id="header-services-find-a-buyer" href="<%=Figaro.env.FIND_A_BUYER_URL %>">Create an export profile</a><span class="description">Get promoted internationally with a great.gov.uk trade profile</span>
+              </li>
+              <li class="items-5">
+                <a id="header-services-selling-online-overseas" href="<%=Figaro.env.SELLING_ONLINE_OVERSEAS_URL %>">Sell online overseas</a><span class="description">Find the right marketplace for your business and access special offers for sellers</span>
+              </li>
+              <li class="items-5">
+                <a id="header-services-export-opportunities" href="<%=Figaro.env.EXPORT_OPPORTUNITIES_URL %>">Find export opportunities</a><span class="description">Find and apply for overseas opportunities</span>
+              </li>
+              <li class="items-5">
+                <a id="header-services-get-finance" href="<%=Figaro.env.GREAT_GOV_URL %>/get-finance">Get finance</a><span class="description">Get the finance you need to compete and grow</span>
+              </li>
+              <li class="items-5">
+                <a id="header-services-events" href="<%=Figaro.env.EVENTS_URL %>">Attend events</a><span class="description">Sign up for networking events and trade missions</span>
+              </li>
             </ul>
           </li>
         </ul>
