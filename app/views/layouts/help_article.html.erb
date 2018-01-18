@@ -13,15 +13,7 @@
   <%= render partial: 'admin/includes/global_script_tags' %>
 </head>
 <body class="help help-article">
-  <header id="header">
-    <div class="container">
-      <a href="/" title="Go to the Opportunities homepage" id="logo">
-        <img src="/images/graphic_crown.png" height="31" alt="">
-        <%= t('organisation.name') %>
-      </a>
-      <%= render partial: 'admin/includes/menu' %>
-    </div>
-  </header>
+  <%= render partial: 'admin/includes/header' %>
 
   <main id="main" role="main" class="container">
     <%= render partial: 'admin/includes/phase_banner' %>
