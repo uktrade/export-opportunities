@@ -1,5 +1,9 @@
 class Devise::PasswordExpiredController < DeviseController
+<<<<<<< HEAD
   skip_before_action :handle_password_change
+=======
+  skip_before_action :handle_password_change, raise: false
+>>>>>>> 30f043d9... (feature) updated rails to 5.1, ruby to 2.4.3
   before_action :skip_password_change, only: [:show, :update]
   prepend_before_action :authenticate_scope!, :only => [:show, :update]
 
