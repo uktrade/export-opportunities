@@ -16,6 +16,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def failure
-    @error = env['omniauth.error.type']
+    @error = request.env['omniauth.error.type']
   end
 end

@@ -110,9 +110,9 @@ class ApplicationController < ActionController::Base
     store_location_for(:user, request.url)
 
     if Figaro.env.bypass_sso?
-      redirect_to user_omniauth_authorize_path(:developer)
+      redirect_to user_developer_omniauth_authorize_path
     else
-      redirect_to user_omniauth_authorize_path(:exporting_is_great)
+      redirect_to user_exporting_is_great_omniauth_authorize_path
     end
   end
 

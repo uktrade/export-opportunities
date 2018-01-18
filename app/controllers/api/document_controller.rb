@@ -2,7 +2,7 @@ require 'digest'
 
 module Api
   class DocumentController < ApplicationController
-    skip_before_action :verify_authenticity_token
+    skip_before_action :verify_authenticity_token, raise: false
 
     def index
       params[:id].to_i
