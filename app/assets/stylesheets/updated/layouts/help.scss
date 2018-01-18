@@ -27,6 +27,10 @@
 .article-content {
   margin-bottom: $spacing-1;
 
+  a {
+    font-size: inherit;
+  }
+
   ul {
     margin-bottom: $spacing-3;
   }

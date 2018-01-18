@@ -177,7 +177,9 @@ ul {
 /* Menu (primary navigation)
  ****************************/
 #menu  {
-  @include columns(8, right);
+  display: inline-block;
+  padding: 13px 0 9px 0;
+  text-align: left;
 
   a {
     color: $white;
@@ -207,16 +209,19 @@ ul {
  *********************/
 #header {
   background-color: $black;
-  min-height: 58px;
-  padding: $spacing-4 0 0 0;
+  min-height: 73px;
+  text-align: center;
+
+  .container {
+    position: relative;
+  }
 }
 
+#login,
 #logout {
-  float: right;
-  margin-right: 0;
-  position: relative;
-  right: -$spacing-4;
-  top: -20px;
+  position: absolute;
+  right: 0;
+  top: 20px;
 }
 
 #logo {
@@ -224,8 +229,11 @@ ul {
   display: inline-block;
   font-size: $font-size-body-xl;
   font-weight: bold;
-  margin-top: 5px;
+  left: 0;
+  position: absolute;
   text-decoration: none;
+  top: 18px;
+  vertical-align: top;
 
   &:hover {
     text-decoration: underline;
@@ -269,5 +277,19 @@ ul {
   .container {
     border-top: $grey-2 solid 1px;
     padding: $spacing-3 0;
+  }
+}
+
+
+
+
+// TABLET
+@media (max-width: 768px) {
+  #header {
+    text-align: left;
+  }
+
+  #menu {
+    margin-top: 50px;
   }
 }
