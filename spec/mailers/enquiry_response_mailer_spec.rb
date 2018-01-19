@@ -7,7 +7,7 @@ RSpec.describe EnquiryResponseMailer, type: :mailer do
       enquiry = create(:enquiry)
       enquiry_response = create(:enquiry_response, enquiry: enquiry, response_type: 1)
 
-      EnquiryResponseMailer.right_for_opportunity(enquiry_response, enquiry_response.editor.email).deliver_later!
+      EnquiryResponseMailer.right_for_opportunity(enquiry_response, enquiry_response.editor.email).deliver_now!
 
       last_delivery = ActionMailer::Base.deliveries.last
 
@@ -24,7 +24,7 @@ RSpec.describe EnquiryResponseMailer, type: :mailer do
       enquiry_response = create(:enquiry_response, enquiry: enquiry, response_type: 3)
       reply_to_address = 'noreply@noreply.net'
 
-      EnquiryResponseMailer.not_right_for_opportunity(enquiry_response, enquiry_response.editor.email, reply_to_address).deliver_later!
+      EnquiryResponseMailer.not_right_for_opportunity(enquiry_response, enquiry_response.editor.email, reply_to_address).deliver_now!
       last_delivery = ActionMailer::Base.deliveries.last
 
       expect(last_delivery.subject).to eql("Update on your enquiry for the export opportunity #{enquiry_response.enquiry.opportunity.title}")
@@ -39,7 +39,7 @@ RSpec.describe EnquiryResponseMailer, type: :mailer do
       enquiry_response = create(:enquiry_response, enquiry: enquiry, response_type: 4)
       reply_to_address = 'noreply@noreply.net'
 
-      EnquiryResponseMailer.not_uk_registered(enquiry_response, enquiry_response.editor.email, reply_to_address).deliver_later!
+      EnquiryResponseMailer.not_uk_registered(enquiry_response, enquiry_response.editor.email, reply_to_address).deliver_now!
       last_delivery = ActionMailer::Base.deliveries.last
 
       expect(last_delivery.subject).to eql("Update on your enquiry for the export opportunity #{enquiry_response.enquiry.opportunity.title}")
@@ -55,7 +55,7 @@ RSpec.describe EnquiryResponseMailer, type: :mailer do
       enquiry_response = create(:enquiry_response, enquiry: enquiry, response_type: 5)
       reply_to_address = 'noreply@noreply.net'
 
-      EnquiryResponseMailer.not_for_third_party(enquiry_response, enquiry_response.editor.email, reply_to_address).deliver_later!
+      EnquiryResponseMailer.not_for_third_party(enquiry_response, enquiry_response.editor.email, reply_to_address).deliver_now!
       last_delivery = ActionMailer::Base.deliveries.last
 
       expect(last_delivery.subject).to eql("Update on your enquiry for the export opportunity #{enquiry_response.enquiry.opportunity.title}")

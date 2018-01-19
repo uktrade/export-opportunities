@@ -8,17 +8,17 @@ RSpec.describe EnquiriesController, type: :controller do
   describe '#new' do
     let(:opportunity) { create(:opportunity, status: :publish) }
     it 'assigns opportunities' do
-      get :new, slug: opportunity.slug
+      get :new, params: { slug: opportunity.slug }
       expect(assigns(:opportunity)).to eq(opportunity)
     end
 
     it 'assigns enquiry' do
-      get :new, slug: opportunity.slug
+      get :new, params: { slug: opportunity.slug }
       expect(assigns(:enquiry)).not_to be_nil
     end
 
     it 'raises a 404 if the opportunity was not found' do
-      get :new, slug: 'this-doesnt-exist'
+      get :new, params: { slug: 'this-doesnt-exist' }
       expect(response.status).to eq 404
     end
   end
@@ -27,7 +27,7 @@ RSpec.describe EnquiriesController, type: :controller do
     let(:opportunity) { create(:opportunity) }
 
     it 'creates an enquiry' do
-      response = post :create, enquiry: attributes_for(:enquiry), slug: opportunity.slug
+      response = post :create, params: { enquiry: attributes_for(:enquiry), slug: opportunity.slug }
       expect(response).to render_template(:create)
       expect(assigns(:enquiry)).to eq(Enquiry.last)
       expect(assigns(:enquiry).opportunity).to eq(opportunity)
@@ -35,7 +35,7 @@ RSpec.describe EnquiriesController, type: :controller do
 
     it "doesn't create an enquiry if params not there" do
       params = { first_name: nil }
-      response = post :create, enquiry: params, slug: opportunity.slug
+      response = post :create, params: { enquiry: params, slug: opportunity.slug }
       expect(assigns(:enquiry)).not_to be_nil
       expect(assigns(:enquiry).id).to be_nil
       expect(assigns(:opportunity)).to eq(opportunity)
@@ -43,7 +43,7 @@ RSpec.describe EnquiriesController, type: :controller do
     end
 
     it 'raises a 404 if the opportunity was not found' do
-      post :create, enquiry: attributes_for(:enquiry), slug: 'this-doesnt-exist'
+      post :create, params: { enquiry: attributes_for(:enquiry), slug: 'this-doesnt-exist' }
       expect(response.status).to eq 404
     end
   end

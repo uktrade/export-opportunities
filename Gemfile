@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 
 ruby '2.4.3'
 
-gem 'rails', '5.1'
+gem 'rails', '5.1.4'
 gem 'bundler', '1.16.1'
 gem 'puma', '3.8.0'
 gem 'pg', '0.21.0'
@@ -120,9 +120,9 @@ group :test do
   gem 'poltergeist'
   gem 'simplecov'
   gem 'vcr'
-  gem 'test_after_commit'
   gem 'elasticsearch-extensions'
   gem 'show_me_the_cookies'
+  gem 'rails-controller-testing'
 end
 
 group :production do

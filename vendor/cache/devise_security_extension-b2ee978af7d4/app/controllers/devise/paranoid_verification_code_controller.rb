@@ -1,5 +1,5 @@
 class Devise::ParanoidVerificationCodeController < DeviseController
-  skip_before_action :handle_paranoid_verification, raise: false
+  skip_before_action :handle_paranoid_verification
   prepend_before_action :authenticate_scope!, :only => [:show, :update]
 
   def show

@@ -146,14 +146,14 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html { render 'errors/not_found', status: 404 }
       format.json { render json: { errors: 'Resource not found' }, status: 404 }
-      format.all { render status: 404, nothing: true }
+      format.all { head 404 }
     end
   end
 
   def unsupported_format
     respond_to do |format|
       format.json { render json: { errors: 'JSON is not supported for this resource' }, status: 406 }
-      format.all { render status: 406, nothing: true }
+      format.all { head 406 }
     end
   end
 
