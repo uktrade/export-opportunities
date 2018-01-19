@@ -1,9 +1,13 @@
 class Devise::PasswordExpiredController < DeviseController
 <<<<<<< HEAD
+<<<<<<< HEAD
   skip_before_action :handle_password_change
 =======
   skip_before_action :handle_password_change, raise: false
 >>>>>>> 30f043d9... (feature) updated rails to 5.1, ruby to 2.4.3
+=======
+  skip_before_action :handle_password_change
+>>>>>>> 561d1a71... (fix) rails 5.1.4 to resolve SELECT DISTINCT, ORDER BY issue, fixed most tests
   before_action :skip_password_change, only: [:show, :update]
   prepend_before_action :authenticate_scope!, :only => [:show, :update]
 
