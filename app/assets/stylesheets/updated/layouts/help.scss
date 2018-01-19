@@ -110,3 +110,39 @@
     top: -$spacing-3;
   }
 }
+
+
+
+
+// NON-DESKTOP
+@media (max-width: 768px) {
+  .help {
+    article,
+    aside {
+      float: none;
+      width: auto;
+    }
+  }
+}
+
+
+@media (max-width: 480px) {
+  .article-index {
+    ol {
+      -moz-column-count: 1;
+      -webkit-column-count: 1;
+      column-count: 1;
+    }
+  }
+
+  .article-pagination {
+    .next,
+    .previous {
+      display: inline-block;
+      float: none;
+      text-align: left;
+      margin-bottom: $spacing-3;
+      width: auto;
+    }
+  }
+}
