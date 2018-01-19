@@ -9,7 +9,7 @@ RSpec.describe SendEnquiriesReportToMatchingAdminUser, :elasticsearch, :commit, 
 
     last_delivery = ActionMailer::Base.deliveries.last
 
-    expect(last_delivery.text_part.to_s).to include('Please find the Enquiries report attached.')
+    expect(last_delivery.text_part.to_s).to include('Please find the Enquiries report')
     expect(last_delivery.attachments[0].filename).to eq('Enquiries.csv')
   end
 
@@ -21,7 +21,7 @@ RSpec.describe SendEnquiriesReportToMatchingAdminUser, :elasticsearch, :commit, 
 
     last_delivery = ActionMailer::Base.deliveries.last
 
-    expect(last_delivery.text_part.to_s).to include('Please find the Enquiries report attached.')
+    expect(last_delivery.text_part.to_s).to include('Please find the Enquiries report')
     # expect(last_delivery.attachments[0].filename).to eq('Enquiries.zip')
     expect(valid_zip?(last_delivery.attachments[0].filename)).to eq(true)
   end

@@ -6,7 +6,7 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   # and Devise don't play well together
   #
   # https://github.com/plataformatec/devise/issues/2332
-  skip_before_action :authenticate_editor!
+  skip_before_action :authenticate_editor!, raise: false
 
   def new
     @enquiry ||= Enquiry.find(params.fetch(:id, nil))

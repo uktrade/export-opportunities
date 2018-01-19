@@ -147,7 +147,7 @@ feature 'Looking up company details through Companies House API', js: true do
     select 'Not yet', from: 'enquiry_existing_exporter'
     click_on 'Submit'
 
-    expect(opportunity.enquiries.size).to eq(1)
+    expect(opportunity.enquiries.count).to eq(1)
   end
 
   scenario 'allow an enquirer to view their own company details on the CH site' do

@@ -28,7 +28,7 @@ describe Admin::OpportunitiesController, type: :controller do
       c_opportunity = create(:opportunity, status: 'publish', title: 'CCC')
       b_opportunity = create(:opportunity, status: 'publish', title: 'BBB')
 
-      get :index, sort: { column: 'title', order: 'asc' }
+      get :index, params: { sort: { column: 'title', order: 'asc' } }
 
       expect(assigns(:opportunities)).to eq [a_opportunity, b_opportunity, c_opportunity]
     end
@@ -37,7 +37,7 @@ describe Admin::OpportunitiesController, type: :controller do
       pending_opportunity = create(:opportunity, status: 'pending', title: 'CCC')
       published_opportunity = create(:opportunity, status: 'publish', title: 'AAA')
 
-      get :index, sort: { column: 'status', order: 'asc' }
+      get :index, params: { sort: { column: 'status', order: 'asc' } }
 
       expect(assigns(:opportunities)).to eq [pending_opportunity, published_opportunity]
     end
@@ -46,7 +46,7 @@ describe Admin::OpportunitiesController, type: :controller do
       old_opportunity = create(:opportunity, title: 'Test', status: :publish, created_at: 1.month.ago)
       new_opportunity = create(:opportunity, title: 'Test', status: :publish, created_at: DateTime.current)
 
-      get :index, sort: { column: 'wintle', order: 'desc' }
+      get :index, params: { sort: { column: 'wintle', order: 'desc' } }
 
       expect(assigns(:opportunities)).to eq [new_opportunity, old_opportunity]
     end
@@ -61,13 +61,13 @@ describe Admin::OpportunitiesController, type: :controller do
       it 'rejects non-email punctuation from search terms' do
         create(:opportunity, title: 'Test', status: :publish, created_at: 1.month.ago)
         expect(OpportunityQuery).to receive(:new).with(a_hash_including(search_term: 'email@example.com drop-table opportunities')).and_call_original
-        get :index, s: "email@example.com'; -- drop-table opportunities; --"
+        get :index, params: { s: "email@example.com'; -- drop-table opportunities; --" }
       end
 
       it 'permits email punctuation from search terms' do
         create(:opportunity, title: 'Test', status: :publish, created_at: 1.month.ago)
         expect(OpportunityQuery).to receive(:new).with(a_hash_including(search_term: 'email@example.com drop-table opportunities')).and_call_original
-        get :index, s: "email@example.com'; -- drop-table opportunities; --"
+        get :index, params: { s: "email@example.com'; -- drop-table opportunities; --" }
       end
     end
   end
@@ -113,7 +113,7 @@ describe Admin::OpportunitiesController, type: :controller do
   end
 
   def create_opportunity
-    post :create, opportunity: {
+    post :create, params: { opportunity: {
       title: 'the opportunity title',
       country_ids: [country.id],
       sector_ids: [sector.id],
@@ -128,10 +128,11 @@ describe Admin::OpportunitiesController, type: :controller do
       ],
       service_provider_id: service_provider.id,
     }
+    }
   end
 
   def update_opportunity(id)
-    put :update, id: id, opportunity: {
+    put :update, params: { id: id, opportunity: {
       title: 'revised opportunity title',
       country_ids: [country.id],
       sector_ids: [sector.id],
@@ -141,6 +142,7 @@ describe Admin::OpportunitiesController, type: :controller do
       response_due_on: '2015-02-01',
       description: 'description',
       service_provider_id: service_provider.id,
+    }
     }
   end
 end

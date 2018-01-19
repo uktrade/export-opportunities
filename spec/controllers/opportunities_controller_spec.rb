@@ -41,7 +41,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
     end
 
     context 'when there are non-alphanumerics in search string' do
-      subject(:get_index) { get :index, s: "'hello; --' &glyn" }
+      subject(:get_index) { get :index, params: { s: "'hello; --' &glyn" } }
 
       it 'rejects them' do
         expect(Opportunity).to receive(:public_search)
@@ -54,7 +54,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
 
     context 'provides an XML-based Atom feed' do
       it 'provides the correct MIME type' do
-        get :index, format: 'atom'
+        get :index, params: { format: 'atom' }
         expect(response.content_type).to eq('application/atom+xml')
         expect(response.body).to have_css('feed')
       end
@@ -78,12 +78,12 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
   describe 'GET :id' do
     it 'assigns opportunities' do
       opportunity = create(:opportunity, status: :publish)
-      get :show, id: opportunity.id
+      get :show, params: { id: opportunity.id }
       expect(assigns(:opportunity)).to eq(opportunity)
     end
 
     it '404s if opportunity is not found' do
-      get :show, id: 'not-even-close-to-a-thing'
+      get :show, params: { id: 'not-even-close-to-a-thing' }
       expect(response).to have_http_status(:not_found)
     end
   end

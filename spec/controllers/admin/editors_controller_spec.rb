@@ -43,7 +43,7 @@ describe Admin::EditorsController, type: :controller do
     it 'returns 200' do
       editor = create(:editor)
 
-      get :show, id: editor.id
+      get :show, params: { id: editor.id }
       expect(response.status).to eq 200
     end
 
@@ -51,7 +51,7 @@ describe Admin::EditorsController, type: :controller do
       login_editor(role: :admin)
 
       it 'returns 404' do
-        get :show, id: 'foo'
+        get :show, params: { id: 'foo' }
         expect(response.status).to eq 404
       end
     end
@@ -63,14 +63,14 @@ describe Admin::EditorsController, type: :controller do
     it 'returns 200' do
       editor = create(:editor)
 
-      get :edit, id: editor.id
+      get :edit, params: { id: editor.id }
       expect(response.status).to eq 200
     end
 
     it 'assigns the editor' do
       editor = create(:editor)
 
-      get :edit, id: editor.id
+      get :edit, params: { id: editor.id }
       expect(assigns(:editor)).to eq(editor)
     end
   end
@@ -81,7 +81,7 @@ describe Admin::EditorsController, type: :controller do
     it 'updates the editor’s role' do
       editor = create(:uploader)
 
-      put :update, id: editor.id, editor: { role: 'publisher' }
+      put :update, params: { id: editor.id, editor: { role: 'publisher' } }
       editor.reload
       expect(editor.role).to eq 'publisher'
     end
@@ -89,7 +89,7 @@ describe Admin::EditorsController, type: :controller do
     it 'assigns the editor' do
       editor = create(:uploader)
 
-      put :update, id: editor.id, editor: { role: 'publisher' }
+      put :update, params: { id: editor.id, editor: { role: 'publisher' } }
       editor.reload
       expect(assigns(:editor)).to eq(editor)
     end
@@ -97,7 +97,7 @@ describe Admin::EditorsController, type: :controller do
     it 'redirects to the editor page' do
       editor = create(:uploader)
 
-      put :update, id: editor.id, editor: { role: 'publisher' }
+      put :update, params: { id: editor.id, editor: { role: 'publisher' } }
       expect(response).to redirect_to(admin_editor_path(editor))
     end
   end

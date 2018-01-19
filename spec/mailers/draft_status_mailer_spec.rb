@@ -7,7 +7,7 @@ RSpec.describe DraftStatusMailer, type: :mailer do
       opportunity = create(:opportunity)
       editor = create(:editor)
 
-      DraftStatusMailer.send_draft_status(opportunity, editor).deliver_later!
+      DraftStatusMailer.send_draft_status(opportunity, editor).deliver_now!
 
       last_delivery = ActionMailer::Base.deliveries.last
 

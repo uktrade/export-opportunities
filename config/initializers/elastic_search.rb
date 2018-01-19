@@ -15,4 +15,6 @@ if Rails.env.production?
 
     f.adapter Faraday.default_adapter
   end
+else
+  Elasticsearch::Model.client = Elasticsearch::Client.new host: '127.0.0.1:9200'
 end
