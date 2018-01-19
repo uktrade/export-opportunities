@@ -1,9 +1,13 @@
 class Devise::ParanoidVerificationCodeController < DeviseController
 <<<<<<< HEAD
+<<<<<<< HEAD
   skip_before_action :handle_paranoid_verification
 =======
   skip_before_action :handle_paranoid_verification, raise: false
 >>>>>>> 30f043d9... (feature) updated rails to 5.1, ruby to 2.4.3
+=======
+  skip_before_action :handle_paranoid_verification
+>>>>>>> 561d1a71... (fix) rails 5.1.4 to resolve SELECT DISTINCT, ORDER BY issue, fixed most tests
   prepend_before_action :authenticate_scope!, :only => [:show, :update]
 
   def show
