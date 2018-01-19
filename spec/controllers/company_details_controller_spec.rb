@@ -6,7 +6,7 @@ RSpec.describe CompanyDetailsController, type: :controller do
     it 'retrieves results from the API' do
       company_detail = build(:company_detail)
       allow_any_instance_of(CompanyHouseFinder).to receive(:call).and_return([company_detail])
-      response = get :index, search: 'Dxw Ltd'
+      response = get :index, params: { search: 'Dxw Ltd' }
 
       expect(response.content_type).to eql('application/json')
       data = JSON.parse(response.body)
@@ -18,14 +18,14 @@ RSpec.describe CompanyDetailsController, type: :controller do
     it 'returns an array of company details' do
       company_detail = build(:company_detail)
       allow_any_instance_of(CompanyHouseFinder).to receive(:call).and_return([company_detail])
-      get :index, search: 'Dxw Ltd'
+      get :index, params: { search: 'Dxw Ltd' }
 
       expect(assigns(:results).first).to eq company_detail
     end
 
     context 'query is empty' do
       it 'should return empty' do
-        get :index, search: ''
+        get :index, params: { search: '' }
         expect(assigns(:results)).to be_empty
       end
     end

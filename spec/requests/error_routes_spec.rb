@@ -18,13 +18,13 @@ RSpec.describe 'Error routing' do
   end
 
   it 'routes /500 via POST' do
-    post '/500', foo: 'bar'
+    post '/500', params: { foo: 'bar' }
     expect(response).to have_http_status(500)
     expect(response.body).to include('This page is unavailable')
   end
 
   it 'routes /404 via POST' do
-    post '/404', foo: 'bar'
+    post '/404', params: { foo: 'bar' }
     expect(response).to have_http_status(404)
     expect(response.body).to include('This page cannot be found')
   end

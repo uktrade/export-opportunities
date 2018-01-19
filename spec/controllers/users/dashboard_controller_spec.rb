@@ -15,7 +15,7 @@ RSpec.describe Users::DashboardController, type: :controller do
       it 'redirects to SUD alerts page' do
         allow(Figaro.env).to receive(:SUD_PROFILE_PAGE_EMAIL_ALERTS).and_return('/sud_alerts')
 
-        get :index, target: 'alerts'
+        get :index, params: { target: 'alerts' }
 
         expect(response).to have_http_status(:redirect)
         expect(response).to redirect_to('/sud_alerts')

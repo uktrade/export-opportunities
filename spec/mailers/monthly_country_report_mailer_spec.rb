@@ -8,7 +8,7 @@ RSpec.describe MonthlyCountryReportMailer, type: :mailer do
       report_csv = []
       editor = create(:editor, role: :administrator)
       report_csv << CSV.generate_line(['sample row'])
-      MonthlyCountryReportMailer.send_report(report_csv, editor.email).deliver_later!
+      MonthlyCountryReportMailer.send_report(report_csv, editor.email).deliver_now!
       last_delivery = ActionMailer::Base.deliveries.last
 
       expect(last_delivery.html_part.to_s).to include('Please find the Monthly Outcomes against Targets report attached.')

@@ -17,7 +17,7 @@ RSpec.describe 'HTTP verbs', :elasticsearch, :commit, type: :request do
   end
 
   it 'returns 406 status for GET / with unhandled mime-type' do
-    get '/', '', 'ACCEPT': 'application/pdf'
+    get '/', params: {}, headers: { 'ACCEPT': 'application/pdf' }
     expect(response).to have_http_status(406)
   end
 
@@ -32,17 +32,12 @@ RSpec.describe 'HTTP verbs', :elasticsearch, :commit, type: :request do
   end
 
   it 'returns 406 status for GET / with unregistered mime-type' do
-    get '/', '', 'ACCEPT': 'application/x-zzz'
+    get '/', params: {}, headers: { 'ACCEPT': 'application/x-zzz' }
     expect(response).to have_http_status(406)
   end
 
   it 'returns 406 status for HEAD /opportunities with unhandled format' do
     head '/opportunities.zzz'
-    expect(response).to have_http_status(406)
-  end
-
-  it 'returns 406 status for HEAD / with unregistered mime-type' do
-    head '/', '', 'ACCEPT': 'application/x-zzz'
     expect(response).to have_http_status(406)
   end
 
