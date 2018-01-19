@@ -48,9 +48,9 @@ feature 'previewers can view enquiries' do
     visit admin_opportunities_path
 
     click_on 'Enquiries'
-    expect(page).to have_button('Download as CSV')
+    expect(page).to have_button('Generate report')
 
-    click_on 'Download as CSV'
+    click_on 'Generate report'
 
     expect(page.response_headers).to include 'Content-Type' => 'text/csv'
 
@@ -82,7 +82,7 @@ feature 'previewers can view enquiries' do
     visit admin_opportunities_path
 
     click_on 'Enquiries'
-    expect(page).to have_button('Download as CSV')
+    expect(page).to have_button('Generate report')
 
     select '2016', from: 'created_at_from_year'
     select 'June', from: 'created_at_from_month'
@@ -92,7 +92,7 @@ feature 'previewers can view enquiries' do
     select 'July', from: 'created_at_to_month'
     select '1', from: 'created_at_to_day'
 
-    click_on 'Download as CSV'
+    click_on 'Generate report'
 
     expect(page.response_headers).to include 'Content-Disposition' => 'attachment; filename="eig-enquiries-2016-06-01-2016-07-01.csv"'
     expect(page.response_headers).to include 'Content-Type' => 'text/csv'
@@ -108,7 +108,7 @@ feature 'previewers can view enquiries' do
     visit admin_opportunities_path
 
     click_on 'Enquiries'
-    expect(page).to have_button('Download as CSV')
+    expect(page).to have_button('Generate report')
 
     week_ago = 7.days.ago
     select week_ago.year.to_s, from: 'created_at_from_year'
@@ -120,7 +120,7 @@ feature 'previewers can view enquiries' do
     select Date::MONTHNAMES[today.month], from: 'created_at_to_month'
     select today.day.to_s, from: 'created_at_to_day'
 
-    click_on 'Download as CSV'
+    click_on 'Generate report'
 
     enquiries.each do |enquiry|
       expect(page).to have_content(enquiry.company_name)
