@@ -1,4 +1,4 @@
-class AddCountriesSectorsTypesAndValuesToOpportunities < ActiveRecord::Migration
+class AddCountriesSectorsTypesAndValuesToOpportunities < ActiveRecord::Migration[4.2]
   def change
     create_table :countries_opportunities, id: false do |t|
       t.references :country, index: true, null: false

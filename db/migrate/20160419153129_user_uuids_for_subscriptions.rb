@@ -1,4 +1,4 @@
-class UserUuidsForSubscriptions < ActiveRecord::Migration
+class UserUuidsForSubscriptions < ActiveRecord::Migration[4.2]
   def change
     add_column :subscriptions, :uuid, :uuid, default: 'uuid_generate_v4()', null: false
 

@@ -1,4 +1,4 @@
-class ReplaceOpportunitiesPrimaryKeyWithUuid < ActiveRecord::Migration
+class ReplaceOpportunitiesPrimaryKeyWithUuid < ActiveRecord::Migration[4.2]
   def change
     drop_table :opportunities
     drop_table :contacts

@@ -1,4 +1,4 @@
-class AddCountriesSectorsTypesAndValuesToSubscriptions < ActiveRecord::Migration
+class AddCountriesSectorsTypesAndValuesToSubscriptions < ActiveRecord::Migration[4.2]
   def change
     create_table :countries_subscriptions, id: false do |t|
       t.references :country, index: true, null: false

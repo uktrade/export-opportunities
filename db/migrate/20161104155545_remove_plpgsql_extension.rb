@@ -1,4 +1,4 @@
-class RemovePlpgsqlExtension < ActiveRecord::Migration
+class RemovePlpgsqlExtension < ActiveRecord::Migration[4.2]
   def up
     disable_extension 'plpgsql'
   end

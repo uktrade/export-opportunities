@@ -1,4 +1,4 @@
-class CreateDocumentUrlMappers < ActiveRecord::Migration
+class CreateDocumentUrlMappers < ActiveRecord::Migration[4.2]
   def change
     create_table :document_url_mappers do |t|
       t.references :user, null: false

@@ -1,4 +1,4 @@
-class SubscriptionLineTablesToUuids < ActiveRecord::Migration
+class SubscriptionLineTablesToUuids < ActiveRecord::Migration[4.2]
   def change
     remove_column :countries_subscriptions, :subscription_id
     remove_column :sectors_subscriptions, :subscription_id

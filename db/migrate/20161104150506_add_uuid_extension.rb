@@ -1,4 +1,4 @@
-class AddUuidExtension < ActiveRecord::Migration
+class AddUuidExtension < ActiveRecord::Migration[4.2]
   def up
     enable_extension 'uuid-ossp'
     change_table 'opportunities' do |t|

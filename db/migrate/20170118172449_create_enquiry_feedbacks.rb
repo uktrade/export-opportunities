@@ -1,4 +1,4 @@
-class CreateEnquiryFeedbacks < ActiveRecord::Migration
+class CreateEnquiryFeedbacks < ActiveRecord::Migration[4.2]
   def change
     create_table :enquiry_feedbacks do |t|
       t.integer :enquiry_id, foreign_key: true

@@ -2,7 +2,7 @@
 # While you can edit this file, any changes you make to the definitions here
 # will be undone by the next auto-generated trigger migration.
 
-class CreateTriggerOpportunitiesInsertUpdate < ActiveRecord::Migration
+class CreateTriggerOpportunitiesInsertUpdate < ActiveRecord::Migration[4.2]
   def up
     create_trigger('opportunities_after_insert_update_row_tr', generated: true, compatibility: 1)
       .on('opportunities')

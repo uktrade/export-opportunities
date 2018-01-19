@@ -1,4 +1,4 @@
-class CreateEnquiries < ActiveRecord::Migration
+class CreateEnquiries < ActiveRecord::Migration[4.2]
   def change
     create_table :enquiries do |t|
       t.references :opportunity, null: false
