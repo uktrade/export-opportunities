@@ -11,7 +11,7 @@ describe V1::OpportunitiesController, type: :controller do
     it 'returns 200' do
       create(:opportunity, id: uuid)
 
-      get :show, id: uuid
+      get :show, params: { id: uuid }
 
       expect(response.status).to eq(200)
     end
@@ -55,7 +55,7 @@ describe V1::OpportunitiesController, type: :controller do
           'values' => [],
         } }
 
-      get :show, id: uuid
+      get :show, params: { id: uuid }
 
       expect(JSON.parse(response.body)).to include(expected_hash)
     end
@@ -65,7 +65,7 @@ describe V1::OpportunitiesController, type: :controller do
       create(:opportunity, id: uuid, contacts: [contact])
       expected_hash = { 'name' => 'Green Shatterstar', 'email' => 'ted@friesen.biz' }
 
-      get :show, id: uuid
+      get :show, params: { id: uuid }
 
       expect(JSON.parse(response.body)['opportunity']['contacts']).to include(expected_hash)
     end
@@ -75,7 +75,7 @@ describe V1::OpportunitiesController, type: :controller do
       create(:opportunity, id: uuid, countries: [country])
       expected_hash = { 'slug' => 'ratione.fugiat', 'name' => 'Mr Speedball Skull' }
 
-      get :show, id: uuid
+      get :show, params: { id: uuid }
 
       expect(JSON.parse(response.body)['opportunity']['countries']).to include(expected_hash)
     end
@@ -85,7 +85,7 @@ describe V1::OpportunitiesController, type: :controller do
       create(:opportunity, id: uuid, sectors: [sector])
       expected_hash = { 'slug' => 'natus-quisquam', 'name' => 'Green Triton Thirteen' }
 
-      get :show, id: uuid
+      get :show, params: { id: uuid }
 
       expect(JSON.parse(response.body)['opportunity']['sectors']).to include(expected_hash)
     end
@@ -95,7 +95,7 @@ describe V1::OpportunitiesController, type: :controller do
       create(:opportunity, id: uuid, types: [type])
       expected_hash = { 'slug' => 'quis.mollitia', 'name' => 'The Granny Goodness' }
 
-      get :show, id: uuid
+      get :show, params: { id: uuid }
 
       expect(JSON.parse(response.body)['opportunity']['types']).to include(expected_hash)
     end
@@ -105,14 +105,14 @@ describe V1::OpportunitiesController, type: :controller do
       create(:opportunity, id: uuid, values: [value])
       expected_hash = { 'slug' => '100', 'name' => '100K' }
 
-      get :show, id: uuid
+      get :show, params: { id: uuid }
 
       expect(JSON.parse(response.body)['opportunity']['values']).to include(expected_hash)
     end
 
     context "when the opportunity doesn't exist" do
       it 'returns 404 with a message' do
-        get :show, id: uuid
+        get :show, params: { id: uuid }
 
         expect(response.status).to eq(404)
         expect(response.body).to include("Couldn't find Opportunity")

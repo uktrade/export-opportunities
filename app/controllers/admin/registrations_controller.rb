@@ -4,7 +4,7 @@ class Admin::RegistrationsController < Devise::RegistrationsController
   before_action :configure_permitted_parameters
   before_action :load_service_providers
 
-  skip_before_action :require_no_authentication
+  skip_before_action :require_no_authentication, raise: false
 
   rescue_from Pundit::NotAuthorizedError, with: :not_found
 
@@ -45,9 +45,9 @@ class Admin::RegistrationsController < Devise::RegistrationsController
   end
 
   private def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_up) << :name
-    devise_parameter_sanitizer.for(:sign_up) << :role
-    devise_parameter_sanitizer.for(:sign_up) << :service_provider_id
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:role])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:service_provider_id])
   end
 
   def load_service_providers
