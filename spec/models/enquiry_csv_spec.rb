@@ -36,7 +36,7 @@ describe EnquiryCSV do
 
       enquiry_response.save!
 
-      expected_row = "Pig Ltd,Peppa,Pig,Victoria Street,AB1 1BA,01234 567890,2017/01/17 12:00,Agriculture,France - shoes needed,France,peppa@pig.com,France Paris,Yes,N/A,1234,http://pig.com/,Not yet,\"We would like to\nexport.\",Right for opportunity,we love Peppa the Pig,2018/01/08 12:00\n"
+      expected_row = "Pig Ltd,Peppa,Pig,Victoria Street,AB1 1BA,01234 567890,2017/01/17 12:00,Agriculture,France - shoes needed,France,peppa@pig.com,France Paris,Yes,1234,http://pig.com/,Not yet,\"We would like to\nexport.\",Right for opportunity,we love Peppa the Pig,2018/01/08 12:00\n"
 
       expect { |row| subject.each(&row) }.to yield_successive_args(expected_header, expected_row)
     end
@@ -66,7 +66,7 @@ describe EnquiryCSV do
         data_protection: true
       )
 
-      expected_row = "Pig Ltd,Peppa,Pig,Victoria Street,AB1 1BA,01234 567890,2017/01/17 12:00,Agriculture,Germany - sausages needed,,peppa@pig.com,,Yes,N/A,1234,http://pig.com/,Not yet,\"We would like to\nexport.\",none,none,none\n"
+      expected_row = "Pig Ltd,Peppa,Pig,Victoria Street,AB1 1BA,01234 567890,2017/01/17 12:00,Agriculture,Germany - sausages needed,,peppa@pig.com,,Yes,1234,http://pig.com/,Not yet,\"We would like to\nexport.\",none,none,none\n"
 
       expect { |row| subject.each(&row) }.to yield_successive_args(expected_header, expected_row)
     end
