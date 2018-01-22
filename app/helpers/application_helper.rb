@@ -3,7 +3,7 @@ require 'net/http'
 module ApplicationHelper
   def present_html_or_formatted_text(text)
     return '' if text.blank?
-    return simple_format(text) if HTMLComparison.new.tags?(text)
+    return simple_format(text) if html_tags?(text)
     sanitize(text)
   end
 
@@ -39,5 +39,14 @@ module ApplicationHelper
 
   def opportunity_expired?(response_due_on)
     response_due_on < Time.zone.now - 7.days
+  end
+
+  private def html_tags?(text)
+    scrubber = Rails::Html::TargetScrubber.new
+    scrubber.tags = []
+    scrubber.attributes = []
+    normalized_text = Rails::Html::WhiteListSanitizer.new.sanitize(text, scrubber: scrubber)
+
+    normalized_text == ActionController::Base.helpers.strip_tags(text)
   end
 end

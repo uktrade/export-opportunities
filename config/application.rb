@@ -13,6 +13,7 @@ module ExportOpportunities
     
     config.autoload_paths += Dir[Rails.root.join("app", "services")]
     config.autoload_paths += Dir[Rails.root.join("app", "decorators")]
+    config.autoload_paths += Dir[Rails.root.join("app", "helpers")]
     config.autoload_paths += Dir[Rails.root.join("lib")]
     config.autoload_paths += Dir[Rails.root.join("lib", "modules")]
     config.autoload_paths += Dir[Rails.root.join("lib", "omniauth", "strategies")]
