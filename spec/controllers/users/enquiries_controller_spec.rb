@@ -10,7 +10,7 @@ RSpec.describe Users::EnquiriesController do
       other_user = create(:user, email: 'other@example.com')
       enquiry = create(:enquiry, user: other_user, opportunity: opportunity)
 
-      get :show, id: enquiry.id
+      get :show, params: { id: enquiry.id }
 
       expect(response).to have_http_status(:not_found)
     end

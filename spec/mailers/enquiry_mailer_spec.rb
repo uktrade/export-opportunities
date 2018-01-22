@@ -5,7 +5,7 @@ RSpec.describe OpportunityMailer, type: :mailer do
   describe '.send_enquiry' do
     it 'sends an enquiry to its contacts' do
       enquiry = create(:enquiry)
-      EnquiryMailer.send_enquiry(enquiry).deliver_later!
+      EnquiryMailer.send_enquiry(enquiry).deliver_now!
       last_delivery = ActionMailer::Base.deliveries.last
 
       expect(last_delivery.subject).to eql("You've received an enquiry: Action required within 5 working days")
@@ -18,7 +18,7 @@ RSpec.describe OpportunityMailer, type: :mailer do
       allow(Figaro.env).to receive(:enquiries_cc_email).and_return('dit-cc@example.org')
 
       enquiry = create(:enquiry)
-      EnquiryMailer.send_enquiry(enquiry).deliver_later!
+      EnquiryMailer.send_enquiry(enquiry).deliver_now!
       last_delivery = ActionMailer::Base.deliveries.last
 
       expect(last_delivery.cc).to eql(['dit-cc@example.org'])
@@ -28,7 +28,7 @@ RSpec.describe OpportunityMailer, type: :mailer do
       allow(Figaro.env).to receive(:enquiries_cc_email)
 
       enquiry = create(:enquiry)
-      EnquiryMailer.send_enquiry(enquiry).deliver_later!
+      EnquiryMailer.send_enquiry(enquiry).deliver_now!
       last_delivery = ActionMailer::Base.deliveries.last
 
       expect(last_delivery.cc).to eql(nil)
@@ -38,7 +38,7 @@ RSpec.describe OpportunityMailer, type: :mailer do
       allow(Figaro.env).to receive(:enquiries_cc_email).and_return(nil)
 
       enquiry = create(:enquiry)
-      EnquiryMailer.send_enquiry(enquiry).deliver_later!
+      EnquiryMailer.send_enquiry(enquiry).deliver_now!
       last_delivery = ActionMailer::Base.deliveries.last
 
       expect(last_delivery.cc).to eql(nil)

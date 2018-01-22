@@ -1,11 +1,12 @@
 source 'https://rubygems.org'
 
-ruby '2.4.1'
 
-gem 'rails', '4.2.10'
-gem 'bundler', '1.16.0'
+ruby '2.4.3'
+
+gem 'rails', '5.1.4'
+gem 'bundler', '1.16.1'
 gem 'puma', '3.8.0'
-gem 'pg'
+gem 'pg', '0.21.0'
 gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'sidekiq-failures'
@@ -19,10 +20,10 @@ gem 'immutable-struct'
 gem 'nokogiri', '1.8.1'
 
 # Authentication & authorisation
-gem 'devise'
+gem 'devise', '4.3.0'
 gem 'devise-async'
 gem 'omniauth'
-gem 'omniauth-oauth2', '~> 1.3.1'
+gem 'omniauth-oauth2'
 gem 'pundit', require: true
 
 # Rendering
@@ -34,9 +35,10 @@ gem 'sdoc'
 gem 'pg_search'
 gem 'kaminari'
 gem 'faraday_middleware-aws-signers-v4'
-gem 'elasticsearch-rails', '0.1.9'
-gem 'elasticsearch-model', '0.1.9'
-gem 'devise_security_extension'
+gem 'elasticsearch-rails'
+gem 'elasticsearch-model'
+gem 'devise_security_extension', git: 'https://github.com/phatworx/devise_security_extension.git'
+
 
 # Styling
 gem 'bourbon'
@@ -94,6 +96,7 @@ end
 group :development do
   gem 'web-console'
   gem 'rubocop', '~> 0.49.0', require: false
+  gem 'listen'
 end
 
 group :test do
@@ -117,9 +120,9 @@ group :test do
   gem 'poltergeist'
   gem 'simplecov'
   gem 'vcr'
-  gem 'test_after_commit'
   gem 'elasticsearch-extensions'
   gem 'show_me_the_cookies'
+  gem 'rails-controller-testing'
 end
 
 group :production do

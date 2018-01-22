@@ -141,7 +141,7 @@ feature 'Uploaders are restricted' do
     visit '/admin/enquiries'
 
     click_on 'Enquiries'
-    click_on 'Download as CSV'
+    click_on 'Generate report'
 
     expect(page).not_to have_content('Universal Exports')
   end

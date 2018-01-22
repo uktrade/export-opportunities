@@ -11,9 +11,9 @@ class Admin::OpportunityCommentsController < Admin::BaseController
         DraftStatusSender.new.call(opportunity, current_editor)
         UpdateOpportunityStatus.new.call(opportunity, 'draft')
       end
-      redirect_to :back, notice: 'Your comment has been posted.'
+      redirect_back(notice: 'Your comment has been posted.', fallback_location: '/')
     else
-      redirect_to :back, alert: "Your comment could not be saved. #{comment_form.errors.full_messages.to_sentence}"
+      redirect_back alert: "Your comment could not be saved. #{comment_form.errors.full_messages.to_sentence}", fallback_location: '/'
     end
   end
 

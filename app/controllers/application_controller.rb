@@ -110,9 +110,9 @@ class ApplicationController < ActionController::Base
     store_location_for(:user, request.url)
 
     if Figaro.env.bypass_sso?
-      redirect_to user_omniauth_authorize_path(:developer)
+      redirect_to user_developer_omniauth_authorize_path
     else
-      redirect_to user_omniauth_authorize_path(:exporting_is_great)
+      redirect_to user_exporting_is_great_omniauth_authorize_path
     end
   end
 
@@ -146,14 +146,14 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html { render 'errors/not_found', status: 404 }
       format.json { render json: { errors: 'Resource not found' }, status: 404 }
-      format.all { render status: 404, nothing: true }
+      format.all { head 404 }
     end
   end
 
   def unsupported_format
     respond_to do |format|
       format.json { render json: { errors: 'JSON is not supported for this resource' }, status: 406 }
-      format.all { render status: 406, nothing: true }
+      format.all { head 406 }
     end
   end
 

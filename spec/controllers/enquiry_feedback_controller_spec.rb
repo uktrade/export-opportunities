@@ -7,7 +7,7 @@ RSpec.describe EnquiryFeedbackController do
       params = { id: feedback.id, response: :won }
 
       expect(EncryptedParams).to receive(:decrypt).with('encrypted string').and_return(params)
-      get :new, q: 'encrypted string'
+      get :new, params: { q: 'encrypted string' }
       feedback.reload
 
       expect(feedback).to be_won
@@ -24,7 +24,7 @@ RSpec.describe EnquiryFeedbackController do
       params = { id: feedback.id, response: :did_not_win }
 
       expect(EncryptedParams).to receive(:decrypt).with('encrypted string').and_return(params)
-      get :new, q: 'encrypted string'
+      get :new, params: { q: 'encrypted string' }
 
       feedback.reload
 
@@ -33,7 +33,7 @@ RSpec.describe EnquiryFeedbackController do
     end
 
     it 'provides an friendly but uninformative error if invalid' do
-      get :new, q: 'incorrect string'
+      get :new, params: { q: 'encrypted string' }
 
       expect(response).to have_http_status(:not_found)
     end
