@@ -5,7 +5,7 @@ RSpec.describe SubscriptionsController do
     it 'marks a subscription as confirmed' do
       token = SecureRandom.uuid
       subscription = create(:subscription, confirmation_token: token)
-      get :show, confirmation_token: token
+      get :show, params: { confirmation_token: token }
 
       subscription.reload
       expect(subscription).to be_confirmed
@@ -14,13 +14,13 @@ RSpec.describe SubscriptionsController do
     it 'responds with 201 when subscription is confirmed' do
       token = SecureRandom.uuid
       create(:subscription, confirmation_token: token)
-      get :show, confirmation_token: token
+      get :show, params: { confirmation_token: token }
       expect(response).to be_accepted
     end
 
     it 'responds with 404 when subscription cannot be found' do
       token = SecureRandom.uuid
-      get :show, confirmation_token: token
+      get :show, params: { confirmation_token: token }
       expect(response).to be_not_found
     end
 
@@ -40,9 +40,11 @@ RSpec.describe SubscriptionsController do
     context 'with a valid email address' do
       it 'creates an unconfirmed subscription' do
         subscription_attrs = {
-          subscription: {
-            query: {
-              search_term: 'fish',
+          params:{
+            subscription: {
+              query: {
+                search_term: 'fish',
+              },
             },
           },
         }
@@ -66,11 +68,13 @@ RSpec.describe SubscriptionsController do
 
         subscription_attrs = {
           subscription: {
-            query: {
-              sectors: sectors.collect(&:slug),
-              types: types.collect(&:slug),
-              countries: countries.collect(&:slug),
-              values: values.collect(&:slug),
+            params: {
+              query: {
+                sectors: sectors.collect(&:slug),
+                types: types.collect(&:slug),
+                countries: countries.collect(&:slug),
+                values: values.collect(&:slug),
+              },
             },
           },
         }
@@ -96,13 +100,15 @@ RSpec.describe SubscriptionsController do
         values = create_list(:value, 2)
 
         subscription_attrs = {
-          subscription: {
-            query: {
-              search_term: 'compressors',
-              sectors: sectors.collect(&:slug),
-              types: types.collect(&:slug),
-              countries: countries.collect(&:slug),
-              values: values.collect(&:slug),
+          params: {
+            subscription: {
+              query: {
+                search_term: 'compressors',
+                sectors: sectors.collect(&:slug),
+                types: types.collect(&:slug),
+                countries: countries.collect(&:slug),
+                values: values.collect(&:slug),
+              },
             },
           },
         }
@@ -132,7 +138,7 @@ RSpec.describe SubscriptionsController do
 
         subscription = create(:subscription)
 
-        delete :destroy, id: subscription.id
+        delete :destroy, params: { id: subscription.id }
         subscription.reload
 
         expect(subscription.unsubscribed_at).to eq DateTime.current
@@ -145,7 +151,7 @@ RSpec.describe SubscriptionsController do
 
       expect(controller).to receive(:require_sso!).and_return(true)
 
-      delete :destroy, id: subscription.id
+      delete :destroy, params: { id: subscription.id }
     end
   end
 
@@ -153,7 +159,7 @@ RSpec.describe SubscriptionsController do
     it 'records the reason for unsubscribing' do
       subscription = create(:subscription)
 
-      put :update, id: subscription.id, reason: 'spam'
+      put :update, params: { id: subscription.id, reason: 'spam' }
       subscription.reload
 
       expect(subscription.unsubscribe_reason).to eql 'spam'
@@ -162,7 +168,7 @@ RSpec.describe SubscriptionsController do
     it 'ignores invalid reasons for unsubscribing' do
       subscription = create(:subscription)
 
-      put :update, id: subscription.id, reason: 'xyz'
+      put :update, params: { id: subscription.id, reason: 'xyz' }
       subscription.reload
 
       expect(subscription.unsubscribe_reason).to be_nil

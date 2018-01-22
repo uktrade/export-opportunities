@@ -1,4 +1,5 @@
 class EnquiryResponse < ActiveRecord::Base
+  include EnquiryResponseHelper
   mount_uploaders :attachments, EnquiryResponseUploader
   attr_accessor :completed_at
   # default_scope { where.not(completed_at: nil) }
@@ -15,18 +16,7 @@ class EnquiryResponse < ActiveRecord::Base
   end
 
   def response_type_to_human
-    case response_type
-    when 1
-      'Won'
-    when 2
-      'Need more information'
-    when 3
-      'Did not win'
-    when 4
-      'Not UK registered'
-    when 5
-      'Not for third party'
-    end
+    to_h(response_type)
   end
 
   def documents_list

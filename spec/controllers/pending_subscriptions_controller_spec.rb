@@ -4,16 +4,14 @@ RSpec.describe PendingSubscriptionsController do
   describe '#create' do
     it 'creates a pending subscription' do
       subscription_attrs = {
-        subscription: {
-          query: {
-            search_term: 'innovative',
-            countries: ['france'],
-            sectors: ['aerospace'],
-          },
-        },
+            query: {
+              search_term: 'innovative',
+              countries: ['france'],
+              sectors: ['aerospace'],
+            },
       }
 
-      expect { post :create, subscription_attrs }.to change { PendingSubscription.count }.by(1)
+      expect { post :create, params: { subscription: subscription_attrs } }.to change { PendingSubscription.count }.by(1)
       expect(response).to have_http_status(302)
     end
   end
@@ -27,16 +25,16 @@ RSpec.describe PendingSubscriptionsController do
       create(:sector, slug: 'aerospace')
 
       subscription_attrs = {
-        query: {
-          search_term: 'innovative',
-          countries: ['france'],
-          sectors: ['aerospace'],
-        },
+          query: {
+            search_term: 'innovative',
+            countries: ['france'],
+            sectors: ['aerospace'],
+          },
       }
 
       pending_subscription = create(:pending_subscription, query_params: subscription_attrs)
 
-      expect { get :update, id: pending_subscription.id }.to change { Subscription.count }.by(1)
+      expect { get :update, params: { id: pending_subscription.id } }.to change { Subscription.count }.by(1)
 
       expect(pending_subscription.reload.subscription_id).not_to be_nil
     end

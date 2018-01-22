@@ -1,6 +1,7 @@
 class Enquiry < ActiveRecord::Base
   belongs_to :opportunity, counter_cache: :enquiries_count, required: true
   belongs_to :user
+  has_one :enquiry_response
   attr_accessor :status
   attr_accessor :response_status
 

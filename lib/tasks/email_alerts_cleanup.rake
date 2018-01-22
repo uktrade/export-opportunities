@@ -14,22 +14,20 @@ namespace :reports do
       email = data[0]
       puts email
       user = User.where(email: email).first
-      if user&.id
-        matched_subscriptions = Subscription.where(user_id: user.id)
+      next unless user&.id
+      matched_subscriptions = Subscription.where(user_id: user.id)
 
-        matched_subscriptions.each do |matched_subscription|
-          puts ">> #{user.id} : #{matched_subscription&.id} <<"
-          puts ">> #{user.id} : #{matched_subscription&.created_at} <<"
-          puts ">> #{user.id} : #{matched_subscription&.unsubscribed_at} <<"
-          if !matched_subscription.unsubscribed_at
-            matched_subscription.unsubscribed_at = Time.zone.now
-            matched_subscription.unsubscribe_reason = 5
-            matched_subscription.save!
-          end
+      matched_subscriptions.each do |matched_subscription|
+        puts ">> #{user.id} : #{matched_subscription&.id} <<"
+        puts ">> #{user.id} : #{matched_subscription&.created_at} <<"
+        puts ">> #{user.id} : #{matched_subscription&.unsubscribed_at} <<"
 
-        end
+        next if matched_subscription.unsubscribed_at
+
+        matched_subscription.unsubscribed_at = Time.zone.now
+        matched_subscription.unsubscribe_reason = 5
+        matched_subscription.save!
       end
     end
   end
 end
-

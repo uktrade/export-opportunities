@@ -5,7 +5,7 @@ class Admin::OpportunityDownloadsController < Admin::BaseController
   # ActionController::Live and Devise don't play well together
   #
   # https://github.com/plataformatec/devise/issues/2332
-  skip_before_action :authenticate_editor!
+  skip_before_action :authenticate_editor!, raise: false
 
   def new; end
 
@@ -13,8 +13,8 @@ class Admin::OpportunityDownloadsController < Admin::BaseController
     @opportunities = policy_scope(Opportunity).where(created_at: from..to)
     authorize @opportunities
 
-    response.headers['Content-Disposition'] = "attachment; filename=\"#{download_filename}\""
-    response.headers['Content-Type'] = 'text/csv; charset=utf-8'
+    response.set_header('Content-Disposition', "attachment; filename=\"#{download_filename}\"")
+    response.set_header('Content-Type', 'text/csv; charset=utf-8')
 
     csv = OpportunityCSV.new(@opportunities)
 

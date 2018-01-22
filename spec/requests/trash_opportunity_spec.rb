@@ -24,7 +24,7 @@ RSpec.describe 'Trash an opportunity' do
       uploader = create(:uploader)
       login_as uploader
       create(:opportunity, slug: 'trashed-opportunity', status: :trash, author: uploader)
-      patch '/admin/opportunities/trashed-opportunity/status', status: 'pending'
+      patch '/admin/opportunities/trashed-opportunity/status', params: { status: 'pending' }
 
       expect(response.status).to eq 401
     end

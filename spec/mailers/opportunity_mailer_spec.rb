@@ -8,7 +8,7 @@ RSpec.describe OpportunityMailer, type: :mailer do
       subscription = create(:subscription, user: user)
       opportunity = create(:opportunity)
 
-      OpportunityMailer.send_opportunity(opportunity, subscription).deliver_later!
+      OpportunityMailer.send_opportunity(opportunity, subscription).deliver_now!
       last_delivery = ActionMailer::Base.deliveries.last
 
       expect(last_delivery.subject).to eql 'New opportunity from Export opportunities: ' + opportunity.title
@@ -22,7 +22,7 @@ RSpec.describe OpportunityMailer, type: :mailer do
       opportunity = create(:opportunity)
       subscription = create(:subscription, user: user)
 
-      OpportunityMailer.send_opportunity(opportunity, subscription).deliver_later!
+      OpportunityMailer.send_opportunity(opportunity, subscription).deliver_now!
       last_delivery = ActionMailer::Base.deliveries.last
 
       expect(last_delivery.text_part.to_s).to include('Manage your alerts')
@@ -34,7 +34,7 @@ RSpec.describe OpportunityMailer, type: :mailer do
       opportunity = create(:opportunity)
       subscription = create(:subscription, user: user)
 
-      OpportunityMailer.send_opportunity(opportunity, subscription).deliver_later!
+      OpportunityMailer.send_opportunity(opportunity, subscription).deliver_now!
       last_delivery = ActionMailer::Base.deliveries.last
 
       expect(last_delivery.text_part.to_s).not_to include('Manage your alerts')

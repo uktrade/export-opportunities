@@ -10,7 +10,7 @@ RSpec.describe ApplicationMailer, type: :mailer do
 
   describe 'converting subject lines to ASCII' do
     it 'handles special characters' do
-      VanillaApplicationMailer.send_an_email(subject: "People's Republic of föobårbàż — €100 worth of saké wanted").deliver_later!
+      VanillaApplicationMailer.send_an_email(subject: "People's Republic of föobårbàż — €100 worth of saké wanted").deliver_now!
       last_delivery = ActionMailer::Base.deliveries.last
       expect(last_delivery.subject).to eq "People's Republic of foobarbaz --- EU100 worth of sake wanted"
     end
