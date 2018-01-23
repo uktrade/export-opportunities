@@ -1,14 +1,14 @@
 ---
 applications:
-#- name: export-opportunities-continuous-deployment-zeus
-#  memory: 512M
-#  buildpack: ruby_buildpack
-#  command: rake db:migrate
-- name: export-opportunities-staging-zeus
+- name: export-opportunities-continuous-deployment-zeus
   memory: 512M
-  instances: 2
   buildpack: ruby_buildpack
   command: rake db:migrate
+#- name: export-opportunities-staging-zeus
+#  memory: 512M
+#  instances: 2
+#  buildpack: ruby_buildpack
+#  command: rake db:migrate
 #- name: export-opportunities-continuous-deployment
 #  memory: 512M
 #  buildpack: ruby_buildpack
