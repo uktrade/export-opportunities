@@ -23,8 +23,11 @@ Rails.application.config.assets.precompile += %w[admin.js]
 Rails.application.config.assets.precompile += %w[header-footer.js]
 Rails.application.config.assets.precompile += %w[jquery3.2.0.js]
 
-
 # Add additional assets to the asset load path.
 # Rails.application.config.assets.paths << Emoji.images_path
 # Add Yarn node_modules folder to the asset load path.
 Rails.application.config.assets.paths << Rails.root.join('node_modules')
+
+# New design update stuff after this point.
+Rails.application.config.assets.precompile += %w( updated/admin.css )
+Rails.application.config.assets.precompile += %w( updated/layouts/help.css )

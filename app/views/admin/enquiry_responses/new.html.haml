@@ -1,7 +1,9 @@
 %a.link-back{:href=>admin_enquiry_path(@enquiry)} Back
 
-%h1 Enquiry from #{@enquiry.company_name}
-%table.horizontal
+%h1{:style => 'margin-bottom:20px'}  Enquiry from #{@enquiry.company_name}
+%a(href="/admin/help/how-to-assess-a-uk-company/overview") How to assess a UK company
+
+%table.horizontal{:style => 'margin-top:50px'}
   %tr
     %th{:scope => 'row'} Opportunity
     %td= link_to @enquiry.opportunity.title, admin_opportunity_path(@enquiry.opportunity)

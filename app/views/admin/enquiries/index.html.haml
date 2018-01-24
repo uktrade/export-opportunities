@@ -1,3 +1,10 @@
+- if current_editor
+  .alert.flash.notice.announcement-notice
+    %p
+      Ability to sort columns in Enquiries tab
+      = link_to 'Read more', "/admin/updates"
+  %br
+
 - if params[:reply_sent]
   %div.alert.flash.info
     %h2.margin-top-0 Reply sent successfully
