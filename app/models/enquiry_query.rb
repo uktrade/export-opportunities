@@ -31,11 +31,11 @@ class EnquiryQuery
     query = query.order(order_sql)
 
     if @status == 'replied'
-      query = query.joins('left outer join enquiry_responses on enquiry_responses.enquiry_id=enquiries.id') unless @sort.column == 'opportunity' && status_selected
-      query = query.where('enquiry_responses.id is not null')
+      query = query.joins('left outer join enquiry_responses on enquiry_responses.enquiry_id=enquiries.id') unless @sort.column == 'opportunity'
+      query = query.where('enquiry_responses.id is not null and completed_at is not null')
     elsif @status == 'not_replied'
-      query = query.joins('left outer join enquiry_responses on enquiry_responses.enquiry_id=enquiries.id') unless @sort.column == 'opportunity' && status_selected
-      query = query.where('enquiry_responses.id is null')
+      query = query.joins('left outer join enquiry_responses on enquiry_responses.enquiry_id=enquiries.id') unless @sort.column == 'opportunity'
+      query = query.where('enquiry_responses.id is null or completed_at is null')
     end
 
     # Secondary sort order to prevent pagination weirdness
