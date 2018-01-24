@@ -52,9 +52,9 @@ Rails.application.configure do
 
   # Where emails are sent from
   config.action_mailer.smtp_settings = {
-      address: 'localhost',
-      port: '1025',
-      domain: 'test@exportingisgreat.gov.uk',
+    address: 'localhost',
+    port: '1025',
+    domain: 'test@exportingisgreat.gov.uk',
   }
 
   config.after_initialize do

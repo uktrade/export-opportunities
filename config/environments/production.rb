@@ -53,7 +53,7 @@ Rails.application.configure do
   config.log_level = :info
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  config.log_tags = [:request_id]
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -81,7 +81,7 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ENV["RAILS_LOG_TO_STDOUT"].present?
+  if ENV['RAILS_LOG_TO_STDOUT'].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
@@ -89,7 +89,6 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
 
   # Make links in emails work
   config.action_mailer.default_url_options = { host: Figaro.env.DOMAIN! }
@@ -100,23 +99,23 @@ Rails.application.configure do
 
   config.action_mailer.smtp_settings = if Figaro.env.AMAZON_SES_USERNAME && Figaro.env.AMAZON_SES_PASSWORD
                                          {
-                                             address: Figaro.env.MAILER_HOST!,
-                                             port: Figaro.env.MAILER_PORT!,
-                                             authentication: :login,
-                                             user_name: Figaro.env.AMAZON_SES_USERNAME!,
-                                             password: Figaro.env.AMAZON_SES_PASSWORD!,
-                                             # domain: Figaro.env.MAILER_DOMAIN!,
-                                             enable_starttls_auto: true,
+                                           address: Figaro.env.MAILER_HOST!,
+                                           port: Figaro.env.MAILER_PORT!,
+                                           authentication: :login,
+                                           user_name: Figaro.env.AMAZON_SES_USERNAME!,
+                                           password: Figaro.env.AMAZON_SES_PASSWORD!,
+                                           # domain: Figaro.env.MAILER_DOMAIN!,
+                                           enable_starttls_auto: true,
                                          }
                                        else
                                          {
-                                             address: Figaro.env.MAILER_HOST!,
-                                             port: Figaro.env.MAILER_PORT!,
-                                             authentication: :plain,
-                                             user_name: Figaro.env.MAILTRAP_USERNAME!,
-                                             password: Figaro.env.MAILTRAP_PASSWORD!,
-                                             domain: Figaro.env.MAILER_DOMAIN!,
-                                             enable_starttls_auto: true,
+                                           address: Figaro.env.MAILER_HOST!,
+                                           port: Figaro.env.MAILER_PORT!,
+                                           authentication: :plain,
+                                           user_name: Figaro.env.MAILTRAP_USERNAME!,
+                                           password: Figaro.env.MAILTRAP_PASSWORD!,
+                                           domain: Figaro.env.MAILER_DOMAIN!,
+                                           enable_starttls_auto: true,
                                          }
                                        end
 

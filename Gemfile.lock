@@ -516,6 +516,7 @@ DEPENDENCIES
   immutable-struct
   jbuilder
   jquery-rails
+  jwt
   kaminari
   launchy
   listen

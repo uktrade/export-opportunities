@@ -65,3 +65,5 @@ vendor/bundle/*
 
 # ignore simplecov configuration
 .simplecov
+
+/node_modules/
