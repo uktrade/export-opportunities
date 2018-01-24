@@ -1,0 +1,299 @@
+/*
+ * Main stylesheet to support the admin section of site.
+ * Only add global admin styles to this file. 
+ *
+ * Individual layout-specific styles should be added to relevant layout files.
+ */
+
+@import "updated/_vars";
+@import "updated/_colours";
+@import "updated/_fonts";
+@import "updated/_mixins";
+@import "updated/_layout";
+
+
+/* Hidden or disabled
+ *********************/
+.js-header-toggle.menu {
+  display: none;
+}
+
+
+/* General 
+ *********************/
+a,
+.link {
+  background-color: transparent;
+  border: none;
+  color: $blue-1;
+  cursor: pointer;
+  font-family: $font-family-standard;
+  font-size: $font-size-body-s;
+  padding: 0;
+  text-decoration: underline;
+
+  &:active,
+  &:hover {
+    color: $blue-2;
+  }
+  
+  &:focus {
+    outline: $focus-yellow solid 3px;
+  }
+
+  .icon {
+    margin-right: 5px;
+    vertical-align: bottom;
+  }
+}
+
+body {
+  box-sizing: border-box;
+  color: $grey-1;
+  font-family: $font-family-standard;
+  font-size: $font-size-body-m;
+  font-weight: normal;
+  line-height: 1.5em;
+  margin: 0;
+  padding: 0;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+  font-size: $font-size-heading-xl;
+  font-weight: bold;
+  line-height: 1.1em;
+  margin: 0 0 $spacing-2 0;
+}
+
+h2 {
+  font-size: $font-size-heading-l;
+  font-weight: bold;
+  margin: 0 0 $spacing-3 0;
+}
+
+h3 {
+  font-size: $font-size-heading-m;
+  font-weight: bold;
+  margin: 0 0 $spacing-4 0;
+}
+
+li {
+  margin-bottom: $spacing-4;
+}
+
+p {
+  margin: 0 0 $spacing-3 0;
+}
+
+ul {
+  margin-bottom: $spacing-3;
+  margin-top: 0;
+}
+
+.button {
+  @include button($green-1, $green-2);
+
+  &[disabled="disabled"] {
+    @include button-disabled;
+  }
+  
+  &:focus {
+    outline: $focus-yellow solid 3px;
+  }
+}
+
+.container {
+  @include container;
+}
+
+.list-label {
+  margin-bottom: 10px;
+}
+
+.navigation {
+  margin: 0;
+  padding: 0;
+
+  li {
+    list-style: none;
+    padding: 0;
+    &::before {
+      display: none;
+    }
+  }
+}
+
+#main {
+  margin-bottom: $spacing-3;
+}
+
+
+// COMPONENTS
+// -------------------------------------
+.content-directory {
+  margin-bottom: $spacing-3;
+  padding-bottom: $spacing-1;
+
+  a {
+    font-size: $font-size-body-l;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  li {
+    margin-bottom: $spacing-3;
+  }
+
+  .title {
+    font-size: $font-size-body-l;
+    font-weight: normal;
+    margin-bottom: $spacing-2;
+  }
+}
+
+.content-meta {
+  @include clear_floats;
+  margin-bottom: $spacing-3;
+  position: relative;
+  top: -$spacing-3;
+
+  dd {
+    float: left;
+    font-size: $font-size-body-s;
+    margin: 0 0 10px 0;
+  }
+
+  dt {
+    clear: left;
+    float: left;
+    font-size: $font-size-body-s;
+    margin: 0 $spacing-3 10px 0;
+
+    &:after {
+      content: ":";
+    }
+  }
+}
+
+
+/* Menu (primary navigation)
+ ****************************/
+#menu  {
+  display: inline-block;
+  padding: 13px 0 9px 0;
+  text-align: left;
+
+  a {
+    color: $white;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  li {
+    display: inline-block;
+    margin: 0 $spacing-4 0 0;
+  }
+
+  .title {
+    color: $white;
+    display: inline-block;
+    font-size: $font-size-body-l;
+    font-weight: bold;
+    margin: 0 0 8px 0;
+  }
+}
+
+
+/* Header
+ *********************/
+#header {
+  background-color: $black;
+  min-height: 73px;
+  text-align: center;
+
+  .container {
+    position: relative;
+  }
+}
+
+#login,
+#logout {
+  position: absolute;
+  right: 0;
+  top: 20px;
+}
+
+#logo {
+  color: $white;
+  display: inline-block;
+  font-size: $font-size-body-xl;
+  font-weight: bold;
+  left: 0;
+  position: absolute;
+  text-decoration: none;
+  top: 18px;
+  vertical-align: top;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  img {
+    position: relative;
+    top: 4px;
+  }
+}
+
+#phase-banner {
+  border-top: $red-1 solid 10px;
+  font-size: $font-size-body-s;
+  margin-bottom: $spacing-3;
+  padding-top: 7px;
+
+  strong {
+    background-color: $red-2;
+    color: $white;
+    display: inline-block;
+    margin-right: 5px;
+    padding: 2px 5px;
+    text-transform: uppercase;
+  }
+}
+
+
+/* Footer
+ ************************/
+.feedback-section {
+  p {
+    font-size: $font-size-body-s;
+  }
+}
+
+#footer {
+  clear: both;
+  margin-bottom: $spacing-3;
+
+  .container {
+    border-top: $grey-2 solid 1px;
+    padding: $spacing-3 0;
+  }
+}
+
+
+
+
+// TABLET
+@media (max-width: 768px) {
+  #header {
+    text-align: left;
+  }
+
+  #menu {
+    margin-top: 50px;
+  }
+}

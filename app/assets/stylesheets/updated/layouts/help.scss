@@ -1,0 +1,148 @@
+/*
+ * Admin:HelpArticle
+ * Individual layout-specific stylesheet only. 
+ *
+ */
+
+@import "updated/_vars";
+@import "updated/_colours";
+@import "updated/_fonts";
+@import "updated/_mixins";
+@import "updated/_layout";
+
+
+.help {
+  article {
+    @include columns(8);
+    margin-bottom: $spacing-2;
+  }
+
+  aside {
+    @include columns(3, right);
+    border-top: $grey-2 solid 8px;
+    padding-top: $spacing-3;
+  }
+}
+
+.article-content {
+  margin-bottom: $spacing-1;
+
+  a {
+    font-size: inherit;
+  }
+
+  ul {
+    margin-bottom: $spacing-3;
+  }
+}
+
+.article-index {
+  border-bottom: 1px solid $grey-2;
+  margin-bottom: $spacing-2;
+  padding-bottom: $spacing-2;
+
+  li {
+    font-size: $font-size-body-s;
+    margin: 0 0 20px 20px;
+    padding: 0 0 0 $spacing-4;
+  }
+
+  ol {
+    @include clear-floats;
+    -moz-column-count: 2;
+    -webkit-column-count: 2;
+    column-count: 2;
+    column-fill: balance;
+    column-gap: $spacing-3;
+    columnn-width: 45%;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.article-pagination {
+  @include clear-floats;
+  margin-bottom: $spacing-2;
+
+  a {
+    text-decoration: none;
+    width: 40%
+  }
+
+  .label {
+    display: block;
+    font-size: $font-size-body-l;
+    margin-bottom: $spacing-4;
+  }
+
+  .next {
+    float: right;
+    text-align: right;
+  }
+
+  .previous {
+    float: left;
+  }
+  
+  .title {
+    text-decoration: underline;
+  }
+}
+
+.examples {
+  border: $grey-3 solid 1px;
+  list-style: none;
+  padding: $spacing-3;
+  
+  li {
+    margin-bottom: $spacing-2;
+  }
+
+  &:before {
+    background-color: $grey-3;
+    color: $white;
+    content: "Examples";
+    display: inline-block;
+    font-size: $font-size-body-s;
+    left: -$spacing-3;
+    padding: 5px;
+    position: relative;
+    top: -$spacing-3;
+  }
+}
+
+
+
+
+// NON-DESKTOP
+@media (max-width: 768px) {
+  .help {
+    article,
+    aside {
+      float: none;
+      width: auto;
+    }
+  }
+}
+
+
+@media (max-width: 480px) {
+  .article-index {
+    ol {
+      -moz-column-count: 1;
+      -webkit-column-count: 1;
+      column-count: 1;
+    }
+  }
+
+  .article-pagination {
+    .next,
+    .previous {
+      display: inline-block;
+      float: none;
+      text-align: left;
+      margin-bottom: $spacing-3;
+      width: auto;
+    }
+  }
+}
