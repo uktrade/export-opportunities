@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
   devise_for :subscriptions,
              controllers: {
-                 confirmations: 'subscriptions',
+              confirmations: 'subscriptions',
              }
 
   get '/dashboard' => 'users/dashboard#index', as: 'dashboard'
@@ -39,7 +39,7 @@ Rails.application.routes.draw do
                singular: :editor,
                only: %i[registrations sessions passwords unlocks],
                path_names: {
-                   sign_up: 'new',
+                 sign_up: 'new',
                }
 
     devise_scope :editor do
