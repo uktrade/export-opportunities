@@ -187,6 +187,8 @@ ul {
 
   a {
     color: $white;
+    font-size: $font-size-body-xs;
+    font-weight: bold;
     text-decoration: none;
 
     &:hover {
@@ -203,8 +205,11 @@ ul {
     color: $white;
     display: inline-block;
     font-size: $font-size-body-l;
-    font-weight: bold;
-    margin: 0 0 8px 0;
+    margin: 0;
+  }
+
+  ul {
+    line-height: 1.2em;
   }
 }
 
