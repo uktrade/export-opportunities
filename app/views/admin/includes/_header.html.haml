@@ -1,8 +1,7 @@
 %header#header
   .container
     %a{:href => '/', :title => 'Go to the Opportunities homepage', :id => 'logo', :class => 'content'}
-      %img{:src => '/images/graphic_crown.png', :height => '31', :alt => ''}
-      = t('organisation.name')
+      = image_tag 'logo_dit.png', :height => '56', :alt => 'Department for International Trade'
 
     = render partial: 'admin/includes/menu'
 

@@ -5,9 +5,10 @@
 <html class='no-js' lang='en-GB'>
 <head>
   <title><%= t('organisation.name') %> - Guidance</title>
+  <%= csrf_meta_tags %>
   <%= stylesheet_link_tag 'updated/admin', media: 'all' %>
   <%= stylesheet_link_tag 'updated/layouts/help', media: 'all' %>
-  <%= csrf_meta_tags %>
+  <%= render partial: 'admin/includes/favicon' %>
   <%= render partial: 'admin/includes/global_script_tags' %>
 </head>
 <body class="help">

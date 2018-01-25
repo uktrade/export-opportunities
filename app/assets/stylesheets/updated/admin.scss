@@ -218,7 +218,7 @@ ul {
  *********************/
 #header {
   background-color: $black;
-  min-height: 73px;
+  min-height: 78px;
   text-align: center;
 
   .container {
@@ -230,27 +230,23 @@ ul {
 #logout {
   position: absolute;
   right: 0;
-  top: 20px;
+  top: 24px;
 }
 
 #logo {
   color: $white;
   display: inline-block;
-  font-size: $font-size-body-xl;
-  font-weight: bold;
   left: 0;
+  line-height: 1.2em;
+  max-width: 136px;
   position: absolute;
+  text-align: left;
   text-decoration: none;
-  top: 18px;
+  top: 11px;
   vertical-align: top;
 
   &:hover {
     text-decoration: underline;
-  }
-
-  img {
-    position: relative;
-    top: 4px;
   }
 }
 
