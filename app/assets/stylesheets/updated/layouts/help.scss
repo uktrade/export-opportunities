@@ -30,10 +30,6 @@
   a {
     font-size: inherit;
   }
-
-  ul {
-    margin-bottom: $spacing-3;
-  }
 }
 
 .article-index {
@@ -89,7 +85,7 @@
   }
 }
 
-.examples {
+.examples-list {
   border: $grey-3 solid 1px;
   list-style: none;
   padding: $spacing-3;
@@ -109,6 +105,10 @@
     position: relative;
     top: -$spacing-3;
   }
+}
+
+.examples-list-label {
+  margin-bottom: 15px;
 }
 
 
