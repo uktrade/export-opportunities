@@ -5,9 +5,11 @@
 %html.no-js{:lang => "en-GB"}
   %head
     %title= "#{t('organisation.name')} - Opportunities"
+    = csrf_meta_tags
     = stylesheet_link_tag 'application-admin', media: 'all'
     = stylesheet_link_tag 'updated/admin', media: 'all'
-    = csrf_meta_tags
+    = render partial: 'admin/includes/favicon'
+
     /[if lte IE 9]
       = javascript_include_tag 'classlist.polyfill.min'
       = javascript_include_tag 'eventListener.polyfill.min'
