@@ -8,7 +8,7 @@ ukti.announcements = (function(A11yDialog, Cookies) {
   var config = {
     EXCLUDE_PATHS : ['/admin/updates'],
     DAYS_TO_EXPIRY: 90,
-    COOKIE_NAME : 'UPDATE-DECEMBER-2017-ACCEPTED' // change this when you want to make a new announcement
+    COOKIE_NAME : 'UPDATE-JANUARY-2018-ACCEPTED' // change this when you want to make a new announcement
   };
 
   var el,
