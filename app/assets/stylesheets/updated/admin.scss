@@ -122,6 +122,19 @@ ul {
   }
 }
 
+.flash {
+  border-style: solid;
+  border-width: 0 0 0 5px;
+  font-size: $font-size-body-s;
+  margin: 0;
+  padding: $spacing-4;
+
+  &.announcement {
+    background-color: $olive-grey;
+    border-color: $olive;
+  }
+}
+
 #main {
   margin-bottom: $spacing-3;
 }
@@ -293,4 +306,18 @@ ul {
   #menu {
     margin-top: 10px;
   }
+}
+
+
+
+// -----------------------------------------------------------------------------
+// TEMPORARY RULES ONLY FROM THIS POINT
+// These styles are only here until older admin pages no longer use the old CSS. 
+// Once all admin pages have been updated to use the new (stylesheets/updated/)
+// CSS, rules beyond this point can be safely removed. 
+// -----------------------------------------------------------------------------
+main#content {
+  @include container;
+
+  line-height: inherit;
 }
