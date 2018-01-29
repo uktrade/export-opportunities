@@ -21,21 +21,9 @@
       = render partial: 'admin/includes/phase_banner'
 
     %main#content{:role => 'main'}
-      - if flash[:alert]
-        .alert.flash.error
-          - if flash[:alert] == t('devise.failure.invalid')
-            %p
-              = t('devise.failure.invalid')
-            %p
-              Some users have been unable to log in with their previous password.
-              If you encounter this problem, please
-              = link_to 'reset your password', new_editor_password_path
-              \.
-          - else
-            %p= flash[:alert]
-      - if flash[:notice]
-        .alert.flash.info
-          %p= flash[:notice]
+      = render partial: 'admin/includes/flash_announcement'
+      = render partial: 'admin/includes/flash_error'
+      = render partial: 'admin/includes/flash_notice'
 
       - if content_for?(:errors)
         = yield(:errors)

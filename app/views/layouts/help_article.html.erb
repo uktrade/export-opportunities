@@ -19,6 +19,7 @@
     <%= render partial: 'admin/includes/phase_banner' %>
 
     <article>
+      <%= render partial: 'admin/includes/flash_announcement' %>
       <%= render partial: 'admin/includes/flash_error' %>
       <%= render partial: 'admin/includes/flash_notice' %>
       <%= content_for?(:errors) ? yield(:errors) : "" %>
