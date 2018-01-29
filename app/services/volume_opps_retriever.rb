@@ -12,72 +12,76 @@ class VolumeOppsRetriever
     while res[:has_next]
       # store data from page
       res[:data].each do |opportunity|
-      # byebug
-      country = Country.where('name like ?', opportunity['countryname']).first
-
-      value_id = if opportunity['json']['releases'][0]['tender']['value']
-                   calculate_value(opportunity['json']['releases'][0]['tender']['value'])
-                 else
-                   3
-                 end
-      response_due_on = opportunity['json']['releases'][0]['tender']['tenderPeriod']['endDate'] if opportunity['json']['releases'][0]['tender']['tenderPeriod']
-        CreateOpportunity.new(editor).call(
-                                         {
-                                          title: opportunity['json']['releases'][0]['tender']['title'],
-                                          country_ids: 11, #country.id,
-                                          sector_ids: ['2'],
-                                          type_ids: ['3'],
-                                          value_ids: value_id,
-                                          teaser: opportunity['json']['releases'][0]['tender']['description'],
-                                          response_due_on: response_due_on,
-                                          description: opportunity['json']['releases'][0]['tender']['description'],
-                                          service_provider_id: 5,
-                                          contacts_attributes: [
-                                              { name: 'foo', email: 'email@foo.com' },
-                                              { name: 'bar', email: 'email@bar.com' },
-                                              ]
-                                         }
-        )
-        # check DB (indexed column) for ocid entry (later, compare diff if its an update on tender's status)
-
-        # get relevant fields from OO opp
-        # save into our DB
+        opportunity_params = opportunity_params(opportunity)
+        CreateOpportunity.new(editor).call(opportunity_params) if opportunity_params
       end
       res = JwtVolumeConnector.new.data(JSON.parse(token_response.body)['token'], res[:next_url], '')
     end
   end
 
   private def calculate_value(local_currency_value_hash)
-
     value = local_currency_value_hash['amount']
     currency_name = local_currency_value_hash['currency']
-    gbp_value = value_to_gbp(value)
-    if gbp_value < 100000
-      1
+    gbp_value = value_to_gbp(value, currency_name)
+    id = if gbp_value < 100000
+           1
+         else
+           2
+         end
+     { id: id, gbp_value: gbp_value }
+  end
+
+  private def value_to_gbp(value, currency)
+    exchange_rates ||= begin
+      response = Net::HTTP.get_response(URI.parse('https://openexchangerates.org/api/latest.json?app_id=2573237889fa4af8b07839c4c569fa08'))
+      JSON.parse(response.body)
+    rescue
+      {"status": "404"}
+    end
+
+    # base rate is USD, we need to convert to GBP
+    gbp_rate = exchange_rates['rates']['GBP']
+    rate = exchange_rates['rates'][currency]
+    if rate
+      (value/rate)*gbp_rate
     else
-      2
+      -1
     end
   end
 
-  private def value_to_gbp(value)
-    return 50000
-  end
+  def opportunity_params(opportunity)
+    country = Country.where('name like ?', opportunity['countryname']).first
 
-  def opportunity_params(title: 'title')
-    {
-        title: title,
-        country_ids: ['11'],
+    if opportunity['json']['releases'][0]['tender']['value']
+      values = calculate_value(opportunity['json']['releases'][0]['tender']['value'])
+      value_id = values.id
+      gbp_value = values.gbp_value
+    else
+      value_id = 3
+    end
+    response_due_on = opportunity['json']['releases'][0]['tender']['tenderPeriod']['endDate'] if opportunity['json']['releases'][0]['tender']['tenderPeriod']
+    description = opportunity['json']['releases'][0]['tender']['description']
+byebug
+    if description && country
+      {
+        title: opportunity['json']['releases'][0]['tender']['title'][0, 80],
+        country_ids: country.id,
         sector_ids: ['2'],
-        type_ids: ['3'],
-        value_ids: ['4'],
-        teaser: 'teaser',
-        response_due_on: '2015-02-01',
-        description: 'description',
+        type_ids: ['3'], #type is always public
+        value_ids: value_id,
+        teaser: description[0,140],
+        response_due_on: response_due_on,
+        description: description,
+        service_provider_id: 5,
         contacts_attributes: [
-            { name: 'foo', email: 'email@foo.com' },
-            { name: 'bar', email: 'email@bar.com' },
+          {name: 'foo', email: 'email@foo.com'},
+          {name: 'bar', email: 'email@bar.com'},
         ],
-        service_provider_id: '5',
-    }
+        # language: opportunity['json']['releases'][0]['language'],
+        # value: gbp_value,
+      }
+    else
+      nil
+    end
   end
 end
