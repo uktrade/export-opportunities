@@ -10,7 +10,7 @@
   - if policy(@opportunity).edit?
     = link_to 'Edit opportunity', edit_admin_opportunity_path(@opportunity), class: 'button'
 
-%table.horizontal
+%table.horizontal.opportunities
   %tr
     %th{:scope => 'row'} Title
     %td= @opportunity.title
@@ -78,8 +78,10 @@
     %th{:scope => 'row'} Author
     %td= @opportunity.author.name
 
+%br
 = render 'history'
 = render 'comment_form'
+%br
 
 %h2 Enquiries
 - if @opportunity.enquiries.size == 0

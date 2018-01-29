@@ -5,63 +5,25 @@
 %html.no-js{:lang => "en-GB"}
   %head
     %title= "#{t('organisation.name')} - Opportunities"
-    = stylesheet_link_tag 'application-admin', media: 'all'
     = csrf_meta_tags
+    = stylesheet_link_tag 'application-admin', media: 'all'
+    = stylesheet_link_tag 'updated/admin', media: 'all'
+    = render partial: 'admin/includes/favicon'
+
     /[if lte IE 9]
       = javascript_include_tag 'classlist.polyfill.min'
       = javascript_include_tag 'eventListener.polyfill.min'
       
   %body
     = render partial: 'svg_icons'
-
-    %header#global-header.with-proposition
-      .header-wrapper
-        .header-global
-          .header-logo
-            %a{:href => '/', :title => 'Go to the Opportunities homepage', :id => 'logo', :class => 'content'}
-              %img{:src => '/images/graphic_crown.png', :width => '36', :height => '31', :alt => ''}
-              = t('organisation.name')
-
-        .header-proposition
-          .content
-            = render partial: 'layouts/navigation'
-
-    #global-header-bar
-
+    = render partial: 'admin/includes/header'
     .container
-      .phase-banner-alpha
-        %p
-          %strong.phase-tag ALPHA
-          %span
-            This is a new service – your
-            = link_to 'feedback', "mailto:#{t('organisation.feedback_email')}?subject=EIG%20alpha%20feedback"
-            will help us to improve it.
-
-
+      = render partial: 'admin/includes/phase_banner'
 
     %main#content{:role => 'main'}
-      - if current_editor
-        .alert.flash.notice.announcement-notice
-          %p
-            Ability to sort columns in Enquiries tab
-            = link_to 'Read more', "/admin/updates"
-        %br
-
-      - if flash[:alert]
-        .alert.flash.error
-          - if flash[:alert] == t('devise.failure.invalid')
-            %p
-              = t('devise.failure.invalid')
-            %p
-              Some users have been unable to log in with their previous password.
-              If you encounter this problem, please
-              = link_to 'reset your password', new_editor_password_path
-              \.
-          - else
-            %p= flash[:alert]
-      - if flash[:notice]
-        .alert.flash.info
-          %p= flash[:notice]
+      = render partial: 'admin/includes/flash_announcement'
+      = render partial: 'admin/includes/flash_error'
+      = render partial: 'admin/includes/flash_notice'
 
       - if content_for?(:errors)
         = yield(:errors)
@@ -70,6 +32,9 @@
 
     - if current_editor
       = render 'admin/includes/dialogue'
+
+    = render partial: 'admin/includes/footer'
+
     = javascript_include_tag 'modernizr.min'
     = javascript_include_tag 'admin'
     = render partial: 'google_analytics'
