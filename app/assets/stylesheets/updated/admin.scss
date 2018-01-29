@@ -85,6 +85,7 @@ li {
 
 p {
   margin: 0 0 $spacing-3 0;
+  line-height: inherit;
 }
 
 ul {
@@ -224,22 +225,25 @@ ul {
 
 #login,
 #logout {
-  position: absolute;
+  float: right;
+  position: relative;
   right: 0;
   top: 24px;
+  width: auto;
 }
 
 #logo {
   color: $white;
   display: inline-block;
+  float: left;
   left: 0;
   line-height: 1.2em;
-  max-width: 136px;
-  position: absolute;
+  position: relative;
   text-align: left;
   text-decoration: none;
   top: 11px;
   vertical-align: top;
+  width: 136px;
 }
 
 #phase-banner {
@@ -253,7 +257,7 @@ ul {
     color: $white;
     display: inline-block;
     margin-right: 5px;
-    padding: 2px 5px;
+    padding: 2px 10px;
     text-transform: uppercase;
   }
 }
@@ -287,6 +291,6 @@ ul {
   }
 
   #menu {
-    margin-top: 50px;
+    margin-top: 10px;
   }
 }
