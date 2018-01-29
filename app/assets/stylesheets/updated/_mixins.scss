@@ -5,6 +5,7 @@
 @mixin container {
   max-width: $design-max-width;
   margin: 0 auto;
+  width: auto;
 
   @media (max-width: #{$design-max-width + ($spacing-3 * 2)}) {
     margin: 0 $spacing-3;
@@ -39,9 +40,11 @@
 	box-shadow: 0 2px 0 $green-3;
   color: $white;
   cursor: pointer;
+  font-family: inherit;
   font-size: $font-size-body-s;
   font-weight: normal;
   display: inline-block;
+  line-height: 1.2em;
   overflow: hidden;
   padding: 7px 15px;
   text-decoration: none; 
