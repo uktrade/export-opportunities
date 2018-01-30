@@ -13,7 +13,11 @@ class VolumeOppsRetriever
       # store data from page
       res[:data].each do |opportunity|
         opportunity_params = opportunity_params(opportunity)
-        CreateOpportunity.new(editor).call(opportunity_params) if opportunity_params
+
+        if opportunity_params
+          next unless VolumeOppsValidator.new.valid?(opportunity_params)
+          CreateOpportunity.new(editor, :publish).call(opportunity_params)
+        end
       end
       res = JwtVolumeConnector.new.data(JSON.parse(token_response.body)['token'], res[:next_url], '')
     end
@@ -54,34 +58,38 @@ class VolumeOppsRetriever
 
     if opportunity['json']['releases'][0]['tender']['value']
       values = calculate_value(opportunity['json']['releases'][0]['tender']['value'])
-      value_id = values.id
-      gbp_value = values.gbp_value
+      value_id = values[:id]
+      gbp_value = values[:gbp_value]
     else
       value_id = 3
     end
     response_due_on = opportunity['json']['releases'][0]['tender']['tenderPeriod']['endDate'] if opportunity['json']['releases'][0]['tender']['tenderPeriod']
     description = opportunity['json']['releases'][0]['tender']['description']
-byebug
+    buyer = opportunity['json']['releases'][0]['buyer']
+
     if description && country
       {
         title: opportunity['json']['releases'][0]['tender']['title'][0, 80],
         country_ids: country.id,
         sector_ids: ['2'],
-        type_ids: ['3'], #type is always public
+        type_ids: ['3'], # type is always public
         value_ids: value_id,
         teaser: description[0,140],
         response_due_on: response_due_on,
         description: description,
         service_provider_id: 5,
         contacts_attributes: [
-          {name: 'foo', email: 'email@foo.com'},
-          {name: 'bar', email: 'email@bar.com'},
+          { name: buyer['contactPoint'].present? ? buyer['contactPoint']['name'] : nil,
+            email: buyer['contactPoint'].present? ? buyer['contactPoint']['email'] : nil },
         ],
-        # language: opportunity['json']['releases'][0]['language'],
-        # value: gbp_value,
+        buyer: buyer['name'],
+        language: opportunity['json']['releases'][0]['language'].present? ? opportunity['json']['releases'][0]['language'] : nil,
+        tender_value: gbp_value.present? ? Integer(gbp_value).floor : nil,
+        source: 1,
+        tender_content: opportunity['json'].to_json,
       }
     else
-      nil
+      return nil
     end
   end
 end
