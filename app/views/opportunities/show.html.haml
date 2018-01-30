@@ -45,6 +45,32 @@
               - else
                 Value unknown
 
+          .meta__item.meta__icon-value
+            %h4.meta__header
+              Source
+            %p.meta__content
+              =@opportunity.source
+
+          - unless @opportunity.source.eql?'post'
+            .meta__item.meta__icon-value
+              %h4.meta__header
+                Buyer
+              %p.meta__content
+                =@opportunity.buyer
+
+            .meta__item.meta__icon-value
+              %h4.meta__header
+                Contact Point Name
+              %p.meta__content
+                =@opportunity.contacts.first.name
+
+            .meta__item.meta__icon-value
+              %h4.meta__header
+                Contact Point Email
+              %p.meta__content
+                =@opportunity.contacts.first.email
+
+
           - essential_information_required = @opportunity.countries.with_exporting_guide.any? || @opportunity.types.aid_funded.any?
           - if essential_information_required
             - @opportunity.countries.with_exporting_guide.each do |country|

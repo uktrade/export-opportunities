@@ -49,13 +49,14 @@ class Opportunity < ApplicationRecord
   extend FriendlyId
   friendly_id :title, use: %i[slugged finders]
 
-  CONTACTS_PER_OPPORTUNITY = 2
+  CONTACTS_PER_OPPORTUNITY = 1
   paginates_per 20
   TITLE_LENGTH_LIMIT = 80.freeze
   TEASER_LENGTH_LIMIT = 140.freeze
 
   enum status: { pending: 1, publish: 2, draft: 3, trash: 4 }
   enum ragg: { undefined: 0, blue: 2, green: 4, amber: 6, red: 8 }
+    enum source: { post: 0, volume_opps: 1, buyer: 2 }
 
   include PgSearch
 
