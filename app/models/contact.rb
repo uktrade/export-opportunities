@@ -1,4 +1,4 @@
-class Contact < ActiveRecord::Base
+class Contact < ApplicationRecord
   validates :name, :email, presence: true
   validates :email, email: { allow_blank: true }
 

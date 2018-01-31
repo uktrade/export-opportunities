@@ -1,4 +1,4 @@
-class ReportAudit < ActiveRecord::Base
+class ReportAudit < ApplicationRecord
   belongs_to :editor
   include DeviseUserMethods
 end

@@ -1,4 +1,4 @@
-class DocumentUrlMapper < ActiveRecord::Base
+class DocumentUrlMapper < ApplicationRecord
   include DeviseUserMethods
 
   belongs_to :user

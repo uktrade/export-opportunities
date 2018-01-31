@@ -1,4 +1,4 @@
-class Enquiry < ActiveRecord::Base
+class Enquiry < ApplicationRecord
   belongs_to :opportunity, counter_cache: :enquiries_count, required: true
   belongs_to :user
   has_one :enquiry_response

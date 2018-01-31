@@ -1,3 +1,3 @@
-class FeedbackOptOut < ActiveRecord::Base
+class FeedbackOptOut < ApplicationRecord
   belongs_to :user
 end

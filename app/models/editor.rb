@@ -1,4 +1,4 @@
-class Editor < ActiveRecord::Base
+class Editor < ApplicationRecord
   include DeviseUserMethods
   belongs_to :service_provider
   has_many :opportunities, foreign_key: 'author_id'
