@@ -73,6 +73,6 @@ describe EnquiryCSV do
   end
 
   def expected_header
-    "Company Name,First Name,Last Name,Company Address,Company Postcode,Company Telephone number,Date response submitted,Company's Sector,Opportunity Title,Countries,Email Address,Service provider,Terms accepted,Companies House Number,Company URL,Have they sold products or services to overseas customers?,How the company can meet the requirements in this opportunity,Enquiry response reply,Enquiry response text,Enquiry response timestamp\n"
+    "Company Name,First Name,Last Name,Company Address,Company Postcode,Company Telephone number,Date enquiry submitted,Company's Sector,Opportunity Title,Countries,Email Address,Service provider,Terms accepted,Companies House Number,Company URL,Have they sold products or services to overseas customers?,How the company can meet the requirements in this opportunity,Enquiry response reply,Enquiry response text,Enquiry response timestamp\n"
   end
 end

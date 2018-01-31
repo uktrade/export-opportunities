@@ -1,4 +1,4 @@
-class RemoveConfirmableFromEnquiries < ActiveRecord::Migration
+class RemoveConfirmableFromEnquiries < ActiveRecord::Migration[4.2]
   def change
     remove_column :enquiries, :confirmation_token, :string
     remove_column :enquiries, :confirmed_at, :datetime

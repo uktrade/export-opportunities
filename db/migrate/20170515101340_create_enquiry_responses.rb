@@ -1,4 +1,4 @@
-class CreateEnquiryResponses < ActiveRecord::Migration
+class CreateEnquiryResponses < ActiveRecord::Migration[4.2]
   def change
     create_table :enquiry_responses do |t|
       t.belongs_to :editor, index: true, foreign_key: true

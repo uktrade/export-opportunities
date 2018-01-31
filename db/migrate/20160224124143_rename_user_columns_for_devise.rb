@@ -1,4 +1,4 @@
-class RenameUserColumnsForDevise < ActiveRecord::Migration
+class RenameUserColumnsForDevise < ActiveRecord::Migration[4.2]
   def change
     change_table :users do |t|
       t.rename :email_address, :email

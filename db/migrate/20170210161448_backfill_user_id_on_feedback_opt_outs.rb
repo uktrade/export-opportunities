@@ -1,4 +1,4 @@
-class BackfillUserIdOnFeedbackOptOuts < ActiveRecord::Migration
+class BackfillUserIdOnFeedbackOptOuts < ActiveRecord::Migration[4.2]
   def up
     # Ensure we have the latest schema
     User.reset_column_information

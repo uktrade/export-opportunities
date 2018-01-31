@@ -1,4 +1,4 @@
-class GenerateStubUsers < ActiveRecord::Migration
+class GenerateStubUsers < ActiveRecord::Migration[4.2]
   def up
     sql = <<-SQL
      (

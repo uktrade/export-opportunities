@@ -1,4 +1,4 @@
-class SwitchEnquiryOpportunitiesIdToUuid < ActiveRecord::Migration
+class SwitchEnquiryOpportunitiesIdToUuid < ActiveRecord::Migration[4.2]
   def up
     raise 'Enquiries table should be empty before migrating.' if Enquiry.any?
 

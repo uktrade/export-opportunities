@@ -188,8 +188,10 @@ RSpec.feature 'Editors can view stats' do
   scenario 'for a specific region' do
     region = create(:region, name: 'Latin America', id: 1)
     another_region = create(:region, name: 'North America', id: 2)
+
     country = create(:country, name: 'Mexico', region: region)
     another_country = create(:country, name: 'Canada', region: another_region)
+
     iztapalapa = create(:service_provider, name: 'Iztapalapa', country: country)
     mexico = create(:service_provider, name: 'Mexico City', country: country)
     alberta = create(:service_provider, name: 'Canada Alberta', country: another_country)

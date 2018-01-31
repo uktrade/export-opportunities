@@ -1,4 +1,4 @@
-class CreateOpportunityComments < ActiveRecord::Migration
+class CreateOpportunityComments < ActiveRecord::Migration[4.2]
   def change
     create_table :opportunity_comments, id: :uuid do |t|
       t.string :message, null: false

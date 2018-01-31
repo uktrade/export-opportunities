@@ -1,4 +1,4 @@
-class BackfillUserIdOnSubscriptions < ActiveRecord::Migration
+class BackfillUserIdOnSubscriptions < ActiveRecord::Migration[4.2]
   def up
     # Ensure we have the latest schema
     Subscription.reset_column_information

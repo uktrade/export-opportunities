@@ -1,4 +1,4 @@
-class AddConfirmableToSubscriptions < ActiveRecord::Migration
+class AddConfirmableToSubscriptions < ActiveRecord::Migration[4.2]
   def change
     add_column :subscriptions, :confirmation_token, :string
     add_column :subscriptions, :confirmed_at, :datetime

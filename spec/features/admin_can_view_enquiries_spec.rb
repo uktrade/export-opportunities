@@ -101,9 +101,9 @@ feature 'admin can view enquiries' do
 
   scenario 'list of enquiries can be paginated' do
     admin = create(:admin)
-    allow(Enquiry).to receive(:default_per_page).and_return(1)
 
     modern_enquiry = create(:enquiry, company_name: 'OCP')
+    create_list(:enquiry, 24)
     historic_enquiry = create(:enquiry, company_name: 'Ye Olde Company', created_at: Time.zone.local(1066, 10, 14))
 
     login_as(admin)
