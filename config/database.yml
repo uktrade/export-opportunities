@@ -6,11 +6,11 @@ default: &default
 
 development:
   <<: *default
-  database: ukti_opportunities_dev
+  database: export_opportunities_dev_zeus
 
 test:
   <<: *default
-  database: ukti_opportunities_test
+  database: export_opportunities_test_zeus
 
 production:
   <<: *default

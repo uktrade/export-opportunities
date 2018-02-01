@@ -67,3 +67,4 @@ vendor/bundle/*
 .simplecov
 
 /node_modules/
+/vendor/cache/**/*

@@ -27,12 +27,12 @@ class VolumeOppsRetriever
     value = local_currency_value_hash['amount']
     currency_name = local_currency_value_hash['currency']
     gbp_value = value_to_gbp(value, currency_name)
-    id = if gbp_value < 100000
+    id = if gbp_value < 100_000
            1
          else
            2
          end
-     { id: id, gbp_value: gbp_value }
+    { id: id, gbp_value: gbp_value }
   end
 
   private def value_to_gbp(value, currency)
@@ -40,14 +40,14 @@ class VolumeOppsRetriever
       response = Net::HTTP.get_response(URI.parse('https://openexchangerates.org/api/latest.json?app_id=2573237889fa4af8b07839c4c569fa08'))
       JSON.parse(response.body)
     rescue
-      {"status": "404"}
+      { 'status': '404' }
     end
 
     # base rate is USD, we need to convert to GBP
     gbp_rate = exchange_rates['rates']['GBP']
     rate = exchange_rates['rates'][currency]
     if rate
-      (value/rate)*gbp_rate
+      (value / rate) * gbp_rate
     else
       -1
     end
@@ -74,7 +74,7 @@ class VolumeOppsRetriever
         sector_ids: ['2'],
         type_ids: ['3'], # type is always public
         value_ids: value_id,
-        teaser: description[0,140],
+        teaser: description[0, 140],
         response_due_on: response_due_on,
         description: description,
         service_provider_id: 5,
