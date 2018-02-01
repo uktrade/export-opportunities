@@ -1,7 +1,7 @@
 class JwtVolumeConnector
   def call(username, password, hostname, url)
     token = self.token(username, password, hostname, url)
-    initial_results_page = data(token, hostname, url)
+    data(token, hostname, url)
   end
 
   def token(username, password, hostname, url)
