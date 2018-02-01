@@ -37,7 +37,6 @@ feature 'Signing in as a user', :elasticsearch do
   end
 
   scenario 'Signing out' do
-    skip('TODO: fix. New HEADER FOOTER LINKS')
     mock_sso_with(email: 'email@example.com')
 
     visit '/dashboard'

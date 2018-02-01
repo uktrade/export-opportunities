@@ -23,20 +23,6 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('Contact the company')
   end
 
-  scenario 'reply to an enquiry with invalid mail length (has to be 30 chars)' do
-    skip('TODO: reintroduce once we reintroduce the 30 chars limit')
-    admin = create(:admin)
-    enquiry = create(:enquiry)
-    login_as(admin)
-    visit '/admin/enquiries/' + enquiry.id.to_s
-
-    click_on 'Reply'
-    # need more information
-    choose 'Need more information'
-
-    expect(page).to have_content('Contact the company')
-  end
-
   scenario 'reply to an enquiry with blank mail - FAIL' do
     admin = create(:admin)
     enquiry = create(:enquiry)
@@ -162,7 +148,6 @@ feature 'admin can reply to enquiries' do
   end
 
   scenario 'reply to an enquiry with attachment, valid, right for opportunity - with js', js: true do
-    skip('this works for attaching files, except for undefined property value of null')
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
@@ -253,6 +238,8 @@ feature 'admin can reply to enquiries' do
     wait_for_ajax
 
     attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file_6.pdf', visible: false
+
+    wait_for_ajax
 
     click_on 'Preview'
 

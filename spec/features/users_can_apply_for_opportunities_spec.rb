@@ -118,20 +118,6 @@ RSpec.feature 'users can apply for opportunities', js: true do
 
       expect(page).to have_content 'We noticed that you don\'t have a trade profile.'
     end
-
-    scenario 'when the user has a trade profile' do
-      skip('TODO: fix. get enquiries to save in has_many relation to user/opps')
-      user = create(:user, email: 'enquirer@exporter.com')
-      opportunity = create(:opportunity, :published)
-      create(:enquiry, company_url: 'https://example.com', company_house_number: 'SC406536', user: user, opportunity: opportunity)
-
-      allow_any_instance_of(ApplicationHelper).to receive(:trade_profile).with(:any).and_return 'http://export.great.gov.uk'
-
-      mock_sso_with(email: 'enquirer@exporter.com')
-      visit 'enquiries/' + opportunity.slug
-
-      expect(page).to have_content 'We have identified that you have a trade profile.'
-    end
   end
 
   scenario 'user enquiries are emailed to DIT' do
