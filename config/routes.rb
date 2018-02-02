@@ -29,6 +29,12 @@ Rails.application.routes.draw do
   # Legacy dashboard index page
   get '/dashboard/enquiries', to: redirect('/dashboard')
 
+  namespace :international do
+    resources :opportunities
+
+    root "pages#index"
+  end
+
   namespace :admin do
     get 'help', to: 'help#index'
     get 'help/:id', to: 'help#show'

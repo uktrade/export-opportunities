@@ -32,3 +32,6 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 Rails.application.config.assets.precompile += %w( updated/admin.css )
 Rails.application.config.assets.precompile += %w( updated/layouts/help.css )
 
+# International (POC) files beyond this point
+Rails.application.config.assets.precompile += %w( international.css )
+Rails.application.config.assets.precompile += %w( international.js )
