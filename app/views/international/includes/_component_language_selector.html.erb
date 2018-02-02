@@ -1,0 +1,22 @@
+<section class="language-selector-dialog" role="dialog" data-component="language-selector-dialog" data-lang="en-gb" data-label="International">
+
+  <div class="languages" data-node="languages">
+    <p id="great-languages-selector">Choose your language</p>
+    <ul class="navigation" aria-labelledby="great-languages-selector">
+      <li><%= link_to "English", "/international/?lang=en-gb", :id=>"header-language-selector-en-gb" %></li>
+      <li><%= link_to "简体中文", "/international/?lang=zh-hans", :id=>"header-language-selector-zh-hans" %></li>
+      <li><%= link_to "Deutsch", "/international/?lang=de", :id=>"header-language-selector-de" %></li>
+      <li><%= link_to "日本語", "/international/?lang=ja", :id=>"header-language-selector-ja" %></li>
+      <li><%= link_to "Español", "/international/?lang=es", :id=>"header-language-selector-es" %></li>
+      <li><%= link_to "Português", "/international/?lang=pt", :id=>"header-language-selector-pt" %></li>
+      <li><%= link_to "العربيّة", "/international/?lang=ar", :id=>"header-language-selector-ar" %></li>
+    </ul>
+  </div>
+
+  <div data-node="domestic-redirect" class="domestic-redirect">
+    <p lang="en">
+      <%= link_to "English (UK)", "/?lang=en-gb" %>
+      <span>Get guidance and services to help you export.</span>
+    </p>
+  </div>
+</section>
