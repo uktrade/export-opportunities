@@ -1,0 +1,22 @@
+<header id="header">
+  <%= link_to "Skip to main content", "#content", :id=>"skip-link", :class=>"verbose" %>
+  <%= render partial: "international/includes/component_language_selector" %>
+
+  <div id="personal-bar">
+    <div class="container">
+      <ul class="navigation account-links" aria-label="Account links">
+        <li class="anonymous"><a class="register">Register</a></li>
+        <li class="anonymous"><a class="signin">Sign in</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container">
+    <%= link_to "/international/", :id=>"header-logo" do %>
+      <%= image_tag "logos/HM_Government_logo_light.svg", :alt=>"UK Government" %>
+    <% end %>
+  </div>
+  
+  <%= render partial: "international/includes/menu" %>
+</header>
+

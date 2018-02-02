@@ -1,0 +1,104 @@
+// GENERAL SITE STYLES
+// ---------------------
+
+body {
+  @include body-m;
+  background-color: $white;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+div {
+  box-sizing: border-box;
+}
+
+img.placeholder {
+  background-color: $light-grey;
+  border: $mid-grey solid 1px;
+  display: block;
+  padding: 16%;
+}
+
+main {
+  background-color: $white;
+}
+
+section {
+  clear: both;
+  overflow: hidden;
+  padding: $spacing-1 0 $spacing-2 0;
+  
+  .heading {
+    @include heading-m;
+    margin-bottom: $spacing-4;
+    max-width: 670px;
+  }
+
+  .intro {
+    clear: left;
+    margin-bottom: $spacing-2;
+    max-width: 670px;
+  }
+  
+  .static {
+    margin-bottom: $spacing-1;
+    max-width: 800px;
+  }
+}
+
+.container {
+  @include container;
+}
+
+.group {
+  // Use to clear a group of floated elements 
+  // and have the parent recalculate its height.
+  clear: both;
+  float: none;
+  overflow: auto;
+}
+
+.verbose {
+  overflow: hidden;
+  position: absolute;
+  text-indent: -1000px;
+  z-index: -1;
+}
+
+// TABLET
+@media (max-width: 767px) {
+  section {
+    .heading,
+    .section-header,
+    .intro,
+    .section-intro {
+      width: 100%;
+    }
+  }
+}
+
+
+// MOBILE
+@media (max-width: 420px) {
+  body {
+    @include body-m-mob;
+  }
+  
+  section {
+    padding-top: $spacing-3;
+    .heading,
+    .section-header {
+      @include heading-m-mob;
+    }
+  }
+}
+
+
+// PRINT
+@media print {
+  body {
+    width: 1200px;
+  }
+}
