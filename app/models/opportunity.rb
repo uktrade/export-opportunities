@@ -89,7 +89,7 @@ class Opportunity < ApplicationRecord
   validates :title, presence: true, length: { maximum: TITLE_LENGTH_LIMIT }
   validates :teaser, presence: true, length: { maximum: TEASER_LENGTH_LIMIT }
   validates :response_due_on, :description, presence: true
-  validates :contacts, length: { is: CONTACTS_PER_OPPORTUNITY }
+  validates :contacts, length: { minimum: CONTACTS_PER_OPPORTUNITY }
   validates :slug, presence: true, uniqueness: true
 
   # Database triggers to make Postgres rebuild its fulltext search

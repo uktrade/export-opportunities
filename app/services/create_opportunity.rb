@@ -14,7 +14,7 @@ class CreateOpportunity
     opportunity.status = @status
     opportunity.author = @editor
 
-    opportunity.save
+    opportunity.save!
 
     opportunity
   end

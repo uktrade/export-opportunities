@@ -9,14 +9,28 @@ class VolumeOppsRetriever
     token_response = JwtVolumeConnector.new.token(username, password, hostname, token_endpoint)
     res = JwtVolumeConnector.new.data(JSON.parse(token_response.body)['token'], hostname, data_endpoint)
 
+    # counters for valid/invalid opps
+    invalid_opp = 0
+    valid_opp = 0
+    invalid_opp_params = 0
+
     while res[:has_next]
       # store data from page
       res[:data].each do |opportunity|
+        puts ".....we have " + valid_opp.to_s + " valid opps and " + invalid_opp.to_s + " invalid opps and " + invalid_opp_params.to_s + " invalid opp params already....."
         opportunity_params = opportunity_params(opportunity)
 
+        # count valid/invalid opps
         if opportunity_params
-          next unless VolumeOppsValidator.new.valid?(opportunity_params)
-          CreateOpportunity.new(editor, :publish).call(opportunity_params)
+          if VolumeOppsValidator.new.validate_each(opportunity_params)
+            result = CreateOpportunity.new(editor, :publish).call(opportunity_params)
+            valid_opp += 1
+          else
+            invalid_opp += 1
+          end
+
+        else
+          invalid_opp_params += 1
         end
       end
       res = JwtVolumeConnector.new.data(JSON.parse(token_response.body)['token'], res[:next_url], '')
@@ -36,16 +50,17 @@ class VolumeOppsRetriever
   end
 
   private def value_to_gbp(value, currency)
-    exchange_rates ||= begin
-      response = Net::HTTP.get_response(URI.parse('https://openexchangerates.org/api/latest.json?app_id=2573237889fa4af8b07839c4c569fa08'))
-      JSON.parse(response.body)
+    @exchange_rates ||= begin
+      JSON.parse(File.read('db/seed_data/exchange_rates.json'))
+      # response = Net::HTTP.get_response(URI.parse(Figaro.env.EXCHANGE_RATE_URI))
+      # JSON.parse(response.body)
     rescue
-      { 'status': '404' }
+      JSON.parse(File.read('db/seed_data/exchange_rates.json'))
     end
 
     # base rate is USD, we need to convert to GBP
-    gbp_rate = exchange_rates['rates']['GBP']
-    rate = exchange_rates['rates'][currency]
+    gbp_rate = @exchange_rates['rates']['GBP']
+    rate = @exchange_rates['rates'][currency]
     if rate
       (value / rate) * gbp_rate
     else
@@ -55,21 +70,28 @@ class VolumeOppsRetriever
 
   def opportunity_params(opportunity)
     country = Country.where('name like ?', opportunity['countryname']).first
+    opportunity_release = opportunity['json']['releases'][0]
 
-    if opportunity['json']['releases'][0]['tender']['value']
-      values = calculate_value(opportunity['json']['releases'][0]['tender']['value'])
+    if opportunity_release['tender']['value']
+      values = calculate_value(opportunity_release['tender']['value'])
       value_id = values[:id]
       gbp_value = values[:gbp_value]
     else
       value_id = 3
     end
-    response_due_on = opportunity['json']['releases'][0]['tender']['tenderPeriod']['endDate'] if opportunity['json']['releases'][0]['tender']['tenderPeriod']
-    description = opportunity['json']['releases'][0]['tender']['description']
-    buyer = opportunity['json']['releases'][0]['buyer']
+    response_due_on = opportunity_release['tender']['tenderPeriod']['endDate'] if opportunity_release['tender']['tenderPeriod']
+    description = if opportunity_release['tender']['description'].present?
+                    opportunity_release['tender']['description']
+                  elsif opportunity_release['tender']['title'].present?
+                    opportunity_release['tender']['title']
+                  else
+                    nil
+                  end
+    buyer = opportunity_release['buyer']
 
     if description && country
       {
-        title: opportunity['json']['releases'][0]['tender']['title'][0, 80],
+        title: opportunity_release['tender']['title'].present? ? opportunity_release['tender']['title'][0, 80] : nil,
         country_ids: country.id,
         sector_ids: ['2'],
         type_ids: ['3'], # type is always public
@@ -77,16 +99,18 @@ class VolumeOppsRetriever
         teaser: description[0, 140],
         response_due_on: response_due_on,
         description: description,
-        service_provider_id: 5,
+        service_provider_id: 150,
         contacts_attributes: [
           { name: buyer['contactPoint'].present? ? buyer['contactPoint']['name'] : nil,
-            email: buyer['contactPoint'].present? ? buyer['contactPoint']['email'] : nil },
+            email: buyer['contactPoint'].present? ? buyer['contactPoint']['email'] : nil}
         ],
-        buyer: buyer['name'],
-        language: opportunity['json']['releases'][0]['language'].present? ? opportunity['json']['releases'][0]['language'] : nil,
+        buyer_name: buyer['name'],
+        buyer_address: buyer['address'].present? ? buyer['address'][:countryName] : nil,
+        language: opportunity_release['language'].present? ? opportunity_release['language'] : nil,
         tender_value: gbp_value.present? ? Integer(gbp_value).floor : nil,
         source: 1,
         tender_content: opportunity['json'].to_json,
+        first_published_at: opportunity['pubdate'],
       }
     else
       return nil
