@@ -71,6 +71,7 @@ class VolumeOppsRetriever
   def opportunity_params(opportunity)
     country = Country.where('name like ?', opportunity['countryname']).first
     opportunity_release = opportunity['json']['releases'][0]
+    opportunity_source = opportunity['source']
 
     if opportunity_release['tender']['value']
       values = calculate_value(opportunity_release['tender']['value'])
@@ -88,8 +89,13 @@ class VolumeOppsRetriever
                     nil
                   end
     buyer = opportunity_release['buyer']
+    tender_url = nil
 
-    if description && country
+    opportunity_release['tender']['documents'].each do |document|
+      tender_url = document['url'].to_s if document['id'].eql?('tender_url')
+    end if opportunity_release['tender']['documents']
+
+    if description && country && tender_url
       {
         title: opportunity_release['tender']['title'].present? ? opportunity_release['tender']['title'][0, 80] : nil,
         country_ids: country.id,
@@ -111,6 +117,8 @@ class VolumeOppsRetriever
         source: 1,
         tender_content: opportunity['json'].to_json,
         first_published_at: opportunity['pubdate'],
+        tender_url: tender_url,
+        tender_source: opportunity_source,
       }
     else
       return nil
