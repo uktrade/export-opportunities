@@ -59,6 +59,7 @@ public/capybara.html
 
 vendor/bundle/*
 # vendor/cache/*
+# /vendor/cache/**/*
 
 # OS hidden files
 .DS_Store
@@ -67,4 +68,3 @@ vendor/bundle/*
 .simplecov
 
 /node_modules/
-/vendor/cache/**/*
