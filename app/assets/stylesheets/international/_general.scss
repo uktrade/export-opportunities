@@ -28,7 +28,7 @@ main {
 section {
   clear: both;
   overflow: hidden;
-  padding: $spacing-1 0 $spacing-2 0;
+  padding: $spacing-1 0 $spacing-1 0;
   
   .heading {
     @include heading-m;
@@ -61,10 +61,7 @@ section {
 }
 
 .verbose {
-  overflow: hidden;
-  position: absolute;
-  text-indent: -1000px;
-  z-index: -1;
+  @include access-hidden;
 }
 
 // TABLET

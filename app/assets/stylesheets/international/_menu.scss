@@ -79,6 +79,8 @@
   }
 
   .level-2 {
+    @include container;
+
     a {
       &:before {
         display: none;
@@ -166,6 +168,7 @@
     .Expander {
       display: block;
       height: auto;
+      margin: 0;
       position: static;
 
       &.collapsed {
