@@ -12,6 +12,13 @@
   width: 100%;
 }
 
+@mixin access-hidden {
+  overflow: hidden;
+  position: absolute;
+  text-indent: -1000px;
+  z-index: -1;
+}
+
 @mixin separator($colour) {
   background-color: $colour;
   content: "";
@@ -46,6 +53,27 @@
 
   @media (max-width: 420px) {
     margin: 0 20px; // Special figure intentionally outside of standard.
+  }
+}
+
+@mixin section-connector($foreground, $background) {
+  border-bottom-color: $background;
+  border-left-color: $background;
+  border-right-color: $background;
+  border-top-color: $foreground;
+  border-style: solid;
+  border-width: 50px 50px 0px 50px;
+  bottom: initial;
+  content: "";
+  display: block;
+  left: 50%;
+  margin-left: -25px;
+  position: absolute;
+  top: 0;
+  
+  @media (max-width:420px) {
+    border-width: 30px 30px 0 30px;
+    margin-left: -15px;
   }
 }
 
