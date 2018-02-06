@@ -9,7 +9,7 @@ namespace :volume do
     volume_opps.delete_all
   end
 
-  task check_opps :environment do
+  task check_opps: :environment do
     # delete all opportunity checks from opportunities that we already have stored
     Opportunity.all.each do |opp|
       OpportunityCheck.delete(opportunity_id: opp.id)
