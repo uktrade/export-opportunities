@@ -81,7 +81,6 @@
   }
 
   TabbedArea.prototype.destroy = function() {
-console.log("TabbedArea: ", this);
     this.$tabs.removeClass(CLASS_TAB);
     this.$tabs.removeClass(CLASS_SELECTED);
     this.$panels.removeClass(CLASS_PANEL);
