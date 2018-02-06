@@ -2,7 +2,7 @@ class RulesEngine
   def call(opportunity)
     # first validate opp
     valid_opp = VolumeOppsValidator.new.validate_each(opportunity)
-
+byebug
     # if that passes, validate sensitivity
     if valid_opp
       sensitivity_score = OppsSensitivityValidator.new.validate_each(opportunity)

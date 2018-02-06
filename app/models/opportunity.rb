@@ -83,6 +83,7 @@ class Opportunity < ApplicationRecord
   has_many :comments, -> { order(:created_at) }, class_name: 'OpportunityComment'
   has_many :enquiries
   has_many :subscription_notifications
+  has_many :opportunity_checks
 
   accepts_nested_attributes_for :contacts, reject_if: :all_blank
 

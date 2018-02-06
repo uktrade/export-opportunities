@@ -13,7 +13,7 @@ class OppsQualityConnector
     response_body = JSON.parse(response.body)
 
     if response_body['result']
-
+      { status: response_body['result'], score: response_body['score'], errors: response_body['errors'] }
     else
       case response_body['error_code']
       when '600'
@@ -33,7 +33,7 @@ class OppsQualityConnector
       when '502'
         'TOO MANY ERRORS. NOT ENGLISH?'
       end
+      { status: response_body['result'], error_code: response_body['error_code'], description: response_body['description'] }
     end
-    puts response_body
   end
 end

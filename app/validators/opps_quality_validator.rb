@@ -5,6 +5,6 @@ class OppsQualityValidator
   end
 
   def call(opportunity)
-    return true
+    OpportunityQualityRetriever.new.call(opportunity)
   end
 end
