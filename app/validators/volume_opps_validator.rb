@@ -14,7 +14,7 @@ class VolumeOppsValidator
 
     return false if opportunity[:description].blank?
     if opportunity[:title].blank?
-      opportunity[:title] = opportunity[:description][0,80]
+      opportunity[:title] = opportunity[:description][0, 80]
     end
 
     return false if opportunity[:first_published_at].blank?

@@ -25,7 +25,7 @@ class OpportunityQualityRetriever
         opportunity_check.save!
       end
 
-      if response[:errors].length == 0
+      if response[:errors].length.zero?
         opportunity_check = OpportunityCheck.new
         opportunity_check.score = response[:score]
         opportunity_check.opportunity_id = opportunity.id
@@ -36,8 +36,8 @@ class OpportunityQualityRetriever
 
       return opportunity_check
     else
+      Rails.logger.info 'log errors from API'
       # errors from API
     end
-
   end
 end
