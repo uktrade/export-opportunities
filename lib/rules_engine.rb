@@ -1,14 +1,17 @@
 class RulesEngine
+  SENSITIVITY_SCORE_THRESHOLD = 0
+  QUALITY_SCORE_THRESHOLD = 56
+
   def call(opportunity)
     # first validate opp
     valid_opp = VolumeOppsValidator.new.validate_each(opportunity)
-byebug
+
     # if that passes, validate sensitivity
     if valid_opp
       sensitivity_score = OppsSensitivityValidator.new.validate_each(opportunity)
     end
-    # if that passes, validate quality
 
+    # if sensitivity pass is above threshold, validate quality
     if sensitive_value_threshold?(sensitivity_score)
       quality_score = OppsQualityValidator.new.validate_each(opportunity)
 
@@ -19,10 +22,11 @@ byebug
 
       # opp is valid, sensitivity value is OK but quality may be below threshold
       else
-        resolve_sensitivity_quality_opportunity(sensitivity_score, quality_score)
+        save_as_pending(opportunity)
       end
+    # opp is valid, sensitivity value is BAD, we don't know about quality
     else
-      resolve_sensitivity_opportunity(sensitivity_score)
+      save_as_pending(opportunity)
     end
   end
 
@@ -31,21 +35,25 @@ byebug
   # check if sensitivity_score is above the business thresholds we have set.
   # returns true if so, false otherwise
   def sensitive_value_threshold?(sensitivity_score)
-    return true
+    if sensitivity_score > SENSITIVITY_SCORE_THRESHOLD
+      true
+    else
+      false
+    end
   end
 
   # check if quality_score is above the business thresholds we have set.
   # returns true if so, false otherwise
   def quality_value_threshold?(quality_score)
-    return true
+    if quality_score > QUALITY_SCORE_THRESHOLD
+      true
+    else
+      false
+    end
   end
 
-  def resolve_sensitivity_opportunity(sensitivity_score)
-    # based on solely sensitivity score, is it ok to manually review?
+  def save_as_pending(opportunity)
+    opportunity.status = 2
+    opportunity.save!
   end
-
-  def resolve_sensitivity_quality_opportunity(sensitivity_score, quality_score)
-    # based on both scores, decide if we should publish/hold in queue or delete
-  end
-
 end

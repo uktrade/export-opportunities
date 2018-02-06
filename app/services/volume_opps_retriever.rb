@@ -17,13 +17,13 @@ class VolumeOppsRetriever
     while res[:has_next]
       # store data from page
       res[:data].each do |opportunity|
-        puts ".....we have " + valid_opp.to_s + " valid opps and " + invalid_opp.to_s + " invalid opps and " + invalid_opp_params.to_s + " invalid opp params already....."
+        Rails.logger.info '.....we have ' + valid_opp.to_s + ' valid opps and ' + invalid_opp.to_s + ' invalid opps and ' + invalid_opp_params.to_s + ' invalid opp params already.....'
         opportunity_params = opportunity_params(opportunity)
 
         # count valid/invalid opps
         if opportunity_params
           if VolumeOppsValidator.new.validate_each(opportunity_params)
-            result = CreateOpportunity.new(editor, :publish).call(opportunity_params)
+            CreateOpportunity.new(editor, :publish).call(opportunity_params)
             valid_opp += 1
           else
             invalid_opp += 1
@@ -85,15 +85,13 @@ class VolumeOppsRetriever
                     opportunity_release['tender']['description']
                   elsif opportunity_release['tender']['title'].present?
                     opportunity_release['tender']['title']
-                  else
-                    nil
                   end
     buyer = opportunity_release['buyer']
     tender_url = nil
 
-    opportunity_release['tender']['documents'].each do |document|
+    opportunity_release['tender']['documents']&.each do |document|
       tender_url = document['url'].to_s if document['id'].eql?('tender_url')
-    end if opportunity_release['tender']['documents']
+    end
 
     if description && country && tender_url
       {
@@ -107,8 +105,10 @@ class VolumeOppsRetriever
         description: description,
         service_provider_id: 150,
         contacts_attributes: [
-          { name: buyer['contactPoint'].present? ? buyer['contactPoint']['name'] : nil,
-            email: buyer['contactPoint'].present? ? buyer['contactPoint']['email'] : nil}
+          {
+            name: buyer['contactPoint'].present? ? buyer['contactPoint']['name'] : nil,
+            email: buyer['contactPoint'].present? ? buyer['contactPoint']['email'] : nil,
+          },
         ],
         buyer_name: buyer['name'],
         buyer_address: buyer['address'].present? ? buyer['address'][:countryName] : nil,

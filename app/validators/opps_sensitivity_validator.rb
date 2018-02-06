@@ -1,9 +1,8 @@
 class OppsSensitivityValidator
-  def validate_each(opportunity)
-
-  end
+  def validate_each(opportunity) end
 
   def call(opportunity)
-    return true
+    Rails.logger.info opportunity
+    true
   end
 end
