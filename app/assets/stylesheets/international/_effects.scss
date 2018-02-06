@@ -1,0 +1,36 @@
+// EFFECT STYLES
+// ---------------------
+
+
+
+
+.SelectiveLookupDisplay {
+  background-color: $white;
+  border: $light-grey solid 1px;
+  max-height: 221px;
+  overflow: scroll;
+  z-index: 2;
+  
+  li {
+    border-top: $light-grey solid 1px;
+    padding: 10px 20px;
+    position: relative;
+    top: -1px;
+    &:before {
+      display: none;
+    }
+    &:focus {
+      border-color: $focus-yellow;
+      border-style: solid;
+      border-width: 4px 3px 3px 3px;
+      box-shadow: none;
+      outline: 0;
+      padding: 7px 17px;
+      -webkit-box-shadow: none;
+    }
+    &:hover {
+      background-color: $offwhite;
+    }
+  }
+}
+

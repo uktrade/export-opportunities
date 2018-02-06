@@ -9,7 +9,7 @@
 <body>
   <%= render partial: 'international/includes/header' %>
 
-  <main id="main" role="main" class="container">
+  <main id="main" role="main">
     <%= content_for?(:errors) ? yield(:errors) : "" %>
     <%= content_for?(:content) ? yield(:content) : yield %>
   </main>

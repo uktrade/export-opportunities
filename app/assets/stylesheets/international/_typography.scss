@@ -1,7 +1,7 @@
 // FONT vars and mixins
 // ------------------------------
 
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,600);
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
 @import url(https://fonts.googleapis.com/css?family=Overpass:400,800);
 
 $brand-font-standard: 'Roboto', arial, helvetica, sans-serif;
@@ -17,56 +17,48 @@ $brand-font-serif: georgia, serif;
   line-height: 45px;
 }
 
-@mixin heading-hero-mob {
-  font-family: $brand-font-alternative;
-  font-size: 32px;
-  font-weight: 800;
-  line-height: 30px;
-}
-
 @mixin heading-l {
   font-family: $brand-font-standard;
   font-size:   48px;
-  font-weight: 600;
+  font-weight: bold;
   line-height: 1.15em;
   margin: 0 0 1em 0;
-}
-
-@mixin heading-l-mob {
-  font-family: $brand-font-standard;
-  font-size: 32px;
-  font-weight: 600;
-  line-height: 1.25em;
 }
 
 @mixin heading-m {
   font-family: $brand-font-standard;
   font-size:   36px;
-  font-weight: 600;
+  font-weight: bold;
   line-height: 1.1em;
   margin: 0 0 1em 0;
-}
-
-@mixin heading-m-mob {
-  font-family: $brand-font-standard;
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 1.25em;
-  letter-spacing: 0.3px;
 }
 
 @mixin heading-s {
   font-family: $brand-font-standard;
   font-size:   24px;
-  font-weight: 600;
+  font-weight: bold;
   line-height: 1.42em;
   margin: 0 0 1em 0;
 }
 
+@mixin heading-hero-mob {
+  font-size: 32px;
+  line-height: 30px;
+}
+
+@mixin heading-l-mob {
+  font-size: 32px;
+  line-height: 1.25em;
+}
+
+@mixin heading-m-mob {
+  font-size: 24px;
+  line-height: 1.25em;
+  letter-spacing: 0.3px;
+}
+
 @mixin heading-s-mob {
-  font-family: $brand-font-standard;
   font-size:   19px;
-  font-weight: 600;
   line-height: 1.58em;
   margin: 0 0 0.5em 0;
 }
@@ -75,42 +67,38 @@ $brand-font-serif: georgia, serif;
 @mixin body-xl {
   font-family: $brand-font-standard;
   font-size:   32px;
-  font-weight: 400;
+  font-weight: normal;
   line-height: 1.25em;
 }
 
 @mixin body-l {
   font-family: $brand-font-standard;
   font-size:   24px;
-  font-weight: 400;
+  font-weight: normal;
   line-height: 1.5em;
 }
 
 @mixin body-m {
   font-family: $brand-font-standard;
   font-size:   19px;
-  font-weight: 400;
+  font-weight: normal;
   line-height: 1.58em;
-}
-
-@mixin body-m-mob {
-  font-family: $brand-font-standard;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.38em;
 }
 
 @mixin body-s {
   font-family: $brand-font-standard;
   font-size:   15px;
-  font-weight: 400;
+  font-weight: normal;
   line-height: 1.47em;
 }
 
+@mixin body-m-mob {
+  font-size: 16px;
+  line-height: 1.38em;
+}
+
 @mixin body-s-mob {
-  font-family: $brand-font-standard;
   font-size: 13px;
-  font-weight: 400;
   line-height: 1.54em;
 }
 
@@ -118,13 +106,23 @@ $brand-font-serif: georgia, serif;
 @mixin quote {
   font-family: $brand-font-serif;
   font-size:   24px;
-  font-weight: 400;
   line-height: 32px;
 }
 
 @mixin quote-mob {
   font-family: $brand-font-serif;
   font-size:   16px;
-  font-weight: 400;
   line-height: 1.88em;
 }
+
+@mixin body-special-bold {
+  font-family: $brand-font-standard;
+  font-size:   72px;
+  font-weight: bold;
+  line-height: 1em
+}
+
+@mixin body-special-bold-m {
+  font-size: 52px;
+}
+
