@@ -83,6 +83,27 @@
 = render 'comment_form'
 %br
 
+%h2 Opportunity Checks
+- if @opportunity.opportunity_checks.size == 0
+  %p We haven't quality checked this opportunity yet.
+- else
+  - @opportunity.opportunity_checks.each do |check|
+    %h3
+      =check.submitted_text
+      %table.horizontal
+        %tr
+          %th{:scope => 'row'} Score
+          %td= check.score
+        %tr
+          %th{:scope => 'row'} Offensive Term
+          %td= check.offensive_term
+        %tr
+          %th{:scope => 'row'} Suggested Term
+          %td= check.suggested_term
+        %tr
+          %th{:scope => 'row'} Error Id
+          %td= check.error_id
+
 %h2 Enquiries
 - if @opportunity.enquiries.size == 0
   %p No enquiries have been made about this opportunity.
