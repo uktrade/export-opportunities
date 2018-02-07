@@ -7,6 +7,7 @@ class VolumeOppsRetriever
     token_endpoint = Figaro.env.OO_TOKEN_ENDPOINT!
 
     token_response = JwtVolumeConnector.new.token(username, password, hostname, token_endpoint)
+
     res = JwtVolumeConnector.new.data(JSON.parse(token_response.body)['token'], hostname, data_endpoint)
 
     # counters for valid/invalid opps
@@ -118,6 +119,7 @@ class VolumeOppsRetriever
         tender_content: opportunity['json'].to_json,
         first_published_at: opportunity['pubdate'],
         tender_url: tender_url,
+        ocid: opportunity['ocid'],
         tender_source: opportunity_source,
       }
     else
