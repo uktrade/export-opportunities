@@ -1,0 +1,131 @@
+// International Site Header 
+// --------------------------
+
+
+#header {
+  background-color: $great-blue;
+}
+
+#personal-bar {
+  @include body-s;
+  color: $white;
+  margin-bottom: $spacing-4;
+  overflow: hidden;
+  text-align: right;
+  
+  a {
+    color: inherit;
+    display: inline-block;
+    font-weight: bold;
+  }
+  
+  img {
+    margin-right: 1em;
+  }
+  
+  p {
+    margin: 0;
+    padding: 7px 0 4px 0;
+    
+    &:before {
+      display: none;
+    }
+  }
+  
+  .account-links {
+    color: $light-grey;
+    display: inline-block;
+    margin: 0 0 0 0.2em;
+
+    li {
+      display: inline-block;
+      padding: 7px 0 4px 0;
+    }
+  }
+  
+  .profile,
+  .signout {
+    &:before {
+      @include separator($white);
+      position: static;
+    }
+  }
+  
+  .greeting {
+    display: inline-block;
+    float: right;
+    padding: 7px 0 4px 0;
+  }
+  
+  .signin {
+    &:before {
+      @include separator($light-grey);
+    }
+  }
+}
+
+#header-logo {
+  display: inline-block;
+  margin-bottom: $spacing-4;
+  position: absolute;
+  top: $spacing-3;
+
+  img {
+    height: 55px;
+  }
+}
+
+#skip-link {
+  display: inline-block;
+  padding: $spacing-4;
+  
+  &:focus {
+    background-color: $focus-yellow;
+    color: $dark-blue;
+    left: 0;
+    text-indent: 0;
+    top: 0;
+    z-index: 1;
+  }
+}
+
+
+// TABLET
+@media screen and (max-width: 767px) {
+  #header {
+    .logo {
+      float: none;
+    }
+  }
+  
+  #personal-bar {
+    .partof {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #personal-bar {
+    .profile {
+      &:before {
+        display: none;
+      }
+    }
+    
+    .greeting {
+      display: none;
+    }
+  }
+}
+
+
+// MOBILE
+@media screen and (max-width: 420px) {  
+  #header {
+    .logo {
+      margin-bottom: $spacing-4;
+      padding-top: $spacing-4;
+    }
+  }
+}
