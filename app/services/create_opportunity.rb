@@ -14,8 +14,11 @@ class CreateOpportunity
     opportunity.status = @status
     opportunity.author = @editor
 
-    opportunity.save!
-
+    begin
+      opportunity.save!
+    rescue ActiveRecord::RecordNotUnique
+      Rails.logger.error 'attempting to insert opportunity:' + params.to_s + ' with ocid:' + opportunity.ocid
+    end
     opportunity
   end
 end

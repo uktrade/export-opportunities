@@ -11,29 +11,31 @@ class OppsQualityConnector
     end
 
     response_body = JSON.parse(response.body)
+    # response_body = JSON.parse({ result: false, error_code: 600}.to_json)
 
     if response_body['result']
       { status: response_body['result'], score: response_body['score'], errors: response_body['errors'] }
     else
       case response_body['error_code']
-      when '600'
-        'INVALID LICENSE KEY'
-      when '601'
-        'TOO MANY REQUESTS PER SECOND'
-      when '602'
-        'MONTHLY LIMIT REQUEST EXCEEDED'
-      when '603'
-        'TOO MANY REQUESTS PER DAY'
-      when '605'
-        'LICENSE KEY EMPTY'
-      when '500'
-        'GENERIC ERROR'
-      when '501'
-        'TEXT INPUT IS TOO LONG'
-      when '502'
-        'TOO MANY ERRORS. NOT ENGLISH?'
+      when 600
+        description = 'INVALID LICENSE KEY'
+      when 601
+        description = 'TOO MANY REQUESTS PER SECOND'
+      when 602
+        description = 'MONTHLY LIMIT REQUEST EXCEEDED'
+      when 603
+        description = 'TOO MANY REQUESTS PER DAY'
+      when 605
+        description = 'LICENSE KEY EMPTY'
+      when 500
+        description = 'GENERIC ERROR'
+      when 501
+        description = 'TEXT INPUT IS TOO LONG'
+      when 502
+        description = 'TOO MANY ERRORS. NOT ENGLISH?'
       end
-      { status: response_body['result'], error_code: response_body['error_code'], description: response_body['description'] }
+
+      { status: response_body['result'], error_code: response_body['error_code'], description: description }
     end
   end
 end

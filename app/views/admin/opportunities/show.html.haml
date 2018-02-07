@@ -89,7 +89,13 @@
 - else
   - @opportunity.opportunity_checks.each do |check|
     %h3
-      =check.submitted_text
+      - if check.offset
+        =check.submitted_text[0..check.offset-1]
+        %span.error_term
+          =check.submitted_text[check.offset..check.offset+check.length]
+        =check.submitted_text[check.offset+check.length..check.submitted_text.length]
+      - else
+        =check.submitted_text
       %table.horizontal
         %tr
           %th{:scope => 'row'} Score
