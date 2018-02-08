@@ -1,3 +1,5 @@
+require 'jwt_volume_connector'
+
 class VolumeOppsRetriever
   def call(editor)
     username = Figaro.env.OO_USERNAME!

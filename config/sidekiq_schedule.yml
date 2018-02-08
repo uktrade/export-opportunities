@@ -11,7 +11,7 @@ schedule_volume_import_opps_job:
   active_job: true
 
 schedule_quality_opps_job:
-  cron: "30 8 * * *"
+  cron: "15 8 * * *"
   class: "CheckQualityOpps"
   queue: default
   active_job: true
