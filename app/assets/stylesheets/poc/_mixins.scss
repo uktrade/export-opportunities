@@ -1,0 +1,205 @@
+@mixin great-red-trim {
+  background-color: $great-red;
+  content: '';
+  height: 4px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+@mixin access-hidden {
+  overflow: hidden;
+  position: absolute;
+  text-indent: -1000px;
+  z-index: -1;
+}
+
+@mixin separator($colour) {
+  background-color: $colour;
+  content: "";
+  display: inline-block;
+  height: 1em;
+  margin: 0 0.5em 0 0.3em;
+  width: 1px;
+  vertical-align: middle;
+}
+
+@mixin rotate($deg) {
+  @if $deg == 'none' {
+    // Allow removal or any rotate applied
+    -ms-transform: rotate(0deg); /* IE 9 */
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  @else {
+    -ms-transform: rotate(#{$deg + "deg"}); /* IE 9 */
+    -webkit-transform: rotate(#{$deg + "deg"});
+    transform: rotate(#{$deg + "deg"});
+  }
+}
+
+@mixin container {
+  max-width: $design-max-width;
+  margin: 0 auto;
+
+  @media (max-width: #{$design-max-width + ($spacing-3 * 2)}) {
+    margin: 0 $spacing-3;
+  }
+
+  @media (max-width: 420px) {
+    margin: 0 20px; // Special figure intentionally outside of standard.
+  }
+}
+
+@mixin section-connector($foreground, $background) {
+  border-bottom-color: $background;
+  border-left-color: $background;
+  border-right-color: $background;
+  border-top-color: $foreground;
+  border-style: solid;
+  border-width: 50px 50px 0px 50px;
+  bottom: initial;
+  content: "";
+  display: block;
+  left: 50%;
+  margin-left: -25px;
+  position: absolute;
+  top: 0;
+  
+  @media (max-width:420px) {
+    border-width: 30px 30px 0 30px;
+    margin-left: -15px;
+  }
+}
+
+// BUTTONS
+@mixin button($colour-1, $colour-2) {
+  background-color: $colour-1;
+  border-color: $colour-1;
+  color: $white;
+  
+  &:hover {
+    background-color: $colour-2;
+    border-color: $colour-2;
+    color: $white;
+  }
+}
+
+@mixin button-disabled($colour-1, $colour-2) {
+  background-color: $colour-1;
+  border-color: $colour-1;
+  color: $colour-2;
+  cursor: default;
+  
+  &:hover {
+    background-color: $colour-1;
+    border-color: $colour-1;
+    color: $colour-2;
+  }
+}
+
+@mixin button-ghost($colour-1, $colour-2) {
+  background-color: $colour-2;
+  border-color: $colour-1;
+  color: $colour-1;
+  
+  &:focus {
+    border-color: $colour-2;
+  }
+  
+  &:hover {
+    background-color: $colour-1;
+    border-color: $colour-1;
+    color: $colour-2;
+  }
+}
+
+@mixin button-icon($colour-1, $colour-2, $image) {
+  @include button($colour-1, $colour-2);
+  padding-left: $spacing-3;
+  padding-right: $spacing-3;
+  position: relative;
+  text-indent: -500px;
+  &:after {
+    background-image: url(#{"/static/images/icons/" + $image});
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    content: "";
+    display: block;
+    height: 80%;
+    left: 10%;
+    position: absolute;
+    top: 10%;
+    width: 80%;
+  }
+}
+
+// ARROWS
+@mixin continue-arrow() {
+  background-image: url(/static/images/arrow-blue.svg);
+  background-position: center right;
+  background-repeat: no-repeat;
+  background-size: 52px;
+  content: "";
+  display: inline-block;
+  height: 52px;
+  width: 52px;
+}
+
+@mixin continue-arrow-mob() {
+  background-size: 39px;
+  height: 39px;
+  width: 39px;
+}
+
+
+// CHEVRONS
+@mixin chevron($size) {
+  @include rotate(45);
+  content: "";
+  border-style: solid;
+  display: inline-block;
+  height: #{$size}px;
+  position: relative;
+  vertical-align: middle;
+  width: #{$size}px;
+}
+
+@mixin down-chevron-1($colour) {
+  @include chevron(5);
+  border-color: $colour;
+  border-width: 0 2px 2px 0;
+  top: -3px;
+}
+
+@mixin left-chevron-1($colour) {
+  @include chevron(15);
+  border-color: $colour;
+  border-width: 0 0 2px 2px;
+  top: 0;
+}
+
+@mixin right-chevron-1($colour) {
+  @include chevron(15);
+  border-color: $colour;
+  border-width: 2px 2px 0 0;
+  top: 0;
+}
+
+@mixin right-chevron-2($colour) {
+  @include chevron(5);
+  vertical-align: middle;
+  border-color: $colour;
+  border-width: 2px 2px 0 0;
+  margin: 0 5px;
+  top: 0;
+}
+
+@mixin up-chevron-1($colour) {
+  @include chevron(5);
+  border-color: $colour;
+  border-width: 2px 0 0 2px;
+  top: 1px;
+}

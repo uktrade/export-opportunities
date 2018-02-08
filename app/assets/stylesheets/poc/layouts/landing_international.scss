@@ -1,0 +1,93 @@
+@import '../components/steps_indicator';
+@import '../components/quote';
+@import '../effects/carousel';
+@import '../effects/tabbed_area';
+
+
+.benefit {
+  @include items(3, $spacing-3);
+  padding-top: $spacing-1;
+
+  p {
+    @include body-s;
+    color: $mid-grey;
+  }
+}
+
+.quote {
+  margin-left: auto;
+  margin-right: auto;
+  width: $cols-6;
+}
+
+.companies {
+  border-top: 1px solid $grey;
+  clear: both;
+  padding-top: $spacing-3;
+
+  img {
+    background-color: $mid-grey;
+    display: block;
+    height: 210px;
+    width: 100%;
+  }
+
+  .company {
+    @include items(3, $spacing-3);
+  }
+}
+
+.sector {
+  @include body-m;
+}
+
+.Carousel {
+  margin: 0 auto;
+  width: $cols-6;
+}
+
+#create-opportunities {
+  background-color: $offwhite;
+  position: relative;
+
+  .heading {
+    margin-bottom: $spacing-1;
+  }
+
+  &:before {
+    @include section-connector($white, $offwhite);
+  }
+}
+
+#intro {
+  background-color: $light-grey;
+}
+
+#testimonials {
+  background-color: $stone-light;
+}
+
+
+// TABLET
+@media (max-width: 767px) {
+
+  .benefit {
+    float: none;
+    margin-left: 0;
+    padding-top: $spacing-3;
+    width: auto;
+  }
+
+  .companies {
+     margin-bottom: $spacing-1;
+    .company {
+      float: none;
+      margin-left: 0;
+      width: auto;
+    }
+  }
+  
+  .Carousel {
+    width: auto;
+  }
+}
