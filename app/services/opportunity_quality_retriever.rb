@@ -1,3 +1,5 @@
+require 'opps_quality_connector'
+
 class OpportunityQualityRetriever
   def call(opportunity)
     hostname = Figaro.env.TG_HOSTNAME!
