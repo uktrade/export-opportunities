@@ -23,20 +23,6 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('Contact the company')
   end
 
-  scenario 'reply to an enquiry with invalid mail length (has to be 30 chars)' do
-    skip('TODO: reintroduce once we reintroduce the 30 chars limit')
-    admin = create(:admin)
-    enquiry = create(:enquiry)
-    login_as(admin)
-    visit '/admin/enquiries/' + enquiry.id.to_s
-
-    click_on 'Reply'
-    # need more information
-    choose 'Need more information'
-
-    expect(page).to have_content('Contact the company')
-  end
-
   scenario 'reply to an enquiry with blank mail - FAIL' do
     admin = create(:admin)
     enquiry = create(:enquiry)
@@ -57,33 +43,6 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('1 error prevented this enquiry response from being saved')
   end
 
-  scenario 'reply to an enquiry with attachment choosing right for opportunity' do
-    admin = create(:admin)
-    enquiry = create(:enquiry)
-    login_as(admin)
-    visit '/admin/enquiries/' + enquiry.id.to_s
-
-    click_on 'Reply'
-    expect(page).to have_content('Email body')
-
-    email_body_text = Faker::Lorem.words(15).join('-')
-
-    choose 'Right for opportunity'
-
-    fill_in 'enquiry_response_email_body', with: email_body_text
-
-    attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file.txt'
-
-    expect(page).to have_content(email_body_text)
-    click_on 'Preview'
-
-    expect(page).to have_content('Your application will now move to the next stage')
-
-    click_on 'Send'
-
-    expect(page).to have_content('Reply sent successfully')
-  end
-
   scenario 'reply to an enquiry as an uploader from the same service provider, need more information choice' do
     service_provider = create(:service_provider)
     uploader = create(:uploader, service_provider_id: service_provider.id)
@@ -100,7 +59,7 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('Contact the company')
   end
 
-  scenario 'reply to an enquiry as an uploader for the opportunity, not right for opportunity choice' do
+  scenario 'reply to an enquiry as an uploader for the opportunity, not right for opportunity choice', js: true do
     create(:service_provider)
     uploader = create(:uploader)
     opportunity = create(:opportunity, author: uploader)
@@ -112,12 +71,18 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('Email body')
 
     email_body_text = Faker::Lorem.words(10).join('-')
-    fill_in 'enquiry_response_email_body', with: email_body_text
-    expect(page).to have_content(email_body_text)
+    fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
 
-    choose 'Not right for opportunity'
+    expect(page.body).to have_content(email_body_text)
+
+    # right for opportunity option
+    page.find('#li3').click
+
+    wait_for_ajax
 
     click_on 'Preview'
+
+    wait_for_ajax
 
     expect(page).to have_content('Your proposal does not meet the criteria for this opportunity')
 
@@ -183,7 +148,6 @@ feature 'admin can reply to enquiries' do
   end
 
   scenario 'reply to an enquiry with attachment, valid, right for opportunity - with js', js: true do
-    skip('this works for attaching files, except for undefined property value of null')
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
@@ -274,6 +238,8 @@ feature 'admin can reply to enquiries' do
     wait_for_ajax
 
     attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file_6.pdf', visible: false
+
+    wait_for_ajax
 
     click_on 'Preview'
 

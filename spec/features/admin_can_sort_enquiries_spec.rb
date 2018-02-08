@@ -64,15 +64,15 @@ feature 'Admins sorting the list of enquiries', :elasticsearch, :commit do
   end
 
   scenario 'sorting when paginated' do
-    skip('to implement')
-    create(:enquiry, title: 'last opp')
-    create_list(:enquiry, Admin::EnquiriesController::ENQUIRIES_PER_PAGE)
+    create(:enquiry, company_name: 'last opp')
+    create_list(:enquiry, 25)
 
-    login_as(create(:publisher))
-    visit '/admin/opportunities?paged=2'
+    login_as(create(:admin))
+    visit admin_enquiries_path
+
     within('.pagination') { click_link '2' }
 
-    column_sort_link = page.find_link('Title')[:href]
+    column_sort_link = page.find_link('Company')[:href]
     page_number = CGI.parse(URI.parse(column_sort_link).query)['paged'].first
     expect(page_number).to eq '1'
   end

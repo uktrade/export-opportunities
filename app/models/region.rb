@@ -1,3 +1,3 @@
-class Region < ActiveRecord::Base
+class Region < ApplicationRecord
   has_many :countries
 end

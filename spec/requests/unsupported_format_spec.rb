@@ -12,7 +12,6 @@ RSpec.describe 'unsupported formats' do
     end
 
     it 'returns a 406 for xml' do
-      skip('Rails 5')
       get '/opportunities/future-days.xml'
       expect(response).to have_http_status(406)
       expect(response.header['Content-Type']).to include 'application/xml'

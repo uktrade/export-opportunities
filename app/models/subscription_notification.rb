@@ -1,6 +1,6 @@
 require 'elasticsearch/model'
 
-class SubscriptionNotification < ActiveRecord::Base
+class SubscriptionNotification < ApplicationRecord
   belongs_to :opportunity
   belongs_to :subscription
   include Elasticsearch::Model

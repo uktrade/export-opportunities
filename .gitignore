@@ -64,3 +64,6 @@ vendor/bundle/*
 
 # OS hidden files
 .DS_Store
+
+# ignore simplecov configuration
+.simplecov

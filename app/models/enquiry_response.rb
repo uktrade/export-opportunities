@@ -1,4 +1,4 @@
-class EnquiryResponse < ActiveRecord::Base
+class EnquiryResponse < ApplicationRecord
   include EnquiryResponseHelper
   mount_uploaders :attachments, EnquiryResponseUploader
   attr_accessor :completed_at

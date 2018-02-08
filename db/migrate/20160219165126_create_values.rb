@@ -1,4 +1,4 @@
-class CreateValues < ActiveRecord::Migration
+class CreateValues < ActiveRecord::Migration[4.2]
   def change
     create_table :values do |t|
       t.integer :wordpress_id, null: false

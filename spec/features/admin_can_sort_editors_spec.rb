@@ -8,9 +8,9 @@ feature 'Admin can sort the list of editors' do
   end
 
   scenario 'by name' do
-    first_editor = create(:editor, name: 'alex')
-    second_editor = create(:editor, name: 'bobby')
-    third_admin = create(:admin, name: 'catherine')
+    first_editor = create(:editor, service_provider_id: 1, name: 'alex')
+    second_editor = create(:editor, service_provider_id: 1, name: 'bobby')
+    third_admin = create(:admin, service_provider_id: 1, name: 'catherine')
 
     login_as(third_admin)
     visit '/admin/editors'
@@ -33,9 +33,9 @@ feature 'Admin can sort the list of editors' do
   end
 
   scenario 'by email' do
-    first_editor = create(:editor, email: 'alex@al.com')
-    second_editor = create(:editor, email: 'bobby@bo.com')
-    third_admin = create(:admin, email: 'cathy@cee.com')
+    first_editor = create(:editor, service_provider_id: 1, email: 'alex@al.com')
+    second_editor = create(:editor, service_provider_id: 1, email: 'bobby@bo.com')
+    third_admin = create(:admin, service_provider_id: 1, email: 'cathy@cee.com')
     login_as(third_admin)
     visit '/admin/editors'
 
@@ -53,9 +53,9 @@ feature 'Admin can sort the list of editors' do
   end
 
   scenario 'by confirmed at' do
-    first_editor = create(:editor, confirmed_at: 2.days.ago)
-    second_editor = create(:editor, confirmed_at: 3.days.ago)
-    third_admin = create(:admin, confirmed_at: 1.day.ago)
+    first_editor = create(:editor, service_provider_id: 1, confirmed_at: 2.days.ago)
+    second_editor = create(:editor, service_provider_id: 1, confirmed_at: 3.days.ago)
+    third_admin = create(:admin, service_provider_id: 1, confirmed_at: 1.day.ago)
     login_as(third_admin)
     visit '/admin/editors'
 
@@ -93,8 +93,10 @@ feature 'Admin can sort the list of editors' do
   end
 
   scenario 'pagination shows correct results' do
-    create_list(:editor, Admin::EditorsController::EDITORS_PER_PAGE)
-    admin = create(:admin, name: 'catherine')
+    Admin::EditorsController::EDITORS_PER_PAGE.times do |loop|
+      create(:editor, service_provider_id: 1)
+    end
+    admin = create(:admin, service_provider_id: 1, name: 'catherine')
     login_as(admin)
     visit '/admin/editors'
     within('.pagination') { click_link '2' }

@@ -1,4 +1,4 @@
-class PendingSubscription < ActiveRecord::Base
+class PendingSubscription < ApplicationRecord
   belongs_to :subscription
   serialize :query_params
 

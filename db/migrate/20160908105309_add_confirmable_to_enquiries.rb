@@ -1,4 +1,4 @@
-class AddConfirmableToEnquiries < ActiveRecord::Migration
+class AddConfirmableToEnquiries < ActiveRecord::Migration[4.2]
   def change
     add_column :enquiries, :confirmation_token, :string
     add_column :enquiries, :confirmed_at, :datetime

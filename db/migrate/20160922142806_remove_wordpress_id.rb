@@ -1,4 +1,4 @@
-class RemoveWordpressId < ActiveRecord::Migration
+class RemoveWordpressId < ActiveRecord::Migration[4.2]
   def up
     remove_column :countries, :wordpress_id
     remove_column :sectors, :wordpress_id

@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'HTTP Compression', type: :request do
   scenario 'visitor has a browser that supports compression' do
-  skip('Rails 5')
-    ['deflate', 'gzip', 'deflate,gzip', 'gzip,deflate'].each do |method|
+    ['gzip', 'deflate,gzip', 'gzip,deflate'].each do |method|
       get opportunities_path, params: {}, headers: { 'HTTP_ACCEPT_ENCODING': method }
 
       expect(response.headers['Content-Encoding']).not_to be_nil

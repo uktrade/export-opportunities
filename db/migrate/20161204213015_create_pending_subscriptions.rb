@@ -1,4 +1,4 @@
-class CreatePendingSubscriptions < ActiveRecord::Migration
+class CreatePendingSubscriptions < ActiveRecord::Migration[4.2]
   def change
     create_table :pending_subscriptions, id: :uuid do |t|
       t.text :query_params

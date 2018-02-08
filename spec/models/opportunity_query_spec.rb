@@ -59,8 +59,8 @@ RSpec.describe OpportunityQuery do
         create(:opportunity, status: 'publish', description: 'We need more Pikachu.')
         create(:opportunity)
 
-        result = OpportunityQuery.new(search_term: 'pikachu', sort: fake_sort).opportunities
-        expect(result.size).to eq(3)
+        result = OpportunityQuery.new(search_term: 'pikachu', sort: fake_sort)
+        expect(result.count).to eq(3)
       end
 
       it 'returns opportunities by relevance' do

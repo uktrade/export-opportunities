@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 ruby '2.4.3'
 
 gem 'rails', '5.1.4'
@@ -17,7 +16,7 @@ gem 'figaro'
 gem 'friendly_id'
 gem 'immutable-struct'
 
-gem 'nokogiri', '1.8.1'
+gem 'nokogiri', '1.8.2'
 
 # Authentication & authorisation
 gem 'devise', '4.3.0'
@@ -38,7 +37,6 @@ gem 'faraday_middleware-aws-signers-v4'
 gem 'elasticsearch-rails'
 gem 'elasticsearch-model'
 gem 'devise_security_extension', git: 'https://github.com/phatworx/devise_security_extension.git'
-
 
 # Styling
 gem 'bourbon'

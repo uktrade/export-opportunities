@@ -1,6 +1,6 @@
 require 'elasticsearch'
 
-class Opportunity < ActiveRecord::Base
+class Opportunity < ApplicationRecord
   include Elasticsearch::Model
   index_name [base_class.to_s.pluralize.underscore, Rails.env].join('_')
 

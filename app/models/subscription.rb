@@ -1,6 +1,6 @@
 require 'elasticsearch'
 
-class Subscription < ActiveRecord::Base
+class Subscription < ApplicationRecord
   include DeviseUserMethods
   include Elasticsearch::Model
 

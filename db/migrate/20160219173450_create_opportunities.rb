@@ -1,4 +1,4 @@
-class CreateOpportunities < ActiveRecord::Migration
+class CreateOpportunities < ActiveRecord::Migration[4.2]
   def change
     create_table :opportunities do |t|
       t.integer :wordpress_id, null: false

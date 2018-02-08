@@ -1,4 +1,4 @@
-class RemoveUuid < ActiveRecord::Migration
+class RemoveUuid < ActiveRecord::Migration[4.2]
   def up
     disable_extension 'uuid-ossp'
   end

@@ -1,8 +1,5 @@
 class BasePresenter
-
-  private
-
-  def h
+  private def h
     ApplicationController.helpers
   end
 end

@@ -1,4 +1,4 @@
-class RemovePasswordFromUsers < ActiveRecord::Migration
+class RemovePasswordFromUsers < ActiveRecord::Migration[4.2]
   def up
     remove_column :users, :encrypted_password, :string
     remove_column :users, :reset_password_token, :string

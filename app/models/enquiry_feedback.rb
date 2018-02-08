@@ -1,4 +1,4 @@
-class EnquiryFeedback < ActiveRecord::Base
+class EnquiryFeedback < ApplicationRecord
   belongs_to :enquiry
   enum initial_response: {
     won: 0,

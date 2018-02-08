@@ -66,10 +66,10 @@ RSpec.configure do |config|
     OmniAuth.config.mock_auth[:exporting_is_great] = nil
   end
 
-  config.include ShowMeTheCookies, type: :feature
+  config.include ShowMeTheCookies
 
   config.before(:each, js: true) do
-    create_cookie('UPDATE-DECEMBER-2017-ACCEPTED', true)
+    create_cookie('UPDATE-JANUARY-2018-ACCEPTED', true)
   end
 end
 

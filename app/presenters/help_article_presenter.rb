@@ -1,49 +1,43 @@
 class HelpArticlePresenter < BasePresenter
-  attr_reader :content, :related_links, :sections, :title, :url
+  attr_reader :content, :related_links, :sections, :url
+  attr_accessor :title
 
-  def initialize(url, section_id="")
+  def initialize(url, section_id = '')
     @section_id = section_id
     @url = url
-    @related_links = Array.new
-    @sections = Array.new
+    @related_links = []
+    @sections = []
   end
 
-  def text_to_id(str="")
-    str = str.gsub(" ", "-")
+  def text_to_id(str = '')
+    str = str.tr('', '-')
     str = str.gsub(/[^0-9a-z-]/i, '')
     str.downcase
   end
 
-  def set_title(title="")
-    @title = title
+  def set_related_link(text, href)
+    @related_links.push(
+      text: text,
+      href: href
+    )
   end
 
-  def set_related_link(text, href)
-    @related_links.push({
-      :text => text,
-      :href => href
-    })
-  end
- 
-  def set_section(heading="", content="")
+  def set_section(heading = '', content = '')
     section_id = text_to_id(heading)
-    @sections.push({
-      :id => section_id,
-      :heading => heading,
-      :content => content,
-      :url => "/%s/%s" % [@url, section_id],
-      :current => (section_id.eql? @section_id) ? true : false 
-    }) 
+    current_section_id = section_id.eql? @section_id
+    @sections.push(id: section_id,
+                   heading: heading,
+                   content: content,
+                   url: format('/%s/%s', @url, section_id),
+                   current: current_section_id)
   end
 
   def current_section
     section = @sections[0]
     @sections.each do |s|
-      if s[:current]
-        section = s
-      end
+      section = s if s[:current]
     end
-    return section
+    section
   end
 
   def pagination
@@ -52,20 +46,13 @@ class HelpArticlePresenter < BasePresenter
 
     # previous section
     p = index - 1
-    if p >= 0
-      links[:previous] = @sections[p]
-    end
+    links[:previous] = @sections[p] if p >= 0
 
     # next section
     n = index + 1
-    if n < @sections.length
-      links[:next] = @sections[n]
-    end
+    links[:next] = @sections[n] if n < @sections.length
 
-    return links
+    links
   end
-
 end
-
-
 1

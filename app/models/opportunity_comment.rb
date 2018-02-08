@@ -1,4 +1,4 @@
-class OpportunityComment < ActiveRecord::Base
+class OpportunityComment < ApplicationRecord
   belongs_to :author, class_name: 'Editor'
   belongs_to :opportunity
 

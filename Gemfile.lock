@@ -241,7 +241,7 @@ GEM
       thor (~> 0.19)
     netrc (0.11.0)
     nio4r (2.2.0)
-    nokogiri (1.8.1)
+    nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
     normalize-scss (7.0.0)
       sass (~> 3.3)
@@ -520,7 +520,7 @@ DEPENDENCIES
   launchy
   listen
   neat (= 1.8.0)
-  nokogiri (= 1.8.1)
+  nokogiri (= 1.8.2)
   normalize-scss
   omniauth
   omniauth-oauth2
