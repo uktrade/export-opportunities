@@ -25,8 +25,9 @@ class JwtVolumeConnector
       f.adapter  Faraday.default_adapter
     end
 
+    today_date = Time.zone.now.strftime('%Y-%m-%d')
     response = connection.get do |req|
-      req.url hostname + url
+      req.url hostname + url + '&date_created=' + today_date
       req.headers['Authorization'] = 'JWT ' + token
     end
 
