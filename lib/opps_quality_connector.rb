@@ -14,7 +14,11 @@ class OppsQualityConnector
     # response_body = JSON.parse({ result: false, error_code: 600}.to_json)
 
     if response_body['result']
-      { status: response_body['result'], score: response_body['score'], errors: response_body['errors'] }
+      if response_body['score']
+        { status: response_body['result'], score: response_body['score'], errors: response_body['errors'] }
+      else
+        { status: response_body['result'], score: 100, errors: {} }
+      end
     else
       case response_body['error_code']
       when 600
