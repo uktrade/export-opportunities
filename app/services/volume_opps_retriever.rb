@@ -42,10 +42,11 @@ class VolumeOppsRetriever
     value = local_currency_value_hash['amount']
     currency_name = local_currency_value_hash['currency']
     gbp_value = value_to_gbp(value, currency_name)
+    # set value to 1<100,000GBP or 3>100,000GBP
     id = if gbp_value < 100_000
            1
          else
-           2
+           3
          end
     { id: id, gbp_value: gbp_value }
   end
@@ -79,7 +80,8 @@ class VolumeOppsRetriever
       value_id = values[:id]
       gbp_value = values[:gbp_value]
     else
-      value_id = 3
+      # value unknown
+      value_id = 2
     end
     response_due_on = opportunity_release['tender']['tenderPeriod']['endDate'] if opportunity_release['tender']['tenderPeriod']
     description = if opportunity_release['tender']['description'].present?
@@ -112,7 +114,7 @@ class VolumeOppsRetriever
           },
         ],
         buyer_name: buyer['name'],
-        buyer_address: buyer['address'].present? ? buyer['address'][:countryName] : nil,
+        buyer_address: buyer['address'].present? ? buyer['address']['countryName'] : nil,
         language: opportunity_release['language'].present? ? opportunity_release['language'] : nil,
         tender_value: gbp_value.present? ? Integer(gbp_value).floor : nil,
         source: 1,

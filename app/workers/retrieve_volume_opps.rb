@@ -4,6 +4,7 @@ class RetrieveVolumeOpps
   sidekiq_options retry: false
 
   def perform
-    VolumeOppsRetriever.new.call
+    editor = Editor.where(email: Figaro.env.MAILER_FROM_ADDRESS!).first
+    VolumeOppsRetriever.new.call(editor)
   end
 end
