@@ -46,6 +46,11 @@
       $input.on("focus.SelectiveLookup", function() { instance._private.active = true; });
       $input.on("blur.SelectiveLookup", function() { instance._private.active = false; });
       $input.on("input.SelectiveLookup", function() {
+        // If first character is space, get rid of it. 
+        if(this.value[0] === " ") {
+          this.value = this.value.substring(1);
+        }
+
         if(instance._private.timer) {
           clearTimeout(instance._private.timer);
         }
@@ -159,6 +164,8 @@
   }
 
   SelectiveLookup.prototype = {};
+
+  // Added to prototype to allow easy overwrite when inheriting.
   SelectiveLookup.prototype.bindContentEvents = function() {
     var instance = this;
     instance._private.$list.off("click.SelectiveLookupContent");
@@ -185,7 +192,7 @@
   
   SelectiveLookup.prototype.param = function() {
     // Set param in separate function to allow easy override.
-    return this._private.$input.attr("name") + "=" + this._private.$input.value;
+    return this._private.$input.attr("name") + "=" + this._private.$input.val();
   }
   
   /* Uses the data set on associated service to build HTML
@@ -195,7 +202,7 @@
    * @datamapping (Object) Allow change of required key name
    **/
   SelectiveLookup.prototype.setContent = function(datamapping) {
-    var data = this._private.service.response;
+    var data = this._private.service.data;
     var $list = this._private.$list;
     var map = datamapping || { text: "text", value: "value" };
     $list.empty();

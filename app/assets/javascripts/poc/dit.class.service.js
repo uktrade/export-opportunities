@@ -22,14 +22,15 @@
       dataType: "json",
       method: "GET",
       success: function(response) {
-        service.response = response;
+        service.json = response;
+        service.data = JSON.parse(response);
       }
     }, options || {});
 
     var listeners = [];
     var request; // Reference to active update request
 
-    service.response = {}; // What we get back from an update
+    service.json = {}; // What we get back from an update
 
     /* Gets a fresh response
      * @params (String) Specify params for GET or data for POST
@@ -47,7 +48,7 @@
     }
 
     /* Specify data processing task after response
-     * @task (Function) Do something after service.response has been updated
+     * @task (Function) Do something after service.json has been updated
      **/
     service.listener = function(task) {
       listeners.push(task);

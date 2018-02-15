@@ -1,8 +1,12 @@
+@import '../config';
+@import '../opportunities/opportunity_search_form';
+@import '../opportunities/opportunity_search_results';
+@import '../opportunities/opportunity_summary_list';
 @import '../components/steps_indicator';
 @import '../components/quote';
 @import '../effects/carousel';
 @import '../effects/tabbed_area';
-
+@import '../effects/filter_select';
 
 .benefit {
   @include items(3, $spacing-3);
@@ -11,6 +15,16 @@
   p {
     @include body-s;
     color: $mid-grey;
+  }
+}
+
+.hero-section,
+.search-section {
+  background-color: $light-grey;
+
+  p {
+    margin-bottom: $spacing-3;
+    width: $cols-6;
   }
 }
 
@@ -59,18 +73,48 @@
   }
 }
 
-#intro {
-  background-color: $light-grey;
-}
-
+#featured-industries,
+#recent-opportunities,
 #testimonials {
   background-color: $stone-light;
 }
 
+#service-promotion {
+  background: $mid-grey image_url('placeholder.png') no-repeat 90% 50%;
+  overflow: hidden;
+  padding: $spacing-1 0;
 
-// TABLET
-@media (max-width: 767px) {
+  h2, ul {
+    color: $white;
+    max-width: 545px;
+    width: $cols-8;
+  }
 
+  img {
+    float: right;
+    width: $cols-5;
+  }
+
+  li {
+    @include items(2, $spacing-3);
+    border-top: 5px solid $light-grey;
+    color: $light-grey;
+    margin-bottom: $spacing-3;
+    padding-top: $spacing-4;
+  }
+
+  strong {
+    @include body-l;
+    color: $white;
+    display: block;
+    margin-bottom: $spacing-4;
+  }
+}
+
+
+
+// RESPONSIVE
+@media screen and (max-width: 767px) {
   .benefit {
     float: none;
     margin-left: 0;
@@ -89,5 +133,14 @@
   
   .Carousel {
     width: auto;
+  }
+
+
+  #service-promotion {
+    background-image: none;
+    h2, ul {
+      max-width: none;
+      width: auto;
+    }
   }
 }

@@ -1,0 +1,67 @@
+.opportunity-summary-list {
+ a {
+    display: block;
+    text-decoration: none;
+  }
+
+  img {
+    margin-bottom: $spacing-4;
+    width: 100%;
+  }
+
+	li {
+    @include items(6, $spacing-3);
+    @include body-m-mob;
+    font-weight: bold;
+  }
+
+  .bracket {
+    @include access_hidden;
+  }
+
+  .name {
+    display: block;
+    margin-bottom: $spacing-4;
+  }
+
+  .number {
+    @include heading-m;
+    display: block;
+    margin: 0;
+  }
+
+  .text {
+    @include body-s-mob;
+  }
+}
+
+
+// RESPONSIVE
+@media screen and (max-width: 767px) {
+  .opportunity-summary-list {
+    li {
+      @include items(3, $spacing-3-m);
+      margin-bottom: $spacing-3-m;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .opportunity-summary-list {
+    a {
+      @include columns(7);
+      margin: $spacing-3-m 0 $spacing-3-m $spacing-3-m;
+    }
+
+    img {
+      @include columns(4);
+    }
+
+    li {
+      float: none;
+      margin-left: 0;
+      overflow: hidden;
+      width: auto;
+    }
+  }
+}

@@ -4,8 +4,12 @@
 
 a,
 .link {
+  background-color: transparent;
+  border: none;
   color: $active-blue;
   cursor: pointer;
+  font: inherit;
+  padding: 0;
   text-decoration: underline;
 
   &:active,
@@ -20,6 +24,7 @@ a,
 
 h1 {
   @include heading-l;
+  margin-bottom: $spacing-3;
 }
 
 h2 {
@@ -78,6 +83,7 @@ ul {
   overflow: hidden;
   padding: 10px $spacing-2;
   text-decoration: none;
+  width: auto;
 
   &[disabled="disabled"] {
     @include button-disabled($active-blue-disabled, $white);
