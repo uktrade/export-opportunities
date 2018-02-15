@@ -37,9 +37,9 @@ Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'style
 Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'images', 'poc')
 Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'javascripts', 'poc')
 
-Rails.application.config.assets.precompile += %w[poc/global.css]
-Rails.application.config.assets.precompile += %w[poc/ie8_fixes.css]
-Rails.application.config.assets.precompile += %w[poc/ie9_fixes.css]
+Rails.application.config.assets.precompile += %w[poc/global.scss]
+Rails.application.config.assets.precompile += %w[poc/ie8_fixes.scss]
+Rails.application.config.assets.precompile += %w[poc/ie9_fixes.scss]
 Rails.application.config.assets.precompile += %w[poc/layouts/landing.scss]
 Rails.application.config.assets.precompile += %w[poc/layouts/results.scss]
 
