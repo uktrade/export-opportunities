@@ -1,8 +1,7 @@
 #footer {
-  @include body-s-mob;
   background-color: $great-blue;
   color: $light-grey;
-  padding-top: $spacing-1;
+  padding-top: $spacing-2;
   position: relative;
 
   a {
@@ -11,18 +10,18 @@
     white-space: nowrap;
   }
 
+  li {
+    line-height: 1.58em;
+  }
+
   .logo {
     height: 50px;
   }
 
   .sharing-links {
-    // display:inline-block screws 50% measurement so we compensate with the 1% stuff
     display: inline-block;
     margin-top: $spacing-4;
-    position: relative;
-    right: -1%;
     text-align: right;
-    width: calc(#{$cols-6} - 1%);
 
     a {
       margin-left: $spacing-4;
@@ -34,47 +33,175 @@
     }
   }
 
-  .site-links {
-    border-top: $white solid 1px;
-    clear: both;
-    margin-top: $spacing-1;
+  .link-group {
+    float: left;
+    width: $cols-3;
 
-    a {
-      @include body-s-mob;
-      display: inline;
+    li:last-child {
+      margin-bottom: $spacing-3;
     }
+  }
 
-    li {
-      display: inline;
-      margin-right: $spacing-3;
-    }
+  .link-group:first-child {
+    margin-left: 0;
+  }
 
-    ul {
-      border: none;
-      display: inline-block;
-      padding: 25px 0 0 0;
-      vertical-align: top;
-      width: $cols-6;
+  .list-heading,
+  #footer-custom-page-link {
+    @include body-m;
+    color: $stone;
+    font-weight: bold;
+    margin: $spacing-4 0;
+
+    &::before {
+      @include great-red-trim;
+      display: block;
+      position: relative;
+      top: -20px;
+      width: 45px;
     }
+  }
+
+  #footer-custom-page-link {
+    display: inline-block;
+    margin-bottom: $spacing-3;
   }
 }
 
-#site-bar {
+#footer-dit-logo,
+#footer-eig-logo {
+  display: block;
+  margin-bottom: $spacing-3;
+}
+
+#footer-site-bar {
   background-color: $dark-navy;
-  clear: both;
-  padding: 10px 0;
+  color: $white;
+  padding-bottom: 5px;
+  padding-top: 5px;
+
   p {
+    @include body-s-mob;
+    line-height: 1.9em;
     margin: 0;
+    text-align: right;
+  }
+}
+
+#footer-site-links {
+  clear: both;
+  margin-top: $spacing-1;
+  overflow: hidden;
+
+  a {
+    @include body-s-mob;
+    display: inline;
+  }
+
+  li {
+    display: inline;
+    margin-right: $spacing-3;
+  }
+
+  ul {
+    display: inline-block;
+    padding: $spacing-3 0;
+  }
+
+  &:before {
+    @include container;
+    background-color: $mid-grey;
+    content: "";
+    display: block;
+    height: 1px;
+    opacity: 0.3;
+  }
+
+  .sharing-links {
+    float: right;
   }
 }
 
 
+// RESPONSIVE
 // TABLET
 @media screen and (max-width: 767px) {
   #footer {
-    .sharing-links,
-    .site-links ul {
-      width: 100%;
+    nav {
+      padding-top: 4px;
+    }
+
+    .link-group {
+      margin: $spacing-3 0;
+      position: relative;
+      width: 50%;
+
+      &:nth-child(even) {
+        border-left: $mid-grey solid 1px;
+        left: -1px;
+        padding-left: $spacing-3;
+        &:after {
+          left: -1px;
+        }
+      }
+
+      &:nth-child(odd) {
+        border-right: $mid-grey solid 1px;
+        clear: left;
+        padding-right: $spacing-3;
+      }
+
+      &:nth-child(3),
+      &:nth-child(4) {
+        &:before {
+          border-top: $mid-grey solid 1px;
+          content: '';
+          display: block;
+          left: 0;
+          position: absolute;
+          top: -$spacing-3;
+          width: 100.5%;
+        }
+      }
+    }
+
+    .list-heading,
+    #footer-custom-page-link {
+      @include body-s;
+    }
+
+    .site-links {
+      li {
+        margin: 0 5px;
+      }
+
+      ul {
+        border-color: $mid-grey;
+        padding: 20px $spacing-3;
+        text-align: center;
+      }
+    }
+  }
+
+  #footer-site-links {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  #footer {
+    padding-top: $spacing-4-m;
+
+    .link-group {
+      padding-top: $spacing-3-m;
+
+      &,
+      &:before, {
+        border: none !important;
+        float: none;
+        padding-left: 0 !important;
+        width: auto;
+      }
     }
   }
 }

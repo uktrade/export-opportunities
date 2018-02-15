@@ -4,18 +4,18 @@
   <title><%= t('organisation.name') %> - Opportunities</title>
   <%= csrf_meta_tags %>
   <%= render partial: 'includes/styles' %>
-  <%= stylesheet_link_tag 'layouts/landing_international' %>
+  <%= stylesheet_link_tag 'layouts/landing' %>
   <%= render partial: 'includes/scripts' %>
-  <%= javascript_include_tag 'layouts/landing_international' %>
+  <%= javascript_include_tag 'layouts/landing' %>
 </head>
-<body class="international">
-  <%= render partial: 'includes/header' %>
+<body>
+  <%= render partial: 'includes/header_international' %>
 
   <main id="main" role="main">
     <%= content_for?(:errors) ? yield(:errors) : "" %>
     <%= content_for?(:content) ? yield(:content) : yield %>
   </main>
 
-  <%= render partial: 'includes/footer' %>
+  <%= render partial: 'includes/footer_international' %>
 </body>
 </html>

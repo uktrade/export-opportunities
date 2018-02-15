@@ -5,57 +5,8 @@
     = link_to "Create opportunity", "/opportunities/new", :class=>"button button-cta"
 
 
-%section#how-it-works
-  .container
-    %h2.heading How it works
-    %p.intro Create an opportunity, submit it for free and let UK companies come to you.
-    .component.steps-indicator
-      %ol.steps-indicator
-        %li
-          %span.action Explain what you need
-          %span.separator :
-          %span.description List the details of the products or services you're looking for.
-        %li
-          %span.action Publish your request
-          %span.separator :
-          %span.description UK companies who meet your requirements contact you.
-        %li
-          %span.action Select a company
-          %span.separator :
-          %span.description Choose a supplier that's the best match and start to do business
-      = image_tag "international_steps.png"
-
-
-
-%section#testimonials
-  .container
-    %blockquote.quote
-      %p.text After I submitted the types of products I needed, it wasn't long before I had a number of excellent UK companies that I could choose to work with. The whole process was easy.
-      %cite
-        %span.name John Buyer
-        %span.verbose ,
-        %span.company Mycompany.com
-        %span.separator ,
-        %span.country USA
-
-    %blockquote.quote
-      %p.text After I submitted the types of products I needed, it wasn't long before I had a number of excellent UK companies that I could choose to work with. The whole process was easy.
-      %cite
-        %span.name A. Notherbuyer
-        %span.verbose ,
-        %span.company MyOtherCompany.com
-        %span.separator ,
-        %span.country USA
-
-    %blockquote.quote
-      %p.text After I submitted the types of products I needed, it wasn't long before I had a number of excellent UK companies that I could choose to work with. The whole process was easy.
-      %cite
-        %span.name Jane Buyer
-        %span.verbose ,
-        %span.company Hercompany.com
-        %span.separator ,
-        %span.country USA
-
+= render "includes/how_it_works_section"
+= render "includes/testimonials_section"
 
 
 %section#service-benefits

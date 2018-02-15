@@ -1,1 +1,14 @@
-@import 'base';
+// Helpers, vars, and settings
+@import 'config';
+
+// Global style
+@import 'general';
+@import 'content';
+@import 'forms';
+
+// Global sections
+@import 'header';
+@import 'footer';
+@import 'components/menu';
+@import 'components/language_selector';
+@import 'effects/modal';

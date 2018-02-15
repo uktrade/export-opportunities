@@ -2,24 +2,19 @@
 //
 //= require ../dit.class.carousel
 //= require ../dit.class.tabbed_area
+//= require ../dit.class.selective_lookup
+//= require ../dit.class.filter_select
 
-dit.pages.international = (new function () {
-  var _international = this;
+dit.page.landing = (new function () {
+  var _landing = this;
   var _carouselResetTimer = null;
   var _cache = {
     effects: []
   }
   
   // Page init
-  this.init = function() {
-    dit.responsive.init({
-      "desktop": "min-width: 768px",
-      "tablet" : "max-width: 767px",
-      "mobile" : "max-width: 480px"
-    });
-    
-    enhanceMenu();
-    enhanceLanguageSelector();
+  this.init = function() {    
+    enhanceIndustrySelector();
 
     cacheComponents();
     viewAdjustments(dit.responsive.mode());
@@ -70,21 +65,13 @@ dit.pages.international = (new function () {
       viewAdjustments(mode);
     });
   }
-  
-  /* Find and enhance any Language Selector Dialog view
-   **/
-  function enhanceLanguageSelector() {
-    var $dialog = $("[data-component='language-selector-dialog']");
-    dit.components.languageSelector.enhanceDialog($dialog, {
-      $controlContainer: $("#personal-bar .container")
-    });
-  }
 
-  /* Activate (Expander) dropdown functionality on the menu
+  /* Find and enhance the search form Industory <select> field
    **/
-  function enhanceMenu() {
-    dit.components.menu.init();
-    $("#menu").addClass("enhanced");
+  function enhanceIndustrySelector() {
+    $("[data-component='filter-select']").each(function() {
+      new dit.classes.FilterSelect($(this));
+    });
   }
 
   /* Add carousel effect to the testimonial quotes
@@ -125,7 +112,7 @@ dit.pages.international = (new function () {
 });
 
 $(document).ready(function() {
-  dit.pages.international.init();
+  dit.page.landing.init();
 });
 
 

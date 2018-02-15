@@ -1,7 +1,3 @@
-// GLOBAL FORM STYLES
-// ----------------------------
-
-
 fieldset {
   &:after {
     clear: both;
@@ -10,15 +6,21 @@ fieldset {
   }
 }
 
-input[type=text] {
+input {
   @include body-m;
   border: 2px solid $grey;
   height: 50px;
   display: block;
   margin-bottom: $spacing-3;
-  padding: 0 5px;
+  padding: 0 10px;
   text-transform: none;
   width: 100%;
+
+  &[type='hidden'] {
+    visibility: hidden;
+    position: absolute;
+    z-index: -1;
+  }
 }
 
 label {

@@ -3,12 +3,12 @@
 
 #header {
   background-color: $great-blue;
+  min-height: 100px;
 }
 
 #personal-bar {
   @include body-s;
   color: $white;
-  margin-bottom: $spacing-4;
   overflow: hidden;
   text-align: right;
   
@@ -64,13 +64,14 @@
 }
 
 #header-logo {
-  display: inline-block;
   margin-bottom: $spacing-4;
-  position: absolute;
-  top: $spacing-3;
+  position: relative;
+  top: -$spacing-4;
 
   img {
-    height: 55px;
+    margin-bottom: -8px;
+    max-width: 158px;
+    width: 100%;
   }
 }
 

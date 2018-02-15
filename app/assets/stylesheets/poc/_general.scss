@@ -1,17 +1,16 @@
 // GENERAL SITE STYLES
 // ---------------------
 
+body, div, input, img {
+  box-sizing: border-box;
+}
+
 body {
   @include body-m;
   background-color: $white;
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
-}
-
-div {
-  box-sizing: border-box;
 }
 
 img.placeholder {
