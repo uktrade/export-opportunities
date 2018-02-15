@@ -1,7 +1,7 @@
 # Be sure to restart your server when you modify this file.
 
 # Version of your assets, change this if you want to expire all your assets.
-Rails.application.config.assets.version = '1.1'
+Rails.application.config.assets.version = '1.2'
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
@@ -29,20 +29,20 @@ Rails.application.config.assets.precompile += %w[jquery3.2.0.js]
 Rails.application.config.assets.paths << Rails.root.join('node_modules')
 
 # New design update stuff after this point.
-Rails.application.config.assets.precompile += %w( updated/admin.css )
-Rails.application.config.assets.precompile += %w( updated/layouts/help.css )
+Rails.application.config.assets.precompile += %w[updated/admin.css]
+Rails.application.config.assets.precompile += %w[updated/layouts/help.css]
 
 # POC files beyond this point
 Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'stylesheets', 'poc')
 Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'images', 'poc')
 Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'javascripts', 'poc')
 
-Rails.application.config.assets.precompile += %w( poc/global.css )
-Rails.application.config.assets.precompile += %w( poc/ie8_fixes.css )
-Rails.application.config.assets.precompile += %w( poc/ie9_fixes.css )
-Rails.application.config.assets.precompile += %w( poc/layouts/*.css )
+Rails.application.config.assets.precompile += %w[poc/global.css]
+Rails.application.config.assets.precompile += %w[poc/ie8_fixes.css]
+Rails.application.config.assets.precompile += %w[poc/ie9_fixes.css]
+Rails.application.config.assets.precompile += %w[poc/layouts/landing.scss]
+Rails.application.config.assets.precompile += %w[poc/layouts/results.scss]
 
-Rails.application.config.assets.precompile += %w( poc/*.js )
-Rails.application.config.assets.precompile += %w( poc/layouts/*.js )
-Rails.application.config.assets.precompile += %w( poc/third_party/*.js )
-
+Rails.application.config.assets.precompile += %w[poc/*.js]
+Rails.application.config.assets.precompile += %w[poc/layouts/*.js]
+Rails.application.config.assets.precompile += %w[poc/third_party/*.js]
