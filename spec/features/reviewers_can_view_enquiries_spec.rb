@@ -105,7 +105,7 @@ feature 'previewers can view enquiries' do
 
   scenario 'CSV includes all entries in range' do
     previewer = create(:previewer)
-    enquiries = create_list(:enquiry, 50, created_at: 3.days.ago)
+    create_list(:enquiry, 50, created_at: 3.days.ago)
     login_as(previewer)
     visit admin_opportunities_path
 

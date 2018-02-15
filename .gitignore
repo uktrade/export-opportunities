@@ -59,9 +59,15 @@ public/capybara.html
 
 vendor/bundle/*
 # vendor/cache/*
+# /vendor/cache/**/*
 
 # OS hidden files
 .DS_Store
 
 # ignore simplecov configuration
 .simplecov
+
+/node_modules/
+
+# OS specific files
+.DS_Store

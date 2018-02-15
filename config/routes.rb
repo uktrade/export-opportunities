@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
   devise_for :subscriptions,
              controllers: {
-                 confirmations: 'subscriptions',
+              confirmations: 'subscriptions',
              }
 
   get '/dashboard' => 'users/dashboard#index', as: 'dashboard'
@@ -29,6 +29,20 @@ Rails.application.routes.draw do
   # Legacy dashboard index page
   get '/dashboard/enquiries', to: redirect('/dashboard')
 
+  namespace :international do
+    resources :opportunities
+
+    root "pages#index"
+  end
+
+  namespace :poc do
+    get 'opportunities/international' => 'opportunities#international'
+    resources :opportunities do
+      root "opportunities#results"
+    end
+    root "opportunities#index"
+  end
+
   namespace :admin do
     get 'help', to: 'help#index'
     get 'help/:id', to: 'help#show'
@@ -39,7 +53,7 @@ Rails.application.routes.draw do
                singular: :editor,
                only: %i[registrations sessions passwords unlocks],
                path_names: {
-                   sign_up: 'new',
+                 sign_up: 'new',
                }
 
     devise_scope :editor do

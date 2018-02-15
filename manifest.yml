@@ -1,34 +1,43 @@
 ---
 applications:
-- name: export-opportunities-continuous-deployment
-  memory: 512M
-  buildpack: ruby_buildpack
-  command: rake db:migrate
-- name: export-opportunities-worker-continuous-deployment
-  memory: 256M
-  instances: 1
-  path: .
-  command: bundle exec sidekiq -q default -q mailers && rake db:migrate
-  no-route: true
-- name: export-opportunities-staging
+#- name: export-opportunities-continuous-deployment-zeus
+#  memory: 512M
+#  buildpack: ruby_buildpack
+#  command: rake db:migrate
+- name: export-opportunities-staging-zeus
   memory: 512M
   instances: 2
   buildpack: ruby_buildpack
   command: rake db:migrate
-- name: export-opportunities-worker-staging
-  memory: 256M
-  instances: 1
-  path: .
-  command: bundle exec sidekiq -q default -q mailers && rake db:migrate
-  no-route: true
-- name: export-opportunities
-  memory: 1G
-  instances: 2
-  buildpack: ruby_buildpack
-  command: rake db:migrate
-- name: export-opportunities-worker
-  memory: 512M
-  instances: 2
-  path: .
-  command: bundle exec sidekiq -q default -q mailers && rake db:migrate
-  no-route: true
+#- name: export-opportunities-continuous-deployment
+#  memory: 512M
+#  buildpack: ruby_buildpack
+#  command: rake db:migrate
+#- name: export-opportunities-worker-continuous-deployment
+#  memory: 256M
+#  instances: 1
+#  path: .
+#  command: bundle exec sidekiq -q default -q mailers && rake db:migrate
+#  no-route: true
+#- name: export-opportunities-staging
+#  memory: 512M
+#  instances: 2
+#  buildpack: ruby_buildpack
+#  command: rake db:migrate
+#- name: export-opportunities-worker-staging
+#  memory: 256M
+#  instances: 1
+#  path: .
+#  command: bundle exec sidekiq -q default -q mailers && rake db:migrate
+#  no-route: true
+#- name: export-opportunities
+#  memory: 1G
+#  instances: 2
+#  buildpack: ruby_buildpack
+#  command: rake db:migrate
+#- name: export-opportunities-worker
+#  memory: 512M
+#  instances: 2
+#  path: .
+#  command: bundle exec sidekiq -q default -q mailers && rake db:migrate
+#  no-route: true

@@ -1,0 +1,49 @@
+%section.hero-section.search-section
+  .container
+    %h1 Find business opportunities
+    %p Search for opportunitities and pitch your company to overseas buyers who are looking for products and services like yours.
+    = render "opportunity_search_form"
+
+%section#recent-opportunities
+  .container
+    %h2 Latest export opportunities
+    = render "opportunity_search_results" 
+
+
+%section#featured-industries
+  .container
+    = @recent_opportunities
+    %h2 Featured industries
+    = render "opportunity_summary_list" 
+
+
+%section#service-promotion
+  .container
+    %h2 Thousands of export leads and tenders from around the world. All in one place.
+    %ul.navigation
+      %li
+        %strong Global opportunities
+        Find tenders, requests from buyers or exclusively sourced business leads all from your industry.
+
+      %li 
+        %strong Overseas buyers
+        Let buyers from around the world connect with you and start trading.
+
+      %li
+        %strong Trade profiles
+        Create a profile to promote your company and improve your chances of winning.
+
+      %li
+        %strong Email alerts
+        Create email alerts so you know when a matching opportunity is published.
+
+
+= render "includes/testimonials_section"
+= render "includes/how_it_works_section"
+
+%section.search-section
+  .container
+    %h2 Find business opportunities
+    = render "opportunity_search_form"
+
+

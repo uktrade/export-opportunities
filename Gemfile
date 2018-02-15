@@ -83,6 +83,9 @@ gem 'rest-client'
 # zipping for email attachments over 10MB
 gem 'rubyzip'
 
+# JSON Web Tokens for Volume Opps
+gem 'jwt'
+
 group :development, :test do
   gem 'byebug'
   gem 'pry-rescue'

@@ -1,0 +1,11 @@
+.opportunity-search-results
+  %dl
+    - @opportunities.each do |opportunity|
+      %dt
+        = link_to opportunity.title.strip, opportunity_path(opportunity)
+      %dd
+        = opportunity.teaser
+        %form.actions
+          %button.link.save Save for later
+          %button.link.share Share
+  = link_to "View all (1,228)", "opportunities/all", :class=>"button all"

@@ -1,0 +1,83 @@
+// Footer Component
+// ---------------------------
+
+#footer {
+  @include body-s-mob;
+  background-color: $great-blue;
+  color: $light-grey;
+  padding-top: $spacing-1;
+  position: relative;
+
+  a {
+    @include body-s;
+    color: $light-grey;
+    white-space: nowrap;
+  }
+
+  .logo {
+    height: 50px;
+  }
+
+  .sharing-links {
+    // display:inline-block screws 50% measurement so we compensate with the 1% stuff
+    display: inline-block;
+    margin-top: $spacing-4;
+    position: relative;
+    right: -1%;
+    text-align: right;
+    width: calc(#{$cols-6} - 1%);
+
+    a {
+      margin-left: $spacing-4;
+    }
+
+    span {
+      position: absolute;
+      z-index: -1;
+    }
+  }
+
+  .site-links {
+    border-top: $white solid 1px;
+    clear: both;
+    margin-top: $spacing-1;
+
+    a {
+      @include body-s-mob;
+      display: inline;
+    }
+
+    li {
+      display: inline;
+      margin-right: $spacing-3;
+    }
+
+    ul {
+      border: none;
+      display: inline-block;
+      padding: 25px 0 0 0;
+      vertical-align: top;
+      width: $cols-6;
+    }
+  }
+}
+
+#site-bar {
+  background-color: $dark-navy;
+  clear: both;
+  padding: 10px 0;
+  p {
+    margin: 0;
+  }
+}
+
+
+// TABLET
+@media screen and (max-width: 767px) {
+  #footer {
+    .sharing-links,
+    .site-links ul {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <title><%= t('organisation.name') %> - Opportunities</title>
+  <%= csrf_meta_tags %>
+  <%= render partial: 'includes/styles' %>
+  <%= stylesheet_link_tag 'layouts/landing' %>
+  <%= render partial: 'includes/scripts' %>
+  <%= javascript_include_tag 'layouts/landing' %>
+</head>
+<body>
+  <%= render partial: 'includes/header_domestic' %>
+
+  <main id="main" role="main">
+    <%= content_for?(:errors) ? yield(:errors) : "" %>
+    <%= content_for?(:content) ? yield(:content) : yield %>
+  </main>
+
+  <%= render partial: 'includes/footer_domestic' %>
+</body>
+</html>

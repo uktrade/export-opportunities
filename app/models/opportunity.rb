@@ -49,13 +49,14 @@ class Opportunity < ApplicationRecord
   extend FriendlyId
   friendly_id :title, use: %i[slugged finders]
 
-  CONTACTS_PER_OPPORTUNITY = 2
+  CONTACTS_PER_OPPORTUNITY = 1
   paginates_per 20
   TITLE_LENGTH_LIMIT = 80.freeze
   TEASER_LENGTH_LIMIT = 140.freeze
 
   enum status: { pending: 1, publish: 2, draft: 3, trash: 4 }
   enum ragg: { undefined: 0, blue: 2, green: 4, amber: 6, red: 8 }
+  enum source: { post: 0, volume_opps: 1, buyer: 2 }
 
   include PgSearch
 
@@ -82,13 +83,14 @@ class Opportunity < ApplicationRecord
   has_many :comments, -> { order(:created_at) }, class_name: 'OpportunityComment'
   has_many :enquiries
   has_many :subscription_notifications
+  has_many :opportunity_checks
 
   accepts_nested_attributes_for :contacts, reject_if: :all_blank
 
   validates :title, presence: true, length: { maximum: TITLE_LENGTH_LIMIT }
   validates :teaser, presence: true, length: { maximum: TEASER_LENGTH_LIMIT }
   validates :response_due_on, :description, presence: true
-  validates :contacts, length: { is: CONTACTS_PER_OPPORTUNITY }
+  validates :contacts, length: { minimum: CONTACTS_PER_OPPORTUNITY }
   validates :slug, presence: true, uniqueness: true
 
   # Database triggers to make Postgres rebuild its fulltext search
