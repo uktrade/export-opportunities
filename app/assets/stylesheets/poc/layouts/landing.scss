@@ -144,3 +144,32 @@
     }
   }
 }
+
+@media screen and (max-width: 982px) {
+  .opportunities-search-form {
+    .FilterSelectInput {
+      width: $cols-4;
+    }
+  }
+}
+
+
+@media screen and (max-width: 680px) {
+  .opportunities-search-form {
+    padding: $spacing-3-m;
+
+    input,
+    select, 
+    .FilterSelectInput {
+      float: none;
+      margin-bottom: $spacing-3-m;
+      width: 100%;
+    }
+
+    .term {
+      float: none;
+      margin-bottom: 0;
+      width: 100%;
+    }
+  }
+}
