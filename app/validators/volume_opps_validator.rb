@@ -28,7 +28,7 @@ class VolumeOppsValidator
     return false if opportunity[:buyer_name].blank? && opportunity[:buyer_address].blank?
 
     first_contact = opportunity[:contacts_attributes][0]
-    return false if first_contact[:name].blank? && first_contact[:email].blank?
+    # return false if first_contact[:name].blank? && first_contact[:email].blank?
     if first_contact[:name].blank?
       first_contact[:name] = 'Export Opportunities Team'
     end

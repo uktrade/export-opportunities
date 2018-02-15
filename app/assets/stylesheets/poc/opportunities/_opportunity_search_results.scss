@@ -1,0 +1,54 @@
+.opportunity-search-results {
+  dd {
+    background-color: $white;
+    margin: 0 0 10px 0;
+    padding: 0 $spacing-3;
+  }
+
+  dt {
+    @include body-l;
+    background-color: $white;
+    margin: 0;
+    padding: $spacing-3 $spacing-3 0 $spacing-3;
+  }
+
+
+  .actions {
+    @include body-s;
+    border-top: 1px solid $light-grey;
+    margin-top: $spacing-3;
+    padding: $spacing-4 0;
+  }
+
+  .all {
+    @include button-ghost($active-blue, $white);
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    width: 165px;
+  }
+
+  .save {
+    background: transparent image_url("star.png") 0 40% no-repeat;
+    background-size: 17px;
+    padding-left: 25px;
+  }
+
+  .share {
+    float: right;
+  }
+}
+
+
+// RESPONSIVE
+@media screen and (max-width: 767px) {
+  .opportunity-search-results {
+    dd {
+      padding: 0 $spacing-3-m;
+    }
+
+    dt {
+      padding: $spacing-3-m $spacing-3-m 0 $spacing-3-m;
+    }
+  }
+}

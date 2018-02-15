@@ -1,0 +1,2 @@
+%select.industry-selector{:placeholder=>'All industries', :name=>'industries[]', autocomplete:'off', "data-component"=>"filter-select" }
+  = options_for_select(@industries.map { |industry| [industry['name'], industry['slug']] }, :selected => params[:industries])

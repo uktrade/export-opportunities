@@ -35,6 +35,14 @@ Rails.application.routes.draw do
     root "pages#index"
   end
 
+  namespace :poc do
+    get 'opportunities/international' => 'opportunities#international'
+    resources :opportunities do
+      root "opportunities#results"
+    end
+    root "opportunities#index"
+  end
+
   namespace :admin do
     get 'help', to: 'help#index'
     get 'help/:id', to: 'help#show'
