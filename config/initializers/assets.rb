@@ -32,9 +32,6 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 Rails.application.config.assets.precompile += %w( updated/admin.css )
 Rails.application.config.assets.precompile += %w( updated/layouts/help.css )
 
-# International (POC) files beyond this point
-Rails.application.config.assets.precompile += %w( international.css )
-Rails.application.config.assets.precompile += %w( international.js )
 
 # POC files beyond this point
 Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'stylesheets', 'poc')
@@ -42,6 +39,8 @@ Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'image
 Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'javascripts', 'poc')
 
 Rails.application.config.assets.precompile += %w( poc/global.css )
+Rails.application.config.assets.precompile += %w( poc/ie8_fixes.css )
+Rails.application.config.assets.precompile += %w( poc/ie9_fixes.css )
 Rails.application.config.assets.precompile += %w( poc/layouts/*.css )
 
 Rails.application.config.assets.precompile += %w( poc/*.js )
