@@ -3,20 +3,20 @@ class Poc::OpportunitiesController < OpportunitiesController
 
   def index
     @opportunity_summary_list = summary_list_by_industry
-    @sort_column_name = column_name
+    @sort_column_name = sort_column
     @opportunities = recent_opportunities
     @industries = industry_list
-    render "opportunities/index", layout: "layouts/landing_domestic"
+    render 'opportunities/index', layout: 'layouts/landing_domestic'
   end
 
   def international
-    render "opportunities/international", layout: "layouts/landing_international"
+    render 'opportunities/international', layout: 'layouts/landing_international'
   end
 
   def results
     @search_term = search_term
     @filters = SearchFilter.new(params)
-    @sort_column_name = column_name
+    @sort_column_name = sort_column
     @opportunities = opportunity_search
     @industries = industry_list
     @subscription_form = SubscriptionForm.new(
@@ -30,36 +30,33 @@ class Poc::OpportunitiesController < OpportunitiesController
     )
     @description = SubscriptionPresenter.new(@subscription_form).description
 
-    render "opportunities/results", layout: "layouts/results"
+    render 'opportunities/results', layout: 'layouts/results'
   end
 
   private def sort
-    column = @sort_column_name
-
     # set sort_order
-    if column
-      sort_order = column == 'response_due_on' ? 'asc' : 'desc'
+    if @sort_column_name
+      sort_order = @sort_column_name == 'response_due_on' ? 'asc' : 'desc'
     end
 
     if atom_request?
       OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
     else
       OpportunitySort.new(default_column: 'response_due_on', default_order: 'asc')
-        .update(column: column, order: sort_order)
+        .update(column: @sort_column_name, order: sort_order)
     end
   end
 
-  private def column_name
-    # Default sort column
-    column = 'response_due_on'
-
+  private def sort_column
     # If user is using keyword to search
     if params.key?(:isSearchAndFilter) && params[:s].present?
-      column = 'relevance'
-    end
-
+      'relevance'
     # If user is filtering a search
-    column = params[:sort_column_name] if params[:sort_column_name]
+    elsif params[:sort_column_name]
+      params[:sort_column_name]
+    else
+      'response_due_on'
+    end
   end
 
   private def opportunity_search
@@ -72,26 +69,22 @@ class Poc::OpportunitiesController < OpportunitiesController
     if atom_request?
       query = query.records
       query = query.page(params[:paged]).per(25)
-      query = AtomOpportunityQueryDecorator.new(query, view_context)
-      results = query
+      AtomOpportunityQueryDecorator.new(query, view_context)
     else
       @count = query.records.total
       query = query.page(params[:paged]).per(Opportunity.default_per_page)
-      results = query.records
+      query.records
     end
-
-    return results
   end
 
   # TODO: Needs to get most recent only
-  private def recent_opportunities 
+  private def recent_opportunities
     @query = Opportunity.public_search(
       search_term: nil,
-      filters: SearchFilter.new(),
+      filters: SearchFilter.new,
       sort: sort
     )
-
-		@query.records
+    @query.records
   end
 
   # TODO: How are the featured industries chosen?
@@ -109,5 +102,4 @@ class Poc::OpportunitiesController < OpportunitiesController
   private def industry_list
     @query = Sector.all
   end
-
 end
