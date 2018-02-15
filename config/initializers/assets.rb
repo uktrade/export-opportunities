@@ -46,6 +46,7 @@ Rails.application.config.assets.precompile += %w[poc/layouts/results.scss]
 
 Rails.application.config.assets.precompile += %w[poc/global.js]
 Rails.application.config.assets.precompile += %w[poc/layouts/landing.js]
+Rails.application.config.assets.precompile += %w[poc/layouts/results.js]
 
 Rails.application.config.assets.precompile += %w['poc/*.js']
 Rails.application.config.assets.precompile += %w['poc/layouts/*.js']
