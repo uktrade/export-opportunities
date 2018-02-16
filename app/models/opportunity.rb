@@ -49,7 +49,7 @@ class Opportunity < ApplicationRecord
   extend FriendlyId
   friendly_id :title, use: %i[slugged finders]
 
-  CONTACTS_PER_OPPORTUNITY = 1
+  CONTACTS_PER_OPPORTUNITY = 2
   paginates_per 20
   TITLE_LENGTH_LIMIT = 80.freeze
   TEASER_LENGTH_LIMIT = 140.freeze
@@ -90,7 +90,16 @@ class Opportunity < ApplicationRecord
   validates :title, presence: true, length: { maximum: TITLE_LENGTH_LIMIT }
   validates :teaser, presence: true, length: { maximum: TEASER_LENGTH_LIMIT }
   validates :response_due_on, :description, presence: true
-  validates :contacts, length: { minimum: CONTACTS_PER_OPPORTUNITY }
+  validates :contacts, length: { is: CONTACTS_PER_OPPORTUNITY }
+
+  # validate :contacts, :contact_validations
+  # def contact_validations
+  #   if self.source && self.source.volume_opps?
+  #     contacts.length == 1
+  #   else
+  #     contacts.length >= 2
+  #   end
+  # end
   validates :slug, presence: true, uniqueness: true
 
   # Database triggers to make Postgres rebuild its fulltext search
