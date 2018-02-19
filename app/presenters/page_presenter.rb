@@ -8,7 +8,7 @@ class PagePresenter < BasePresenter
   private def create_breadcrumbs(title)
     crumbs = [
       { title: 'Home', slug: 'https://www.great.gov.uk/' },
-      { title: 'Export Opportinities', slug: '/' },
+      { title: 'Export Opportunities', slug: '/' },
     ]
 
     crumbs.push(title: title, slug: '') unless title.empty?
