@@ -19,17 +19,7 @@ class Poc::OpportunitiesController < OpportunitiesController
     @sort_column_name = sort_column
     @opportunities = opportunity_search
     @industries = industry_list
-    @subscription_form = SubscriptionForm.new(
-      query: {
-        search_term: @search_term,
-        sectors: @filters.sectors,
-        types: @filters.types,
-        countries: @filters.countries,
-        values: @filters.values,
-      }
-    )
-    @description = SubscriptionPresenter.new(@subscription_form).description
-
+    @subscription = subscription_form_details
     render 'opportunities/results', layout: 'layouts/results'
   end
 
@@ -103,5 +93,19 @@ class Poc::OpportunitiesController < OpportunitiesController
 
   private def industry_list
     @query = Sector.all
+  end
+
+  private def subscription_form_details
+    form = SubscriptionForm.new(
+      query: {
+        search_term: @search_term,
+        sectors: @filters.sectors,
+        types: @filters.types,
+        countries: @filters.countries,
+        values: @filters.values,
+      }
+    )
+
+    return { form: form, description: SubscriptionPresenter.new(form).description }
   end
 end
