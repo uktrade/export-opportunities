@@ -4,7 +4,7 @@ class Poc::OpportunitiesController < OpportunitiesController
   def index
     @opportunity_summary_list = summary_list_by_industry
     @sort_column_name = sort_column
-    @opportunities = recent_opportunities
+    @recent_opportunities = recent_opportunities
     @industries = industry_list
     render 'opportunities/index', layout: 'layouts/landing_domestic'
   end
@@ -57,17 +57,20 @@ class Poc::OpportunitiesController < OpportunitiesController
     )
 
     if atom_request?
+      per_page = 25
       query = query.records
       query = query.page(params[:paged]).per(25)
-      AtomOpportunityQueryDecorator.new(query, view_context)
+      query = AtomOpportunityQueryDecorator.new(query, view_context)
     else
-      @count = query.records.total
-      query = query.page(params[:paged]).per(Opportunity.default_per_page)
+      per_page = Opportunity.default_per_page
+      query = query.page(params[:paged]).per(per_page)
       query.records
     end
+
+    Poc::OpportunitiesSearchResultPresenter.new(view_context, query, query.records.total, per_page)
   end
 
-  # TODO: Needs to get most recent only
+  # Get 5 most recent only
   private def recent_opportunities
     @query = Opportunity.public_search(
       search_term: nil,
@@ -77,6 +80,9 @@ class Poc::OpportunitiesController < OpportunitiesController
     per_page = Opportunity.default_per_page
     @query = @query.page(params[:paged]).per(per_page)
     @query.records
+
+    #opportunities = Opportunity.all.order(:created_at)
+    #Poc::OpportunitiesSearchResultPresenter.new(view_context, opportunities.limit(5), opportunities.count, 5)
   end
 
   # TODO: How are the featured industries chosen?
@@ -106,6 +112,6 @@ class Poc::OpportunitiesController < OpportunitiesController
       }
     )
 
-    return { form: form, description: SubscriptionPresenter.new(form).description }
+    { form: form, description: SubscriptionPresenter.new(form).description }
   end
 end
