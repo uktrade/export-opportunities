@@ -1,3 +1,8 @@
+- content_for :page_specific_head do
+  = stylesheet_link_tag 'poc/layouts/landing'
+  = javascript_include_tag 'poc/layouts/landing'
+
+
 %section.hero-section.search-section
   .container
     %h1 Find business opportunities
@@ -46,3 +51,6 @@
     = render "opportunity_search_form"
 
 
+
+- content_for :footer do
+  = render partial: 'includes/footer_domestic'

@@ -6,11 +6,11 @@ class Poc::OpportunitiesController < OpportunitiesController
     @sort_column_name = sort_column
     @recent_opportunities = recent_opportunities
     @industries = industry_list
-    render 'opportunities/index', layout: 'layouts/landing_domestic'
+    render 'opportunities/index', layout: 'layouts/domestic'
   end
 
   def international
-    render 'opportunities/international', layout: 'layouts/landing_international'
+    render 'opportunities/international', layout: 'layouts/international'
   end
 
   def results
@@ -20,7 +20,11 @@ class Poc::OpportunitiesController < OpportunitiesController
     @opportunities = opportunity_search
     @industries = industry_list
     @subscription = subscription_form_details
-    render 'opportunities/results', layout: 'layouts/results'
+    render 'opportunities/results', layout: 'layouts/domestic'
+  end
+
+  def new
+    render 'opportunities/new', layout: 'layouts/international'
   end
 
   private def sort
