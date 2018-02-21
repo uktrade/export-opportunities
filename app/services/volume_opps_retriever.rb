@@ -8,39 +8,21 @@ class VolumeOppsRetriever
     data_endpoint = Figaro.env.OO_DATA_ENDPOINT!
     token_endpoint = Figaro.env.OO_TOKEN_ENDPOINT!
 
-    token_response = JwtVolumeConnector.new.token(username, password, hostname, token_endpoint)
+    token_response = jwt_volume_connector_token(username, password, hostname, token_endpoint)
 
-    res = JwtVolumeConnector.new.data(JSON.parse(token_response.body)['token'], hostname, data_endpoint)
-
-    # counters for valid/invalid opps
-    invalid_opp = 0
-    valid_opp = 0
-    invalid_opp_params = 0
+    res = jwt_volume_connector_data(JSON.parse(token_response.body)['token'], hostname, data_endpoint)
 
     while res[:has_next]
       # store data from page
-      res[:data].each do |opportunity|
-        Rails.logger.info '.....we have ' + valid_opp.to_s + ' valid opps and ' + invalid_opp.to_s + ' invalid opps and ' + invalid_opp_params.to_s + ' invalid opp params already.....'
-        opportunity_params = opportunity_params(opportunity)
-
-        # count valid/invalid opps
-        if opportunity_params
-          if VolumeOppsValidator.new.validate_each(opportunity_params)
-            CreateOpportunity.new(editor, :publish).call(opportunity_params)
-            valid_opp += 1
-          else
-            invalid_opp += 1
-          end
-
-        else
-          invalid_opp_params += 1
-        end
-      end
-      res = JwtVolumeConnector.new.data(JSON.parse(token_response.body)['token'], res[:next_url], '')
+      process_result_page(res, editor)
+      res = jwt_volume_connector_data(JSON.parse(token_response.body)['token'], res[:next_url], '')
     end
+
+    # process the last page of results
+    process_result_page(res, editor) if res[:data] && !res[:has_next]
   end
 
-  private def calculate_value(local_currency_value_hash)
+  def calculate_value(local_currency_value_hash)
     value = local_currency_value_hash['amount']
     currency_name = local_currency_value_hash['currency']
     gbp_value = value_to_gbp(value, currency_name)
@@ -51,25 +33,6 @@ class VolumeOppsRetriever
            3
          end
     { id: id, gbp_value: gbp_value }
-  end
-
-  private def value_to_gbp(value, currency)
-    @exchange_rates ||= begin
-      JSON.parse(File.read('db/seed_data/exchange_rates.json'))
-      # response = Net::HTTP.get_response(URI.parse(Figaro.env.EXCHANGE_RATE_URI))
-      # JSON.parse(response.body)
-    rescue
-      JSON.parse(File.read('db/seed_data/exchange_rates.json'))
-    end
-
-    # base rate is USD, we need to convert to GBP
-    gbp_rate = @exchange_rates['rates']['GBP']
-    rate = @exchange_rates['rates'][currency]
-    if rate
-      (value / rate) * gbp_rate
-    else
-      -1
-    end
   end
 
   def opportunity_params(opportunity)
@@ -128,6 +91,58 @@ class VolumeOppsRetriever
       }
     else
       return nil
+    end
+  end
+
+  def jwt_volume_connector_token(username, password, hostname, token_endpoint)
+    JwtVolumeConnector.new.token(username, password, hostname, token_endpoint)
+  end
+
+  def jwt_volume_connector_data(token, hostname, url)
+    JwtVolumeConnector.new.data(token, hostname, url)
+  end
+
+  def process_result_page(res, editor)
+    # counters for valid/invalid opps
+    invalid_opp = 0
+    valid_opp = 0
+    invalid_opp_params = 0
+
+    res[:data].each do |opportunity|
+      Rails.logger.info '.....we have ' + valid_opp.to_s + ' valid opps and ' + invalid_opp.to_s + ' invalid opps and ' + invalid_opp_params.to_s + ' invalid opp params already.....'
+      opportunity_params = opportunity_params(opportunity)
+
+      # count valid/invalid opps
+      if opportunity_params
+        if VolumeOppsValidator.new.validate_each(opportunity_params)
+          CreateOpportunity.new(editor, :publish).call(opportunity_params)
+          valid_opp += 1
+        else
+          invalid_opp += 1
+        end
+
+      else
+        invalid_opp_params += 1
+      end
+    end
+  end
+
+  private def value_to_gbp(value, currency)
+    @exchange_rates ||= begin
+      JSON.parse(File.read('db/seed_data/exchange_rates.json'))
+      # response = Net::HTTP.get_response(URI.parse(Figaro.env.EXCHANGE_RATE_URI))
+      # JSON.parse(response.body)
+    rescue
+      JSON.parse(File.read('db/seed_data/exchange_rates.json'))
+    end
+
+    # base rate is USD, we need to convert to GBP
+    gbp_rate = @exchange_rates['rates']['GBP']
+    rate = @exchange_rates['rates'][currency]
+    if rate
+      ((value / rate) * gbp_rate).floor(2)
+    else
+      -1
     end
   end
 end

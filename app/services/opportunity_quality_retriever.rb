@@ -5,13 +5,12 @@ class OpportunityQualityRetriever
     hostname = Figaro.env.TG_HOSTNAME!
     quality_api_key = Figaro.env.TG_API_KEY!
     submitted_text = opportunity.title
-    response = OppsQualityConnector.new.call(hostname, quality_api_key, submitted_text)
+    response = quality_check(hostname, quality_api_key, submitted_text)
 
     if response[:status]
+      opportunity_check = OpportunityCheck.new
 
       response[:errors]&.each do |opps_quality_error|
-        opportunity_check = OpportunityCheck.new
-
         opportunity_check.error_id = opps_quality_error['id']
         opportunity_check.offset = opps_quality_error['offset']
         opportunity_check.length = opps_quality_error['length']
@@ -28,7 +27,6 @@ class OpportunityQualityRetriever
       end
 
       if response[:errors].length.zero?
-        opportunity_check = OpportunityCheck.new
         opportunity_check.score = response[:score]
         opportunity_check.opportunity_id = opportunity.id
         opportunity_check.submitted_text = submitted_text
@@ -41,5 +39,9 @@ class OpportunityQualityRetriever
       Rails.logger.info 'log errors from API'
       # errors from API
     end
+  end
+
+  def quality_check(hostname, quality_api_key, submitted_text)
+    OppsQualityConnector.new.call(hostname, quality_api_key, submitted_text)
   end
 end

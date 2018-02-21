@@ -1,5 +1,5 @@
 class HelpArticlePresenter < BasePresenter
-  attr_reader :content, :related_links, :sections, :url
+  attr_reader :content, :related_links, :sections, :url, :section_id
   attr_accessor :title
 
   def initialize(url, section_id = '')
@@ -15,14 +15,14 @@ class HelpArticlePresenter < BasePresenter
     str.downcase
   end
 
-  def set_related_link(text, href)
+  def related_link(text, href)
     @related_links.push(
       text: text,
       href: href
     )
   end
 
-  def set_section(heading = '', content = '')
+  def section(heading = '', content = '')
     section_id = text_to_id(heading)
     current_section_id = section_id.eql? @section_id
     @sections.push(id: section_id,
@@ -55,4 +55,3 @@ class HelpArticlePresenter < BasePresenter
     links
   end
 end
-1

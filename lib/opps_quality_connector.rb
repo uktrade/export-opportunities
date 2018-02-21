@@ -1,17 +1,7 @@
 class OppsQualityConnector
   def call(hostname, quality_api_key, quality_text)
     raise Exception, 'invalid input' unless quality_api_key && quality_text
-    connection = Faraday.new(url: hostname) do |f|
-      f.response :logger
-      f.adapter  Faraday.default_adapter
-    end
-
-    response = connection.get do |req|
-      req.url "#{hostname}#{quality_text}&key=#{quality_api_key}"
-    end
-
-    response_body = JSON.parse(response.body)
-    # response_body = JSON.parse({ result: false, error_code: 600}.to_json)
+    response_body = JSON.parse(fetch_response(hostname, quality_api_key, quality_text))
 
     if response_body['result']
       if response_body['score']
@@ -41,5 +31,19 @@ class OppsQualityConnector
 
       { status: response_body['result'], error_code: response_body['error_code'], description: description }
     end
+  end
+
+  def fetch_response(hostname, quality_api_key, quality_text)
+    connection = Faraday.new(url: hostname) do |f|
+      f.response :logger
+      f.adapter  Faraday.default_adapter
+    end
+
+    response = connection.get do |req|
+      req.url "#{hostname}#{quality_text}&key=#{quality_api_key}"
+    end
+
+    response.body
+    # response_body = JSON.parse({ result: false, error_code: 600}.to_json)
   end
 end

@@ -35,21 +35,13 @@ class RulesEngine
   # check if sensitivity_score is above the business thresholds we have set.
   # returns true if so, false otherwise
   def sensitive_value_threshold?(sensitivity_score)
-    if sensitivity_score > SENSITIVITY_SCORE_THRESHOLD
-      true
-    else
-      false
-    end
+    sensitivity_score > SENSITIVITY_SCORE_THRESHOLD
   end
 
   # check if quality_score is above the business thresholds we have set.
   # returns true if so, false otherwise
   def quality_value_threshold?(quality_score)
-    if quality_score > QUALITY_SCORE_THRESHOLD
-      true
-    else
-      false
-    end
+    quality_score > QUALITY_SCORE_THRESHOLD
   end
 
   def save_as_pending(opportunity)

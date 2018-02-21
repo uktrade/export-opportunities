@@ -78,18 +78,6 @@ class Admin::EnquiriesController < Admin::BaseController
     params.permit(:status, { sort: %i[column order] }, :company_name, :created_at, :paged, opportunity: :title)
   end
 
-  private def filter_status(current_user)
-    @editor = Editor.find(current_user)
-    @available_status = []
-    Opportunity.statuses.each do |name, _|
-      if name == 'draft'
-        @available_status << name if policy(@editor).draft_view_state?
-      else
-        @available_status << name
-      end
-    end
-  end
-
   def next_enquiry
     query = EnquiryQuery.new(
       scope: policy_scope(Enquiry).includes(:enquiry_response),

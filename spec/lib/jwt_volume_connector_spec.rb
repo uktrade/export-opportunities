@@ -11,6 +11,7 @@ RSpec.describe JwtVolumeConnector do
 
     it 'uses the token from an endpoint to fetch data' do
       token_response = JwtVolumeConnector.new.token(Figaro.env.OO_USERNAME!, Figaro.env.OO_PASSWORD!, Figaro.env.OO_HOSTNAME!, Figaro.env.OO_TOKEN_ENDPOINT!)
+
       res = JwtVolumeConnector.new.data(JSON.parse(token_response.body)['token'],Figaro.env.OO_HOSTNAME!, Figaro.env.OO_DATA_ENDPOINT!)
 
       results = res[:data]
