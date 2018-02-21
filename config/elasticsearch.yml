@@ -1,2 +1,2 @@
 production:
-  index.max_result_window: 100000
+  index.max_result_window: 10000
