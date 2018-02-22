@@ -77,6 +77,10 @@ class VolumeOppsRetriever
             name: buyer['contactPoint'].present? ? buyer['contactPoint']['name'] : nil,
             email: buyer['contactPoint'].present? ? buyer['contactPoint']['email'] : nil,
           },
+          {
+              name: buyer['contactPoint'].present? ? buyer['contactPoint']['name'] : nil,
+              email: buyer['contactPoint'].present? ? buyer['contactPoint']['email'] : nil,
+          },
         ],
         buyer_name: buyer['name'],
         buyer_address: buyer['address'].present? ? buyer['address']['countryName'] : nil,
@@ -107,7 +111,6 @@ class VolumeOppsRetriever
     invalid_opp = 0
     valid_opp = 0
     invalid_opp_params = 0
-
     res[:data].each do |opportunity|
       Rails.logger.info '.....we have ' + valid_opp.to_s + ' valid opps and ' + invalid_opp.to_s + ' invalid opps and ' + invalid_opp_params.to_s + ' invalid opp params already.....'
       opportunity_params = opportunity_params(opportunity)

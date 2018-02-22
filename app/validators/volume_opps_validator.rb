@@ -36,6 +36,15 @@ class VolumeOppsValidator
       first_contact[:email] = 'exportopportunities@trade.gsi.gov.uk'
     end
 
+    second_contact = opportunity[:contacts_attributes][1]
+    if second_contact[:name].blank?
+      second_contact[:name] = 'Export Opportunities Team'
+    end
+
+    if second_contact[:email].blank?
+      second_contact[:email] = 'exportopportunities@trade.gsi.gov.uk'
+    end
+
     true
   end
 end
