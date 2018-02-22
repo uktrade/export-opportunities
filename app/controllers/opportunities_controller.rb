@@ -90,6 +90,7 @@ class OpportunitiesController < ApplicationController
 
   def show
     @opportunity = Opportunity.published.find(params[:id])
+    @page = PagePresenter.new(@opportunity.title)
     respond_to :html
   end
 
