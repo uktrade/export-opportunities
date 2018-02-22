@@ -18,8 +18,9 @@ class CreateOpportunity
       opportunity.save!
     rescue ActiveRecord::RecordNotUnique
       Rails.logger.error 'attempting to insert opportunity:' + params.to_s + ' with ocid:' + opportunity.ocid
-    # rescue ActiveRecord::RecordInvalid
-    #   Rails.logger.info 'error validating opportunity'
+    rescue ActiveRecord::RecordInvalid
+      Rails.logger.error 'error validating opportunity'
+      Rails.logger.error opportunity.inspect
     end
     opportunity
   end
