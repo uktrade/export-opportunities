@@ -13,7 +13,7 @@ class CreateOpportunity
 
     opportunity.status = @status
     opportunity.author = @editor
-byebug
+
     begin
       opportunity.save!
     rescue ActiveRecord::RecordNotUnique
