@@ -49,7 +49,7 @@
                   = link_to 'Trade Profile', trade_profile(@enquiry.company_house_number), target: :blank
                   = 'will be added to your application.'
                 - else
-                  = 'no trade profile :('
+                  = 'no trade profile available'
             - else
               %div{id: "companies-house-section", class: "form-group"}
                 = f.label :company_name, "Company Name", class: "required"
