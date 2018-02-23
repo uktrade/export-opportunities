@@ -3,12 +3,12 @@ require 'net/http'
 class OppsSensitivityConnector
   def call(text)
     uri = URI(Figaro.env.AZ_HOSTNAME!)
-    uri.query = URI.encode_www_form({
-                                        autocorrect: false,
-                                        PII: true,
-                                        classify: true,
-                                        language: 'eng',
-                                    })
+    uri.query = URI.encode_www_form(
+      autocorrect: false,
+      PII: true,
+      classify: true,
+      language: 'eng'
+    )
 
     request = Net::HTTP::Post.new(uri.request_uri)
     # Request headers
@@ -22,6 +22,6 @@ class OppsSensitivityConnector
       http.request(request)
     end
 
-    puts response.body
+    Rails.logger.info response.body
   end
 end

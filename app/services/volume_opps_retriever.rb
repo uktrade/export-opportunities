@@ -78,8 +78,8 @@ class VolumeOppsRetriever
             email: buyer['contactPoint'].present? ? buyer['contactPoint']['email'] : nil,
           },
           {
-              name: buyer['contactPoint'].present? ? buyer['contactPoint']['name'] : nil,
-              email: buyer['contactPoint'].present? ? buyer['contactPoint']['email'] : nil,
+            name: buyer['contactPoint'].present? ? buyer['contactPoint']['name'] : nil,
+            email: buyer['contactPoint'].present? ? buyer['contactPoint']['email'] : nil,
           },
         ],
         buyer_name: buyer['name'],
