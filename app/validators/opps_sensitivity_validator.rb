@@ -1,6 +1,6 @@
 class OppsSensitivityValidator
   def validate_each(opportunity)
-    self.call(opportunity)
+    call(opportunity)
 
   end
 

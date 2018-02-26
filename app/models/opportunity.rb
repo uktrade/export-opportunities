@@ -84,6 +84,7 @@ class Opportunity < ApplicationRecord
   has_many :enquiries
   has_many :subscription_notifications
   has_many :opportunity_checks
+  has_many :opportunity_sensitivity_checks
 
   accepts_nested_attributes_for :contacts, reject_if: :all_blank
 
