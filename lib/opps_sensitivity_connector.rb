@@ -1,12 +1,21 @@
 require 'net/http'
 
+##### Index
+# Category1 represents the potential presence of language that may be considered sexually explicit or adult in certain situations.
+# Category2 represents the potential presence of language that may be considered sexually suggestive or mature in certain situations.
+# Category3 represents the potential presence of language that may be considered offensive in certain situations.
+# Score range is between 0 and 1. The higher the score, higher the likelihood of the category being applicable.
+# ReviewRecommended is either true or false depending on the internal score thresholds. Customers are recommended to either use this value or decide
+# on custom thresholds based on their content policies. In the preceding example,
+# ReviewRecommended is true because of the high score assigned to Category3.
 class OppsSensitivityConnector
-  def call(text)
-    uri = URI(Figaro.env.AZ_HOSTNAME!)
+  def call(text, hostname, sensitivity_api_key)
+    uri = URI(hostname)
     uri.query = URI.encode_www_form(
       autocorrect: false,
       PII: true,
       classify: true,
+      listId: 65,
       language: 'eng'
     )
 
@@ -14,7 +23,7 @@ class OppsSensitivityConnector
     # Request headers
     request['Content-Type'] = 'text/plain'
     # Request headers
-    request['Ocp-Apim-Subscription-Key'] = Figaro.env.AZ_API_KEY!
+    request['Ocp-Apim-Subscription-Key'] = sensitivity_api_key
     # Request body
     request.body = text
 
@@ -22,6 +31,6 @@ class OppsSensitivityConnector
       http.request(request)
     end
 
-    Rails.logger.info response.body
+    response.body
   end
 end

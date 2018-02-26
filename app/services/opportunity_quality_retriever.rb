@@ -4,7 +4,7 @@ class OpportunityQualityRetriever
   def call(opportunity)
     hostname = Figaro.env.TG_HOSTNAME!
     quality_api_key = Figaro.env.TG_API_KEY!
-    submitted_text = opportunity.title
+    submitted_text = "#{opportunity.title} #{opportunity.description}"
     response = quality_check(hostname, quality_api_key, submitted_text)
 
     if response[:status]
