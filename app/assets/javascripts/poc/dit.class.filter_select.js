@@ -34,6 +34,7 @@
     if($parent.get(0).nodeName.toLowerCase() === "label") {
       $parent.attr("for", $input.attr("id"));
       $parent.after($select);
+      $parent.addClass("enhanced"); // Allow for Post-JS adjustment
     }
 
     // Inherit...
