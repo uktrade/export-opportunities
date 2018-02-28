@@ -11,6 +11,7 @@
   }
 
   li {
+    margin-bottom: $spacing-4;
     position: static;
   }
 
@@ -18,25 +19,22 @@
     @include body-s-mob;
     display: block;
     margin-bottom: 5px;
-    padding: 0 $spacing-4;
   }
 
   .level-2 {
+    overflow: hidden;
+
     li {
+      float: left;
+      margin-bottom: 0;
+      max-width: 220px;
       padding: 0 $spacing-4;
       position: relative;
       text-align: left;
       vertical-align: top;
-      
+
       // Custom widths based on items-X class name (number of items in list)
-      &.items-3 {
-        @include items(3, 0px);
-      }
-      
-      &.items-5 {
-        @include items(5, 0px);
-      }
-      
+      // Only doing the items-6 here to imporove JS-off view
       &.items-6 {
         @include items(6, 0px);
       }
@@ -81,6 +79,10 @@
     display: inline-block;
   }
 
+  .description {
+    padding: 0 $spacing-4;
+  }
+
   .level-2 {
     @include container;
 
@@ -114,6 +116,15 @@
         position: absolute;
         top: $spacing-4;
         width: 0;
+      }
+      
+      // Custom widths based on items-X class name (number of items in list)
+      &.items-3 {
+        @include items(3, 0px);
+      }
+      
+      &.items-5 {
+        @include items(5, 0px);
       }
     }
   }
