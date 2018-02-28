@@ -1,0 +1,13 @@
+---
+what:
+  - text: products
+    value: products
+
+  - text: professional services
+    value: services
+
+  - text: software
+    value: software
+
+  - text: to write a tender
+    value: tender

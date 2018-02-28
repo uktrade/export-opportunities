@@ -29,8 +29,9 @@ Rails.application.routes.draw do
   # Legacy dashboard index page
   get '/dashboard/enquiries', to: redirect('/dashboard')
 
+  post 'poc/opportunities/new' => 'poc/opportunities#new'
   namespace :poc do
-    get 'opportunities/international' => 'opportunities#international'
+    get 'international' => 'opportunities#international'
     resources :opportunities do
       root "opportunities#results"
     end

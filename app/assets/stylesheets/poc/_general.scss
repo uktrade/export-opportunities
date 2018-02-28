@@ -1,7 +1,7 @@
 // GENERAL SITE STYLES
 // ---------------------
 
-body, div, input, img {
+body, div, input, img, textarea {
   box-sizing: border-box;
 }
 
@@ -51,17 +51,10 @@ section {
   @include container;
 }
 
-.group {
-  // Use to clear a group of floated elements 
-  // and have the parent recalculate its height.
-  clear: both;
-  float: none;
-  overflow: auto;
-}
-
 .verbose {
   @include access-hidden;
 }
+
 
 // TABLET
 @media (max-width: 767px) {

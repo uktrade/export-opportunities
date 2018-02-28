@@ -1,5 +1,10 @@
 class Poc::OpportunitiesController < OpportunitiesController
   prepend_view_path 'app/views/poc'
+  
+  FIELD_VALUES_WHY = ['sample', 'sell', 'distribute', 'use']
+  ERROR_EMPTY = 'Empty'
+  ERROR_INVALID = 'Invalid'
+  POC_OPPORTUNITY_PROPS = ['what', 'why', 'need', 'industry', 'keywords', 'value', 'specifications', 'respond_by', 'respond_to', 'link']
 
   def index
     @opportunity_summary_list = summary_list_by_industry
@@ -24,7 +29,84 @@ class Poc::OpportunitiesController < OpportunitiesController
   end
 
   def new
-    render 'opportunities/new', layout: 'layouts/international'
+    @process = { view: params[:view], fields: '', entries: {}, errors: {} }
+
+    # Record any user entries (not in DB at this point).
+    process_add_user_entries
+
+    # Reverse order is intentional.
+    process_step_four
+    process_step_three
+    process_step_two
+    process_step_one
+
+    @form = Poc::OpportunitiesFormPresenter.new(view_context, @process)
+    case @process[:view]
+    when 'step_4'
+      render 'opportunities/verify', layout: 'layouts/international'
+    when 'complete'
+      # TODO: Something to save opportunity in DB
+      # and redirect to somethere.
+      redirect_to poc_international_path
+    else
+      render 'opportunities/new', layout: 'layouts/international'
+    end
+  end
+
+  private def process_add_user_entries
+    POC_OPPORTUNITY_PROPS.each do |prop|
+      @process[:entries][prop] = params[prop]
+    end
+  end
+
+  private def process_step_one
+    if @process[:view].eql? 'step_1'
+      # TODO: Validate step_1 entries
+      # If errors view should remain as step_1
+
+      case @process[:entries]['what']
+      when 'products'
+        @process[:view] = 'step_2'
+        @process[:fields] = 'step_2'
+      when 'services'
+        @process[:view] = 'step_3'
+        @process[:fields] = 'step_3.2'
+      when 'tender'
+        @process[:view] = 'step_3'
+        @process[:fields] = 'step_3.3'
+      else
+        @process[:view] = 'step_3'
+        @process[:fields] = 'step_3.1'
+      end
+    end
+  end
+
+  private def process_step_two
+    if @process[:view].eql? 'step_2'
+      # TODO: Validate step_2 entries
+      # If errors view should remain as step_2
+
+      @process[:view] = 'step_3'
+      @process[:fields] = 'step_3.1'
+    end
+  end
+
+  private def process_step_three
+    if @process[:view].eql? 'step_3'
+      # TODO: Validate step_3 entries
+      # If errors view should remain as step_3
+
+      @process[:view] = 'step_4'
+    end
+  end
+
+  private def process_step_four
+    if @process[:view].eql? 'step_4'
+      # TODO: Validate step_4 entries
+      # If errors view should remain as step_4
+
+      @process[:view] = 'complete'
+    end
   end
 
   private def sort

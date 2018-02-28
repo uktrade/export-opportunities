@@ -1,8 +1,23 @@
 fieldset {
+  border: none;
+  padding: 0;
+
   &:after {
     clear: both;
     content: "";
     display: block;
+  }
+}
+
+form {
+  margin-bottom: $spacing-3;
+
+  .edit {
+    float: right;
+  }
+
+  .helptext {
+    color: $mid-grey;
   }
 }
 
@@ -11,7 +26,7 @@ input {
   border: 2px solid $grey;
   height: 50px;
   display: block;
-  margin-bottom: $spacing-3;
+  max-width: 570px;
   padding: 0 10px;
   text-transform: none;
   width: 100%;
@@ -23,10 +38,13 @@ input {
   }
 }
 
-label {
+label,
+legend {
   @include body-m;
   color: $grey;
-  display: inline-block;
+  display: block;
+  font-weight: bold;
+  margin-bottom: $spacing-4;
   
   .description {
     color: $mid-grey;
@@ -34,14 +52,18 @@ label {
   }
 }
 
+pre {
+  font-family: inherit;
+}
+
 select {
   @include body-m;
-  display: block;
-  margin-bottom: $spacing-3;
-  border: 2px solid $grey;
-  padding: 10px;
   background: $white url('arrow_down.png') no-repeat 98%/15px;
+  border: 2px solid $grey;
+  display: block;
   height: 50px;
+  margin-bottom: $spacing-3;
+  padding: 10px 20px 10px 10px;
   -moz-appearance: none;
   -webkit-appearance: none;
   text-overflow: '';
@@ -52,6 +74,7 @@ textarea {
   border: 2px solid $grey;
   display: block;
   margin-bottom: $spacing-3;
+  max-width: 570px;
   padding: 5px;
   width: 100%;
 }
@@ -84,6 +107,7 @@ textarea {
   
   label {
     cursor: pointer;
+    font-weight: normal;
     
     &:before {
       background: transparent;
@@ -155,11 +179,129 @@ textarea {
   box-shadow: 0 0 0 3px $focus-yellow;
 }
 
+.date {
+  label {
+    @include body-s;
+    display: inline-block;
+    margin: 0 $spacing-4 0 0;
+    padding-top: 55px;
+    position: relative;
+    width: 50px;
+  }
+
+  input {
+    position: absolute;
+    top: 0;
+  }
+
+  .year {
+    width: 100px;
+  }
+}
+
+.field {
+  margin-bottom: $spacing-3;
+}
+
+.multi-currency-amount {
+  overflow: hidden;
+
+  input {
+    &:checked + label {
+      background-color: $grey;
+      color: $white;
+    }
+  }
+
+  input[type='text'],
+  select {
+    float: left;
+    margin-bottom: 0;
+    margin-right: $spacing-4;
+    width: auto;
+  }
+
+  label {
+    @include button-ghost($grey, $white);
+    border-left-width: 0;
+    margin-bottom: 0;
+    padding-left: $spacing-4;
+    padding-right: $spacing-4;
+
+    &:after,
+    &:before {
+      opacity: 0;
+    }
+  }
+
+  .radio {
+    float: left;
+    margin-bottom: 0;
+    padding: 0;
+
+    &:first-of-type label {
+      border-left-width: 2px;
+    }
+  }
+}
+
+.process {
+  overflow: hidden;
+  padding: $spacing-1 0  $spacing-3 0;
+
+  form {
+    border-bottom: 1px solid $light-grey;
+    margin: 0 $spacing-3 0 0;
+    padding-bottom: $spacing-3;
+  }
+
+  .progress {
+    @include body-s;
+    color: $mid-grey;
+  }
+
+  .requirement {
+    @include heading-m;
+  }
+
+  &.end {
+    dd {
+      margin: 0 0 $spacing-3 0;
+    }
+
+    dt {
+      font-weight: bold;
+    }
+  }
+}
+
+
 
 // MEDIA QUERIES
 @media (max-width: 767px) {
+  form {
+    max-width: none;
+  }
+
   input[type=text] {
     @include body-m;
     max-width: none;
+  }
+}
+
+
+
+// DESKTOP ONLY
+@media (min-width: 768px) {
+  .process {
+    background: linear-gradient(to right, #{$white} #{$cols-8}, #{$offwhite} #{$cols-4});
+    min-height: 600px;
+
+    h1,
+    form,
+    .description {
+      @include columns(8);
+      margin-bottom: $spacing-1;
+    }
   }
 }

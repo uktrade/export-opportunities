@@ -1,0 +1,213 @@
+.process
+  %form{:method=>'post'}
+    %fieldset
+      %legend.progress Step 3 of 4
+      %p.requirement (3.1) Standard opportunity, products
+      %input{:type=>'hidden', :name=>'step', :value=>'3'}
+
+      .field
+        %label I need: 
+        %p List the product(s) you want UK companies to supply, for example traffic cameras, safety equipment, biscuits
+        %input{:type=>'text'}
+        80 characters remaining
+
+      .field
+        %label I need:
+        %p.helptext List the service(s) you want UK companies to supply, for example traffic cameras, safety equipment, biscuits.
+        %input{:type=>'text'}
+        80 characters remaining
+
+      .field
+        %label Industry:
+        %p.helptext Select up to 3 industries relevant for this opportunity
+        %input{:type=>'text'}
+
+      .field
+        %label Commodity codes (optional):
+        %p.helptext 
+          Add commodity codes for the goods you need to help suppliers to find your opportunity. You can add more than one code and separate them with commas. 
+          %a{:href=>'#'} You can look up commodity codes on [this] website
+        %input{:type=>'text'}
+
+      %fieldset.field.multi-currency-amount
+        %legend This value of this order is:
+        %label.verbose Amount
+        %select
+          %option 0 to 10,000
+        .radio
+          %input{:id=>'radio-10', :name=>'value-1', :type=>'radio'}
+          %label{:for=>'radio-10'} £
+        .radio
+          %input{:id=>'radio-11', :name=>'value-1', :type=>'radio'}
+          %label{:for=>'radio-11'} $
+        .radio
+          %input{:id=>'radio-12', :name=>'value-1', :type=>'radio'}
+          %label{:for=>'radio-12'} €
+
+      .field
+        %label Describe what you need:
+        %p.helptext Enter as much information as you can, for example the amount, specifications or whether it is mass market or premium.
+        %textarea
+
+      %fieldset.field.date
+        %legend I need to receive proposals by:
+        %label.day 
+          Day
+          %input{:type=>'text'}
+
+        %label.month
+          Month
+          %input{:type=>'text'}
+
+        %label.year
+          Year
+          %input{:type=>'text'}
+
+      .field
+        %label Responses should be sent to:
+        %input{:type=>'text'}
+
+    %input{:type=>'submit', :value=>'Save and continue', :class=>'button'}
+
+
+.process
+  %form{:method=>'POST'}
+    %fieldset
+      %legend.progress Step 3 of 4
+      %p.requirement (3.2) Standard opportunity, services
+      %input{:type=>'hidden', :name=>'step', :value=>'3'}
+
+      .field
+        %label I need:
+        %p.helptext List the service(s) you want UK companies to supply, for example training services, traffic flow analysis, mining consultancy.
+        %input{:type=>'text'}
+        80 characters remaining
+
+      .field
+        %label Industries:
+        %p.helptext Select up to 3 industries relevant for this opportunity
+        %input{:type=>'text'}
+
+      .field
+        %label Keywords (optional):
+        %p.helptext Add topical keywords to help the right suppliers to find your opportunity. Separate each keyword with a comma.
+        %input{:type=>'text'}
+
+      %fieldset.field.multi-currency-amount
+        %legend The value of this order is:
+        %label.verbose Amount
+        %select
+          %option 0 to 10,000
+        .radio
+          %input{:id=>'radio-13', :name=>'value-2', :type=>'radio'}
+          %label{:for=>'radio-13'} £
+        .radio
+          %input{:id=>'radio-14', :name=>'value-2', :type=>'radio'}
+          %label{:for=>'radio-14'} $
+        .radio
+          %input{:id=>'radio-15', :name=>'value-2', :type=>'radio'}
+          %label{:for=>'radio-15'} €
+
+      .field
+        %label Describe what you need:
+        %p Enter as much information as you can, for example the amount, specifications or whether it is mass market or premium.
+        %textarea
+
+      %fieldset.field.date
+        %legend I need to receive proposals by:
+        %label.day 
+          Day
+          %input{:type=>'text'}
+
+        %label.month
+          Month
+          %input{:type=>'text'}
+
+        %label.year
+          Year
+          %input{:type=>'text'}
+
+      .field
+        %label Responses should be sent to:
+        %input{:type=>'text'}
+
+      %input{:type=>'submit', :value=>'Save and continue', :class=>'button'}
+
+
+.process
+  %form{:method=>'POST'}
+    %fieldset
+      %legend.progress Step 3 of 4
+      %p.requirement (3.3) Public tender
+      %input{:type=>'hidden', :name=>'step', :value=>'3'}
+
+      .field
+        %label I need:
+        %p.helptext List the product(s) you want UK companies to supply, for example turnkey solutions, a sports stadium, mining consultancy.
+        %input{:type=>'text'}
+        80 characters remaining
+
+      .field
+        %label Industries:
+        %p.helptext Select up to 3 industries relevant for this opportunity
+        %input{:type=>'text'}
+
+      .field
+        %label CPV codes (optional):
+        %p.helptext Add CPV codes for the service(s) you need to help suppliers to find your opportunity. 
+        = link_to 'You can look up commodity codes here', 'https://www.bipsolutions.com/cpv-code-search/'
+        %input{:type=>'text'}
+
+      %fieldset.field.multi-currency-amount
+        %legend The value of this order is:
+        %label.verbose Amount
+        %select
+          %option 0 to 10,000
+        .radio
+          %input{:id=>'radio-16', :name=>'value-3', :type=>'radio'}
+          %label{:for=>'radio-16'} £
+        .radio
+          %input{:id=>'radio-17', :name=>'value-3', :type=>'radio'}
+          %label{:for=>'radio-17'} $
+        .radio
+          %input{:id=>'radio-18', :name=>'value-3', :type=>'radio'}
+          %label{:for=>'radio-18'} €
+
+      .field
+        %label Describe what you need:
+        %p.helptext Enter as much information as you can, for example the amount, specifications or whether it is mass market or premium.
+        %textarea
+
+      %fieldset.field.date
+        %legend I need to receive proposals by:
+        %label.day 
+          Day
+          %input{:type=>'text'}
+
+        %label.month
+          Month
+          %input{:type=>'text'}
+
+        %label.year
+          Year
+          %input{:type=>'text'}
+
+      %fieldset.field.date
+        %legend Link to the tender (optional):
+        %label.day 
+          Day
+          %input{:type=>'text'}
+
+        %label.month
+          Month
+          %input{:type=>'text'}
+
+        %label.year
+          Year
+          %input{:type=>'text'}
+
+      .field
+        %label Responses should be sent to:
+        %input{:type=>'text'}
+
+      %input{:type=>'submit', :value=>'Save and continue', :class=>'button'}

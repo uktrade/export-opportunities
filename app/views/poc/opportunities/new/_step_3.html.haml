@@ -1,0 +1,79 @@
+%form{:method=>'post'}
+  = @form.hidden_fields 'step_3'
+
+  %fieldset
+    %legend.progress Step 3 of 4
+    %p.requirement Details
+    .field
+      %label
+        = @form.label 'need'
+      %p.helptext
+        = @form.description 'need'
+      %input{:type=>'text', :name=>'need'}
+      80 characters remaining
+
+    .field
+      %label
+        = @form.label 'industry'
+      %p.helptext
+        = @form.description 'industry'
+      %input{:type=>'text', :name=>'industry'}
+
+    .field
+      %label
+        = @form.label 'keywords'
+      %p.helptext
+        = @form.description 'keywords'
+      %input{:type=>'text', :name=>'keywords'}
+
+    %fieldset.field.multi-currency-amount
+      %legend
+        = @form.label 'value'
+      %label.verbose
+        = @form.description 'value'
+      %select{:name=>'value'}
+        %option 0 to 10,000
+      .radio
+        %input{:id=>'value-dd', :name=>'value_dd', :type=>'radio'}
+        %label{:for=>'value-dd'} £
+      .radio
+        %input{:id=>'value-mm', :name=>'value_mm', :type=>'radio'}
+        %label{:for=>'value-mm'} $
+      .radio
+        %input{:id=>'value-yy', :name=>'value_yy', :type=>'radio'}
+        %label{:for=>'value-yy'} €
+
+    .field
+      %label
+        = @form.label 'specifications'
+      %p.helptext
+        = @form.description 'specifications'
+      %textarea{:name=>'specifications'}
+
+    %fieldset.field.date
+      %legend
+        = @form.label 'respond_by'
+      %label.day
+        Day
+        %input{:type=>'text', :name=>'respond_by_dd'}
+
+      %label.month
+        Month
+        %input{:type=>'text', :name=>'respond_by_mm'}
+
+      %label.year
+        Year
+        %input{:type=>'text', :name=>'respond_by_yy'}
+
+    .field
+      %label
+        = @form.label 'respond_to'
+      %input{:type=>'text', :name=>'respnd_to'}
+
+  - if @form.fields.has_key?('link')
+    .field
+      %label
+        = @form.label 'link'
+      %input{:type=>'text', :name=>'link'}
+
+  %input{:type=>'submit', :value=>'Save and continue', :class=>'button'}
