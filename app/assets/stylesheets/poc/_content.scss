@@ -74,23 +74,9 @@ ul {
 .button {
   @include body-m;
   @include button($active-blue, $active-blue-alt);
-  border-style: solid;
-  border-width: 2px;
-  box-shadow: none;
-  cursor: pointer;
-  display: inline-block;
-  font-weight: 800;
-  overflow: hidden;
-  padding: 10px $spacing-2;
-  text-decoration: none;
-  width: auto;
 
   &[disabled="disabled"] {
     @include button-disabled($active-blue-disabled, $white);
-  }
-  
-  &:focus {
-    outline: $focus-yellow solid 3px;
   }
 }
 
