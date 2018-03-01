@@ -1,10 +1,8 @@
 class Poc::OpportunitiesController < OpportunitiesController
   prepend_view_path 'app/views/poc'
-  
-  FIELD_VALUES_WHY = ['sample', 'sell', 'distribute', 'use']
-  ERROR_EMPTY = 'Empty'
-  ERROR_INVALID = 'Invalid'
-  POC_OPPORTUNITY_PROPS = ['what', 'why', 'need', 'industry', 'keywords', 'value', 'specifications', 'respond_by', 'respond_to', 'link']
+
+  FIELD_VALUES_WHY = %w[sample sell distribute use].freeze
+  POC_OPPORTUNITY_PROPS = %w[what why need industry keywords value specifications respond_by respond_to link].freeze
 
   def index
     @opportunity_summary_list = summary_list_by_industry

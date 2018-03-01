@@ -2,7 +2,7 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
   require 'yaml'
   attr_reader :view, :fields, :entries
 
-  OPPORTUNITY_CONTENT_PATH = 'app/views/poc/opportunities/new/'
+  OPPORTUNITY_CONTENT_PATH = 'app/views/poc/opportunities/new/'.freeze
 
   def initialize(helpers, process)
     @helpers = helpers
@@ -11,33 +11,39 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
     @view = process[:view] || 'step_1'
   end
 
-  def hidden_fields(current)
+  # Returns HTML string for rendering hidden input elements
+  def hidden_fields
     fields = @helpers.hidden_field_tag 'view', @view
     @entries.each_pair do |key, value|
       unless @fields.keys.include? key
         fields += @helpers.hidden_field_tag key, value
       end
     end
-    return fields
+    fields.html_safe
   end
 
+  # Simplify syntax for rendering field label content
   def label(name)
-    begin
-      @fields[name]['label'].html_safe
-    rescue
-      "Cannot find label for field '#{name}'"
-    end
+    field_property_value(name, 'label')
   end
 
+  # Simplify syntax for rendering field description content
   def description(name)
-    begin
-      @fields[name]['description'].html_safe
-    rescue
-      "Cannot find description for field '#{name}'"
+    field_property_value(name, 'description')
+  end
+
+  # Safely get field property value
+  private def field_property_value(fieldname, key)
+    field = @fields[fieldname]
+    if field.nil?
+      "Cannot find #{key} for field '#{fieldname}'"
+    else
+      field[key]&.html_safe
     end
   end
 
-  def form_field_content(step)
+  # Gets form field content separated from the view
+  private def form_field_content(step)
     case step
     when 'step_2'
       YAML.load_file(OPPORTUNITY_CONTENT_PATH + '_step_2.yml')
@@ -51,5 +57,4 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
       YAML.load_file(OPPORTUNITY_CONTENT_PATH + '_step_1.yml')
     end
   end
-
 end
