@@ -1,6 +1,8 @@
 .opportunity-search-results
+  = opportunity_search.message "information"
+
   %dl
-    - opportunity_search_results.items.each do |opportunity|
+    - opportunity_search.results.each do |opportunity|
       %dt
         = link_to opportunity.title.strip, opportunity_path(opportunity)
       %dd
@@ -9,9 +11,5 @@
           %button.link.save Save for later
           %button.link.share Share
 
-  = paginate @opportunities, params: { controller: 'opportunities', action: 'index', format: ''}
-  -#= link_to "View all (1,228)", "opportunities/all", :class=>"button all"
-
-
-  = opportunity_search_results.view_all_link "button all"
-
+  = opportunity_search.navigation "pagination"
+  = opportunity_search.view_all_link "button all"

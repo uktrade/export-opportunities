@@ -134,6 +134,7 @@ class Poc::OpportunitiesController < OpportunitiesController
   end
 
   private def opportunity_search
+    per_page = Opportunity.default_per_page
     query = Opportunity.public_search(
       search_term: @search_term,
       filters: @filters,
@@ -141,14 +142,11 @@ class Poc::OpportunitiesController < OpportunitiesController
     )
 
     if atom_request?
-      per_page = 25
       query = query.records
-      query = query.page(params[:paged]).per(25)
+      query = query.page(params[:paged]).per(per_page)
       query = AtomOpportunityQueryDecorator.new(query, view_context)
     else
-      per_page = Opportunity.default_per_page
       query = query.page(params[:paged]).per(per_page)
-      query.records
     end
 
     Poc::OpportunitiesSearchResultPresenter.new(view_context, query, query.records.total, per_page)
@@ -156,17 +154,15 @@ class Poc::OpportunitiesController < OpportunitiesController
 
   # Get 5 most recent only
   private def recent_opportunities
-    @query = Opportunity.public_search(
+    per_page = 5
+    query = Opportunity.public_search(
       search_term: nil,
       filters: SearchFilter.new,
-      sort: sort
+      sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
     )
-    per_page = Opportunity.default_per_page
-    @query = @query.page(params[:paged]).per(per_page)
-    @query.records
+    query = query.page(params[:paged]).per(per_page)
 
-    #opportunities = Opportunity.all.order(:created_at)
-    #Poc::OpportunitiesSearchResultPresenter.new(view_context, opportunities.limit(5), opportunities.count, 5)
+    Poc::OpportunitiesSearchResultPresenter.new(view_context, query, query.records.total, per_page)
   end
 
   # TODO: How are the featured industries chosen?

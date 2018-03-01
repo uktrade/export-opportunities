@@ -15,5 +15,7 @@
 
 #search-results {
   background-color: $stone-light;
-  
+  .all {
+    display: none;
+  }
 }

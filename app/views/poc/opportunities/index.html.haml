@@ -12,13 +12,13 @@
 %section#recent-opportunities
   .container
     %h2 Latest export opportunities
-    = render partial: "opportunity_search_results", locals: { opportunity_search_results: @recent_opportunities  }
+    = render partial: "opportunity_search_results", locals: { opportunity_search: @recent_opportunities }
 
 
 %section#featured-industries
   .container
     %h2 Featured industries
-    = render "opportunity_summary_list" 
+    = render "opportunity_summary_list"
 
 
 %section#service-promotion
