@@ -84,6 +84,8 @@ class Poc::OpportunitiesController < OpportunitiesController
       filters: SearchFilter.new,
       sort: sort
     )
+    per_page = Opportunity.default_per_page
+    @query = @query.page(params[:paged]).per(per_page)
     @query.records
   end
 

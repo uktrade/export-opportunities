@@ -8,4 +8,5 @@
         %form.actions
           %button.link.save Save for later
           %button.link.share Share
-  = link_to "View all (1,228)", "opportunities/all", :class=>"button all"
+  = paginate @opportunities, params: { controller: 'opportunities', action: 'index', format: ''}
+  -#= link_to "View all (1,228)", "opportunities/all", :class=>"button all"

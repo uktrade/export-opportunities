@@ -9,7 +9,7 @@ class OpportunitySensitivityRetriever
     response = OppsSensitivityConnector.new.call(submitted_text, hostname, sensitivity_api_key)
     hashed_response = JSON.parse(response)
 
-    if hashed_response['Status']['Description'].eql? "OK"
+    if hashed_response['Status']['Description'].eql? 'OK'
       opp_sensitivity_check = OpportunitySensitivityCheck.new
 
       opp_sensitivity_check.error_id = hashed_response['TrackingId']
