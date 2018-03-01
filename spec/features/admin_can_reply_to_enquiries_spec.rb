@@ -147,7 +147,7 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('Reply sent successfully Remember to record a new interaction in Data Hub.')
   end
 
-  scenario 'reply to an enquiry with attachment, valid, right for opportunity - with js', js: true do
+  scenario 'reply to an enquiry with attachment pdf, valid, right for opportunity - with js', js: true do
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
@@ -176,6 +176,94 @@ feature 'admin can reply to enquiries' do
     expect(page).to have_content('Reply sent successfully')
   end
 
+  scenario 'reply to an enquiry with attachment zip, valid, right for opportunity - with js', js: true do
+    admin = create(:admin)
+    enquiry = create(:enquiry)
+    login_as(admin)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+    expect(page).to have_content('Email body')
+
+    email_body_text = Faker::Lorem.words(10).join('-')
+    fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
+
+    # choose right for opportunity
+    page.find('#li1').click
+
+    attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file.zip', visible: false
+
+    wait_for_ajax
+
+    page.should_not have_content('Wrong file type')
+
+    click_on 'Preview'
+
+    wait_for_ajax
+
+    click_on 'Send'
+
+    expect(page).to have_content('Reply sent successfully')
+  end
+
+  scenario 'reply to an enquiry with attachment xls, valid, right for opportunity - with js', js: true do
+    admin = create(:admin)
+    enquiry = create(:enquiry)
+    login_as(admin)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+    expect(page).to have_content('Email body')
+
+    email_body_text = Faker::Lorem.words(10).join('-')
+    fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
+
+    # choose right for opportunity
+    page.find('#li1').click
+    # allow_any_instance_of(DocumentController).to receive(:create).and_return(true)
+    attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file.xls', visible: false
+
+    wait_for_ajax
+    page.should_not have_content('Wrong file type')
+
+    click_on 'Preview'
+
+    wait_for_ajax
+
+    click_on 'Send'
+
+    expect(page).to have_content('Reply sent successfully')
+  end
+
+  scenario 'reply to an enquiry with attachment xlsx, valid, right for opportunity - with js', js: true do
+    admin = create(:admin)
+    enquiry = create(:enquiry)
+    login_as(admin)
+    visit '/admin/enquiries/' + enquiry.id.to_s
+
+    click_on 'Reply'
+    expect(page).to have_content('Email body')
+
+    email_body_text = Faker::Lorem.words(10).join('-')
+    fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
+
+    # choose right for opportunity
+    page.find('#li1').click
+    # allow_any_instance_of(DocumentController).to receive(:create).and_return(true)
+    attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_file.xlsx', visible: false
+
+    wait_for_ajax
+    page.should_not have_content('Wrong file type')
+
+    click_on 'Preview'
+
+    wait_for_ajax
+
+    click_on 'Send'
+
+    expect(page).to have_content('Reply sent successfully')
+  end
+
   scenario 'reply to an enquiry with invalid attachment file type - with js', js: true do
     admin = create(:admin)
     enquiry = create(:enquiry)
@@ -193,7 +281,7 @@ feature 'admin can reply to enquiries' do
     page.find('#li1').click
     attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_invalid_extension_file', visible: false
 
-    expect(page.body).to have_content('Wrong file type. Your file should be doc, docx, pdf, ppt, pptx, jpg or png')
+    expect(page.body).to have_content('Wrong file type. Your file should be doc, docx, zip, xls, xlsx, pdf, ppt, pptx, jpg or png')
   end
 
   scenario 'reply to an enquiry with invalid attachments, more than 5 - with js', js: true do

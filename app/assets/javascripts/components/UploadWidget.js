@@ -6,9 +6,9 @@ ukti.UploadWidget = (function() {
     var config = {
       maxFiles : 5,
       maxFileSize : 24000000, // in bytes
-      allowedFileTypes : ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/jpeg', 'image/png'],
+      allowedFileTypes : ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/zip', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/jpeg', 'image/png'],
       errorMessages : {
-        'filetype' : 'Error. Wrong file type. Your file should be doc, docx, pdf, ppt, pptx, jpg or png.',
+        'filetype' : 'Error. Wrong file type. Your file should be doc, docx, zip, xls, xlsx, pdf, ppt, pptx, jpg or png.',
         'filesize' : 'Error. File exceeds max size. Your file can have a maximum size of 25Mb.',
         'virus' : 'Error. Virus detected in this file. Contact your IT department.',
         'general' : 'Something has gone wrong. Please try again. If the problem persists, contact us.'
