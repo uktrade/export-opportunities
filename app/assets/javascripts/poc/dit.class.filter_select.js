@@ -223,15 +223,11 @@
   DataProvider.prototype.filtered = function(str) {
     var filtered = [];
     var re = new RegExp(str, "gi");
-console.group("filtered");
-console.log("str: ", str);
     for(var i=0; i<this.data.length; ++i) {
       if(this.data[i].text.search(re) >= 0) {
         filtered.push(this.data[i]);
       }
     }
-console.log("result: ", filtered);
-console.groupEnd();
     return filtered;
   }
 
