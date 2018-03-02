@@ -8,7 +8,8 @@ dit.page.form = (new function () {
   }
 
   function enhanceRestrictedInputs() {
-    $("[data-component='restrictedinput']").each(function() {
+    console.log($("[maxlength]"));
+    $("[maxlength]").each(function() {
       new dit.classes.RestrictedInput($(this));
     });
   }

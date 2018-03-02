@@ -9,7 +9,7 @@
         = @form.label 'need'
       %p.helptext
         = @form.description 'need'
-      %input{:type=>'text', :name=>'need', "data-component"=>"restrictedinput"}
+      %input{:type=>'text', :name=>'need', :maxlength=>"80"}
 
     .field
       %label
