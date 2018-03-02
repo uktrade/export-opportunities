@@ -1,0 +1,15 @@
+%form{:method=>'post'}
+  %fieldset 
+    %legend.progress Step 1 of 4
+    %p.requirement What are you looking for?
+    = @form.hidden_fields
+
+    %fieldset.field
+      %legend I need:
+      - @form.fields['what'].each_with_index do |field, index|
+        .radio
+          %input{:id=>"radio-#{index}", :name=>'what', :type=>'radio', :value=>field['value']}
+          %label{:for=>"radio-#{index}"}
+            = field['text']
+
+  %input{:type=>'submit', :value=>'Save and continue', :class=>'button'}

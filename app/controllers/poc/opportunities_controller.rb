@@ -1,16 +1,19 @@
 class Poc::OpportunitiesController < OpportunitiesController
   prepend_view_path 'app/views/poc'
 
+  FIELD_VALUES_WHY = %w[sample sell distribute use].freeze
+  POC_OPPORTUNITY_PROPS = %w[what why need industry keywords value specifications respond_by respond_to link].freeze
+
   def index
     @opportunity_summary_list = summary_list_by_industry
     @sort_column_name = sort_column
-    @opportunities = recent_opportunities
+    @recent_opportunities = recent_opportunities
     @industries = industry_list
-    render 'opportunities/index', layout: 'layouts/landing_domestic'
+    render 'opportunities/index', layout: 'layouts/domestic'
   end
 
   def international
-    render 'opportunities/international', layout: 'layouts/landing_international'
+    render 'opportunities/international', layout: 'layouts/international'
   end
 
   def results
@@ -19,18 +22,89 @@ class Poc::OpportunitiesController < OpportunitiesController
     @sort_column_name = sort_column
     @opportunities = opportunity_search
     @industries = industry_list
-    @subscription_form = SubscriptionForm.new(
-      query: {
-        search_term: @search_term,
-        sectors: @filters.sectors,
-        types: @filters.types,
-        countries: @filters.countries,
-        values: @filters.values,
-      }
-    )
-    @description = SubscriptionPresenter.new(@subscription_form).description
+    @subscription = subscription_form_details
+    render 'opportunities/results', layout: 'layouts/domestic'
+  end
 
-    render 'opportunities/results', layout: 'layouts/results'
+  def new
+    @process = { view: params[:view], fields: '', entries: {}, errors: {} }
+
+    # Record any user entries (not in DB at this point).
+    process_add_user_entries
+
+    # Reverse order is intentional.
+    process_step_four
+    process_step_three
+    process_step_two
+    process_step_one
+
+    @form = Poc::OpportunitiesFormPresenter.new(view_context, @process)
+    case @process[:view]
+    when 'step_4'
+      render 'opportunities/verify', layout: 'layouts/international'
+    when 'complete'
+      # TODO: Something to save opportunity in DB
+      # and redirect to somethere.
+      redirect_to poc_international_path
+    else
+      render 'opportunities/new', layout: 'layouts/international'
+    end
+  end
+
+  private def process_add_user_entries
+    POC_OPPORTUNITY_PROPS.each do |prop|
+      @process[:entries][prop] = params[prop]
+    end
+  end
+
+  private def process_step_one
+    if @process[:view].eql? 'step_1'
+      # TODO: Validate step_1 entries
+      # If errors view should remain as step_1
+
+      case @process[:entries]['what']
+      when 'products'
+        @process[:view] = 'step_2'
+        @process[:fields] = 'step_2'
+      when 'services'
+        @process[:view] = 'step_3'
+        @process[:fields] = 'step_3.2'
+      when 'tender'
+        @process[:view] = 'step_3'
+        @process[:fields] = 'step_3.3'
+      else
+        @process[:view] = 'step_3'
+        @process[:fields] = 'step_3.1'
+      end
+    end
+  end
+
+  private def process_step_two
+    if @process[:view].eql? 'step_2'
+      # TODO: Validate step_2 entries
+      # If errors view should remain as step_2
+
+      @process[:view] = 'step_3'
+      @process[:fields] = 'step_3.1'
+    end
+  end
+
+  private def process_step_three
+    if @process[:view].eql? 'step_3'
+      # TODO: Validate step_3 entries
+      # If errors view should remain as step_3
+
+      @process[:view] = 'step_4'
+    end
+  end
+
+  private def process_step_four
+    if @process[:view].eql? 'step_4'
+      # TODO: Validate step_4 entries
+      # If errors view should remain as step_4
+
+      @process[:view] = 'complete'
+    end
   end
 
   private def sort
@@ -60,6 +134,7 @@ class Poc::OpportunitiesController < OpportunitiesController
   end
 
   private def opportunity_search
+    per_page = Opportunity.default_per_page
     query = Opportunity.public_search(
       search_term: @search_term,
       filters: @filters,
@@ -68,25 +143,26 @@ class Poc::OpportunitiesController < OpportunitiesController
 
     if atom_request?
       query = query.records
-      query = query.page(params[:paged]).per(25)
-      AtomOpportunityQueryDecorator.new(query, view_context)
+      query = query.page(params[:paged]).per(per_page)
+      query = AtomOpportunityQueryDecorator.new(query, view_context)
     else
-      @count = query.records.total
-      query = query.page(params[:paged]).per(Opportunity.default_per_page)
-      query.records
+      query = query.page(params[:paged]).per(per_page)
     end
+
+    Poc::OpportunitiesSearchResultPresenter.new(view_context, query, query.records.total, per_page)
   end
 
-  # TODO: Needs to get most recent only
+  # Get 5 most recent only
   private def recent_opportunities
-    @query = Opportunity.public_search(
+    per_page = 5
+    query = Opportunity.public_search(
       search_term: nil,
       filters: SearchFilter.new,
-      sort: sort
+      sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
     )
-    per_page = Opportunity.default_per_page
-    @query = @query.page(params[:paged]).per(per_page)
-    @query.records
+    query = query.page(params[:paged]).per(per_page)
+
+    Poc::OpportunitiesSearchResultPresenter.new(view_context, query, query.records.total, per_page)
   end
 
   # TODO: How are the featured industries chosen?
@@ -103,5 +179,19 @@ class Poc::OpportunitiesController < OpportunitiesController
 
   private def industry_list
     @query = Sector.all
+  end
+
+  private def subscription_form_details
+    form = SubscriptionForm.new(
+      query: {
+        search_term: @search_term,
+        sectors: @filters.sectors,
+        types: @filters.types,
+        countries: @filters.countries,
+        values: @filters.values,
+      }
+    )
+
+    { form: form, description: SubscriptionPresenter.new(form).description }
   end
 end

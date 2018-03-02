@@ -1,3 +1,8 @@
+- content_for :page_specific_head do
+  = stylesheet_link_tag 'poc/layouts/landing'
+  = javascript_include_tag 'poc/layouts/landing'
+
+
 %section.hero-section.search-section
   .container
     %h1 Find business opportunities
@@ -7,14 +12,13 @@
 %section#recent-opportunities
   .container
     %h2 Latest export opportunities
-    = render "opportunity_search_results" 
+    = render partial: "opportunity_search_results", locals: { opportunity_search: @recent_opportunities }
 
 
 %section#featured-industries
   .container
-    = @recent_opportunities
     %h2 Featured industries
-    = render "opportunity_summary_list" 
+    = render "opportunity_summary_list"
 
 
 %section#service-promotion
@@ -47,3 +51,6 @@
     = render "opportunity_search_form"
 
 
+
+- content_for :footer do
+  = render partial: 'includes/footer_domestic'

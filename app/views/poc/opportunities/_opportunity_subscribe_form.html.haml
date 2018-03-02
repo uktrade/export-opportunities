@@ -3,7 +3,7 @@
     = form_tag subscriptions_path_for_current_user, id: 'subscription-form' do
       %h2 
         Subscribe to email alerts for
-        = @description
+        = @subscription[:description]
       - if current_user
         %p
           Receive email alerts whenever a relevant opportunity is published. These will be sent to
@@ -15,12 +15,12 @@
 
       .form-group
         = hidden_field_tag 'subscription[query[search_term]]', @search_term
-        - @subscription_form.types.each do |type|
+        - @subscription[:form].types.each do |type|
           = hidden_field_tag 'subscription[query[types]][]', type.slug, multiple: true
-        - @subscription_form.sectors.each do |sector|
+        - @subscription[:form].sectors.each do |sector|
           = hidden_field_tag 'subscription[query[sectors]][]', sector.slug, multiple: true
-        - @subscription_form.values.each do |value|
+        - @subscription[:form].values.each do |value|
           = hidden_field_tag 'subscription[query[values]][]', value.slug, multiple: true
-        - @subscription_form.countries.each do |country|
+        - @subscription[:form].countries.each do |country|
           = hidden_field_tag 'subscription[query[countries]][]', country.slug, multiple: true
         = submit_tag 'Subscribe', class: 'button'

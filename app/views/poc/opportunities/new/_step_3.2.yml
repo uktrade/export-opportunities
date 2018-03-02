@@ -1,0 +1,33 @@
+# (3.2) Standard opportunity, services
+---
+need:
+  label: "I need: "
+  description: List the service(s) you want UK companies to supply, for example training services, traffic flow analysis, mining consultancy.
+  placeholder: 
+
+industry:
+  label: "Industry:"
+  description: Select up to 3 industries relevant for this opportunity
+  placeholder: 
+
+keywords:
+  label: "Keywords (optional):"
+  description: Add topical keywords to help the right suppliers to find your opportunity. Separate each keyword with a comma.
+  placeholder: 
+
+value:
+  label: "This value of this order is:"
+  description: 
+
+specifications:
+  label: "Describe what you need:"
+  description: Enter as much information as you can, for example the amount, specifications or whether it is mass market or premium.
+
+respond_by:
+  label: "I need to receive proposals by:"
+  description: 
+
+respond_to:
+  label: "Responses should be sent to:"
+  description: 
+  placeholder: 

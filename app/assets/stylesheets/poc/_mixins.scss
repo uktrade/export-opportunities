@@ -73,8 +73,31 @@
   }
 }
 
+@mixin focus {
+  &:focus {
+    outline: $focus-yellow solid 3px;
+  }
+}
+
 // BUTTONS
+@mixin button-base {
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: none;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 800;
+  line-height: 26px;
+  overflow: hidden;
+  padding: 10px $spacing-2;
+  text-decoration: none;
+  vertical-align: top;
+  width: auto;
+}
+
 @mixin button($colour-1, $colour-2) {
+  @include button-base;
+  @include focus;
   background-color: $colour-1;
   border-color: $colour-1;
   color: $white;
@@ -87,19 +110,16 @@
 }
 
 @mixin button-disabled($colour-1, $colour-2) {
-  background-color: $colour-1;
-  border-color: $colour-1;
-  color: $colour-2;
+  @include button-base;
+  background-color: $colour-2;
+  border-color: $colour-2;
+  color: $colour-1;
   cursor: default;
-  
-  &:hover {
-    background-color: $colour-1;
-    border-color: $colour-1;
-    color: $colour-2;
-  }
 }
 
 @mixin button-ghost($colour-1, $colour-2) {
+  @include button-base;
+  @include focus;
   background-color: $colour-2;
   border-color: $colour-1;
   color: $colour-1;
@@ -117,6 +137,7 @@
 
 @mixin button-icon($colour-1, $colour-2, $image) {
   @include button($colour-1, $colour-2);
+  @include focus;
   padding-left: $spacing-3;
   padding-right: $spacing-3;
   position: relative;

@@ -74,9 +74,16 @@
 }
 
 #featured-industries,
-#recent-opportunities,
 #testimonials {
   background-color: $stone-light;
+}
+
+#recent-opportunities {
+  background-color: $stone-light;
+  .information,
+  .pagination {
+    display: none;
+  }
 }
 
 #service-promotion {

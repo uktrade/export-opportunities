@@ -7,6 +7,10 @@
     margin: 0;
   }
 
+  label.enhanced {
+    @include access-hidden;
+  }
+
   option {
     padding: $spacing-4;
   }

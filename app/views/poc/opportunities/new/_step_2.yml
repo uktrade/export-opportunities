@@ -1,0 +1,13 @@
+---
+why:
+  - text: for samples to test the market
+    value: sample
+
+  - text: for products to sell
+    value: sell
+
+  - text: for products to distribute
+    value: distribute
+
+  - text: to use the product
+    value: use
