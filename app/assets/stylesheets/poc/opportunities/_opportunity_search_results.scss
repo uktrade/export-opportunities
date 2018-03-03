@@ -57,6 +57,30 @@
   }
 }
 
+.volume_opps {
+  position: relative;
+
+  a,
+  .text {
+    display: block;
+    margin-right: 155px;
+  }
+
+  .source {
+    color: $mid-grey;
+    display: block;
+    font-size: 12px;
+    position: absolute;
+    right: $spacing-3;
+    top: 0;
+
+    img {
+      display: block;
+      width: 110px;
+    }
+  }
+}
+
 
 // RESPONSIVE
 @media screen and (max-width: 767px) {
@@ -67,6 +91,21 @@
 
     dt {
       padding: $spacing-3-m $spacing-3-m 0 $spacing-3-m;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .volume_opps {
+    a,
+    .text {
+      margin-right: 0;
+    }
+
+    .source {
+      padding-top: $spacing-3-m;
+      position: static;
+      right: $spacing-3;
     }
   }
 }
