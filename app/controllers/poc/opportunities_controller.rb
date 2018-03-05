@@ -145,11 +145,13 @@ class Poc::OpportunitiesController < OpportunitiesController
       query = query.records
       query = query.page(params[:paged]).per(per_page)
       query = AtomOpportunityQueryDecorator.new(query, view_context)
+      results = query
     else
       query = query.page(params[:paged]).per(per_page)
+      results = query.records
     end
 
-    Poc::OpportunitiesSearchResultPresenter.new(view_context, query, query.records.total, per_page)
+    Poc::OpportunitiesSearchResultPresenter.new(view_context, results, query.records.total, per_page)
   end
 
   # Get 5 most recent only
@@ -162,7 +164,7 @@ class Poc::OpportunitiesController < OpportunitiesController
     )
     query = query.page(params[:paged]).per(per_page)
 
-    Poc::OpportunitiesSearchResultPresenter.new(view_context, query, query.records.total, per_page)
+    Poc::OpportunitiesSearchResultPresenter.new(view_context, query.records, query.records.total, per_page)
   end
 
   # TODO: How are the featured industries chosen?
