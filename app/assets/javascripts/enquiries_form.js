@@ -1,5 +1,6 @@
 (function() {
   "use strict";
+
   function renderResults(data) {
     $("#ch_search-results ul").empty();
     if (data.length < 1) {
@@ -70,7 +71,40 @@
     });
   }
 
+  /* Class: RestrictedInput
+   * --------------------------------
+   * Adds an input limit message after an Input or Textarea field, that
+   * counts down remaining characters until the maximum is reached.
+   * Maximum character limit is specified by the maxlength attribute.
+   **/
+  function RestrictedInput($target) {
+    var $remaining = $(document.createElement("span"));
+    var $message = $(document.createElement("p"));
+    var text = "characters remaining";
+    var max = 0;
+
+    if($target.length) {
+      max = $target.attr("maxlength");
+
+      $target.on("input", function() {
+        var remaining = max - this.value.length;
+        if(remaining <= 0) {
+          this.value = this.value.substr(0, max);
+        }
+        $remaining.text(max - this.value.length);
+      });
+
+      $remaining.text(max);
+      $message.text(" " + text);
+      $message.prepend($remaining);
+      $target.after($message);
+    }
+  }
+
   $('document').ready(function() {
+    new RestrictedInput($("#enquiry_company_explanation"));
+
+    // Only when Companies House search field present
     if ($("#ch_search").length) {
       noCHnumberSetup();
 
