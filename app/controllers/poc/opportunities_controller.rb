@@ -51,6 +51,12 @@ class Poc::OpportunitiesController < OpportunitiesController
     end
   end
 
+  def show
+    @opportunity = Opportunity.published.find(params[:id])
+    @test = 'testing'
+    render 'opportunities/show', layout: 'layouts/domestic'
+  end
+
   private def process_add_user_entries
     POC_OPPORTUNITY_PROPS.each do |prop|
       @process[:entries][prop] = params[prop]

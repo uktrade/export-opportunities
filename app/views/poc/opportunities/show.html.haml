@@ -1,0 +1,90 @@
+- content_for :page_specific_head do
+  = stylesheet_link_tag 'poc/layouts/landing'
+  = javascript_include_tag 'poc/layouts/landing'
+
+%article.opportunity
+  .container
+    %h1
+      = @opportunity.title
+      = @test
+
+    %p.summary
+      = @opportunity.teaser
+
+    .descriotion
+      = present_html_or_formatted_text(@opportunity.description).html_safe
+
+    .information
+      %h2 Essential information
+
+    %dl
+      %dt.sectors
+        Sectors
+      %dd.sectors
+        = @opportunity.sectors.pluck(:name).to_sentence
+
+      %dt.type
+        Opportunity type
+      %dd.type
+        = @opportunity.types.pluck(:name).to_sentence
+
+      %dt.expiry
+        Expiry date
+      %dd.expiry
+        = @opportunity.response_due_on.strftime('%d %B %Y')
+
+      %dt.enquiries
+        Applications received
+      %dd.enquiries
+        = @opportunity.enquiries.size
+
+      %dt.value
+        Value of contract
+      %dd.value
+        - if @opportunity.values.any?
+          = @opportunity.values.first.name
+        - else
+          Value unknown
+
+      %dt.source
+        Source
+      %dd.source
+        =@opportunity.source
+
+      - unless @opportunity.source.eql?'post'
+        %dt.buyer
+          Buyer
+        %dd.buyer
+          =@opportunity&.buyer_name
+          =@opportunity&.buyer_address
+
+        %dt.contact-name
+          Contact Point Name
+        %dd.contact-name
+          =@opportunity.contacts.first.name
+
+        %dt.contact-email
+          Contact Point Email
+        %dd.contact-email
+          =@opportunity.contacts.first.email
+
+      - essential_information_required = @opportunity.countries.with_exporting_guide.any? || @opportunity.types.aid_funded.any?
+      - if essential_information_required
+        - @opportunity.countries.with_exporting_guide.each do |country|
+          %dt.guide
+            Your guide to exporting
+          %dd.guide
+            = link_to "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank' do
+              = country.name
+          - if @opportunity.types.aid_funded.any?
+            = link_to 'https://www.gov.uk/guidance/aid-funded-business', target: '_blank' do
+              Your guide for aid funded business
+
+    - if @opportunity.expired?
+      %p.expired
+        %strong
+          = t('opportunity.expired')
+        Visit the #{link_to 'opportunities page', opportunities_path} to find another.
+
+    - else
+      = link_to 'Submit your proposal', new_enquiry_path(slug: @opportunity.slug), class: 'button'
