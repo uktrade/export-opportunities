@@ -52,8 +52,8 @@ class Poc::OpportunitiesController < OpportunitiesController
   end
 
   def show
-    @opportunity = Opportunity.published.find(params[:id])
-    @test = 'testing'
+    @opportunity = Poc::OpportunityPresenter.new(view_context, Opportunity.published.find(params[:id]))
+    @page = Poc::PagePresenter.new(@opportunity.title_with_country || 'foo')
     render 'opportunities/show', layout: 'layouts/domestic'
   end
 
