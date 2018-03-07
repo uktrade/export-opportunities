@@ -6,78 +6,83 @@
   .container
     = render partial: 'components/breadcrumbs'
 
+    %p.type
+      = @opportunity.type
+
     %h1
       = @opportunity.title_with_country
 
-    %p.summary
-      = @opportunity.teaser
+    %form.actions
+      %button.link.save Save for later
+      %button.link.share Share
 
-    .description
-      = @opportunity.description
+    .content
+      %dl
+        %dt.summary Summary
+        %dd.summary
+          = @opportunity.teaser
 
-    .information
-      %h2 Essential information
-
-    %dl
-      %dt.sectors
-        Sectors
-      %dd.sectors
-        = @opportunity.sectors_as_string
-
-      %dt.type
-        Opportunity type
-      %dd.type
-        = @opportunity.type
-
-      %dt.expiry
-        Expiry date
-      %dd.expiry
-        = @opportunity.expires
-
-      %dt.enquiries
-        Applications received
-      %dd.enquiries
-        = @opportunity.enquiries_total
-
-      %dt.value
-        Value of contract
-      %dd.value
-        = @opportunity.value
-
-      %dt.source
-        Source
-      %dd.source
-        = @opportunity.source
+        %dt.dscription Description
+        %dd.description
+          = @opportunity.description
 
       - unless @opportunity.source.eql?'post'
-        %dt.buyer
-          Buyer
-        %dd.buyer
-          =@opportunity.buyer_name
-          =@opportunity.buyer_address
+        .buyer
+          %h2 About the buyer
+          %dl
+            %dt.address
+              Address
+            %dd.address
+              =@opportunity.buyer_name
+              =@opportunity.buyer_address
 
-        %dt.contact-name
-          Contact Point Name
-        %dd.contact-name
-          = @opportunity.contact_name
+            %dt.contact
+              Contact
+            %dd.contact
+              = @opportunity.contact_name
+              = @opportunity.contact_email
 
-        %dt.contact-email
-          Contact Point Email
-        %dd.contact-email
-          = @opportunity.contact_email
+        .details
+          %h2 Details
+          %p{:class => "provider #{@opportunity.source}"}
+            - if @opportunity.source.eql? 'volume_opps'
+              Provided by
+              = image_tag "logos/openopps_logo.png", alt: "Open Opps"
 
-      - if @opportunity.guides_available
-        %dt.guide
-          Your guide to exporting
-        %dd.guide
-          = @opportunity.country_guide_links
-          = @opportunity.link_to_aid_funded "Your guide for aid funded business"
+          %dl
+            %dt.expiry
+              Opportunity closing date
+            %dd.expiry
+              = @opportunity.expires
 
-    - if @opportunity.has_expired
-      %p.expired
-        %strong
-          = t('opportunity.expired')
-        Visit the #{link_to 'opportunities page', opportunities_path} to find another.
+            %dt.sectors
+              Industry
+            %dd.sectors
+              = @opportunity.sectors_as_string
 
-    - else
-      = link_to 'Submit your proposal', @opportunity.new_enquiry_path, class: 'button'
+            %dt.enquiries
+              Enquiriess received
+            %dd.enquiries
+              = @opportunity.enquiries_total
+            %dt.value
+              Value of contract
+            %dd.value
+              = @opportunity.value
+
+            - if @opportunity.guides_available
+              %dt.guide
+                Your guide to exporting
+              %dd.guide
+                = @opportunity.country_guide_links
+                = @opportunity.link_to_aid_funded "Your guide for aid funded business"
+
+    .bid
+      %h2 Bid for tender
+      - if @opportunity.has_expired
+        %p.expired
+          %strong
+            = t('opportunity.expired')
+          Visit the #{link_to 'opportunities page', opportunities_path} to find another.
+
+      - else
+        = link_to 'Submit your proposal', @opportunity.new_enquiry_path, class: 'button'

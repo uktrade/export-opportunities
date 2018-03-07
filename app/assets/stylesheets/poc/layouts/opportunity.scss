@@ -1,2 +1,96 @@
 @import "../config";
 @import "../components/breadcrumbs";
+
+
+.breadcrumbs {
+  margin-bottom: $spacing-1;
+}
+
+.buyer {
+  margin-bottom: $spacing-1;
+}
+
+.details {
+  padding-left: $spacing-3;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: $cols-4;
+
+  dd.share {
+    display: block;
+  }
+
+  dl dt {
+    margin-bottom: 0;
+  }
+
+  h2 {
+    @include access-hidden;
+  }
+}
+
+.opportunity {
+  margin-bottom: $spacing-1;
+
+  dd {
+    margin-bottom: $spacing-3;
+  }
+
+  dt {
+    @include body-s	;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  dt.summary {
+    display: none;
+  }
+
+  .action {
+    padding-bottom: $spacing-3;
+  }
+
+  .content {
+    position: relative;
+  }
+
+  .description {
+    width: $cols-8;
+  }
+
+  .provider {
+    @include body-s;
+    color: $mid-grey;
+    display: none;
+    margin-bottom: $spacing-1;
+
+    img {
+      display: block;
+      max-width: 200px;
+      width: 100%;
+    }
+
+    &.volume_opps {
+      clear: both;
+      display: block;
+    }
+  }
+
+  .share {
+    display: none;
+  }
+
+  .summary {
+    border-bottom: $light-grey solid 2px;
+    color: $mid-grey;
+    margin-bottom: $spacing-3;
+    padding-bottom: $spacing-3;
+    width: $cols-8;
+  }
+
+  .type {
+    color: $mid-grey;
+    margin-bottom: 0;
+  }  
+}
