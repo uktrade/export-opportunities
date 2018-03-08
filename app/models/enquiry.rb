@@ -26,8 +26,7 @@ class Enquiry < ApplicationRecord
   validate :company_explanation_length
 
   def company_explanation_length
-    company_explanation_text = self.company_explanation
-    errors.add(:company_explanation, 'Company explanation is too long (maximum is 1100 characters)') if company_explanation_text.scan(/./).count > COMPANY_EXPLANATION_MAXLENGTH
+    errors.add(:company_explanation, t('admin.enquiry.maximum_length')) if company_explanation.scan(/./).count > COMPANY_EXPLANATION_MAXLENGTH
   end
 
   delegate :email, to: :user
