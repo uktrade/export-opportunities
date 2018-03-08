@@ -22,4 +22,10 @@ namespace :volume do
       OppsQualityValidator.new.call(opp) unless OpportunityCheck.where(opportunity_id: opp.id).length.positive?
     end
   end
+
+  task sensitivity_check_opps: :environment do
+    Opportunity.all.each do |opp|
+      OppsSensitivityValidator.new.call(opp) unless OpportunitySensitivityCheck.where(opportunity_id: opp.id).length.positive?
+    end
+  end
 end

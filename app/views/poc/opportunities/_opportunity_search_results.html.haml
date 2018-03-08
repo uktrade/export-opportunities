@@ -3,15 +3,15 @@
 
   %dl
     - opportunity_search.results.each do |opportunity|
-      %dt{:class=>"#{opportunity.source}"}
+      %dt{class:"#{opportunity.source}"}
         = link_to opportunity.title.strip, opportunity_path(opportunity)
 
-      %dd{:class=>"#{opportunity.source}"}
+      %dd{class: "#{opportunity.source}"}
         %span.text
           = opportunity.teaser
 
         - if opportunity.source.eql? 'volume_opps'
-          %span.source 
+          %span.source
             Provided by
             = image_tag "logos/openopps_logo.png", :alt=>"Open Opps"
 

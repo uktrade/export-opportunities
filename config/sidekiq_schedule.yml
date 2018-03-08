@@ -15,3 +15,9 @@ schedule_quality_opps_job:
   class: "CheckQualityOpps"
   queue: default
   active_job: true
+
+schedule_quality_opps_job:
+  cron: "15 9 * * *"
+  class: "CheckSensitivityOpps"
+  queue: default
+  active_job: true

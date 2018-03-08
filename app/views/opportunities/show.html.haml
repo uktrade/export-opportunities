@@ -93,3 +93,4 @@
             Visit the #{link_to 'opportunities page', opportunities_path} to find another.
         - else
           = link_to 'Submit your proposal', new_enquiry_path(slug: @opportunity.slug), class: 'button button-wide'
+          = link_to 'Go directly to tender site', @opportunity.tender_url, class: 'button button-wide'
