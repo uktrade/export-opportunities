@@ -129,7 +129,7 @@ class Opportunity < ApplicationRecord
 
   def as_indexed_json(_ = {})
     as_json(
-      only: %i[title teaser description created_at updated_at status response_due_on first_published_at],
+      only: %i[title teaser description created_at updated_at status response_due_on first_published_at source],
       include: {
         countries: { only: :slug },
         types: { only: :slug },
