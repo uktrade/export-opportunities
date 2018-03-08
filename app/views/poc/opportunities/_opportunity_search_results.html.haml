@@ -3,8 +3,8 @@
 
   %dl
     - opportunity_search.results.each do |opportunity|
-      %dt{class:"#{opportunity.source}"}
-        = link_to opportunity.title.strip, opportunity_path(opportunity)
+      %dt{:class=>"#{opportunity.source}"}
+        = link_to opportunity.title.strip, poc_opportunity_path(opportunity)
 
       %dd{class: "#{opportunity.source}"}
         %span.text
