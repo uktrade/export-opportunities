@@ -23,7 +23,11 @@ class Enquiry < ApplicationRecord
     :existing_exporter, :company_sector, :company_explanation, \
     presence: true
 
-  validates :company_explanation, length: { maximum: COMPANY_EXPLANATION_MAXLENGTH }
+  validate :company_explanation_length
+
+  def company_explanation_length
+    errors.add(:company_explanation, t('admin.enquiry.maximum_length')) if company_explanation.scan(/./).count > COMPANY_EXPLANATION_MAXLENGTH
+  end
 
   delegate :email, to: :user
 
