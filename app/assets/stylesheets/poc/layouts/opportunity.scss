@@ -52,11 +52,8 @@
   }
 
   .content {
+    padding-right: $cols-4;
     position: relative;
-  }
-
-  .description {
-    width: $cols-8;
   }
 
   .provider {
@@ -86,7 +83,6 @@
     color: $mid-grey;
     margin-bottom: $spacing-3;
     padding-bottom: $spacing-3;
-    width: $cols-8;
   }
 
   .type {
