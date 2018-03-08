@@ -118,7 +118,7 @@ class VolumeOppsRetriever
       # count valid/invalid opps
       if opportunity_params
         if VolumeOppsValidator.new.validate_each(opportunity_params)
-          CreateOpportunity.new(editor, :publish).call(opportunity_params)
+          CreateOpportunity.new(editor, :draft).call(opportunity_params)
           valid_opp += 1
         else
           invalid_opp += 1

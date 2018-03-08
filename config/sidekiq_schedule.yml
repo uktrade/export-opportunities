@@ -10,14 +10,14 @@ schedule_volume_import_opps_job:
   queue: default
   active_job: true
 
-schedule_quality_opps_job:
+schedule_sensitivity_opps_job:
   cron: "15 8 * * *"
-  class: "CheckQualityOpps"
+  class: "CheckSensitivityOpps"
   queue: default
   active_job: true
 
 schedule_quality_opps_job:
   cron: "15 9 * * *"
-  class: "CheckSensitivityOpps"
+  class: "CheckQualityOpps"
   queue: default
   active_job: true
