@@ -15,6 +15,25 @@
   z-index: -1;
 }
 
+@mixin link {
+  background-color: transparent;
+  border: none;
+  color: $active-blue;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  text-decoration: underline;
+
+  &:active,
+  &:hover {
+    color: $mid-blue;
+  }
+  
+  &:focus {
+    outline: $focus-yellow solid 3px;
+  }
+}
+
 @mixin separator($colour) {
   background-color: $colour;
   content: "";
