@@ -91,3 +91,19 @@
     margin-bottom: 0;
   }  
 }
+
+
+// RESPONSIVE
+@media screen and (max-width: 767px) {
+  .details {
+    margin-bottom: $spacing-1;
+    padding-left: 0;
+    position: static;
+    width: auto;
+  }
+  .opportunity {
+    .content {
+      padding-right: 0;
+    }
+  }
+}
