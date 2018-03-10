@@ -39,6 +39,10 @@ class SendEnquiriesReportToMatchingAdminUser
   end
 
   def zip_file_enquiries_cutoff_ses_limit
-    6000
+    if Figaro.env.zip_file_enquiries_cutoff
+      Figaro.env.zip_file_enquiries_cutoff
+    else
+      6000
+    end
   end
 end

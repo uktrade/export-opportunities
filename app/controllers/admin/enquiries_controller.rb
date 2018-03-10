@@ -29,7 +29,12 @@ class Admin::EnquiriesController < Admin::BaseController
       end
       format.csv do
         enquiries = policy_scope(Enquiry).includes(:enquiry_response).all.order(created_at: :desc)
-        SendEnquiriesReportToMatchingAdminUser.perform_async(current_editor.email, enquiries.pluck(:id), @enquiry_form.from, @enquiry_form.to, 6000) if @enquiry_form.dates?
+        zip_file_enquiries_cutoff_env_var = if Figaro.env.zip_file_enquiries_cutoff
+                                              Figaro.env.zip_file_enquiries_cutoff
+                                            else
+                                              6000
+                                            end
+        SendEnquiriesReportToMatchingAdminUser.perform_async(current_editor.email, enquiries.pluck(:id), @enquiry_form.from, @enquiry_form.to, zip_file_enquiries_cutoff_env_var) if @enquiry_form.dates?
         redirect_to admin_enquiries_path, notice: 'The requested Enquiries report has been emailed to you.'
       end
     end
