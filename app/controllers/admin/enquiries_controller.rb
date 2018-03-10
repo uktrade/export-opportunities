@@ -29,7 +29,7 @@ class Admin::EnquiriesController < Admin::BaseController
       end
       format.csv do
         enquiries = policy_scope(Enquiry).includes(:enquiry_response).all.order(created_at: :desc)
-        zip_file_enquiries_cutoff_env_var = if Figaro.env.zip_file_enquiries_cutoff!
+        zip_file_enquiries_cutoff_env_var = if Figaro.env.zip_file_enquiries_cutoff
                                               Figaro.env.zip_file_enquiries_cutoff!.to_i
                                             else
                                               6000
