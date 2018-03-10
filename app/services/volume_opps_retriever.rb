@@ -72,16 +72,7 @@ class VolumeOppsRetriever
         response_due_on: response_due_on,
         description: description,
         service_provider_id: 150,
-        contacts_attributes: [
-          {
-            name: buyer['contactPoint'].present? ? buyer['contactPoint']['name'] : nil,
-            email: buyer['contactPoint'].present? ? buyer['contactPoint']['email'] : nil,
-          },
-          {
-            name: buyer['contactPoint'].present? ? buyer['contactPoint']['name'] : nil,
-            email: buyer['contactPoint'].present? ? buyer['contactPoint']['email'] : nil,
-          },
-        ],
+        contacts_attributes: contact_attributes(buyer),
         buyer_name: buyer['name'],
         buyer_address: buyer['address'].present? ? buyer['address']['countryName'] : nil,
         language: opportunity_release['language'].present? ? opportunity_release['language'] : nil,
@@ -96,6 +87,50 @@ class VolumeOppsRetriever
     else
       return nil
     end
+  end
+
+  def contact_attributes(buyer)
+    empty_hash = [
+        {
+            name: nil,
+            email: nil,
+        },
+        {
+            name: nil,
+            email: nil,
+        },
+    ]
+
+    if buyer['contactPoint']
+      pii = OpportunitySensitivityRetriever.new.personal_identifiable_information(buyer['contactPoint']['name'])
+
+      return empty_hash unless pii
+
+      name = nil
+      email = nil
+
+      if pii[:email]
+        name = buyer['contactPoint']['name'].gsub(pii[:email], '')
+        email = buyer['contactPoint']['email'] = pii[:email]
+      end
+
+      name = buyer['contactPoint']['name'].gsub(pii[:address], '') if pii[:address]
+
+      name = buyer['contactPoint']['name'].gsub(pii[:phone][:number], '') if pii[:phone]
+
+      return [
+        {
+          name: name,
+          email: email,
+        },
+        {
+          name: name,
+          email: email,
+        },
+      ]
+    end
+
+    return empty_hash
   end
 
   def jwt_volume_connector_token(username, password, hostname, token_endpoint)

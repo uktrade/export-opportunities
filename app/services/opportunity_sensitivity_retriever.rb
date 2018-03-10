@@ -47,6 +47,35 @@ class OpportunitySensitivityRetriever
     end
   end
 
+  def personal_identifiable_information(submitted_text)
+    hostname = Figaro.env.AZ_HOSTNAME!
+    sensitivity_api_key = Figaro.env.AZ_API_KEY!
+
+    response = OppsSensitivityConnector.new.call(submitted_text, hostname, sensitivity_api_key)
+
+    hashed_response = JSON.parse(response)
+    valid_response = validate_response(hashed_response)
+
+    if valid_response
+      pii_information = hashed_response['PII']
+      return false if pii_information.empty?
+
+      email = pii_information['Email']
+      address = pii_information['Address']
+      phone = pii_information['Phone']
+
+      return false if email.empty? && address.empty? && phone.empty?
+
+      response = {}
+
+      response[:email] = email[0]['Detected'] if email[0]
+      response[:address] = address[0]['Text'] if address[0]
+      response[:phone] = { country_code: phone[0]['CountryCode'], number: phone[0]['Text'] } if phone[0]
+
+      return response
+    end
+  end
+
   private def validate_response(hashed_response)
     if hashed_response['Message'].eql? 'Error'
       Rails.logger.error hashed_response['Errors']

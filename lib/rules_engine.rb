@@ -3,7 +3,6 @@ class RulesEngine
   QUALITY_SCORE_THRESHOLD = 56
 
   def call(opportunity)
-    byebug
     # first validate opp
     valid_opp = VolumeOppsValidator.new.validate_each(opportunity)
 
@@ -17,9 +16,7 @@ class RulesEngine
       quality_score = OppsQualityValidator.new.validate_each(opportunity)
 
       if quality_value_threshold?(quality_score)
-        # publish opp
-        opportunity.status = 2
-        opportunity.save!
+        save_and_publish(opportunity)
       # opp is valid, sensitivity value is OK but quality may be below threshold
       else
         save_as_pending(opportunity)
@@ -35,8 +32,7 @@ class RulesEngine
   # check if sensitivity_score is above the business thresholds we have set.
   # returns true if so, false otherwise
   def sensitive_value_threshold?(sensitivity_score)
-    byebug
-    weighted_average = (sensitivity_score[:category1_score]*3 + sensitivity_score[:category2_score]*2 + sensitivity_score[:category3_score]*1) / 6
+    weighted_average = (sensitivity_score[:category1_score] * 3 + sensitivity_score[:category2_score] * 2 + sensitivity_score[:category3_score] * 1) / 6
     weighted_average > SENSITIVITY_SCORE_THRESHOLD
   end
 
@@ -44,6 +40,11 @@ class RulesEngine
   # returns true if so, false otherwise
   def quality_value_threshold?(quality_score)
     quality_score > QUALITY_SCORE_THRESHOLD
+  end
+
+  def save_and_publish(opportunity)
+    opportunity.status = 2
+    opportunity.save!
   end
 
   def save_as_pending(opportunity)

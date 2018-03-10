@@ -22,7 +22,7 @@ class VolumeOppsValidator
 
     return false if opportunity[:response_due_on].blank?
 
-    return false if opportunity.country_ids.blank?
+    return false if opportunity[:country_ids].blank?
 
     # buyer contact point
     return false if opportunity[:buyer_name].blank? && opportunity[:buyer_address].blank?
