@@ -18,7 +18,7 @@ class SendEnquiriesReportToMatchingAdminUser
     csv.each do |row|
       csv_file << row
     end
-    if csv_file.length > zip_file_enquiries_cutoff
+    if csv_file.length > zip_file_enquiries_cutoff.to_i
 
       header = csv_file[0]
       data = csv_file.drop(0)
@@ -39,8 +39,8 @@ class SendEnquiriesReportToMatchingAdminUser
   end
 
   def zip_file_enquiries_cutoff_ses_limit
-    if Figaro.env.zip_file_enquiries_cutoff
-      Figaro.env.zip_file_enquiries_cutoff
+    if Figaro.env.zip_file_enquiries_cutoff!
+      Figaro.env.zip_file_enquiries_cutoff!.to_i
     else
       6000
     end
