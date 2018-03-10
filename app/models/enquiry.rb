@@ -26,7 +26,7 @@ class Enquiry < ApplicationRecord
   validate :company_explanation_length
 
   def company_explanation_length
-    errors.add(:company_explanation, t('admin.enquiry.maximum_length')) if company_explanation.scan(/./).count > COMPANY_EXPLANATION_MAXLENGTH
+    errors.add(:company_explanation, t('admin.enquiry.maximum_length')) if company_explanation && company_explanation.scan(/./).count > COMPANY_EXPLANATION_MAXLENGTH
   end
 
   delegate :email, to: :user
