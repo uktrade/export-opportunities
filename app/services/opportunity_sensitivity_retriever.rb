@@ -87,8 +87,10 @@ class OpportunitySensitivityRetriever
       sleep 1
       return false
     end
-    return false unless hashed_response['Status']['Description'].eql? 'OK'
-
-    true
+    if hashed_response.present? && hashed_response['Status'].present? && hashed_response['Status']['Description'] == 'OK'
+      true
+    else
+      false
+    end
   end
 end
