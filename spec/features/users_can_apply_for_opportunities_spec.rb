@@ -120,19 +120,22 @@ RSpec.feature 'users can apply for opportunities', js: true do
     end
   end
 
-  scenario 'user can not apply with more than 1100 characters in company description' do
+  scenario 'user can apply with more than 1100 characters in company description, first 1100 will be saved' do
     opportunity = create(:opportunity, status: 'publish')
     create(:sector)
 
     visit "enquiries/#{opportunity.slug}"
 
     fill_in_form
-    fake_description = Faker::Lorem.characters(1101)
+    fake_description = Faker::Lorem.characters(1102)
+
     fill_in :enquiry_company_explanation, with: fake_description
 
     click_on 'Submit'
 
-    expect(page).not_to have_content('Thank you')
+    # form will crop our last 2 chars+terminating character and save company explanation
+    expect(Enquiry.first.company_explanation).to eq(fake_description[0..-3])
+    expect(page).to have_content('Thank you')
   end
 
   scenario 'user can apply with exactly 1100 characters in company description', js: true do
