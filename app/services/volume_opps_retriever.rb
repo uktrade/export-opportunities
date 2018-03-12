@@ -91,14 +91,14 @@ class VolumeOppsRetriever
 
   def contact_attributes(buyer)
     empty_hash = [
-        {
-            name: nil,
-            email: nil,
-        },
-        {
-            name: nil,
-            email: nil,
-        },
+      {
+        name: nil,
+        email: nil,
+      },
+      {
+        name: nil,
+        email: nil,
+      },
     ]
 
     if buyer['contactPoint']
@@ -130,7 +130,7 @@ class VolumeOppsRetriever
       ]
     end
 
-    return empty_hash
+    empty_hash
   end
 
   def jwt_volume_connector_token(username, password, hostname, token_endpoint)
