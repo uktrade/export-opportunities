@@ -133,6 +133,18 @@ ul {
     background-color: $olive-grey;
     border-color: $olive;
   }
+
+  // Temporary rule - you can safely delete if grep 
+  // of views reveals classname no longer exists.
+  &.ptu-announcement {
+    background-color: #539C95;
+    color: $white;
+    font-weight: bold;
+    a {
+      color: $white;
+      font-weight: normal;
+    }
+  }
 }
 
 #main {
@@ -266,7 +278,7 @@ ul {
   padding-top: 7px;
 
   strong {
-    background-color: $red-2;
+    background-color: $red-1;
     color: $white;
     display: inline-block;
     margin-right: 5px;

@@ -60,6 +60,8 @@ en:
       Consider using a short phrase made up of several unrelated words.
       Avoid any words which are personal to you or your work.
   admin:
+    enquiry:
+      maximum_length: Company explanation is too long (maximum is 1,100 characters)
     opportunity:
       create_new: Create a new export opportunity
       teaser_field: Summarise this export opportunity in a sentence
