@@ -66,7 +66,7 @@ class VolumeOppsRetriever
         title: opportunity_release['tender']['title'].present? ? opportunity_release['tender']['title'][0, 80] : nil,
         country_ids: country.id,
         sector_ids: ['2'],
-        type_ids: ['3'], # type is always public
+        type_ids: ['2'], # type is always public
         value_ids: value_id,
         teaser: description[0, 140],
         response_due_on: response_due_on,

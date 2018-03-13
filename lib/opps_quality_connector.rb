@@ -39,11 +39,11 @@ class OppsQualityConnector
       f.adapter  Faraday.default_adapter
     end
 
+    #TODO: refactor this to POST to be able to submit up to 32768 chars.
     response = connection.get do |req|
       req.url "#{hostname}#{quality_text}&key=#{quality_api_key}"
     end
 
     response.body
-    # response_body = JSON.parse({ result: false, error_code: 600}.to_json)
   end
 end
