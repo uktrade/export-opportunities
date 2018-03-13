@@ -1,0 +1,89 @@
+- content_for :page_specific_head do
+  = stylesheet_link_tag 'poc/layouts/opportunity'
+  = javascript_include_tag 'poc/layouts/opportunity.js'
+
+
+%article.opportunity
+  .container
+    = render partial: 'components/breadcrumbs'
+
+    %p.type
+      = @opportunity.type
+
+    %h1
+      = @opportunity.title_with_country
+
+    %form.actions
+      %button.link.save Save for later
+      %button.link.share Share
+
+    .content
+      %dl
+        %dt.summary Summary
+        %dd.summary
+          = @opportunity.teaser
+
+        %dt.dscription Description
+        %dd.description
+          = @opportunity.description
+
+      - unless @opportunity.source.eql?'post'
+        .buyer
+          %h2 About the buyer
+          %dl
+            %dt.address
+              Address
+            %dd.address
+              =@opportunity.buyer_name
+              =@opportunity.buyer_address
+
+            %dt.contact
+              Contact
+            %dd.contact
+              = @opportunity.contact_name
+              = @opportunity.contact_email
+
+        .details
+          %h2 Details
+          %p{:class => "provider #{@opportunity.source}"}
+            - if @opportunity.source.eql? 'volume_opps'
+              Provided by
+              = image_tag "logos/openopps_logo.png", alt: "Open Opps"
+
+          %dl
+            %dt.expiry
+              Opportunity closing date
+            %dd.expiry
+              = @opportunity.expires
+
+            %dt.sectors
+              Industry
+            %dd.sectors
+              = @opportunity.sectors_as_string
+
+            %dt.enquiries
+              Enquiriess received
+            %dd.enquiries
+              = @opportunity.enquiries_total
+            %dt.value
+              Value of contract
+            %dd.value
+              = @opportunity.value
+
+            - if @opportunity.guides_available
+              %dt.guide
+                Your guide to exporting
+              %dd.guide
+                = @opportunity.country_guide_links
+                = @opportunity.link_to_aid_funded "Your guide for aid funded business"
+
+    .bid
+      %h2 Bid for tender
+      - if @opportunity.has_expired
+        %p.expired
+          %strong
+            = t('opportunity.expired')
+          Visit the #{link_to 'opportunities page', opportunities_path} to find another.
+
+      - else
+        = link_to 'Submit your proposal', @opportunity.new_enquiry_path, class: 'button'

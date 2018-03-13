@@ -42,11 +42,13 @@ Rails.application.config.assets.precompile += %w[poc/ie8_fixes.scss]
 Rails.application.config.assets.precompile += %w[poc/ie9_fixes.scss]
 Rails.application.config.assets.precompile += %w[poc/layouts/landing.scss]
 Rails.application.config.assets.precompile += %w[poc/layouts/results.scss]
+Rails.application.config.assets.precompile += %w[poc/layouts/opportunity.scss]
 
 Rails.application.config.assets.precompile += %w[poc/global.js]
 Rails.application.config.assets.precompile += %w[poc/layouts/landing.js]
 Rails.application.config.assets.precompile += %w[poc/layouts/results.js]
 Rails.application.config.assets.precompile += %w[poc/layouts/form.js]
+Rails.application.config.assets.precompile += %w[poc/layouts/opportunity.js]
 
 Rails.application.config.assets.precompile += %w['poc/*.js']
 Rails.application.config.assets.precompile += %w['poc/layouts/*.js']

@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   namespace :poc do
     get 'international' => 'opportunities#international'
     resources :opportunities do
+      get 'opportunities/:id', to: 'poc/opportunities#show'
       root "opportunities#results"
     end
     root "opportunities#index"

@@ -51,6 +51,12 @@ class Poc::OpportunitiesController < OpportunitiesController
     end
   end
 
+  def show
+    @opportunity = Poc::OpportunityPresenter.new(view_context, Opportunity.published.find(params[:id]))
+    @page = Poc::PagePresenter.new(@opportunity.title_with_country || 'foo')
+    render 'opportunities/show', layout: 'layouts/domestic'
+  end
+
   private def process_add_user_entries
     POC_OPPORTUNITY_PROPS.each do |prop|
       @process[:entries][prop] = params[prop]
