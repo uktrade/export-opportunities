@@ -1,11 +1,20 @@
-class Poc::OpportunitiesSearchResultPresenter < BasePresenter
-  attr_reader :results
+class Poc::OpportunitiesSearchResultsPresenter < BasePresenter
+  attr_reader :found
 
   def initialize(helpers, opportunities, total, limit)
     @h = helpers
-    @results = opportunities
+    @found = opportunities
     @view_limit = limit
     @total = total
+  end
+
+  def title_with_country(opportunity)
+    if opportunity.countries.size > 1
+      country = 'Multi Country'
+    else
+      country = opportunity.countries.map(&:name).join
+    end
+    "#{country} - #{opportunity.title}"
   end
 
   # Only show all if there are more than currently viewed
@@ -16,15 +25,15 @@ class Poc::OpportunitiesSearchResultPresenter < BasePresenter
     end
   end
 
-  def message(css_classes = '')
+  def displayed(css_classes = '')
     h.content_tag(:p, 'class': css_classes) do
-      h.page_entries_info @results, entry_name: 'item'
+      h.page_entries_info @found, entry_name: 'item'
     end
   end
 
   def navigation(css_classes = '')
     h.content_tag(:div, 'class': css_classes) do
-      h.paginate @results, views_prefix: 'poc/components'
+      h.paginate @found, views_prefix: 'poc/components'
     end
   end
 

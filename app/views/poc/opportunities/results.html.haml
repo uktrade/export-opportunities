@@ -12,6 +12,6 @@
 %section#search-results
   .container
     %h2 Search results
-    = render partial: "opportunity_search_results", locals: { opportunity_search: @opportunities }
+    = render partial: "opportunity_search_results", locals: { results: @opportunity_search }
 
 = render "opportunity_subscribe_form"
