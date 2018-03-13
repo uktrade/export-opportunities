@@ -17,13 +17,12 @@
 
   <main id="main" role="main" class="container">
     <%= render partial: 'admin/includes/phase_banner' %>
+    <%= render partial: 'admin/includes/flash_announcement' %>
+    <%= render partial: 'admin/includes/flash_error' %>
+    <%= render partial: 'admin/includes/flash_notice' %>
+    <%= content_for?(:errors) ? yield(:errors) : "" %>
 
     <article>
-      <%= render partial: 'admin/includes/flash_announcement' %>
-      <%= render partial: 'admin/includes/flash_error' %>
-      <%= render partial: 'admin/includes/flash_notice' %>
-      <%= content_for?(:errors) ? yield(:errors) : "" %>
-
       <h1><%= @article.title %></h1>
       <div class="article-index">
         <ol>
