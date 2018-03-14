@@ -10,8 +10,6 @@ class Admin::HelpController < Admin::BaseController
   def show
     page_url = params[:id]
     case page_url
-    when 'opportunities'
-      render 'admin/opportunities/help'
     when 'enquiries'
       render 'admin/enquiries/help'
     else
