@@ -1,6 +1,7 @@
 class OppsQualityConnector
   def call(hostname, quality_api_key, quality_text)
     raise Exception, 'invalid input' unless quality_api_key && quality_text
+    quality_text = quality_text.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
     response_body = JSON.parse(fetch_response(hostname, quality_api_key, quality_text))
 
     if response_body['result']
