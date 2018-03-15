@@ -69,11 +69,7 @@
 
     <aside>
       <h2>Other Guidance</h2>
-      <ul class="navigation">
-        <% @article.related_links.each do |s| %>
-          <li><%= link_to s[:text], s[:href] %></li>
-        <% end %>
-      </ul>
+      <%= render partial: 'admin/help/article_list', locals: { articles: @article_list } %>
     </aside>
   </main>
 

@@ -1,0 +1,4 @@
+%ul.navigation
+  - articles.each do |article|
+    %li
+      = link_to article[:title], admin_help_article_path(article[:id], article[:section])

@@ -4,6 +4,7 @@ class Admin::HelpController < Admin::BaseController
   helper_method :sections_links
 
   def index
+    @article_list = article_list
     render layout: 'help'
   end
 
@@ -20,6 +21,7 @@ class Admin::HelpController < Admin::BaseController
   def article
     article_path = 'admin/help/' + id_to_file(params[:id])
     @article = HelpArticlePresenter.new(article_path, params[:section])
+    @article_list = article_list
     render article_path, layout: 'help_article'
   end
 
@@ -36,5 +38,22 @@ class Admin::HelpController < Admin::BaseController
     article_path = 'admin/help/' + id_to_file(params[:id])
     @article = HelpArticlePresenter.new(article_path, params[:section])
     render article_path, layout: 'help_article_print'
+  end
+
+  def article_list
+    [
+      { id: 'how-to-write-an-export-opportunity',
+        section: 'overview',
+        title: 'How to write an export opportunity' },
+      { id: 'how-to-assess-a-company',
+        title: 'How to assess a company',
+        section: 'overview' },
+      { id: 'right-for-opportunity-responses',
+        title: 'How to respond to UK companies that are \'Right for opportunity\'',
+        section: 'overview' },
+      { id: 'not-right-for-opportunity-responses', 
+        title: 'How to respond to UK companies that are \'Not right for opportunity\'',
+        section: 'overview' }
+    ]
   end
 end
