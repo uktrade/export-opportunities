@@ -1,12 +1,11 @@
 class HelpArticlePresenter < BasePresenter
-  attr_reader :content, :related_links, :sections, :url
+  attr_reader :content, :sections, :id
   attr_accessor :title
+  include Rails.application.routes.url_helpers
 
-  def initialize(id, section, path)
+  def initialize(id, section)
     @id = id
-    @section_id = section || ''
-    @url = path
-    @related_links = []
+    @section = section || ''
     @sections = []
   end
 
@@ -24,13 +23,14 @@ class HelpArticlePresenter < BasePresenter
   end
 
   def set_section(heading = '', content = '')
-    section_id = text_to_id(heading)
-    current_section_id = section_id.eql? @section_id
-    @sections.push(id: section_id,
+    section = text_to_id(heading)
+    current_section = section.eql? @section
+    @sections.push(id: @id,
+                   section: section,
                    heading: heading,
                    content: content,
-                   url: format('/%s/%s', @url, section_id),
-                   current: current_section_id)
+                   url: admin_help_article_path(@id, section),
+                   current: current_section)
   end
 
   def current_section

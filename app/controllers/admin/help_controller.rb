@@ -19,10 +19,10 @@ class Admin::HelpController < Admin::BaseController
   end
 
   def article
-    article_path = 'admin/help/' + id_to_file(params[:id])
-    @article = HelpArticlePresenter.new(params[:id], params[:section], article_path)
+    file_path = 'admin/help/' + id_to_file(params[:id])
+    @article = HelpArticlePresenter.new(params[:id], params[:section])
     @article_list = article_list
-    render article_path, layout: 'help_article'
+    render file_path, layout: 'help_article'
   end
 
   def render_error_not_found
@@ -35,9 +35,9 @@ class Admin::HelpController < Admin::BaseController
   end
 
   def article_print
-    article_path = 'admin/help/' + id_to_file(params[:id])
-    @article = HelpArticlePresenter.new(params[:id], params[:section], article_path)
-    render article_path, layout: 'help_article_print'
+    file_path = 'admin/help/' + id_to_file(params[:id])
+    @article = HelpArticlePresenter.new(params[:id], params[:section])
+    render file_path, layout: 'help_article_print'
   end
 
   def article_list
