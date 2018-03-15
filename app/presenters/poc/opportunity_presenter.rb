@@ -1,9 +1,10 @@
 class Poc::OpportunityPresenter < BasePresenter
-  attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries
+  attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries, :tender_url
 
   def initialize(helpers, opportunity)
     @h = helpers
     @opportunity = opportunity
+    @tender_url = opportunity.tender_url
     @teaser = opportunity.teaser
     @source = opportunity.source
     @buyer_name = opportunity&.buyer_name
@@ -84,6 +85,10 @@ class Poc::OpportunityPresenter < BasePresenter
       end
     end
     text.html_safe
+  end
+
+  def internal
+    opportunity.source.nil?
   end
 
   private
