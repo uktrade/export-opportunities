@@ -51,12 +51,12 @@ class Poc::OpportunityPresenter < BasePresenter
     end
   end
 
-  def contact_name
-    opportunity.contacts.first.name
-  end
-
-  def contact_email
-    opportunity.contacts.first.email
+  def contact
+    if opportunity.contacts.length > 0
+      contact_email || contact_name
+    else
+      'Contact unknown'
+    end
   end
 
   def guides_available
@@ -89,4 +89,13 @@ class Poc::OpportunityPresenter < BasePresenter
   private
 
   attr_reader :h, :opportunity
+
+  def contact_name
+    opportunity.contacts.first.name
+  end
+
+  def contact_email
+    opportunity.contacts.first.email
+  end
+
 end
