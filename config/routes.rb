@@ -32,7 +32,7 @@ Rails.application.routes.draw do
   namespace :admin do
     get 'help', to: 'help#index'
     get 'help/:id', to: 'help#show'
-    get 'help/:id/print', to: 'help#article_print'
+    get 'help/:id/print', to: 'help#article_print', as: 'help_article_print'
     get 'help/:id/:section', to: 'help#article', as: 'help_article'
 
     devise_for :editors,

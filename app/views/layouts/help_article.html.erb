@@ -60,9 +60,9 @@
       </div>
 
       <div class="article-controls">
-        <a href="/<%= @article.url %>/print">
+        <%= link_to admin_help_article_print_path do %>
           <%= image_tag "icons/print.png", :class => "icon", :alt => "", :width => "16" %>Print entire guide
-        </a>
+        <% end %>
       </div>
 
     </article>
