@@ -20,7 +20,7 @@ class Admin::HelpController < Admin::BaseController
 
   def article
     article_path = 'admin/help/' + id_to_file(params[:id])
-    @article = HelpArticlePresenter.new(article_path, params[:section])
+    @article = HelpArticlePresenter.new(params[:id], params[:section], article_path)
     @article_list = article_list
     render article_path, layout: 'help_article'
   end
@@ -36,7 +36,7 @@ class Admin::HelpController < Admin::BaseController
 
   def article_print
     article_path = 'admin/help/' + id_to_file(params[:id])
-    @article = HelpArticlePresenter.new(article_path, params[:section])
+    @article = HelpArticlePresenter.new(params[:id], params[:section], article_path)
     render article_path, layout: 'help_article_print'
   end
 
@@ -51,9 +51,9 @@ class Admin::HelpController < Admin::BaseController
       { id: 'right-for-opportunity-responses',
         title: 'How to respond to UK companies that are \'Right for opportunity\'',
         section: 'overview' },
-      { id: 'not-right-for-opportunity-responses', 
+      { id: 'not-right-for-opportunity-responses',
         title: 'How to respond to UK companies that are \'Not right for opportunity\'',
-        section: 'overview' }
+        section: 'overview' },
     ]
   end
 end

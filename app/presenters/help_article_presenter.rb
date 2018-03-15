@@ -2,9 +2,10 @@ class HelpArticlePresenter < BasePresenter
   attr_reader :content, :related_links, :sections, :url
   attr_accessor :title
 
-  def initialize(url, section_id = '')
-    @section_id = section_id
-    @url = url
+  def initialize(id, section, path)
+    @id = id
+    @section_id = section || ''
+    @url = path
     @related_links = []
     @sections = []
   end
@@ -54,5 +55,12 @@ class HelpArticlePresenter < BasePresenter
 
     links
   end
+
+  def other_articles(article_list)
+    others = []
+    article_list.each do |article|
+      others.push(article) unless article[:id].eql? @id
+    end
+    others
+  end
 end
-1
