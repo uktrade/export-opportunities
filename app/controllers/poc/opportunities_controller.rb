@@ -20,7 +20,7 @@ class Poc::OpportunitiesController < OpportunitiesController
     @search_term = search_term
     @filters = SearchFilter.new(params)
     @sort_column_name = sort_column
-    @opportunities = opportunity_search
+    @opportunity_search = opportunity_search
     @industries = industry_list
     @subscription = subscription_form_details
     render 'opportunities/results', layout: 'layouts/domestic'
@@ -157,7 +157,7 @@ class Poc::OpportunitiesController < OpportunitiesController
       results = query.records
     end
 
-    Poc::OpportunitiesSearchResultPresenter.new(view_context, results, query.records.total, per_page)
+    Poc::OpportunitiesSearchResultsPresenter.new(view_context, results, query.records.total, per_page)
   end
 
   # Get 5 most recent only
@@ -170,7 +170,7 @@ class Poc::OpportunitiesController < OpportunitiesController
     )
     query = query.page(params[:paged]).per(per_page)
 
-    Poc::OpportunitiesSearchResultPresenter.new(view_context, query.records, query.records.total, per_page)
+    Poc::OpportunitiesSearchResultsPresenter.new(view_context, query.records, query.records.total, per_page)
   end
 
   # TODO: How are the featured industries chosen?

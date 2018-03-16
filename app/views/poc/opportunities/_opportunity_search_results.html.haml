@@ -1,10 +1,10 @@
 .opportunity-search-results
-  = opportunity_search.message "information"
+  = results.displayed "information"
 
   %dl
-    - opportunity_search.results.each do |opportunity|
+    - results.found.each do |opportunity|
       %dt{:class=>"#{opportunity.source}"}
-        = link_to opportunity.title.strip, poc_opportunity_path(opportunity)
+        = link_to results.title_with_country(opportunity), poc_opportunity_path(opportunity)
 
       %dd{class: "#{opportunity.source}"}
         %span.text
@@ -19,5 +19,5 @@
           %button.link.save Save for later
           %button.link.share Share
 
-  = opportunity_search.navigation "pagination"
-  = opportunity_search.view_all_link "button all"
+  = results.navigation "pagination"
+  = results.view_all_link "button all"
