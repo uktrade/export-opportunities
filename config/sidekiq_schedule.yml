@@ -21,3 +21,9 @@ schedule_quality_opps_job:
   class: "CheckQualityOpps"
   queue: default
   active_job: true
+
+schedule_rules_engine_job:
+  cron: "15 10 * * *"
+  class: "RulesEngineVolumeOpps"
+  queue: default
+  active_job: true
