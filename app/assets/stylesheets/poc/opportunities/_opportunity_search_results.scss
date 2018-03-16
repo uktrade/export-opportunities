@@ -47,13 +47,10 @@
   }
 
   .save {
-    background: transparent image_url("star.png") 0 40% no-repeat;
+    background: transparent image_url("star.png") 100% 40% no-repeat;
     background-size: 17px;
-    padding-left: 25px;
-  }
-
-  .share {
     float: right;
+    padding-right: 25px;
   }
 }
 

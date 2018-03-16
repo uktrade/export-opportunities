@@ -9,6 +9,7 @@ class Poc::OpportunitiesController < OpportunitiesController
     @sort_column_name = sort_column
     @recent_opportunities = recent_opportunities
     @industries = industry_list
+    @page = Poc::PagePresenter.new
     render 'opportunities/index', layout: 'layouts/domestic'
   end
 
@@ -53,7 +54,7 @@ class Poc::OpportunitiesController < OpportunitiesController
 
   def show
     @opportunity = Poc::OpportunityPresenter.new(view_context, Opportunity.published.find(params[:id]))
-    @page = Poc::PagePresenter.new(@opportunity.title_with_country || 'foo')
+    @page = Poc::PagePresenter.new(@opportunity.title_with_country)
     render 'opportunities/show', layout: 'layouts/domestic'
   end
 
