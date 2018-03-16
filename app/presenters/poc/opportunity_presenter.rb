@@ -1,9 +1,10 @@
 class Poc::OpportunityPresenter < BasePresenter
-  attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries
+  attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries, :tender_url
 
   def initialize(helpers, opportunity)
     @h = helpers
     @opportunity = opportunity
+    @tender_url = opportunity.tender_url
     @teaser = opportunity.teaser
     @source = opportunity.source
     @buyer_name = opportunity&.buyer_name
@@ -51,12 +52,12 @@ class Poc::OpportunityPresenter < BasePresenter
     end
   end
 
-  def contact_name
-    opportunity.contacts.first.name
-  end
-
-  def contact_email
-    opportunity.contacts.first.email
+  def contact
+    if opportunity.contacts.length > 0
+      contact_email || contact_name
+    else
+      'Contact unknown'
+    end
   end
 
   def guides_available
@@ -86,7 +87,20 @@ class Poc::OpportunityPresenter < BasePresenter
     text.html_safe
   end
 
+  def internal
+    opportunity.source.nil?
+  end
+
   private
 
   attr_reader :h, :opportunity
+
+  def contact_name
+    opportunity.contacts.first.name
+  end
+
+  def contact_email
+    opportunity.contacts.first.email
+  end
+
 end

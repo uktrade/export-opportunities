@@ -40,8 +40,7 @@
             %dt.contact
               Contact
             %dd.contact
-              = @opportunity.contact_name
-              = @opportunity.contact_email
+              = @opportunity.contact
 
         .details
           %h2 Details
@@ -77,13 +76,23 @@
                 = @opportunity.country_guide_links
                 = @opportunity.link_to_aid_funded "Your guide for aid funded business"
 
-    .bid
-      %h2 Bid for tender
-      - if @opportunity.has_expired
-        %p.expired
-          %strong
-            = t('opportunity.expired')
-          Visit the #{link_to 'opportunities page', opportunities_path} to find another.
+      .bid
+        - if @opportunity.has_expired
+          %p.expired
+            %strong
+              = t('opportunity.expired')
+            Visit the #{link_to 'opportunities page', opportunities_path} to find another.
 
-      - else
-        = link_to 'Submit your proposal', @opportunity.new_enquiry_path, class: 'button'
+        - else
+          - if @opportunity.internal
+
+            %h2 Contact the buyer
+            %p If you meet the requirements contact the buyer.
+            %p You will be notified if you are right for this opportunity. You can only apply if you are a UK registered companny.
+            = link_to 'Contact buyer', @opportunity.new_enquiry_path, class: 'button'
+
+          - else
+            %h2 Bid for tender
+            %p If your company meets the requirements of the tender, go to the website where the tender is hosted and submit your bid.
+            = link_to 'Go to the tender site', @opportunity.tender_url, class: 'button'
+
