@@ -23,22 +23,6 @@
   border-bottom: none;
 }
 
-.hero-section {
-  background-color: $light-grey;
-  padding-top: 0;
-
-  p {
-    margin-bottom: $spacing-3;
-    width: $cols-6;
-  }
-}
-
-.quote {
-  margin-left: auto;
-  margin-right: auto;
-  width: $cols-6;
-}
-
 .companies {
   border-top: 1px solid $grey;
   clear: both;
@@ -54,6 +38,34 @@
   .company {
     @include items(3, $spacing-3);
   }
+}
+
+.hero-section {
+  background-color: $light-grey;
+  padding-top: 0;
+
+  p {
+    margin-bottom: $spacing-3;
+    width: $cols-6;
+  }
+
+  &.international {
+    padding-top: $spacing-2;
+
+    h1 {
+      max-width: 500px;
+    }
+  }
+}
+
+.non-breadcrumb {
+  margin-bottom: $spacing-4;
+}
+
+.quote {
+  margin-left: auto;
+  margin-right: auto;
+  width: $cols-6;
 }
 
 .sector {
