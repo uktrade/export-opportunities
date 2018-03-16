@@ -77,7 +77,7 @@
                 = @opportunity.link_to_aid_funded "Your guide for aid funded business"
 
       .bid
-        - if @opportunity.has_expired
+        - if @opportunity.expired?
           %p.expired
             %strong
               = t('opportunity.expired')

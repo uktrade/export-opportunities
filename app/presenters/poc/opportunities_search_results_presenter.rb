@@ -9,11 +9,11 @@ class Poc::OpportunitiesSearchResultsPresenter < BasePresenter
   end
 
   def title_with_country(opportunity)
-    if opportunity.countries.size > 1
-      country = 'Multi Country'
-    else
-      country = opportunity.countries.map(&:name).join
-    end
+    country = if opportunity.countries.size > 1
+                'Multi Country'
+              else
+                opportunity.countries.map(&:name).join
+              end
     "#{country} - #{opportunity.title}"
   end
 

@@ -12,11 +12,11 @@ class Poc::OpportunityPresenter < BasePresenter
   end
 
   def title_with_country
-    if opportunity.countries.size > 1
-      country = 'Multi Country'
-    else
-      country = opportunity.countries.map(&:name).join
-    end
+    country = if opportunity.countries.size > 1
+                'Multi Country'
+              else
+                opportunity.countries.map(&:name).join
+              end
     "#{country} - #{opportunity.title}"
   end
 
@@ -24,12 +24,12 @@ class Poc::OpportunityPresenter < BasePresenter
     h.present_html_or_formatted_text(opportunity.description).html_safe
   end
 
-  def expires
-    opportunity.response_due_on.strftime('%d %B %Y')
+  def expired?
+    opportunity.expired?
   end
 
-  def has_expired
-    opportunity.expired?
+  def expires
+    opportunity.response_due_on.strftime('%d %B %Y')
   end
 
   def enquiries_total
@@ -53,7 +53,7 @@ class Poc::OpportunityPresenter < BasePresenter
   end
 
   def contact
-    if opportunity.contacts.length > 0
+    if opportunity.contacts.length.positive?
       contact_email || contact_name
     else
       'Contact unknown'
@@ -102,5 +102,4 @@ class Poc::OpportunityPresenter < BasePresenter
   def contact_email
     opportunity.contacts.first.email
   end
-
 end

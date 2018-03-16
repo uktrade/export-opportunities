@@ -3,11 +3,10 @@ class RulesEngine
   QUALITY_SCORE_THRESHOLD = 56
 
   def call(opportunity)
+    # first validate opp
+    valid_opp = true # VolumeOppsValidator.new.validate_each(opportunity)
 
-# first validate opp
-    valid_opp = VolumeOppsValidator.new.validate_each(opportunity)
-
-# if that passes, validate sensitivity
+    # if that passes, validate sensitivity
     if valid_opp
       sensitivity_score = OppsSensitivityValidator.new.validate_each(opportunity)
 

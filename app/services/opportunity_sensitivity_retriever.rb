@@ -5,8 +5,6 @@ class OpportunitySensitivityRetriever
     hostname = Figaro.env.AZ_HOSTNAME!
     sensitivity_api_key = Figaro.env.AZ_API_KEY!
     submitted_text = "#{opportunity.title} #{opportunity.description}"[0..1023]
-    pp submitted_text.length
-    pp submitted_text.bytes.length
 
     response = OppsSensitivityConnector.new.call(submitted_text, hostname, sensitivity_api_key)
     hashed_response = JSON.parse(response)
