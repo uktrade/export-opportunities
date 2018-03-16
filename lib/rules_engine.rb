@@ -3,27 +3,28 @@ class RulesEngine
   QUALITY_SCORE_THRESHOLD = 56
 
   def call(opportunity)
-    # first validate opp
+
+# first validate opp
     valid_opp = VolumeOppsValidator.new.validate_each(opportunity)
 
-    # if that passes, validate sensitivity
+# if that passes, validate sensitivity
     if valid_opp
       sensitivity_score = OppsSensitivityValidator.new.validate_each(opportunity)
-    end
 
-    # if sensitivity pass is above threshold, validate quality
-    if sensitive_value_threshold?(sensitivity_score)
-      quality_score = OppsQualityValidator.new.validate_each(opportunity)
+      # if sensitivity pass is above threshold, validate quality
+      if sensitive_value_threshold?(sensitivity_score)
+        quality_score = OppsQualityValidator.new.validate_each(opportunity)
 
-      if quality_value_threshold?(quality_score)
-        save_and_publish(opportunity)
-      # opp is valid, sensitivity value is OK but quality may be below threshold
+        if quality_value_threshold?(quality_score)
+          save_and_publish(opportunity)
+          # opp is valid, sensitivity value is OK but quality may be below threshold
+        else
+          save_as_pending(opportunity)
+        end
+        # opp is valid, sensitivity value is BAD, we don't know about quality
       else
-        save_as_pending(opportunity)
+        save_as_trash(opportunity)
       end
-    # opp is valid, sensitivity value is BAD, we don't know about quality
-    else
-      save_as_trash(opportunity)
     end
   end
 
