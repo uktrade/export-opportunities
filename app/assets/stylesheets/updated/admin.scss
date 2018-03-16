@@ -126,20 +126,34 @@ ul {
   border-style: solid;
   border-width: 0 0 0 5px;
   font-size: $font-size-body-s;
-  margin: 0;
+  margin: 0 0 $spacing-3 0;
   padding: $spacing-4;
+
+  &.alert {
+    background-color: $green-4;
+    border-color: $green-5;
+    color: $green-6;
+  }
 
   &.announcement {
     background-color: $olive-grey;
     border-color: $olive;
   }
 
+  &.error {
+	  background-color: $red-3;
+	  border-color: $red-4;
+	  color: $red-5;
+  }
+
   // Temporary rule - you can safely delete if grep 
   // of views reveals classname no longer exists.
   &.ptu-announcement {
     background-color: #539C95;
+    border: none;
     color: $white;
     font-weight: bold;
+
     a {
       color: $white;
       font-weight: normal;
