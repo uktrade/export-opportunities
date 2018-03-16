@@ -33,7 +33,7 @@ class RulesEngine
   # returns true if so, false otherwise
   def sensitive_value_threshold?(sensitivity_score)
     weighted_average = (sensitivity_score[:category1_score] * 3 + sensitivity_score[:category2_score] * 2 + sensitivity_score[:category3_score] * 1) / 6
-    weighted_average > SENSITIVITY_SCORE_THRESHOLD
+    weighted_average < SENSITIVITY_SCORE_THRESHOLD
   end
 
   # check if quality_score is above the business thresholds we have set.
