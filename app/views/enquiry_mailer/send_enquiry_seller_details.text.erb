@@ -1,0 +1,49 @@
+You can now reply to enquiries within the admin centre.
+
+In the admin centre you can also see the:
+- enquiries that you have replied to
+- ones that still need a reply.
+
+View enquiry:
+
+<%= admin_enquiry_url(@enquiry.id) %>
+
+
+The customer below has expressed interest in this export opportunity: <%= @enquiry.opportunity.title %>
+
+<%= opportunity_url(@enquiry.opportunity) %>
+
+Customer first name: <%= @enquiry.first_name %>
+
+ Customer last name: <%= @enquiry.last_name %>
+
+Email: <%= @enquiry.email %>
+
+Company name: <%= @enquiry.company_name %>
+
+ Company URL: <%= @enquiry.company_url %>
+
+Company telephone number: <%= @enquiry.company_telephone %>
+
+Company address: <%= @enquiry.company_address %>
+
+Post code: <%= @enquiry.company_postcode %>
+
+Companies House no: <%= @enquiry.company_house_number %>
+
+Existing exporter: <%= @enquiry.existing_exporter %>
+
+Sector: <%= @enquiry.company_sector %>
+
+<%= "Details can be used for marketing by #{t('organisation.name')} and trusted partners:" %>
+<%= @enquiry.data_protection ? "Y" : "N" %>
+
+How you can meet the requirements:
+
+<%= @enquiry.company_explanation %>
+
+
+Action required within 5 working days:
+- Respond to the customer with more information
+- Use the Export Opportunity response template
+- Record a new interaction in Data Hub

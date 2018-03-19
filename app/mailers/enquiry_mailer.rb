@@ -7,10 +7,19 @@ class EnquiryMailer < ApplicationMailer
 
     email_addresses = @enquiry.opportunity.contacts.pluck(:email)
 
-    args = {
-      to: email_addresses,
-      subject: 'You’ve received an enquiry: Action required within 5 working days',
-    }
+    args = if @enquiry.opportunity.author.service_provider.id.eql? 38
+             {
+               template_name: 'send_enquiry_seller_details',
+               to: email_addresses,
+               subject: 'You’ve received an enquiry: Action required within 5 working days',
+             }
+           else
+             {
+               template_name: 'send_enquiry',
+               to: email_addresses,
+               subject: 'You’ve received an enquiry: Action required within 5 working days',
+             }
+           end
 
     if Figaro.env.enquiries_cc_email.present?
       args[:cc] = Figaro.env.enquiries_cc_email
