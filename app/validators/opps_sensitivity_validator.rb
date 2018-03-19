@@ -9,7 +9,7 @@ class OppsSensitivityValidator
       sensitivity_check = existing_sensitivity_check.last
       { review_recommended: sensitivity_check.review_recommended, category1_score: sensitivity_check.category1_score, category2_score: sensitivity_check.category2_score, category3_score: sensitivity_check.category3_score }
     else
-      sleep 1
+      sleep 0.12
       OpportunitySensitivityRetriever.new.call(opportunity)
     end
   end

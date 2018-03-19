@@ -84,7 +84,7 @@ class OpportunitySensitivityRetriever
 
     # if we are rate limited by the API, we will discard the current sensitivity check in this run and go to the next one
     if hashed_response['statusCode'].eql? 429
-      sleep 0.15
+      sleep 0.2
       return false
     end
     if hashed_response.present? && hashed_response['Status'].present? && hashed_response['Status']['Description'] == 'OK'
