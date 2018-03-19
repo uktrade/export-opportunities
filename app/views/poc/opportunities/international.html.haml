@@ -41,8 +41,8 @@
 
 %section#meet-companies
   .container
-    %h2.heading Meet UK companies
-    %p.intro Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+    %h2.heading View UK companies
+    %p.intro Search and select from verified UK companies that provide what you're looking for.
 
     %h3.sector Food and drink
     .companies
@@ -52,12 +52,12 @@
         %p Joe &amp; Seph&apos;s are a family business who launced in 2010 with a mission to produce the best tasting popcorn in the world.
       .company
         = image_tag "companies/placeholder.png"
-        %h4.name Joe &amp; Seph&apos;s
-        %p Joe &amp; Seph&apos;s are a family business who launced in 2010 with a mission to produce the best tasting popcorn in the world.
+        %h4.name Atom Brewing
+        %p Founded in 2014 with a mission to produce consistently flavour forward beers with an ethos of science and education.
       .company
         = image_tag "companies/placeholder.png"
-        %h4.name Joe &amp; Seph&apos;s
-        %p Joe &amp; Seph&apos;s are a family business who launced in 2010 with a mission to produce the best tasting popcorn in the world.
+        %h4.name The French Kitchen
+        %p The French Kitchen produce premium 75g sharing tubs of 'crisps made for foodies', based on classic French bistro recipes.
 
     %h3.sector Retail and luxury
     .companies
@@ -104,3 +104,6 @@
         %h4.name Company SAIT 1
         %p Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
 
+    = link_to "/poc/companies", :class => "button" do
+      View all 
+      %span.verbose companies 
