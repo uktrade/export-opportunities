@@ -22,6 +22,6 @@ class SubscriptionFinder
   private def matching_subscriptions
     query = SubscriptionSearchBuilder.new(search_term: '', sectors: @sector_ids, countries: @country_ids, opportunity_types: @type_ids, values: @value_ids).call
     Subscription.__elasticsearch__.refresh_index!
-    @matching_subscriptions ||= Subscription.__elasticsearch__.search(size: 10_000, query: query[:search_query]).records.to_a
+    @matching_subscriptions ||= Subscription.__elasticsearch__.search(size: 100_000, query: query[:search_query]).records.to_a
   end
 end
