@@ -38,6 +38,7 @@ class OpportunityQualityRetriever
       return opportunity_check
     else
       Rails.logger.info 'log errors from API'
+      'Error'
       # errors from API
     end
   end
