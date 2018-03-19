@@ -1,7 +1,10 @@
 class OppsQualityConnector
   def call(hostname, quality_api_key, quality_text)
     raise Exception, 'invalid input' unless quality_api_key && quality_text
+
+    # input text from OO may contain invalid byte sequence in UTF-8
     quality_text = quality_text.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
+
     response_body = JSON.parse(fetch_response(hostname, quality_api_key, quality_text))
 
     if response_body['result']
@@ -40,11 +43,15 @@ class OppsQualityConnector
       f.adapter  Faraday.default_adapter
     end
 
-    # TODO: refactor this to POST to be able to submit up to 32768 chars.
-    response = connection.get do |req|
-      req.url "#{hostname}#{quality_text}&key=#{quality_api_key}"
-    end
+    begin
+      # TODO: refactor this to POST to be able to submit up to 32768 chars.
+      response = connection.get do |req|
+        req.url "#{hostname}#{quality_text}&key=#{quality_api_key}"
+      end
 
-    response.body
+      response.body
+    rescue ArgumentError
+      '{}'
+    end
   end
 end
