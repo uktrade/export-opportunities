@@ -16,7 +16,6 @@ module VirusScannerHelper
     response = request.execute
 
     JSON.parse(response.body)
-    # response.body.eql?('OK') ? true : false
   end
 
   def scan_clean(filename, file_blob)
