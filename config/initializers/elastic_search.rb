@@ -11,6 +11,9 @@ Elasticsearch::Model.client = if Rails.env.production?
                                       Figaro.env.aws_secret_access_key
                                     ),
                                     service_name: 'es',
+                                    index: {
+                                        max_result_window: 50_000,
+                                    },
                                     region: Figaro.env.aws_region
 
                                   f.adapter Faraday.default_adapter
