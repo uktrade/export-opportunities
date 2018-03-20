@@ -7,7 +7,7 @@ describe CreateOpportunity, type: :service do
       create(:sector, id: '2')
       create(:type, id: '3')
       create(:value, id: '4')
-      create(:service_provider, id: '5', country: country)
+      @service_provider = create(:service_provider, id: '5', country: country)
     end
 
     it 'creates a new opportunity' do
@@ -27,7 +27,7 @@ describe CreateOpportunity, type: :service do
     end
 
     it 'sets status as pending' do
-      editor = create(:editor)
+      editor = create(:editor, service_provider: @service_provider)
 
       response = CreateOpportunity.new(editor).call(opportunity_params)
 
@@ -35,7 +35,7 @@ describe CreateOpportunity, type: :service do
     end
 
     it 'assigns the editor as the author' do
-      editor = create(:editor)
+      editor = create(:editor, service_provider: @service_provider)
 
       response = CreateOpportunity.new(editor).call(opportunity_params)
 

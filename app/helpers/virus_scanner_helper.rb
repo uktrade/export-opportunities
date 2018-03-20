@@ -15,10 +15,10 @@ module VirusScannerHelper
 
     response = request.execute
 
-    response.body.eql?('OK') ? true : false
+    JSON.parse(response.body)
   end
 
-  def scan_clean?(filename, file_blob)
+  def scan_clean(filename, file_blob)
     File.open(filename, 'wb') do |f|
       f.write file_blob.read
     end

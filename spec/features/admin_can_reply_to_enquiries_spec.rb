@@ -281,7 +281,7 @@ feature 'admin can reply to enquiries' do
     page.find('#li1').click
     attach_file 'enquiry_response_email_attachment', 'spec/files/tender_sample_invalid_extension_file', visible: false
 
-    expect(page.body).to have_content('Wrong file type. Your file should be doc, docx, xls, xlsx, pdf, ppt, pptx, jpg or png')
+    expect(page.body).to have_content('Wrong file type. Your file should be doc, docx, zip, xls, xlsx, pdf, ppt, pptx, jpg or png')
   end
 
   scenario 'reply to an enquiry with invalid attachments, more than 5 - with js', js: true do
