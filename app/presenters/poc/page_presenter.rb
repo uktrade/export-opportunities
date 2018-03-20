@@ -12,5 +12,6 @@ class Poc::PagePresenter < BasePresenter
     ]
 
     crumbs.push(title: title, slug: '') unless title.empty?
+    crumbs
   end
 end

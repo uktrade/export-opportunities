@@ -14,10 +14,6 @@
     line-height: 1.58em;
   }
 
-  .logo {
-    height: 50px;
-  }
-
   .sharing-links {
     display: inline-block;
     margin-top: $spacing-4;
@@ -34,12 +30,8 @@
   }
 
   .link-group {
-    float: left;
-    width: $cols-3;
-
-    li:last-child {
-      margin-bottom: $spacing-3;
-    }
+    @include items(4, $spacing-3);
+    margin-bottom: $spacing-3;
   }
 
   .link-group:first-child {
@@ -72,6 +64,12 @@
 #footer-eig-logo {
   display: block;
   margin-bottom: $spacing-3;
+}
+
+#footer-hm-logo {
+  img {
+    height: 50px;
+  }
 }
 
 #footer-site-bar {

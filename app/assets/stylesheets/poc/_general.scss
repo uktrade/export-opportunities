@@ -34,13 +34,13 @@ section {
   .heading {
     @include heading-m;
     margin-bottom: $spacing-4;
-    max-width: 670px;
+    max-width: 605px;
   }
 
   .intro {
     clear: left;
     margin-bottom: $spacing-2;
-    max-width: 670px;
+    max-width: 605px;
   }
   
   .static {
