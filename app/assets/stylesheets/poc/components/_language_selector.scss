@@ -176,10 +176,7 @@
   }
   
   .label {
-    text-transform: capitalize;
-    &:before {
-      content: " - ";
-    }
+    @include access_hidden;
   }
   
   .lang {

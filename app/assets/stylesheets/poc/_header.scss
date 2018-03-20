@@ -9,6 +9,7 @@
 #personal-bar {
   @include body-s;
   color: $white;
+  margin-bottom: $spacing-4;
   overflow: hidden;
   text-align: right;
   
@@ -56,17 +57,26 @@
     padding: 7px 0 4px 0;
   }
   
-  .signin {
+  .register {
     &:before {
       @include separator($light-grey);
+    }
+  }
+
+  .site {
+    float: left;
+    a {
+      &:before {
+        @include separator($light-grey);
+      }
     }
   }
 }
 
 #header-logo {
+  display: inline-block;
   margin-bottom: $spacing-4;
   position: relative;
-  top: -$spacing-4;
 
   img {
     margin-bottom: -8px;

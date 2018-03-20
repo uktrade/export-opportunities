@@ -1,8 +1,28 @@
 <footer id="footer">
   <div class="container">
-    <%= link_to "https://www.gov.uk/" do %>
-      <%= image_tag "logos/HM_Government_logo_light.svg", :class=>"logo", :alt=>"UK Government" %>
-    <% end %>
+      <div class="link-group">
+        <%= link_to "https://www.gov.uk/", :id=>"footer-hm-logo" do %>
+          <%= image_tag "logos/HM_Government_logo_light.svg", :alt=>"UK Government" %>
+        <% end %>
+      </div>
+      <div class="link-group">
+        <p id="footer-export-readiness-links" class="list-heading">Invest</p>
+        <ul aria-labelledby="footer-export-readiness-links" class="navigation">
+          <li><a href="#">...</a></li>
+        </ul>
+      </div>
+      <div class="link-group">
+        <p id="footer-export-readiness-links" class="list-heading">Trade</p>
+        <ul aria-labelledby="footer-export-readiness-links" class="navigation">
+          <li><a href="#">...</a></li>
+        </ul>
+      </div>
+      <div class="link-group">
+        <p id="footer-export-readiness-links" class="list-heading">Opportunitites</p>
+        <ul aria-labelledby="footer-export-readiness-links" class="navigation">
+          <li><a href="#">...</a></li>
+        </ul>
+      </div>
   </div>
 
   <div id="footer-site-links">

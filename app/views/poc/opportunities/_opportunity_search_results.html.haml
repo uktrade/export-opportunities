@@ -16,8 +16,10 @@
             = image_tag "logos/openopps_logo.png", :alt=>"Open Opps"
 
         %form.actions
+          %span.expires
+            Closing date:
+            = opportunity.response_due_on.strftime('%d %B %Y')
           %button.link.save Save for later
-          %button.link.share Share
 
   = results.navigation "pagination"
   = results.view_all_link "button all"

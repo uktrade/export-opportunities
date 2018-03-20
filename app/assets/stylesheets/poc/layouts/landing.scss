@@ -2,6 +2,7 @@
 @import '../opportunities/opportunity_search_form';
 @import '../opportunities/opportunity_search_results';
 @import '../opportunities/opportunity_summary_list';
+@import '../components/breadcrumbs';
 @import '../components/steps_indicator';
 @import '../components/quote';
 @import '../effects/carousel';
@@ -18,20 +19,8 @@
   }
 }
 
-.hero-section,
-.search-section {
-  background-color: $light-grey;
-
-  p {
-    margin-bottom: $spacing-3;
-    width: $cols-6;
-  }
-}
-
-.quote {
-  margin-left: auto;
-  margin-right: auto;
-  width: $cols-6;
+.breadcrumbs {
+  border-bottom: none;
 }
 
 .companies {
@@ -51,8 +40,45 @@
   }
 }
 
+.hero-section {
+  background-color: $light-grey;
+  padding-top: 0;
+
+  p {
+    margin-bottom: $spacing-3;
+    width: $cols-6;
+  }
+
+  &.international {
+    padding-top: $spacing-2;
+
+    h1 {
+      max-width: 500px;
+    }
+  }
+}
+
+.non-breadcrumb {
+  margin-bottom: $spacing-4;
+}
+
+.quote {
+  margin-left: auto;
+  margin-right: auto;
+  width: $cols-6;
+}
+
 .sector {
   @include body-m;
+}
+
+.search-section {
+  background-color: $light-grey;
+
+  p {
+    margin-bottom: $spacing-3;
+    width: $cols-6;
+  }
 }
 
 .Carousel {
