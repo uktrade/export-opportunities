@@ -12,11 +12,11 @@ namespace :elasticsearch do
 
     print "Rebuilding index for #{opportunities.count} opportunities"
 
-    opportunities.find_in_batches(batch_size: 100) do |group|
+    opportunities.find_in_batches(batch_size: 5000) do |group|
       print '.'
 
       group.each do |opp|
-        opp.__elasticsearch__.update_document
+        opp.__elasticsearch__.index_document refresh: true
       end
     end
 

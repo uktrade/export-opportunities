@@ -66,7 +66,8 @@ class OpportunitiesController < ApplicationController
       @query = AtomOpportunityQueryDecorator.new(@query, view_context)
       @opportunities = @query
     else
-      @count = @query.records.total
+
+     @count = @query.results.total
       @query = @query.page(params[:paged]).per(per_page)
 
       @opportunities = @query.records
