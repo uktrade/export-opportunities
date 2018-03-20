@@ -85,7 +85,7 @@ class ApplicationController < ActionController::Base
 
   def es_opportunities(query)
     res = []
-    es_opportunities = Opportunity.__elasticsearch__.search(size: 40_000, query: query[:search_query], sort: query[:search_sort])
+    es_opportunities = Opportunity.__elasticsearch__.search(size: 10_000, query: query[:search_query], sort: query[:search_sort])
     es_opportunities.each { |record| res.push record.id }
     res
   end
