@@ -10,6 +10,7 @@ ukti.UploadWidget = (function() {
       errorMessages : {
         'filetype' : 'Error. Wrong file type. Your file should be doc, docx, zip, xls, xlsx, pdf, ppt, pptx, jpg or png.',
         'filesize' : 'Error. File exceeds max size. Your file can have a maximum size of 25Mb.',
+        'cant_scan' : 'Error. Cant scan',
         'virus' : 'Error. Virus detected in this file. Contact your IT department.',
         'general' : 'Something has gone wrong. Please try again. If the problem persists, contact us.'
       }
@@ -174,10 +175,8 @@ ukti.UploadWidget = (function() {
     };
 
     var handleUploadFileError = function (error) {
-      if(error === 'virus found') {
-        errors.push(config.errorMessages.virus);
-      } else {
-        errors.push(config.errorMessages.general);
+      if(error) {
+          errors.push(config.errorMessages[error]);
       }
       ukti.Forms.addErrorsToField(baseEl, errors);
       errors.length = 0;

@@ -46,15 +46,28 @@ class DocumentValidation
   end
 
   def clamav_scan(filename, file_blob)
-    unless scan_clean?(filename, file_blob)
-      @result = {
-        status: 200,
-        errors: {
-          type: 'virus found',
-          message: 'file is not clean',
-        },
-      }
+    scan_result = scan_clean(filename, file_blob)
+    if scan_result['malware']
+      scan_result_type = if scan_result['reason'].eql? 'Heuristics.Encrypted.Zip'
+                           'cant_scan'
+                         else
+                           'virus'
+                         end
     end
+
+    @result = if scan_result['malware']
+                {
+                  status: 200,
+                  errors: {
+                    type: scan_result_type,
+                    message: scan_result['reason'],
+                  },
+                }
+              else
+                {
+                  status: 200,
+                }
+              end
   rescue SocketError => e
     Rails.logger.error 'cant reach server', e
     raise Exception, 'Cant reach server'
