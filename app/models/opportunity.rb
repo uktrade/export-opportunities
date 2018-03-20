@@ -17,7 +17,8 @@ class Opportunity < ApplicationRecord
     __elasticsearch__.delete_document
   end
 
-  mappings dynamic: 'false' do
+  settings index: { max_result_window: 100000 } do
+    mappings dynamic: 'false' do
     indexes :title, analyzer: 'english'
     indexes :teaser, analyzer: 'english'
     indexes :description, analyzer: 'english'
@@ -42,7 +43,9 @@ class Opportunity < ApplicationRecord
     indexes :first_published_at, type: :date
     indexes :updated_at, type: :date
     indexes :status, type: :keyword
+    end
   end
+
 
   has_paper_trail class_name: 'OpportunityVersion', only: [:status]
 
