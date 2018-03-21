@@ -7,37 +7,21 @@ class OppsQualityConnector
 
     response_body = JSON.parse(fetch_response(hostname, quality_api_key, quality_text))
 
-    if response_body['result']
-      if response_body['score']
-        { status: response_body['result'], score: response_body['score'], errors: response_body['errors'] }
-      else
-        { status: response_body['result'], score: 100, errors: {} }
-      end
-    else
-      case response_body['error_code']
-      when 600
-        description = 'INVALID LICENSE KEY'
-      when 601
-        description = 'TOO MANY REQUESTS PER SECOND'
-      when 602
-        description = 'MONTHLY LIMIT REQUEST EXCEEDED'
-      when 603
-        description = 'TOO MANY REQUESTS PER DAY'
-      when 605
-        description = 'LICENSE KEY EMPTY'
-      when 500
-        description = 'GENERIC ERROR'
-      when 501
-        description = 'TEXT INPUT IS TOO LONG'
-      when 502
-        description = 'TOO MANY ERRORS. NOT ENGLISH?'
-      end
-
-      { status: response_body['result'], error_code: response_body['error_code'], description: description }
+    if response_body['flaggedTokens']
+        return { status: 200, score: calculate_score(quality_text, response_body['flaggedTokens'].length), errors: response_body['flaggedTokens'] }
     end
+
+    { status: 404 }
+  end
+
+  def calculate_score(quality_text, number_errors)
+    number_words = quality_text.split(' ').length
+
+    100 - 100*(number_errors.to_f / number_words)
   end
 
   def fetch_response(hostname, quality_api_key, quality_text)
+    header_params = { "Ocp-Apim-Subscription-Key": Figaro.env.TG_API_KEY! }
     connection = Faraday.new(url: hostname) do |f|
       f.response :logger
       f.adapter  Faraday.default_adapter
@@ -45,11 +29,13 @@ class OppsQualityConnector
 
     begin
       # TODO: refactor this to POST to be able to submit up to 32768 chars.
-      response = connection.get do |req|
-        req.url "#{hostname}#{quality_text}&key=#{quality_api_key}"
+      response = connection.post "#{hostname}" do |req|
+        req.headers['Ocp-Apim-Subscription-Key'] = Figaro.env.TG_API_KEY!
+        req.body = "Text=" + quality_text.to_json
       end
 
       response.body
+      pp response.body
     rescue ArgumentError
       '{}'
     end

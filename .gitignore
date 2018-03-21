@@ -24,6 +24,7 @@ coverage/
 
 # Ignore application configuration
 /config/application.yml
+/config/application.textgears.yml
 
 # Ignore examples persistence file
 /spec/examples.txt
