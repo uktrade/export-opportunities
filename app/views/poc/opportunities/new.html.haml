@@ -1,9 +1,10 @@
+- page = Poc::PagePresenter.new('Create opportunity')
+- form = Poc::OpportunityFormPresenter.new(@process)
 - content_for :page_specific_head do
   = javascript_include_tag 'poc/layouts/form.js'
 
 
 .process
   .container
-    - @page.add_breadcrumb_current 'Create opportunity'
-    = render partial: 'components/breadcrumbs'
-    = render 'poc/opportunities/new/' + @form.view
+    = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
+    = render partial: 'poc/opportunities/new/' + form.view, locals: { form: form }

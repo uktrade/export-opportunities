@@ -17,3 +17,4 @@ class Poc::PagePresenter < BasePresenter
     ]
   end
 end
+

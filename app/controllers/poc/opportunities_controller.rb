@@ -9,7 +9,6 @@ class Poc::OpportunitiesController < OpportunitiesController
     @sort_column_name = sort_column
     @recent_opportunities = recent_opportunities
     @industries = industry_list
-    @page = Poc::PagePresenter.new
     render 'opportunities/index', layout: 'layouts/domestic'
   end
 
@@ -23,12 +22,12 @@ class Poc::OpportunitiesController < OpportunitiesController
     @sort_column_name = sort_column
     @opportunity_search = opportunity_search
     @industries = industry_list
-    @subscription = subscription_form_details
+    @subscription_form = subscription_form
     render 'opportunities/results', layout: 'layouts/domestic'
   end
 
   def new
-    @process = { view: params[:view], content: {}, entries: {}, errors: {} }
+    @process = { view: params[:view], content: 'step_1', entries: {}, errors: {} }
 
     # Record any user entries (not in DB at this point).
     process_add_user_entries
@@ -38,8 +37,6 @@ class Poc::OpportunitiesController < OpportunitiesController
     process_step_two
     process_step_one
 
-    @form = Poc::OpportunitiesFormPresenter.new(view_context, @process)
-    @page = Poc::PagePresenter.new
     if @process[:view] == 'complete'
       # TODO: Something to save opportunity in DB
       # and redirect to somewhere.
@@ -50,8 +47,7 @@ class Poc::OpportunitiesController < OpportunitiesController
   end
 
   def show
-    @opportunity = Poc::OpportunityPresenter.new(view_context, Opportunity.published.find(params[:id]))
-    @page = Poc::PagePresenter.new(@opportunity.title_with_country)
+    @opportunity = Opportunity.published.find(params[:id])
     render 'opportunities/show', layout: 'layouts/domestic'
   end
 
@@ -100,7 +96,6 @@ class Poc::OpportunitiesController < OpportunitiesController
     if @process[:view].eql? 'step_3'
       # TODO: Validate step_3 entries
       # If errors view should remain as step_3
-
       @process[:view] = 'complete' # TODO: Where/what?
     end
   end
@@ -148,8 +143,7 @@ class Poc::OpportunitiesController < OpportunitiesController
       query = query.page(params[:paged]).per(per_page)
       results = query.records
     end
-
-    Poc::OpportunitiesSearchResultsPresenter.new(view_context, results, query.records.total, per_page)
+    { results: results, total: query.records.total, limit: per_page, }
   end
 
   # Get 5 most recent only
@@ -161,8 +155,7 @@ class Poc::OpportunitiesController < OpportunitiesController
       sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
     )
     query = query.page(params[:paged]).per(per_page)
-
-    Poc::OpportunitiesSearchResultsPresenter.new(view_context, query.records, query.records.total, per_page)
+    { results: query.records, total: query.records.total, limit: per_page, }
   end
 
   # TODO: How are the featured industries chosen?
@@ -181,8 +174,8 @@ class Poc::OpportunitiesController < OpportunitiesController
     @query = Sector.all
   end
 
-  private def subscription_form_details
-    form = SubscriptionForm.new(
+  private def subscription_form
+    SubscriptionForm.new(
       query: {
         search_term: @search_term,
         sectors: @filters.sectors,
@@ -191,7 +184,5 @@ class Poc::OpportunitiesController < OpportunitiesController
         values: @filters.values,
       }
     )
-
-    { form: form, description: SubscriptionPresenter.new(form).description }
   end
 end
