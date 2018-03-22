@@ -25,6 +25,11 @@ class VolumeOppsRetriever
   def calculate_value(local_currency_value_hash)
     value = local_currency_value_hash['amount']
     currency_name = local_currency_value_hash['currency']
+
+    if value.nil? || currency_name.nil?
+      return { id: 2 }
+    end
+
     gbp_value = value_to_gbp(value, currency_name)
     # set value to 1<100,000GBP or 3>100,000GBP
     id = if gbp_value < 100_000
