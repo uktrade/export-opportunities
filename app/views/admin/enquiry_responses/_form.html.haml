@@ -24,10 +24,6 @@
             %input#response_type_1.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "1", "aria-controls" => "response-1-tab-panel", "aria-expanded" => "true", checked: (@response_type == 1 ? 'checked' : nil) }/
             %label{:for => "response_type_1", "tabindex" => "0"} Right for opportunity
             %span.badge-positive
-          %li{ class: (@response_type == 2 ? 'active' : nil), id: 'li2' }
-            %input#response_type_2.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "2", "aria-controls" => "response-2-tab-panel", checked: (@response_type == 2 ? 'checked' : nil) }/
-            %label{:for => "response_type_2", "tabindex" => "0"} Need more information
-            %span.badge-neutral
           %li{ class: (@response_type == 3 ? 'active' : nil), id: 'li3' }
             %input#response_type_3.visuallyhidden{:name => "enquiry_response[response_type]", :type => "radio", :value => "3", "aria-controls" => "response-3-tab-panel", checked: (@response_type == 3 ? 'checked' : nil)}/
             %label{:for => "response_type_3","tabindex" => "0"} Not right for opportunity
@@ -55,17 +51,6 @@
                 %li they can bid for the tender
 
               %p= link_to 'See guidance for this response', '/admin/help/right-for-opportunity-responses/overview', class: 'text', target: 'guidance'
-
-            #response-2-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel"}
-              %p In case you cannot decide if the company is 'Right' or 'Not right' for this opportunity based on the information provided:
-              %ol
-                %li Contact the company no later than #{@respond_by_date.strftime('%d %B %Y')} and ask them to provide the missing information.
-                %li Once you have received the information, select the appropriate type of response.
-
-              %p If you do not hear back from the company, make a decision based on the information you have available.
-
-              %p
-                %strong This proposal will remain marked not replied if you do not complete these steps.
 
             #response-3-tab-panel.tab-panel.js-tab-panel{"aria-expanded" => "false", :role => "tabpanel"}
               %p
