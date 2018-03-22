@@ -6,10 +6,7 @@
 
     %fieldset.field
       %legend I am looking (product):
-      - @form.fields['why'].each_with_index do |field, index|
-        .radio
-          %input{:id=>"radio-#{index}", :name=>'why', :type=>'radio', :value=>field['value']}
-          %label{:for=>"radio-#{index}"}
-            = field['text']
+      - @form.fields['why'].each do |field|
+        = @form.input_radio(field)
 
   %input{:type=>'submit', :value=>'Save and continue', :class=>'button'}

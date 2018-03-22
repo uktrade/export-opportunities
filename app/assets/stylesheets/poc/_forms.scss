@@ -12,12 +12,14 @@ fieldset {
 form {
   margin-bottom: $spacing-3;
 
-  .edit {
-    float: right;
-  }
-
+  .description,
   .helptext {
     color: $mid-grey;
+    display: block;
+  }
+
+  .edit {
+    float: right;
   }
 }
 
@@ -45,11 +47,6 @@ legend {
   display: block;
   font-weight: bold;
   margin-bottom: $spacing-4;
-  
-  .description {
-    color: $mid-grey;
-    display: block;
-  }
 }
 
 pre {
@@ -108,6 +105,7 @@ textarea {
   label {
     cursor: pointer;
     font-weight: normal;
+    margin-bottom: 0;
     
     &:before {
       background: transparent;
@@ -200,6 +198,7 @@ textarea {
 }
 
 .field {
+  clear: both;
   margin-bottom: $spacing-3;
 }
 
@@ -247,7 +246,7 @@ textarea {
 
 .process {
   overflow: hidden;
-  padding: $spacing-1 0  $spacing-3 0;
+  padding: 0 0 $spacing-3 0;
 
   form {
     border-bottom: 1px solid $light-grey;
@@ -299,7 +298,7 @@ textarea {
 
     h1,
     form,
-    .description {
+    .breadcrumbs {
       @include columns(8);
       margin-bottom: $spacing-1;
     }

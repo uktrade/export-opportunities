@@ -1,13 +1,10 @@
 ---
 what:
-  - text: products
-    value: products
+  - label: Opportunity
+    description: I need this product or service now
 
-  - text: professional services
-    value: services
+  - label: Future opportunity
+    description: I need this product or service in the near future
 
-  - text: software
-    value: software
-
-  - text: to write a tender
-    value: tender
+  - label: Early engagement
+    description: I'm just looking to see what products or services are available

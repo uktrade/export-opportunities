@@ -40,6 +40,7 @@ class Poc::OpportunitiesController < OpportunitiesController
     process_step_one
 
     @form = Poc::OpportunitiesFormPresenter.new(view_context, @process)
+    @page = Poc::PagePresenter.new
     case @process[:view]
     when 'step_4'
       render 'opportunities/verify', layout: 'layouts/international'

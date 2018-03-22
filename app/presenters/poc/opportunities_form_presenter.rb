@@ -1,13 +1,15 @@
 class Poc::OpportunitiesFormPresenter < BasePresenter
+  include ActionView::Helpers::TagHelper
+  include ActionView::Helpers::FormTagHelper 
   require 'yaml'
-  attr_reader :view, :fields, :entries
+  attr_reader :view, :field_content, :entries
 
   OPPORTUNITY_CONTENT_PATH = 'app/views/poc/opportunities/new/'.freeze
 
   def initialize(helpers, process)
     @helpers = helpers
     @entries = process[:entries]
-    @fields = form_field_content process[:fields]
+    @field_content = form_field_content(process[:fields])
     @view = process[:view] || 'step_1'
   end
 
@@ -15,35 +17,107 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
   def hidden_fields
     fields = @helpers.hidden_field_tag 'view', @view
     @entries.each_pair do |key, value|
-      unless @fields.keys.include? key
+      unless @field_content.keys.include? key
         fields += @helpers.hidden_field_tag key, value
       end
     end
     fields.html_safe
   end
 
-  # Simplify syntax for rendering field label content
-  def label(name)
-    field_property_value(name, 'label')
+  # Return formatted data for Date Selector component
+  def input_date_selector(name)
+    field = @field_content[name]
+    id = field_id(name)
+    {
+      id: id,
+      name_dd: "#{id}_dd",
+      name_mm: "#{id}_mm",
+      name_yy: "#{id}_yy",
+      description: prop(field, 'description'),
+      text: prop(field, 'label'),
+    }
   end
 
-  # Simplify syntax for rendering field description content
-  def description(name)
-    field_property_value(name, 'description')
+  # Return formatted data for Multi Currency component
+  def input_multi_currency_amount(name)
+    field = @field_content[name]
+    id = field_id(name)
+    {
+      id: id,
+      id_dd: "#{id}_dd",
+      id_mm: "#{id}_mm",
+      id_yy: "#{id}_yy",
+      name: name,
+      name_dd: "#{name}_dd",
+      name_mm: "#{name}_mm",
+      name_yy: "#{name}_yy",
+      description: prop(field, 'description'),
+      text: prop(field, 'label'),
+    }
   end
 
-  # Safely get field property value
-  private def field_property_value(fieldname, key)
-    field = @fields[fieldname]
-    if field.nil?
-      "Cannot find #{key} for field '#{fieldname}'"
+  # Return formatted data for Radio input component
+  def input_radio(name)
+    field_content = @field_content[name]
+    radios = []
+    unless field_content.nil?
+      field_content.each_with_index do |radio, index|
+        id = field_id("#{name}_#{index}")
+        radio = {
+          id: id,
+          name: name,
+          checked: false,
+          label: input_label(name),
+        }
+        radios.push(radio)
+      end
+    end
+    radios
+  end
+
+  # Return formatted data for Text input component
+  def input_text(name)
+    field = @field_content[name]
+    id = field_id(name)
+    {
+      id: id,
+      name: name,
+      label: input_label(name)
+    }
+  end
+
+  # Return formatted data for Form label component
+  def input_label(name)
+    field = @field_content[name]
+    id = field_id(name)
+    {
+      field_id: id,
+      description: prop(field, 'description')&.html_safe,
+      description_id: "#{id}_description",
+      placeholder: prop(field, 'placeholder'),
+      text: prop(field, 'label'),
+    }
+  end
+
+
+  private
+
+  # Return lowercae string with alphanumeric+underscore only. 
+  def field_id(str)
+    "#{@view}_#{str}".gsub(/[^\w]/, '').downcase
+  end
+
+  # Return property value or empty string
+  def prop(field, key)
+    if field.has_key?(key)
+      field[key]
     else
-      field[key]&.html_safe
+      ''
     end
   end
 
   # Gets form field content separated from the view
-  private def form_field_content(step)
+  def form_field_content(step)
     case step
     when 'step_2'
       YAML.load_file(OPPORTUNITY_CONTENT_PATH + '_step_2.yml')
