@@ -5,6 +5,7 @@ class RetrieveVolumeOpps
 
   def perform
     editor = Editor.where(email: Figaro.env.MAILER_FROM_ADDRESS!).first
-    VolumeOppsRetriever.new.call(editor)
+    today_date = Time.zone.now.strftime('%Y-%m-%d')
+    VolumeOppsRetriever.new.call(editor, today_date)
   end
 end

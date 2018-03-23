@@ -71,3 +71,8 @@ vendor/bundle/*
 
 # OS specific files
 .DS_Store
+
+# ignore test files
+*.zip
+*.xls
+*.xlsx

@@ -1,7 +1,7 @@
 require 'jwt_volume_connector'
 
 class VolumeOppsRetriever
-  def call(editor)
+  def call(editor, date)
     username = Figaro.env.OO_USERNAME!
     password = Figaro.env.OO_PASSWORD!
     hostname = Figaro.env.OO_HOSTNAME!
@@ -10,12 +10,12 @@ class VolumeOppsRetriever
 
     token_response = jwt_volume_connector_token(username, password, hostname, token_endpoint)
 
-    res = jwt_volume_connector_data(JSON.parse(token_response.body)['token'], hostname, data_endpoint)
+    res = jwt_volume_connector_data(JSON.parse(token_response.body)['token'], hostname, data_endpoint, date)
 
     while res[:has_next]
       # store data from page
       process_result_page(res, editor)
-      res = jwt_volume_connector_data(JSON.parse(token_response.body)['token'], res[:next_url], '')
+      res = jwt_volume_connector_data(JSON.parse(token_response.body)['token'], res[:next_url], '', date)
     end
 
     # process the last page of results
@@ -142,8 +142,8 @@ class VolumeOppsRetriever
     JwtVolumeConnector.new.token(username, password, hostname, token_endpoint)
   end
 
-  def jwt_volume_connector_data(token, hostname, url)
-    JwtVolumeConnector.new.data(token, hostname, url)
+  def jwt_volume_connector_data(token, hostname, url, date)
+    JwtVolumeConnector.new.data(token, hostname, url, date)
   end
 
   def process_result_page(res, editor)
