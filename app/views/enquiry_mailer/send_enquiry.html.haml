@@ -6,9 +6,9 @@
   %br
   %br
   You've received a new enquiry for 
-  = link_to @enquiry.opportunity.title, opportunity_url(@enquiry.opportunity)
+  = @enquiry.opportunity.title
   from
-  = link_to @enquiry.company_name, @enquiry.company_url
+  = "#{@enquiry.company_name}."
 
 %p 
   You need to respond to the enquiry using the correct reply template in the admin centre by
