@@ -5,9 +5,11 @@ class EnquiryMailer < ApplicationMailer
     @enquiry = enquiry
     return if @enquiry.opportunity.contacts.nil?
 
+    excepted_service_providers = Figaro.env.PTU_EXEMPT_SERVICE_PROVIDERS!
+
     email_addresses = @enquiry.opportunity.contacts.pluck(:email)
 
-    args = if @enquiry.opportunity.author.service_provider.id.eql? 38
+    args = if (excepted_service_providers.split(',').map(&:to_i).include? @enquiry.opportunity.author.service_provider.id)
              {
                template_name: 'send_enquiry_seller_details',
                to: email_addresses,
@@ -17,7 +19,7 @@ class EnquiryMailer < ApplicationMailer
              {
                template_name: 'send_enquiry',
                to: email_addresses,
-               subject: 'You’ve received an enquiry: Action required within 5 working days',
+               subject: "Enquiry from #{@enquiry.company_name}: action required within 5 working days",
              }
            end
 

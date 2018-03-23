@@ -8,9 +8,41 @@ RSpec.describe OpportunityMailer, type: :mailer do
       EnquiryMailer.send_enquiry(enquiry).deliver_now!
       last_delivery = ActionMailer::Base.deliveries.last
 
-      expect(last_delivery.subject).to eql("You've received an enquiry: Action required within 5 working days")
+      expect(last_delivery.subject).to eql("Enquiry from #{enquiry.company_name}: action required within 5 working days")
       expect(last_delivery.to).to eql(enquiry.opportunity.contacts.pluck(:email))
       expect(last_delivery.to_s).to include(enquiry.opportunity.title)
+      expect(last_delivery.to_s).to include(enquiry.company_name)
+    end
+
+    it 'sends an enquiry to a PTU exempted service provider' do
+      excepted_service_provider_id = Figaro.env.PTU_EXEMPT_SERVICE_PROVIDERS
+      service_provider = create(:service_provider, id: excepted_service_provider_id.split(',').first)
+      author = create(:editor, service_provider: service_provider)
+      opportunity = create(:opportunity, author: author)
+      enquiry = create(:enquiry, opportunity: opportunity)
+
+      EnquiryMailer.send_enquiry(enquiry).deliver_now!
+      last_delivery = ActionMailer::Base.deliveries.last
+
+      expect(last_delivery.subject).to eql("You've received an enquiry: Action required within 5 working days")
+      expect(last_delivery.to).to eql(enquiry.opportunity.contacts.pluck(:email))
+      expect(last_delivery.to_s).to include('You can now reply to enquiries within the admin centre')
+      expect(last_delivery.to_s).to include(enquiry.company_name)
+    end
+
+    it 'sends an enquiry to a mandatory PTU service provider' do
+      # pick a service provider id that will not get exempted from mandatory PTU
+      service_provider = create(:service_provider, id: 101)
+      author = create(:editor, service_provider: service_provider)
+      opportunity = create(:opportunity, author: author)
+      enquiry = create(:enquiry, opportunity: opportunity)
+
+      EnquiryMailer.send_enquiry(enquiry).deliver_now!
+      last_delivery = ActionMailer::Base.deliveries.last
+
+      expect(last_delivery.subject).to eql("Enquiry from #{enquiry.company_name}: action required within 5 working days")
+      expect(last_delivery.to).to eql(enquiry.opportunity.contacts.pluck(:email))
+      expect(last_delivery.to_s).to include('You need to respond to the enquiry using the correct reply template in the admin centre by')
       expect(last_delivery.to_s).to include(enquiry.company_name)
     end
 
