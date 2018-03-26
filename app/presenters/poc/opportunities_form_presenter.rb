@@ -136,6 +136,18 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
     radios
   end
 
+  # Return label data
+  def label(field, name)
+    id = field_id(name)
+    {
+      field_id: id,
+      description: prop(field, 'description')&.html_safe,
+      description_id: "#{id}_description",
+      placeholder: prop(field, 'placeholder'),
+      text: prop(field, 'label'),
+    }
+  end
+
   # Return property value or empty string
   def prop(field, key)
     if field.key?(key)
