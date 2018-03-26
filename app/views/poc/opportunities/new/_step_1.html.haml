@@ -1,11 +1,10 @@
 %form{:method=>'post'}
   %fieldset 
-    %legend.progress Step 1 of 4
-    %p.requirement What are you looking for?
+    %legend.progress Step 1 of 3
+    %p.requirement What type of opportunity would you like to create?
     = @form.hidden_fields
 
     %fieldset.field
-      %legend I need:
       = render partial: "components/input_radio", locals: { radios: @form.input_radio('what') }
 
   %input{:type=>'submit', :value=>'Save and continue', :class=>'button'}

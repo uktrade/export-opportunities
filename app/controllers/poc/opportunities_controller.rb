@@ -71,18 +71,18 @@ class Poc::OpportunitiesController < OpportunitiesController
       # If errors view should remain as step_1
 
       case @process[:entries]['what']
-      when 'products'
-        @process[:view] = 'step_2'
-        @process[:fields] = 'step_2'
-      when 'services'
+      when '1'
+        @process[:view] = 'step_3'
+        @process[:fields] = 'step_3.1'
+      when '2'
         @process[:view] = 'step_3'
         @process[:fields] = 'step_3.2'
-      when 'tender'
+      when '3'
         @process[:view] = 'step_3'
         @process[:fields] = 'step_3.3'
       else
-        @process[:view] = 'step_3'
-        @process[:fields] = 'step_3.1'
+        @process[:view] = 'step_1'
+        @process[:fields] = 'step_1'
       end
     end
   end

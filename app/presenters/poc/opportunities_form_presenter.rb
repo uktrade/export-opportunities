@@ -68,7 +68,8 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
         radio = {
           id: id,
           name: name,
-          checked: false,
+          value: index,
+          checked: false, # TODO: How to know it is selected?
           label: radio_label,
         }
         radios.push(radio)
