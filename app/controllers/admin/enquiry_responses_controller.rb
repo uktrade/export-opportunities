@@ -64,11 +64,11 @@ class Admin::EnquiryResponsesController < Admin::BaseController
       case enquiry_response_type
       when 1
         render 'enquiry_response_mailer/_right_for_opportunity'
-      when 2
-        render 'enquiry_response_mailer/_not_right_for_opportunity'
       when 3
-        email_send(@enquiry_response.id)
+        render 'enquiry_response_mailer/_not_right_for_opportunity'
       when 4
+        email_send(@enquiry_response.id)
+      when 5
         email_send(@enquiry_response.id)
       end
     else
