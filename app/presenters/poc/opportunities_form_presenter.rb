@@ -61,13 +61,15 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
     field_content = @field_content[name]
     radios = []
     unless field_content.nil?
-      field_content.each_with_index do |radio, index|
+      field_content.each_with_index do |field, index|
         id = field_id("#{name}_#{index}")
+        radio_label = label(field, name)
+        radio_label[:field_id] = id
         radio = {
           id: id,
           name: name,
           checked: false,
-          label: input_label(name),
+          label: radio_label,
         }
         radios.push(radio)
       end
@@ -82,21 +84,14 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
     {
       id: id,
       name: name,
-      label: input_label(name)
+      label: label(field, name)
     }
   end
 
   # Return formatted data for Form label component
   def input_label(name)
     field = @field_content[name]
-    id = field_id(name)
-    {
-      field_id: id,
-      description: prop(field, 'description')&.html_safe,
-      description_id: "#{id}_description",
-      placeholder: prop(field, 'placeholder'),
-      text: prop(field, 'label'),
-    }
+    label(field, name)
   end
 
 
@@ -105,6 +100,18 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
   # Return lowercae string with alphanumeric+underscore only. 
   def field_id(str)
     "#{@view}_#{str}".gsub(/[^\w]/, '').downcase
+  end
+
+  # Return label data
+  def label(field, name)
+    id = field_id(name)
+    {
+      field_id: id,
+      description: prop(field, 'description')&.html_safe,
+      description_id: "#{id}_description",
+      placeholder: prop(field, 'placeholder'),
+      text: prop(field, 'label'),
+    }
   end
 
   # Return property value or empty string
