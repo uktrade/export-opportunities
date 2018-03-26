@@ -1,7 +1,10 @@
 namespace :volume do
   desc 'fetch volume opps'
   task fetch_opps: :environment do
-    VolumeOppsRetriever.new.call(Editor.find(1337))
+    fetch_date = Figaro.env.OO_FETCH_FROM_DATE
+    fetch_date ||= Time.zone.now.strftime('%Y-%m-%d')
+    pp fetch_date
+    VolumeOppsRetriever.new.call(Editor.find(1337), fetch_date)
   end
 
   task delete_opps: :environment do
