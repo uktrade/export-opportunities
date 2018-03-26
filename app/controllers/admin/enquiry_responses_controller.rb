@@ -64,8 +64,6 @@ class Admin::EnquiryResponsesController < Admin::BaseController
       case enquiry_response_type
       when 1
         render 'enquiry_response_mailer/_right_for_opportunity'
-      when 2
-        render 'enquiry_response_mailer/_more_information'
       when 3
         render 'enquiry_response_mailer/_not_right_for_opportunity'
       when 4

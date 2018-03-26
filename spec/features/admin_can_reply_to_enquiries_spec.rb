@@ -9,19 +9,19 @@ feature 'admin can reply to enquiries' do
     end
   end
 
-  scenario 'reply to an enquiry - need more information' do
-    admin = create(:admin)
-    opportunity = create(:opportunity)
-    enquiry = create(:enquiry, opportunity: opportunity)
-    login_as(admin)
-    visit '/admin/enquiries/' + enquiry.id.to_s
-
-    click_on 'Reply'
-    # need more information
-    choose 'Need more information'
-
-    expect(page).to have_content('Contact the company')
-  end
+  # scenario 'reply to an enquiry - need more information' do
+  #   admin = create(:admin)
+  #   opportunity = create(:opportunity)
+  #   enquiry = create(:enquiry, opportunity: opportunity)
+  #   login_as(admin)
+  #   visit '/admin/enquiries/' + enquiry.id.to_s
+  #
+  #   click_on 'Reply'
+  #   # need more information
+  #   choose 'Need more information'
+  #
+  #   expect(page).to have_content('Contact the company')
+  # end
 
   scenario 'reply to an enquiry with blank mail - FAIL' do
     admin = create(:admin)
@@ -36,28 +36,28 @@ feature 'admin can reply to enquiries' do
 
     fill_in 'enquiry_response_signature', with: editor_signature
 
-    choose 'Need more information'
+    choose 'Right for opportunity'
 
     click_on 'Preview'
 
     expect(page).to have_content('1 error prevented this enquiry response from being saved')
   end
 
-  scenario 'reply to an enquiry as an uploader from the same service provider, need more information choice' do
-    service_provider = create(:service_provider)
-    uploader = create(:uploader, service_provider_id: service_provider.id)
-    opportunity = create(:opportunity, service_provider_id: service_provider.id)
-    enquiry = create(:enquiry, opportunity: opportunity)
-    login_as(uploader)
-    visit '/admin/enquiries/' + enquiry.id.to_s
-
-    click_on 'Reply'
-    expect(page).to have_content('Email body')
-
-    choose 'Need more information'
-
-    expect(page).to have_content('Contact the company')
-  end
+  # scenario 'reply to an enquiry as an uploader from the same service provider, need more information choice' do
+  #   service_provider = create(:service_provider)
+  #   uploader = create(:uploader, service_provider_id: service_provider.id)
+  #   opportunity = create(:opportunity, service_provider_id: service_provider.id)
+  #   enquiry = create(:enquiry, opportunity: opportunity)
+  #   login_as(uploader)
+  #   visit '/admin/enquiries/' + enquiry.id.to_s
+  #
+  #   click_on 'Reply'
+  #   expect(page).to have_content('Email body')
+  #
+  #   choose 'Need more information'
+  #
+  #   expect(page).to have_content('Contact the company')
+  # end
 
   scenario 'reply to an enquiry as an uploader for the opportunity, not right for opportunity choice', js: true do
     create(:service_provider)
@@ -75,7 +75,7 @@ feature 'admin can reply to enquiries' do
 
     expect(page.body).to have_content(email_body_text)
 
-    # right for opportunity option
+    # not right for opportunity option
     page.find('#li3').click
 
     wait_for_ajax
