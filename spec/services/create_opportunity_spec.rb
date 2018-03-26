@@ -19,7 +19,7 @@ describe CreateOpportunity, type: :service do
     end
 
     it 'returns an opportunity' do
-      editor = create(:editor)
+      editor = create(:editor, service_provider: @service_provider)
 
       response = CreateOpportunity.new(editor).call(opportunity_params)
 
@@ -43,14 +43,14 @@ describe CreateOpportunity, type: :service do
     end
 
     it "creates a slug from an opportunity's title" do
-      editor = create(:editor)
+      editor = create(:editor, service_provider: @service_provider)
       params = opportunity_params(title: 'Export Great Britain to Great Nations For Fun & Profit!')
       response = CreateOpportunity.new(editor).call(params)
       expect(response.slug).to eq 'export-great-britain-to-great-nations-for-fun-profit'
     end
 
     it 'ensures an editor-entered slug is in the right format' do
-      editor = create(:editor)
+      editor = create(:editor, service_provider: @service_provider)
       params = opportunity_params.merge(slug: 'badly formatted SLUG')
 
       response = CreateOpportunity.new(editor).call(params)
