@@ -1,6 +1,0 @@
-- if label[:description].nil? or label[:description].empty?
-  = label_tag(label[:field_id], label[:text])
-- else
-  = label_tag(label[:field_id], label[:text], 'aria-describedby': label[:description_id])
-  %p.description{ id: label[:description_id] }
-    = label[:description]
