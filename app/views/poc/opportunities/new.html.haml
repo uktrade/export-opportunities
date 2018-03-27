@@ -6,6 +6,4 @@
   .container
     - @page.add_breadcrumb_current 'Create opportunity'
     = render partial: 'components/breadcrumbs'
-
-    %h1.verbose Create opportunity
     = render 'poc/opportunities/new/' + @form.view

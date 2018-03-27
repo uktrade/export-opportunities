@@ -1,10 +1,6 @@
 ---
 what:
-  - label: Opportunity
-    description: I need this product or service now
-
-  - label: Future opportunity
-    description: I need this product or service in the near future
-
-  - label: Early engagement
-    description: I'm just looking to see what products or services are available
+  - label: products
+  - label: professionql services
+  - label: software services
+  - label: to promote a tender

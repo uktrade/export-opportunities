@@ -1,10 +1,9 @@
+%h1 Create business opportunity
+%p.intro Use this form to request the goods and services you are looking for. You will also be able to choose from a list of matching UK suppliers.
+
 %form{:method=>'post'}
-  %fieldset 
-    %legend.progress Step 1 of 3
-    %p.requirement What type of opportunity would you like to create?
-    = @form.hidden_fields
 
-    %fieldset.field
-      = render partial: "components/input_radio", locals: { radios: @form.input_radio('what') }
-
+  %p.requirement What are you looking for?
+  = @form.hidden_fields
+  = render partial: "forms/input_radio", locals: { radios: @form.input_radio('what') }
   %input{:type=>'submit', :value=>'Save and continue', :class=>'button'}
