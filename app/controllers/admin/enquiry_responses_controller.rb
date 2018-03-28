@@ -13,7 +13,7 @@ class Admin::EnquiryResponsesController < Admin::BaseController
     @companies_house_url ||= companies_house_url(@enquiry.company_house_number)
     @enquiry_response ||= EnquiryResponse.where(enquiry_id: @enquiry.id).first ? EnquiryResponse.where(enquiry_id: @enquiry.id).first : EnquiryResponse.new
     @enquiry_response.enquiry ||= @enquiry
-    @respond_by_date ||= @enquiry.created_at + 5.days
+    @respond_by_date ||= @enquiry.created_at + 7.days
     authorize @enquiry_response
   end
 
@@ -74,7 +74,7 @@ class Admin::EnquiryResponsesController < Admin::BaseController
     else
       @enquiry = @enquiry_response.enquiry
       @companies_house_url = companies_house_url(@enquiry.company_house_number)
-      @respond_by_date = @enquiry.created_at + 5.days
+      @respond_by_date = @enquiry.created_at + 7.days
 
       render :new, status: :unprocessable_entity
     end

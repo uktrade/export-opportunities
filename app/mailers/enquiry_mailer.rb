@@ -9,7 +9,7 @@ class EnquiryMailer < ApplicationMailer
 
     email_addresses = @enquiry.opportunity.contacts.pluck(:email)
 
-    args = if (excepted_service_providers.split(',').map(&:to_i).include? @enquiry.opportunity.author.service_provider.id)
+    args = if (excepted_service_providers.split(',').map(&:to_i).include? @enquiry.opportunity.service_provider.id)
              {
                template_name: 'send_enquiry_seller_details',
                to: email_addresses,
