@@ -9,17 +9,19 @@ class EnquiryMailer < ApplicationMailer
 
     email_addresses = @enquiry.opportunity.contacts.pluck(:email)
 
+    subject = "Enquiry from #{@enquiry.company_name}: action required within 5 working days"
+
     args = if (excepted_service_providers.split(',').map(&:to_i).include? @enquiry.opportunity.service_provider.id)
              {
                template_name: 'send_enquiry_seller_details',
                to: email_addresses,
-               subject: 'You’ve received an enquiry: Action required within 5 working days',
+               subject: subject,
              }
            else
              {
                template_name: 'send_enquiry',
                to: email_addresses,
-               subject: "Enquiry from #{@enquiry.company_name}: action required within 5 working days",
+               subject: subject,
              }
            end
 
