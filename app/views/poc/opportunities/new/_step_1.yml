@@ -1,6 +1,8 @@
 ---
 what:
-  - label: products
-  - label: professionql services
-  - label: software services
-  - label: to promote a tender
+  question: What are you looking for?
+  options:
+    - label: products
+    - label: professional services
+    - label: software services
+    - label: to promote a tender

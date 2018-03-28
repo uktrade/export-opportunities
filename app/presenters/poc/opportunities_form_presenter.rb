@@ -58,24 +58,14 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
 
   # Return formatted data for Radio input component
   def input_radio(name)
-    field_content = @field_content[name]
-    radios = []
+    field = @field_content[name]
+    input = {}
     unless field_content.nil?
-      field_content.each_with_index do |field, index|
-        id = field_id("#{name}_#{index}")
-        radio_label = label(field, name)
-        radio_label[:field_id] = id
-        radio = {
-          id: id,
-          name: name,
-          value: index,
-          checked: false, # TODO: How to know it is selected?
-          label: radio_label,
-        }
-        radios.push(radio)
-      end
+      input[:question] = prop(field, 'question')
+      input[:name] = name
+      input[:options] = radios(field['options'], name)
     end
-    radios
+    input
   end
 
   # Return formatted data for Text input component
@@ -113,6 +103,25 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
       placeholder: prop(field, 'placeholder'),
       text: prop(field, 'label'),
     }
+  end
+
+  # Return formatted radios with labels data
+  def radios(options, name)
+    radios = []
+    options.each_with_index do |option, index|
+      id = field_id("#{name}_#{index}")
+      radio_label = label(option, name)
+      radio_label[:field_id] = id
+      radio = {
+        id: id,
+        value: index,
+        checked: false, # TODO: How to know it is selected?
+        label: radio_label,
+      }
+      puts "radio: #{radio}"
+      radios.push(radio)
+    end
+    radios
   end
 
   # Return property value or empty string
