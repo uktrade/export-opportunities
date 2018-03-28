@@ -148,6 +148,25 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
     }
   end
 
+  # Return formatted radios with labels data
+  def radios(options, name)
+    radios = []
+    options.each_with_index do |option, index|
+      id = field_id("#{name}_#{index}")
+      radio_label = label(option, name)
+      radio_label[:field_id] = id
+      radio = {
+        id: id,
+        value: index,
+        checked: false, # TODO: How to know it is selected?
+        label: radio_label,
+      }
+      puts "radio: #{radio}"
+      radios.push(radio)
+    end
+    radios
+  end
+
   # Return property value or empty string
   def prop(field, key)
     if field.key?(key)
