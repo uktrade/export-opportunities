@@ -1,72 +1,20 @@
-%p
-  You can now reply to enquiries within the admin centre.
-  %br
-  %br
-  In the admin centre you can also see the:
-  %ul
-    %li
-      enquiries that you have replied to
-    %li
-      ones that still need a reply
-
-  View enquiry:
-  %br
-  = link_to @enquiry.opportunity.title, admin_enquiry_url(@enquiry.id)
-  %br
-  %br
-  The customer below has expressed interest in this export opportunity:
-  %br
-  = link_to @enquiry.opportunity.title, opportunity_url(@enquiry.opportunity)
-%p
-  Customer first name:
+%p 
+  Dear
   = @enquiry.first_name
-  %br
-  Customer last name:
   = @enquiry.last_name
-  %br
-  Email:
-  = @enquiry.email
-  %br
-  Company name:
-  = @enquiry.company_name
-  %br
-  Company URL:
-  = @enquiry.company_url
-  %br
-  Company telephone number:
-  = @enquiry.company_telephone
-  %br
-  Company address:
-  = @enquiry.company_address
-  %br
-  Post code:
-  = @enquiry.company_postcode
-  %br
-  Companies House no:
-  = @enquiry.company_house_number
-  %br
-  Existing exporter:
-  = @enquiry.existing_exporter
-  %br
-  Sector:
-  = @enquiry.company_sector
-  %br
-  ="Details can be used for marketing by #{t('organisation.name')} and trusted partners:"
-  = @enquiry.data_protection ? "Y" : "N"
-%p
-  How you can meet the requirements:
-  %br
-  = @enquiry.company_explanation
 
-%h2
-  Action required within 5 working days:
-%p
-  %strong Respond
-  to the customer with more information
   %br
-  %strong Use
-  the Export Opportunity response template
   %br
-  %strong Record
-  a new interaction in Data Hub
-  %br
+  You've received a new enquiry for 
+  = @enquiry.opportunity.title
+  from
+  = "#{@enquiry.company_name}."
+
+%p 
+  You need to respond to the enquiry using the correct reply template in the admin centre by
+  = 5.days.from_now.strftime("%d %B %Y") + '.'
+
+%p Remember to record a new interaction in Data Hub. 
+
+%p.action
+  = link_to "Go to enquiry", admin_enquiry_url(@enquiry.id)
