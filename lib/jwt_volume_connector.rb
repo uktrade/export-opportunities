@@ -27,7 +27,7 @@ class JwtVolumeConnector
 
     date ||= Time.zone.now.strftime('%Y-%m-%d')
     response = connection.get do |req|
-      req.url hostname + url + '&releasedate=' + date
+      req.url hostname + url + '&date_created=' + date
       req.headers['Authorization'] = 'JWT ' + token
     end
 
