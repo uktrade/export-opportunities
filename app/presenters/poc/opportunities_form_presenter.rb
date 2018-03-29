@@ -2,14 +2,16 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
   include ActionView::Helpers::TagHelper
   include ActionView::Helpers::FormTagHelper 
   require 'yaml'
-  attr_reader :view, :field_content, :entries
+  attr_reader :content, :description, :entries, :title, :view
 
   OPPORTUNITY_CONTENT_PATH = 'app/views/poc/opportunities/new/'.freeze
 
   def initialize(helpers, process)
     @helpers = helpers
     @entries = process[:entries]
-    @field_content = form_field_content(process[:fields])
+    @content = content(process[:content])
+    @title = prop(@content, 'title')
+    @description = prop(@content, 'description')
     @view = process[:view] || 'step_1'
   end
 
@@ -17,7 +19,7 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
   def hidden_fields
     fields = @helpers.hidden_field_tag 'view', @view
     @entries.each_pair do |key, value|
-      unless @field_content.keys.include? key
+      unless @content['form'].keys.include? key
         fields += @helpers.hidden_field_tag key, value
       end
     end
@@ -26,7 +28,7 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
 
   # Return formatted data for Date Selector component
   def input_date_selector(name)
-    field = @field_content[name]
+    field = field_content(name)
     id = field_id(name)
     {
       id: id,
@@ -40,7 +42,7 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
 
   # Return formatted data for Multi Currency component
   def input_multi_currency_amount(name)
-    field = @field_content[name]
+    field = field_content(name)
     id = field_id(name)
     {
       id: id,
@@ -58,9 +60,9 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
 
   # Return formatted data for Radio input component
   def input_radio(name)
-    field = @field_content[name]
+    field = field_content(name)
     input = {}
-    unless field_content.nil?
+    unless field.nil?
       input[:question] = prop(field, 'question')
       input[:name] = name
       input[:options] = radios(field['options'], name)
@@ -70,7 +72,7 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
 
   # Return formatted data for Text input component
   def input_text(name)
-    field = @field_content[name]
+    field = field_content(name)
     id = field_id(name)
     {
       id: id,
@@ -81,8 +83,14 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
 
   # Return formatted data for Form label component
   def input_label(name)
-    field = @field_content[name]
+    field = field_content(name)
     label(field, name)
+  end
+
+  # Get form field content
+  def has_field?(name)
+    fields = @content['form']
+    fields.has_key?(name)
   end
 
 
@@ -98,7 +106,7 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
     id = field_id(name)
     {
       field_id: id,
-      description: prop(field, 'description')&.html_safe,
+      description: prop(field, 'description'),
       description_id: "#{id}_description",
       placeholder: prop(field, 'placeholder'),
       text: prop(field, 'label'),
@@ -114,11 +122,10 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
       radio_label[:field_id] = id
       radio = {
         id: id,
-        value: index,
+        value: index + 1, # Avoid value==0
         checked: false, # TODO: How to know it is selected?
         label: radio_label,
       }
-      puts "radio: #{radio}"
       radios.push(radio)
     end
     radios
@@ -127,23 +134,33 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
   # Return property value or empty string
   def prop(field, key)
     if field.has_key?(key)
-      field[key]
+      field[key]&.html_safe
     else
       ''
     end
   end
 
+  # Get form field content
+  def field_content(name)
+    fields = @content['form']
+    if fields.has_key?(name)
+      fields[name]
+    else
+      {}
+    end 
+  end
+
   # Gets form field content separated from the view
-  def form_field_content(step)
+  def content(step)
     case step
-    when 'step_2'
-      YAML.load_file(OPPORTUNITY_CONTENT_PATH + '_step_2.yml')
-    when 'step_3.1'
-      YAML.load_file(OPPORTUNITY_CONTENT_PATH + '_step_3.1.yml')
-    when 'step_3.2'
-      YAML.load_file(OPPORTUNITY_CONTENT_PATH + '_step_3.2.yml')
-    when 'step_3.3'
-      YAML.load_file(OPPORTUNITY_CONTENT_PATH + '_step_3.3.yml')
+    when 'step_2.1'
+      YAML.load_file(OPPORTUNITY_CONTENT_PATH + '_step_2.1.yml')
+    when 'step_2.2'
+      YAML.load_file(OPPORTUNITY_CONTENT_PATH + '_step_2.2.yml')
+    when 'step_2.3'
+      YAML.load_file(OPPORTUNITY_CONTENT_PATH + '_step_2.3.yml')
+    when 'step_2.4'
+      YAML.load_file(OPPORTUNITY_CONTENT_PATH + '_step_2.4.yml')
     else
       YAML.load_file(OPPORTUNITY_CONTENT_PATH + '_step_1.yml')
     end

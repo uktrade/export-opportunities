@@ -1,0 +1,10 @@
+%fieldset.field
+  %legend.question
+    = input[:question]
+
+  - input[:options].each do |option|
+    .radio
+      -# Note: using %input instead of radio_button_tag because radio_button_tag
+      -# has annoying habit of creating id attribute from name+value attributes.
+      %input{:type=>'radio', :id=>option[:id], :name=>input[:name], :value=>option[:value], :checked=>option[:checked]}
+      = render partial: "forms/input_label", locals: { label: option[:label] }

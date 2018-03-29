@@ -48,7 +48,7 @@ label,
 legend {
   @include body-m;
   color: $grey;
-  display: block;
+  display: inline-block;
   font-weight: bold;
   margin-bottom: $spacing-4;
 }
@@ -265,6 +265,7 @@ textarea {
   .progress {
     @include body-s;
     color: $mid-grey;
+    display: block;
   }
 
   .requirement {
@@ -304,10 +305,8 @@ textarea {
     background: linear-gradient(to right, #{$white} #{$cols-8}, #{$offwhite} #{$cols-4});
     min-height: 600px;
 
-    h1,
     form,
-    .breadcrumbs,
-    .intro {
+    .breadcrumbs {
       width: $cols-8;
     }
   }

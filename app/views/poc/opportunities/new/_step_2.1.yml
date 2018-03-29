@@ -1,0 +1,44 @@
+# (2.1) Standard opportunity, products
+---
+title: Request products
+description: You will be able to see what your opportunity looks like on the next page
+
+form:
+  need:
+    label: "Enter the product you need:"
+    description: For example traffic cameras, safety equipment, biscuits. This will appear as the title of your opportunity.
+    placeholder: 
+
+  industry:
+    label: "Industry:"
+    description: Select the relevant industries for this opportunity
+    placeholder: 
+
+  keywords:
+    label: "Commodity codes (optional):"
+    description: Add commodity codes for the goods you need to help suppliers to find your opportunity. Look up <a href="#">commodity codes</a>
+    placeholder: 
+
+  usage:
+    question: "I am looking:"
+    options:
+      - label: for samples to test the market
+      - label: for products to sell
+      - label: to use the product
+
+  value:
+    label: "This value of this order is:"
+    description: 
+
+  specifications:
+    label: "Describe what you need:"
+    description: Enter enough information so potential suppliers know what you need. For example, the amount, specifications, or whether it is mass market or premium.
+
+  respond_by:
+    label: "I need to receive proposals by:"
+    description: The opportunity will be unpublished on this day.
+
+  respond_to:
+    label: "Responses should be sent to:"
+    description: 
+    placeholder: 
