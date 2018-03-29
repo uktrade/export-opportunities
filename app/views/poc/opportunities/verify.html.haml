@@ -1,5 +1,8 @@
 .process.end
   .container
+    - @page.add_breadcrumb_current 'Create opportunity'
+    = render partial: 'components/breadcrumbs'
+
     %h1 Verifying and publishing opportunity
     %form{:method=>'post'}
       = @form.hidden_fields
