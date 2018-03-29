@@ -157,11 +157,10 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
       radio_label[:field_id] = id
       radio = {
         id: id,
-        value: index,
+        value: index + 1, # Avoid value==0
         checked: false, # TODO: How to know it is selected?
         label: radio_label,
       }
-      puts "radio: #{radio}"
       radios.push(radio)
     end
     radios
