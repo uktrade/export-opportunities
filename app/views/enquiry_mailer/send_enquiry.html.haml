@@ -6,9 +6,11 @@
   %br
   %br
   You've received a new enquiry for 
-  = @enquiry.opportunity.title
+  %strong
+    = @enquiry.opportunity.title
   from
-  = "#{@enquiry.company_name}."
+  %strong
+    = "#{@enquiry.company_name}."
 
 %p 
   You need to respond to the enquiry using the correct reply template in the admin centre by
