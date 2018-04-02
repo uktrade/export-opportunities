@@ -11,7 +11,7 @@ class EnquiryMailer < ApplicationMailer
 
     subject = "Enquiry from #{@enquiry.company_name}: action required within 5 working days"
 
-    args = if (excepted_service_providers.split(',').map(&:to_i).include? @enquiry.opportunity.service_provider.id)
+    args = if excepted_service_providers.split(',').map(&:to_i).include? @enquiry.opportunity.service_provider.id
              {
                template_name: 'send_enquiry_seller_details',
                to: email_addresses,

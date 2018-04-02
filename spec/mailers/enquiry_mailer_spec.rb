@@ -24,7 +24,7 @@ RSpec.describe OpportunityMailer, type: :mailer do
       EnquiryMailer.send_enquiry(enquiry).deliver_now!
       last_delivery = ActionMailer::Base.deliveries.last
 
-      expect(last_delivery.subject).to eql("You've received an enquiry: Action required within 5 working days")
+      expect(last_delivery.subject).to eql("Enquiry from #{enquiry.company_name}: action required within 5 working days")
       expect(last_delivery.to).to eql(enquiry.opportunity.contacts.pluck(:email))
       expect(last_delivery.to_s).to include('You can now reply to enquiries within the admin centre')
       expect(last_delivery.to_s).to include(enquiry.company_name)

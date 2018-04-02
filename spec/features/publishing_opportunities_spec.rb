@@ -114,12 +114,12 @@ RSpec.feature 'Publishing opportunities:' do
     end
 
     row = find('tr', text: 'First published at')
-    expect(row.find('td').text).to eq '02 Jan 2017 10:15 AM'
+    expect(row.find('td').text).to eq date_of_first_publication.strftime("%d %b %Y%l:%M %p").to_s
 
     visit '/admin/opportunities'
 
     within 'tr.opportunity' do
-      expect(page.find('td.first-published').text).to eq '02 Jan 2017 10:15 AM'
+      expect(page.find('td.first-published').text).to eq date_of_first_publication.strftime("%d %b %Y%l:%M %p").to_s
     end
 
     click_on opportunity.title
@@ -131,15 +131,15 @@ RSpec.feature 'Publishing opportunities:' do
     end
 
     row = find('tr', text: 'First published at')
-    expect(row.find('td').text).to eq '02 Jan 2017 10:15 AM'
+    expect(row.find('td').text).to eq date_of_first_publication.strftime("%d %b %Y%l:%M %p").to_s
 
     row = find('tr', text: 'Updated at')
-    expect(row.find('td').text).to eq '03 Jan 2017 2:00 PM'
+    expect(row.find('td').text).to eq date_of_republishing.strftime("%d %b %Y %l:%M %p").to_s
 
     visit '/admin/opportunities'
 
     within 'tr.opportunity' do
-      expect(page.find('td.first-published').text).to eq '02 Jan 2017 10:15 AM'
+      expect(page.find('td.first-published').text).to eq date_of_first_publication.strftime("%d %b %Y%l:%M %p").to_s
     end
   end
 

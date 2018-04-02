@@ -161,22 +161,22 @@ RSpec.feature 'users can apply for opportunities', js: true do
     create(:sector)
     apply_to_opportunity(opportunity)
     enquiry = opportunity.enquiries.first
+    reply_by_date = (Date.today + 7.days).strftime("%d %B %Y")
 
     opportunity.contacts.each do |contact|
       open_email(contact.email)
       expect(current_email).not_to be_nil
       expect(current_email.cc).to eq(['dit-cc@example.org'])
-      expect(current_email).to have_link(opportunity.title)
+      expect(current_email).to have_content(opportunity.title)
       expect(current_email).to have_content(enquiry.company_name)
-      expect(current_email).to have_content(enquiry.email)
+      expect(current_email).to have_content("You need to respond to the enquiry using the correct reply template in the admin centre by #{reply_by_date}")
     end
 
     open_email('dit-cc@example.org')
     expect(current_email).not_to be_nil
-    expect(current_email).to have_link(opportunity.title)
+    expect(current_email).to have_content(opportunity.title)
     expect(current_email).to have_content(enquiry.company_name)
-    expect(current_email).to have_content(enquiry.email)
-    expect(current_email).to have_content('Details can be used for marketing by DIT and trusted partners: Y')
+    expect(current_email).to have_content('Remember to record a new interaction in Data Hub.')
   end
 
   scenario 'DIT are not CCed if enquiries_cc_email not set' do
