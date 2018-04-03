@@ -40,10 +40,7 @@ class Poc::OpportunitiesController < OpportunitiesController
 
     @form = Poc::OpportunitiesFormPresenter.new(view_context, @process)
     @page = Poc::PagePresenter.new
-    case @process[:view]
-    #when 'step_3'
-    #  render 'opportunities/verify', layout: 'layouts/international'
-    when 'complete'
+    if @process[:view] == 'complete'
       # TODO: Something to save opportunity in DB
       # and redirect to somewhere.
       redirect_to poc_international_path

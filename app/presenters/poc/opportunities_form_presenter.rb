@@ -1,6 +1,6 @@
 class Poc::OpportunitiesFormPresenter < BasePresenter
   include ActionView::Helpers::TagHelper
-  include ActionView::Helpers::FormTagHelper 
+  include ActionView::Helpers::FormTagHelper
   require 'yaml'
   attr_reader :content, :description, :entries, :title, :view
 
@@ -19,7 +19,7 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
   def hidden_fields
     fields = @helpers.hidden_field_tag 'view', @view
     @entries.each_pair do |key, value|
-      unless @content['form'].nil? or @content['form'].keys.include? key
+      unless @content['form'].nil? || @content['form'].keys.include? key
         fields += @helpers.hidden_field_tag key, value
       end
     end
@@ -77,7 +77,7 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
     {
       id: id,
       name: name,
-      label: label(field, name)
+      label: label(field, name),
     }
   end
 
@@ -153,7 +153,7 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
       fields[name]
     else
       {}
-    end 
+    end
   end
 
   # Gets form field content separated from the view
