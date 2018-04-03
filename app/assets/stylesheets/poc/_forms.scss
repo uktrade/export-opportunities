@@ -256,9 +256,21 @@ textarea {
   overflow: hidden;
   padding: 0 0 $spacing-3 0;
 
+  dd {
+    margin: 0 0 $spacing-3 0;
+  }
+
+  dl {
+    margin: 0 0 $spacing-1 0;
+  }
+
+  dt {
+    font-weight: bold;
+  }
+
   form {
     border-bottom: 1px solid $light-grey;
-    margin: 0 $spacing-3 $spacing-1 0;
+    margin: 0 0 $spacing-1 0;
     padding-bottom: $spacing-3;
   }
 
@@ -270,16 +282,6 @@ textarea {
 
   .requirement {
     @include heading-m;
-  }
-
-  &.end {
-    dd {
-      margin: 0 0 $spacing-3 0;
-    }
-
-    dt {
-      font-weight: bold;
-    }
   }
 }
 
@@ -307,7 +309,7 @@ textarea {
 
     form,
     .breadcrumbs {
-      width: $cols-8;
+      width: calc(#{$cols-8} - #{$spacing-3});
     }
   }
 }

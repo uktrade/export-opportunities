@@ -34,15 +34,15 @@ class Poc::OpportunitiesController < OpportunitiesController
     process_add_user_entries
 
     # Reverse order is intentional.
-    process_step_four
+    process_step_three
     process_step_two
     process_step_one
 
     @form = Poc::OpportunitiesFormPresenter.new(view_context, @process)
     @page = Poc::PagePresenter.new
     case @process[:view]
-    when 'step_4'
-      render 'opportunities/verify', layout: 'layouts/international'
+    #when 'step_3'
+    #  render 'opportunities/verify', layout: 'layouts/international'
     when 'complete'
       # TODO: Something to save opportunity in DB
       # and redirect to somewhere.
@@ -94,16 +94,17 @@ class Poc::OpportunitiesController < OpportunitiesController
       # TODO: Validate step_2 entries
       # If errors view should remain as step_2
 
-      @process[:view] = 'step_4'
+      @process[:view] = 'step_3'
+      @process[:content] = 'step_3'
     end
   end
 
-  private def process_step_four
-    if @process[:view].eql? 'step_4'
-      # TODO: Validate step_4 entries
-      # If errors view should remain as step_4
+  private def process_step_three
+    if @process[:view].eql? 'step_3'
+      # TODO: Validate step_3 entries
+      # If errors view should remain as step_3
 
-      @process[:view] = 'complete'
+      @process[:view] = 'complete' # TODO: Where/what?
     end
   end
 

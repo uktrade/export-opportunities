@@ -9,7 +9,7 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
   def initialize(helpers, process)
     @helpers = helpers
     @entries = process[:entries]
-    @content = content(process[:content])
+    @content = get_content(process[:content])
     @title = prop(@content, 'title')
     @description = prop(@content, 'description')
     @view = process[:view] || 'step_1'
@@ -19,7 +19,7 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
   def hidden_fields
     fields = @helpers.hidden_field_tag 'view', @view
     @entries.each_pair do |key, value|
-      unless @content['form'].keys.include? key
+      unless @content['form'].nil? or @content['form'].keys.include? key
         fields += @helpers.hidden_field_tag key, value
       end
     end
@@ -79,6 +79,12 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
       name: name,
       label: label(field, name)
     }
+  end
+
+  # Return formatted data for Textarea component
+  # (Basically same properties as input[text] )
+  def input_textarea(name)
+    input_text(name)
   end
 
   # Return formatted data for Form label component
@@ -151,18 +157,7 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
   end
 
   # Gets form field content separated from the view
-  def content(step)
-    case step
-    when 'step_2.1'
-      YAML.load_file(OPPORTUNITY_CONTENT_PATH + '_step_2.1.yml')
-    when 'step_2.2'
-      YAML.load_file(OPPORTUNITY_CONTENT_PATH + '_step_2.2.yml')
-    when 'step_2.3'
-      YAML.load_file(OPPORTUNITY_CONTENT_PATH + '_step_2.3.yml')
-    when 'step_2.4'
-      YAML.load_file(OPPORTUNITY_CONTENT_PATH + '_step_2.4.yml')
-    else
-      YAML.load_file(OPPORTUNITY_CONTENT_PATH + '_step_1.yml')
-    end
+  def get_content(step)
+    YAML.load_file(OPPORTUNITY_CONTENT_PATH + '_' + step + '.yml')
   end
 end
