@@ -12,7 +12,7 @@
   = render partial: "forms/input_text", locals: { input: @form.input_text('industry') }
   = render partial: "forms/input_text", locals: { input: @form.input_text('keywords') }
 
-  - if @form.has_field?('usage')
+  - if @form.field_exists?('usage')
     = render partial: "forms/input_radio", locals: { input: @form.input_radio('usage') }
 
   = render partial: "forms/input_multi_currency_amount", locals: { input: @form.input_multi_currency_amount('value') }
@@ -20,7 +20,7 @@
   = render partial: "forms/input_date_selector", locals: { input: @form.input_date_selector('respond_by') }
   = render partial: "forms/input_text", locals: { input: @form.input_text('respond_to') }
 
-  - if @form.has_field?('link')
+  - if @form.field_exists?('link')
     = render partial: "forms/input_text", locals: { input: @form.input_text('link') }
 
 

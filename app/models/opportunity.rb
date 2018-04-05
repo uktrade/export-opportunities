@@ -19,33 +19,32 @@ class Opportunity < ApplicationRecord
 
   settings index: { max_result_window: 100000 } do
     mappings dynamic: 'false' do
-    indexes :title, analyzer: 'english'
-    indexes :teaser, analyzer: 'english'
-    indexes :description, analyzer: 'english'
+      indexes :title, analyzer: 'english'
+      indexes :teaser, analyzer: 'english'
+      indexes :description, analyzer: 'english'
 
-    indexes :types do
-      indexes :slug, type: :keyword
-    end
+      indexes :types do
+        indexes :slug, type: :keyword
+      end
 
-    indexes :values do
-      indexes :slug, type: :keyword
-    end
+      indexes :values do
+        indexes :slug, type: :keyword
+      end
 
-    indexes :countries do
-      indexes :slug, type: :keyword
-    end
+      indexes :countries do
+        indexes :slug, type: :keyword
+      end
 
-    indexes :sectors do
-      indexes :slug, type: :keyword
-    end
+      indexes :sectors do
+        indexes :slug, type: :keyword
+      end
 
-    indexes :response_due_on, type: :date
-    indexes :first_published_at, type: :date
-    indexes :updated_at, type: :date
-    indexes :status, type: :keyword
+      indexes :response_due_on, type: :date
+      indexes :first_published_at, type: :date
+      indexes :updated_at, type: :date
+      indexes :status, type: :keyword
     end
   end
-
 
   has_paper_trail class_name: 'OpportunityVersion', only: [:status]
 

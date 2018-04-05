@@ -19,7 +19,7 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
   def hidden_fields
     fields = @helpers.hidden_field_tag 'view', @view
     @entries.each_pair do |key, value|
-      unless @content['form'].nil? || @content['form'].keys.include? key
+      unless @content['form'].nil? || @content['form'].keys.include?(key)
         fields += @helpers.hidden_field_tag key, value
       end
     end
@@ -93,16 +93,15 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
     label(field, name)
   end
 
-  # Get form field content
-  def has_field?(name)
+  # Return existence of form field
+  def field_exists?(name)
     fields = @content['form']
-    fields.has_key?(name)
+    fields.key?(name)
   end
-
 
   private
 
-  # Return lowercae string with alphanumeric+underscore only. 
+  # Return lowercase string with alphanumeric+underscore only.
   def field_id(str)
     "#{@view}_#{str}".gsub(/[^\w]/, '').downcase
   end
@@ -139,7 +138,7 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
 
   # Return property value or empty string
   def prop(field, key)
-    if field.has_key?(key)
+    if field.key?(key)
       field[key]&.html_safe
     else
       ''
@@ -149,7 +148,7 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
   # Get form field content
   def field_content(name)
     fields = @content['form']
-    if fields.has_key?(name)
+    if fields.key?(name)
       fields[name]
     else
       {}
