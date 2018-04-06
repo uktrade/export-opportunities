@@ -1,18 +1,9 @@
-class Poc::OpportunitiesFormPresenter < BasePresenter
+class Poc::FormPresenter < BasePresenter
   include ActionView::Helpers::TagHelper
   include ActionView::Helpers::FormTagHelper
   require 'yaml'
-  attr_reader :content, :description, :entries, :title, :view
 
-  OPPORTUNITY_CONTENT_PATH = 'app/views/poc/opportunities/new/'.freeze
-
-  def initialize(helpers, process)
-    @helpers = helpers
-    @entries = process[:entries]
-    @content = get_content(process[:content])
-    @title = prop(@content, 'title')
-    @description = prop(@content, 'description')
-    @view = process[:view] || 'step_1'
+  def initialize
   end
 
   # Returns HTML string for rendering hidden input elements
@@ -186,7 +177,7 @@ class Poc::OpportunitiesFormPresenter < BasePresenter
   end
 
   # Gets form field content separated from the view
-  def get_content(step)
-    YAML.load_file(OPPORTUNITY_CONTENT_PATH + '_' + step + '.yml')
+  def get_content(file)
+    YAML.load_file(file)
   end
 end
