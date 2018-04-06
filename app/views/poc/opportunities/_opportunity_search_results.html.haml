@@ -1,5 +1,9 @@
 .opportunity-search-results
   = results.displayed "information"
+  %form
+    %label Ordered by:
+    %select
+      %option Relevance
 
   %dl
     - results.found.each do |opportunity|

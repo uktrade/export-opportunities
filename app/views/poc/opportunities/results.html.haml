@@ -9,8 +9,8 @@
 %aside.container
   = render partial: 'components/subscription_form', locals: { subscription: @subscription }
 
-
-%section.results
+%section#search-results
   .container
     %h2.verbose Results found
     = render partial: "opportunity_search_results", locals: { results: @opportunity_search }
+    = render partial: "opportunity_search_filters", locals: { results: @opportunity_search }

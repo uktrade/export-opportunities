@@ -4,19 +4,21 @@
 @import '../opportunities/opportunity_search_results';
 @import '../effects/filter_select';
 
+.opportunity-search-filters {
+  padding: $spacing-3;
+}
 
-.hero-section {
-  background-color: $light-grey;
+.opportunity-search-results {
+  background-color: $stone-light;
+  float: right;
+  padding: $spacing-3;
+  width: $cols-8;
 
-  p {
-    margin-bottom: $spacing-3;
-    width: $cols-6;
+  .all {
+    display: none;
   }
 }
 
 #search-results {
-  background-color: $stone-light;
-  .all {
-    display: none;
-  }
+  padding-top: $spacing-3;
 }
