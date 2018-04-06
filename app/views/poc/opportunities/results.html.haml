@@ -2,16 +2,15 @@
   = stylesheet_link_tag 'poc/layouts/results'
   = javascript_include_tag 'poc/layouts/results'
 
+.container
+  = render partial: 'components/breadcrumbs'
+  %h1.verbose Search results
 
-%section.hero-section.search-section
-  .container
-    %h1 Find business opportunities
-    %p Search for opportunitities and pitch your company to overseas buyers who are looking for products and services like yours.
-    = render "opportunity_search_form"
+%aside.container
+  = render partial: 'components/subscription_form', locals: { subscription: @subscription }
 
-%section#search-results
+
+%section.results
   .container
-    %h2 Search results
+    %h2.verbose Results found
     = render partial: "opportunity_search_results", locals: { results: @opportunity_search }
-
-= render "opportunity_subscribe_form"

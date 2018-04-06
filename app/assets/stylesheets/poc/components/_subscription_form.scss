@@ -1,0 +1,18 @@
+.subscription-form {
+  background-color: $stone;
+  padding: $spacing-3;
+
+  a {
+    display: inline-block;
+    line-height: 26px;
+    padding: 10px 0;
+  }
+
+  h2 {
+    font-size: inherit;
+  }
+
+  .button {
+    margin-right: $spacing-3;
+  }
+}
