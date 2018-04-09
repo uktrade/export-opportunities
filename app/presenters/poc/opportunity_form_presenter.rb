@@ -3,8 +3,7 @@ class Poc::OpportunityFormPresenter < Poc::FormPresenter
 
   OPPORTUNITY_CONTENT_PATH = 'app/views/poc/opportunities/new/'.freeze
 
-  def initialize(helpers, process)
-    @helpers = helpers
+  def initialize(process)
     @entries = process[:entries]
     @content = get_content(OPPORTUNITY_CONTENT_PATH + '_' + process[:content] + '.yml')
     @title = prop(@content, 'title')

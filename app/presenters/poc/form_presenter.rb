@@ -8,10 +8,10 @@ class Poc::FormPresenter < BasePresenter
 
   # Returns HTML string for rendering hidden input elements
   def hidden_fields
-    fields = @helpers.hidden_field_tag 'view', @view
+    fields = hidden_field_tag 'view', @view
     @entries.each_pair do |key, value|
       unless @content['form'].nil? || @content['form'].keys.include?(key)
-        fields += @helpers.hidden_field_tag key, value
+        fields += hidden_field_tag key, value
       end
     end
     fields.html_safe
