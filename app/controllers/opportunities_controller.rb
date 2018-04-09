@@ -67,7 +67,7 @@ class OpportunitiesController < ApplicationController
       @opportunities = @query
     else
 
-     @count = @query.results.total
+      @count = @query.results.total
       @query = @query.page(params[:paged]).per(per_page)
 
       @opportunities = @query.records

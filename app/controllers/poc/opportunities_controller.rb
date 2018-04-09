@@ -28,24 +28,21 @@ class Poc::OpportunitiesController < OpportunitiesController
   end
 
   def new
-    @process = { view: params[:view], fields: '', entries: {}, errors: {} }
+    @process = { view: params[:view], content: {}, entries: {}, errors: {} }
 
     # Record any user entries (not in DB at this point).
     process_add_user_entries
 
     # Reverse order is intentional.
-    process_step_four
     process_step_three
     process_step_two
     process_step_one
 
     @form = Poc::OpportunitiesFormPresenter.new(view_context, @process)
-    case @process[:view]
-    when 'step_4'
-      render 'opportunities/verify', layout: 'layouts/international'
-    when 'complete'
+    @page = Poc::PagePresenter.new
+    if @process[:view] == 'complete'
       # TODO: Something to save opportunity in DB
-      # and redirect to somethere.
+      # and redirect to somewhere.
       redirect_to poc_international_path
     else
       render 'opportunities/new', layout: 'layouts/international'
@@ -70,18 +67,21 @@ class Poc::OpportunitiesController < OpportunitiesController
       # If errors view should remain as step_1
 
       case @process[:entries]['what']
-      when 'products'
+      when '1'
         @process[:view] = 'step_2'
-        @process[:fields] = 'step_2'
-      when 'services'
-        @process[:view] = 'step_3'
-        @process[:fields] = 'step_3.2'
-      when 'tender'
-        @process[:view] = 'step_3'
-        @process[:fields] = 'step_3.3'
+        @process[:content] = 'step_2.1'
+      when '2'
+        @process[:view] = 'step_2'
+        @process[:content] = 'step_2.2'
+      when '3'
+        @process[:view] = 'step_2'
+        @process[:content] = 'step_2.3'
+      when '4'
+        @process[:view] = 'step_2'
+        @process[:content] = 'step_2.4'
       else
-        @process[:view] = 'step_3'
-        @process[:fields] = 'step_3.1'
+        @process[:view] = 'step_1'
+        @process[:content] = 'step_1'
       end
     end
   end
@@ -92,7 +92,7 @@ class Poc::OpportunitiesController < OpportunitiesController
       # If errors view should remain as step_2
 
       @process[:view] = 'step_3'
-      @process[:fields] = 'step_3.1'
+      @process[:content] = 'step_3'
     end
   end
 
@@ -101,16 +101,7 @@ class Poc::OpportunitiesController < OpportunitiesController
       # TODO: Validate step_3 entries
       # If errors view should remain as step_3
 
-      @process[:view] = 'step_4'
-    end
-  end
-
-  private def process_step_four
-    if @process[:view].eql? 'step_4'
-      # TODO: Validate step_4 entries
-      # If errors view should remain as step_4
-
-      @process[:view] = 'complete'
+      @process[:view] = 'complete' # TODO: Where/what?
     end
   end
 

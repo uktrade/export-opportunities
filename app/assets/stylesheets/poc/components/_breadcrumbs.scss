@@ -1,6 +1,7 @@
 .breadcrumbs {
-  @include body-m;
-  border-bottom: $light-grey solid 2px;
+  @include body-s;
+  border-bottom: $light-grey solid 1px;
+  margin-bottom: $spacing-2;
   padding: $spacing-3 0;
 
   a {

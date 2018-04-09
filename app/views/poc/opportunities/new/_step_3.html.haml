@@ -1,78 +1,57 @@
 %form{:method=>'post'}
   = @form.hidden_fields
 
-  %fieldset
-    %legend.progress Step 3 of 4
-    %p.requirement Details
-    .field
-      %label
-        = @form.label 'need'
-      %p.helptext
-        = @form.description 'need'
-      %input{:type=>'text', :name=>'need', :maxlength=>"80"}
+  %h1
+    %span.progress Step 3 of 3
+    = @form.description
+    = @form.title
 
-    .field
-      %label
-        = @form.label 'industry'
-      %p.helptext
-        = @form.description 'industry'
-      %input{:type=>'text', :name=>'industry'}
+  %dl
+    %dt Title:
+    %dd
+      = @form.entries['need']
 
-    .field
-      %label
-        = @form.label 'keywords'
-      %p.helptext
-        = @form.description 'keywords'
-      %input{:type=>'text', :name=>'keywords'}
+    %dt Industry:
+    %dd 
+      = @form.entries['industry']
+      = link_to 'edit/industries', :class=> 'edit' do
+        Edit
+        %span.verbose industry
 
-    %fieldset.field.multi-currency-amount
-      %legend
-        = @form.label 'value'
-      %label.verbose
-        = @form.description 'value'
-      %select{:name=>'value'}
-        %option 0 to 10,000
-      .radio
-        %input{:id=>'value-dd', :name=>'value_dd', :type=>'radio'}
-        %label{:for=>'value-dd'} £
-      .radio
-        %input{:id=>'value-mm', :name=>'value_mm', :type=>'radio'}
-        %label{:for=>'value-mm'} $
-      .radio
-        %input{:id=>'value-yy', :name=>'value_yy', :type=>'radio'}
-        %label{:for=>'value-yy'} €
+    %dt Keywords (optional):
+    %dd 
+      = @form.entries['keywords']
+      = link_to 'edit/keywords', :class=> 'edit' do
+        Edit
+        %span.verbose keywords
 
-    .field
-      %label
-        = @form.label 'specifications'
-      %p.helptext
-        = @form.description 'specifications'
-      %textarea{:name=>'specifications'}
+    %dt The value of this order is:
+    %dd
+      = @form.entries['value']
+      = link_to 'edit/value', :class=> 'edit' do
+        Edit
+        %span.verbose value
 
-    %fieldset.field.date
-      %legend
-        = @form.label 'respond_by'
-      %label.day
-        Day
-        %input{:type=>'text', :name=>'respond_by_dd'}
+    %dt Describe what you need:
+    %dd
+      %pre
+      = @form.entries['specifications']
+      = link_to 'edit/specifications', :class=> 'edit' do
+        Edit
+        %span.verbose specifications
 
-      %label.month
-        Month
-        %input{:type=>'text', :name=>'respond_by_mm'}
+    %dt Need to receive proposals by:
+    %dd
+      = @form.entries['respond_by']
+      = link_to 'edit/respond_by', :class=> 'edit' do
+        Edit
+        %span.verbose respond by date
 
-      %label.year
-        Year
-        %input{:type=>'text', :name=>'respond_by_yy'}
+    %dt Responses should be sent to:
+    %dd
+      = @form.entries['respond_to']
+      = link_to 'edit/respond_to', :class=> 'edit' do
+        Edit
+        %span.verbose respond to contact
 
-    .field
-      %label
-        = @form.label 'respond_to'
-      %input{:type=>'text', :name=>'respnd_to'}
-
-  - if @form.fields.has_key?('link')
-    .field
-      %label
-        = @form.label 'link'
-      %input{:type=>'text', :name=>'link'}
-
-  %input{:type=>'submit', :value=>'Save and continue', :class=>'button'}
+  %input{:type=>'submit', :value=>'Publish', :class=>'button'}
