@@ -1,3 +1,5 @@
+- opportunity = Poc::OpportunityPresenter.new(self, @opportunity)
+- page = Poc::PagePresenter.new(opportunity.title_with_country)
 - content_for :page_specific_head do
   = stylesheet_link_tag 'poc/layouts/opportunity'
   = javascript_include_tag 'poc/layouts/opportunity.js'
@@ -5,13 +7,13 @@
 
 %article.opportunity
   .container
-    = render partial: 'components/breadcrumbs'
+    = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
 
     %p.type
-      = @opportunity.type
+      = opportunity.type
 
     %h1
-      = @opportunity.title_with_country
+      = opportunity.title_with_country
 
     %form.actions
       %button.link.save Save for later
@@ -21,31 +23,31 @@
       %dl
         %dt.summary Summary
         %dd.summary
-          = @opportunity.teaser
+          = opportunity.teaser
 
         %dt.dscription Description
         %dd.description
-          = @opportunity.description
+          = opportunity.description
 
-      - unless @opportunity.source.eql?'post'
+      - unless opportunity.source.eql?'post'
         .buyer
           %h2 About the buyer
           %dl
             %dt.address
               Address
             %dd.address
-              =@opportunity.buyer_name
-              =@opportunity.buyer_address
+              = opportunity.buyer_name
+              = opportunity.buyer_address
 
             %dt.contact
               Contact
             %dd.contact
-              = @opportunity.contact
+              = opportunity.contact
 
         .details
           %h2 Details
-          %p{:class => "provider #{@opportunity.source}"}
-            - if @opportunity.source.eql? 'volume_opps'
+          %p{:class => "provider #{opportunity.source}"}
+            - if opportunity.source.eql? 'volume_opps'
               Provided by
               = image_tag "logos/openopps_logo.png", alt: "Open Opps"
 
@@ -53,46 +55,46 @@
             %dt.expiry
               Opportunity closing date
             %dd.expiry
-              = @opportunity.expires
+              = opportunity.expires
 
             %dt.sectors
               Industry
             %dd.sectors
-              = @opportunity.sectors_as_string
+              = opportunity.sectors_as_string
 
             %dt.enquiries
               Enquiries received
             %dd.enquiries
-              = @opportunity.enquiries_total
+              = opportunity.enquiries_total
             %dt.value
               Value of contract
             %dd.value
-              = @opportunity.value
+              = opportunity.value
 
-            - if @opportunity.guides_available
+            - if opportunity.guides_available
               %dt.guide
                 Your guide to exporting
               %dd.guide
-                = @opportunity.country_guide_links
-                = @opportunity.link_to_aid_funded "Your guide for aid funded business"
+                = opportunity.country_guide_links
+                = opportunity.link_to_aid_funded "Your guide for aid funded business"
 
       .bid
-        - if @opportunity.expired?
+        - if opportunity.expired?
           %p.expired
             %strong
               = t('opportunity.expired')
             Visit the #{link_to 'opportunities page', opportunities_path} to find another.
 
         - else
-          - if @opportunity.internal
+          - if opportunity.internal
 
             %h2 Contact the buyer
             %p If you meet the requirements contact the buyer.
             %p You will be notified if you are right for this opportunity. You can only apply if you are a UK registered companny.
-            = link_to 'Contact buyer', @opportunity.new_enquiry_path, class: 'button'
+            = link_to 'Contact buyer', opportunity.new_enquiry_path, class: 'button'
 
           - else
             %h2 Bid for tender
             %p If your company meets the requirements of the tender, go to the website where the tender is hosted and submit your bid.
-            = link_to 'Go to the tender site', @opportunity.tender_url, class: 'button'
+            = link_to 'Go to the tender site', opportunity.tender_url, class: 'button'
 

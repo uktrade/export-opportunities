@@ -1,8 +1,8 @@
-- if @page.breadcrumbs && @page.breadcrumbs.length > 0
+- if breadcrumbs && breadcrumbs.length > 0
   %p.breadcrumbs
     %span.label.verbose You are here:
-    - @page.breadcrumbs.each do |item|
-      - if item[:slug].empty? || item == @page.breadcrumbs.last
+    - breadcrumbs.each do |item|
+      - if item[:slug].empty? || item == breadcrumbs.last
         %span.current
           = item[:title]
       - else
