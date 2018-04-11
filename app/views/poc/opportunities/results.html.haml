@@ -1,5 +1,6 @@
 - page = Poc::PagePresenter.new('Search results')
 - subscription = Poc::SubscriptionDecorator.new(@subscription_form)
+- search_filters = Poc::OpportunitySearchFiltersPresenter.new(self, @filters)
 - search_results = Poc::OpportunitySearchResultsPresenter.new(self, @opportunity_search)
 - content_for :page_specific_head do
   = stylesheet_link_tag 'poc/layouts/results'
@@ -17,4 +18,4 @@
   .container
     %h2.verbose Results found
     = render partial: "opportunity_search_results", locals: { results: search_results }
-    = render partial: "opportunity_search_filters"
+    = render partial: "opportunity_search_filters", locals: { filters: search_filters }

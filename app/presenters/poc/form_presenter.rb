@@ -1,10 +1,6 @@
-class Poc::FormPresenter < BasePresenter
-  include ActionView::Helpers::TagHelper
+class Poc::FormPresenter < Poc::BasePresenter
   include ActionView::Helpers::FormTagHelper
   require 'yaml'
-
-  def initialize
-  end
 
   # Returns HTML string for rendering hidden input elements
   def hidden_fields
@@ -15,6 +11,30 @@ class Poc::FormPresenter < BasePresenter
       end
     end
     fields.html_safe
+  end
+
+  # Return formatted data for Checkbox input component
+  def input_checkbox(name)
+    field = field_content(name)
+    id = clean_str(name)
+    {
+      id: id,
+      name: name,
+      label: label(field, name),
+    }
+  end
+
+  # TODO...
+  # Return formatted data for Checkbox group form input
+  def input_checkbox_group(name)
+    field = field_content(name)
+    input = {}
+    unless field.nil?
+      input[:question] = prop(field, 'question')
+      input[:name] = name
+      input[:checkboxes] = checkboxes(field['options'], name)
+    end
+    input
   end
 
   # Return formatted data for Date Selector component
@@ -92,9 +112,17 @@ class Poc::FormPresenter < BasePresenter
 
   private
 
-  # Return lowercase string with alphanumeric+underscore only.
+  # Return lowercase string with alphanumeric+hyphen only.
+  # e.g. "This -  is    a string" into "this-is-a-string"
   def field_id(str)
-    "#{@view}_#{str}".gsub(/[^\w]/, '').downcase
+    clean_str("#{@view} #{str}").gsub("_", "-")
+  end
+
+  # Return lowercase string with alphanumeric+underscore only.
+  # e.g. "This - is    a string" into "this_is_a_string"
+  def clean_str(str)
+    str = str.gsub(/[^\w\s]/, '').downcase
+    str.gsub(/[\s]+/, '_')
   end
 
   # Return label data
@@ -110,6 +138,24 @@ class Poc::FormPresenter < BasePresenter
   end
 
   # Return formatted radios with labels data
+  def checkboxes(options, name)
+    checkboxes = []
+    options.each_with_index do |option, index|
+      id = clean_str("#{name}_#{index}")
+      checkbox_label = label(option, name)
+      checkbox_label[:field_id] = id
+      checkbox = {
+        id: id,
+        value: option.key?('value') ? clean_str(option['value']) : index + 1, # Avoid value==0
+        checked: false, # TODO: How to know it is selected?
+        label: checkbox_label,
+      }
+      checkboxes.push(checkbox)
+    end
+    checkboxes
+  end
+
+  # Return formatted radios with labels data
   def radios(options, name)
     radios = []
     options.each_with_index do |option, index|
@@ -118,7 +164,7 @@ class Poc::FormPresenter < BasePresenter
       radio_label[:field_id] = id
       radio = {
         id: id,
-        value: index + 1, # Avoid value==0
+        value: option.key?('value') ? clean_str(option['value']) : index + 1, # Avoid value==0
         checked: false, # TODO: How to know it is selected?
         label: radio_label,
       }
@@ -158,9 +204,9 @@ class Poc::FormPresenter < BasePresenter
   end
 
   # Return property value or empty string
-  def prop(field, key)
-    if field.key?(key)
-      field[key]&.html_safe
+  def prop(field, name)
+    if field.key?(name) || field.key?(name.to_sym)
+      field[name]&.html_safe
     else
       ''
     end
@@ -169,7 +215,7 @@ class Poc::FormPresenter < BasePresenter
   # Get form field content
   def field_content(name)
     fields = @content['form']
-    if fields.key?(name)
+    if fields.key?(name) || fields.key?(name.to_sym)
       fields[name]
     else
       {}
