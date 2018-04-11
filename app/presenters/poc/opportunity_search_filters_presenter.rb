@@ -10,7 +10,6 @@ class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
 
   def field_content(name)
     field = super(name)
-    puts "field: #{field}"
     case name
     when 'industries'
       field['options'] = industries
@@ -19,7 +18,6 @@ class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
     else
       {}
     end
-    puts "after: #{field}"
     field
   end
 
