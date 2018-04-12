@@ -60,3 +60,4 @@ MIT licensed. See the bundled LICENSE file for more details.
 ## Contribution
 
 You are welcome to contribute, please get in touch with [Alex Giamas](mailto:alexandros.giamas@digital.trade.gov.uk), [Steven Burnell](mailto:steve.burnell@digital.trade.gov.uk) or [Mateusz Lapsa Malawski](mailto:mateusz.lapsa-malawski@digital.trade.gov.uk).
+
