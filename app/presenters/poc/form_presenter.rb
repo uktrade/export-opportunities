@@ -205,8 +205,10 @@ class Poc::FormPresenter < Poc::BasePresenter
 
   # Return property value or empty string
   def prop(field, name)
-    if field.key?(name) || field.key?(name.to_sym)
+    if field.key?(name)
       field[name]&.html_safe
+    elsif field.key?(name.to_sym)
+      field[name.to_sym]&.html_safe
     else
       ''
     end
