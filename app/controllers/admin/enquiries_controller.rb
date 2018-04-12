@@ -40,7 +40,13 @@ class Admin::EnquiriesController < Admin::BaseController
     enquiry_id = params.fetch(:id, nil)
     @enquiry = Enquiry.find(enquiry_id)
 
-    @enquiry_response = EnquiryResponse.where(enquiry_id: enquiry_id).first
+    enquiry_responses = EnquiryResponse.where(enquiry_id: enquiry_id)
+    @enquiry_response = if enquiry_responses.pluck(:completed_at).compact.size.positive?
+                          enquiry_responses.where(completed_at: enquiry_responses.pluck(:completed_at).compact.first).first
+                        else
+                          enquiry_responses.first
+                        end
+
     @trade_profile_url = trade_profile(@enquiry.company_house_number)
     @companies_house_url = companies_house_url(@enquiry.company_house_number)
     authorize @enquiry

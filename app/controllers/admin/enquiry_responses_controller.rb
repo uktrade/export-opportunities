@@ -11,9 +11,13 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   def new
     @enquiry ||= Enquiry.find(params.fetch(:id, nil))
     @companies_house_url ||= companies_house_url(@enquiry.company_house_number)
-    @enquiry_response ||= EnquiryResponse.where(enquiry_id: @enquiry.id).first ? EnquiryResponse.where(enquiry_id: @enquiry.id).first : EnquiryResponse.new
-    @enquiry_response.enquiry ||= @enquiry
-    @respond_by_date ||= @enquiry.created_at + 7.days
+    @enquiry_response = if EnquiryResponse.where(enquiry_id: @enquiry.id).first.present?
+                          EnquiryResponse.where(enquiry_id: @enquiry.id).first
+                        else
+                          EnquiryResponse.new
+                        end
+    @enquiry_response.enquiry = @enquiry
+    @respond_by_date = @enquiry.created_at + 7.days
     authorize @enquiry_response
   end
 

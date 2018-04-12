@@ -9,7 +9,6 @@ class EnquiryResponseSender
     when 1
       EnquiryResponseMailer.right_for_opportunity(enquiry_response, editor_email).deliver_later!
     when 2
-      # EnquiryResponseMailer.more_information(enquiry_response, editor_email).deliver_later!
       Rails.logger.warn('dont have more information emails')
     when 3
       EnquiryResponseMailer.not_right_for_opportunity(enquiry_response, editor_email, no_reply_address).deliver_later!

@@ -4,6 +4,7 @@ class EnquiryResponse < ApplicationRecord
   attr_accessor :completed_at
 
   validate :email_body_length_check
+  validates :enquiry_id, uniqueness: true
 
   belongs_to :enquiry
   belongs_to :editor
