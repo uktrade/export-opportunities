@@ -16,44 +16,38 @@ class Poc::FormPresenter < Poc::BasePresenter
   # Return formatted data for Checkbox input component
   def input_checkbox(name)
     field = field_content(name)
-    id = clean_str(name)
-    {
-      id: id,
-      name: name,
-      label: label(field, name),
-    }
+    option_item(field, name)
   end
 
-  # TODO...
   # Return formatted data for Checkbox group form input
   def input_checkbox_group(name)
-    field = field_content(name)
-    input = {}
-    unless field.nil?
-      input[:question] = prop(field, 'question')
-      input[:name] = name
-      input[:checkboxes] = checkboxes(field['options'], name)
+    content = field_content(name)
+    group = {}
+    unless content.nil?
+      group[:question] = prop(content, 'question')
+      group[:name] = name
+      group[:checkboxes] = options_group(prop(content, 'options'), name)
     end
-    input
+    group
   end
 
   # Return formatted data for Date Selector component
   def input_date_selector(name)
-    field = field_content(name)
+    content = field_content(name)
     id = field_id(name)
     {
       id: id,
       name_dd: "#{id}_dd",
       name_mm: "#{id}_mm",
       name_yy: "#{id}_yy",
-      description: prop(field, 'description'),
-      text: prop(field, 'label'),
+      description: prop(content, 'description'),
+      text: prop(content, 'label'),
     }
   end
 
   # Return formatted data for Multi Currency component
   def input_multi_currency_amount(name)
-    field = field_content(name)
+    content = field_content(name)
     id = field_id(name)
     {
       id: id,
@@ -64,31 +58,31 @@ class Poc::FormPresenter < Poc::BasePresenter
       name_dd: "#{name}_dd",
       name_mm: "#{name}_mm",
       name_yy: "#{name}_yy",
-      description: prop(field, 'description'),
-      text: prop(field, 'label'),
+      description: prop(content, 'description'),
+      text: prop(content, 'label'),
     }
   end
 
   # Return formatted data for Radio input component
   def input_radio(name)
-    field = field_content(name)
+    content = field_content(name)
     input = {}
-    unless field.nil?
-      input[:question] = prop(field, 'question')
+    unless content.nil?
+      input[:question] = prop(content, 'question')
       input[:name] = name
-      input[:options] = radios(field['options'], name)
+      input[:options] = options_group(prop(content, 'options'), name)
     end
     input
   end
 
   # Return formatted data for Text input component
   def input_text(name)
-    field = field_content(name)
+    content = field_content(name)
     id = field_id(name)
     {
       id: id,
       name: name,
-      label: label(field, name),
+      label: label(content, name),
     }
   end
 
@@ -100,14 +94,14 @@ class Poc::FormPresenter < Poc::BasePresenter
 
   # Return formatted data for Form label component
   def input_label(name)
-    field = field_content(name)
-    label(field, name)
+    content = field_content(name)
+    label(content, name)
   end
 
   # Return existence of form field
   def field_exists?(name)
     fields = @content['form']
-    fields.key?(name)
+    fields.key?(name) || fields.key?(name.to_sym)
   end
 
   private
@@ -137,42 +131,6 @@ class Poc::FormPresenter < Poc::BasePresenter
     }
   end
 
-  # Return formatted radios with labels data
-  def checkboxes(options, name)
-    checkboxes = []
-    options.each_with_index do |option, index|
-      id = clean_str("#{name}_#{index}")
-      checkbox_label = label(option, name)
-      checkbox_label[:field_id] = id
-      checkbox = {
-        id: id,
-        value: option.key?('value') ? clean_str(option['value']) : index + 1, # Avoid value==0
-        checked: false, # TODO: How to know it is selected?
-        label: checkbox_label,
-      }
-      checkboxes.push(checkbox)
-    end
-    checkboxes
-  end
-
-  # Return formatted radios with labels data
-  def radios(options, name)
-    radios = []
-    options.each_with_index do |option, index|
-      id = field_id("#{name}_#{index}")
-      radio_label = label(option, name)
-      radio_label[:field_id] = id
-      radio = {
-        id: id,
-        value: option.key?('value') ? clean_str(option['value']) : index + 1, # Avoid value==0
-        checked: false, # TODO: How to know it is selected?
-        label: radio_label,
-      }
-      radios.push(radio)
-    end
-    radios
-  end
-
   # Return label data
   def label(field, name)
     id = field_id(name)
@@ -185,33 +143,50 @@ class Poc::FormPresenter < Poc::BasePresenter
     }
   end
 
-  # Return formatted radios with labels data
-  def radios(options, name)
-    radios = []
-    options.each_with_index do |option, index|
-      id = field_id("#{name}_#{index}")
-      radio_label = label(option, name)
-      radio_label[:field_id] = id
-      radio = {
-        id: id,
-        value: index + 1, # Avoid value==0
-        checked: false, # TODO: How to know it is selected?
-        label: radio_label,
-      }
-      radios.push(radio)
+  def options_group(group, name)
+    options = []
+    group.each_with_index do |item, index|
+      id = clean_str("#{name}_#{index}")
+      option = option_item(item, id, name)
+      value = prop(item, 'value')
+      if value.nil? || value.empty?
+        option[:value] = index + 1
+      end
+
+      options.push(option)
     end
-    radios
+    options
   end
 
-  # Return property value or empty string
+  # Return radio/checkbox data
+  def option_item(field, id, name)
+    item = {
+      id: id,
+      label: label(field, name),
+      name: name,
+      selected: false, # TODO: How to know it is selected?
+      value: prop(field, 'value'),
+    }
+
+    item[:label][:field_id] = id # Needs to be different in a group
+    item
+  end
+
+  # Return property value or nil
   def prop(field, name)
-    if field.key?(name)
-      field[name]&.html_safe
-    elsif field.key?(name.to_sym)
-      field[name.to_sym]&.html_safe
-    else
-      ''
+    value = nil
+    unless field.nil?
+      if field.key?(name)
+        value = field[name]
+      elsif field.key?(name.to_sym)
+        value = field[name.to_sym]
+      end
+
+      if value.is_a?(String)
+        value = value&.html_safe
+      end
     end
+    value
   end
 
   # Get form field content
