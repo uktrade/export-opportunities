@@ -23,6 +23,9 @@ class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
 
   private
 
+  # Need to get filters from BE code.
+  # Have constructed dummy date (below) that can be put
+  # through form_presenter.rb code to output filters.
   def industries
     [
       { label: 'Food and Drink', value: 'Food and Drink' },
