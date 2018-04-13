@@ -1,0 +1,17 @@
+# Search Result Filters Content
+---
+title: Filter results
+description: 
+
+form:
+  industries:
+    question: Industries
+
+  countries:
+    question: Regions and countries
+
+  type:
+    question: Type of opportunity
+
+  value:
+    question: Value of contract

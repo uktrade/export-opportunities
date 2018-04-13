@@ -1,3 +1,5 @@
+- page = Poc::PagePresenter.new
+- recent_opportunities = Poc::OpportunitySearchResultsPresenter.new(self, @recent_opportunities)
 - content_for :page_specific_head do
   = stylesheet_link_tag 'poc/layouts/landing'
   = javascript_include_tag 'poc/layouts/landing'
@@ -5,7 +7,7 @@
 
 %section.hero-section.search-section
   .container
-    = render partial: 'components/breadcrumbs'
+    = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
 
     %h1 Find business opportunities
     %p Search for opportunitities and pitch your company to overseas buyers who are looking for products and services like yours.
@@ -14,7 +16,7 @@
 %section#recent-opportunities
   .container
     %h2 Latest export opportunities
-    = render partial: "opportunity_search_results", locals: { results: @recent_opportunities }
+    = render partial: "opportunity_search_results", locals: { results: recent_opportunities }
 
 
 %section#featured-industries

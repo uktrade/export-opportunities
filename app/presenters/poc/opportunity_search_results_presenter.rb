@@ -1,11 +1,12 @@
-class Poc::OpportunitiesSearchResultsPresenter < BasePresenter
+class Poc::OpportunitySearchResultsPresenter < Poc::BasePresenter
   attr_reader :found
 
-  def initialize(helpers, opportunities, total, limit)
+  #def initialize(helpers, opportunities, total, limit)
+  def initialize(helpers, search)
     @h = helpers
-    @found = opportunities
-    @view_limit = limit
-    @total = total
+    @found = search[:results]
+    @view_limit = search[:limit]
+    @total = search[:total]
   end
 
   def title_with_country(opportunity)
@@ -21,18 +22,18 @@ class Poc::OpportunitiesSearchResultsPresenter < BasePresenter
   # TODO: What is the view all URL?
   def view_all_link(css_classes = '')
     if @total > @view_limit
-      h.link_to "View all (#{@total})", h.poc_opportunities_path, 'class': css_classes
+      link_to "View all (#{@total})", poc_opportunities_path, 'class': css_classes
     end
   end
 
   def displayed(css_classes = '')
-    h.content_tag(:p, 'class': css_classes) do
-      h.page_entries_info @found, entry_name: 'item'
+    content_tag(:p, 'class': css_classes) do
+      page_entries_info @found, entry_name: 'item'
     end
   end
 
   def navigation(css_classes = '')
-    h.content_tag(:div, 'class': css_classes) do
+    content_tag(:div, 'class': css_classes) do
       h.paginate @found, views_prefix: 'poc/components'
     end
   end

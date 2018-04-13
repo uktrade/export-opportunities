@@ -1,27 +1,27 @@
 %form{:method=>'post'}
-  = @form.hidden_fields
+  = form.hidden_fields
 
   %h1
     %span.progress Step 1 of 2
-    = @form.title
+    = form.title
 
   %p.intro.description
-    = @form.description
+    = form.description
 
-  = render partial: "forms/input_text", locals: { input: @form.input_text('need'), maxlength: 80 }
-  = render partial: "forms/input_text", locals: { input: @form.input_text('industry') }
-  = render partial: "forms/input_text", locals: { input: @form.input_text('keywords') }
+  = render partial: "forms/input_text", locals: { input: form.input_text('need'), maxlength: 80 }
+  = render partial: "forms/input_text", locals: { input: form.input_text('industry') }
+  = render partial: "forms/input_text", locals: { input: form.input_text('keywords') }
 
-  - if @form.field_exists?('usage')
-    = render partial: "forms/input_radio", locals: { input: @form.input_radio('usage') }
+  - if form.field_exists?('usage')
+    = render partial: "forms/input_radio", locals: { input: form.input_radio('usage') }
 
-  = render partial: "forms/input_multi_currency_amount", locals: { input: @form.input_multi_currency_amount('value') }
-  = render partial: "forms/input_textarea", locals: { input: @form.input_text('specifications') }
-  = render partial: "forms/input_date_selector", locals: { input: @form.input_date_selector('respond_by') }
-  = render partial: "forms/input_text", locals: { input: @form.input_text('respond_to') }
+  = render partial: "forms/input_multi_currency_amount", locals: { input: form.input_multi_currency_amount('value') }
+  = render partial: "forms/input_textarea", locals: { input: form.input_text('specifications') }
+  = render partial: "forms/input_date_selector", locals: { input: form.input_date_selector('respond_by') }
+  = render partial: "forms/input_text", locals: { input: form.input_text('respond_to') }
 
-  - if @form.field_exists?('link')
-    = render partial: "forms/input_text", locals: { input: @form.input_text('link') }
+  - if form.field_exists?('link')
+    = render partial: "forms/input_text", locals: { input: form.input_text('link') }
 
 
   %input{:type=>'submit', :value=>'Save and continue', :class=>'button'}

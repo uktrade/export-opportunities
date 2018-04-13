@@ -1,17 +1,21 @@
+- page = Poc::PagePresenter.new('Search results')
+- subscription = Poc::SubscriptionDecorator.new(@subscription_form)
+- search_filters = Poc::OpportunitySearchFiltersPresenter.new(self, @filters)
+- search_results = Poc::OpportunitySearchResultsPresenter.new(self, @opportunity_search)
 - content_for :page_specific_head do
   = stylesheet_link_tag 'poc/layouts/results'
   = javascript_include_tag 'poc/layouts/results'
 
 
-%section.hero-section.search-section
-  .container
-    %h1 Find business opportunities
-    %p Search for opportunitities and pitch your company to overseas buyers who are looking for products and services like yours.
-    = render "opportunity_search_form"
+.container
+  = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
+  %h1.verbose Search results
+
+%aside.container
+  = render partial: 'components/subscription_form', locals: { subscription: subscription }
 
 %section#search-results
   .container
-    %h2 Search results
-    = render partial: "opportunity_search_results", locals: { results: @opportunity_search }
-
-= render "opportunity_subscribe_form"
+    %h2.verbose Results found
+    = render partial: "opportunity_search_results", locals: { results: search_results }
+    = render partial: "opportunity_search_filters", locals: { filters: search_filters }

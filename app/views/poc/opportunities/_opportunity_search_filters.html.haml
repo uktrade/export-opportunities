@@ -1,0 +1,4 @@
+%form.opportunity-search-filters
+  %h3= filters.title
+  = render partial: "forms/input_checkbox_group", locals: { group: filters.input_checkbox_group('industries') }
+  = render partial: "forms/input_checkbox_group", locals: { group: filters.input_checkbox_group('countries') }

@@ -1,33 +1,33 @@
 %form{:method=>'post'}
-  = @form.hidden_fields
+  = form.hidden_fields
 
   %h1
-    %span.progress Step 3 of 3
-    = @form.description
-    = @form.title
+    %span.progress Step 2 of 2
+    = form.description
+    = form.title
 
   %dl
     %dt Title:
     %dd
-      = @form.entries['need']
+      = form.entries['need']
 
     %dt Industry:
     %dd 
-      = @form.entries['industry']
+      = form.entries['industry']
       = link_to 'edit/industries', :class=> 'edit' do
         Edit
         %span.verbose industry
 
     %dt Keywords (optional):
     %dd 
-      = @form.entries['keywords']
+      = form.entries['keywords']
       = link_to 'edit/keywords', :class=> 'edit' do
         Edit
         %span.verbose keywords
 
     %dt The value of this order is:
     %dd
-      = @form.entries['value']
+      = form.entries['value']
       = link_to 'edit/value', :class=> 'edit' do
         Edit
         %span.verbose value
@@ -35,21 +35,21 @@
     %dt Describe what you need:
     %dd
       %pre
-      = @form.entries['specifications']
+      = form.entries['specifications']
       = link_to 'edit/specifications', :class=> 'edit' do
         Edit
         %span.verbose specifications
 
     %dt Need to receive proposals by:
     %dd
-      = @form.entries['respond_by']
+      = form.entries['respond_by']
       = link_to 'edit/respond_by', :class=> 'edit' do
         Edit
         %span.verbose respond by date
 
     %dt Responses should be sent to:
     %dd
-      = @form.entries['respond_to']
+      = form.entries['respond_to']
       = link_to 'edit/respond_to', :class=> 'edit' do
         Edit
         %span.verbose respond to contact
