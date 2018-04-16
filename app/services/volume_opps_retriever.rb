@@ -125,7 +125,7 @@ class VolumeOppsRetriever
 
       name = buyer['contactPoint']['name'].gsub(pii[:address], '') if pii[:address]
 
-      name = buyer['contactPoint']['name'].gsub(pii[:phone][:number], '') if pii[:phone]
+      name = buyer['contactPoint']['name'].gsub(pii[:phone], '') if pii[:phone]
 
       return [
         {

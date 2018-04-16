@@ -29,6 +29,7 @@ RSpec.describe VolumeOppsRetriever do
       country = create(:country, id: '11', name: 'New Zealand')
       create(:sector, id: '2')
       create(:type, id: '3')
+      create(:type, id: '2')
       create(:value, id: '2')
       create(:service_provider, id: '150', country: country)
 
