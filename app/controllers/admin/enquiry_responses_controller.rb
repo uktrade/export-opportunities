@@ -27,6 +27,9 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   end
 
   def enquiry_responses_params
+    ActionController::Base.helpers.sanitize params[:enquiry_response][:email_body]
+    ActionController::Base.helpers.sanitize params[:enquiry_response][:signature]
+
     params.require(:enquiry_response).permit(:id, :created_at, :updated_at, :email_attachment, :email_body, :editor_id, :enquiry_id, :signature, :documents, :response_type, :completed_at, attachments: [id: {}])
   end
 
@@ -54,10 +57,14 @@ class Admin::EnquiryResponsesController < Admin::BaseController
     redirect_to admin_enquiries_path(reply_sent: true)
   end
 
+  def logged_in_editor
+    current_editor
+  end
+
   private
 
   def create_or_update
-    @enquiry_response.editor_id = current_editor.id
+    @enquiry_response.editor_id = logged_in_editor.id
 
     authorize @enquiry_response
     if @enquiry_response.errors.empty? && @enquiry_response.valid?

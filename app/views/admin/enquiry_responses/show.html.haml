@@ -18,7 +18,7 @@
       - if @enquiry_response.response_type == 1 || @enquiry_response.response_type == 3
         %h4 What next
         %blockquote.noquotes.html-editor-preview
-          !=@enquiry_response.email_body
+          !=present_html_or_formatted_text(@enquiry_response.email_body)
 
       - if @enquiry_response.response_type == 1
       
