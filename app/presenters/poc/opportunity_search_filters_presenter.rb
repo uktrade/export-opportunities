@@ -1,7 +1,7 @@
 class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
   attr_reader :content, :description, :title
 
-  def initialize(helpers, filters) 
+  def initialize(helpers, _filters)
     @h = helpers
     @content = get_content('app/views/poc/opportunities/_filters.yml')
     @title = prop(@content, 'title')
@@ -41,5 +41,4 @@ class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
       { label: 'Wales', value: 'wales' },
     ]
   end
-
 end

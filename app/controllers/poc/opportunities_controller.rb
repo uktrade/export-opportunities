@@ -143,7 +143,7 @@ class Poc::OpportunitiesController < OpportunitiesController
       query = query.page(params[:paged]).per(per_page)
       results = query.records
     end
-    { results: results, total: query.records.total, limit: per_page, }
+    { results: results, total: query.records.total, limit: per_page }
   end
 
   # Get 5 most recent only
@@ -155,7 +155,7 @@ class Poc::OpportunitiesController < OpportunitiesController
       sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
     )
     query = query.page(params[:paged]).per(per_page)
-    { results: query.records, total: query.records.total, limit: per_page, }
+    { results: query.records, total: query.records.total, limit: per_page }
   end
 
   # TODO: How are the featured industries chosen?

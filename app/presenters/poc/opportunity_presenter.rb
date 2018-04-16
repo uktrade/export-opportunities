@@ -24,9 +24,7 @@ class Poc::OpportunityPresenter < BasePresenter
     h.present_html_or_formatted_text(opportunity.description).html_safe
   end
 
-  def expired?
-    opportunity.expired?
-  end
+  delegate :expired, to: :opportunity
 
   def expires
     opportunity.response_due_on.strftime('%d %B %Y')

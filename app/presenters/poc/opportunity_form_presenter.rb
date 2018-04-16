@@ -10,5 +10,4 @@ class Poc::OpportunityFormPresenter < Poc::FormPresenter
     @description = prop(@content, 'description')
     @view = process[:view] || 'step_1'
   end
-
 end

@@ -1,7 +1,7 @@
 class Poc::OpportunitySearchResultsPresenter < Poc::BasePresenter
   attr_reader :found
 
-  #def initialize(helpers, opportunities, total, limit)
+  # def initialize(helpers, opportunities, total, limit)
   def initialize(helpers, search)
     @h = helpers
     @found = search[:results]

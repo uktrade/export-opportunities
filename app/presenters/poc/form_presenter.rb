@@ -109,7 +109,7 @@ class Poc::FormPresenter < Poc::BasePresenter
   # Return lowercase string with alphanumeric+hyphen only.
   # e.g. "This -  is    a string" into "this-is-a-string"
   def field_id(str)
-    clean_str("#{@view} #{str}").gsub("_", "-")
+    clean_str("#{@view} #{str}").tr('_', '-')
   end
 
   # Return lowercase string with alphanumeric+underscore only.
@@ -117,18 +117,6 @@ class Poc::FormPresenter < Poc::BasePresenter
   def clean_str(str)
     str = str.gsub(/[^\w\s]/, '').downcase
     str.gsub(/[\s]+/, '_')
-  end
-
-  # Return label data
-  def label(field, name)
-    id = field_id(name)
-    {
-      field_id: id,
-      description: prop(field, 'description'),
-      description_id: "#{id}_description",
-      placeholder: prop(field, 'placeholder'),
-      text: prop(field, 'label'),
-    }
   end
 
   # Return label data
@@ -149,9 +137,7 @@ class Poc::FormPresenter < Poc::BasePresenter
       id = clean_str("#{name}_#{index}")
       option = option_item(item, id, name)
       value = prop(item, 'value')
-      if value.nil? || value.empty?
-        option[:value] = index + 1
-      end
+      option[:value] = index + 1 if value.blank?
 
       options.push(option)
     end
@@ -182,9 +168,7 @@ class Poc::FormPresenter < Poc::BasePresenter
         value = field[name.to_sym]
       end
 
-      if value.is_a?(String)
-        value = value&.html_safe
-      end
+      value = value&.html_safe if value.is_a?(String)
     end
     value
   end

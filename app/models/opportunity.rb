@@ -17,7 +17,7 @@ class Opportunity < ApplicationRecord
     __elasticsearch__.delete_document
   end
 
-  settings index: { max_result_window: 100000 } do
+  settings index: { max_result_window: 100_000 } do
     mappings dynamic: 'false' do
       indexes :title, analyzer: 'english'
       indexes :teaser, analyzer: 'english'
