@@ -18,7 +18,7 @@ RSpec.describe VolumeOppsRetriever do
       json_response_opps = JSON.parse(response_opps).with_indifferent_access
       allow_any_instance_of(VolumeOppsRetriever).to receive(:jwt_volume_connector_data).and_return(json_response_opps)
 
-      res = VolumeOppsRetriever.new.call(editor)
+      res = VolumeOppsRetriever.new.call(editor, '2018-04-16')
 
       expect(res[0][:ocid]).to eq('ocds-0c46vo-0018-19461899')
       expect(res[0][:json][:releases][0][:buyer][:contactPoint][:name]).to eq('Mark Lytollis, 02072155000')
@@ -40,9 +40,9 @@ RSpec.describe VolumeOppsRetriever do
       json_response_opps = JSON.parse(response_opps).with_indifferent_access
       allow_any_instance_of(VolumeOppsRetriever).to receive(:jwt_volume_connector_data).and_return(json_response_opps)
 
-      VolumeOppsRetriever.new.call(editor)
+      VolumeOppsRetriever.new.call(editor, '2018-04-16')
 
-      res = VolumeOppsRetriever.new.call(editor)
+      res = VolumeOppsRetriever.new.call(editor, '2018-04-16')
 
       expect(res[0][:ocid]).to eq('ocds-0c46vo-0018-19461899')
       expect(res[0][:json][:releases][0][:buyer][:contactPoint][:name]).to eq('Mark Lytollis, 02072155000')
