@@ -43,6 +43,9 @@ class VolumeOppsRetriever
     opportunity_release = opportunity['json']['releases'][0]
     opportunity_source = opportunity['source']
 
+    cpv = opportunity_release['tender']['items'][0]['classification']['id'].to_i
+    cpv_scheme = opportunity_release['tender']['items'][0]['classification']['scheme']
+
     if opportunity_release['tender']['value']
       values = calculate_value(opportunity_release['tender']['value'])
       value_id = values[:id]
@@ -92,6 +95,8 @@ class VolumeOppsRetriever
         tender_url: tender_url,
         ocid: opportunity['ocid'],
         tender_source: opportunity_source,
+        industry_id: cpv,
+        industry_scheme: cpv_scheme,
       }
     else
       return nil

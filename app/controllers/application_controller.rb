@@ -45,7 +45,6 @@ class ApplicationController < ActionController::Base
     res = {}
 
     # opps that have not expired and are published
-    # db_opportunities = get_db_opportunities
     db_opportunities_ids = db_opportunities
     sort = OpenStruct.new(column: :response_due_on, order: :desc)
     query = OpportunitySearchBuilder.new(search_term: '', sort: sort).call
@@ -85,7 +84,7 @@ class ApplicationController < ActionController::Base
 
   def es_opportunities(query)
     res = []
-    es_opportunities = Opportunity.__elasticsearch__.search(size: 40_000, query: query[:search_query], sort: query[:search_sort])
+    es_opportunities = Opportunity.__elasticsearch__.search(size: 100_000, query: query[:search_query], sort: query[:search_sort])
     es_opportunities.each { |record| res.push record.id }
     res
   end
