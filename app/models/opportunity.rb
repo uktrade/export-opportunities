@@ -6,10 +6,12 @@ class Opportunity < ApplicationRecord
 
   # built in callbacks won't work with our customly indexed taxnomies
   after_commit on: [:create] do
+    __elasticsearch__.delete_document
     __elasticsearch__.index_document
   end
 
   after_commit on: [:update] do
+    __elasticsearch__.delete_document
     __elasticsearch__.index_document
   end
 
