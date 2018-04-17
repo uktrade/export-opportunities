@@ -61,7 +61,8 @@
               Category
             %dd.sectors
               = "#{opportunity.industry_scheme}: #{opportunity.industry_id}" if opportunity.industry_id
-              -#= cpv_description(opportunity.industry_id) if opportunity.industry_id
+            %dd.sectors
+              = cpv_description(opportunity.industry_id) if opportunity.industry_id && Rails.env.development?
 
 
             %dt.enquiries
@@ -72,6 +73,10 @@
               Value of contract
             %dd.value
               = opportunity.value
+            %dt.value
+              Exact Value
+            %dd.value
+              = number_to_currency(opportunity.tender_value, unit: '£')
 
             - if opportunity.guides_available
               %dt.guide

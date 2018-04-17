@@ -50,9 +50,8 @@ class VolumeOppsRetriever
     cpv = classification_first_tender_opportunity_release['id'].to_i if classification_first_tender_opportunity_release
     cpv_scheme = classification_first_tender_opportunity_release['scheme'] if classification_first_tender_opportunity_release
 
-
-    if opportunity_release['tender']['value']
-      values = calculate_value(opportunity_release['tender']['value'])
+    if opportunity_release['planning']
+      values = calculate_value(opportunity_release['planning']['budget']['amount'])
       value_id = values[:id]
       gbp_value = values[:gbp_value]
     else
