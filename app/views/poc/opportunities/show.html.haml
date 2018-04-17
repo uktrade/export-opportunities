@@ -58,9 +58,11 @@
               = opportunity.expires
 
             %dt.sectors
-              Industry
+              Category
             %dd.sectors
-              = opportunity.sectors_as_string
+              = "#{opportunity.industry_scheme}: #{opportunity.industry_id}" if opportunity.industry_id
+              -#= cpv_description(opportunity.industry_id) if opportunity.industry_id
+
 
             %dt.enquiries
               Enquiries received

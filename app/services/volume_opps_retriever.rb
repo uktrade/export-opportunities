@@ -43,8 +43,13 @@ class VolumeOppsRetriever
     opportunity_release = opportunity['json']['releases'][0]
     opportunity_source = opportunity['source']
 
-    cpv = opportunity_release['tender']['items'][0]['classification']['id'].to_i
-    cpv_scheme = opportunity_release['tender']['items'][0]['classification']['scheme']
+    tender_opportunity_release = opportunity_release['tender']
+    first_tender_opportunity_release = tender_opportunity_release['items'][0] if tender_opportunity_release
+    classification_first_tender_opportunity_release = first_tender_opportunity_release['classification'] if first_tender_opportunity_release
+
+    cpv = classification_first_tender_opportunity_release['id'].to_i if classification_first_tender_opportunity_release
+    cpv_scheme = classification_first_tender_opportunity_release['scheme'] if classification_first_tender_opportunity_release
+
 
     if opportunity_release['tender']['value']
       values = calculate_value(opportunity_release['tender']['value'])

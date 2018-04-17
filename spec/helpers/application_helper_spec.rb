@@ -92,4 +92,12 @@ describe ApplicationHelper do
       expect(result).to eq(nil)
     end
   end
+
+  describe '#cpv_description' do
+    it 'returns for a known cpv' do
+      result = cpv_description(989100005)
+      pp result
+      expect(result).to_not eq(nil)
+    end
+  end
 end
