@@ -6,7 +6,7 @@ class Opportunity < ApplicationRecord
 
   # built in callbacks won't work with our customly indexed taxnomies
   after_commit on: [:create] do
-    __elasticsearch__.delete_document
+    # __elasticsearch__.delete_document
     __elasticsearch__.index_document
   end
 
@@ -89,6 +89,7 @@ class Opportunity < ApplicationRecord
   has_many :subscription_notifications
   has_many :opportunity_checks
   has_many :opportunity_sensitivity_checks
+  has_many :opportunity_cpvs
 
   accepts_nested_attributes_for :contacts, reject_if: :all_blank
 

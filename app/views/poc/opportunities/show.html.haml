@@ -60,7 +60,8 @@
             %dt.sectors
               Category
             %dd.sectors
-              = "#{opportunity.industry_scheme}: #{opportunity.industry_id}" if opportunity.industry_id
+              - opportunity.opportunity_cpvs.each do |opportunity_cpv|
+                = "#{opportunity_cpv.industry_scheme}: #{opportunity_cpv.industry_id}" if opportunity_cpv.industry_id
             %dd.sectors
               = cpv_description(opportunity.industry_id) if opportunity.industry_id && Rails.env.development?
 
@@ -76,7 +77,7 @@
             %dt.value
               Exact Value
             %dd.value
-              = number_to_currency(opportunity.tender_value, unit: '£')
+              = number_to_currency(opportunity.tender_value, unit: '£', precision: 0)
 
             - if opportunity.guides_available
               %dt.guide

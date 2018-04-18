@@ -1,5 +1,5 @@
 class Poc::OpportunityPresenter < BasePresenter
-  attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries, :tender_value, :tender_url, :industry_id, :industry_scheme
+  attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries, :tender_value, :tender_url, :industry_id, :industry_scheme, :opportunity_cpvs
 
   def initialize(helpers, opportunity)
     @h = helpers
@@ -10,8 +10,7 @@ class Poc::OpportunityPresenter < BasePresenter
     @source = opportunity.source
     @buyer_name = opportunity&.buyer_name
     @buyer_name = opportunity&.buyer_address
-    @industry_id = opportunity&.industry_id
-    @industry_scheme = opportunity&.industry_scheme
+    @opportunity_cpvs = opportunity&.opportunity_cpvs
   end
 
   def title_with_country

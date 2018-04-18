@@ -44,11 +44,17 @@ class VolumeOppsRetriever
     opportunity_source = opportunity['source']
 
     tender_opportunity_release = opportunity_release['tender']
-    first_tender_opportunity_release = tender_opportunity_release['items'][0] if tender_opportunity_release
-    classification_first_tender_opportunity_release = first_tender_opportunity_release['classification'] if first_tender_opportunity_release
+    tender_opportunity_release = tender_opportunity_release['items'] if tender_opportunity_release
+    opportunity_cpvs = []
 
-    cpv = classification_first_tender_opportunity_release['id'].to_i if classification_first_tender_opportunity_release
-    cpv_scheme = classification_first_tender_opportunity_release['scheme'] if classification_first_tender_opportunity_release
+    tender_opportunity_release.each do |each_tender_opportunity_release|
+      classification_tender_opportunity_release = each_tender_opportunity_release['classification']
+
+      cpv = classification_tender_opportunity_release['id'].to_i if classification_tender_opportunity_release
+      cpv_scheme = classification_tender_opportunity_release['scheme'] if classification_tender_opportunity_release
+
+      opportunity_cpvs << { industry_id: cpv, industry_scheme: cpv_scheme }
+    end
 
     if opportunity_release['planning']
       values = calculate_value(opportunity_release['planning']['budget']['amount'])
@@ -99,8 +105,7 @@ class VolumeOppsRetriever
         tender_url: tender_url,
         ocid: opportunity['ocid'],
         tender_source: opportunity_source,
-        industry_id: cpv,
-        industry_scheme: cpv_scheme,
+        opportunity_cpvs: opportunity_cpvs,
       }
     else
       return nil
