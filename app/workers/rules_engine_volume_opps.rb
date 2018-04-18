@@ -7,5 +7,6 @@ class RulesEngineVolumeOpps
     opportunity_result_set.each do |opportunity|
       OpportunityRulesEngine.new.call(opportunity)
     end
+    Opportunity.import
   end
 end

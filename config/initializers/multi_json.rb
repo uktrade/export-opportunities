@@ -1,2 +1,4 @@
 MultiJson.use :yajl
-MultiJson.dump_options = { pretty: true }
+
+# doesn't play well with ElasticSearch Model.import
+# MultiJson.dump_options = { pretty: true }
