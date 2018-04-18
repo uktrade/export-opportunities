@@ -7,6 +7,8 @@ class RulesEngineVolumeOpps
     opportunity_result_set.each do |opportunity|
       OpportunityRulesEngine.new.call(opportunity)
     end
-    Opportunity.import
+
+    # force re-indexing of results
+    Opportunity.import query: -> { where('created_at>?', today_date) }
   end
 end
