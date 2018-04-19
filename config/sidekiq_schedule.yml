@@ -5,25 +5,25 @@ schedule_automated_impact_email_job:
   active_job: true
 
 schedule_volume_import_opps_job:
-  cron: "30 7 * * *"
+  cron: "30 10 * * *"
   class: "RetrieveVolumeOpps"
   queue: default
   active_job: true
 
 schedule_sensitivity_opps_job:
-  cron: "15 8 * * *"
+  cron: "15 11 * * *"
   class: "CheckSensitivityOpps"
   queue: default
   active_job: true
 
 schedule_quality_opps_job:
-  cron: "15 9 * * *"
+  cron: "15 12 * * *"
   class: "CheckQualityOpps"
   queue: default
   active_job: true
 
 schedule_rules_engine_job:
-  cron: "15 10 * * *"
+  cron: "15 13 * * *"
   class: "RulesEngineVolumeOpps"
   queue: default
   active_job: true

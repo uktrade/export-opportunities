@@ -1,7 +1,7 @@
 require 'jwt_volume_connector'
 
 class VolumeOppsRetriever
-  def call(editor, date)
+  def call(editor, from_date, to_date)
     username = Figaro.env.OO_USERNAME!
     password = Figaro.env.OO_PASSWORD!
     hostname = Figaro.env.OO_HOSTNAME!
@@ -10,12 +10,12 @@ class VolumeOppsRetriever
 
     token_response = jwt_volume_connector_token(username, password, hostname, token_endpoint)
 
-    res = jwt_volume_connector_data(JSON.parse(token_response.body)['token'], hostname, data_endpoint, date)
+    res = jwt_volume_connector_data(JSON.parse(token_response.body)['token'], hostname, data_endpoint, from_date, to_date)
 
     while res[:has_next]
       # store data from page
       process_result_page(res, editor)
-      res = jwt_volume_connector_data(JSON.parse(token_response.body)['token'], res[:next_url], '', date)
+      res = jwt_volume_connector_data(JSON.parse(token_response.body)['token'], res[:next_url], '', from_date, to_date)
     end
 
     # process the last page of results
@@ -47,7 +47,7 @@ class VolumeOppsRetriever
     tender_opportunity_release = tender_opportunity_release['items'] if tender_opportunity_release
     opportunity_cpvs = []
 
-    tender_opportunity_release.each do |each_tender_opportunity_release|
+    tender_opportunity_release&.each do |each_tender_opportunity_release|
       classification_tender_opportunity_release = each_tender_opportunity_release['classification']
 
       cpv = classification_tender_opportunity_release['id'].to_i if classification_tender_opportunity_release
@@ -139,7 +139,7 @@ class VolumeOppsRetriever
 
       name = buyer['contactPoint']['name'].gsub(pii[:address], '') if pii[:address]
 
-      name = buyer['contactPoint']['name'].gsub(pii[:phone], '') if pii[:phone]
+      name = buyer['contactPoint']['name'].gsub(pii[:phone][:number], '') if pii[:phone]
 
       return [
         {
@@ -160,8 +160,8 @@ class VolumeOppsRetriever
     JwtVolumeConnector.new.token(username, password, hostname, token_endpoint)
   end
 
-  def jwt_volume_connector_data(token, hostname, url, date)
-    JwtVolumeConnector.new.data(token, hostname, url, date)
+  def jwt_volume_connector_data(token, hostname, url, from_date, to_date)
+    JwtVolumeConnector.new.data(token, hostname, url, from_date, to_date)
   end
 
   def process_result_page(res, editor)

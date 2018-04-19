@@ -1,7 +1,7 @@
 class JwtVolumeConnector
-  def call(username, password, hostname, url, date)
+  def call(username, password, hostname, url)
     token = self.token(username, password, hostname, url)
-    data(token, hostname, url, date)
+    data(token, hostname, url, from_date, to_date)
   end
 
   def token(username, password, hostname, url)
@@ -18,16 +18,15 @@ class JwtVolumeConnector
     end
   end
 
-  def data(token, hostname, url, date)
+  def data(token, hostname, url, from_date, to_date)
     raise Exception, 'invalid input' unless token && hostname && url
     connection = Faraday.new(url: hostname) do |f|
       f.response :logger
       f.adapter  Faraday.default_adapter
     end
 
-    date ||= Time.zone.now.strftime('%Y-%m-%d')
     response = connection.get do |req|
-      req.url hostname + url + '&min_releasedate=' + date
+      req.url hostname + url + "&min_releasedate=#{from_date}&max_releasedate=#{to_date}"
       req.headers['Authorization'] = 'JWT ' + token
     end
 
