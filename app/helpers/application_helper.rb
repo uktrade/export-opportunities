@@ -39,7 +39,7 @@ module ApplicationHelper
 
   def cpv_description(cpv_id)
     return nil unless cpv_id
-    cpv_description_microservice_url = Figaro.env.CPV_TRANSLATOR_URL + '/api/v1/description/' + cpv_id.to_s
+    cpv_description_microservice_url = Figaro.env.CPV_TRANSLATOR_URL + '/api/v1/cpv/' + cpv_id.to_s
     begin
       json = JSON.parse(Net::HTTP.get(URI(cpv_description_microservice_url)))
       response = json['cpv']['description']

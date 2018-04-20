@@ -63,7 +63,7 @@
               - opportunity.opportunity_cpvs.each do |opportunity_cpv|
                 = "#{opportunity_cpv.industry_scheme}: #{opportunity_cpv.industry_id}" if opportunity_cpv.industry_id
             %dd.sectors
-              = cpv_description(opportunity.industry_id) if opportunity.industry_id && Rails.env.development?
+              = cpv_description(opportunity.industry_id) if opportunity.industry_id
 
 
             %dt.enquiries
