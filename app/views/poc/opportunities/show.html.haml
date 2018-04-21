@@ -61,11 +61,16 @@
               Category
             %dd.sectors
               - opportunity.opportunity_cpvs.each do |opportunity_cpv|
-                = "#{opportunity_cpv.industry_scheme}: #{opportunity_cpv.industry_id}" if opportunity_cpv.industry_id
-            %dd.sectors
-              = cpv_description(opportunity.industry_id) if opportunity.industry_id
+                - if opportunity_cpv.industry_id
+                  ="#{opportunity_cpv.industry_scheme}: #{opportunity_cpv.industry_id}"
+                  - result = cpv_description(opportunity_cpv.industry_id)
+                  - if result && result['cpv']
+                    =result['cpv']['description']
+                    %dt.enquiries
+                      HS Code
+                    =result['hs']['description']
 
-
+            -#%dd.sectors
             %dt.enquiries
               Enquiries received
             %dd.enquiries

@@ -96,11 +96,12 @@ describe ApplicationHelper do
   describe '#cpv_description' do
     it 'returns nil for an invalid cpv' do
       result = cpv_description(32120001111)
-      expect(result).to eq(nil)
+      expect(result['error']).to eq('Not found')
     end
 
     it 'returns description for a valid cpv' do
-      skip('TODO: fix')
+      result = cpv_description(14732000)
+      expect(result['cpv']['description']).to eq('Manganese')
     end
   end
 end
