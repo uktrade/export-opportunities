@@ -17,7 +17,7 @@ section {
 
 .search-results {
   float: right;
-  padding: $spacing-3;
+  padding: $spacing-3 0 $spacing-3 $spacing-3;
   width: $cols-9;
 
   form {
@@ -74,10 +74,6 @@ section {
 }
 
 @media (max-width: 680px) {
-  .search-again-form {
-    padding: $spacing-3 0;
-  }
-
   .search-results,
   .search-results-filters {
     padding: $spacing-3 0;
