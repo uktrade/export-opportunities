@@ -1,11 +1,8 @@
 class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
   attr_reader :content, :description, :title
 
-  def initialize(helpers, _filters)
-    @h = helpers
-    @content = get_content('app/views/poc/opportunities/_filters.yml')
-    @title = prop(@content, 'title')
-    @description = prop(@content, 'description')
+  def initialize(content)
+    super(content, {})
   end
 
   def field_content(name)
@@ -23,6 +20,7 @@ class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
 
   private
 
+  # TODO:
   # Need to get filters from BE code.
   # Have constructed dummy date (below) that can be put
   # through form_presenter.rb code to output filters.

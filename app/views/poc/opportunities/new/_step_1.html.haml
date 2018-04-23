@@ -1,8 +1,8 @@
 %form{:method=>'post'}
-  %h1 Create business opportunity
-  %p.intro.description Use this form to request the goods and services you are looking for. You will also be able to choose from a list of matching UK suppliers.
+  %h1= form.title
+  %p.description.intro= form.description
 
   = form.hidden_fields
   = render partial: "forms/input_radio", locals: { input: form.input_radio('what') }
-  %input{:type=>'submit', :value=>'Save and continue', :class=>'button'}
+  %input{:type=>'submit', :value=>form.content['submit'], :class=>'button'}
 

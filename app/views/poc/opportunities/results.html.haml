@@ -1,7 +1,6 @@
-- page = Poc::PagePresenter.new('Search results')
-- subscription = Poc::SubscriptionDecorator.new(@subscription_form)
-- search_filters = Poc::OpportunitySearchFiltersPresenter.new(self, @filters)
-- search_results = Poc::OpportunitySearchResultsPresenter.new(self, @opportunity_search)
+- page = Poc::PagePresenter.new(@content)
+- search_filters = Poc::OpportunitySearchFiltersPresenter.new(@content['search_filters'])
+- search_results = Poc::OpportunitySearchResultsPresenter.new(self, @content['search_results'], @opportunity_search)
 - content_for :page_specific_head do
   = stylesheet_link_tag 'poc/layouts/results'
   = javascript_include_tag 'poc/layouts/results'
@@ -9,13 +8,13 @@
 
 .container
   = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
-  %h1.verbose Search results
+  %h1.verbose= @content['title']
 
-%aside.container
-  = render partial: 'components/subscription_form', locals: { subscription: subscription }
+#searh-results
+  %h2.verbose
+    = search_results.content['title']
+  = render partial: "components/search_again_form", locals: { results: search_results }
 
-%section#search-results
   .container
-    %h2.verbose Results found
     = render partial: "opportunity_search_results", locals: { results: search_results }
-    = render partial: "opportunity_search_filters", locals: { filters: search_filters }
+    = render partial: "search_results_filters", locals: { filters: search_filters }

@@ -1,0 +1,58 @@
+.search-results-filters {
+  h3 {
+    @include body-m;
+  }
+
+  label {
+    @include body-s;
+  }
+
+  legend {
+    @include body-s;
+    display: contents; /* TODO: Need IE support or alternative method */
+    margin-bottom: $spacing-4;
+    padding: 0;
+  }
+
+  .checkbox-group {
+    border-bottom: $stone-30 solid 1px;
+    padding: 0 0 $spacing-4 0;    
+  }
+
+  .field {
+    margin-bottom: $spacing-4;
+    margin-top: $spacing-4;
+  }
+
+  .submit {
+    @include body-s;
+    width: 100%;
+  }
+}
+
+.selected-filters {
+  background-color: $stone-30;
+  padding: $spacing-4;
+  position: relative;
+
+  dd {
+    @include body-s;
+    background-color: $stone;
+    border-radius: 15px;
+    clear: both;
+    float: left;
+    margin-bottom: 10px;
+    padding: 0 15px;
+  }
+
+  .reset {
+    @include link;
+    @include body-s;
+  }
+
+  &:after {
+    @include great-red-trim;
+    bottom: 0;
+    top: initial;
+  }
+}

@@ -1,0 +1,15 @@
+.search-results-filters
+  %form
+    %h3 Filter results
+
+    .selected-filters
+      %h4 Selected filters
+      %dl
+        %dt.verbose Countries
+        %dd Brazil
+      %input.reset{:type=>"reset", :value=>"Clear all filters"}
+      
+    = render partial: "forms/input_checkbox_group", locals: { group: filters.input_checkbox_group('industries') }
+    = render partial: "forms/input_checkbox_group", locals: { group: filters.input_checkbox_group('countries') }
+
+    %input.submit.button{:type=>"submit", :value=>"Update results"}

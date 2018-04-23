@@ -1,0 +1,38 @@
+# Search Result Content
+# ---------------------
+title: Search results
+description: 
+
+
+# Search Result Filters Content
+# -----------------------------
+search_results:
+  title: Results found
+
+  fields: 
+    sort:
+      label: "fooSort by:"
+      options:
+        - Relevance
+        - Date
+        - Title
+
+
+
+# Search Result Filters Content
+# -----------------------------
+search_filters:
+  selected_title: "Selected Filters:"
+
+  fields:
+    industries:
+      question: Industries
+
+    countries:
+      question: Regions and countries
+
+    type:
+      question: Type of opportunity
+
+    value:
+      question: Value of contract

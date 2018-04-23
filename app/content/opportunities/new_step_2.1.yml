@@ -1,5 +1,7 @@
 # (2.1) Standard opportunity, products
----
+# ------------------------------------
+
+breadcrumb_current: Create opportunity
 title: Request products
 description: You will be able to see what your opportunity looks like on the next page
 

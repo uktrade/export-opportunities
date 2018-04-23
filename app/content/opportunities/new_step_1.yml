@@ -1,0 +1,19 @@
+# Step 1: Opening question for Opportunity creation
+# -------------------------------------------------
+
+breadcrumb_current: Create opportunity
+
+title: Create business opportunity
+
+description: Use this form to request the goods and services you are looking for. You will also be able to choose from a list of matching UK suppliers.
+
+submit: Save and continue
+
+form:
+  what:
+    question: What are you looking for?
+    options:
+      - label: products
+      - label: professional services
+      - label: software services
+      - label: to promote a tender

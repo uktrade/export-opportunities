@@ -1,5 +1,5 @@
-- page = Poc::PagePresenter.new
-- recent_opportunities = Poc::OpportunitySearchResultsPresenter.new(self, @recent_opportunities)
+- page = Poc::PagePresenter.new(@content)
+- recent_opportunities = Poc::OpportunitySearchResultsPresenter.new(self, @content, @recent_opportunities)
 - content_for :page_specific_head do
   = stylesheet_link_tag 'poc/layouts/landing'
   = javascript_include_tag 'poc/layouts/landing'

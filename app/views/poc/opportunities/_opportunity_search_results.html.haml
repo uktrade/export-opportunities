@@ -1,8 +1,8 @@
-.opportunity-search-results
-  = results.displayed "information"
+.search-results
+  = results.displayed "verbose information"
 
   %form
-    %label Ordered by:
+    %label Sort by:
     %select
       %option Relevance
 
@@ -20,11 +20,11 @@
             Provided by
             = image_tag "logos/openopps_logo.png", :alt=>"Open Opps"
 
-        %form.actions
+        .actions
           %span.expires
             Closing date:
             = opportunity.response_due_on.strftime('%d %B %Y')
-          %button.link.save Save for later
+          -#= link_to "Save for later", "TODO", :class=>"save"
 
   = results.navigation "pagination"
   = results.view_all_link "button all"

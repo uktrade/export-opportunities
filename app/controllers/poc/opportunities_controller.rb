@@ -5,6 +5,7 @@ class Poc::OpportunitiesController < OpportunitiesController
   POC_OPPORTUNITY_PROPS = %w[what why need industry keywords value specifications respond_by respond_to link].freeze
 
   def index
+    @content = get_content('opportunities/index.yml')
     @opportunity_summary_list = summary_list_by_industry
     @sort_column_name = sort_column
     @recent_opportunities = recent_opportunities
@@ -17,6 +18,7 @@ class Poc::OpportunitiesController < OpportunitiesController
   end
 
   def results
+    @content = get_content('opportunities/results.yml')
     @search_term = search_term
     @filters = SearchFilter.new(params)
     @sort_column_name = sort_column
@@ -27,7 +29,12 @@ class Poc::OpportunitiesController < OpportunitiesController
   end
 
   def new
-    @process = { view: params[:view], content: 'step_1', entries: {}, errors: {} }
+    @content = get_content('opportunities/new.yml')
+    @process = { 
+      view: params[:view] || 'step_1',
+      entries: {}, 
+      errors: {} 
+    }
 
     # Record any user entries (not in DB at this point).
     process_add_user_entries
@@ -62,23 +69,23 @@ class Poc::OpportunitiesController < OpportunitiesController
       # TODO: Validate step_1 entries
       # If errors view should remain as step_1
 
+      view = 'step_2'
       case @process[:entries]['what']
       when '1'
-        @process[:view] = 'step_2'
-        @process[:content] = 'step_2.1'
+        content = 'step_2.1'
       when '2'
-        @process[:view] = 'step_2'
-        @process[:content] = 'step_2.2'
+        content = 'step_2.2'
       when '3'
-        @process[:view] = 'step_2'
-        @process[:content] = 'step_2.3'
+        content = 'step_2.3'
       when '4'
-        @process[:view] = 'step_2'
-        @process[:content] = 'step_2.4'
+        content = 'step_2.4'
       else
-        @process[:view] = 'step_1'
-        @process[:content] = 'step_1'
+        view = 'step_1'
+        content = 'step_1'
       end
+      puts "Content: #{content}"
+      @content = @content[content]
+      @process[:view] = view
     end
   end
 
@@ -87,8 +94,8 @@ class Poc::OpportunitiesController < OpportunitiesController
       # TODO: Validate step_2 entries
       # If errors view should remain as step_2
 
+      @content = @content['step_3']
       @process[:view] = 'step_3'
-      @process[:content] = 'step_3'
     end
   end
 
@@ -96,6 +103,7 @@ class Poc::OpportunitiesController < OpportunitiesController
     if @process[:view].eql? 'step_3'
       # TODO: Validate step_3 entries
       # If errors view should remain as step_3
+
       @process[:view] = 'complete' # TODO: Where/what?
     end
   end
