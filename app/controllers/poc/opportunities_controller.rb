@@ -30,10 +30,10 @@ class Poc::OpportunitiesController < OpportunitiesController
 
   def new
     @content = get_content('opportunities/new.yml')
-    @process = { 
+    @process = {
       view: params[:view] || 'step_1',
-      entries: {}, 
-      errors: {} 
+      entries: {},
+      errors: {},
     }
 
     # Record any user entries (not in DB at this point).
@@ -83,7 +83,7 @@ class Poc::OpportunitiesController < OpportunitiesController
         view = 'step_1'
         content = 'step_1'
       end
-      puts "Content: #{content}"
+
       @content = @content[content]
       @process[:view] = view
     end

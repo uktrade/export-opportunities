@@ -7,7 +7,7 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
     @found = search[:results]
     @view_limit = search[:limit]
     @total = search[:total]
-    form_path = poc_opportunities_path
+    @form_path = poc_opportunities_path
   end
 
   def title_with_country(opportunity)
@@ -36,12 +36,6 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   def navigation(css_classes = '')
     content_tag(:div, 'class': css_classes) do
       h.paginate @found, views_prefix: 'poc/components'
-      #ApplicationController.helpers.paginate @found, views_prefix: 'poc/components'
-      #paginate @found, views_prefix: 'poc/components'
-      #paginate @found, params: @found[:params], template: 'poc/components/kaminari/_paginate.html.erb'
-      #views_prefix: 'poc/components'
-      #ApplicationController.helpers.paginate @found, template: 'poc/components/kaminari/_paginate.html.erb'
-      #ApplicationController.helpers.content_tag(:div, "test")
     end
   end
 

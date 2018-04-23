@@ -17,7 +17,7 @@ class Poc::FormPresenter < Poc::BasePresenter
       @entries = process[:entries]
     end
 
-    # A little help to find the problem when things 
+    # A little help to find the problem when things
     # aren't where they should be
     if @content.nil? && @fields.nil?
       raise "Check you have added appropriate content for #{process[:view]} and #{process[:fields]}."

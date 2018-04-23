@@ -176,7 +176,6 @@ class ApplicationController < ActionController::Base
     render 'errors/invalid_authenticity_token', status: 422
   end
 
-
   # TODO: (experiment) Gets form field content separated from the view
   def get_content(file)
     YAML.load_file('app/content/' + file)
