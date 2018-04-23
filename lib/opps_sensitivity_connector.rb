@@ -15,7 +15,7 @@ class OppsSensitivityConnector
       autocorrect: false,
       PII: true,
       classify: true,
-      listId: 65,
+      listId: Figaro.env.AZ_CUSTOM_LIST_ID.to_i,
       language: 'eng'
     )
 
