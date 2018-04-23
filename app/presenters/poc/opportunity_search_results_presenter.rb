@@ -109,3 +109,4 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
 
   attr_reader :h
 end
+
