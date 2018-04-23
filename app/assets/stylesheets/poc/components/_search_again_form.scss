@@ -1,0 +1,53 @@
+
+.search-again-form {
+  background-color: $stone-50;
+  overflow: hidden;
+  margin-bottom: 0;
+  padding: $spacing-3;
+
+  a {
+    @include body-s;
+    &:before {
+      content: "";
+      display: block;
+    }
+  }
+
+  form {
+    float: right;
+    margin: 0 auto;
+    max-width: $design-max-width;
+    margin-bottom: 0;
+    position: relative;
+  }
+
+  p {
+    @include body-l;
+    float: left;
+    font-weight: bold;
+    margin: 0;
+    width: 50%;
+  }
+
+  .submit {
+    background-color: transparent;
+    background-image: asset_url("poc/search.png");
+    background-position: center;
+    background-size: 50px;
+    border-left: none;
+    bottom: 0;
+    position: absolute;
+    right: 0;
+    text-indent: 50px;
+    width: 50px;
+  }
+
+  .term {
+    float: left;
+    margin: 0 50px 0 0;
+
+    input {
+      border-right: none;
+    }
+  }
+}
