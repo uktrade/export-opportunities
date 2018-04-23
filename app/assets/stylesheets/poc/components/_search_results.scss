@@ -1,0 +1,131 @@
+.search-results {
+  dd {
+    border: $stone-50 solid 2px;
+    border-top: none;
+    margin: 0 0 $spacing-4 0;
+  }
+
+  dl {
+    clear: both;
+  }
+
+  dt {
+    @include body-l;
+    border: $stone-50 solid 2px;
+    border-bottom: none;
+    margin: 0;
+    padding: $spacing-3 $spacing-3 0 $spacing-3;
+  }
+
+  form {
+    float: right;
+  }
+
+  label, select {
+    @include body-s;
+    display: inline-block;
+    margin-left: 1em;
+  }
+
+  .actions {
+    @include body-s;
+    border-top: 1px solid $light-grey;
+    margin: $spacing-3 0 0 0;
+    padding: $spacing-4 $spacing-3;
+  }
+
+  .all {
+    @include button-ghost($active-blue, $white);
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    width: 165px;
+  }
+
+  .pagination {
+    float: right;
+
+    a {
+      @include button-ghost($active-blue, $white);
+      padding-left: $spacing-4;
+      padding-right: $spacing-4;
+    }
+
+    li {
+      display: inline-block;
+    }
+
+    span {
+      @include button-disabled($white, $active-blue);
+      padding-left: $spacing-4;
+      padding-right: $spacing-4;
+    }
+  }
+
+  .save {
+    background: transparent image_url("star.png") 100% 40% no-repeat;
+    background-size: 17px;
+    float: right;
+    padding-right: 25px;
+  }
+
+  .text {
+    display: block;
+    padding: 0 $spacing-3;
+  }
+}
+
+.volume_opps {
+  position: relative;
+
+  a,
+  .text {
+    display: block;
+    margin-right: 155px;
+  }
+
+  .source {
+    color: $mid-grey;
+    display: block;
+    font-size: 12px;
+    position: absolute;
+    right: $spacing-3;
+    top: 0;
+
+    img {
+      display: block;
+      width: 110px;
+    }
+  }
+}
+
+
+// RESPONSIVE
+@media screen and (max-width: 767px) {
+  .search-results {
+    dt {
+      padding: $spacing-3-m $spacing-3-m 0 $spacing-3-m;
+    }
+
+    .actions,
+    .text {
+      padding-left: $spacing-4;
+      padding-right: $spacing-4;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .volume_opps {
+    a,
+    .text {
+      margin-right: 0;
+    }
+
+    .source {
+      padding-top: $spacing-3-m;
+      position: static;
+      right: $spacing-3;
+    }
+  }
+}

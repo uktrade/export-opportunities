@@ -1,0 +1,14 @@
+.search-again-form
+  %p
+    7 results found
+    = link_to "Subscribe to email alerts for #{}", "/subscriptions"
+
+  = form_tag results.form_path,  method: :get do
+    = hidden_field_tag :isSearchAndFilter, true
+    = hidden_field_tag :filterOpen, params[:filterOpen], id: 'filterOpen'
+
+    %label.term
+      %span Search results for
+      %input{:name=>"s", :autocomplete=>"off", :class=>"text", :type=>"search"}
+
+    %input.submit{:value=>results.content['search_again_button'], :type=>"submit"}
