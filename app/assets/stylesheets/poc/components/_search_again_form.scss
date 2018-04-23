@@ -51,3 +51,12 @@
     }
   }
 }
+
+
+
+// RESPONSIVE
+@media (max-width: 420px) {
+  .search-again-form {
+    padding: $spacing-4;
+  }
+}
