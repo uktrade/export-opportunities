@@ -29,6 +29,12 @@
     width: 50%;
   }
 
+  .param {
+    background-color: $stone;
+    border-radius: 5px;
+    padding: 0 15px;
+  }
+
   .submit {
     background-color: transparent;
     background-image: asset_url("poc/search.png");
@@ -48,6 +54,10 @@
 
     input {
       border-right: none;
+    }
+
+    span {
+      font-weight: normal;
     }
   }
 }
