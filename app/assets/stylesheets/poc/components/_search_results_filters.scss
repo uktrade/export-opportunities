@@ -9,9 +9,14 @@
 
   legend {
     @include body-s;
-    display: contents; /* TODO: Need IE support or alternative method */
-    margin-bottom: $spacing-4;
-    padding: 0;
+    display: block;
+    margin-bottom: 0;
+    padding: $spacing-4 0;
+
+    &:after {
+      content: "";
+      display: block;
+    }
   }
 
   .checkbox-group {
@@ -21,7 +26,6 @@
 
   .field {
     margin-bottom: $spacing-4;
-    margin-top: $spacing-4;
   }
 
   .submit {

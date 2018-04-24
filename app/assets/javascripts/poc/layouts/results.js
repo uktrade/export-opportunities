@@ -49,14 +49,19 @@ dit.page.results = (new function () {
     });
   }
 
-  /* Find and enhance the search form Industory <select> field
+  /* Find and enhance the filter groups.
+   * Note: We get the groups and labels outside the loop
+   * to avoid issues with closures.
    **/
   function enhanceIndustrySelector() {
-    $("[data-component='filter-select']").each(function() {
-      new dit.classes.FilterSelect($(this));
+    $groups = $(".search-results-filters fieldset");
+    $labels = $groups.find("legend");
+    $groups.each(function(index) {
+      new dit.classes.Expander($(this), {
+        $control: $labels.eq(index)
+      });
     });
   }
-
 
 });
 

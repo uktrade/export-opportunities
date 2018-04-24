@@ -3,7 +3,7 @@
 @import '../components/subscription_form';
 @import '../components/search_results';
 @import '../components/search_results_filters';
-@import '../effects/filter_select';
+@import '../effects/expander';
 
 
 section {
@@ -38,7 +38,37 @@ section {
   border-top: 3px solid white;
   float: left;
   padding: $spacing-2 0 0 0;
+  position: relative;
   width: $cols-3;
+
+  // Enhanced with JS
+  .Expander {
+    background-color: $white;
+    width: 100%;
+  }
+
+  .ExpanderControl {
+    outline: none;
+    &:before {
+      @include down-chevron-1($black);
+      float: right;
+      height: 8px;
+      margin: 5px $spacing-4 0 0;
+      width: 8px;
+    }
+
+    &.active {
+      &:before {
+        @include up-chevron-1($black);
+        height: 8px;
+        width: 8px;
+      }
+
+      &:after {
+        border-color: $light-grey;
+      }
+    }
+  }
 }
 
 #subscribe {
