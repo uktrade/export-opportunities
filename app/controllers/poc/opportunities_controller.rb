@@ -20,11 +20,11 @@ class Poc::OpportunitiesController < OpportunitiesController
   def results
     @content = get_content('opportunities/results.yml')
     @filters = SearchFilter.new(params)
-    @search_term = search_term
+    @search_term = params['s']
     @sort_column_name = sort_column
-    @opportunity_search = opportunity_search
     @industries = industry_list
     @subscription_form = subscription_form # Don't think we need this anymore
+    @search_results = opportunity_search
     @search_filters = {
       'sectors': search_filter_sectors,
       'countries': search_filter_countries,
@@ -156,7 +156,8 @@ class Poc::OpportunitiesController < OpportunitiesController
       query = query.page(params[:paged]).per(per_page)
       results = query.records
     end
-    { results: results, total: query.records.total, limit: per_page }
+
+    { results: results, total: query.records.total, limit: per_page, term: @search_term }
   end
 
   # Get 5 most recent only
