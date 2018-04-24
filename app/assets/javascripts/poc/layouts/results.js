@@ -58,7 +58,8 @@ dit.page.results = (new function () {
     $labels = $groups.find("legend");
     $groups.each(function(index) {
       new dit.classes.Expander($(this), {
-        $control: $labels.eq(index)
+        $control: $labels.eq(index),
+        blur: false
       });
     });
   }
