@@ -23,13 +23,13 @@ class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
 
   private
 
-  def format_options(options={})
+  def format_options(options = {})
     options_array = []
     options.each do |option|
-      options_array.push({
+      options_array.push(
         'label': option['name'],
-        'value': option['slug'],
-      })
+        'value': option['slug']
+      )
     end
     options_array
   end
