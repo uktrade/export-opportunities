@@ -44,11 +44,13 @@ class Poc::FormPresenter < Poc::BasePresenter
   # Return formatted data for Checkbox group form input
   def input_checkbox_group(name)
     field = field_content(name)
+    field_name = prop(field, 'name') || name
     group = {}
     unless field.nil?
       group[:question] = prop(field, 'question')
-      group[:name] = name
-      group[:checkboxes] = options_group(prop(field, 'options'), name)
+      group[:name] = field_name
+      group[:question] = prop(field, 'question')
+      group[:checkboxes] = options_group(prop(field, 'options'), field_name)
     end
     group
   end

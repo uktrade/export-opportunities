@@ -19,12 +19,17 @@ class Poc::OpportunitiesController < OpportunitiesController
 
   def results
     @content = get_content('opportunities/results.yml')
-    @search_term = search_term
     @filters = SearchFilter.new(params)
+    @search_term = search_term
     @sort_column_name = sort_column
     @opportunity_search = opportunity_search
     @industries = industry_list
-    @subscription_form = subscription_form
+    @subscription_form = subscription_form # Don't think we need this anymore
+    @search_filters = {
+      'sectors': search_filter_sectors,
+      'countries': search_filter_countries,
+    }
+
     render 'opportunities/results', layout: 'layouts/domestic'
   end
 
@@ -192,5 +197,25 @@ class Poc::OpportunitiesController < OpportunitiesController
         values: @filters.values,
       }
     )
+  end
+
+  private def search_filter_sectors
+    # @filters.sectors ... lists all selected sectors
+    # Sector.order(:name) ... lists all sectors in DB
+    {
+      'name': 'sectors[]',
+      'options': Sector.order(:name),
+      'selected': @filters.sectors,
+    }
+  end
+
+  private def search_filter_countries
+    # @filters.countries ... lists all selected countries
+    # Country.order(:name) ... lists all countries in DB
+    {
+      'name': 'countries[]',
+      'options': Country.order(:name),
+      'selected': @filters.countries,
+    }
   end
 end

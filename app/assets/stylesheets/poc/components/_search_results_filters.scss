@@ -21,6 +21,8 @@
 
   .checkbox-group {
     border-bottom: $stone-30 solid 1px;
+    max-height: 175px;
+    overflow-y: auto;
     padding: 0 0 $spacing-4 0;    
   }
 

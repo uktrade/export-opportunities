@@ -8,7 +8,7 @@
         %dt.verbose Countries
         %dd Brazil
       %input.reset{:type=>"reset", :value=>"Clear all filters"}
-      
+
     = render partial: "forms/input_checkbox_group", locals: { group: filters.input_checkbox_group('industries') }
     = render partial: "forms/input_checkbox_group", locals: { group: filters.input_checkbox_group('countries') }
 

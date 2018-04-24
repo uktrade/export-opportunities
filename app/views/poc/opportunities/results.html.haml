@@ -1,6 +1,6 @@
 - page = Poc::PagePresenter.new(@content)
-- search_filters = Poc::OpportunitySearchFiltersPresenter.new(@content['search_filters'])
-- search_results = Poc::OpportunitySearchResultsPresenter.new(self, @content['search_results'], @opportunity_search)
+- presenter_filters = Poc::OpportunitySearchFiltersPresenter.new(@content['search_filters'], @search_filters)
+- presenter_results = Poc::OpportunitySearchResultsPresenter.new(self, @content['search_results'], @opportunity_search)
 - content_for :page_specific_head do
   = stylesheet_link_tag 'poc/layouts/results'
   = javascript_include_tag 'poc/layouts/results'
@@ -12,9 +12,9 @@
 
 #searh-results
   %h2.verbose
-    = search_results.content['title']
-  = render partial: "components/search_again_form", locals: { results: search_results }
+    = presenter_results.content['title']
+  = render partial: "components/search_again_form", locals: { results: presenter_results }
 
   .container
-    = render partial: "opportunity_search_results", locals: { results: search_results }
-    = render partial: "search_results_filters", locals: { filters: search_filters }
+    = render partial: "opportunity_search_results", locals: { results: presenter_results }
+    = render partial: "search_results_filters", locals: { filters: presenter_filters }
