@@ -8,6 +8,7 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
     @view_limit = search[:limit]
     @term = search[:term]
     @total = search[:total]
+    @sort_by = search[:sort_by]
     @form_path = poc_opportunities_path
   end
 
@@ -75,6 +76,31 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
                  end
     end
     message.html_safe
+  end
+
+  def sort_input_select
+    # options = input_select('sort')
+    input = {
+      name: 'sort_column_name',
+      id: 'search-sort',
+      label: {
+        id: 'search-sort',
+        text: 'Sort by',
+      },
+      options: [
+        { text: 'Expiry date', value: 'response_due_on' },
+        { text: 'Published date', value: 'first_published_at' },
+        { text: 'Relevance', value: 'relevance' }
+      ]
+    }
+
+    input[:options].each do |option|
+      if option[:value].eql? @sort_by
+        option[:selected] = true
+      end
+    end
+
+    input
   end
 
   private

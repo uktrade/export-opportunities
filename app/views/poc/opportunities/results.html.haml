@@ -12,8 +12,6 @@
   %h1.verbose= @content['title']
 
 = form_tag results.form_path,  method: :get, :id=>"search-results" do
-  = hidden_field_tag :isSearchAndFilter, true
-  = hidden_field_tag :filterOpen, params[:filterOpen], id: 'filterOpen'
 
   .container
     %p.information
@@ -33,14 +31,7 @@
       = results.displayed "information"
 
       .sort
-        %label Sort by:
-        %select{:name=>"sort_column_name"}
-          %option{:value=>"response_due_on"}
-            Expiry date
-          %option{:value=>"first_published_at"}
-            Published date
-          %option{:value=>"relevance"}
-            Relevance
+        = render partial: "forms/input_select", locals: { input: results.sort_input_select }
 
       %dl
         - results.found.each do |opportunity|

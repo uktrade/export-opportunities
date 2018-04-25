@@ -99,6 +99,23 @@ class Poc::FormPresenter < Poc::BasePresenter
     input
   end
 
+  # Return formatted data for Select input component
+  def input_select(name)
+    field = field_content(name)
+    input = {}
+    options = []
+    unless field.nil?
+      input[:id] = field_id(name)
+      input[:label] = label(field, name)
+      input[:name] = name
+      prop(field, 'options').each do |option|
+        options.push({'value': option})
+      end
+      input[:options] = options
+    end
+    input
+  end
+
   # Return formatted data for Text input component
   def input_text(name)
     field = field_content(name)

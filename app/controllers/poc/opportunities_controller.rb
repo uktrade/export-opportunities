@@ -29,7 +29,6 @@ class Poc::OpportunitiesController < OpportunitiesController
       'sectors': search_filter_sectors,
       'countries': search_filter_countries,
     }
-
     render 'opportunities/results', layout: 'layouts/domestic'
   end
 
@@ -157,7 +156,7 @@ class Poc::OpportunitiesController < OpportunitiesController
       results = query.records
     end
 
-    { results: results, total: query.records.total, limit: per_page, term: @search_term }
+    { results: results, total: query.records.total, limit: per_page, term: @search_term, sort_by: @sort_column_name }
   end
 
   # Get 5 most recent only
@@ -169,7 +168,7 @@ class Poc::OpportunitiesController < OpportunitiesController
       sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
     )
     query = query.page(params[:paged]).per(per_page)
-    { results: query.records, total: query.records.total, limit: per_page }
+    { results: query.records, total: query.records.total, limit: per_page, sort_by: @sort_column_name }
   end
 
   # TODO: How are the featured industries chosen?

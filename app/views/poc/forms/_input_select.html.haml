@@ -1,0 +1,10 @@
+.field.select
+  = render partial: "forms/input_label", locals: { label: input[:label] }
+  %select{:name=>input[:name], :id=>input[:id]}
+    - input[:options].each do |option|
+      - if option[:selected]
+        %option{:value=>option[:value], :selected=>"true"}
+          = option[:text]
+      - else
+        %option{:value=>option[:value]}
+          = option[:text]
