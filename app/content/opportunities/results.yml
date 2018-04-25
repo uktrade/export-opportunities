@@ -21,6 +21,10 @@ search_results:
         - Expiry date
         - Published date
         - Relevance
+<<<<<<< HEAD
+=======
+
+>>>>>>> Add selected sort field functionality
 
 
 # Search Result Filters Content
