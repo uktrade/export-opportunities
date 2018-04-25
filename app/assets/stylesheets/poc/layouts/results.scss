@@ -81,6 +81,13 @@
   .information {
     @include access-hidden;
   }
+}
+
+
+.search-results {
+  float: right;
+  padding: $spacing-3 0 $spacing-3 $spacing-3;
+  width: $cols-9;
 
   &.none {
     float: left;
@@ -92,6 +99,10 @@
       text-indent: initial;
       width: auto;
     }
+  }
+
+  .information {
+    @include access-hidden;
   }
 }
 
@@ -201,15 +212,10 @@
   .search-results-filters {
     padding: $spacing-3 0;
     width: 100%;
-
-
     .submit {
       width: auto;
     }
   }
-}
-
-@media (max-width: 680px) {
 }
 
 @media (max-width: 420px) {

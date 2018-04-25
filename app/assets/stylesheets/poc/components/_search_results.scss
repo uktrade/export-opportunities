@@ -1,4 +1,6 @@
 .search-results {
+  clear: both;
+
   dd {
     border: $stone-50 solid 2px;
     border-top: none;
@@ -15,16 +17,6 @@
     border-bottom: none;
     margin: 0;
     padding: $spacing-3 $spacing-3 0 $spacing-3;
-  }
-
-  form {
-    float: right;
-  }
-
-  label, select {
-    @include body-s;
-    display: inline-block;
-    margin-left: 1em;
   }
 
   .actions {
