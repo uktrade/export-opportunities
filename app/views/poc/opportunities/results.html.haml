@@ -1,6 +1,6 @@
 - page = Poc::PagePresenter.new(@content)
-- presenter_filters = Poc::OpportunitySearchFiltersPresenter.new(@content['search_filters'], @search_filters)
-- presenter_results = Poc::OpportunitySearchResultsPresenter.new(self, @content['search_results'], @search_results)
+- filters = Poc::OpportunitySearchFiltersPresenter.new(@content['search_filters'], @search_filters)
+- results = Poc::OpportunitySearchResultsPresenter.new(self, @content['search_results'], @search_results)
 - content_for :page_specific_head do
   = stylesheet_link_tag 'poc/layouts/results'
   = javascript_include_tag 'poc/layouts/results'
@@ -8,13 +8,62 @@
 
 .container
   = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
+  
   %h1.verbose= @content['title']
 
-#searh-results
-  %h2.verbose
-    = presenter_results.content['title']
-  = render partial: "components/search_again_form", locals: { results: presenter_results }
+= form_tag results.form_path,  method: :get, :id=>"search-results" do
+  = hidden_field_tag :isSearchAndFilter, true
+  = hidden_field_tag :filterOpen, params[:filterOpen], id: 'filterOpen'
 
   .container
-    = render partial: "opportunity_search_results", locals: { results: presenter_results }
-    = render partial: "search_results_filters", locals: { filters: presenter_filters }
+    %p.information
+      = results.found_message(true)
+      = link_to "Subscribe to email alerts #{results.searched_for}", "/subscriptions"
+
+    .field.search
+      %label
+        %span Search
+        %input{:name=>"s", :autocomplete=>"off", :class=>"text", :type=>"search", :value=>"#{results.term}"}
+      %input.submit{:value=>results.content['search_again_button'], :type=>"submit"}
+
+    .search-results
+      %h2.verbose
+        = results.content['title']
+
+      = results.displayed "information"
+
+      .sort
+        %label Sort by:
+        %select{:name=>"sort_column_name"}
+          %option{:value=>"response_due_on"}
+            Expiry date
+          %option{:value=>"first_published_at"}
+            Published date
+          %option{:value=>"relevance"}
+            Relevance
+
+      %dl
+        - results.found.each do |opportunity|
+          %dt{:class=>"#{opportunity.source}"}
+            = link_to results.title_with_country(opportunity), poc_opportunity_path(opportunity)
+
+          %dd{class: "#{opportunity.source}"}
+            %span.text
+              = opportunity.teaser
+
+            - if opportunity.source.eql? 'volume_opps'
+              %span.source
+                Provided by
+                = image_tag "logos/openopps_logo.png", :alt=>"Open Opps"
+
+            .actions
+              %span.expires
+                Closing date:
+                = opportunity.response_due_on.strftime('%d %B %Y')
+              -#= link_to "Save for later", "TODO", :class=>"save"
+
+      = results.navigation "pagination"
+      = results.view_all_link "button all"
+
+    = render partial: "search_results_filters", locals: { filters: filters }
+

@@ -32,6 +32,7 @@
 
   .submit {
     @include body-s;
+    margin-top: $spacing-3;
     width: 100%;
   }
 }

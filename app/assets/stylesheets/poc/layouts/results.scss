@@ -1,42 +1,88 @@
 @import '../config';
-@import '../components/search_again_form';
-@import '../components/subscription_form';
 @import '../components/search_results';
 @import '../components/search_results_filters';
 @import '../effects/expander';
 
-
-section {
-  padding-top: 0;
-}
 
 .breadcrumbs {
   border: none;
   margin-bottom: 0;
 }
 
+.information {
+  @include body-l;
+  display: inline-block;
+  font-weight: bold;
+  margin-bottom: 0;
+  width: $cols-6;
+
+  a {
+    @include body-s;
+    &:before {
+      content: "";
+      display: block;
+    }
+  }
+
+  .param {
+    background-color: $stone;
+    border-radius: 5px;
+    padding: 0 15px;
+  }
+}
+
+.search {
+  float: right;
+  max-width: $design-max-width;
+  position: relative;
+
+  .submit {
+    background-color: transparent;
+    background-image: asset_url("poc/search.png");
+    background-position: center;
+    background-size: 50px;
+    border-left: none;
+    bottom: 0;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    text-indent: 50px;
+    width: 50px;
+  }
+
+  label {
+    float: left;
+    margin: 0 50px 0 0;
+
+    input {
+      border-right: none;
+    }
+    
+    span {
+      font-weight: normal;
+    }
+  }
+}
+
+
 .search-results {
   float: right;
   padding: $spacing-3 0 $spacing-3 $spacing-3;
   width: $cols-9;
 
-  form {
-    margin-bottom: $spacing-4;
-  }
-
-  select {
-    margin-bottom: 0;
-    min-width: 175px;
-  }
-
   .all {
     display: none;
   }
+
+  .information {
+    @include access-hidden;
+  }
 }
 
+
 .search-results-filters {
-  border-top: 3px solid white;
   float: left;
+  margin-top: 3px;
   padding: $spacing-2 0 0 0;
   position: relative;
   width: $cols-3;
@@ -71,9 +117,27 @@ section {
   }
 }
 
-#subscribe {
+.sort {
+  float: right;
+  margin-bottom: $spacing-4;
+
+  label {
+    @include body-s;
+    display: inline-block;
+  }
+
+  select {
+    @include body-s;
+    display: inline-block;
+    margin: 0 0 0 1em;
+    min-width: 175px;
+  }
+}
+
+#search-results {
   background-color: $stone-50;
-  padding: 0;
+  min-height: 140px;
+  padding: $spacing-3 0;
 }
 
 
@@ -89,11 +153,17 @@ section {
 }
 
 @media (max-width: 767px) {
-  .search-again-form {
-    form {
-      float: left;
-      position: relative;
-    }
+  .information {
+    display: block;
+    margin-bottom: $spacing-3;
+    width: auto
+  }
+
+  .search {
+    display: inline-block;
+    float: none;
+    margin-bottom: 0;
+    position: relative;
 
     p {
       float: none;
@@ -101,12 +171,30 @@ section {
       width: auto;
     }
   }
-}
 
-@media (max-width: 680px) {
-  .search-results,
+  .search-results {
+    padding: $spacing-1 0 $spacing-3 0;
+    width: 100%;
+  }
+
   .search-results-filters {
     padding: $spacing-3 0;
     width: 100%;
+
+
+    .submit {
+      width: auto;
+    }
+  }
+}
+
+@media (max-width: 680px) {
+}
+
+@media (max-width: 420px) {
+  .search-results-filters {
+    .submit {
+      width: 100%;
+    }
   }
 }
