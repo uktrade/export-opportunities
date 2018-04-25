@@ -68,8 +68,8 @@
 
 .search-results {
   float: right;
-  padding: $spacing-3 0 $spacing-3 $spacing-3;
-  width: $cols-9;
+  max-width: $design-max-width;
+  position: relative;
 
   .all {
     display: none;
@@ -78,6 +78,13 @@
   .information {
     @include access-hidden;
   }
+}
+
+
+.search-results {
+  float: right;
+  padding: $spacing-3 0 $spacing-3 $spacing-3;
+  width: $cols-9;
 
   &.none {
     float: left;
@@ -89,6 +96,10 @@
       text-indent: initial;
       width: auto;
     }
+  }
+
+  .information {
+    @include access-hidden;
   }
 }
 
