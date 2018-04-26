@@ -191,9 +191,12 @@ class Poc::FormPresenter < Poc::BasePresenter
       id: id,
       label: label(field, name),
       name: name,
-      selected: false, # TODO: How to know it is selected?
       value: prop(field, 'value'),
     }
+
+    if prop(field, 'checked')
+      item[:checked] = true
+    end 
 
     item[:label][:field_id] = id # Needs to be different in a group
     item

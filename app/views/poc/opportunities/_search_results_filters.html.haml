@@ -2,12 +2,13 @@
   %form
     %h3 Filter results
 
-    .selected-filters
-      %h4 Selected filters
-      %dl
-        %dt.verbose Countries
-        %dd Brazil
-      %input.reset{:type=>"reset", :value=>"Clear all filters"}
+    - if filters.selected_list.length > 0
+      .selected-filters
+        %h4 Selected filters
+        %ul
+          - filters.selected_list.each do |filter|
+            %li= filter
+        %input.reset{:type=>"reset", :value=>"Clear all filters"}
 
     = render partial: "forms/input_checkbox_group", locals: { group: filters.input_checkbox_group('industries') }
     = render partial: "forms/input_checkbox_group", locals: { group: filters.input_checkbox_group('countries') }

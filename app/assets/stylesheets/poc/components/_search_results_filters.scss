@@ -42,14 +42,19 @@
   padding: $spacing-4;
   position: relative;
 
-  dd {
+  li {
     @include body-s;
     background-color: $stone;
     border-radius: 5px;
     clear: both;
     float: left;
-    margin-bottom: 10px;
+    margin: 0 0 10px 0;
     padding: 2px 15px;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
   }
 
   .reset {
