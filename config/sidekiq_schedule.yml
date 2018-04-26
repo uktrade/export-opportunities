@@ -9,21 +9,3 @@ schedule_volume_import_opps_job:
   class: "RetrieveVolumeOpps"
   queue: default
   active_job: true
-
-schedule_sensitivity_opps_job:
-  cron: "15 11 * * *"
-  class: "CheckSensitivityOpps"
-  queue: default
-  active_job: true
-
-schedule_quality_opps_job:
-  cron: "15 12 * * *"
-  class: "CheckQualityOpps"
-  queue: default
-  active_job: true
-
-schedule_rules_engine_job:
-  cron: "15 13 * * *"
-  class: "RulesEngineVolumeOpps"
-  queue: default
-  active_job: true

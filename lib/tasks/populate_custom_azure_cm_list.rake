@@ -10,7 +10,7 @@ namespace :azure do
     arr_file = CSV.parse(open(args[:filename]))
     arr_file.each do |line|
       next unless line[0]
-      element = URI::encode(line[0].downcase)
+      element = URI.encode(line[0].downcase)
       uri = uri(element, args[:list_id])
 
       http = Net::HTTP.new(uri.host, uri.port)
@@ -18,10 +18,9 @@ namespace :azure do
 
       request = Net::HTTP::Post.new(uri.request_uri)
 
-
-      request.add_field("Accept", "application/json")
-      request.add_field("Ocp-Apim-Subscription-Key", args[:subscription_key])
-      request.add_field("Content-Type", "application/json")
+      request.add_field('Accept', 'application/json')
+      request.add_field('Ocp-Apim-Subscription-Key', args[:subscription_key])
+      request.add_field('Content-Type', 'application/json')
 
       response = http.request(request)
       puts response.inspect

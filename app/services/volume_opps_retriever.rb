@@ -56,7 +56,7 @@ class VolumeOppsRetriever
       opportunity_cpvs << { industry_id: cpv, industry_scheme: cpv_scheme }
     end
 
-    if opportunity_release['planning']
+    if opportunity_release['planning'] && opportunity_release['planning']['budget']
       values = calculate_value(opportunity_release['planning']['budget']['amount'])
       value_id = values[:id]
       gbp_value = values[:gbp_value]
