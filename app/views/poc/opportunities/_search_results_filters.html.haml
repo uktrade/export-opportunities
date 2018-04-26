@@ -8,7 +8,7 @@
         %ul
           - filters.selected_list.each do |filter|
             %li= filter
-        = link_to filters.unfiltered_search_url, "Clear all filters"
+        = link_to "Clear all filters", filters.unfiltered_search_url, { :class=>"reset" }
 
     = render partial: "forms/input_checkbox_group", locals: { group: filters.input_checkbox_group('industries') }
     = render partial: "forms/input_checkbox_group", locals: { group: filters.input_checkbox_group('countries') }

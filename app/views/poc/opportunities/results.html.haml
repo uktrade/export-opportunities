@@ -1,5 +1,5 @@
 - page = Poc::PagePresenter.new(@content)
-- filters = Poc::OpportunitySearchFiltersPresenter.new(@content['search_filters'], @search_filters)
+- filters = Poc::OpportunitySearchFiltersPresenter.new(@content['search_filters'], @search_filters, @search_url)
 - results = Poc::OpportunitySearchResultsPresenter.new(self, @content['search_results'], @search_results)
 - content_for :page_specific_head do
   = stylesheet_link_tag 'poc/layouts/results'

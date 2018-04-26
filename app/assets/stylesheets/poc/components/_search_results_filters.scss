@@ -39,6 +39,7 @@
 
 .selected-filters {
   background-color: $stone-30;
+  margin-bottom: $spacing-3;
   padding: $spacing-4;
   position: relative;
 
@@ -48,12 +49,13 @@
     border-radius: 5px;
     clear: both;
     float: left;
-    margin: 0 0 10px 0;
+    margin: 0 0 $spacing-4 0;
     padding: 2px 15px;
   }
 
   ul {
     margin: 0;
+    overflow: hidden;
     padding: 0;
   }
 

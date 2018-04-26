@@ -1,10 +1,12 @@
 class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
-  attr_reader :selected_list
+  attr_reader :selected_list, :unfiltered_search_url
 
-  def initialize(content, filters)
+  def initialize(content, filters, search)
     super(content, {})
     @filters = filters
+    @search = search
     @selected_list = selected_filter_list
+    @unfiltered_search_url = reset_search
   end
 
   def field_content(name)
@@ -36,8 +38,13 @@ class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
     selected
   end
 
-  def unfiltered_search_url
-    puts request.original_url
+  def reset_search
+    split_url = @search.split('&')
+    url = []
+    split_url.each do |item|
+      url.push(item) unless item.match('countries%5B%5D=') ||  item.match('sectors%5B%5D=')
+    end
+    url.join('&')
   end
 
   private
