@@ -21,7 +21,7 @@
     .field.search
       %label
         %span Search
-        %input{:name=>"s", :autocomplete=>"off", :class=>"text", :type=>"search", :value=>"#{results.term}"}
+        %input{:name=>"s", :autocomplete=>"off", :class=>"text", :type=>"search", :value=>"", :placeholder=>"What are you selling?"}
       %input.submit{:value=>results.content['search_again_button'], :type=>"submit"}
 
     .search-results
