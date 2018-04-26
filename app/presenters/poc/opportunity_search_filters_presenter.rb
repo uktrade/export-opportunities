@@ -36,6 +36,10 @@ class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
     selected
   end
 
+  def unfiltered_search_url
+    puts request.original_url
+  end
+
   private
 
   def format_options(field = {})
