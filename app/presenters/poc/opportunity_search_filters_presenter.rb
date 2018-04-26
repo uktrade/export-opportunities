@@ -66,3 +66,4 @@ class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
     options
   end
 end
+
