@@ -1,14 +1,10 @@
-.search-results {
+.opportunities-list {
   clear: both;
 
   dd {
     border: $stone-50 solid 2px;
     border-top: none;
     margin: 0 0 $spacing-4 0;
-  }
-
-  dl {
-    clear: both;
   }
 
   dt {
@@ -34,26 +30,6 @@
     width: 165px;
   }
 
-  .pagination {
-    float: right;
-
-    a {
-      @include button-ghost($active-blue, $white);
-      padding-left: $spacing-4;
-      padding-right: $spacing-4;
-    }
-
-    li {
-      display: inline-block;
-    }
-
-    span {
-      @include button-disabled($white, $active-blue);
-      padding-left: $spacing-4;
-      padding-right: $spacing-4;
-    }
-  }
-
   .save {
     background: transparent image_url("star.png") 100% 40% no-repeat;
     background-size: 17px;
@@ -66,6 +42,7 @@
     padding: 0 $spacing-3;
   }
 }
+
 
 .volume_opps {
   position: relative;
@@ -94,7 +71,7 @@
 
 // RESPONSIVE
 @media screen and (max-width: 767px) {
-  .search-results {
+  .opportunities-list {
     dt {
       padding: $spacing-3-m $spacing-3-m 0 $spacing-3-m;
     }
