@@ -41,27 +41,15 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
     end
   end
 
-  def found_message_html
-    message = if @total.size > 1
-                "#{@total.size} results found"
+  def found_message
+    message = if @found.size > 1
+                "#{@found.size} results found"
+              elsif @found.size < 1
+                "0 results found"
               else
-                "#{@total.size} result found"
+                "1 result found"
               end
-
-    unless @term.nil?
-      message += ' for '
-      message += content_tag('span', @term.to_s, 'class': 'param')
-    end
-    message.html_safe
-  end
-
-  def found_message(with_html = false)
-    message = if @total.size > 1
-                "#{@total.size} results found"
-              else
-                "#{@total.size} result found"
-              end
-    message += searched_for(with_html)
+    message += searched_for(true)
     message.html_safe
   end
 

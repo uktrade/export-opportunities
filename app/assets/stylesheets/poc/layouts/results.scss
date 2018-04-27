@@ -78,6 +78,18 @@
   .information {
     @include access-hidden;
   }
+
+  &.none {
+    float: left;
+    padding: $spacing-1 0;
+    width: auto;
+
+    .information {
+      position: static;
+      text-indent: initial;
+      width: auto;
+    }
+  }
 }
 
 

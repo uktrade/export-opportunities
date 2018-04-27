@@ -15,7 +15,7 @@
 
   .container
     %p.information
-      = results.found_message(true)
+      = results.found_message
       = link_to "Subscribe to email alerts #{results.searched_for}", "/subscriptions"
 
     .field.search
@@ -24,18 +24,25 @@
         %input{:name=>"s", :autocomplete=>"off", :class=>"text", :type=>"search", :value=>"", :placeholder=>"What are you selling?"}
       %input.submit{:value=>results.content['search_again_button'], :type=>"submit"}
 
-    .search-results
-      %h2.verbose
-        = results.content['title']
+    - if results.found.length > 0
+      .search-results
+        %h2.verbose= results.content['title']
+        = results.displayed "information"
 
-      = results.displayed "information"
+        .sort= render partial: "forms/input_select", locals: { input: results.sort_input_select }
 
-      .sort
-        = render partial: "forms/input_select", locals: { input: results.sort_input_select }
+        = render partial: "opportunities/list", locals: { list: results }
+        = results.navigation "pagination"
+        = results.view_all_link "button all"
 
-      = render partial: "opportunities/list", locals: { list: results }
-      = results.navigation "pagination"
-      = results.view_all_link "button all"
+      = render partial: "search_results_filters", locals: { filters: filters }
 
-    = render partial: "search_results_filters", locals: { filters: filters }
+    - else
+      .search-results.none
+        %h2.verbose= results.content['title']
+        %p.information= results.content['no_results_message']
+        %p#no-results-instruction= results.content['no_results_instruction']
+        %ul{"aria-labelledby"=>"no-results-instruction"}
+          - results.content['no_results_actions'].each do |action|
+            %li= action
 

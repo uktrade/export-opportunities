@@ -8,6 +8,11 @@ description:
 # -----------------------------
 search_results:
   title: Results found
+  no_results_message: "Sorry, we don't have any matches for your search."
+  no_results_instruction: "Please try:"
+  no_results_actions:
+      - searching again using different words
+      - applying a new filter
 
   fields: 
     sort:
