@@ -9,6 +9,7 @@ class SendOpportunityToMatchingSubscriptionsWorker
     matching_subscriptions = SubscriptionFinder.new.call(opportunity)
 
     matching_subscriptions.each do |subscription|
+      # we already sent notification email for this user through another subscription
       if email_addresses_notified.include?(subscription.email)
         subscription.notifications.create!(opportunity_id: opportunity_id, sent: false)
       else

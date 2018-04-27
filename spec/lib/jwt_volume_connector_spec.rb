@@ -17,7 +17,7 @@ RSpec.describe JwtVolumeConnector do
       results = res[:data]
       expect(res[:status]).to eq(200)
       expect(results).to be_instance_of(Array)
-      expect(res[:count]).to be > 0
+      expect(res[:count]).to be >= 0
     end
   end
 end
