@@ -9,3 +9,9 @@ schedule_volume_import_opps_job:
   class: "RetrieveVolumeOpps"
   queue: default
   active_job: true
+
+digest_email_notifications_job:
+  cron: "55 22 * * *"
+  class: "SendOpportunitiesDigest"
+  queue: default
+  active_job: true
