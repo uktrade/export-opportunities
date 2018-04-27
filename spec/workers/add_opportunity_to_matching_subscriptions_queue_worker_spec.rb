@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe SendOpportunityToMatchingSubscriptionsWorker, :elasticsearch, :commit, sidekiq: :inline do
+RSpec.describe AddOpportunityToMatchingSubscriptionsQueueWorker, :elasticsearch, :commit, sidekiq: :inline do
   it 'sends an opportunity to one or more subscribers' do
     opportunity = create(:opportunity, title: 'matching')
     create_list(:subscription, 2, search_term: 'matching')
 
     expect do
-      SendOpportunityToMatchingSubscriptionsWorker.perform_async(opportunity.id)
+      AddOpportunityToMatchingSubscriptionsQueueWorker.perform_async(opportunity.id)
     end.to change { ActionMailer::Base.deliveries.size }.by(2)
   end
 
@@ -16,7 +16,7 @@ RSpec.describe SendOpportunityToMatchingSubscriptionsWorker, :elasticsearch, :co
     create_list(:subscription, 2, user: user, search_term: 'matching')
 
     expect do
-      SendOpportunityToMatchingSubscriptionsWorker.perform_async(opportunity.id)
+      AddOpportunityToMatchingSubscriptionsQueueWorker.perform_async(opportunity.id)
     end.to change { ActionMailer::Base.deliveries.size }.by(1)
   end
 
@@ -27,7 +27,7 @@ RSpec.describe SendOpportunityToMatchingSubscriptionsWorker, :elasticsearch, :co
     create(:subscription, user: user, search_term: 'subscription')
 
     expect do
-      SendOpportunityToMatchingSubscriptionsWorker.perform_async(opportunity.id)
+      AddOpportunityToMatchingSubscriptionsQueueWorker.perform_async(opportunity.id)
     end.to change { ActionMailer::Base.deliveries.size }.by(1)
   end
 
@@ -37,7 +37,7 @@ RSpec.describe SendOpportunityToMatchingSubscriptionsWorker, :elasticsearch, :co
       subscription = create(:subscription, search_term: 'matching')
 
       expect do
-        SendOpportunityToMatchingSubscriptionsWorker.perform_async(opportunity.id)
+        AddOpportunityToMatchingSubscriptionsQueueWorker.perform_async(opportunity.id)
       end.to change { subscription.notifications.count }.by(1)
 
       expect(subscription.notifications.last.opportunity).to eq opportunity
@@ -51,7 +51,7 @@ RSpec.describe SendOpportunityToMatchingSubscriptionsWorker, :elasticsearch, :co
 
       # Ugh, but it is necessary to control the order these subscriptions are returned
       expect_any_instance_of(SubscriptionFinder).to receive(:call).and_return([first_subscription, second_subscription])
-      SendOpportunityToMatchingSubscriptionsWorker.perform_async(opportunity.id)
+      AddOpportunityToMatchingSubscriptionsQueueWorker.perform_async(opportunity.id)
 
       expect(first_subscription.notifications.last).to be_sent
       expect(second_subscription.notifications.last).not_to be_sent
