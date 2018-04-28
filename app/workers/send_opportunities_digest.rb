@@ -7,16 +7,14 @@ class SendOpportunitiesDigest
     today_date = Time.zone.now.strftime('%Y-%m-%d')
     tomorrow_date = (Time.zone.now + 1.day).strftime('%Y-%m-%d')
 
-    # TODO: fix \/\/\/ with proper rails structure
-    # results = ActiveRecord::Base.connection.execute("SELECT subscriptions.user_id, subscription_notifications.opportunity_id
-    # FROM subscription_notifications JOIN subscriptions ON subscriptions.id=subscription_notifications.subscription_id
-    # WHERE subscription_notifications.created_at>=#{today_date} AND subscription_notifications.created_at<=#{tomorrow_date}")
-
     results = SubscriptionNotification.joins(:subscription).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at < ?', today_date, tomorrow_date)
 
-    user_with_notification_opportunity_ids = Hash.new{|h,k| h[k] = [] }
+    user_with_notification_opportunity_ids = {}
     results.each do |result|
-      user_with_notification_opportunity_ids[result['user_id']].push(result['opportunity_id'])
+      if result.subscription.user_id
+        user_with_notification_opportunity_ids[result.subscription.user_id] ||= []
+        user_with_notification_opportunity_ids[result.subscription.user_id].push(result.opportunity_id)
+      end
     end
 
     user_with_notification_opportunity_ids.each do |user_id, opportunity_ids|
