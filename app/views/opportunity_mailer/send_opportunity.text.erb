@@ -1,17 +1,18 @@
-This opportunity has just been published:
+- @opportunities.each do |opportunity|
+  This opportunity has just been published:
 
-<%= @opportunity.title %>
-<%= @opportunity.teaser %>
-More details at: <%= opportunity_url(@opportunity) %>
+  <%#= opportunity.title %>
+  <%#= opportunity.teaser %>
+  More details at: <%#= opportunity_url(opportunity) %>
 
-Search for other export opportunities at https://opportunities.export.great.gov.uk/
+  Search for other export opportunities at https://opportunities.export.great.gov.uk/
 
-The Export Opportunities Team
-https://opportunities.export.great.gov.uk/
+  The Export Opportunities Team
+  https://opportunities.export.great.gov.uk/
 
-You are receiving this email because you signed up for notifications about: <%= @subscription.description %>
+  You are receiving this email because you signed up for notifications about BLAH as user: <%= @user.email %>
 
-Unsubscribe from this alert by visiting <%= unsubscribe_url(@subscription) %>
-<% unless @subscription.user.stub? %>
-  Manage your alerts: <%= dashboard_url(anchor: 'alerts', target: :alerts) %>
-<% end %>
+  Unsubscribe from this alert by visiting <%#= unsubscribe_url(@subscription) %>
+  <%# unless @subscription.user.stub? %>
+    Manage your alerts: <%#= dashboard_url(anchor: 'alerts', target: :alerts) %>
+  <%# end %>
