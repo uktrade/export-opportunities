@@ -76,3 +76,5 @@ vendor/bundle/*
 *.zip
 *.xls
 *.xlsx
+
+output.png
