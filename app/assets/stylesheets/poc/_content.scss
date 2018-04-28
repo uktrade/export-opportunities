@@ -14,18 +14,27 @@ h1 {
 
 h2 {
   @include heading-m;
+  margin-top: 0;
 }
 
 h3 {
   @include heading-s;
+  margin-top: 0;
 }
 
-h4, h5, h6 {
+h4 {
+  @include body-s;
+  font-weight: bold;
+  margin-top: 0;
+}
+
+h5, h6 {
   // What should these be?
   // For now, using next font size down, but bold.
   // Expect this to change.
   @include body-m;
   font-weight: bold;
+  margin-top: 0;
 }
 
 p {

@@ -5,6 +5,7 @@ class Poc::OpportunitiesController < OpportunitiesController
   POC_OPPORTUNITY_PROPS = %w[what why need industry keywords value specifications respond_by respond_to link].freeze
 
   def index
+    @content = get_content('opportunities/index.yml')
     @opportunity_summary_list = summary_list_by_industry
     @sort_column_name = sort_column
     @recent_opportunities = recent_opportunities
@@ -17,17 +18,28 @@ class Poc::OpportunitiesController < OpportunitiesController
   end
 
   def results
-    @search_term = search_term
+    @content = get_content('opportunities/results.yml')
     @filters = SearchFilter.new(params)
+    @search_term = params['s']
     @sort_column_name = sort_column
-    @opportunity_search = opportunity_search
     @industries = industry_list
-    @subscription_form = subscription_form
+    @subscription_form = subscription_form # Don't think we need this anymore
+    @search_url = request.original_fullpath
+    @search_results = opportunity_search
+    @search_filters = {
+      'sectors': search_filter_sectors,
+      'countries': search_filter_countries,
+    }
     render 'opportunities/results', layout: 'layouts/domestic'
   end
 
   def new
-    @process = { view: params[:view], content: 'step_1', entries: {}, errors: {} }
+    @content = get_content('opportunities/new.yml')
+    @process = {
+      view: params[:view] || 'step_1',
+      entries: {},
+      errors: {},
+    }
 
     # Record any user entries (not in DB at this point).
     process_add_user_entries
@@ -62,23 +74,23 @@ class Poc::OpportunitiesController < OpportunitiesController
       # TODO: Validate step_1 entries
       # If errors view should remain as step_1
 
+      view = 'step_2'
       case @process[:entries]['what']
       when '1'
-        @process[:view] = 'step_2'
-        @process[:content] = 'step_2.1'
+        content = 'step_2.1'
       when '2'
-        @process[:view] = 'step_2'
-        @process[:content] = 'step_2.2'
+        content = 'step_2.2'
       when '3'
-        @process[:view] = 'step_2'
-        @process[:content] = 'step_2.3'
+        content = 'step_2.3'
       when '4'
-        @process[:view] = 'step_2'
-        @process[:content] = 'step_2.4'
+        content = 'step_2.4'
       else
-        @process[:view] = 'step_1'
-        @process[:content] = 'step_1'
+        view = 'step_1'
+        content = 'step_1'
       end
+
+      @content = @content[content]
+      @process[:view] = view
     end
   end
 
@@ -87,8 +99,8 @@ class Poc::OpportunitiesController < OpportunitiesController
       # TODO: Validate step_2 entries
       # If errors view should remain as step_2
 
+      @content = @content['step_3']
       @process[:view] = 'step_3'
-      @process[:content] = 'step_3'
     end
   end
 
@@ -96,6 +108,7 @@ class Poc::OpportunitiesController < OpportunitiesController
     if @process[:view].eql? 'step_3'
       # TODO: Validate step_3 entries
       # If errors view should remain as step_3
+
       @process[:view] = 'complete' # TODO: Where/what?
     end
   end
@@ -143,7 +156,14 @@ class Poc::OpportunitiesController < OpportunitiesController
       query = query.page(params[:paged]).per(per_page)
       results = query.records
     end
-    { results: results, total: query.records.total, limit: per_page }
+
+    { 
+      results: results,
+      total: query.records.total,
+      limit: per_page,
+      term: @search_term,
+      sort_by: @sort_column_name,
+    }
   end
 
   # Get 5 most recent only
@@ -155,7 +175,12 @@ class Poc::OpportunitiesController < OpportunitiesController
       sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
     )
     query = query.page(params[:paged]).per(per_page)
-    { results: query.records, total: query.records.total, limit: per_page }
+    { 
+      results: query.records,
+      total: query.records.total,
+      limit: per_page,
+      sort_by: @sort_column_name,
+    }
   end
 
   # TODO: How are the featured industries chosen?
@@ -184,5 +209,25 @@ class Poc::OpportunitiesController < OpportunitiesController
         values: @filters.values,
       }
     )
+  end
+
+  private def search_filter_sectors
+    # @filters.sectors ... lists all selected sectors
+    # Sector.order(:name) ... lists all sectors in DB
+    {
+      'name': 'sectors[]',
+      'options': Sector.order(:name),
+      'selected': @filters.sectors,
+    }
+  end
+
+  private def search_filter_countries
+    # @filters.countries ... lists all selected countries
+    # Country.order(:name) ... lists all countries in DB
+    {
+      'name': 'countries[]',
+      'options': Country.order(:name),
+      'selected': @filters.countries,
+    }
   end
 end

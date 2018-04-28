@@ -1,44 +1,69 @@
 class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
-  attr_reader :content, :description, :title
+  attr_reader :selected_list, :unfiltered_search_url
 
-  def initialize(helpers, _filters)
-    @h = helpers
-    @content = get_content('app/views/poc/opportunities/_filters.yml')
-    @title = prop(@content, 'title')
-    @description = prop(@content, 'description')
+  def initialize(content, filters, search)
+    super(content, {})
+    @filters = filters
+    @search = search
+    @selected_list = selected_filter_list
+    @unfiltered_search_url = reset_search
   end
 
   def field_content(name)
     field = super(name)
     case name
     when 'industries'
-      field['options'] = industries
+      field['options'] = format_options(@filters[:sectors])
+      field['name'] = @filters[:sectors][:name]
     when 'countries'
-      field['options'] = countries
+      field['options'] = format_options(@filters[:countries])
+      field['name'] = @filters[:countries][:name]
     else
       {}
     end
     field
   end
 
+  def selected_filter_list
+    selected = []
+    @filters.each do |filter|
+      if filter[1].key?(:selected) && filter[1][:selected].length > 0
+        filter[1][:options].each do |option|
+          if filter[1][:selected].include? option[:slug]
+            selected.push option[:name]
+          end
+        end
+      end
+    end
+    selected
+  end
+
+  def reset_search
+    split_url = @search.split('&')
+    url = []
+    split_url.each do |item|
+      url.push(item) unless item.match('countries%5B%5D=') ||  item.match('sectors%5B%5D=')
+    end
+    url.join('&')
+  end
+
   private
 
-  # Need to get filters from BE code.
-  # Have constructed dummy date (below) that can be put
-  # through form_presenter.rb code to output filters.
-  def industries
-    [
-      { label: 'Food and Drink', value: 'Food and Drink' },
-      { label: 'Aerospace', value: 'Aerospace' },
-      { label: 'Construction', value: 'construction' },
-    ]
-  end
+  def format_options(field = {})
+    options = []
+    field[:options].each do |option|
+      formatted_option = {
+        'label': option['name'],
+        'value': option['slug'],
+      }
 
-  def countries
-    [
-      { label: 'England', value: 'england' },
-      { label: 'Scotland', value: 'scotland' },
-      { label: 'Wales', value: 'wales' },
-    ]
+      if field[:selected].include? option['slug']
+        formatted_option[:checked] = 'true'
+      end
+
+      options.push(formatted_option)
+    end
+    options
   end
 end
+

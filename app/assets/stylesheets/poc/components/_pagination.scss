@@ -1,0 +1,19 @@
+.pagination {
+  float: right;
+
+  a {
+    @include button-ghost($active-blue, $white);
+    padding-left: $spacing-4;
+    padding-right: $spacing-4;
+  }
+
+  li {
+    display: inline-block;
+  }
+
+  span {
+    @include button-disabled($white, $active-blue);
+    padding-left: $spacing-4;
+    padding-right: $spacing-4;
+  }
+}

@@ -1,12 +1,14 @@
-# (2.3) Software services
----
-title: Request services
+# (2.4) Promote a tender
+# ----------------------
+
+breadcrumb_current: Create opportunity
+title: Promote a tender
 description: You will be able to see what your opportunity looks like on the next page
 
 form:
   need:
-    label: "Enter the service you need:"
-    description: List service(s) you want UK companies to supply. For example, training services, traffic flow analysis, mining consultancy.
+    label: "Enter the product or service you need:"
+    description: For example turnkey solutions, a sports stadium, mining consultancy. This will appear as the title of your opportunity.
     placeholder: 
 
   industry:
@@ -15,8 +17,8 @@ form:
     placeholder: 
 
   keywords:
-    label: "Keywords (optional):"
-    description: Add topical keywords to help the right suppliers to find your opportunity.
+    label: "<abbr title='Common Procurement Vocabulary'>CPV</abbr> codes (optional):"
+    description: Add CPV codes for the goods you need to help suppliers to find your opportunity. Look up <a href="#">commodity codes</a>
     placeholder: 
 
   value:
@@ -26,6 +28,9 @@ form:
   specifications:
     label: "Describe what you need:"
     description: Enter enough information so potential suppliers know what you need. For example, the amount, specifications, or whether it is mass market or premium.
+
+  link:
+    label: "Link to tender:"
 
   respond_by:
     label: "I need to receive proposals by:"

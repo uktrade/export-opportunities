@@ -1,25 +1,217 @@
 @import '../config';
-@import '../components/subscription_form';
-@import '../opportunities/opportunity_search_results';
-@import '../effects/filter_select';
+@import '../opportunities/list';
+@import '../components/pagination';
+@import '../components/search_results_filters';
+@import '../effects/expander';
 
-.opportunity-search-filters {
-  float: left;
-  padding: $spacing-3;
-  width: $cols-4;
+
+.breadcrumbs {
+  border: none;
+  margin-bottom: 0;
 }
 
-.opportunity-search-results {
-  background-color: $stone-light;
+.information {
+  @include body-l;
+  display: inline-block;
+  font-weight: bold;
+  margin-bottom: 0;
+  width: $cols-6;
+
+  a {
+    @include body-s;
+    &:before {
+      content: "";
+      display: block;
+    }
+  }
+
+  .param {
+    background-color: $stone;
+    border-radius: 5px;
+    padding: 2px 15px;
+  }
+}
+
+.search {
   float: right;
-  padding: $spacing-3;
-  width: $cols-8;
+  max-width: $design-max-width;
+  position: relative;
+
+  .submit {
+    background-color: transparent;
+    background-image: asset_url("poc/search.png");
+    background-position: center;
+    background-size: 50px;
+    border-left: none;
+    bottom: 0;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    text-indent: 50px;
+    width: 50px;
+  }
+
+  label {
+    float: left;
+    margin: 0 50px 0 0;
+
+    input {
+      border-right: none;
+    }
+    
+    span {
+      font-weight: normal;
+    }
+  }
+}
+
+
+.search-results {
+  float: right;
+  padding: $spacing-3 0 $spacing-3 $spacing-3;
+  width: $cols-9;
 
   .all {
     display: none;
   }
+
+  .information {
+    @include access-hidden;
+  }
+
+  &.none {
+    float: left;
+    padding: $spacing-1 0;
+    width: auto;
+
+    .information {
+      position: static;
+      text-indent: initial;
+      width: auto;
+    }
+  }
+}
+
+
+.search-results-filters {
+  float: left;
+  margin-top: 3px;
+  padding: $spacing-2 0 0 0;
+  position: relative;
+  width: $cols-3;
+
+  // Enhanced with JS
+  .Expander {
+    background-color: $white;
+    width: 100%;
+  }
+
+  .ExpanderControl {
+    outline: none;
+    &:before {
+      @include down-chevron-1($black);
+      float: right;
+      height: 8px;
+      margin: 5px $spacing-4 0 0;
+      width: 8px;
+    }
+
+    &.active {
+      &:before {
+        @include up-chevron-1($black);
+        height: 8px;
+        width: 8px;
+      }
+
+      &:after {
+        border-color: $light-grey;
+      }
+    }
+  }
+}
+
+.sort {
+  float: right;
+  margin-bottom: $spacing-4;
+
+  label {
+    @include body-s;
+    display: inline-block;
+  }
+
+  select {
+    @include body-s;
+    display: inline-block;
+    margin: 0 0 0 1em;
+    min-width: 175px;
+  }
+
+  .field {
+    margin-bottom: 0;
+  }
 }
 
 #search-results {
-  padding-top: $spacing-3;
+  background-color: $stone-50;
+  min-height: 140px;
+  padding: $spacing-3 0;
+}
+
+
+// RESPONSIVE
+@media (max-width: 1024px) {
+  .search-results {
+    width: $cols-8;
+  }
+
+  .search-results-filters {
+    width: $cols-4;
+  }
+}
+
+@media (max-width: 767px) {
+  .information {
+    display: block;
+    margin-bottom: $spacing-3;
+    width: auto
+  }
+
+  .search {
+    display: inline-block;
+    float: none;
+    margin-bottom: 0;
+    position: relative;
+
+    p {
+      float: none;
+      margin-bottom: $spacing-3;
+      width: auto;
+    }
+  }
+
+  .search-results {
+    padding: $spacing-1 0 $spacing-3 0;
+    width: 100%;
+  }
+
+  .search-results-filters {
+    padding: $spacing-3 0;
+    width: 100%;
+
+
+    .submit {
+      width: auto;
+    }
+  }
+}
+
+@media (max-width: 680px) {
+}
+
+@media (max-width: 420px) {
+  .search-results-filters {
+    .submit {
+      width: 100%;
+    }
+  }
 }

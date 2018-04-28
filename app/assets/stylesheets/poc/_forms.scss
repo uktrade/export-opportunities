@@ -113,7 +113,7 @@ textarea {
     
     &:before {
       background: transparent;
-      border: 2px solid $mid-grey;
+      border: 2px solid $black;
       content: "";
       height: 32px;
       left: 0;
@@ -142,10 +142,6 @@ textarea {
       width: 17px;
       z-index: 0;
     }
-  }
-  
-  label::before {
-    border-radius: 4px;
   }
 }
 

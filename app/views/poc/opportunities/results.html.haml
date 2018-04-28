@@ -1,7 +1,6 @@
-- page = Poc::PagePresenter.new('Search results')
-- subscription = Poc::SubscriptionDecorator.new(@subscription_form)
-- search_filters = Poc::OpportunitySearchFiltersPresenter.new(self, @filters)
-- search_results = Poc::OpportunitySearchResultsPresenter.new(self, @opportunity_search)
+- page = Poc::PagePresenter.new(@content)
+- filters = Poc::OpportunitySearchFiltersPresenter.new(@content['search_filters'], @search_filters, @search_url)
+- results = Poc::OpportunitySearchResultsPresenter.new(self, @content['search_results'], @search_results)
 - content_for :page_specific_head do
   = stylesheet_link_tag 'poc/layouts/results'
   = javascript_include_tag 'poc/layouts/results'
@@ -9,13 +8,41 @@
 
 .container
   = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
-  %h1.verbose Search results
+  
+  %h1.verbose= @content['title']
 
-%aside.container
-  = render partial: 'components/subscription_form', locals: { subscription: subscription }
+= form_tag results.form_path,  method: :get, :id=>"search-results" do
 
-%section#search-results
   .container
-    %h2.verbose Results found
-    = render partial: "opportunity_search_results", locals: { results: search_results }
-    = render partial: "opportunity_search_filters", locals: { filters: search_filters }
+    %p.information
+      = results.found_message
+      = link_to "Subscribe to email alerts #{results.searched_for}", "/subscriptions"
+
+    .field.search
+      %label
+        %span Search
+        %input{:name=>"s", :autocomplete=>"off", :class=>"text", :type=>"search", :value=>"", :placeholder=>"What are you selling?"}
+      %input.submit{:value=>results.content['search_again_button'], :type=>"submit"}
+
+    - if results.found.length > 0
+      .search-results
+        %h2.verbose= results.content['title']
+        = results.displayed "information"
+
+        .sort= render partial: "forms/input_select", locals: { input: results.sort_input_select }
+
+        = render partial: "opportunities/list", locals: { list: results }
+        = results.navigation "pagination"
+        = results.view_all_link "button all"
+
+      = render partial: "search_results_filters", locals: { filters: filters }
+
+    - else
+      .search-results.none
+        %h2.verbose= results.content['title']
+        %p.information= results.content['no_results_message']
+        %p#no-results-instruction= results.content['no_results_instruction']
+        %ul{"aria-labelledby"=>"no-results-instruction"}
+          - results.content['no_results_actions'].each do |action|
+            %li= action
+

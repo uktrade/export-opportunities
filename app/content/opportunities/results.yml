@@ -1,0 +1,43 @@
+# Search Result Content
+# ---------------------
+title: Search results
+description: 
+
+
+# Search Result Filters Content
+# -----------------------------
+search_results:
+  title: Results found
+  no_results_message: "Sorry, we don't have any matches for your search."
+  no_results_instruction: "Please try:"
+  no_results_actions:
+      - searching again using different words
+      - applying a new filter
+
+  fields: 
+    sort:
+      label: "Sort by:"
+      options:
+        - Expiry date
+        - Published date
+        - Relevance
+
+
+
+# Search Result Filters Content
+# -----------------------------
+search_filters:
+  selected_title: "Selected Filters:"
+
+  fields:
+    industries:
+      question: Industries
+
+    countries:
+      question: Regions and countries
+
+    type:
+      question: Type of opportunity
+
+    value:
+      question: Value of contract

@@ -1,12 +1,34 @@
 class Poc::FormPresenter < Poc::BasePresenter
   include ActionView::Helpers::FormTagHelper
   require 'yaml'
+  attr_reader :content, :description, :entries, :title, :view
+
+  def initialize(content, process)
+    @content = content
+    @fields = prop(content, 'fields')
+    @title = prop(@content, 'title')
+    @description = prop(@content, 'description')
+
+    if process.nil?
+      @view = ''
+      @entries = []
+    else
+      @view = process[:view]
+      @entries = process[:entries]
+    end
+
+    # A little help to find the problem when things
+    # aren't where they should be
+    if @content.nil? && @fields.nil?
+      raise "Check you have added appropriate content for #{process[:view]} and #{process[:fields]}."
+    end
+  end
 
   # Returns HTML string for rendering hidden input elements
   def hidden_fields
     fields = hidden_field_tag 'view', @view
     @entries.each_pair do |key, value|
-      unless @content['form'].nil? || @content['form'].keys.include?(key)
+      unless @fields.nil? || @fields.keys.include?(key)
         fields += hidden_field_tag key, value
       end
     end
@@ -21,33 +43,35 @@ class Poc::FormPresenter < Poc::BasePresenter
 
   # Return formatted data for Checkbox group form input
   def input_checkbox_group(name)
-    content = field_content(name)
+    field = field_content(name)
+    field_name = prop(field, 'name') || name
     group = {}
-    unless content.nil?
-      group[:question] = prop(content, 'question')
-      group[:name] = name
-      group[:checkboxes] = options_group(prop(content, 'options'), name)
+    unless field.nil?
+      group[:question] = prop(field, 'question')
+      group[:name] = field_name
+      group[:question] = prop(field, 'question')
+      group[:checkboxes] = options_group(prop(field, 'options'), field_name)
     end
     group
   end
 
   # Return formatted data for Date Selector component
   def input_date_selector(name)
-    content = field_content(name)
+    field = field_content(name)
     id = field_id(name)
     {
       id: id,
       name_dd: "#{id}_dd",
       name_mm: "#{id}_mm",
       name_yy: "#{id}_yy",
-      description: prop(content, 'description'),
-      text: prop(content, 'label'),
+      description: prop(field, 'description'),
+      text: prop(field, 'label'),
     }
   end
 
   # Return formatted data for Multi Currency component
   def input_multi_currency_amount(name)
-    content = field_content(name)
+    field = field_content(name)
     id = field_id(name)
     {
       id: id,
@@ -58,31 +82,48 @@ class Poc::FormPresenter < Poc::BasePresenter
       name_dd: "#{name}_dd",
       name_mm: "#{name}_mm",
       name_yy: "#{name}_yy",
-      description: prop(content, 'description'),
-      text: prop(content, 'label'),
+      description: prop(field, 'description'),
+      text: prop(field, 'label'),
     }
   end
 
   # Return formatted data for Radio input component
   def input_radio(name)
-    content = field_content(name)
+    field = field_content(name)
     input = {}
-    unless content.nil?
-      input[:question] = prop(content, 'question')
+    unless field.nil?
+      input[:question] = prop(field, 'question')
       input[:name] = name
-      input[:options] = options_group(prop(content, 'options'), name)
+      input[:options] = options_group(prop(field, 'options'), name)
+    end
+    input
+  end
+
+  # Return formatted data for Select input component
+  def input_select(name)
+    field = field_content(name)
+    input = {}
+    options = []
+    unless field.nil?
+      input[:id] = field_id(name)
+      input[:label] = label(field, name)
+      input[:name] = name
+      prop(field, 'options').each do |option|
+        options.push({'value': option})
+      end
+      input[:options] = options
     end
     input
   end
 
   # Return formatted data for Text input component
   def input_text(name)
-    content = field_content(name)
+    field = field_content(name)
     id = field_id(name)
     {
       id: id,
       name: name,
-      label: label(content, name),
+      label: label(field, name),
     }
   end
 
@@ -94,13 +135,13 @@ class Poc::FormPresenter < Poc::BasePresenter
 
   # Return formatted data for Form label component
   def input_label(name)
-    content = field_content(name)
-    label(content, name)
+    field = field_content(name)
+    label(field, name)
   end
 
   # Return existence of form field
   def field_exists?(name)
-    fields = @content['form']
+    fields = @fields
     fields.key?(name) || fields.key?(name.to_sym)
   end
 
@@ -150,9 +191,12 @@ class Poc::FormPresenter < Poc::BasePresenter
       id: id,
       label: label(field, name),
       name: name,
-      selected: false, # TODO: How to know it is selected?
       value: prop(field, 'value'),
     }
+
+    if prop(field, 'checked')
+      item[:checked] = true
+    end 
 
     item[:label][:field_id] = id # Needs to be different in a group
     item
@@ -175,16 +219,10 @@ class Poc::FormPresenter < Poc::BasePresenter
 
   # Get form field content
   def field_content(name)
-    fields = @content['form']
-    if fields.key?(name) || fields.key?(name.to_sym)
-      fields[name]
+    if @fields.key?(name) || @fields.key?(name.to_sym)
+      @fields[name]
     else
       {}
     end
-  end
-
-  # Gets form field content separated from the view
-  def get_content(file)
-    YAML.load_file(file)
   end
 end

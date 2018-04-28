@@ -12,7 +12,9 @@ dit.utils = (new function () {
    * @str = (String) Allow prefix string.
    **/
   this.generateUniqueStr = function (str) {
-    return (str ? str : "") + ((new Date().getTime()) + "_" + Math.random().toString()).replace(/[^\w]*/mig, "");
+    var time = new Date().getTime();
+    var random = Math.random() * time - (Math.random() *3);
+    return (str ? str : "") + (time + "_" + random.toString()).replace(/[^\w]*/mig, "");
   }
   
   /* Attempt to run a namespaced function from passed string.

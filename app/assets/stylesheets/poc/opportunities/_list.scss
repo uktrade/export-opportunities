@@ -1,23 +1,25 @@
-.opportunity-search-results {
+.opportunities-list {
+  clear: both;
+
   dd {
-    background-color: $white;
-    margin: 0 0 10px 0;
-    padding: 0 $spacing-3;
+    border: $stone-50 solid 2px;
+    border-top: none;
+    margin: 0 0 $spacing-4 0;
   }
 
   dt {
     @include body-l;
-    background-color: $white;
+    border: $stone-50 solid 2px;
+    border-bottom: none;
     margin: 0;
     padding: $spacing-3 $spacing-3 0 $spacing-3;
   }
 
-
   .actions {
     @include body-s;
     border-top: 1px solid $light-grey;
-    margin-top: $spacing-3;
-    padding: $spacing-4 0;
+    margin: $spacing-3 0 0 0;
+    padding: $spacing-4 $spacing-3;
   }
 
   .all {
@@ -28,31 +30,19 @@
     width: 165px;
   }
 
-  .pagination {
-    a {
-      @include button-ghost($active-blue, $white);
-      padding-left: $spacing-4;
-      padding-right: $spacing-4;
-    }
-
-    li {
-      display: inline-block;
-    }
-
-    span {
-      @include button-disabled($active-blue, transparent);
-      padding-left: $spacing-4;
-      padding-right: $spacing-4;
-    }
-  }
-
   .save {
     background: transparent image_url("star.png") 100% 40% no-repeat;
     background-size: 17px;
     float: right;
     padding-right: 25px;
   }
+
+  .text {
+    display: block;
+    padding: 0 $spacing-3;
+  }
 }
+
 
 .volume_opps {
   position: relative;
@@ -81,13 +71,15 @@
 
 // RESPONSIVE
 @media screen and (max-width: 767px) {
-  .opportunity-search-results {
-    dd {
-      padding: 0 $spacing-3-m;
-    }
-
+  .opportunities-list {
     dt {
       padding: $spacing-3-m $spacing-3-m 0 $spacing-3-m;
+    }
+
+    .actions,
+    .text {
+      padding-left: $spacing-4;
+      padding-right: $spacing-4;
     }
   }
 }
