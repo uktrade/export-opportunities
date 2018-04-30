@@ -15,6 +15,7 @@
   display: inline-block;
   font-weight: bold;
   margin-bottom: 0;
+  padding: $spacing-3 0;
   width: $cols-6;
 
   a {
@@ -36,6 +37,7 @@
   float: right;
   margin: 0;
   max-width: $design-max-width;
+  padding-top: $spacing-3;
   position: relative;
 
   .submit {
@@ -92,30 +94,6 @@
       text-indent: initial;
       width: auto;
     }
-  }
-}
-
-
-.search-results {
-  clear: right;
-  float: right;
-  padding: $spacing-3 0 $spacing-3 $spacing-3;
-  width: $cols-9;
-
-  &.none {
-    float: left;
-    padding: $spacing-1 0;
-    width: auto;
-
-    .information {
-      position: static;
-      text-indent: initial;
-      width: auto;
-    }
-  }
-
-  .information {
-    @include access-hidden;
   }
 }
 
