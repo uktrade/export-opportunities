@@ -1,5 +1,5 @@
 class OpportunityMailer < ApplicationMailer
-  layout 'eig-email'
+  layout 'email'
 
   def send_opportunity(user, opportunities)
     @opportunities = opportunities
