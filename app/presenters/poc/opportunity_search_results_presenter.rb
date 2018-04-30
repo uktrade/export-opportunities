@@ -49,7 +49,7 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
 
   def searched_for(with_html = false)
     message = ''
-    unless @term.nil?
+    unless @term.nil? || @term.empty?
       message += ' for '
       message += if with_html
                    content_tag('span', @term.to_s, 'class': 'param')
