@@ -1,11 +1,13 @@
-%p
-  -#%strong= @subscription.description
+
+-#%strong= @subscription.description
 
 -# TODO: generate unique URL for unsubscribe from all alerts
 -#= link_to 'Unsubscribe from this alert', unsubscribe_url(@subscription)
 -#- unless @subscription.user.stub?
 -#  %br
 -#  = link_to 'Manage your alerts', dashboard_url(anchor: 'alerts', target: :alerts)
+
+-# =@view_more_opportunities_user_id.to_s
 
 %h1{:style=>"font-size:30px"} Matching opportunities
 %br

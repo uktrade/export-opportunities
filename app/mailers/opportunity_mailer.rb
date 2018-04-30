@@ -2,12 +2,14 @@ class OpportunityMailer < ApplicationMailer
   layout 'email'
 
   def send_opportunity(user, opportunities)
-    @opportunities = opportunities
+    @opportunities = opportunities.first(5)
+    @count = opportunities.count
     @user = user
-    @all_opportunities_link_id = EncryptedParams.encrypt(user.id)
+    @view_more_opportunities_user_id = EncryptedParams.encrypt(user.id)
     @date = Time.zone.now.strftime('%Y-%m-%d')
 
-    mail to: @user.email,
-         subject: "New opportunities from #{t('site_name')}"
+    mail from: "Export Opportunities <#{Figaro.env.MAILER_FROM_ADDRESS!}>",
+         to: @user.email,
+         subject: "#{@count} matching opportunities"
   end
 end
