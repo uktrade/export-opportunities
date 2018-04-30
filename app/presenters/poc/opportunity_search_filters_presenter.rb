@@ -27,7 +27,7 @@ class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
   def selected_filter_list
     selected = []
     @filters.each do |filter|
-      if filter[1].key?(:selected) && filter[1][:selected].length > 0
+      if filter[1].key?(:selected) && filter[1][:selected].positive?
         filter[1][:options].each do |option|
           if filter[1][:selected].include? option[:slug]
             selected.push option[:name]
@@ -42,7 +42,7 @@ class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
     split_url = @search.split('&')
     url = []
     split_url.each do |item|
-      url.push(item) unless item.match('countries%5B%5D=') ||  item.match('sectors%5B%5D=')
+      url.push(item) unless item.match('countries%5B%5D=') || item.match('sectors%5B%5D=')
     end
     url.join('&')
   end
@@ -66,4 +66,3 @@ class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
     options
   end
 end
-

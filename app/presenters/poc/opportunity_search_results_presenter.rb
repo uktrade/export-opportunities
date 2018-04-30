@@ -39,10 +39,10 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   def found_message
     message = if @found.size > 1
                 "#{@found.size} results found"
-              elsif @found.size < 1
-                "0 results found"
+              elsif @found.size.empty?
+                '0 results found'
               else
-                "1 result found"
+                '1 result found'
               end
     message += searched_for(true)
     message += searched_in(true)
@@ -53,7 +53,7 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   # Returns ' for [your term here]' or ''
   def searched_for(with_html = false)
     message = ''
-    unless @term.nil? || @term.empty?
+    if @term.present?
       message += ' for '
       message += if with_html
                    content_tag('span', @term.to_s, 'class': 'param')
@@ -68,7 +68,7 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   # Returns ' in [a country name here]' or ''
   def searched_in(with_html = false)
     message = ''
-    unless @filters.countries.nil? || @filters.countries.empty?
+    if @filters.countries.present?
       message += ' in '
       if with_html
         @filters.countries.each do |country|
@@ -94,14 +94,12 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
       options: [
         { text: 'Expiry date', value: 'response_due_on' },
         { text: 'Published date', value: 'first_published_at' },
-        { text: 'Relevance', value: 'relevance' }
-      ]
+        { text: 'Relevance', value: 'relevance' },
+      ],
     }
 
     input[:options].each do |option|
-      if option[:value].eql? @sort_by
-        option[:selected] = true
-      end
+      option[:selected] = true if option[:value].eql? @sort_by
     end
 
     input

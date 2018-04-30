@@ -157,7 +157,7 @@ class Poc::OpportunitiesController < OpportunitiesController
       results = query.records
     end
 
-    { 
+    {
       filters: @filters,
       results: results,
       total: query.records.total,
@@ -176,7 +176,7 @@ class Poc::OpportunitiesController < OpportunitiesController
       sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
     )
     query = query.page(params[:paged]).per(per_page)
-    { 
+    {
       results: query.records,
       total: query.records.total,
       limit: per_page,

@@ -109,7 +109,7 @@ class Poc::FormPresenter < Poc::BasePresenter
       input[:label] = label(field, name)
       input[:name] = name
       prop(field, 'options').each do |option|
-        options.push({'value': option})
+        options.push('value': option)
       end
       input[:options] = options
     end
@@ -194,10 +194,7 @@ class Poc::FormPresenter < Poc::BasePresenter
       value: prop(field, 'value'),
     }
 
-    if prop(field, 'checked')
-      item[:checked] = true
-    end 
-
+    item[:checked] = true if prop(field, 'checked')
     item[:label][:field_id] = id # Needs to be different in a group
     item
   end
