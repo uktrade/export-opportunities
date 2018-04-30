@@ -52,7 +52,7 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   # Add to 'X results found' message
   # Returns ' for [your term here]' or ''
   def searched_for(with_html = false)
-    message = ''
+    message = '' 
     if @term.present?
       message += ' for '
       message += if with_html
