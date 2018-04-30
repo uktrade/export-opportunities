@@ -30,7 +30,7 @@
 
 
       a, a:active, a:visited { 
-        color: #B00D23 !important; 
+        color: #006ccc !important; 
         white-space: nowrap;
       }
 
@@ -75,7 +75,7 @@
   %body{ :bgcolor=>"#DEDEDE" }
     %center
       &nbsp;
-      %table{ :width=>"580", :cellspacing=>"0", :cellpadding=>"0", :border=>"0", :bgcolor=>"#ffffff" }
+      %table{ :width=>"600", :cellspacing=>"0", :cellpadding=>"0", :border=>"0", :bgcolor=>"#ffffff", :style=>"table-layout:fixed;" }
         %thead
           %tr
             %td{ :style=>"font-family: Arial, sans-serif; font-size:19px; padding:0px;" }
@@ -103,3 +103,6 @@
           %tr
             %td{ :style=>"padding: 0px 30px 0 30px" }
               %hr{ :style=>"background-color:#B00D23; border-color:#B00D23; border-style:solid; border-width:2px; height:2px; margin:0px" }
+
+      - if content_for?(:email_sub_footer)
+        = content_for :email_sub_footer
