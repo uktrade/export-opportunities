@@ -22,7 +22,7 @@ class SendOpportunitiesDigest
       opportunity_ids.each do |opportunity_id|
         opportunities.push(Opportunity.find(opportunity_id))
       end
-      OpportunityMailer.send_opportunity(User.find(user_id), opportunities.first(5)).deliver_later!
+      OpportunityMailer.send_opportunity(User.find(user_id), opportunities).deliver_later!
     end
 
     # once we've sent notifications, update sent to true to avoid sending the same notifications again in the future
