@@ -32,7 +32,7 @@
         .sort= render partial: "forms/input_select", locals: { input: results.sort_input_select }
 
         = render partial: "opportunities/list", locals: { list: results }
-        = results.navigation "pagination"
+        = render partial: "components/pagination", locals: { items: results.found }
         = results.view_all_link "button all"
 
       = render partial: "search_results_filters", locals: { filters: filters }

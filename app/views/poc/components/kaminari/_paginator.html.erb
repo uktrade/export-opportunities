@@ -7,13 +7,13 @@
     paginator:     the paginator that renders the pagination tags inside
 -%>
 <%= paginator.render do -%>
-  <ul class="navigation">
-    <% each_page do |page| -%>
-      <% if page.left_outer? || page.right_outer? || page.inside_window? -%>
-        <%= page_tag page %>
-      <% elsif !page.was_truncated? -%>
-        <%= gap_tag %>
-      <% end -%>
+  <ul class="navigation" role="navigation" aria-label="Page navigation">
+  <% each_page do |page| -%>
+    <% if page.left_outer? || page.right_outer? || page.inside_window? -%>
+      <li><%= page_tag page %></li>
+    <% elsif !page.was_truncated? -%>
+      <li><%= gap_tag %></li>
     <% end -%>
+  <% end -%>
   </ul>
 <% end -%>

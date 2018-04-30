@@ -8,12 +8,12 @@
     remote:        data-remote
 -%>
 <% if page.current? %>
-  <li class="<%= 'active current' if page.current? %>">
-    <span><%= page %></span>
-  </li>
+  <span class="verbose">Page </span>
+  <span class="<%= 'active current' if page.current? %>"><%= page %></span>
+  <span class="verbose">(current) </span>
 <% else %>
-  <li class="<%= 'active current' if page.current? %>">
-    <%= link_to page, url, {:remote => remote, :rel => page.next? ? 'next' : page.prev? ? 'prev' : nil} %>
-  </li>
+  <%= link_to url, {:remote => remote, :rel => page.next? ? 'next' : page.prev? ? 'prev' : nil} do %>
+    <span class="verbose">Page </span><%= page %>
+  <% end %>
 <% end %>
 

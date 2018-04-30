@@ -35,12 +35,6 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
     end
   end
 
-  def navigation(css_classes = '')
-    content_tag(:div, 'class': css_classes) do
-      h.paginate @found, views_prefix: 'poc/components'
-    end
-  end
-
   def found_message
     message = if @found.size > 1
                 "#{@found.size} results found"
