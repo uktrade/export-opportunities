@@ -6,9 +6,10 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
     super(content, {})
     @found = search[:results]
     @view_limit = search[:limit]
-    @term = search[:term]
     @total = search[:total]
     @sort_by = search[:sort_by]
+    @term = search[:term]
+    @filters = search[:filters]
     @form_path = poc_opportunities_path
   end
 
@@ -35,27 +36,24 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
     end
   end
 
-  def navigation(css_classes = '')
-    content_tag(:div, 'class': css_classes) do
-      h.paginate @found, views_prefix: 'poc/components'
-    end
-  end
-
   def found_message
     message = if @found.size > 1
                 "#{@found.size} results found"
-              elsif @found.size < 1
-                "0 results found"
+              elsif @found.size.empty?
+                '0 results found'
               else
-                "1 result found"
+                '1 result found'
               end
     message += searched_for(true)
+    message += searched_in(true)
     message.html_safe
   end
 
+  # Add to 'X results found' message
+  # Returns ' for [your term here]' or ''
   def searched_for(with_html = false)
     message = ''
-    unless @term.nil?
+    if @term.present?
       message += ' for '
       message += if with_html
                    content_tag('span', @term.to_s, 'class': 'param')
@@ -64,6 +62,24 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
                  end
     end
     message.html_safe
+  end
+
+  # Add to 'X results found' message
+  # Returns ' in [a country name here]' or ''
+  def searched_in(with_html = false)
+    message = ''
+    if @filters.countries.present?
+      message += ' in '
+      if with_html
+        @filters.countries.each do |country|
+          message += content_tag('span', country, 'class': 'param')
+          message += ' or '
+        end
+      else
+        message = @filters.countries.join(' or ')
+      end
+    end
+    message.gsub(/(\sor\s)$/, '').html_safe
   end
 
   def sort_input_select
@@ -78,14 +94,12 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
       options: [
         { text: 'Expiry date', value: 'response_due_on' },
         { text: 'Published date', value: 'first_published_at' },
-        { text: 'Relevance', value: 'relevance' }
-      ]
+        { text: 'Relevance', value: 'relevance' },
+      ],
     }
 
     input[:options].each do |option|
-      if option[:value].eql? @sort_by
-        option[:selected] = true
-      end
+      option[:selected] = true if option[:value].eql? @sort_by
     end
 
     input

@@ -12,7 +12,6 @@
   %h1.verbose= @content['title']
 
 = form_tag results.form_path,  method: :get, :id=>"search-results" do
-
   .container
     %p.information
       = results.found_message
@@ -24,6 +23,11 @@
         %input{:name=>"s", :autocomplete=>"off", :class=>"text", :type=>"search", :value=>"", :placeholder=>"What are you selling?"}
       %input.submit{:value=>results.content['search_again_button'], :type=>"submit"}
 
+
+= form_tag results.form_path,  method: :get do
+  %input{:name=>"s", :type=>"hidden", :value=>@search_term}
+
+  .container
     - if results.found.length > 0
       .search-results
         %h2.verbose= results.content['title']
@@ -32,7 +36,7 @@
         .sort= render partial: "forms/input_select", locals: { input: results.sort_input_select }
 
         = render partial: "opportunities/list", locals: { list: results }
-        = results.navigation "pagination"
+        = render partial: "components/pagination", locals: { items: results.found }
         = results.view_all_link "button all"
 
       = render partial: "search_results_filters", locals: { filters: filters }
@@ -45,4 +49,3 @@
         %ul{"aria-labelledby"=>"no-results-instruction"}
           - results.content['no_results_actions'].each do |action|
             %li= action
-

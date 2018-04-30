@@ -34,6 +34,7 @@
 
 .search {
   float: right;
+  margin: 0;
   max-width: $design-max-width;
   position: relative;
 
@@ -65,10 +66,12 @@
   }
 }
 
-
 .search-results {
+  clear: right;
   float: right;
-  padding: $spacing-3 0 $spacing-3 $spacing-3;
+  max-width: $design-max-width;
+  padding: 18px 0 $spacing-3 $spacing-3;
+  position: relative;
   width: $cols-9;
 
   .all {
@@ -96,7 +99,7 @@
 .search-results-filters {
   float: left;
   margin-top: 3px;
-  padding: $spacing-2 0 0 0;
+  padding: 35px 0 0 0;
   position: relative;
   width: $cols-3;
 
@@ -153,8 +156,9 @@
 
 #search-results {
   background-color: $stone-50;
-  min-height: 140px;
+  margin: 0;
   padding: $spacing-3 0;
+  overflow: hidden;
 }
 
 
@@ -190,7 +194,7 @@
   }
 
   .search-results {
-    padding: $spacing-1 0 $spacing-3 0;
+    padding: $spacing-4 0 $spacing-3 0;
     width: 100%;
   }
 
