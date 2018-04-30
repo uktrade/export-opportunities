@@ -6,8 +6,8 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
     super(content, {})
     @found = search[:results]
     @view_limit = search[:limit]
-    @sort_by = search[:sort_by]
     @total = search[:total]
+    @sort_by = search[:sort_by]
     @term = search[:term]
     @filters = search[:filters]
     @form_path = poc_opportunities_path
