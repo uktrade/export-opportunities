@@ -15,7 +15,6 @@
   display: inline-block;
   font-weight: bold;
   margin-bottom: 0;
-  padding: $spacing-3 0;
   width: $cols-6;
 
   a {
@@ -35,8 +34,8 @@
 
 .search {
   float: right;
+  margin: 0;
   max-width: $design-max-width;
-  padding-top: $spacing-3;
   position: relative;
 
   .submit {
@@ -157,7 +156,9 @@
 
 #search-results {
   background-color: $stone-50;
-  min-height: 85px;
+  margin: 0;
+  padding: $spacing-3 0;
+  overflow: hidden;
 }
 
 
@@ -193,7 +194,7 @@
   }
 
   .search-results {
-    padding: $spacing-1 0 $spacing-3 0;
+    padding: $spacing-4 0 $spacing-3 0;
     width: 100%;
   }
 

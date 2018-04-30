@@ -12,7 +12,6 @@
   %h1.verbose= @content['title']
 
 = form_tag results.form_path,  method: :get, :id=>"search-results" do
-
   .container
     %p.information
       = results.found_message
@@ -24,6 +23,11 @@
         %input{:name=>"s", :autocomplete=>"off", :class=>"text", :type=>"search", :value=>"", :placeholder=>"What are you selling?"}
       %input.submit{:value=>results.content['search_again_button'], :type=>"submit"}
 
+
+= form_tag results.form_path,  method: :get do
+  %input{:name=>"s", :type=>"hidden", :value=>@search_term}
+
+  .container
     - if results.found.length > 0
       .search-results
         %h2.verbose= results.content['title']
