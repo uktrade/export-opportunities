@@ -27,7 +27,7 @@ class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
   def selected_filter_list
     selected = []
     @filters.each do |filter|
-      if filter[1].key?(:selected) && filter[1][:selected].positive?
+      if filter[1].key?(:selected) && filter[1][:selected].length > 1
         filter[1][:options].each do |option|
           if filter[1][:selected].include? option[:slug]
             selected.push option[:name]
