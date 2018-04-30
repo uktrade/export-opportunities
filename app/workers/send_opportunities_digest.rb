@@ -1,7 +1,7 @@
+require 'set'
+
 class SendOpportunitiesDigest
   include Sidekiq::Worker
-
-  sidekiq_options retry: false
 
   def perform
     today_date = Time.zone.now.strftime('%Y-%m-%d')
@@ -12,8 +12,8 @@ class SendOpportunitiesDigest
     user_with_notification_opportunity_ids = {}
     results.each do |result|
       if result.subscription.user_id
-        user_with_notification_opportunity_ids[result.subscription.user_id] ||= []
-        user_with_notification_opportunity_ids[result.subscription.user_id].push(result.opportunity_id)
+        user_with_notification_opportunity_ids[result.subscription.user_id] ||= Set.new
+        user_with_notification_opportunity_ids[result.subscription.user_id].add(result.opportunity_id)
       end
     end
 
@@ -22,7 +22,10 @@ class SendOpportunitiesDigest
       opportunity_ids.each do |opportunity_id|
         opportunities.push(Opportunity.find(opportunity_id))
       end
-      OpportunityMailer.send_opportunity(User.find(user_id), opportunities.first(5))
+      OpportunityMailer.send_opportunity(User.find(user_id), opportunities.first(5)).deliver_later!
     end
+
+    # once we've sent notifications, update sent to true to avoid sending the same notifications again in the future
+    results.update_all(sent: true) unless Rails.env.development?
   end
 end
