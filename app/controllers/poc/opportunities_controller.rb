@@ -158,6 +158,7 @@ class Poc::OpportunitiesController < OpportunitiesController
     end
 
     { 
+      filters: @filters,
       results: results,
       total: query.records.total,
       limit: per_page,

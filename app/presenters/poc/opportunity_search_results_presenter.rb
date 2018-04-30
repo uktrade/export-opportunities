@@ -6,9 +6,10 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
     super(content, {})
     @found = search[:results]
     @view_limit = search[:limit]
-    @term = search[:term]
     @total = search[:total]
     @sort_by = search[:sort_by]
+    @term = search[:term]
+    @filters = search[:filters]
     @form_path = poc_opportunities_path
   end
 
@@ -44,9 +45,12 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
                 "1 result found"
               end
     message += searched_for(true)
+    message += searched_in(true)
     message.html_safe
   end
 
+  # Add to 'X results found' message
+  # Returns ' for [your term here]' or ''
   def searched_for(with_html = false)
     message = ''
     unless @term.nil? || @term.empty?
@@ -58,6 +62,24 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
                  end
     end
     message.html_safe
+  end
+
+  # Add to 'X results found' message
+  # Returns ' in [a country name here]' or ''
+  def searched_in(with_html = false)
+    message = ''
+    unless @filters.countries.nil? || @filters.countries.empty?
+      message += ' in '
+      if with_html
+        @filters.countries.each do |country|
+          message += content_tag('span', country, 'class': 'param')
+          message += ' or '
+        end
+      else
+        message = @filters.countries.join(' or ')
+      end
+    end
+    message.gsub(/(\sor\s)$/, '').html_safe
   end
 
   def sort_input_select
