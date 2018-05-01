@@ -1,0 +1,12 @@
+%h1 An awesome email_notifications page
+
+- @subscription_notifications&.each do |sub_not|
+  Opportunity Title:
+  =sub_not.opportunity.title
+  %p
+    Subscription search term:
+    =sub_not.subscription.search_term
+    Subscription created at:
+    =sub_not.subscription.created_at
+  %p
+

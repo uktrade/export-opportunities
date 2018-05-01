@@ -64,6 +64,6 @@ end
 
 class SubscriberNotificationSender
   def call(opportunity)
-    SendOpportunityToMatchingSubscriptionsWorker.perform_async(opportunity.id)
+    AddOpportunityToMatchingSubscriptionsQueueWorker.perform_async(opportunity.id)
   end
 end
