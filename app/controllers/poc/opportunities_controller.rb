@@ -1,3 +1,5 @@
+require 'set'
+
 class Poc::OpportunitiesController < OpportunitiesController
   prepend_view_path 'app/views/poc'
 
@@ -26,9 +28,10 @@ class Poc::OpportunitiesController < OpportunitiesController
     @subscription_form = subscription_form # Don't think we need this anymore
     @search_url = request.original_fullpath
     @search_results = opportunity_search
+    @total = @search_results[:total]
     @search_filters = {
       'sectors': search_filter_sectors,
-      'countries': search_filter_countries,
+      'countries': opportunity_search[:countries],
     }
     render 'opportunities/results', layout: 'layouts/domestic'
   end
@@ -140,6 +143,8 @@ class Poc::OpportunitiesController < OpportunitiesController
   end
 
   private def opportunity_search
+    country_list = []
+    countries = []
     per_page = Opportunity.default_per_page
     query = Opportunity.public_search(
       search_term: @search_term,
@@ -153,6 +158,26 @@ class Poc::OpportunitiesController < OpportunitiesController
       query = AtomOpportunityQueryDecorator.new(query, view_context)
       results = query
     else
+      query.records.each do |opportunity|
+        opportunity.countries.each do |country|
+          # Array of all countries in all opportunities in result set
+          countries.push(country)
+        end
+      end
+
+      # in memory group by name: {"country_name": [..Country instances..]}
+      countries_grouped_name = countries.group_by(&:name)
+      countries_grouped_name.keys.each do |country_name|
+        # set virtual attribute Country.opportunity_count
+        countries_grouped_name[country_name][0].opportunity_count = countries_grouped_name[country_name].length
+        country_list.push(countries_grouped_name[country_name][0])
+      end
+
+      countries_result = {
+        'name': 'countries[]',
+        'options': country_list,
+        'selected': @filters.countries,
+      }
       query = query.page(params[:paged]).per(per_page)
       results = query.records
     end
@@ -160,6 +185,7 @@ class Poc::OpportunitiesController < OpportunitiesController
     {
       filters: @filters,
       results: results,
+      countries: countries_result,
       total: query.records.total,
       limit: per_page,
       term: @search_term,
@@ -222,9 +248,17 @@ class Poc::OpportunitiesController < OpportunitiesController
     }
   end
 
-  private def search_filter_countries
+  private def search_filter_countries(search_results)
+    country_list = Set.new
     # @filters.countries ... lists all selected countries
     # Country.order(:name) ... lists all countries in DB
+    if search_results
+      search_results[:results].each do |opportunity|
+        country_list.add(opportunity.countries.first)
+      end
+    else
+      country_list = Country.order(:name)
+    end
     {
       'name': 'countries[]',
       'options': Country.order(:name),

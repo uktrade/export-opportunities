@@ -6,8 +6,8 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
     super(content, {})
     @found = search[:results]
     @view_limit = search[:limit]
-    @total = search[:total]
     @sort_by = search[:sort_by]
+    @total = search[:total]
     @term = search[:term]
     @filters = search[:filters]
     @form_path = poc_opportunities_path
@@ -37,9 +37,9 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   end
 
   def found_message
-    message = if @found.size > 1
-                "#{@found.size} results found"
-              elsif @found.size.empty?
+    message = if @total > 1
+                "#{@total} results found"
+              elsif @total.zero?
                 '0 results found'
               else
                 '1 result found'

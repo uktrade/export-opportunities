@@ -42,4 +42,30 @@ describe Poc::OpportunitiesController, :elasticsearch, :commit, type: :controlle
       expect(response).to have_http_status(:not_found)
     end
   end
+
+  describe 'show opportunities in order' do
+    it 'sorts opportunities by their response due date' do
+      soonest_expiration = create(:opportunity, status: 'publish', response_due_on: 1.month.from_now)
+      last_expiration = create(:opportunity, status: 'publish', response_due_on: 3.months.from_now)
+
+      sleep 2
+      get :index
+
+      expect(assigns(:opportunities).first.title).to eq(soonest_expiration.title)
+      expect(assigns(:opportunities).second.title).to eq(last_expiration.title)
+    end
+  end
+
+  describe 'get search results in order' do
+    it 'sorts opportunities in order' do
+      soonest_expiration = create(:opportunity, status: 'publish', response_due_on: 1.month.from_now)
+      last_expiration = create(:opportunity, status: 'publish', response_due_on: 3.months.from_now)
+
+      sleep 2
+      get :results
+
+      expect(assigns(:opportunities).first.title).to eq(soonest_expiration.title)
+      expect(assigns(:opportunities).second.title).to eq(last_expiration.title)
+    end
+  end
 end
