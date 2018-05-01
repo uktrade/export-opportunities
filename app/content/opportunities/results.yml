@@ -32,8 +32,11 @@ search_filters:
     industries:
       question: Industries
 
+    regions:
+      question: Regions
+
     countries:
-      question: Regions and countries
+      question: Countries
 
     type:
       question: Type of opportunity

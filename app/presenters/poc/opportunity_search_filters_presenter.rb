@@ -15,6 +15,9 @@ class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
     when 'industries'
       field['options'] = format_options(@filters[:sectors])
       field['name'] = @filters[:sectors][:name]
+    when 'regions'
+      field['options'] = format_options(@filters[:regions])
+      field['name'] = @filters[:regions][:name]
     when 'countries'
       field['options'] = format_options(@filters[:countries])
       field['name'] = @filters[:countries][:name]
@@ -56,7 +59,7 @@ class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
         'value': option['slug'],
       }
 
-      if field[:selected].include? option['slug']
+      if field[:selected].include? option[:slug]
         formatted_option[:checked] = 'true'
       end
 
