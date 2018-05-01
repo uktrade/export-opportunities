@@ -173,6 +173,9 @@ class Poc::OpportunitiesController < OpportunitiesController
         country_list.push(countries_grouped_name[country_name][0])
       end
 
+      # sort countries in list by asc name
+      country_list = country_list.sort {|left, right| left.name <=> right.name}
+
       countries_result = {
         'name': 'countries[]',
         'options': country_list,
