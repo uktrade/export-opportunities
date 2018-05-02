@@ -44,7 +44,7 @@ class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
     split_url = @search.split('&')
     url = []
     split_url.each do |item|
-      url.push(item) unless item.match('countries%5B%5D=') || item.match('sectors%5B%5D=')
+      url.push(item) unless item.match('regions%5B%5D=') || item.match('countries%5B%5D=') || item.match('sectors%5B%5D=')
     end
     url.join('&')
   end
@@ -66,6 +66,20 @@ class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
       options.push(formatted_option)
     end
     options
+  end
+
+  # Figure out what regions can be considered
+  # selected, based on selected countries.
+  private def regions_selected
+    selected = []
+    regions_list.each do |region|
+      countries = region[:countries].split(' ') 
+      count = 0
+      countries.each do |country|
+        count += 1 if false
+      end
+    end
+    selected
   end
 end
 

@@ -145,13 +145,16 @@ class Poc::OpportunitiesController < OpportunitiesController
     end
   end
 
+  # Using a search with adjusted filters that include mapped_regions.
+  # Return object contains original unadjusted filters so the selected
+  # country filters are not affected.
   private def opportunity_search
     country_list = []
     countries = []
     per_page = Opportunity.default_per_page
     query = Opportunity.public_search(
       search_term: @search_term,
-      filters: @filters,
+      filters: filters_with_mapped_regions,
       sort: sort
     )
 
@@ -197,6 +200,43 @@ class Poc::OpportunitiesController < OpportunitiesController
       term: @search_term,
       sort_by: @sort_column_name,
     }
+  end
+
+  # Required workaround due to regions not coming from DB
+  # For any selected region, we need to extract the associated
+  # countries and add them to the countries filter, so that 
+  # they are included in the opportunity search.
+  private def filters_with_mapped_regions
+   # 1. Create new @filters (to avoid affecting original)
+   # 2. For each region in regions
+   # 3. Get list of countries from mapped regions
+   # 4. For each country in countries
+   # 5. Add country to copy_filters.countries
+   # 6. Return (adjusted) copy_filters
+   copy_filters = SearchFilter.new(params)
+   countries = []
+   copy_filters.regions.each do |selected_region|
+     region = region_data(selected_region)
+     unless region.empty?
+       region[:countries].each do |country|
+         copy_filters.countries.push(country) unless copy_filters.countries.include? country
+       end
+     end
+   end
+   copy_filters
+  end
+
+  # Returns Region from static (non-DB) 
+  # region data in region_list
+  def region_data(slug='')
+   data = {}
+   regions_list.each do |region|
+     if region[:slug].eql? slug
+       data = region
+       break
+     end
+   end
+   data
   end
 
   # Get 5 most recent only
@@ -278,25 +318,15 @@ class Poc::OpportunitiesController < OpportunitiesController
     {
       'name': 'regions[]',
       'options': regions_list,
-      'selected': regions_selected,
+      'selected': @filters.regions,
     }
   end
 
-  # Figure out what regions can be considered
-  # selected, based on selected countries.
-  private def regions_selected
-    selected = []
-    regions_list.each do |region|
-      countries = region[:countries].split(' ') 
-      count = 0
-      countries.each do |country|
-        count += 1 if false
-      end
-    end
-    selected
-  end
-
   # TODO: Could be stored in DB but writing here.
+  # DB has regions but no country ids added to any.
+  # DB regions also differ slightly in names.
+  # Structure is based on what we get in other filters,
+  # e.g. matches structure of Sector.order(:name)
   private def regions_list
     [
       { slug: 'australia_new_zealand',

@@ -64,18 +64,25 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
     message.html_safe
   end
 
+  # TODO: Need to get 'name' rather than using 'slug' for output message
   # Add to 'X results found' message
   # Returns ' in [a country name here]' or ''
   def searched_in(with_html = false)
     message = ''
-    if @filters.countries.present?
+    if @filters.countries.present? || @filters.regions.present?
       message += ' in '
       if with_html
+        @filters.regions.each do |region|
+          message += content_tag('span', region, 'class': 'param')
+          message += ' or '
+        end
+
         @filters.countries.each do |country|
           message += content_tag('span', country, 'class': 'param')
           message += ' or '
         end
       else
+        message = @filters.regions.join(' or ')
         message = @filters.countries.join(' or ')
       end
     end
