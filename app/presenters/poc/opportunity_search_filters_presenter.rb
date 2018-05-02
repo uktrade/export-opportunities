@@ -27,10 +27,14 @@ class Poc::OpportunitySearchFiltersPresenter < Poc::FormPresenter
     field
   end
 
+  # Note: Existing filter structure is complex.
+  # Actual data for each filter is an array, with
+  # the first element being a symbol and the second
+  # (e.g. filter[1]) being the object we want. 
   def selected_filter_list
     selected = []
     @filters.each do |filter|
-      next unless filter[1].key?(:selected) && filter[1][:selected].length > 1
+      next unless filter[1].key?(:selected) && filter[1][:selected].length > 0
       filter[1][:options].each do |option|
         if filter[1][:selected].include? option[:slug]
           selected.push option[:name]
