@@ -56,6 +56,8 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   end
 
   def found_message
+    for_message = searched_for(true)
+    in_message = searched_in(true)
     message = if @found.size > 1
                 "#{@found.size} results found"
               elsif @found.empty?
@@ -63,8 +65,8 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
               else
                 '1 result found'
               end
-    message += searched_for(true)
-    message += searched_in(true)
+    message += " for #{for_message}" unless for_message.empty? 
+    message += " in #{in_message}" unless in_message.empty?
     message.html_safe
   end
 
@@ -73,7 +75,7 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   def searched_for(with_html = false)
     message = ''
     if @term.present?
-      message += ' for '
+      #message += ' for '
       message += if with_html
                    content_tag('span', @term.to_s, 'class': 'param')
                  else
@@ -90,23 +92,21 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
     message = ''
     filters = @search[:filters]
     if filters.countries.present? || filters.regions.present?
-      message += ' in '
+      #message += ' in '
       if with_html
-        filters.regions.each do |region|
-          message += content_tag('span', region, 'class': 'param')
-          message += ' or '
-        end
-
-        filters.countries.each do |country|
-          message += content_tag('span', country, 'class': 'param')
+        selected_filter_list.each do |filter|
+          message += content_tag('span', filter, 'class': 'param')
           message += ' or '
         end
       else
-        message = filters.regions.join(' or ')
-        message = filters.countries.join(' or ')
+        message = selected_filter_list.join(' or ')
       end
     end
     message.gsub(/(\sor\s)$/, '').html_safe
+  end
+
+  def searched_in_html
+    searched_in(true)
   end
 
   def sort_input_select
