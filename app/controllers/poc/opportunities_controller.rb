@@ -198,7 +198,7 @@ class Poc::OpportunitiesController < OpportunitiesController
       total: query.records.total,
       limit: per_page,
       term: @search_term,
-      sort_by: @sort_column_name,
+      sort_by: @sort_column_name
     }
   end
 

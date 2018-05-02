@@ -1,6 +1,5 @@
 - page = Poc::PagePresenter.new(@content)
-- filters = Poc::OpportunitySearchFiltersPresenter.new(@content['search_filters'], @search_filters, @search_url)
-- results = Poc::OpportunitySearchResultsPresenter.new(self, @content['search_results'], @search_results)
+- results = Poc::OpportunitySearchResultsPresenter.new(@content['search_results'], @search_results, @search_filters)
 - content_for :page_specific_head do
   = stylesheet_link_tag 'poc/layouts/results'
   = javascript_include_tag 'poc/layouts/results'
@@ -26,20 +25,31 @@
 
 = form_tag results.form_path,  method: :get do
   %input{:name=>"s", :type=>"hidden", :value=>@search_term}
-
+  
   .container
     - if results.found.length > 0
+
       .search-results
         %h2.verbose= results.content['title']
         = results.displayed "information"
-
-        .sort= render partial: "forms/input_select", locals: { input: results.sort_input_select }
-
+        .sort
+          = render partial: "forms/input_select", locals: { input: results.sort_input_select }
         = render partial: "opportunities/list", locals: { list: results }
         = render partial: "components/pagination", locals: { items: results.found }
         = results.view_all_link "button all"
 
-      = render partial: "search_results_filters", locals: { filters: filters }
+      .search-results-filters
+        %h3= results.content['title_filters']
+        - if results.selected_list.length > 0
+          .selected-filters
+            %h4= results.content['title_filters_selected']
+            %ul
+              - results.selected_list.each do |filter|
+                %li= filter
+            = link_to "Clear all filters", results.reset_url(request), { :class=>"reset" }
+        = render partial: "forms/input_checkbox_group", locals: { group: results.input_checkbox_group('regions') }
+        = render partial: "forms/input_checkbox_group", locals: { group: results.input_checkbox_group('countries') }
+        %input.submit.button{:type=>"submit", :value=>"Update results"}
 
     - else
       .search-results.none

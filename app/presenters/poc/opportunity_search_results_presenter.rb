@@ -1,16 +1,35 @@
 class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
-  attr_reader :found, :form_path, :term
+  attr_reader :found, :form_path, :term, :selected_list, :unfiltered_search_url
 
-  def initialize(helpers, content, search)
-    @h = helpers
+  def initialize(content, search, filters)
     super(content, {})
+    @search = search
     @found = search[:results]
     @view_limit = search[:limit]
     @total = search[:total]
     @sort_by = search[:sort_by]
     @term = search[:term]
-    @filters = search[:filters]
+    @filters = filters
+    @selected_list = selected_filter_list
     @form_path = poc_opportunities_path
+  end
+
+  def field_content(name)
+    field = super(name)
+    case name
+    when 'industries'
+      field['options'] = format_options(@filters[:sectors])
+      field['name'] = @filters[:sectors][:name]
+    when 'regions'
+      field['options'] = format_options(@filters[:regions])
+      field['name'] = @filters[:regions][:name]
+    when 'countries'
+      field['options'] = format_options(@filters[:countries])
+      field['name'] = @filters[:countries][:name]
+    else
+      {}
+    end
+    field
   end
 
   def title_with_country(opportunity)
@@ -69,21 +88,22 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   # Returns ' in [a country name here]' or ''
   def searched_in(with_html = false)
     message = ''
-    if @filters.countries.present? || @filters.regions.present?
+    filters = @search[:filters]
+    if filters.countries.present? || filters.regions.present?
       message += ' in '
       if with_html
-        @filters.regions.each do |region|
+        filters.regions.each do |region|
           message += content_tag('span', region, 'class': 'param')
           message += ' or '
         end
 
-        @filters.countries.each do |country|
+        filters.countries.each do |country|
           message += content_tag('span', country, 'class': 'param')
           message += ' or '
         end
       else
-        message = @filters.regions.join(' or ')
-        message = @filters.countries.join(' or ')
+        message = filters.regions.join(' or ')
+        message = filters.countries.join(' or ')
       end
     end
     message.gsub(/(\sor\s)$/, '').html_safe
@@ -112,8 +132,68 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
     input
   end
 
+  # Note: Existing filter structure is complex.
+  # Actual data for each filter is an array, with
+  # the first element being a symbol and the second
+  # (e.g. filter[1]) being the object we want. 
+  def selected_filter_list
+    selected = []
+    @filters.each do |filter|
+      if filter[1].key?(:selected) && filter[1][:selected].length > 0
+        filter[1][:options].each do |option|
+          if filter[1][:selected].include? option[:slug]
+            selected.push option[:name]
+          end
+        end
+      end
+    end
+    selected
+  end
+
+  # Pass in the query params (request.query_parameters)
+  # Returns string as querystring format (?foo=bar)
+  # minus the applied filters.
+  def reset_url(request)
+    skip_params = ['sectors', 'regions', 'countries']
+    path = request.original_fullpath.gsub(/^(.*?)\?.*$/, "\\1")
+    keep_params = []
+    request.query_parameters.each_pair do |key, value|
+      keep_params.push("#{key}=#{value}") unless skip_params.include? key
+    end
+    "#{path}?#{keep_params.join('&')}"
+  end
+
   private
 
-  attr_reader :h
+  def format_options(field = {})
+    options = []
+    field[:options].each do |option|
+      formatted_option = {
+        label: option[:name],
+        value: option[:slug],
+      }
+
+      if field[:selected].include? option[:slug]
+        formatted_option[:checked] = 'true'
+      end
+
+      options.push(formatted_option)
+    end
+    options
+  end
+
+  # Figure out what regions can be considered
+  # selected, based on selected countries.
+  def regions_selected
+    selected = []
+    regions_list.each do |region|
+      countries = region[:countries].split(' ') 
+      count = 0
+      countries.each do |country|
+        count += 1 if false
+      end
+    end
+    selected
+  end
 end
 
