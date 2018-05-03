@@ -19,10 +19,6 @@
 
   a {
     @include body-s;
-    &:before {
-      content: "";
-      display: block;
-    }
   }
 
   .param {
