@@ -65,7 +65,7 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
               else
                 '1 result found'
               end
-    message += " for #{for_message}" unless for_message.empty? 
+    message += " for #{for_message}" unless for_message.empty?
     message += " in #{in_message}" unless in_message.empty?
     message.html_safe
   end
@@ -75,7 +75,6 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   def searched_for(with_html = false)
     message = ''
     if @term.present?
-      #message += ' for '
       message += if with_html
                    content_tag('span', @term.to_s, 'class': 'param')
                  else
@@ -92,7 +91,6 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
     message = ''
     filters = @search[:filters]
     if filters.countries.present? || filters.regions.present?
-      #message += ' in '
       if with_html
         selected_filter_list.each do |filter|
           message += content_tag('span', filter, 'class': 'param')
@@ -110,7 +108,6 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   end
 
   def sort_input_select
-    # options = input_select('sort')
     input = {
       name: 'sort_column_name',
       id: 'search-sort',
@@ -154,8 +151,8 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   # Returns string as querystring format (?foo=bar)
   # minus the applied filters.
   def reset_url(request)
-    skip_params = ['sectors', 'regions', 'countries']
-    path = request.original_fullpath.gsub(/^(.*?)\?.*$/, "\\1")
+    skip_params = %w[sectors regions countries]
+    path = request.original_fullpath.gsub(/^(.*?)\?.*$/, '\\1')
     keep_params = []
     request.query_parameters.each_pair do |key, value|
       keep_params.push("#{key}=#{value}") unless skip_params.include? key
@@ -192,7 +189,7 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   def regions_selected
     selected = []
     regions_list.each do |region|
-      countries = region[:countries].split(' ') 
+      countries = region[:countries].split(' ')
       count = 0
       countries.each do |country|
         count += 1 if false

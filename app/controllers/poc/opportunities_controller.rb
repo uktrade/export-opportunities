@@ -173,7 +173,7 @@ class Poc::OpportunitiesController < OpportunitiesController
       total: query.records.total,
       limit: per_page,
       term: @search_term,
-      sort_by: @sort_column_name
+      sort_by: @sort_column_name,
     }
   end
 
@@ -198,38 +198,30 @@ class Poc::OpportunitiesController < OpportunitiesController
     end
 
     # sort countries in list by asc name
-    country_list = country_list.sort {|left, right| left.name <=> right.name}
-
-    #countries_result = {
-    #  'name': 'countries[]',
-    #  'options': country_list,
-    #  'selected': @filters.countries,
-    #}
-    country_list
+    country_list.sort { |left, right| left.name <=> right.name }
   end
 
   # Required workaround due to regions not coming from DB
   # For any selected region, we need to extract the associated
-  # countries and add them to the countries filter, so that 
+  # countries and add them to the countries filter, so that
   # they are included in the opportunity search.
   private def filters_with_mapped_regions
-   # 1. Create new @filters (to avoid affecting original)
-   # 2. For each region in regions
-   # 3. Get list of countries from mapped regions
-   # 4. For each country in countries
-   # 5. Add country to copy_filters.countries
-   # 6. Return (adjusted) copy_filters
-   copy_filters = SearchFilter.new(params)
-   countries = []
-   copy_filters.regions.each do |selected_region|
-     region = region_data(selected_region)
-     unless region.empty?
-       region[:countries].each do |country|
-         copy_filters.countries.push(country) unless copy_filters.countries.include? country
-       end
-     end
-   end
-   copy_filters
+    # 1. Create new @filters (to avoid affecting original)
+    # 2. For each region in regions
+    # 3. Get list of countries from mapped regions
+    # 4. For each country in countries
+    # 5. Add country to copy_filters.countries
+    # 6. Return (adjusted) copy_filters
+    copy_filters = SearchFilter.new(params)
+    copy_filters.regions.each do |selected_region|
+      region = region_data(selected_region)region_data( slug='' )
+      unless region.empty?
+        region[:countries].each do |country|
+          copy_filters.countries.push(country) unless copy_filters.countries.include? country
+        end
+      end
+    end
+    copy_filters
   end
 
   # Returns Region from static (non-DB) 
