@@ -214,7 +214,7 @@ class Poc::OpportunitiesController < OpportunitiesController
     # 6. Return (adjusted) copy_filters
     copy_filters = SearchFilter.new(params)
     copy_filters.regions.each do |selected_region|
-      region = region_data(selected_region)region_data( slug='' )
+      region = region_data(selected_region)
       unless region.empty?
         region[:countries].each do |country|
           copy_filters.countries.push(country) unless copy_filters.countries.include? country
