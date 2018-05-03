@@ -18,13 +18,13 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
     field = super(name)
     case name
     when 'industries'
-      field['options'] = format_options(@filters[:sectors])
+      field['options'] = format_filter_options(@filters[:sectors])
       field['name'] = @filters[:sectors][:name]
     when 'regions'
-      field['options'] = format_options(@filters[:regions])
+      field['options'] = format_filter_options(@filters[:regions])
       field['name'] = @filters[:regions][:name]
     when 'countries'
-      field['options'] = format_options(@filters[:countries])
+      field['options'] = format_filter_options(@filters[:countries])
       field['name'] = @filters[:countries][:name]
     else
       {}
@@ -165,11 +165,16 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
 
   private
 
-  def format_options(field = {})
+  def format_filter_options(field = {})
     options = []
     field[:options].each do |option|
+      label = if option[:opportunity_count].blank?
+                option[:name]
+              else
+                "#{option[:name]} (#{option[:opportunity_count]})"
+              end
       formatted_option = {
-        label: option[:name],
+        label: label,
         value: option[:slug],
       }
 
