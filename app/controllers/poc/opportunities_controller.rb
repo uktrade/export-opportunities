@@ -303,7 +303,7 @@ class Poc::OpportunitiesController < OpportunitiesController
   end
 
   private def search_filter_regions
-    # regions_selected ... lists all selected regions
+    # @filters.regions ... lists all selected regions
     # regions_list ... lists all regionss (not stored in DB)
     {
       'name': 'regions[]',

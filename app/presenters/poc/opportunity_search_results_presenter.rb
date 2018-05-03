@@ -183,19 +183,5 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
     end
     options
   end
-
-  # Figure out what regions can be considered
-  # selected, based on selected countries.
-  def regions_selected
-    selected = []
-    regions_list.each do |region|
-      countries = region[:countries].split(' ')
-      count = 0
-      countries.each do |country|
-        count += 1 if false
-      end
-    end
-    selected
-  end
 end
 
