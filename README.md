@@ -21,6 +21,9 @@ $ cp config/application.example.yml config/application.yml
 
 * Have an instance of elasticsearch running (can be default localhost:9200) and configured in your `application.yml`
 
+* Increase the max window size to >=100_000 using something like this:
+```curl -XPUT "http://<host>:<port>/<index_name>/_settings" -d '{ "index" : { "max_result_window" : 500000 } }'```
+
 * After setting up your database with rake db:migrate, you need to run the 2 elasticsearch rake tasks to setup the elasticsearch indexes:
     * rake elasticsearch:import_opportunities
     * rake elasticsearc:import_subscriptions

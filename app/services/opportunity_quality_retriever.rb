@@ -11,14 +11,14 @@ class OpportunityQualityRetriever
     if response[:status]
       opportunity_check = OpportunityCheck.new
 
-      response['errors']&.each do |opps_quality_error|
+      response[:errors]&.each do |opps_quality_error|
         opportunity_check.error_id = opportunity.id
         opportunity_check.offset = opps_quality_error['offset']
         # opportunity_check.length = opps_quality_error['length']
         opportunity_check.offensive_term = opps_quality_error['token']
 
         # hash with array of values, we pick the first suggestion which has higher probability
-        opportunity_check.suggested_term = opps_quality_error['suggestions'][0]['suggestion'].first
+        opportunity_check.suggested_term = opps_quality_error['suggestions'][0]['suggestion']
 
         opportunity_check.submitted_text = submitted_text
         opportunity_check.score = response[:score]
