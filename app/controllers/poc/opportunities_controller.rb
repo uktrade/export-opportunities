@@ -27,13 +27,11 @@ class Poc::OpportunitiesController < OpportunitiesController
     @industries = industry_list
     @subscription_form = subscription_form # Don't think we need this anymore
     @search_url = request.original_fullpath
-
-    opportunity_search_result = opportunity_search
-    @search_results = opportunity_search_result
+    @search_results = opportunity_search
     @total = @search_results[:total]
     @search_filters = {
       'sectors': search_filter_sectors,
-      'countries': opportunity_search_result[:countries],
+      'countries': search_filter_countries(@search_results),
       'regions': search_filter_regions,
     }
     render 'opportunities/results', layout: 'layouts/domestic'
@@ -150,7 +148,6 @@ class Poc::OpportunitiesController < OpportunitiesController
   # country filters are not affected.
   private def opportunity_search
     country_list = []
-    countries = []
     per_page = Opportunity.default_per_page
     query = Opportunity.public_search(
       search_term: @search_term,
@@ -164,29 +161,7 @@ class Poc::OpportunitiesController < OpportunitiesController
       query = AtomOpportunityQueryDecorator.new(query, view_context)
       results = query
     else
-      query.records.each do |opportunity|
-        opportunity.countries.each do |country|
-          # Array of all countries in all opportunities in result set
-          countries.push(country)
-        end
-      end
-
-      # in memory group by name: {"country_name": [..Country instances..]}
-      countries_grouped_name = countries.group_by(&:name)
-      countries_grouped_name.keys.each do |country_name|
-        # set virtual attribute Country.opportunity_count
-        countries_grouped_name[country_name][0].opportunity_count = countries_grouped_name[country_name].length
-        country_list.push(countries_grouped_name[country_name][0])
-      end
-
-      # sort countries in list by asc name
-      country_list = country_list.sort {|left, right| left.name <=> right.name}
-
-      countries_result = {
-        'name': 'countries[]',
-        'options': country_list,
-        'selected': @filters.countries,
-      }
+      country_list = relevant_countries_from_search(query) # Run before paging.
       query = query.page(params[:paged]).per(per_page)
       results = query.records
     end
@@ -194,12 +169,43 @@ class Poc::OpportunitiesController < OpportunitiesController
     {
       filters: @filters,
       results: results,
-      countries: countries_result,
+      countries: country_list,
       total: query.records.total,
       limit: per_page,
       term: @search_term,
       sort_by: @sort_column_name
     }
+  end
+
+  # Use search results to find and return
+  # only which countries are relevant.
+  def relevant_countries_from_search(query)
+    countries = []
+    country_list = []
+    query.records.each do |opportunity|
+      opportunity.countries.each do |country|
+        # Array of all countries in all opportunities in result set
+        countries.push(country)
+      end
+    end
+
+    # in memory group by name: {"country_name": [..Country instances..]}
+    countries_grouped_name = countries.group_by(&:name)
+    countries_grouped_name.keys.each do |country_name|
+      # set virtual attribute Country.opportunity_count
+      countries_grouped_name[country_name][0].opportunity_count = countries_grouped_name[country_name].length
+      country_list.push(countries_grouped_name[country_name][0])
+    end
+
+    # sort countries in list by asc name
+    country_list = country_list.sort {|left, right| left.name <=> right.name}
+
+    #countries_result = {
+    #  'name': 'countries[]',
+    #  'options': country_list,
+    #  'selected': @filters.countries,
+    #}
+    country_list
   end
 
   # Required workaround due to regions not coming from DB
@@ -295,19 +301,11 @@ class Poc::OpportunitiesController < OpportunitiesController
   end
 
   private def search_filter_countries(search_results)
-    country_list = Set.new
-    # @filters.countries ... lists all selected countries
-    # Country.order(:name) ... lists all countries in DB
-    if search_results
-      search_results[:results].each do |opportunity|
-        country_list.add(opportunity.countries.first)
-      end
-    else
-      country_list = Country.order(:name)
-    end
+    # @filters.countries ... lists all selected countries in filters
+    # search_results[:countries]... lists all countries in relevant to search
     {
       'name': 'countries[]',
-      'options': Country.order(:name),
+      'options': search_results[:countries],
       'selected': @filters.countries,
     }
   end
