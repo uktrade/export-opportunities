@@ -132,7 +132,7 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   # Note: Existing filter structure is complex.
   # Actual data for each filter is an array, with
   # the first element being a symbol and the second
-  # (e.g. filter[1]) being the object we want. 
+  # (e.g. filter[1]) being the object we want.
   def selected_filter_list
     selected = []
     @filters.each do |filter|
@@ -184,4 +184,3 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
     options
   end
 end
-
