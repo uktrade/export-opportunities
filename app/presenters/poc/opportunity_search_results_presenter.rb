@@ -58,9 +58,9 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   def found_message
     for_message = searched_for(true)
     in_message = searched_in(true)
-    message = if @found.size > 1
-                "#{@found.size} results found"
-              elsif @found.empty?
+    message = if @total > 1
+                "#{@total} results found"
+              elsif @total.zero?
                 '0 results found'
               else
                 '1 result found'
