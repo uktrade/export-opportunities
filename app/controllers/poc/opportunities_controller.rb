@@ -25,8 +25,6 @@ class Poc::OpportunitiesController < OpportunitiesController
     @search_term = params['s']
     @sort_column_name = sort_column
     @industries = industry_list
-    @subscription_form = subscription_form # Don't think we need this anymore
-    @search_url = request.original_fullpath
     @search_results = opportunity_search
     @total = @search_results[:total]
     @search_filters = {
@@ -174,6 +172,7 @@ class Poc::OpportunitiesController < OpportunitiesController
       limit: per_page,
       term: @search_term,
       sort_by: @sort_column_name,
+      subscription: subscription_form,
     }
   end
 

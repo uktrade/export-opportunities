@@ -7,19 +7,17 @@
 
 .container
   = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
-  
-  %h1.verbose= @content['title']
 
-= form_tag results.form_path,  method: :get, :id=>"search-results" do
+#search-results
   .container
-    %p.information
-      = results.found_message
-      %br
-      = link_to "Subscribe to email alerts #{results.searched_for}", "/subscriptions"
+    %h1.verbose= @content['title']
+    .information
+      %p= results.found_message
+      = render partial: "components/subscription_link", locals: { subscription: results.subscription }
 
-    .field.search
+    = form_tag results.form_path,  method: :get, :class=>"search" do
       %label
-        %span Search
+        %span New search
         %input{:name=>"s", :autocomplete=>"off", :class=>"text", :type=>"search", :value=>"", :placeholder=>"What are you selling?"}
       %input.submit{:value=>results.content['search_again_button'], :type=>"submit"}
 

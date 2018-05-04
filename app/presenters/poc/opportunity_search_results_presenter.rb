@@ -4,12 +4,12 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   def initialize(content, search, filters)
     super(content, {})
     @search = search
+    @filters = filters
     @found = search[:results]
     @view_limit = search[:limit]
     @total = search[:total]
     @sort_by = search[:sort_by]
     @term = search[:term]
-    @filters = filters
     @selected_list = selected_filter_list
     @form_path = poc_opportunities_path
   end
@@ -65,8 +65,8 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
               else
                 '1 result found'
               end
-    message += " for #{for_message}" unless for_message.empty?
-    message += " in #{in_message}" unless in_message.empty?
+    message += for_message unless for_message.empty?
+    message += in_message unless in_message.empty?
     message.html_safe
   end
 
@@ -75,6 +75,7 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   def searched_for(with_html = false)
     message = ''
     if @term.present?
+      message = ' for '
       message += if with_html
                    content_tag('span', @term.to_s, 'class': 'param')
                  else
@@ -91,13 +92,14 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
     message = ''
     filters = @search[:filters]
     if filters.countries.present? || filters.regions.present?
+      message = ' in '
       if with_html
         selected_filter_list.each do |filter|
           message += content_tag('span', filter, 'class': 'param')
           message += ' or '
         end
       else
-        message = selected_filter_list.join(' or ')
+        message += selected_filter_list.join(' or ')
       end
     end
     message.gsub(/(\sor\s)$/, '').html_safe
@@ -158,6 +160,17 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
       keep_params.push("#{key}=#{value}") unless skip_params.include? key
     end
     "#{path}?#{keep_params.join('&')}"
+  end
+
+  # Format related subscription data for use in views, e.g. 
+  # components/subscription_form
+  # components/subscription_link
+  def subscription
+    {
+      form: @search[:subscription],
+      what: searched_for,
+      where: searched_in,
+    }
   end
 
   private

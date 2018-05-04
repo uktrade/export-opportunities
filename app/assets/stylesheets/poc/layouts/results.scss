@@ -11,20 +11,28 @@
 }
 
 .information {
-  @include body-l;
   display: inline-block;
-  font-weight: bold;
-  margin-bottom: 0;
-  width: $cols-6;
+  margin-right: $spacing-1;
 
   a {
     @include body-s;
   }
 
+  p {
+    @include body-l;
+    font-weight: bold;
+  }
+
   .param {
     background-color: $stone;
     border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 5px;
     padding: 2px 15px;
+  }
+
+  .subscription-link {
+    margin-bottom: 0;
   }
 }
 
