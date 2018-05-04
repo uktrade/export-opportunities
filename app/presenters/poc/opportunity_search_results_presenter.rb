@@ -162,7 +162,7 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
     "#{path}?#{keep_params.join('&')}"
   end
 
-  # Format related subscription data for use in views, e.g. 
+  # Format related subscription data for use in views, e.g.
   # components/subscription_form
   # components/subscription_link
   def subscription

@@ -214,26 +214,25 @@ class Poc::OpportunitiesController < OpportunitiesController
     copy_filters = SearchFilter.new(params)
     copy_filters.regions.each do |selected_region|
       region = region_data(selected_region)
-      unless region.empty?
-        region[:countries].each do |country|
-          copy_filters.countries.push(country) unless copy_filters.countries.include? country
-        end
+      next if region.empty?
+      region[:countries].each do |country|
+        copy_filters.countries.push(country) unless copy_filters.countries.include? country
       end
     end
     copy_filters
   end
 
-  # Returns Region from static (non-DB) 
+  # Returns Region from static (non-DB)
   # region data in region_list
-  def region_data(slug='')
-   data = {}
-   regions_list.each do |region|
-     if region[:slug].eql? slug
-       data = region
-       break
-     end
-   end
-   data
+  def region_data(slug = '')
+    data = {}
+    regions_list.each do |region|
+      if region[:slug].eql? slug
+        data = region
+        break
+      end
+    end
+    data
   end
 
   # Get 5 most recent only
@@ -320,68 +319,52 @@ class Poc::OpportunitiesController < OpportunitiesController
     [
       { slug: 'australia_new_zealand',
         countries: %w[australia siji new-zealand papua-new-guinea],
-        name: 'Australia/New Zealand',
-      }, {
-        slug: 'caribbean',
+        name: 'Australia/New Zealand' },
+      { slug: 'caribbean',
         countries: %w[barbados costa-rica cuba dominican-republic jamaica trinidad-and-tobago],
-        name: 'Caribbean',
-      }, {
-        slug: 'central_and_eastern_europe',
+        name: 'Caribbean' },
+      { slug: 'central_and_eastern_europe',
         countries: %w[bosnia-and-herzegovina bulgaria croatia czech-republic hungary macedonia poland romania serbia slovakia slovenia],
-        name: 'Central and Eastern Europe',
-      }, {
-        slug: 'china',
+        name: 'Central and Eastern Europe' },
+      { slug: 'china',
         countries: %w[china],
-        name: 'China',
-      }, {
-        slug: 'south_america', 
+        name: 'China' },
+      { slug: 'south_america',
         countries: %w[argentina bolivia brazil chile colombia ecuador guyana mexico panama peru uruguay venezuela],
-        name: 'South America',
-      }, {
-        slug: 'mediterranean_europe',
+        name: 'South America' },
+      { slug: 'mediterranean_europe',
         countries: %w[cyprus greece israel italy portugal spain],
-        name: 'Mediterranean Europe',
-      }, {
-        slug: 'middle_east',
+        name: 'Mediterranean Europe' },
+      { slug: 'middle_east',
         countries: %w[afghanistan bahrain iran iraq jordan kuwait lebanon oman pakistan palestine qatar saudi-arabia the-united-arab-emirates],
-        name: 'Middle East',
-      }, {
-        slug: 'nordic_and_baltic',
+        name: 'Middle East' },
+      { slug: 'nordic_and_baltic',
         countries: %w[denmark estonia finland iceland latvia lithuania norway sweden],
-        name: 'Nordic & Baltic',
-      }, {
-        slug: 'north_africa',
+        name: 'Nordic & Baltic' },
+      { slug: 'north_africa',
         countries: %w[algeria eygpt libya morocco tunisia],
-        name: 'North Africa',
-      }, {
-        slug: 'north_america',
+        name: 'North Africa' },
+      { slug: 'north_america',
         countries: %w[canada the-usa],
-        name: 'North America',
-      }, {
-        slug: 'north_east_asia',
+        name: 'North America' },
+      { slug: 'north_east_asia',
         countries: %w[japan japan south-korea taiwan],
-        name: 'North East Asia',
-      }, {
-        slug: 'south_asia',
+        name: 'North East Asia' },
+      { slug: 'south_asia',
         countries: %w[bangladesh india nepal sri-lanka],
-        name: 'South Asia',
-      }, {
-        slug: 'south_east_asia',
+        name: 'South Asia' },
+      { slug: 'south_east_asia',
         countries: %w[brunei burma cambodia indonesia malaysia philippines singapore thailand vietnam],
-        name: 'South East Asia',
-      }, {
-        slug: 'sub_saharan_africa',
+        name: 'South East Asia' },
+      { slug: 'sub_saharan_africa',
         countries: %w[angola cameroon ethiopia ghana ivory-coast kenya mauritius mozambique namibia nigeria rwanda senegal seychelles south-africa tanzania uganda zambia],
-        name: 'Sub Saharan Africa',
-      }, {
-        slug: 'turkey_russia_and_caucasus',
+        name: 'Sub Saharan Africa' },
+      { slug: 'turkey_russia_and_caucasus',
         countries: %w[armenia azerbaijan georgia kazakhstan mongolia russia tajikistan turkey turkmenistan ukraine uzbekistan],
-        name: 'Turkey, Russia & Caucasus',
-      }, {
-        slug: 'western_europe',
+        name: 'Turkey, Russia & Caucasus' },
+      { slug: 'western_europe',
         countries: %w[austria belgium france germany ireland luxembourg netherlands switzerland],
-        name: 'Western Europe',
-      }
+        name: 'Western Europe' },
     ]
   end
 end
