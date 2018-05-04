@@ -27,11 +27,13 @@ class Poc::OpportunitiesController < OpportunitiesController
     @industries = industry_list
     @subscription_form = subscription_form # Don't think we need this anymore
     @search_url = request.original_fullpath
-    @search_results = opportunity_search
+
+    opportunity_search_result = opportunity_search
+    @search_results = opportunity_search_result
     @total = @search_results[:total]
     @search_filters = {
       'sectors': search_filter_sectors,
-      'countries': opportunity_search[:countries],
+      'countries': opportunity_search_result[:countries],
     }
     render 'opportunities/results', layout: 'layouts/domestic'
   end
