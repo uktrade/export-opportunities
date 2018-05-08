@@ -11,9 +11,9 @@
  * file per style scope.
  */
 
-// = require frontend/main
-// = require dit-main
-// = require dit-main-2017
-// = require dit-ie8
-// = require patch/_navigation
+//= require frontend/main
+//= require dit-main
+//= require dit-main-2017
+//= require dit-ie8
+//= require patch/_navigation
 
