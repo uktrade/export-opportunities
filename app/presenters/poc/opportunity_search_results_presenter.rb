@@ -1,16 +1,35 @@
 class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
-  attr_reader :found, :form_path, :term
+  attr_reader :found, :form_path, :term, :selected_list, :unfiltered_search_url
 
-  def initialize(helpers, content, search)
-    @h = helpers
+  def initialize(content, search, filters)
     super(content, {})
+    @search = search
+    @filters = filters
     @found = search[:results]
     @view_limit = search[:limit]
-    @sort_by = search[:sort_by]
     @total = search[:total]
+    @sort_by = search[:sort_by]
     @term = search[:term]
-    @filters = search[:filters]
+    @selected_list = selected_filter_list
     @form_path = poc_opportunities_path
+  end
+
+  def field_content(name)
+    field = super(name)
+    case name
+    when 'industries'
+      field['options'] = format_filter_options(@filters[:sectors])
+      field['name'] = @filters[:sectors][:name]
+    when 'regions'
+      field['options'] = format_filter_options(@filters[:regions])
+      field['name'] = @filters[:regions][:name]
+    when 'countries'
+      field['options'] = format_filter_options(@filters[:countries])
+      field['name'] = @filters[:countries][:name]
+    else
+      {}
+    end
+    field
   end
 
   def title_with_country(opportunity)
@@ -37,6 +56,8 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   end
 
   def found_message
+    for_message = searched_for(true)
+    in_message = searched_in(true)
     message = if @total > 1
                 "#{@total} results found"
               elsif @total.zero?
@@ -44,8 +65,8 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
               else
                 '1 result found'
               end
-    message += searched_for(true)
-    message += searched_in(true)
+    message += for_message unless for_message.empty?
+    message += in_message unless in_message.empty?
     message.html_safe
   end
 
@@ -54,7 +75,7 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   def searched_for(with_html = false)
     message = ''
     if @term.present?
-      message += ' for '
+      message = ' for '
       message += if with_html
                    content_tag('span', @term.to_s, 'class': 'param')
                  else
@@ -64,26 +85,31 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
     message.html_safe
   end
 
+  # TODO: Need to get 'name' rather than using 'slug' for output message
   # Add to 'X results found' message
   # Returns ' in [a country name here]' or ''
   def searched_in(with_html = false)
     message = ''
-    if @filters.countries.present?
-      message += ' in '
+    filters = @search[:filters]
+    if filters.countries.present? || filters.regions.present?
+      message = ' in '
       if with_html
-        @filters.countries.each do |country|
-          message += content_tag('span', country, 'class': 'param')
+        selected_filter_list.each do |filter|
+          message += content_tag('span', filter, 'class': 'param')
           message += ' or '
         end
       else
-        message = @filters.countries.join(' or ')
+        message += selected_filter_list.join(' or ')
       end
     end
     message.gsub(/(\sor\s)$/, '').html_safe
   end
 
+  def searched_in_html
+    searched_in(true)
+  end
+
   def sort_input_select
-    # options = input_select('sort')
     input = {
       name: 'sort_column_name',
       id: 'search-sort',
@@ -105,7 +131,69 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
     input
   end
 
+  # Note: Existing filter structure is complex.
+  # Actual data for each filter is an array, with
+  # the first element being a symbol and the second
+  # (e.g. filter[1]) being the object we want.
+  def selected_filter_list
+    selected = []
+    @filters.each do |filter|
+      if filter[1].key?(:selected) && filter[1][:selected].length > 0
+        filter[1][:options].each do |option|
+          if filter[1][:selected].include? option[:slug]
+            selected.push option[:name]
+          end
+        end
+      end
+    end
+    selected
+  end
+
+  # Pass in the query params (request.query_parameters)
+  # Returns string as querystring format (?foo=bar)
+  # minus the applied filters.
+  def reset_url(request)
+    skip_params = %w[sectors regions countries]
+    path = request.original_fullpath.gsub(/^(.*?)\?.*$/, '\\1')
+    keep_params = []
+    request.query_parameters.each_pair do |key, value|
+      keep_params.push("#{key}=#{value}") unless skip_params.include? key
+    end
+    "#{path}?#{keep_params.join('&')}"
+  end
+
+  # Format related subscription data for use in views, e.g.
+  # components/subscription_form
+  # components/subscription_link
+  def subscription
+    {
+      form: @search[:subscription],
+      what: searched_for,
+      where: searched_in,
+    }
+  end
+
   private
 
-  attr_reader :h
+  def format_filter_options(field = {})
+    options = []
+    field[:options].each do |option|
+      label = if option[:opportunity_count].blank?
+                option[:name]
+              else
+                "#{option[:name]} (#{option[:opportunity_count]})"
+              end
+      formatted_option = {
+        label: label,
+        value: option[:slug],
+      }
+
+      if field[:selected].include? option[:slug]
+        formatted_option[:checked] = 'true'
+      end
+
+      options.push(formatted_option)
+    end
+    options
+  end
 end

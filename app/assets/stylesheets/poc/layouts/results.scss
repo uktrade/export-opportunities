@@ -11,24 +11,28 @@
 }
 
 .information {
-  @include body-l;
   display: inline-block;
-  font-weight: bold;
-  margin-bottom: 0;
-  width: $cols-6;
+  margin-right: $spacing-1;
 
   a {
     @include body-s;
-    &:before {
-      content: "";
-      display: block;
-    }
+  }
+
+  p {
+    @include body-l;
+    font-weight: bold;
   }
 
   .param {
     background-color: $stone;
     border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 5px;
     padding: 2px 15px;
+  }
+
+  .subscription-link {
+    margin-bottom: 0;
   }
 }
 
@@ -201,15 +205,10 @@
   .search-results-filters {
     padding: $spacing-3 0;
     width: 100%;
-
-
     .submit {
       width: auto;
     }
   }
-}
-
-@media (max-width: 680px) {
 }
 
 @media (max-width: 420px) {

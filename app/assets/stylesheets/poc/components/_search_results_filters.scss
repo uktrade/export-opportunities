@@ -45,20 +45,13 @@
   padding: $spacing-4;
   position: relative;
 
-  li {
+  .param {
     @include body-s;
     background-color: $stone;
     border-radius: 5px;
     clear: both;
-    float: left;
     margin: 0 0 $spacing-4 0;
     padding: 2px 15px;
-  }
-
-  ul {
-    margin: 0;
-    overflow: hidden;
-    padding: 0;
   }
 
   .reset {

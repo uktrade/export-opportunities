@@ -20,9 +20,14 @@
   border: none;
   color: $active-blue;
   cursor: pointer;
+  display: inline;
+  height: auto;
   font: inherit;
   padding: 0;
+  text-align: inherit;
   text-decoration: underline;
+  white-space: normal;
+  width: auto;
 
   &:active,
   &:hover {
