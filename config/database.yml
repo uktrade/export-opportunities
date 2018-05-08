@@ -1,7 +1,8 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: ''
+  host: 127.0.0.1
+  username: postgres
   pool: <%= [Figaro.env.db_pool.to_i, Figaro.env.threads.to_i, 5].max %>
 
 development:
