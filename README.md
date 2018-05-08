@@ -35,7 +35,7 @@ We aim to follow [GDS service standards](https://www.gov.uk/service-manual/servi
 
 * After setting up your database with rake db:migrate, you need to run the 2 elasticsearch rake tasks to setup the elasticsearch indexes:
     * rake elasticsearch:import_opportunities
-    * rake elasticsearc:import_subscriptions
+    * rake elasticsearch:import_subscriptions
     
 
 ## Running tests
