@@ -2,7 +2,7 @@ default: &default
   adapter: postgresql
   encoding: unicode
   host: localhost
-  pool: <%= [Figaro.env.db_pool.to_i, Figaro.env.threads.to_i, 5].max %>
+  pool: <%= [Figaro.env.db_pool.to_i, Figaro.env.threads.to_i, 32].max %>
 
 development:
   <<: *default
