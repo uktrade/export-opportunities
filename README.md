@@ -14,9 +14,9 @@ We aim to follow [GDS service standards](https://www.gov.uk/service-manual/servi
 ## Installation
 
 * Copy the application configuration
-```bash
-$ cp config/application.example.yml config/application.yml
-```
+  ```bash
+  $ cp config/application.example.yml config/application.yml
+  ```
 * Have an instance of redis-server running and configured in your `application.yml`
 
 * Have an instance of elasticsearch running (can be default localhost:9200) and configured in your `application.yml`
