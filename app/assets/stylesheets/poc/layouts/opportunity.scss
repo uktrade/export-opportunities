@@ -56,7 +56,7 @@ h1 {
   }
 
   .content {
-    padding-right: $cols-4;
+    padding-right: $cols-5;
     position: relative;
   }
 
@@ -76,6 +76,12 @@ h1 {
       clear: both;
       display: block;
     }
+  }
+
+  .report {
+    @include body-s;
+    display: inline-block;
+    margin: $spacing-3 0;
   }
 
   .summary {
