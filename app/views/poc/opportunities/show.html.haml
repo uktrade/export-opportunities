@@ -63,10 +63,11 @@
                     =result['hs']['description']
 
             -#%dd.sectors
-            %dt.enquiries
-              Enquiries received
-            %dd.enquiries
-              = opportunity.enquiries_total
+            - unless opportunity.source.eql? 'volume_opps'
+              %dt.enquiries
+                Enquiries received
+              %dd.enquiries
+                = opportunity.enquiries_total
 
             %dt.value
               Value of contract
