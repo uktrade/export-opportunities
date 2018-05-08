@@ -164,10 +164,10 @@ Rails.application.routes.draw do
 
   # Mailer previews. This need to be declared explicitly or they get snapped up
   # by the wildcard rule below before Rails has a chance to route them
-  if Rails.env.development?
-    get '/rails/mailers' => 'rails/mailers#index'
-    get '/rails/mailers/*path' => 'rails/mailers#preview'
-  end
+  # if Rails.env.development?
+  get '/rails/mailers' => 'rails/mailers#index'
+  get '/rails/mailers/*path' => 'rails/mailers#preview'
+  # end
 
 
   get '/email_notifications/:user_id', to: 'email_notifications#show'
