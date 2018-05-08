@@ -42,7 +42,7 @@
 .hero-section {
   background-color: $light-grey;
   padding-top: 0;
-
+x
   p {
     margin-bottom: $spacing-3;
     width: $cols-6;
@@ -104,12 +104,18 @@
 }
 
 #recent-opportunities {
-  background-color: $stone-light;
-
   form,
   .information,
   .pagination {
     display: none;
+  }
+
+  .opportunities-list {
+    margin-bottom: $spacing-1;
+  }
+
+  .more {
+    min-width: 200px;
   }
 }
 
@@ -203,6 +209,16 @@
     .term {
       float: none;
       margin-bottom: 0;
+      width: 100%;
+    }
+  }
+}
+
+
+@media screen and (max-width: 680px) {
+  #recent-opportunities {
+    .more {
+      min-width: none;
       width: 100%;
     }
   }
