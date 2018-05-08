@@ -15,15 +15,11 @@
     %h1
       = opportunity.title_with_country
 
-    %form.actions
-      %button.link.save Save for later
-      %button.link.share Share
-
     .content
       %dl
         %dt.summary Summary
         %dd.summary
-          = opportunity.teaser
+          = opportunity.local_teaser_or("For more information and to make a bid you will need to go to the third party website.")
 
         %dt.dscription Description
         %dd.description

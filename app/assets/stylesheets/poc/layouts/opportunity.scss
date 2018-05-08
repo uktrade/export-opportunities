@@ -44,7 +44,7 @@
   }
 
   dt.summary {
-    display: none;
+    @include access-hidden;
   }
 
   .action {
@@ -72,10 +72,6 @@
       clear: both;
       display: block;
     }
-  }
-
-  .share {
-    display: none;
   }
 
   .summary {
