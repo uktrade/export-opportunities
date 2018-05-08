@@ -75,14 +75,11 @@
               Enquiries received
             %dd.enquiries
               = opportunity.enquiries_total
+
             %dt.value
               Value of contract
             %dd.value
               = opportunity.value
-            %dt.value
-              Exact Value
-            %dd.value
-              = number_to_currency(opportunity.tender_value, unit: '£', precision: 0)
 
             - if opportunity.guides_available
               %dt.guide
