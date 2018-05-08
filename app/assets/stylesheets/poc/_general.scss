@@ -53,6 +53,15 @@ section {
   @include container;
 }
 
+.feedback {
+  padding: $spacing-1 0 $spacing-3 0;
+
+  a {
+    @include body-s;
+    color: $mid-grey;
+  }
+}
+
 .verbose {
   @include access-hidden;
 }
