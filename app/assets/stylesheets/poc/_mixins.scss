@@ -114,6 +114,7 @@
   line-height: 26px;
   overflow: hidden;
   padding: 10px $spacing-2;
+  text-align: center;
   text-decoration: none;
   vertical-align: top;
   width: auto;
@@ -165,7 +166,9 @@
   padding-left: $spacing-3;
   padding-right: $spacing-3;
   position: relative;
+  text-align: left;
   text-indent: -500px;
+
   &:after {
     background-image: url(#{"/static/images/icons/" + $image});
     background-position: center;
