@@ -43,7 +43,7 @@ module ExportOpportunities
     config.action_controller.permit_all_parameters = true
 
     # precompile assets
-    config.serve_static_assets = true
+    # config.serve_static_assets = true
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
