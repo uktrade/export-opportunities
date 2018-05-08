@@ -2,6 +2,10 @@
 @import "../effects/simple_text_display_restrictor";
 
 
+h1 {
+  margin-bottom: $spacing-2;
+}
+
 .breadcrumbs {
   margin-bottom: $spacing-1;
 }
@@ -44,7 +48,7 @@
   }
 
   dt.summary {
-    display: none;
+    @include access-hidden;
   }
 
   .action {
@@ -74,14 +78,10 @@
     }
   }
 
-  .share {
-    display: none;
-  }
-
   .summary {
     border-bottom: $light-grey solid 2px;
     color: $mid-grey;
-    margin-bottom: $spacing-3;
+    margin-bottom: $spacing-1;
     padding-bottom: $spacing-3;
   }
 

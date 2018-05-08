@@ -6,7 +6,6 @@ class Poc::OpportunityPresenter < BasePresenter
     @opportunity = opportunity
     @tender_url = opportunity.tender_url
     @tender_value = opportunity.tender_value
-    @teaser = opportunity.teaser
     @source = opportunity.source
     @buyer_name = opportunity&.buyer_name
     @buyer_name = opportunity&.buyer_address
@@ -20,6 +19,14 @@ class Poc::OpportunityPresenter < BasePresenter
                 opportunity.countries.map(&:name).join
               end
     "#{country} - #{opportunity.title}"
+  end
+
+  def local_teaser_or(str = '')
+    if opportunity.source.nil?
+      @opportunity.teaser
+    else
+      str
+    end
   end
 
   def description
