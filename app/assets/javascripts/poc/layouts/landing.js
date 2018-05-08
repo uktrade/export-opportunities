@@ -39,7 +39,6 @@ dit.page.landing = (new function () {
       case "desktop":
         alignHeights(_cache.benefitTitles);
         enhanceTestimonials();
-        enhanceMeetCompanies();
         break;
       case "tablet":
         enhanceTestimonials();
@@ -86,15 +85,6 @@ dit.page.landing = (new function () {
         duration: 1000
       }));
     }
-  }
-
-  /* Add tabbed area effect to the 'Meet Companies' section
-   **/
-  function enhanceMeetCompanies() {
-    _cache.effects.push(new dit.classes.TabbedArea(
-      $("#meet-companies h3"), 
-      $("#meet-companies .companies")
-    ));
   }
 
 
