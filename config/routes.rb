@@ -160,6 +160,7 @@ Rails.application.routes.draw do
   end
  
   get '/api/profile_dashboard', action: :index, controller: 'api/profile_dashboard', format: 'json', via: [:get]
+  get '/api/feed', action: :index, controller: 'api/feed', format: 'xml', via: [:get]
   post '/api/document/', action: :create, controller: 'api/document'
 
   match '*path', to: 'errors#not_found', via: %i[get post patch put delete]
