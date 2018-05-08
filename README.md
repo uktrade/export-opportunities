@@ -17,9 +17,21 @@ We aim to follow [GDS service standards](https://www.gov.uk/service-manual/servi
   ```bash
   $ cp config/application.example.yml config/application.yml
   ```
+
+* Have an instance of postgres running and configured in your `application.yml`
+  ```bash
+  docker run --rm -p 5432:5432 postgres:10.3
+  ```
+
 * Have an instance of redis-server running and configured in your `application.yml`
+  ```bash
+  docker run --rm -p 6379:6379 redis
+  ```
 
 * Have an instance of elasticsearch running (can be default localhost:9200) and configured in your `application.yml`
+  ```bash
+  docker run --rm -p 9200:9200 docker.elastic.co/elasticsearch:5.6.8
+  ```
 
 * After setting up your database with rake db:migrate, you need to run the 2 elasticsearch rake tasks to setup the elasticsearch indexes:
     * rake elasticsearch:import_opportunities
