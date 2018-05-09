@@ -6,6 +6,8 @@ machine:
     version: 2.4.3
   services:
     - 'redis'
+  environment:
+    ACTIVITY_STREAM_SHARED_SECRET: 'secret'
 database:
   post:
     - bundle exec rake elasticsearch:import_opportunities
