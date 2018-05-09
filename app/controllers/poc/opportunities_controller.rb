@@ -61,6 +61,7 @@ class Poc::OpportunitiesController < OpportunitiesController
   end
 
   def show
+    @content = get_content('opportunities/new.yml')
     @opportunity = Opportunity.published.find(params[:id])
     render 'opportunities/show', layout: 'layouts/domestic'
   end
