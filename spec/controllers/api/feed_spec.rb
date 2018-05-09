@@ -8,6 +8,7 @@ RSpec.describe Api::FeedController, type: :controller do
       xml_hash = Hash.from_xml(response.body)
       feed = xml_hash['feed']
       expect(feed['xmlns']).to eq('http://www.w3.org/2005/Atom')
+      expect(feed['title']).to match(/\S+/)
       expect(response.headers['Content-Type']).to eq('application/atom+xml')
     end
   end
