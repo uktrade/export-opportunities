@@ -29,6 +29,10 @@ machine:
     version: 2.4.3
   services:
     - 'redis'
+database:
+  post:
+    - bundle exec rake elasticsearch:import_opportunities
+    - bundle exec rake elasticsearch:import_subscriptions
 dependencies:
   post:
     - wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.2.2.tar.gz
