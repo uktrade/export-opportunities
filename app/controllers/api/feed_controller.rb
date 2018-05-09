@@ -3,6 +3,7 @@ module Api
     def index
       return bad_request! if !params.key?('shared_secret')
       return forbidden! if Figaro.env.ACTIVITY_STREAM_SHARED_SECRET.nil? || Figaro.env.ACTIVITY_STREAM_SHARED_SECRET.empty?
+      return forbidden! if params[:shared_secret] != Figaro.env.ACTIVITY_STREAM_SHARED_SECRET
 
       contents = \
         '<?xml version="1.0" encoding="UTF-8"?>' \
