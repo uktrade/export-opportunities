@@ -7,7 +7,7 @@ class SendOpportunitiesDigest
     today_date = Time.zone.now.strftime('%Y-%m-%d')
     tomorrow_date = (Time.zone.now + 1.day).strftime('%Y-%m-%d')
 
-    results = SubscriptionNotification.joins(:subscription).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at < ?', today_date, tomorrow_date)
+    results = SubscriptionNotification.joins(:subscription).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at < ? and sent=false', today_date, tomorrow_date)
 
     user_with_notification_opportunity_ids = {}
     results.each do |result|
