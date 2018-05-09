@@ -6,6 +6,7 @@ module Api
         '<feed xmlns="http://www.w3.org/2005/Atom">' \
           '<updated>' + DateTime.now.to_datetime.rfc3339 + '</updated>' \
           '<title>Export Opportunities Activity Stream</title>' \
+          '<id>dit-export-opportunities-activity-stream-' + Rails.env + '</id>' \
         '</feed>'
       respond_to do |format|
         response.headers['Content-Type'] = 'application/atom+xml'
