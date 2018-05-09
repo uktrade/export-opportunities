@@ -6,6 +6,8 @@ machine:
     version: 2.4.3
   services:
     - 'redis'
+  environment:
+    api_feed_shared_secret: 'secret'
 database:
   post:
     - bundle exec rake elasticsearch:import_opportunities
