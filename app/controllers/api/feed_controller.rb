@@ -1,6 +1,7 @@
 module Api
   class FeedController < ApplicationController
     def index
+      return bad_request! if !params.key?('shared_secret')
       return forbidden! if Figaro.env.ACTIVITY_STREAM_SHARED_SECRET.nil? || Figaro.env.ACTIVITY_STREAM_SHARED_SECRET.empty?
 
       contents = \
@@ -14,6 +15,10 @@ module Api
         response.headers['Content-Type'] = 'application/atom+xml'
         format.xml { render status: 200, xml: contents}
       end
+    end
+
+    def bad_request!
+      render status: 400, xml: { status: 'Bad Request', code: 400 }.freeze
     end
 
     def forbidden!
