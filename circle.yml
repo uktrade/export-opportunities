@@ -1,4 +1,8 @@
 test:
+  environment:
+    PTU_EXEMPT_SERVICE_PROVIDERS: ''
+    TRADE_PROFILE_PAGE: ''
+    COMPANIES_HOUSE_BASE_URL: ''
   override:
     - RAILS_ENV=test bundle exec rspec -r rspec_junit_formatter --format progress --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml
 deployment:
