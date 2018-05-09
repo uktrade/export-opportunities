@@ -7,8 +7,13 @@ RSpec.describe Api::FeedController, type: :controller do
       expect(response.status).to eq(400)
     end
 
+    it 'responds with a 403 if shared_secret passed, but is incorrect' do
+      get :index, params: { format: :xml, shared_secret: 'not-the-right-secret' }
+      expect(response.status).to eq(403)
+    end
+
     it 'responds with an Atom feed with the minimum required elements' do
-      get :index, params: { format: :xml, shared_secret: '' }
+      get :index, params: { format: :xml, shared_secret: 'secret' }
 
       xml_hash = Hash.from_xml(response.body)
       feed = xml_hash['feed']
