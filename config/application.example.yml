@@ -13,6 +13,8 @@ MAILER_PORT: "1025"
 MAILER_FROM_ADDRESS: "develop@exportingisgreat.gov.uk"
 MAILER_NOREPLY_ADDRESS: 'noreply@exportingisgreat.gov.uk'
 
+PTU_EXEMPT_SERVICE_PROVIDERS: ''
+
 # Redis
 REDIS_URL: redis://localhost:6379
 
@@ -64,6 +66,7 @@ post_user_communication_s3_bucket: ''
 TRADE_GREAT_GOV_UK: 'https://trade.great.gov.uk'
 OFFICE_FINDER_BASE_URL: 'https://www.contactus.trade.gov.uk/office-finder/'
 TRADE_PROFILE_CREATE_PAGE: 'https://find-a-buyer.export.great.gov.uk/register/company?company_number='
+TRADE_PROFILE_PAGE: ''
 
 # Supress Announcement - we detect its presence or absence and only need it in CI environment
 SUPPRESS_ANNOUNCEMENT: "true"

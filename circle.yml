@@ -29,6 +29,10 @@ machine:
     version: 2.4.3
   services:
     - 'redis'
+  environment:
+    PTU_EXEMPT_SERVICE_PROVIDERS: ''
+    TRADE_PROFILE_PAGE: ''
+    COMPANIES_HOUSE_BASE_URL: ''
 dependencies:
   post:
     - wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.2.2.tar.gz
@@ -36,4 +40,8 @@ dependencies:
     - elasticsearch-5.2.2/bin/elasticsearch: {background: true}
     # Make sure that Elasticsearch is up before running tests:
     - sleep 10 && wget --waitretry=5 --retry-connrefused -v http://127.0.0.1:9200/
+    - ./bin/rails db:setup || true
+    - ./bin/rails db:migrate
+    - bundle exec rake elasticsearch:import_opportunities
+    - bundle exec rake elasticsearch:import_subscriptions
     
