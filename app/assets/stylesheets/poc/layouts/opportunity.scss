@@ -38,11 +38,12 @@ h1 {
   margin-bottom: $spacing-1;
 
   dd {
+    @include body-s;
     margin-bottom: $spacing-3;
   }
 
   dt {
-    @include body-s	;
+    @include body-s;
     font-weight: bold;
     margin-bottom: 10px;
   }
