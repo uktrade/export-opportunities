@@ -47,6 +47,7 @@
         = render partial: "forms/input_checkbox_group", locals: { group: results.input_checkbox_group('regions') }
         = render partial: "forms/input_checkbox_group", locals: { group: results.input_checkbox_group('countries') }
         %input.submit.button{:type=>"submit", :value=>"Update results"}
+        %input.reset.link{:type=>"reset", :value=>"Reset"}
 
     - else
       .search-results.none
