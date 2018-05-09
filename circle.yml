@@ -1,4 +1,8 @@
 test:
+  environment:
+    PTU_EXEMPT_SERVICE_PROVIDERS: ''
+    TRADE_PROFILE_PAGE: ''
+    COMPANIES_HOUSE_BASE_URL: ''
   override:
     - RAILS_ENV=test bundle exec rspec -r rspec_junit_formatter --format progress --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml
 deployment:
@@ -36,4 +40,6 @@ dependencies:
     - elasticsearch-5.2.2/bin/elasticsearch: {background: true}
     # Make sure that Elasticsearch is up before running tests:
     - sleep 10 && wget --waitretry=5 --retry-connrefused -v http://127.0.0.1:9200/
+    - rake elasticsearch:import_opportunities
+    - rake elasticsearch:import_subscriptions
     
