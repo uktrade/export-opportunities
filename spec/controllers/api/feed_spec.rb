@@ -2,8 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Api::FeedController, type: :controller do
   describe 'GET feed controller' do
-    it 'responds with an Atom feed with the minimum required elements' do
+    it 'responds with a 400 if shared_secret is not passed' do
       get :index, params: { format: :xml }
+      expect(response.status).to eq(400)
+    end
+
+    it 'responds with an Atom feed with the minimum required elements' do
+      get :index, params: { format: :xml, shared_secret: '' }
 
       xml_hash = Hash.from_xml(response.body)
       feed = xml_hash['feed']
