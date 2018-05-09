@@ -1,9 +1,13 @@
 class EmailNotificationsController < ApplicationController
   def show
     user_id = EncryptedParams.decrypt(params[:user_id])
+    @subscription_notifications = []
     today_date = Time.zone.now.strftime('%Y-%m-%d')
 
-    @subscription_notifications = SubscriptionNotification.joins(:subscription).where('subscription_notifications.created_at >= ?', today_date).where(sent: true).where('subscriptions.user_id = ?', user_id).pluck(&:subscription.id)
+    subscription_notification_ids = SubscriptionNotification.joins(:subscription).where('subscription_notifications.created_at >= ?', today_date).where(sent: true).where('subscriptions.user_id = ?', user_id).map(&:id)
+    subscription_notification_ids.each do |sub_not_id|
+      @subscription_notifications.push(SubscriptionNotification.find(sub_not_id))
+    end
   end
 
   def destroy
