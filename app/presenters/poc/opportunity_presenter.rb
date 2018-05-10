@@ -1,3 +1,4 @@
+# TODO: This should be turned into a Delagator so that it can delegate rather than duplicated some methods.
 class Poc::OpportunityPresenter < BasePresenter
   attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries, :tender_value, :tender_url, :opportunity_cpvs
 
@@ -6,10 +7,10 @@ class Poc::OpportunityPresenter < BasePresenter
     @opportunity = opportunity
     @tender_url = opportunity.tender_url
     @tender_value = opportunity.tender_value
-    @source = opportunity.source
     @buyer_name = opportunity&.buyer_name
     @buyer_name = opportunity&.buyer_address
     @opportunity_cpvs = opportunity&.opportunity_cpvs
+    @teaser = opportunity.teaser
   end
 
   def title_with_country
@@ -19,14 +20,6 @@ class Poc::OpportunityPresenter < BasePresenter
                 opportunity.countries.map(&:name).join
               end
     "#{country} - #{opportunity.title}"
-  end
-
-  def local_teaser_or(str = '')
-    if opportunity.source.nil?
-      @opportunity.teaser
-    else
-      str
-    end
   end
 
   def description
@@ -94,8 +87,8 @@ class Poc::OpportunityPresenter < BasePresenter
     text.html_safe
   end
 
-  def internal
-    opportunity.source.nil?
+  def source(value = '')
+    opportunity.source.eql? value
   end
 
   private
