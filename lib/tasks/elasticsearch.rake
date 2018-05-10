@@ -35,7 +35,7 @@ namespace :elasticsearch do
 
     print "Rebuilding index for #{subscriptions.count} opportunities"
 
-    subscriptions.find_in_batches(batch_size: 100) do |group|
+    subscriptions.find_in_batches(batch_size: 500) do |group|
       print '.'
 
       group.each do |sub|
@@ -58,7 +58,7 @@ namespace :elasticsearch do
 
     print "Rebuilding index for #{subscription_notifications.count} opportunities"
 
-    subscription_notifications.find_in_batches(batch_size: 100) do |group|
+    subscription_notifications.find_in_batches(batch_size: 500) do |group|
       print '.'
 
       group.each do |subnot|
