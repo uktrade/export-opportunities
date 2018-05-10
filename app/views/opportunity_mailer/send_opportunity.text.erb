@@ -1,7 +1,7 @@
-Matching opportunities
+<%= @count %> Matching opportunities
 
 <%  # Replace with dynamic number %>
-<%= "7" %> opportunities that match your criteria
+You have <%= @count %> <% if @count > 1 %>opportunities<% else %>opportunity<% end %> that match your criteria.
 
 <% @opportunities.each do |opportunity| %>
 

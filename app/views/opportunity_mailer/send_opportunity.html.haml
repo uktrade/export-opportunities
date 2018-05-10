@@ -9,13 +9,20 @@
 
 -# =@view_more_opportunities_user_id.to_s
 
-%h1{:style=>"font-size:30px"} Matching opportunities
+%h1{:style=>"font-size:30px"} 
+  = @count
+  Matching opportunities
+
 %br
 %p
-  -# Replace with dynamic number
+  You have
   %b{:style=>"font-size:30px"}
     = @count
-  opportunities that match your criteria
+  - if @count > 1
+    opportunities 
+  - else
+    opportunity
+  that match your criteria
 
 %br
 
