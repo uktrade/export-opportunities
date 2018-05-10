@@ -25,9 +25,9 @@ module Api
       return forbidden! if Figaro.env.ACTIVITY_STREAM_SHARED_SECRET.nil? || Figaro.env.ACTIVITY_STREAM_SHARED_SECRET.empty?
       return forbidden! if params[:shared_secret] != Figaro.env.ACTIVITY_STREAM_SHARED_SECRET
 
-      enquiries = Enquiry.where.not(company_house_number: nil, company_house_number: '')
+      enquiries = Enquiry.where.not(company_house_number: nil, company_house_number: '').order('created_at DESC').take(20)
 
-      entries = enquiries.map do |enquiry|
+      entries = (enquiries.map do |enquiry|
         '<entry>' \
           '<id>dit-export-opportunities-activity-stream-enquiry-' + enquiry.id.to_s + '</id>' \
           '<title>Export opportunity enquiry made</title>' \
@@ -36,8 +36,7 @@ module Api
             elastic_search_json(enquiry) +
           '</as:elastic_search_bulk>' \
         '</entry>'
-      end
-      entry = if entries.length > 0 then entries[0] else '' end
+      end).join('')
 
       contents = \
         '<?xml version="1.0" encoding="UTF-8"?>' \
@@ -45,7 +44,7 @@ module Api
           '<updated>' + DateTime.now.to_datetime.rfc3339 + '</updated>' \
           '<title>Export Opportunities Activity Stream</title>' \
           '<id>dit-export-opportunities-activity-stream-' + Rails.env + '</id>' + \
-          entry + \
+          entries + \
         '</feed>'
       respond_to do |format|
         response.headers['Content-Type'] = 'application/atom+xml'

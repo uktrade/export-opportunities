@@ -85,5 +85,27 @@ RSpec.describe Api::FeedController, type: :controller do
       expect(elastic_search_bulk['source']['activity']).to eq('export-oportunity-enquiry-made')
       expect(elastic_search_bulk['source']['company_house_number']).to eq('123')
     end
+
+    it 'has a two entries, in reverse date order, if two enquiries have been made with company house numbers' do
+      enquiry_1 = nil
+      Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2)) do
+        enquiry_1 = create(:enquiry, company_house_number: '123')
+      end
+
+      enquiry_2 = nil
+      Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 3)) do
+        enquiry_1 = create(:enquiry, company_house_number: '124')
+      end
+
+      get :index, params: { format: :xml, shared_secret: 'secret' }
+      xml_hash = Hash.from_xml(response.body)
+      feed = xml_hash['feed']
+
+      elastic_search_bulk_1 =  JSON.parse(feed['entry'][0]['elastic_search_bulk'])
+      expect(elastic_search_bulk_1['source']['date']).to eq('2008-09-01T12:01:03+00:00')
+
+      elastic_search_bulk_2 =  JSON.parse(feed['entry'][1]['elastic_search_bulk'])
+      expect(elastic_search_bulk_2['source']['date']).to eq('2008-09-01T12:01:02+00:00')
+    end
   end
 end
