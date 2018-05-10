@@ -33,6 +33,13 @@ database:
   post:
     - bundle exec rake elasticsearch:import_opportunities
     - bundle exec rake elasticsearch:import_subscriptions
+    - |
+      echo "Sleeping until Elasticsearch does not have red status"
+      until [ "$(curl localhost:9200/_cluster/health | jq --raw-output .status)" != "red" ]; do
+        echo "Sleeping..."
+        sleep 5
+      done
+      echo "Elasticsearch does not have red status"
 dependencies:
   post:
     - wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.2.2.tar.gz
