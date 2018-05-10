@@ -23,6 +23,13 @@
   %table.opportunity{ :border=>"0", :cellpadding=>"30", :cellspacing=>"0", :bgcolor=>"#f2eee8" }
     %tr
       %td
+        - if opportunity.source.eql? 'volume_opps'
+          Provided by
+          %br
+          = image_tag "logos/openopps_logo.png", :alt=>"Open Opps", :width=>"150"
+          %br
+          %br
+
         %b
           = link_to opportunity.title, opportunity_url(opportunity), { :style=>"white-space:inherit;" }
         %br
