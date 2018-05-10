@@ -25,9 +25,9 @@ module Api
       return forbidden! if Figaro.env.ACTIVITY_STREAM_SHARED_SECRET.nil? || Figaro.env.ACTIVITY_STREAM_SHARED_SECRET.empty?
       return forbidden! if params[:shared_secret] != Figaro.env.ACTIVITY_STREAM_SHARED_SECRET
 
-      enquiry = Enquiry.where.not(company_house_number: nil, company_house_number: '').first
+      enquiries = Enquiry.where.not(company_house_number: nil, company_house_number: '')
 
-      entry = if enquiry then
+      entries = enquiries.map do |enquiry|
         '<entry>' \
           '<id>dit-export-opportunities-activity-stream-enquiry-' + enquiry.id.to_s + '</id>' \
           '<title>Export opportunity enquiry made</title>' \
@@ -36,9 +36,8 @@ module Api
             elastic_search_json(enquiry) +
           '</as:elastic_search_bulk>' \
         '</entry>'
-      else
-        ''
       end
+      entry = if entries.length > 0 then entries[0] else '' end
 
       contents = \
         '<?xml version="1.0" encoding="UTF-8"?>' \
