@@ -141,7 +141,7 @@ feature 'admin can reply to enquiries' do
 
     wait_for_ajax
 
-    click_on 'Send'
+    click_on 'Send', wait: 120
 
     expect(page).to have_content('Reply sent successfully')
   end
@@ -171,7 +171,7 @@ feature 'admin can reply to enquiries' do
 
     wait_for_ajax
 
-    click_on 'Send'
+    click_on 'Send', wait: 120
 
     expect(page).to have_content('Reply sent successfully')
   end
@@ -200,7 +200,7 @@ feature 'admin can reply to enquiries' do
 
     wait_for_ajax
 
-    click_on 'Send'
+    click_on 'Send', wait: 120
 
     expect(page).to have_content('Reply sent successfully')
   end
@@ -229,7 +229,7 @@ feature 'admin can reply to enquiries' do
 
     wait_for_ajax
 
-    click_on 'Send'
+    click_on 'Send', wait: 120
 
     expect(page).to have_content('Reply sent successfully')
   end
