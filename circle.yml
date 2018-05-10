@@ -1,34 +1,22 @@
 test:
   override:
     - RAILS_ENV=test bundle exec rspec -r rspec_junit_formatter --format progress --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml
-deployment:
-  continuous-deployment:
-    branch: feature/1027-header-footer-gpl
-    commands:
-      - "[[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow"
-      - git push -f git@heroku.com:${CIRCLE_PROJECT_REPONAME}-cont-depl.git ${CIRCLE_BRANCH}:master
-  staging:
-    branch: develop
-    commands:
-      - |
-        cat >~/.netrc <<EOF
-        machine api.heroku.com
-          login $HEROKU_EMAIL
-          password $HEROKU_TOKEN
-        machine git.heroku.com
-          login $HEROKU_EMAIL
-          password $HEROKU_TOKEN
-        EOF
-      - chmod 600 ~/.netrc
-      - "[[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow"
-      - git push -f git@heroku.com:staging-new-design-eig.git $CIRCLE_SHA1:refs/heads/master
-      - heroku run rake db:migrate --app staging-new-design-eig:
-          timeout: 400
 machine:
   ruby:
     version: 2.4.3
   services:
     - 'redis'
+database:
+  post:
+    - bundle exec rake elasticsearch:import_opportunities
+    - bundle exec rake elasticsearch:import_subscriptions
+    - |
+      echo "Sleeping until Elasticsearch does not have red status"
+      until [ "$(curl localhost:9200/_cluster/health | jq --raw-output .status)" != "red" ]; do
+        echo "Sleeping..."
+        sleep 5
+      done
+      echo "Elasticsearch does not have red status"
 dependencies:
   post:
     - wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.2.2.tar.gz
