@@ -84,7 +84,7 @@
 
             - if opportunity.source.eql? 'volume_opps'
               -# TODO: Just sending to feedback location for now
-              = link_to "Report opportunity", "https://contact-us.export.great.gov.uk/directory/", :class=>"report"
+              = link_to "Report opportunity", Figaro.env.CONTACT_US_FORM, :class=>"report"
 
       .bid
         - if opportunity.expired?
