@@ -1,3 +1,23 @@
+require 'json'
+
+def elastic_search_json(enquiry)
+  wrapper = {
+    :action_and_metadata => {
+      :index => {
+        :_index => 'company_timeline',
+        :_type => '_doc',
+        :_id => 'export-oportunity-enquiry-made-' + enquiry.id.to_s
+      }
+    },
+    :source => {
+      :date => enquiry.created_at.to_datetime.rfc3339,
+      :activity => 'export-oportunity-enquiry-made',
+      :company_house_number => enquiry.company_house_number
+    }
+  }
+  return JSON.generate(wrapper)
+end
+
 module Api
   class FeedController < ApplicationController
     def index
@@ -12,6 +32,9 @@ module Api
           '<id>dit-export-opportunities-activity-stream-enquiry-' + enquiry.id.to_s + '</id>' \
           '<title>Export opportunity enquiry made</title>' \
           '<updated>' + enquiry.updated_at.to_datetime.rfc3339 + '</updated>' \
+          '<as:elastic_search_bulk>' + \
+            elastic_search_json(enquiry) +
+          '</as:elastic_search_bulk>' \
         '</entry>'
       else
         ''
@@ -19,7 +42,7 @@ module Api
 
       contents = \
         '<?xml version="1.0" encoding="UTF-8"?>' \
-        '<feed xmlns="http://www.w3.org/2005/Atom">' \
+        '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:as="http://trade.gov.uk/activity-stream/v1">' \
           '<updated>' + DateTime.now.to_datetime.rfc3339 + '</updated>' \
           '<title>Export Opportunities Activity Stream</title>' \
           '<id>dit-export-opportunities-activity-stream-' + Rails.env + '</id>' + \

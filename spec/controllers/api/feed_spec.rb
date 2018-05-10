@@ -1,3 +1,4 @@
+require 'json'
 require 'rails_helper'
 
 rfc3339_pattern = /^(?<fullyear>\d{4})-(?<month>0[1-9]|1[0-2])-(?<mday>0[1-9]|[12][0-9]|3[01])T(?<hour>[01][0-9]|2[0-3]):(?<minute>[0-5][0-9]):(?<second>[0-5][0-9]|60)(?<secfrac>\.[0-9]+)?(Z|(\+|-)(?<offset_hour>[01][0-9]|2[0-3]):(?<offset_minute>[0-5][0-9]))$/i
@@ -74,6 +75,15 @@ RSpec.describe Api::FeedController, type: :controller do
       expect(feed['entry']['updated']).to match(rfc3339_pattern)
       expect(feed['entry']['updated']).to eq('2008-09-01T12:01:02+00:00')
       expect(feed['entry']['title']).to match(/\S+/)
+
+      elastic_search_bulk =  JSON.parse(feed['entry']['elastic_search_bulk'])
+      expect(elastic_search_bulk['action_and_metadata']['index']['_index']).to eq('company_timeline')
+      expect(elastic_search_bulk['action_and_metadata']['index']['_type']).to eq('_doc')
+      expect(elastic_search_bulk['action_and_metadata']['index']['_id']).to eq("export-oportunity-enquiry-made-#{enquiry.id}")
+
+      expect(elastic_search_bulk['source']['date']).to eq('2008-09-01T12:01:02+00:00')
+      expect(elastic_search_bulk['source']['activity']).to eq('export-oportunity-enquiry-made')
+      expect(elastic_search_bulk['source']['company_house_number']).to eq('123')
     end
   end
 end
