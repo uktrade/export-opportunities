@@ -9,6 +9,9 @@ module Api
 
       entry = if enquiry then
         '<entry>' \
+          '<id>dit-export-opportunities-activity-stream-enquiry-' + enquiry.id.to_s + '</id>' \
+          '<title>Export opportunity enquiry made</title>' \
+          '<updated>' + enquiry.updated_at.to_datetime.rfc3339 + '</updated>' \
         '</entry>'
       else
         ''

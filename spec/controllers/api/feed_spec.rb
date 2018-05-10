@@ -60,15 +60,20 @@ RSpec.describe Api::FeedController, type: :controller do
     end
 
     it 'has a single entry element if a company has been made with a company house number' do
-      create(:enquiry, company_house_number: '123')
+      enquiry = nil
+      Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2)) do
+        enquiry = create(:enquiry, company_house_number: '123')
+      end
 
       get :index, params: { format: :xml, shared_secret: 'secret' }
-
       xml_hash = Hash.from_xml(response.body)
       feed = xml_hash['feed']
 
       expect(feed.key?('entry')).to eq(true)
-      expect(feed['entry']).to eq(nil)
+      expect(feed['entry']['id']).to match(/-#{enquiry.id}/)
+      expect(feed['entry']['updated']).to match(rfc3339_pattern)
+      expect(feed['entry']['updated']).to eq('2008-09-01T12:01:02+00:00')
+      expect(feed['entry']['title']).to match(/\S+/)
     end
   end
 end
