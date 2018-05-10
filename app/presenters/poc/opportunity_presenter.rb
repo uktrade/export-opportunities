@@ -73,12 +73,13 @@ class Poc::OpportunityPresenter < BasePresenter
   end
 
   def link_to_aid_funded(text)
+    link = ''
     if opportunity.types.aid_funded.any?
-      h.link_to 'https://www.gov.uk/guidance/aid-funded-business', target: '_blank' do
+      link = h.link_to 'https://www.gov.uk/guidance/aid-funded-business', target: '_blank' do
         text
       end
     end
-    text.html_safe
+    link.html_safe
   end
 
   def source(value = '')
