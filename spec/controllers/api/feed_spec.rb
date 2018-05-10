@@ -27,5 +27,48 @@ RSpec.describe Api::FeedController, type: :controller do
 
       expect(response.headers['Content-Type']).to eq('application/atom+xml')
     end
+
+    it 'does not have any entry elements by default' do
+      get :index, params: { format: :xml, shared_secret: 'secret' }
+
+      xml_hash = Hash.from_xml(response.body)
+      feed = xml_hash['feed']
+
+      expect(feed.key?('entry')).to eq(false)
+    end
+
+    it 'does not have any entry elements if an enquiry made without a company number' do
+      create(:enquiry, company_house_number: nil)
+
+      get :index, params: { format: :xml, shared_secret: 'secret' }
+
+      xml_hash = Hash.from_xml(response.body)
+      feed = xml_hash['feed']
+
+      expect(feed.key?('entry')).to eq(false)
+    end
+
+    it 'does not have any entry elements if an enquiry made without a blank company house number' do
+      create(:enquiry, company_house_number: '')
+
+      get :index, params: { format: :xml, shared_secret: 'secret' }
+
+      xml_hash = Hash.from_xml(response.body)
+      feed = xml_hash['feed']
+
+      expect(feed.key?('entry')).to eq(false)
+    end
+
+    it 'has a single entry element if a company has been made with a company house number' do
+      create(:enquiry, company_house_number: '123')
+
+      get :index, params: { format: :xml, shared_secret: 'secret' }
+
+      xml_hash = Hash.from_xml(response.body)
+      feed = xml_hash['feed']
+
+      expect(feed.key?('entry')).to eq(true)
+      expect(feed['entry']).to eq(nil)
+    end
   end
 end

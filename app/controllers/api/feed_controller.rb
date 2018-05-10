@@ -5,12 +5,22 @@ module Api
       return forbidden! if Figaro.env.ACTIVITY_STREAM_SHARED_SECRET.nil? || Figaro.env.ACTIVITY_STREAM_SHARED_SECRET.empty?
       return forbidden! if params[:shared_secret] != Figaro.env.ACTIVITY_STREAM_SHARED_SECRET
 
+      enquiry = Enquiry.where.not(company_house_number: nil, company_house_number: '').first
+
+      entry = if enquiry then
+        '<entry>' \
+        '</entry>'
+      else
+        ''
+      end
+
       contents = \
         '<?xml version="1.0" encoding="UTF-8"?>' \
         '<feed xmlns="http://www.w3.org/2005/Atom">' \
           '<updated>' + DateTime.now.to_datetime.rfc3339 + '</updated>' \
           '<title>Export Opportunities Activity Stream</title>' \
-          '<id>dit-export-opportunities-activity-stream-' + Rails.env + '</id>' \
+          '<id>dit-export-opportunities-activity-stream-' + Rails.env + '</id>' + \
+          entry + \
         '</feed>'
       respond_to do |format|
         response.headers['Content-Type'] = 'application/atom+xml'
