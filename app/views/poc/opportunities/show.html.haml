@@ -86,7 +86,11 @@
               %dt.guide
                 Your guide to exporting
               %dd.guide
-                = opportunity.country_guide_links
+                - unless opportunity.country_guides.empty?
+                  %ul.navigation
+                    - opportunity.country_guides.each do |country|
+                      %li
+                        = link_to country.name, "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank'
                 = opportunity.link_to_aid_funded "Your guide for aid funded business"
 
       .bid

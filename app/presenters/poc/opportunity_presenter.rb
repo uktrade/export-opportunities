@@ -64,14 +64,8 @@ class Poc::OpportunityPresenter < BasePresenter
     opportunity.countries.with_exporting_guide.any? || opportunity.types.aid_funded.any?
   end
 
-  def country_guide_links
-    links = ''
-    opportunity.countries.with_exporting_guide.each do |country|
-      links += h.link_to "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank' do
-        country.name
-      end
-    end
-    links.html_safe
+  def country_guides
+    opportunity.countries.with_exporting_guide
   end
 
   def new_enquiry_path
