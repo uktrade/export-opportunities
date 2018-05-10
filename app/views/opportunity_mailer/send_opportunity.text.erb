@@ -1,7 +1,7 @@
-Matching opportunities
+<%= @count %> Matching opportunities
 
 <%  # Replace with dynamic number %>
-<%= "7" %> opportunities that match your criteria
+You have <%= @count %> <% if @count > 1 %>opportunities<% else %>opportunity<% end %> that match your criteria.
 
 <% @opportunities.each do |opportunity| %>
 
@@ -17,7 +17,7 @@ Opportunity expires: <%= opportunity.response_due_on %>
 <% end %>
 
 
-View all opportunities at: 
+View all matching opportunities at: 
 <%= opportunities_url %>
 
 You can also search for other export opportunities at: 
@@ -32,7 +32,7 @@ http:/insert/url/here
 Unsubscribe from all alerts
 http:/insert/url/here
 
-View privacy statements
+View privacy statement
 http:/insert/url/here
 
 Give feedback at

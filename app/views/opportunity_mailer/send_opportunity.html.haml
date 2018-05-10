@@ -9,13 +9,20 @@
 
 -# =@view_more_opportunities_user_id.to_s
 
-%h1{:style=>"font-size:30px"} Matching opportunities
+%h1{:style=>"font-size:30px"} 
+  = @count
+  Matching opportunities
+
 %br
 %p
-  -# Replace with dynamic number
+  You have
   %b{:style=>"font-size:30px"}
     = @count
-  opportunities that match your criteria
+  - if @count > 1
+    opportunities 
+  - else
+    opportunity
+  that match your criteria
 
 %br
 
@@ -23,6 +30,13 @@
   %table.opportunity{ :border=>"0", :cellpadding=>"30", :cellspacing=>"0", :bgcolor=>"#f2eee8" }
     %tr
       %td
+        - if opportunity.source.eql? 'volume_opps'
+          Provided by
+          %br
+          = image_tag "logos/openopps_logo.png", :alt=>"Open Opps", :width=>"150"
+          %br
+          %br
+
         %b
           = link_to opportunity.title, opportunity_url(opportunity), { :style=>"white-space:inherit;" }
         %br
@@ -37,7 +51,7 @@
   %br
 
 %p.action
-  = link_to 'View all', "#{Figaro.env.DOMAIN}/email_notifications/#{@view_more_opportunities_user_id}", { :style=>"padding:10px 0px 10px 0px; text-align:center; width:100%" }
+  = link_to "View all matching opportunities", "#{Figaro.env.DOMAIN}/email_notifications/#{@view_more_opportunities_user_id}", { :style=>"padding:10px 0px 10px 0px; text-align:center; width:100%" }
 
 %br
 %p
@@ -55,6 +69,6 @@
             %br
             = link_to "Unsubscribe from all alerts", "#"
             %br
-            = link_to "View privacy statements", "#"
+            = link_to "View privacy statement", "#"
             %br
             = link_to "Give feedback", "#"

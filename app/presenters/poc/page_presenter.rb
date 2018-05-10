@@ -6,11 +6,11 @@ class Poc::PagePresenter < BasePresenter
     add_breadcrumb_current(content['breadcrumb_current'])
   end
 
-  private
-
   def add_breadcrumb_current(title)
     @breadcrumbs.push(title: title, slug: '') unless title.nil?
   end
+
+  private
 
   def create_breadcrumbs
     [

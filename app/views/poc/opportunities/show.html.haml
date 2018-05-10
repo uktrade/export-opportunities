@@ -1,5 +1,6 @@
+- page = Poc::PagePresenter.new(@content)
 - opportunity = Poc::OpportunityPresenter.new(self, @opportunity)
-- page = Poc::PagePresenter.new(opportunity.title_with_country)
+- page.add_breadcrumb_current(opportunity.title_with_country)
 - content_for :page_specific_head do
   = stylesheet_link_tag 'poc/layouts/opportunity'
   = javascript_include_tag 'poc/layouts/opportunity.js'
@@ -99,5 +100,5 @@
           - else
             %h2 Bid for tender
             %p If your company meets the requirements of the tender, go to the website where the tender is hosted and submit your bid.
-            = link_to 'Go to the tender site', opportunity.tender_url, class: 'button', target: :_blank
+            = link_to 'Go to third party website', opportunity.tender_url, class: 'button', target: :_blank
 
