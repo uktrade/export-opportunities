@@ -2,10 +2,11 @@ class OpportunityMailer < ApplicationMailer
   layout 'email'
 
   def send_opportunity(user, opportunities)
-    @opportunities = opportunities.first(5)
     @count = opportunities.count
+    # TODO: don't use sample if the number of opps can be too large
+    @opportunities = opportunities.sample(5)
     @user = user
-    @view_more_opportunities_user_id = EncryptedParams.encrypt(user.id)
+    @encrypted_user_id = EncryptedParams.encrypt(user.id)
     @date = Time.zone.now.strftime('%Y-%m-%d')
 
     mail from: "Export Opportunities <#{Figaro.env.MAILER_FROM_ADDRESS!}>",

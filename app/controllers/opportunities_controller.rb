@@ -5,7 +5,7 @@ class OpportunitiesController < ApplicationController
 
   def index
     # temp redirect until refactoring of poc out of namespace and into OpportunitiesController
-    return redirect_to '/poc'
+    redirect_to '/poc'
   end
 
   def show

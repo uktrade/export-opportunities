@@ -7,7 +7,7 @@
 -#  %br
 -#  = link_to 'Manage your alerts', dashboard_url(anchor: 'alerts', target: :alerts)
 
--# =@view_more_opportunities_user_id.to_s
+-# =@encrypted_user_id.to_s
 
 %h1{:style=>"font-size:30px"} 
   = @count
@@ -51,7 +51,7 @@
   %br
 
 %p.action
-  = link_to "View all matching opportunities", "#{Figaro.env.DOMAIN}/email_notifications/#{@view_more_opportunities_user_id}", { :style=>"padding:10px 0px 10px 0px; text-align:center; width:100%" }
+  = link_to "View all matching opportunities", "#{Figaro.env.DOMAIN}/email_notifications/#{@encrypted_user_id}", { :style=>"padding:10px 0px 10px 0px; text-align:center; width:100%" }
 
 %br
 %p
@@ -65,10 +65,10 @@
         %center
           %p You are receiving this email because you signed up for Export Opportunities email alerts
           %p
-            = link_to "Manage your alerts", "#"
+            = link_to "Manage your alerts", Figaro.env.SUD_PROFILE_PAGE_EMAIL_ALERTS.to_s
             %br
-            = link_to "Unsubscribe from all alerts", "#"
+            = link_to "Unsubscribe from all alerts", "#{Figaro.env.DOMAIN}/email_notifications/unsubscribe_all/#{@encrypted_user_id}"
             %br
-            = link_to "View privacy statement", "#"
+            = link_to "View privacy statement", "#{Figaro.env.EXPORT_READINESS_URL}/privacy-and-cookies/"
             %br
-            = link_to "Give feedback", "#"
+            = link_to "Give feedback", Figaro.env.CONTACT_US_FORM.to_s

@@ -138,11 +138,10 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   def selected_filter_list
     selected = []
     @filters.each do |filter|
-      if filter[1].key?(:selected) && filter[1][:selected].length > 0
-        filter[1][:options].each do |option|
-          if filter[1][:selected].include? option[:slug]
-            selected.push option[:name]
-          end
+      next unless filter[1].key?(:selected) && filter[1][:selected].length.positive?
+      filter[1][:options].each do |option|
+        if filter[1][:selected].include? option[:slug]
+          selected.push option[:name]
         end
       end
     end
