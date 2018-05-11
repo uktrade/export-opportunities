@@ -55,7 +55,7 @@ class Opportunity < ApplicationRecord
 
   CONTACTS_PER_OPPORTUNITY = 2
   paginates_per 10
-  TITLE_LENGTH_LIMIT = 80.freeze
+  TITLE_LENGTH_LIMIT = 250.freeze
   TEASER_LENGTH_LIMIT = 140.freeze
 
   enum status: { pending: 1, publish: 2, draft: 3, trash: 4 }

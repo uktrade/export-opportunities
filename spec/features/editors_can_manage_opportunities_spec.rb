@@ -108,15 +108,15 @@ feature 'Administering opportunities' do
       name_fields[1].set 'Joe Bloggs'
       email_fields[1].set 'joe@bloggs.com'
 
-      fill_in 'Title', with: 'A creative man is motivated by the desire to achieve, not by the desire to beat others90'
+      fill_in 'Title', with: 'four dollar toast. Retroo fugiat raclette palo santo, ad sunt DIY photo booth ugh chartreuse intelligentsia YOLO post-ironic. Slow-carb farm-to-table butcher seitan iceland, cillum hell of ennui proident vexillologist laboris umami tacos next level251'
       fill_in t('admin.opportunity.teaser_field'), with: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p153'
 
-      expect(page).to have_text('8 characters over the limit')
+      expect(page).to have_text('13 characters over the limit')
 
       click_on 'Create Opportunity'
 
       expect(page.status_code).to eq 422
-      expect(page).to have_text("Title can\'t be more than 80")
+      expect(page).to have_text("Title can\'t be more than 250")
       expect(page).to have_text("Summary can\'t be more than 140")
     end
   end
@@ -136,11 +136,11 @@ feature 'Administering opportunities' do
       click_on opportunity.title
       click_on 'Edit opportunity'
 
-      fill_in 'opportunity_title', with: 'A creative man is motivated by the desire to achieve, not by the desire to beat others90'
+      fill_in 'opportunity_title', with: 'four dollar toast. Retroo fugiat raclette palo santo, ad sunt DIY photo booth ugh chartreuse intelligentsia YOLO post-ironic. Slow-carb farm-to-table butcher seitan iceland, cillum hell of ennui proident vexillologist laboris umami tacos next level251'
       fill_in 'opportunity_teaser', with: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p153'
 
       click_on 'Update Opportunity'
-      expect(page).to have_text("Title can\'t be more than 80")
+      expect(page).to have_text("Title can\'t be more than 250")
       expect(page).to have_text("Summary can\'t be more than 140")
     end
   end
