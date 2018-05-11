@@ -26,7 +26,6 @@ class Poc::OpportunitiesController < OpportunitiesController
     @sort_column_name = sort_column
     @industries = industry_list
     @search_results = digest_search
-    byebug
     @search_results[:total] = 101
     @total = 101
     @search_filters = {}

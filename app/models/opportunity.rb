@@ -4,9 +4,8 @@ class Opportunity < ApplicationRecord
   include Elasticsearch::Model
   index_name [base_class.to_s.pluralize.underscore, Rails.env].join('_')
 
-  # built in callbacks won't work with our customly indexed taxnomies
+  # built in callbacks won't work with our custom indexed taxonomies
   after_commit on: [:create] do
-    # __elasticsearch__.delete_document
     __elasticsearch__.index_document
   end
 
@@ -94,18 +93,14 @@ class Opportunity < ApplicationRecord
   accepts_nested_attributes_for :contacts, reject_if: :all_blank
 
   validates :title, presence: true, length: { maximum: TITLE_LENGTH_LIMIT }
-  validates :teaser, presence: true, length: { maximum: TEASER_LENGTH_LIMIT }
+  validate :teaser, :teaser_validations
   validates :response_due_on, :description, presence: true
   validates :contacts, length: { is: CONTACTS_PER_OPPORTUNITY }
 
-  # validate :contacts, :contact_validations
-  # def contact_validations
-  #   if self.source && self.source.volume_opps?
-  #     contacts.length == 1
-  #   else
-  #     contacts.length >= 2
-  #   end
-  # end
+  def teaser_validations
+    errors.add(:teaser, 'is missing') if source == 'post' && teaser.empty?
+  end
+
   validates :slug, presence: true, uniqueness: true
 
   # Database triggers to make Postgres rebuild its fulltext search
