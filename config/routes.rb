@@ -29,6 +29,8 @@ Rails.application.routes.draw do
   # Legacy dashboard index page
   get '/dashboard/enquiries', to: redirect('/dashboard')
 
+  get 'poc/opportunities/digest/:id', to: 'poc/opportunities#results_digest'
+
   post 'poc/opportunities/new' => 'poc/opportunities#new'
   namespace :poc do
     get 'international' => 'opportunities#international'
@@ -171,7 +173,7 @@ Rails.application.routes.draw do
 
 
   get '/email_notifications/:user_id', to: 'email_notifications#show'
-  delete 'email_notifications/unsubscribe_all/:user_id', to: 'email_notifications#destroy'
+  get 'email_notifications/unsubscribe_all/:user_id', to: 'email_notifications#destroy'
 
   get '/api/profile_dashboard', action: :index, controller: 'api/profile_dashboard', format: 'json', via: [:get]
   post '/api/document/', action: :create, controller: 'api/document'

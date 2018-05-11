@@ -7,23 +7,25 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
     create(:opportunity, :published, title: 'Third Opp', first_published_at: 3.days.ago, response_due_on: 1.day.from_now)
 
     sleep 1
-    visit '/opportunities'
+    visit '/poc/opportunities'
 
-    within('.filters') do
+    # within('.search') do
       fill_in 's', with: 'Opp'
-      page.find('.filters__searchbutton').click
-    end
+    # end
+    page.find('.submit.button').click
 
-    within('.results__order') do
-      find('label[for=order_published_date]').click
-    end
-
+    # within('#search-sort') do
+    #   find('label[for=first_published_at]').click
+    # end
+    page.find('#search-sort').select('Published date')
+byebug
     expect('Second').to appear_before('First')
     expect('First').to appear_before('Third')
 
-    within('.results__order') do
-      find('label[for=order_expiry_date]').click
-    end
+    # within('#search-sort') do
+    #   find('label[for=response_due_on]').click
+    # end
+    page.find('#search-sort').select('Expiry date')
 
     expect('Third').to appear_before('Second')
     expect('Second').to appear_before('First')
@@ -37,7 +39,7 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       create(:opportunity, :published, title: 'Cod', first_published_at: 3.days.ago, response_due_on: 1.day.from_now)
 
       sleep 1
-      visit '/opportunities'
+      visit '/poc/opportunities'
 
       within('.filters') do
         fill_in 's', with: 'Sardines'

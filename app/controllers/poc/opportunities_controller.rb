@@ -19,6 +19,21 @@ class Poc::OpportunitiesController < OpportunitiesController
     render 'opportunities/international', layout: 'layouts/international'
   end
 
+  def results_digest
+    @content = get_content('opportunities/results.yml')
+    @filters = SearchFilter.new(params)
+    @search_term = params['s']
+    @sort_column_name = sort_column
+    @industries = industry_list
+    @search_results = digest_search
+    byebug
+    @search_results[:total] = 101
+    @total = 101
+    @search_filters = {}
+    # respond_to :html
+    render 'opportunities/results', layout: 'layouts/domestic'
+  end
+
   def results
     @content = get_content('opportunities/results.yml')
     @filters = SearchFilter.new(params)
@@ -142,6 +157,22 @@ class Poc::OpportunitiesController < OpportunitiesController
     end
   end
 
+  private def digest_search
+    begin
+      user_id = EncryptedParams.decrypt(params[:id])
+    rescue EncryptedParams::CouldNotDecrypt
+      redirect_to not_found && return
+    end
+
+    results = []
+    today_date = Time.zone.now.strftime('%Y-%m-%d')
+
+    subscription_notification_ids = SubscriptionNotification.joins(:subscription).where('subscription_notifications.created_at >= ?', today_date).where(sent: true).where('subscriptions.user_id = ?', user_id).map(&:id)
+    subscription_notification_ids.each do |sub_not_id|
+      results.push(SubscriptionNotification.find(sub_not_id).opportunity)
+    end
+  end
+
   # Using a search with adjusted filters that include mapped_regions.
   # Return object contains original unadjusted filters so the selected
   # country filters are not affected.
@@ -198,7 +229,7 @@ class Poc::OpportunitiesController < OpportunitiesController
     end
 
     # sort countries in list by asc name
-    country_list.sort { |left, right| left.name <=> right.name }
+    country_list.sort_by(&:name)
   end
 
   # Required workaround due to regions not coming from DB

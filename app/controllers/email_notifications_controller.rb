@@ -1,6 +1,13 @@
 class EmailNotificationsController < ApplicationController
+  before_action :require_sso!
+
   def show
-    user_id = EncryptedParams.decrypt(params[:user_id])
+    begin
+      user_id = EncryptedParams.decrypt(params[:user_id])
+    rescue EncryptedParams::CouldNotDecrypt
+      redirect_to not_found && return
+    end
+
     @subscription_notifications = []
     today_date = Time.zone.now.strftime('%Y-%m-%d')
 
