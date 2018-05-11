@@ -48,7 +48,7 @@ feature 'User can manage their subscriptions' do
     login_as(user, scope: :user)
 
     visit '/poc/opportunities/digest/' + user_id
-    byebug
+    
     expect(page.body).to include(opportunity.title)
     expect(page.body).to include(subscription.search_term)
   end
