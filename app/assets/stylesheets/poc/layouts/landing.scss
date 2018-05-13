@@ -20,7 +20,7 @@
 
 .breadcrumbs {
   border-bottom: none;
-  margin-bottom: 0;
+  margin-bottom: $spacing-3;
 
   a {
     color: $white;
@@ -45,10 +45,10 @@
 }
 
 .hero-section {
-  background-color: $active-blue;
   background-image: asset_url("hero/search.png");
-  background-position: top right;
-  background-size: 100%;
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: auto 430px;
   padding-top: 0;
 
   h1 {

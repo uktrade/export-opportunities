@@ -26,7 +26,6 @@ class Poc::OpportunitiesController < OpportunitiesController
     @sort_column_name = sort_column
     @industries = industry_list
     @search_results = digest_search
-    byebug
     @search_results[:total] = 101
     @total = 101
     @search_filters = {}
@@ -81,7 +80,7 @@ class Poc::OpportunitiesController < OpportunitiesController
     render 'opportunities/show', layout: 'layouts/domestic'
   end
 
-  # Due to the combined Region/Country single selector on 
+  # Due to the combined Region/Country single selector on
   # standard search area (e.g. landing page), we need to
   # convert passerd areas[] into regions[] and countries[]
   private def convert_areas_params_into_regions_and_countries
