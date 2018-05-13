@@ -9,9 +9,9 @@ class Poc::OpportunitiesController < OpportunitiesController
   def index
     @content = get_content('opportunities/index.yml')
     @opportunity_summary_list = summary_list_by_industry
-    @sort_column_name = sort_column
     @recent_opportunities = recent_opportunities
-    @industries = industry_list
+    @countries = Country.all
+    @regions = regions_list
     render 'opportunities/index', layout: 'layouts/domestic'
   end
 
@@ -35,16 +35,16 @@ class Poc::OpportunitiesController < OpportunitiesController
   end
 
   def results
+    convert_areas_params_into_regions_and_countries
     @content = get_content('opportunities/results.yml')
     @filters = SearchFilter.new(params)
     @search_term = params['s']
     @sort_column_name = sort_column
-    @industries = industry_list
     @search_results = opportunity_search
     @total = @search_results[:total]
     @search_filters = {
       'sectors': search_filter_sectors,
-      'countries': search_filter_countries(@search_results),
+      'countries': search_filter_countries(@search_results[:countries]),
       'regions': search_filter_regions,
     }
     render 'opportunities/results', layout: 'layouts/domestic'
@@ -79,6 +79,26 @@ class Poc::OpportunitiesController < OpportunitiesController
     @content = get_content('opportunities/new.yml')
     @opportunity = Opportunity.published.find(params[:id])
     render 'opportunities/show', layout: 'layouts/domestic'
+  end
+
+  # Due to the combined Region/Country single selector on 
+  # standard search area (e.g. landing page), we need to
+  # convert passerd areas[] into regions[] and countries[]
+  private def convert_areas_params_into_regions_and_countries
+    unless params[:areas].empty?
+      params[:regions] = []
+      params[:countries] = []
+      params[:areas].each do |area|
+        regions_list.each do |region|
+          if region[:slug].eql? area
+            params[:regions].push area
+          else
+            params[:countries].push area
+          end
+        end
+      end
+      params.delete(:areas)
+    end
   end
 
   private def process_add_user_entries
@@ -255,7 +275,7 @@ class Poc::OpportunitiesController < OpportunitiesController
   end
 
   # Returns Region from static (non-DB)
-  # region data in region_list
+  # region data in regions_list
   def region_data(slug = '')
     data = {}
     regions_list.each do |region|
@@ -296,10 +316,6 @@ class Poc::OpportunitiesController < OpportunitiesController
     @query = Sector.where(id: [14, 30, 4, 32, 9, 5])
   end
 
-  private def industry_list
-    @query = Sector.all
-  end
-
   private def subscription_form
     SubscriptionForm.new(
       query: {
@@ -322,12 +338,12 @@ class Poc::OpportunitiesController < OpportunitiesController
     }
   end
 
-  private def search_filter_countries(search_results)
+  private def search_filter_countries(countries)
     # @filters.countries ... lists all selected countries in filters
     # search_results[:countries]... lists all countries in relevant to search
     {
       'name': 'countries[]',
-      'options': search_results[:countries],
+      'options': countries,
       'selected': @filters.countries,
     }
   end

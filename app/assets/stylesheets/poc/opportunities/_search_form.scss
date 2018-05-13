@@ -1,4 +1,4 @@
-.opportunities-search-form {
+.search-form {
   background-color: $grey-special;
   padding: $spacing-3;
 
@@ -15,24 +15,32 @@
     padding: $spacing-4;
   }
 
-  select,
-  .FilterSelectInput {
+  select {
     background-color: $grey-special;
     float: left;
-    height: 54px;
+    height: auto;
     left: -2px;
     margin: 0;
+    min-height: 54px;
+    padding: 0;
     position: relative;
-    width: $cols-3;
   }
 
-  .industries {
+  .filter {
     float: left;
     width: $cols-3;
 
     select {
       width: 100%;
     }
+  }
+
+  .FilterSelectInput {
+    float: left;
+    height: 54px;
+    left: -2px;
+    position: relative;
+    width: $cols-3;
   }
 
   .submit {
@@ -57,8 +65,9 @@
 
 // RESPONSIVE
 @media screen and (max-width: 980px) {
-  .opportunities-search-form {
-    .countries {
+  .search-form {
+    .filter,
+    .FilterSelectInput {
       width: $cols-4;
     }
 
@@ -74,8 +83,9 @@
 }
 
 @media screen and (max-width: 660px) {
-  .opportunities-search-form {
-    .countries,
+  .search-form {
+    .filter,
+    .FilterSelectInput,
     .term {
       margin: 0 0 $spacing-4 0;
       width: 100%;
