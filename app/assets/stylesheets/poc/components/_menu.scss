@@ -27,7 +27,6 @@
     li {
       float: left;
       margin-bottom: 0;
-      max-width: 220px;
       padding: 0 $spacing-4;
       position: relative;
       text-align: left;
@@ -117,15 +116,15 @@
         top: $spacing-4;
         width: 0;
       }
-      
-      // Custom widths based on items-X class name (number of items in list)
-      &.items-3 {
-        @include items(3, 0px);
-      }
-      
-      &.items-5 {
-        @include items(5, 0px);
-      }
+    }
+
+    // Custom widths based on items-X class name (number of items in list)
+    .items-3 {
+      @include items(3, 0px);
+    }
+
+    .items-5 {
+      @include items(5, 0px);
     }
   }
 
@@ -263,6 +262,7 @@
       }
 
       .items-3, .items-5, .items-6 {
+        clear: both;
         float: none;
         width: auto;
       }
