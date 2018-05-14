@@ -11,7 +11,7 @@ RSpec.describe Opportunity do
     end
 
     it 'has to have a teaser' do
-      expect(Opportunity.new).to have(1).error_on(:teaser)
+      expect(Opportunity.new(source: :post)).to have(1).error_on(:teaser)
     end
 
     it 'has to have a response_due_on' do
