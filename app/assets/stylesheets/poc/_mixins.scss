@@ -1,10 +1,10 @@
 @mixin great-red-trim {
   background-color: $great-red;
+  bottom: 0;
   content: '';
   height: 4px;
   left: 0;
   position: absolute;
-  top: 0;
   width: 100%;
 }
 
