@@ -1,3 +1,4 @@
+# TODO: This should be turned into a Delagator so that it can delegate rather than duplicated some methods.
 class Poc::OpportunityPresenter < BasePresenter
   attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries, :tender_value, :tender_url, :opportunity_cpvs
 
@@ -6,10 +7,10 @@ class Poc::OpportunityPresenter < BasePresenter
     @opportunity = opportunity
     @tender_url = opportunity.tender_url
     @tender_value = opportunity.tender_value
-    @source = opportunity.source
     @buyer_name = opportunity&.buyer_name
     @buyer_name = opportunity&.buyer_address
     @opportunity_cpvs = opportunity&.opportunity_cpvs
+    @teaser = opportunity.teaser
   end
 
   def title_with_country
@@ -19,14 +20,6 @@ class Poc::OpportunityPresenter < BasePresenter
                 opportunity.countries.map(&:name).join
               end
     "#{country} - #{opportunity.title}"
-  end
-
-  def local_teaser_or(str = '')
-    if opportunity.source.nil?
-      @opportunity.teaser
-    else
-      str
-    end
   end
 
   def description
@@ -71,14 +64,8 @@ class Poc::OpportunityPresenter < BasePresenter
     opportunity.countries.with_exporting_guide.any? || opportunity.types.aid_funded.any?
   end
 
-  def country_guide_links
-    links = ''
-    opportunity.countries.with_exporting_guide.each do |country|
-      links += h.link_to "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank' do
-        country.name
-      end
-    end
-    links.html_safe
+  def country_guides
+    opportunity.countries.with_exporting_guide
   end
 
   def new_enquiry_path
@@ -86,16 +73,17 @@ class Poc::OpportunityPresenter < BasePresenter
   end
 
   def link_to_aid_funded(text)
+    link = ''
     if opportunity.types.aid_funded.any?
-      h.link_to 'https://www.gov.uk/guidance/aid-funded-business', target: '_blank' do
+      link = h.link_to 'https://www.gov.uk/guidance/aid-funded-business', target: '_blank' do
         text
       end
     end
-    text.html_safe
+    link.html_safe
   end
 
-  def internal
-    opportunity.source.nil?
+  def source(value = '')
+    opportunity.source.eql? value
   end
 
   private
