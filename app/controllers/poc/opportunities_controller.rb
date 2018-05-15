@@ -83,7 +83,7 @@ class Poc::OpportunitiesController < OpportunitiesController
 
   # Due to the combined Region/Country single selector on
   # standard search area (e.g. landing page), we need to
-  # convert passerd areas[] into regions[] and countries[]
+  # convert passed areas[] into regions[] and countries[]
   private def convert_areas_params_into_regions_and_countries
     unless params[:areas].empty?
       params[:regions] = []
