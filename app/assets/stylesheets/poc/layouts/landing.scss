@@ -20,6 +20,11 @@
 
 .breadcrumbs {
   border-bottom: none;
+  margin-bottom: $spacing-3;
+
+  a {
+    color: $white;
+  }
 }
 
 .companies {
@@ -40,11 +45,17 @@
 }
 
 .hero-section {
-  background-color: $light-grey;
+  background-image: asset_url("hero/search.png");
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: auto 430px;
   padding-top: 0;
 
+  h1 {
+    @include heading-hero;
+  }
+
   p {
-    margin-bottom: $spacing-3;
     width: $cols-6;
   }
 
@@ -72,10 +83,10 @@
 }
 
 .search-section {
-  background-color: $light-grey;
+  background-color: $great-blue;
+  color: $white;
 
   p {
-    margin-bottom: $spacing-3;
     width: $cols-6;
   }
 }

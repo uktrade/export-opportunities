@@ -13,7 +13,7 @@ $brand-font-serif: georgia, serif;
 @mixin heading-hero {
   font-family: $brand-font-alternative;
   font-size: 48px;
-  font-weight: 800;
+  font-weight: normal;
   line-height: 45px;
 }
 

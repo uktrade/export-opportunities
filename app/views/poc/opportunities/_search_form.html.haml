@@ -7,7 +7,7 @@
 
   %label.filter
     %span.verbose Filter by country (optional)
-    %select{:placeholder=>'All industries', :name=>'areas[]', autocomplete:'off', "data-component"=>"filter-select", :multiple=>"true", :size=>"3"}
+    %select{:placeholder=>'All regions and countries', :name=>'areas[]', autocomplete:'off', "data-component"=>"filter-select", :multiple=>"true", :size=>"3"}
       - @regions.each do |region|
         %option{:value=>region[:slug]}
           = region[:name]
