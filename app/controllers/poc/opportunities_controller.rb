@@ -85,7 +85,7 @@ class Poc::OpportunitiesController < OpportunitiesController
   # standard search area (e.g. landing page), we need to
   # convert passed areas[] into regions[] and countries[]
   private def convert_areas_params_into_regions_and_countries
-    unless params[:areas].empty?
+    unless params[:areas].nil?
       params[:regions] = []
       params[:countries] = []
       params[:areas].each do |area|
