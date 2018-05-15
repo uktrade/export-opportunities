@@ -44,15 +44,15 @@ describe Poc::OpportunitiesController, :elasticsearch, :commit, type: :controlle
   end
 
   describe 'show opportunities in order' do
-    it 'sorts opportunities by their response due date' do
-      soonest_expiration = create(:opportunity, status: 'publish', response_due_on: 1.month.from_now)
-      last_expiration = create(:opportunity, status: 'publish', response_due_on: 3.months.from_now)
+    it 'sorts opportunities in landing page by their created_at date desc by default' do
+      created_first = create(:opportunity, status: 'publish', source: :post, created_at: Time.now - 1.hour)
+      created_second = create(:opportunity, status: 'publish', source: :post, created_at: Time.now - 10.minutes)
 
       sleep 2
       get :index
 
-      expect(assigns(:opportunities).first.title).to eq(soonest_expiration.title)
-      expect(assigns(:opportunities).second.title).to eq(last_expiration.title)
+      expect(assigns(:recent_opportunities)[:results].first.title).to eq(created_second.title)
+      expect(assigns(:recent_opportunities)[:results].second.title).to eq(created_first.title)
     end
   end
 
@@ -64,8 +64,8 @@ describe Poc::OpportunitiesController, :elasticsearch, :commit, type: :controlle
       sleep 2
       get :results
 
-      expect(assigns(:opportunities).first.title).to eq(soonest_expiration.title)
-      expect(assigns(:opportunities).second.title).to eq(last_expiration.title)
+      expect(assigns(:search_results)[:results].first.title).to eq(soonest_expiration.title)
+      expect(assigns(:search_results)[:results].second.title).to eq(last_expiration.title)
     end
   end
 end

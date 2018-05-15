@@ -98,8 +98,13 @@ class Opportunity < ApplicationRecord
   validates :contacts, length: { is: CONTACTS_PER_OPPORTUNITY }
 
   def teaser_validations
-    errors.add(:teaser, 'is missing') if source == 'post' && teaser.blank?
-    errors.add(:teaser, "can't be more than #{TEASER_LENGTH_LIMIT}") if source == 'post' && teaser.length > TEASER_LENGTH_LIMIT
+    if source == 'post'
+      if teaser.blank?
+        errors.add(:teaser, 'is missing')
+      else
+        errors.add(:teaser, "can't be more than #{TEASER_LENGTH_LIMIT}") if teaser.length > TEASER_LENGTH_LIMIT
+      end
+    end
   end
 
   validates :slug, presence: true, uniqueness: true
