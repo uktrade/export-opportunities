@@ -1,11 +1,7 @@
 .opportunity-summary-list
   %ul.navigation
-    - @opportunity_summary_list.each do |item|
+    - list[:items].each do |item|
       %li
-        = image_tag "placeholder_2.png"
-        = link_to "industries/#{item.slug}" do
-          %span.name= item.name
-          %span.bracket (
-          %span.number 100
-          %span.text opportunities
-          %span.bracket )
+        = image_tag "#{list[:type]}/#{item.slug}.png"
+        = link_to  item.name, "#{list[:url]}#{item.slug}"
+

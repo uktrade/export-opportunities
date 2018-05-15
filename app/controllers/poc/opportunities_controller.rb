@@ -8,7 +8,7 @@ class Poc::OpportunitiesController < OpportunitiesController
 
   def index
     @content = get_content('opportunities/index.yml')
-    @opportunity_summary_list = summary_list_by_industry
+    @summary_list_by_sector = summary_list_by_sector
     @sort_column_name = sort_column
     @recent_opportunities = recent_opportunities
     @industries = industry_list
@@ -284,15 +284,19 @@ class Poc::OpportunitiesController < OpportunitiesController
   end
 
   # TODO: How are the featured industries chosen?
-  private def summary_list_by_industry
+  private def summary_list_by_sector
+    # Creative & Media = id(9)
+    # Security = id(31)
     # Food and drink    = id(14)
+    # Education & Training = id(10)
+    # Oil & Gas = id(25)
     # Retail and luxury = id(30)
-    # Business and consumer services = id(4)
-    # Software and computer srvices = id(32)
-    # Creative and media = id(9)
-    # Chemicals = id(5)
 
-    @query = Sector.where(id: [14, 30, 4, 32, 9, 5])
+    {
+      items: Sector.where(id: [9, 31, 14, 10, 25, 30]),
+      type: 'sectors',
+      url: "#{poc_opportunities_path}?sectors[]=",
+    }
   end
 
   private def industry_list

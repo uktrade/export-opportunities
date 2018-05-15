@@ -1,27 +1,27 @@
 .opportunity-summary-list {
  a {
     display: block;
-    text-decoration: none;
+    font-weight: bold;
+    margin: 10px $spacing-4 #{$spacing-4 + 4px} $spacing-4; /* 4px compensates for red trim */
   }
 
   img {
-    margin-bottom: $spacing-4;
     width: 100%;
   }
 
 	li {
     @include items(6, $spacing-3);
     @include body-m-mob;
-    font-weight: bold;
+    background-color: $white;
+    position: relative;
+
+    &:after {
+      @include great-red-trim;
+    }
   }
 
   .bracket {
     @include access_hidden;
-  }
-
-  .name {
-    display: block;
-    margin-bottom: $spacing-4;
   }
 
   .number {
@@ -39,22 +39,28 @@
 // RESPONSIVE
 @media screen and (max-width: 767px) {
   .opportunity-summary-list {
+    a {
+      @include columns(7);
+      margin: 0;
+      padding: $spacing-3-m;
+    }
+
+    img {
+      @include columns(4);
+    }
+
     li {
-      @include items(3, $spacing-3-m);
+      @include items(2, $spacing-3-m);
       margin-bottom: $spacing-3-m;
     }
   }
 }
 
-@media screen and (max-width: 767px) {
+
+@media screen and (max-width: 480px) {
   .opportunity-summary-list {
     a {
-      @include columns(7);
-      margin: $spacing-3-m 0 $spacing-3-m $spacing-3-m;
-    }
-
-    img {
-      @include columns(4);
+      @include heading-s-mob;
     }
 
     li {
@@ -65,3 +71,4 @@
     }
   }
 }
+
