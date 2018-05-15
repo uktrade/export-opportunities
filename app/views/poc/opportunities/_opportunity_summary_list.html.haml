@@ -2,6 +2,5 @@
   %ul.navigation
     - list[:items].each do |item|
       %li
-        = image_tag "#{list[:type]}/#{item.slug}.png"
+        = image_tag "poc/#{list[:type]}/#{item.slug}.png"
         = link_to  item.name, "#{list[:url]}#{item.slug}"
-
