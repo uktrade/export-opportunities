@@ -1,7 +1,8 @@
 class CreateOpportunity
-  def initialize(editor, status = :pending)
+  def initialize(editor, status = :pending, source = :post)
     @editor = editor
     @status = status
+    @source = source
   end
 
   def call(params)
@@ -15,6 +16,7 @@ class CreateOpportunity
 
     opportunity.status = @status
     opportunity.author = @editor
+    opportunity.source = @source
 
     begin
       opportunity.save!

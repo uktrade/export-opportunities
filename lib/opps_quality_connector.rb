@@ -21,7 +21,6 @@ class OppsQualityConnector
   end
 
   def fetch_response(hostname, quality_api_key, quality_text)
-    # header_params = { "Ocp-Apim-Subscription-Key": Figaro.env.TG_API_KEY! }
     connection = Faraday.new(url: hostname) do |f|
       f.response :logger
       f.adapter  Faraday.default_adapter

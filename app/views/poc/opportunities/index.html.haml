@@ -22,7 +22,7 @@
 %section#featured-industries
   .container
     %h2 Featured industries
-    = render "opportunity_summary_list"
+    = render partial: "opportunity_summary_list", locals: { list: @summary_list_by_sector }
 
 %section#service-promotion
   .container

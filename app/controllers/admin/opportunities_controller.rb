@@ -53,7 +53,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   def create
     opportunity_status = params[:commit] == 'Save to Draft' ? :draft : :pending
 
-    @opportunity = CreateOpportunity.new(current_editor, opportunity_status).call(create_opportunity_params)
+    @opportunity = CreateOpportunity.new(current_editor, opportunity_status, :post).call(create_opportunity_params)
     authorize @opportunity
 
     if @opportunity.errors.empty?

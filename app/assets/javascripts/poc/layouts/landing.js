@@ -31,6 +31,7 @@ dit.page.landing = (new function () {
   function cacheComponents() {
     // e.g. _cache.teasers_site = $("[data-component='teaser-site']");
     _cache.benefitTitles = $(".benefit h3");
+    _cache.featuredIndustries = $("#featured-industries a");
   }
 
   function viewAdjustments(view) {
@@ -38,6 +39,7 @@ dit.page.landing = (new function () {
     switch(view) {
       case "desktop":
         alignHeights(_cache.benefitTitles);
+        alignHeights(_cache.featuredIndustries);
         enhanceTestimonials();
         break;
       case "tablet":
@@ -52,6 +54,7 @@ dit.page.landing = (new function () {
   function clearAdjustments() {
     var clearHeights = dit.utils.clearHeights;
     clearHeights(_cache.benefitTitles);
+    clearHeights(_cache.featuredIndustries);
   }
     
   /* Bind listener for the dit.responsive.reset event

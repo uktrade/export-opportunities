@@ -17,12 +17,19 @@
       = opportunity.title_with_country
 
     %p.summary
-      = opportunity.local_teaser_or("For more information and to make a bid you will need to go to the third party website.")
+      - if opportunity.source('volume_opps')
+        For more information and to make a bid you will need to go to the third party website.
+      - else
+        This is a business opportunity from an overseas buyer. Pitch for the business and tell the buyer how your company meets their requirements.
 
     .content
-      = opportunity.description
+      .teaser
+        = opportunity.teaser
 
-      - unless opportunity.source.eql?'post'
+      .description
+        = opportunity.description
+
+      - unless opportunity.source('post')
         .buyer
           %h2 About the buyer
           %dl
@@ -39,8 +46,8 @@
 
         .details
           %h2 Details
-          %p{:class => "provider #{opportunity.source}"}
-            - if opportunity.source.eql? 'volume_opps'
+          - if opportunity.source('volume_opps')
+            %p{:class => "provider volume_opps"}
               Provided by
               = image_tag "logos/openopps_logo.png", alt: "Open Opps"
 
@@ -64,7 +71,7 @@
                     =result['hs']['description']
 
             -#%dd.sectors
-            - unless opportunity.source.eql? 'volume_opps'
+            - unless opportunity.source('volume_opps')
               %dt.enquiries
                 Enquiries received
               %dd.enquiries
@@ -79,7 +86,11 @@
               %dt.guide
                 Your guide to exporting
               %dd.guide
-                = opportunity.country_guide_links
+                - unless opportunity.country_guides.empty?
+                  %ul.navigation
+                    - opportunity.country_guides.each do |country|
+                      %li
+                        = link_to country.name, "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank'
                 = opportunity.link_to_aid_funded "Your guide for aid funded business"
 
             - if opportunity.source.eql? 'volume_opps'
@@ -94,17 +105,17 @@
             Visit the #{link_to 'opportunities page', opportunities_path} to find another.
 
         - else
-          - if opportunity.internal
+          - if opportunity.source('volume_opps')
+            %h2 Bid for tender
+            %p If your company meets the requirements of the tender, go to the website where the tender is hosted and submit your bid.
+            = link_to 'Go to third party website', opportunity.tender_url, class: 'button', target: :_blank
 
+          - else
             %h2 Contact the buyer
             %p If you meet the requirements contact the buyer.
             %p You will be notified if you are right for this opportunity. You can only apply if you are a UK registered companny.
             = link_to 'Contact buyer', opportunity.new_enquiry_path, class: 'button'
 
-          - else
-            %h2 Bid for tender
-            %p If your company meets the requirements of the tender, go to the website where the tender is hosted and submit your bid.
-            = link_to 'Go to third party website', opportunity.tender_url, class: 'button', target: :_blank
 
 
     = render "components/feedback"

@@ -85,12 +85,12 @@ class VolumeOppsRetriever
 
     if description && country && tender_url
       {
-        title: opportunity_release['tender']['title'].present? ? opportunity_release['tender']['title'][0, 80] : nil,
+        title: opportunity_release['tender']['title'].present? ? opportunity_release['tender']['title'][0, 250] : nil,
         country_ids: country.id,
         sector_ids: ['2'],
         type_ids: ['2'], # type is always public
         value_ids: value_id,
-        teaser: description[0, 140],
+        teaser: nil,
         response_due_on: response_due_on,
         description: description,
         service_provider_id: 150,
@@ -176,7 +176,7 @@ class VolumeOppsRetriever
       # count valid/invalid opps
       if opportunity_params
         if VolumeOppsValidator.new.validate_each(opportunity_params)
-          CreateOpportunity.new(editor, :draft).call(opportunity_params)
+          CreateOpportunity.new(editor, :draft, :volume_opps).call(opportunity_params)
           valid_opp += 1
         else
           invalid_opp += 1

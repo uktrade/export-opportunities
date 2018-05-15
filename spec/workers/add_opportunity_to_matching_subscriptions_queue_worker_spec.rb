@@ -7,7 +7,7 @@ RSpec.describe AddOpportunityToMatchingSubscriptionsQueueWorker, :elasticsearch,
 
     expect do
       AddOpportunityToMatchingSubscriptionsQueueWorker.perform_async(opportunity.id)
-    end.to change { ActionMailer::Base.deliveries.size }.by(2)
+    end.to change { SubscriptionNotification.count }.by(2)
   end
 
   it 'sends an opportunity to a user once' do
@@ -17,7 +17,7 @@ RSpec.describe AddOpportunityToMatchingSubscriptionsQueueWorker, :elasticsearch,
 
     expect do
       AddOpportunityToMatchingSubscriptionsQueueWorker.perform_async(opportunity.id)
-    end.to change { ActionMailer::Base.deliveries.size }.by(1)
+    end.to change { SubscriptionNotification.count }.by(1)
   end
 
   it 'sends an opportunity to a user once, even with multiple matching subscriptions' do
@@ -28,7 +28,7 @@ RSpec.describe AddOpportunityToMatchingSubscriptionsQueueWorker, :elasticsearch,
 
     expect do
       AddOpportunityToMatchingSubscriptionsQueueWorker.perform_async(opportunity.id)
-    end.to change { ActionMailer::Base.deliveries.size }.by(1)
+    end.to change { SubscriptionNotification.count }.by(1)
   end
 
   describe 'logging the notifications it sends' do
@@ -51,10 +51,10 @@ RSpec.describe AddOpportunityToMatchingSubscriptionsQueueWorker, :elasticsearch,
 
       # Ugh, but it is necessary to control the order these subscriptions are returned
       expect_any_instance_of(SubscriptionFinder).to receive(:call).and_return([first_subscription, second_subscription])
-      AddOpportunityToMatchingSubscriptionsQueueWorker.perform_async(opportunity.id)
 
-      expect(first_subscription.notifications.last).to be_sent
-      expect(second_subscription.notifications.last).not_to be_sent
+      expect do
+        AddOpportunityToMatchingSubscriptionsQueueWorker.perform_async(opportunity.id)
+      end.to change { SubscriptionNotification.count }.by(1)
     end
   end
 end

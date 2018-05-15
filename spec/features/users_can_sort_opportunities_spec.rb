@@ -18,7 +18,7 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
     #   find('label[for=first_published_at]').click
     # end
     page.find('#search-sort').select('Published date')
-byebug
+
     expect('Second').to appear_before('First')
     expect('First').to appear_before('Third')
 
