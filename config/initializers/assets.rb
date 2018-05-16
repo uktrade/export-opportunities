@@ -53,5 +53,3 @@ Rails.application.config.assets.precompile += %w[poc/layouts/opportunity.js]
 Rails.application.config.assets.precompile += %w['poc/*.js']
 Rails.application.config.assets.precompile += %w['poc/layouts/*.js']
 Rails.application.config.assets.precompile += %w['poc/third_party/*.js']
-
-Rails.application.config.assets.precompile += %w[arrow_down.png]
