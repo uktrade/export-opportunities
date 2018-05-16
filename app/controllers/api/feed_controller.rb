@@ -27,7 +27,8 @@ module Api
       return forbidden! if Figaro.env.ACTIVITY_STREAM_SHARED_SECRET.nil? || Figaro.env.ACTIVITY_STREAM_SHARED_SECRET.empty?
       return forbidden! if params[:shared_secret] != Figaro.env.ACTIVITY_STREAM_SHARED_SECRET
 
-      enquiries = Enquiry.where.not(company_house_number: nil, company_house_number: '').order('created_at DESC').take(MAX_PER_PAGE)
+      companies_with_number = Enquiry.where.not(company_house_number: nil, company_house_number: '').order('created_at DESC')
+      enquiries = companies_with_number.take(MAX_PER_PAGE)
 
       entries = (enquiries.map do |enquiry|
         '<entry>' \
