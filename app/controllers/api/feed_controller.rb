@@ -18,6 +18,8 @@ def elastic_search_json(enquiry)
   return JSON.generate(wrapper)
 end
 
+MAX_PER_PAGE = 20
+
 module Api
   class FeedController < ApplicationController
     def index
@@ -25,7 +27,7 @@ module Api
       return forbidden! if Figaro.env.ACTIVITY_STREAM_SHARED_SECRET.nil? || Figaro.env.ACTIVITY_STREAM_SHARED_SECRET.empty?
       return forbidden! if params[:shared_secret] != Figaro.env.ACTIVITY_STREAM_SHARED_SECRET
 
-      enquiries = Enquiry.where.not(company_house_number: nil, company_house_number: '').order('created_at DESC').take(20)
+      enquiries = Enquiry.where.not(company_house_number: nil, company_house_number: '').order('created_at DESC').take(MAX_PER_PAGE)
 
       entries = (enquiries.map do |enquiry|
         '<entry>' \
