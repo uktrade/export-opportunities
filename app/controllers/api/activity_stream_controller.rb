@@ -5,6 +5,7 @@ module Api
     def index
       contents = {}
       respond_to do |format|
+        response.headers['Content-Type'] = 'application/activity+json'
         format.json { render status: 200, json: contents.to_json }
       end
     end
