@@ -6,6 +6,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       get :index, params: { format: :json }
 
       expect(response.body).to eq('{}')
+      expect(response.headers['Content-Type']).to eq('application/activity+json')
     end
   end
 end
