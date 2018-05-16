@@ -5,6 +5,10 @@
 @import '../effects/expander';
 
 
+form {
+  max-width: none;
+}
+
 .breadcrumbs {
   border: none;
   margin-bottom: 0;

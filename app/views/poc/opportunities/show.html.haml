@@ -1,7 +1,7 @@
 - page = Poc::PagePresenter.new(@content)
 - opportunity = Poc::OpportunityPresenter.new(self, @opportunity)
 - page.add_breadcrumb_current(opportunity.title_with_country)
-- content_for :page_specific_head do
+- content_for :action_specific_head do
   = stylesheet_link_tag 'poc/layouts/opportunity'
   = javascript_include_tag 'poc/layouts/opportunity.js'
 
@@ -118,4 +118,4 @@
 
 
 
-    = render "components/feedback"
+
