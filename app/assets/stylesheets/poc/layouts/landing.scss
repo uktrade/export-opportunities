@@ -22,6 +22,12 @@ section {
   }
 }
 
+.breadcrumbs {
+  a {
+    color: inherit;
+  }
+}
+
 .companies {
   border-top: 1px solid $grey;
   clear: both;
