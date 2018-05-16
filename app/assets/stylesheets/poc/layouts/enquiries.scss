@@ -10,3 +10,8 @@
     @include button-ghost($white, $dark-green);
   }
 }
+
+.RestrictedInputCount {
+  position: relative;
+  top: -#{$spacing-3 - 10};
+}

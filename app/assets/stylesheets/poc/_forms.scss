@@ -18,7 +18,8 @@ form {
   margin-bottom: $spacing-3;
 
   .description,
-  .helptext {
+  .helptext,
+  .RestrictedInputCount {
     color: $mid-grey;
     display: block;
   }
@@ -91,6 +92,109 @@ textarea {
   color: $great-red;
 }
 
+.date {
+  label {
+    @include body-s;
+    display: inline-block;
+    margin: 0 $spacing-4 0 0;
+    padding-top: 55px;
+    position: relative;
+    width: 50px;
+  }
+
+  input {
+    position: absolute;
+    top: 0;
+  }
+
+  .year {
+    width: 100px;
+  }
+}
+
+.field {
+  clear: both;
+  margin-bottom: $spacing-3;
+}
+
+.intro {
+  margin-bottom: $spacing-1;
+}
+
+.multi-currency-amount {
+  overflow: hidden;
+
+  input {
+    &:checked + label {
+      background-color: $grey;
+      color: $white;
+    }
+  }
+
+  input[type='text'],
+  select {
+    float: left;
+    margin-bottom: 0;
+    margin-right: $spacing-4;
+    width: auto;
+  }
+
+  label {
+    @include button-ghost($grey, $white);
+    border-left-width: 0;
+    margin-bottom: 0;
+    padding-left: $spacing-4;
+    padding-right: $spacing-4;
+
+    &:after,
+    &:before {
+      opacity: 0;
+    }
+  }
+
+  .radio {
+    float: left;
+    margin-bottom: 0;
+    padding: 0;
+
+    &:first-of-type label {
+      border-left-width: 2px;
+    }
+  }
+}
+
+.process {
+  overflow: hidden;
+  padding: 0 0 $spacing-3 0;
+
+  dd {
+    margin: 0 0 $spacing-3 0;
+  }
+
+  dl {
+    margin: 0 0 $spacing-1 0;
+  }
+
+  dt {
+    font-weight: bold;
+  }
+
+  form {
+    margin: 0 0 $spacing-1 0;
+    padding-bottom: $spacing-3;
+  }
+
+  .progress {
+    @include body-l;
+    display: block;
+    margin-bottom: $spacing-4;
+  }
+
+  .requirement {
+    @include heading-m;
+  }
+}
+
 
 // Checkboxes + Radio buttons
 .checkbox,
@@ -150,6 +254,12 @@ textarea {
       z-index: 0;
     }
   }
+
+  [type=checkbox]:focus + label::before {
+    -webkit-box-shadow: 0 0 0 3px $focus-yellow;
+    -moz-box-shadow: 0 0 0 3px $focus-yellow;
+    box-shadow: 0 0 0 3px $focus-yellow;
+  }
 }
 
 .radio {
@@ -170,123 +280,13 @@ textarea {
   label::before {
     border-radius: 50%;
   }
-}
 
-.radio [type=radio]:focus + label::before {
-  -webkit-box-shadow: 0 0 0 4px $focus-yellow;
-  -moz-box-shadow: 0 0 0 4px $focus-yellow;
-  box-shadow: 0 0 0 4px $focus-yellow;
-}
-
-.checkbox [type=checkbox]:focus + label::before {
-  -webkit-box-shadow: 0 0 0 3px $focus-yellow;
-  -moz-box-shadow: 0 0 0 3px $focus-yellow;
-  box-shadow: 0 0 0 3px $focus-yellow;
-}
-
-.date {
-  label {
-    @include body-s;
-    display: inline-block;
-    margin: 0 $spacing-4 0 0;
-    padding-top: 55px;
-    position: relative;
-    width: 50px;
-  }
-
-  input {
-    position: absolute;
-    top: 0;
-  }
-
-  .year {
-    width: 100px;
+  [type=radio]:focus + label::before {
+    -webkit-box-shadow: 0 0 0 3px $focus-yellow;
+    -moz-box-shadow: 0 0 0 3px $focus-yellow;
+    box-shadow: 0 0 0 3px $focus-yellow;
   }
 }
-
-.field {
-  clear: both;
-  margin-bottom: $spacing-3;
-}
-
-.multi-currency-amount {
-  overflow: hidden;
-
-  input {
-    &:checked + label {
-      background-color: $grey;
-      color: $white;
-    }
-  }
-
-  input[type='text'],
-  select {
-    float: left;
-    margin-bottom: 0;
-    margin-right: $spacing-4;
-    width: auto;
-  }
-
-  label {
-    @include button-ghost($grey, $white);
-    border-left-width: 0;
-    margin-bottom: 0;
-    padding-left: $spacing-4;
-    padding-right: $spacing-4;
-
-    &:after,
-    &:before {
-      opacity: 0;
-    }
-  }
-
-  .radio {
-    float: left;
-    margin-bottom: 0;
-    padding: 0;
-
-    &:first-of-type label {
-      border-left-width: 2px;
-    }
-  }
-}
-
-.intro {
-  margin-bottom: $spacing-1;
-}
-
-.process {
-  overflow: hidden;
-  padding: 0 0 $spacing-3 0;
-
-  dd {
-    margin: 0 0 $spacing-3 0;
-  }
-
-  dl {
-    margin: 0 0 $spacing-1 0;
-  }
-
-  dt {
-    font-weight: bold;
-  }
-
-  form {
-    margin: 0 0 $spacing-1 0;
-    padding-bottom: $spacing-3;
-  }
-
-  .progress {
-    @include body-l;
-    display: block;
-    margin-bottom: $spacing-4;
-  }
-
-  .requirement {
-    @include heading-m;
-  }
-}
-
 
 
 // RESPONSIVE

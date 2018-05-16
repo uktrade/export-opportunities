@@ -55,7 +55,8 @@
                 = 'will be added to your application.'
             - else
               %p
-                no trade profile
+                It looks like you don't have a trade profile. A trade profile can increase your chance of winning business. 
+                = link_to "Create trade profile", Figaro.env.TRADE_PROFILE_CREATE_PAGE
         - else
           .field{id: "companies-house-section"}
             = f.label :company_name, "Company Name", class: "required"
@@ -89,8 +90,13 @@
           = f.label :company_sector, "Select your sector", class: "required"
           = f.select(:company_sector, Sector.pluck(:name).to_a, required: "required", prompt: 'Sector')
         .field
-          = f.label :company_explanation, "Explain what your company does and how it meets the requirements for this opportunity. This is your chance to promote your company and make your proposal stand out.", class: "required"
-          = f.text_area :company_explanation, {required: "required", rows: "8"}
+          = f.label :company_explanation, class: "required" do
+            Explain what your company does and how it meets the requirements for this opportunity.
+            %span.helptext 
+              This is your chance to promote your company and make your proposal stand out. (max. 1,100 characters)
+        
+
+          = f.text_area :company_explanation, {required: "required", rows: "8", maxlength: "1100"}
 
         .field.checkbox
           %input{:type=>"checkbox", :name=>"enquiry[data_protection]", :id=>"data-protection"}
