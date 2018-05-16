@@ -1,26 +1,26 @@
 require 'rails_helper'
 
-feature 'Searching opportunities with filter', js: true, elasticsearch: true do
+feature 'Searching opportunities with filter', elasticsearch: true do
   scenario 'users can search opportunities filtering by region' do
-    country = create(:country, name: 'Ireland')
+    country = create(:country, name: 'Ireland', slug: 'ireland')
     opportunity = create(:opportunity, :published)
     opportunity_with_market = create(:opportunity, :published, countries: [country])
 
     sleep 1
     visit poc_opportunities_path
 
-    within('.filters') do
-      find('.js-toggler').click
-      select 'Ireland', from: 'countries[]', visible: false
-      page.find('.filters__searchbutton').click
-    end
+    # select Western Europe region
+    page.find("#regions_15").click
+
+    # update results
+    page.find('.button.submit').click
 
     expect(page).to have_content opportunity_with_market.title
     expect(page).to have_no_content opportunity.title
-    expect(page).to have_selector('.results__item', count: 1)
   end
 
   scenario 'users can search opportunities filtering by sector' do
+    skip('TODO: refactor with countries and industries when we have industries')
     sector = create(:sector, name: 'Airports')
     opportunity = create(:opportunity, :published)
     opportunity_with_sector = create(:opportunity, :published, sectors: [sector])
@@ -39,45 +39,8 @@ feature 'Searching opportunities with filter', js: true, elasticsearch: true do
     expect(page).to have_selector('.results__item', count: 1)
   end
 
-  scenario 'users can search opportunities filtering by value' do
-    value = create(:value, name: '10K')
-    opportunity = create(:opportunity, :published)
-    opportunity_with_value = create(:opportunity, :published, values: [value])
-
-    sleep 1
-    visit opportunities_path
-
-    within('.filters') do
-      find('.js-toggler').click
-      select '10K', from: 'values', visible: false
-      page.find('.filters__searchbutton').click
-    end
-
-    expect(page).to have_content opportunity_with_value.title
-    expect(page).to have_no_content opportunity.title
-    expect(page).to have_selector('.results__item', count: 1)
-  end
-
-  scenario 'users can search opportunities filtering by value' do
-    type = create(:type, name: 'Aid Funded Business')
-    opportunity = create(:opportunity, :published)
-    opportunity_with_type = create(:opportunity, :published, types: [type])
-
-    sleep 1
-    visit opportunities_path
-
-    within('.filters') do
-      find('.js-toggler').click
-      select 'Aid Funded Business', from: 'types', visible: false
-      page.find('.filters__searchbutton').click
-    end
-
-    expect(page).to have_content opportunity_with_type.title
-    expect(page).to have_no_content opportunity.title
-    expect(page).to have_selector('.results__item', count: 1)
-  end
-
   scenario 'users can search opportunities filtering by multiple criteria' do
+    skip('TODO: refactor with countries and industries when we have industries')
     country = create(:country)
     sector = create(:sector)
     create(:opportunity, status: 'publish', countries: [country])
