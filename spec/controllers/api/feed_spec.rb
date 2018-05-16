@@ -16,7 +16,7 @@ RSpec.describe Api::FeedController, type: :controller do
     end
 
     it 'responds with an Atom feed with the minimum required elements' do
-      get :index, params: { format: :xml, shared_secret: 'secret' }
+      get :index, params: { format: :xml, shared_secret: '?[!@$%^%' }
 
       xml_hash = Hash.from_xml(response.body)
       feed = xml_hash['feed']
@@ -30,7 +30,7 @@ RSpec.describe Api::FeedController, type: :controller do
     end
 
     it 'does not have any entry elements by default' do
-      get :index, params: { format: :xml, shared_secret: 'secret' }
+      get :index, params: { format: :xml, shared_secret: '?[!@$%^%' }
 
       xml_hash = Hash.from_xml(response.body)
       feed = xml_hash['feed']
@@ -41,7 +41,7 @@ RSpec.describe Api::FeedController, type: :controller do
     it 'does not have any entry elements if an enquiry made without a company number' do
       create(:enquiry, company_house_number: nil)
 
-      get :index, params: { format: :xml, shared_secret: 'secret' }
+      get :index, params: { format: :xml, shared_secret: '?[!@$%^%' }
 
       xml_hash = Hash.from_xml(response.body)
       feed = xml_hash['feed']
@@ -52,7 +52,7 @@ RSpec.describe Api::FeedController, type: :controller do
     it 'does not have any entry elements if an enquiry made without a blank company house number' do
       create(:enquiry, company_house_number: '')
 
-      get :index, params: { format: :xml, shared_secret: 'secret' }
+      get :index, params: { format: :xml, shared_secret: '?[!@$%^%' }
 
       xml_hash = Hash.from_xml(response.body)
       feed = xml_hash['feed']
@@ -66,7 +66,7 @@ RSpec.describe Api::FeedController, type: :controller do
         enquiry = create(:enquiry, company_house_number: '123')
       end
 
-      get :index, params: { format: :xml, shared_secret: 'secret' }
+      get :index, params: { format: :xml, shared_secret: '?[!@$%^%' }
       xml_hash = Hash.from_xml(response.body)
       feed = xml_hash['feed']
 
@@ -97,7 +97,7 @@ RSpec.describe Api::FeedController, type: :controller do
         enquiry_1 = create(:enquiry, company_house_number: '124')
       end
 
-      get :index, params: { format: :xml, shared_secret: 'secret' }
+      get :index, params: { format: :xml, shared_secret: '?[!@$%^%' }
       xml_hash = Hash.from_xml(response.body)
       feed = xml_hash['feed']
 
@@ -106,6 +106,26 @@ RSpec.describe Api::FeedController, type: :controller do
 
       elastic_search_bulk_2 =  JSON.parse(feed['entry'][1]['elastic_search_bulk'])
       expect(elastic_search_bulk_2['source']['date']).to eq('2008-09-01T12:01:02+00:00')
+    end
+
+    it 'is paginated with a link element if there are 20 enquiries' do
+      for i in 1..20 do
+        create(:enquiry, company_house_number: i.to_s)
+      end
+
+      get :index, params: { format: :xml, shared_secret: '?[!@$%^%' }
+      xml_hash_1 = Hash.from_xml(response.body)
+      feed_1 = xml_hash_1['feed']
+
+      expect(feed_1['entry'].length).to eq(20)
+      expect(feed_1['link']['rel']).to eq('next')
+
+      get :index, params: { format: :xml, shared_secret: '?[!@$%^%', page: '1' }
+      xml_hash_2 = Hash.from_xml(response.body)
+      feed_2 = xml_hash_2['feed']
+
+      expect(feed_2.key?('entry')).to eq(false)
+      expect(feed_2.key?('link')).to eq(false)
     end
   end
 end

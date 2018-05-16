@@ -1,4 +1,5 @@
 require 'json'
+require 'uri'
 
 def elastic_search_json(enquiry)
   wrapper = {
@@ -27,8 +28,9 @@ module Api
       return forbidden! if Figaro.env.ACTIVITY_STREAM_SHARED_SECRET.nil? || Figaro.env.ACTIVITY_STREAM_SHARED_SECRET.empty?
       return forbidden! if params[:shared_secret] != Figaro.env.ACTIVITY_STREAM_SHARED_SECRET
 
+      page = Integer(if !params.key?('page') then 0 else params[:page] end)
       companies_with_number = Enquiry.where.not(company_house_number: nil, company_house_number: '').order('created_at DESC')
-      enquiries = companies_with_number.take(MAX_PER_PAGE)
+      enquiries = companies_with_number.offset(page * MAX_PER_PAGE).take(MAX_PER_PAGE)
 
       entries = (enquiries.map do |enquiry|
         '<entry>' \
@@ -41,12 +43,17 @@ module Api
         '</entry>'
       end).join('')
 
+      include_next_page_link = enquiries.count() == MAX_PER_PAGE
+      next_page_href = request.base_url + request.env['PATH_INFO'] + '?shared_secret=' + URI::encode(params[:shared_secret]) + '&amp;page=' + (page + 1).to_s
+      next_page_link_element = if include_next_page_link then ('<link rel="next" href="' + next_page_href  + '"/>') else '' end
+
       contents = \
         '<?xml version="1.0" encoding="UTF-8"?>' \
         '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:as="http://trade.gov.uk/activity-stream/v1">' \
           '<updated>' + DateTime.now.to_datetime.rfc3339 + '</updated>' \
           '<title>Export Opportunities Activity Stream</title>' \
           '<id>dit-export-opportunities-activity-stream-' + Rails.env + '</id>' + \
+          next_page_link_element + \
           entries + \
         '</feed>'
       respond_to do |format|

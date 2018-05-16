@@ -7,7 +7,7 @@ machine:
   services:
     - 'redis'
   environment:
-    ACTIVITY_STREAM_SHARED_SECRET: 'secret'
+    ACTIVITY_STREAM_SHARED_SECRET: '?[!@$%^%'
 database:
   post:
     - bundle exec rake elasticsearch:import_opportunities
