@@ -13,8 +13,8 @@ dit.page.landing = (new function () {
   }
   
   // Page init
-  this.init = function() {    
-    enhanceIndustrySelector();
+  this.init = function() {
+      enhanceIndustrySelector();
 
     cacheComponents();
     viewAdjustments(dit.responsive.mode());
@@ -68,7 +68,7 @@ dit.page.landing = (new function () {
     });
   }
 
-  /* Find and enhance the search form Industory <select> field
+  /* Find and enhance the search form Industry <select> field
    **/
   function enhanceIndustrySelector() {
     $("[data-component='filter-select']").each(function() {

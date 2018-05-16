@@ -7,7 +7,7 @@ feature 'Searching opportunities with filter', js: true, elasticsearch: true do
     opportunity_with_market = create(:opportunity, :published, countries: [country])
 
     sleep 1
-    visit opportunities_path
+    visit poc_opportunities_path
 
     within('.filters') do
       find('.js-toggler').click

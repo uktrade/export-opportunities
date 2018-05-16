@@ -10,7 +10,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit, js: true do
     visit poc_opportunities_path
 
     expect(page).to have_content 'Iran (1)'
-byebug
+
     within('.search-results-filters') do
       find('.js-toggler').click
       select 'Iran', from: 'countries[]', visible: false

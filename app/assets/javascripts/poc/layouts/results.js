@@ -10,7 +10,7 @@ dit.page.results = (new function () {
   
   // Page init
   this.init = function() {
-    enhanceIndustrySelector();
+      enhanceIndustrySelector();
 
     cacheComponents();
     viewAdjustments(dit.responsive.mode());
@@ -57,7 +57,7 @@ dit.page.results = (new function () {
     $groups = $(".search-results-filters fieldset");
     $labels = $groups.find("legend");
     $groups.each(function(index) {
-      new dit.classes.Expander($(this), {
+        new dit.classes.Expander($(this), {
         $control: $labels.eq(index),
         blur: false
       });
