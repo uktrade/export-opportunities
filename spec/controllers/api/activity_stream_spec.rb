@@ -98,7 +98,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(ex.backtrace.to_s).to include('/redis/')
     end
 
-    it 'responds with a blank JSON object if Authorization header is set and correct' do
+    it 'responds with a dummy JSON object if Authorization header is set and correct' do
       @request.headers['Authorization'] = auth_header(
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
@@ -106,7 +106,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       )
       get :index, params: { format: :json }
 
-      expect(response.body).to eq('{}')
+      expect(response.body).to eq('{"secret":"content-for-pen-test"}')
       expect(response.headers['Content-Type']).to eq('application/activity+json')
     end
   end

@@ -60,7 +60,9 @@ module Api
         return
       end
 
-      contents = {}
+      contents = {
+        secret: 'content-for-pen-test',
+      }
       respond_to do |format|
         response.headers['Content-Type'] = 'application/activity+json'
         format.json { render status: 200, json: contents.to_json }
