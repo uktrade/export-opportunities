@@ -4,13 +4,13 @@
 //= require ../dit.class.filter_select
 
 dit.page.results = (new function () {
-  var _results = this;
+  var RESULTS = this;
   var _cache = {
   }
   
   // Page init
   this.init = function() {
-    enhanceIndustrySelector();
+    enhanceResultFilters();
 
     cacheComponents();
     viewAdjustments(dit.responsive.mode());
@@ -53,14 +53,15 @@ dit.page.results = (new function () {
    * Note: We get the groups and labels outside the loop
    * to avoid issues with closures.
    **/
-  function enhanceIndustrySelector() {
+  function enhanceResultFilters() {
+    RESULTS.expanders = [];
     $groups = $(".search-results-filters fieldset");
     $labels = $groups.find("legend");
     $groups.each(function(index) {
-      new dit.classes.Expander($(this), {
+      RESULTS.expanders.push(new dit.classes.Expander($(this), {
         $control: $labels.eq(index),
         blur: false
-      });
+      }));
     });
   }
 

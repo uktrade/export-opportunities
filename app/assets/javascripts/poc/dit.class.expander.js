@@ -124,19 +124,19 @@
   Expander.bindEvents = function() {
     var EXPANDER = this;
     
-    Expander.AddKeyboardSupport.call(EXPANDER);
+    Expander.addKeyboardSupport.call(EXPANDER);
     
     if (EXPANDER.config.hover) {
-      Expander.AddHoverSupport.call(EXPANDER);
+      Expander.addHoverSupport.call(EXPANDER);
     }
     else {
-      Expander.AddClickSupport.call(EXPANDER);
+      Expander.addClickSupport.call(EXPANDER);
     }
   }
   
   /* Add ability to control by keyboard
    **/
-  Expander.AddKeyboardSupport = function() {
+  Expander.addKeyboardSupport = function() {
     var EXPANDER = this;
     
     EXPANDER.$control.on(KEY, function(event) {
@@ -168,7 +168,7 @@
 
   /* Add Hover events (for desktop only)
    **/
-  Expander.AddHoverSupport = function() {
+  Expander.addHoverSupport = function() {
     var EXPANDER = this;
     var $node = EXPANDER.$node;
 
@@ -189,7 +189,7 @@
   
   /* Using click for desktop and mobile.
    **/
-  Expander.AddClickSupport = function() {
+  Expander.addClickSupport = function() {
     var EXPANDER = this;
 
     EXPANDER.$control.on(CLICK, function(event) {
