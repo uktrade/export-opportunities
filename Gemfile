@@ -21,6 +21,7 @@ gem 'nokogiri', '1.8.2'
 # Authentication & authorisation
 gem 'devise', '4.3.0'
 gem 'devise-async'
+gem 'hawk-auth'
 gem 'omniauth'
 gem 'omniauth-oauth2'
 gem 'pundit', require: true
