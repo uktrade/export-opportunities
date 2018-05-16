@@ -7,25 +7,23 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
     create(:opportunity, :published, title: 'Third Opp', first_published_at: 3.days.ago, response_due_on: 1.day.from_now)
 
     sleep 1
-    visit '/poc/opportunities'
+    visit poc_opportunities_path
 
-    # within('.search') do
+    within('.search') do
       fill_in 's', with: 'Opp'
-    # end
-    page.find('.submit.button').click
+      page.find('.submit').click
+    end
 
-    # within('#search-sort') do
-    #   find('label[for=first_published_at]').click
-    # end
+    # sort by published date
     page.find('#search-sort').select('Published date')
+    page.find('.button.submit').click
 
     expect('Second').to appear_before('First')
     expect('First').to appear_before('Third')
 
-    # within('#search-sort') do
-    #   find('label[for=response_due_on]').click
-    # end
+    # sort by expiry date
     page.find('#search-sort').select('Expiry date')
+    page.find('.button.submit').click
 
     expect('Third').to appear_before('Second')
     expect('Second').to appear_before('First')
@@ -39,40 +37,27 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       create(:opportunity, :published, title: 'Cod', first_published_at: 3.days.ago, response_due_on: 1.day.from_now)
 
       sleep 1
-      visit '/poc/opportunities'
+      visit poc_opportunities_path
 
-      within('.filters') do
+      within('.search') do
         fill_in 's', with: 'Sardines'
-        page.find('.filters__searchbutton').click
+        page.find('.submit').click
       end
-
+      
       expect(page).to have_no_content('Cod')
-      # expect('Sardines, Big Sardines').to appear_before('Small Sardines')
 
-      expect(find_field('relevance', visible: false)).to be_checked
-
-      expect(page).to have_content('Subscribe to email alerts for')
-
-      within('.results__order') do
-        find('label[for=order_published_date]').click
-      end
+      page.find('#search-sort').select('Published date')
+      page.find('.button.submit').click
 
       expect(page).to have_no_content('Cod')
       expect('Sardines, Big Sardines').to appear_before('Really Old Sardines, Expiring Soon')
 
-      expect(find_field('published date', visible: false)).to be_checked
-
-      expect(page).to have_content('Subscribe to email alerts for')
-
-      within('.results__order') do
-        find('label[for=order_expiry_date]').click
-      end
+      page.find('#search-sort').select('Expiry date')
+      page.find('.button.submit').click
 
       expect(page).to have_no_content('Cod')
       expect('Really Old Sardines, Expiring Soon').to appear_before('Sardines, Big Sardines')
       expect('Sardines, Big Sardines').to appear_before('Small Sardines')
-      expect(find_field('expiry date', visible: false)).to be_checked
-      expect(page).to have_content('Subscribe to email alerts for')
     end
   end
 end

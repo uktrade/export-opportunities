@@ -1,34 +1,17 @@
 require 'rails_helper'
 
 feature 'Filtering opportunities', :elasticsearch, :commit, js: true do
-  scenario 'users can filter opportunities by sector' do
-    sector = create(:sector, name: 'Airports')
-    opportunity = create(:opportunity, :published)
-    opportunity_with_sector = create(:opportunity, :published, sectors: [sector])
-    stub_request(:get, '/ditelasticsearch.com/').to_return(status: 200, body: JSON.generate(create_elastic_search_opportunity(_source: { sectors: [slug: sector.slug] })))
-    sleep 1
-    visit opportunities_path
-
-    within('.filters') do
-      find('.js-toggler').click
-      select 'Airports', from: 'sectors[]', visible: false
-      page.find('.filters__searchbutton').click
-    end
-
-    expect(page).to have_content opportunity_with_sector.title
-    expect(page).to have_no_content opportunity.title
-    expect(page).to have_selector('.results__item', count: 1)
-  end
-
   scenario 'users can filter opportunities by market' do
     country = create(:country, name: 'Iran')
     opportunity = create(:opportunity, :published)
     opportunity_with_market = create(:opportunity, :published, countries: [country])
 
     sleep 1
-    visit opportunities_path
+    visit poc_opportunities_path
 
-    within('.filters') do
+    expect(page).to have_content 'Iran (1)'
+byebug
+    within('.search-results-filters') do
       find('.js-toggler').click
       select 'Iran', from: 'countries[]', visible: false
       page.find('.filters__searchbutton').click
