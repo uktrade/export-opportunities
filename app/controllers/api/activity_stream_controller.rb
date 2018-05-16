@@ -1,5 +1,6 @@
 require 'hawk'
 require 'json'
+require 'redis'
 
 module Api
   class ActivityStreamController < ApplicationController
@@ -21,6 +22,18 @@ module Api
       end
 
       # Ensure Authorization header is correct
+      check_and_save_nonce = Proc.new do |nonce|
+        redis = Redis.new(url: Figaro.env.redis_url)
+        key = 'activity-stream-nonce-' + nonce
+        key_used = redis.get(key)
+        if key_used then
+          true
+        else
+          redis.set(key, true)
+          redis.expire(key, 120)
+          false
+        end
+      end
       credentials = {
         :id => Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         :key => Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
@@ -33,6 +46,7 @@ module Api
         :host => request.host,
         :port => request.standard_port,
         :credentials_lookup => lambda { |id| id == credentials[:id] ? credentials : nil },
+        :nonce_lookup => check_and_save_nonce,
       )
       if res != credentials then
         respond_to do |format|

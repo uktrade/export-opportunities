@@ -29,6 +29,28 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(response.body).to eq(%({"message":"Stale ts"}))
     end
 
+    it 'responds with a 401 if header is reused' do
+      credentials = {
+        :id => Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+        :key => Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        :algorithm => "sha256"
+      }
+      @request.headers['Authorization'] = Hawk::Client.build_authorization_header(
+        :credentials => credentials,
+        :ts => Time.now.getutc.to_i,
+        :method => 'GET',
+        :request_uri => '/api/activity_stream',
+        :host => 'test.host',
+        :port => 80,
+      )
+      get :index, params: { format: :json }
+      expect(response.status).to eq(200)
+
+      get :index, params: { format: :json }
+      expect(response.status).to eq(401)
+      expect(response.body).to eq(%({"message":"Invalid nonce"}))
+    end
+
     it 'responds with a blank JSON object if Authorization header is set and correct' do
       credentials = {
         :id => Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
