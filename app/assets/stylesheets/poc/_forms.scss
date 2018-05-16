@@ -1,9 +1,10 @@
 h1 {
-  margin-bottom: $spacing-4;
+  margin-bottom: $spacing-2;
 }
 
 fieldset {
   border: none;
+  margin-bottom: $spacing-3;
   padding: 0;
 
   &:after {
@@ -45,12 +46,18 @@ input {
 }
 
 label,
-legend {
+.date legend,
+.multi-currency-amount legend,
+.radio-group legend {
   @include body-m;
   color: $grey;
   display: inline-block;
-  font-weight: bold;
   margin-bottom: $spacing-4;
+}
+
+legend {
+  @include heading-m;
+  margin-bottom: $spacing-3;
 }
 
 pre {
@@ -59,7 +66,7 @@ pre {
 
 select {
   @include body-m;
-  background: $white url('arrow_down.png') no-repeat 98%/15px;
+  background: $white image_url('arrow_down.png') no-repeat 98%/15px;
   border: 2px solid $grey;
   display: block;
   height: 50px;
@@ -265,15 +272,14 @@ textarea {
   }
 
   form {
-    border-bottom: 1px solid $light-grey;
     margin: 0 0 $spacing-1 0;
     padding-bottom: $spacing-3;
   }
 
   .progress {
-    @include body-s;
-    color: $mid-grey;
+    @include body-l;
     display: block;
+    margin-bottom: $spacing-4;
   }
 
   .requirement {
@@ -283,29 +289,23 @@ textarea {
 
 
 
-// MEDIA QUERIES
-@media (max-width: 767px) {
+// RESPONSIVE
+@media (min-width: 768px) {
+  // desktop only...
   form {
-    max-width: none;
+    max-width: 600px;
   }
+}
 
-  input[type=text] {
-    @include body-m;
+@media (max-width: 767px) {
+  input[type=text],
+  textarea {
     max-width: none;
   }
 }
 
-
-
-// DESKTOP ONLY
-@media (min-width: 768px) {
-  .process {
-    background: linear-gradient(to right, #{$white} #{$cols-8}, #{$offwhite} #{$cols-4});
-    min-height: 600px;
-
-    form,
-    .breadcrumbs {
-      width: calc(#{$cols-8} - #{$spacing-3});
-    }
+@media (max-width: 480px) {
+  select {
+    width: 100%;
   }
 }

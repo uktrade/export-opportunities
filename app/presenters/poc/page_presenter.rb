@@ -3,7 +3,7 @@ class Poc::PagePresenter < BasePresenter
 
   def initialize(content)
     @breadcrumbs = create_breadcrumbs
-    add_breadcrumb_current(content['breadcrumb_current'])
+    add_breadcrumb_current(content['breadcrumb_current']) unless content.nil?
   end
 
   def add_breadcrumb_current(title)
