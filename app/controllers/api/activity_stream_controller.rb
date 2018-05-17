@@ -3,6 +3,25 @@ require 'digest'
 require 'json'
 require 'openssl'
 
+def elastic_search_wrapper(enquiry)
+  {
+    action_and_metadata: {
+      index: {
+        _index: 'company_timeline',
+        _type: '_doc',
+        _id: 'export-oportunity-enquiry-made-' + enquiry.id.to_s,
+      },
+    },
+    source: {
+      date: enquiry.created_at.to_datetime.rfc3339,
+      activity: 'export-oportunity-enquiry-made',
+      company_house_number: enquiry.company_house_number,
+    },
+  }
+end
+
+MAX_PER_PAGE = 20
+
 module Api
   class ActivityStreamController < ApplicationController
     def authenticate(request)
@@ -99,7 +118,19 @@ module Api
       is_authentic, message = authenticate(request)
       return respond_401 message unless is_authentic
 
-      respond_200 secret: 'content-for-pen-test'
+      page = Integer(!params.key?(:page) ? '0' : params[:page])
+      companies_with_number = Enquiry.where.not(company_house_number: nil).where.not(company_house_number: '').order('created_at DESC')
+      enquiries = companies_with_number.offset(page * MAX_PER_PAGE).take(MAX_PER_PAGE)
+
+      include_next_page_href = enquiries.count == MAX_PER_PAGE
+      next_page_href = request.base_url + request.env['PATH_INFO'] + '?page=' + (page + 1).to_s
+      next_page_hash = include_next_page_href ? { next_url: next_page_href } : {}
+
+      items = enquiries.map(&method(:elastic_search_wrapper))
+      contents = {
+        items: items,
+      }.merge(next_page_hash)
+      respond_200 contents
     end
   end
 end
