@@ -40,12 +40,16 @@ class Poc::OpportunitiesController < OpportunitiesController
     @filters = SearchFilter.new(params)
     @search_term = params['s']
     @sort_column_name = sort_column
-    @search_results = opportunity_search
+    @search_results = if params[:sectors]
+                        opportunity_featured_industries_search(sector_obj.slug, sector_search_term)
+                      else
+                        opportunity_search
+                      end
     @total = @search_results[:total]
     @search_filters = {
-      'sectors': search_filter_sectors,
-      'countries': search_filter_countries(@search_results[:countries]),
-      'regions': search_filter_regions,
+        'sectors': search_filter_sectors,
+        'countries': search_filter_countries(@search_results[:countries]),
+        'regions': search_filter_regions,
     }
     render 'opportunities/results', layout: 'layouts/domestic'
   end
@@ -225,6 +229,34 @@ class Poc::OpportunitiesController < OpportunitiesController
       term: @search_term,
       sort_by: @sort_column_name,
       subscription: subscription_form,
+    }
+  end
+
+  private def opportunity_featured_industries_search(sector, search_term)
+    country_list = []
+    per_page = Opportunity.default_per_page
+    query = Opportunity.public_featured_industries_search(sector, search_term)
+
+    if atom_request?
+      query = query.records
+      query = query.page(params[:paged]).per(per_page)
+      query = AtomOpportunityQueryDecorator.new(query, view_context)
+      results = query
+    else
+      country_list = relevant_countries_from_search(query) # Run before paging.
+      query = query.page(params[:paged]).per(per_page)
+      results = query.records
+    end
+
+    {
+        filters: @filters,
+        results: results,
+        countries: country_list,
+        total: query.records.total,
+        limit: per_page,
+        term: @search_term,
+        sort_by: @sort_column_name,
+        subscription: subscription_form,
     }
   end
 

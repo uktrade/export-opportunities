@@ -44,6 +44,7 @@ class Opportunity < ApplicationRecord
       indexes :first_published_at, type: :date
       indexes :updated_at, type: :date
       indexes :status, type: :keyword
+      indexes :source, type: :keyword
     end
   end
 
@@ -98,8 +99,13 @@ class Opportunity < ApplicationRecord
   validates :contacts, length: { is: CONTACTS_PER_OPPORTUNITY }
 
   def teaser_validations
-    errors.add(:teaser, 'is missing') if source == 'post' && teaser.blank?
-    errors.add(:teaser, "can't be more than #{TEASER_LENGTH_LIMIT}") if source == 'post' && teaser.length > TEASER_LENGTH_LIMIT
+    if source == 'post'
+      if teaser
+        errors.add(:teaser, "can't be more than #{TEASER_LENGTH_LIMIT}") if teaser.length > TEASER_LENGTH_LIMIT
+      else
+        errors.add(:teaser, 'is missing')
+      end
+    end
   end
 
   validates :slug, presence: true, uniqueness: true
@@ -125,7 +131,65 @@ class Opportunity < ApplicationRecord
 
   def self.public_search(search_term: nil, filters: NullFilter.new, sort:)
     query = OpportunitySearchBuilder.new(search_term: search_term, sectors: filters.sectors, countries: filters.countries, opportunity_types: filters.types, values: filters.values, sort: sort).call
+
     ElasticSearchFinder.new.call(query[:search_query], query[:search_sort])
+  end
+
+  def self.public_featured_industries_search(sector, search_term)
+    search_query = {
+            "bool": {
+                "should": [{
+                               "bool": {
+                                   "must": [{
+                                                "match": {
+                                                    "source": "post"
+                                                }
+                                            }, {
+                                                "match": {
+                                                    "sectors.slug": sector
+                                                }
+                                            }, {
+                                                "match": {
+                                                    "status": "publish"
+                                                }
+                                            }, "range": {
+                                                        "response_due_on": {
+                                                            "gte": "now/d"
+                                                        }
+                                                }
+
+                                   ]
+                               }
+                           }, {
+                               "bool": {
+                                   "must": [{
+                                                "match": {
+                                                    "source": "volume_opps"
+                                                }
+                                            }, {
+                                                "multi_match": {
+                                                    "query": search_term,
+                                                    "fields": ["title^5", "teaser^2", "description"],
+                                                    "operator": "and"
+                                                }
+                                            }, {
+                                                "match": {
+                                                    "status": "publish"
+                                                }
+                                            }, "range": {
+                                                    "response_due_on": {
+                                                        "gte": "now/d"
+                                                }
+                                            }
+                                   ]
+                               }
+                           }]
+            }
+    }
+
+    search_sort = [{"response_due_on":{"order":"asc"}}]
+
+    ElasticSearchFinder.new.call(search_query, search_sort)
   end
 
   def as_indexed_json(_ = {})

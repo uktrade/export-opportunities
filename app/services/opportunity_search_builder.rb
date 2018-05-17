@@ -1,5 +1,5 @@
 class OpportunitySearchBuilder
-  def initialize(search_term: '', sectors: [], countries: [], opportunity_types: [], values: [], expired: false, status: :published, sort:)
+  def initialize(search_term: '', sectors: [], countries: [], opportunity_types: [], values: [], expired: false, status: :published, source: [:post, :volume_opps], sort:)
     @search_term = search_term.to_s.strip
     @sectors = Array(sectors)
     @countries = Array(countries)
@@ -8,6 +8,7 @@ class OpportunitySearchBuilder
     @not_expired = !expired
     @status = status
     @sort = sort
+    @source = source
   end
 
   def call
@@ -18,9 +19,10 @@ class OpportunitySearchBuilder
     value_query = value_build
     expired_query = expired_build
     status_query = status_build
+    source_query = source_build
     sort_query = sort_build
 
-    joined_query = [keyword_query, sector_query, country_query, opportunity_type_query, value_query, expired_query, status_query].compact
+    joined_query = [keyword_query, sector_query, country_query, opportunity_type_query, value_query, expired_query, status_query, source_query].compact
 
     query = {
       bool: {
@@ -132,6 +134,20 @@ class OpportunitySearchBuilder
             },
           },
         },
+      }
+    end
+  end
+
+  def source_build
+    if @source.present?
+      {
+          bool: {
+              filter: {
+                  terms: {
+                      source: @source,
+                  },
+              },
+          },
       }
     end
   end
