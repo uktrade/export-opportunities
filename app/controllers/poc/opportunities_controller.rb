@@ -41,6 +41,10 @@ class Poc::OpportunitiesController < OpportunitiesController
     @search_term = params['s']
     @sort_column_name = sort_column
     @search_results = if params[:sectors]
+                        sector = params[:sectors].first
+                        sector_search_term = sector.tr('-', ' ')
+                        sector_obj = Sector.where(slug: sector).first
+
                         opportunity_featured_industries_search(sector_obj.slug, sector_search_term)
                       else
                         opportunity_search

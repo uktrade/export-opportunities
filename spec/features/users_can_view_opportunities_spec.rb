@@ -29,6 +29,8 @@ RSpec.feature 'User can view opportunities in list' do
 
   scenario 'clicks on featured industries link, gets both OO and posts opportunities', :elasticsearch, :commit do
     sector = create(:sector, slug: 'food-drink', id: 14, name: 'FoodDrink')
+    security_sector = create(:sector, slug: 'security', id: 12, name: 'Security')
+    security_opp = create(:opportunity, title: 'Italy - White hat hacker required', description: 'security food drink', sectors: [security_sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
     post_opp = create(:opportunity, title: 'France - Cow required', sectors: [sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
     oo_opp = create(:opportunity, title: 'Greece - Pimms food drink in Mykonos', description: 'food drink pimms mykonoos', source: :volume_opps, status: :publish, response_due_on: 1.week.from_now)
 
@@ -38,5 +40,6 @@ RSpec.feature 'User can view opportunities in list' do
 
     expect(page).to have_content('Cow required')
     expect(page).to have_content('Pimms food drink in Mykonos')
+    expect(page).to_not have_content('Italy')
   end
 end
