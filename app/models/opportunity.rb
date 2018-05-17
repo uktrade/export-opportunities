@@ -143,48 +143,53 @@ class Opportunity < ApplicationRecord
             "must": [{
               "match": {
                 "source": 'post',
-                },
-              }, {
-                "match": {
-                  "sectors.slug": sector,
-                },
-              }, {
-                "match": {
-                  "status": 'publish',
-                },
-              }, "range": {
-                "response_due_on": {
-                  "gte": 'now/d',
-                },
-              }
-            ],
+              },
+            },
+            {
+              "match": {
+                "sectors.slug": sector,
+              },
+            },
+            {
+              "match": {
+                "status": 'publish',
+              },
+            },
+            "range": {
+              "response_due_on": {
+                "gte": 'now/d',
+              },
+            }],
           },
-        }, {
+        },
+        {
           "bool": {
             "must": [{
               "match": {
                 "source": 'volume_opps',
               },
-            }, {
+            },
+            {
               "multi_match": {
                 "query": search_term,
                 "fields": %w[title^5 teaser^2 description],
                 "operator": 'and',
               },
-            }, {
+            },
+            {
               "match": {
                 "status": 'publish',
               },
-            }, "range": {
+            },
+            "range": {
               "response_due_on": {
                 "gte": 'now/d',
               },
-            }
-          ],
-        },
-      }],
-    },
-  }
+            }],
+          },
+        }],
+      },
+    }
 
     search_sort = [{ "response_due_on": { "order": 'asc' } }]
 

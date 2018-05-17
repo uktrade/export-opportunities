@@ -65,23 +65,6 @@ RSpec.describe OpportunitySearchBuilder do
       expect(builder[:search_query][:bool][:must]).to include(expected_sectors_hash)
     end
 
-    it 'filters by a single source' do
-      builder = OpportunitySearchBuilder.new(source: 'post', sort: @sort).call
-
-      expected_sectors_hash = {
-          bool: {
-              filter: {
-                  terms: {
-                      "source": 'post',
-                  },
-              },
-          },
-      }
-
-      expect(builder).to be_a(Hash)
-      expect(builder[:search_query][:bool][:must]).to include(expected_sectors_hash)
-    end
-
     it 'filters by multiple countries' do
       builder = OpportunitySearchBuilder.new(countries: %w[albania iran], sort: @sort).call
 
