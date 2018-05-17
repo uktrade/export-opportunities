@@ -1,5 +1,14 @@
 @import '../config';
 @import 'effects/selective_lookup';
+@import 'effects/expander';
+
+
+
+.business {
+  .checkbox {
+    margin-bottom: $spacing-2;
+  }
+}
 
 .confirmation {
   background-color: $dark-green;
@@ -16,3 +25,4 @@
   position: relative;
   top: -#{$spacing-3 - 10};
 }
+

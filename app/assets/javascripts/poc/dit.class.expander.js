@@ -53,9 +53,8 @@
     }, options);
 
     if (arguments.length && $target.length) {
-      
       $control = this.config.$control || $(document.createElement("a"));
-      if ($control.get(0).tagName.toLowerCase() === "a") {
+      if (Expander.isLink($control)) {
         $control.attr("href", "#" + id);
       }
       
@@ -86,7 +85,7 @@
         Expander.focus.call(EXPANDER);
       });
 
-      this.$node.before($control);
+      
       this.$node.addClass(TYPE);
       this.$node.addClass(this.config.cls);
       this.$node.attr("id", id);
@@ -183,7 +182,9 @@
     });
     
     EXPANDER.$control.on(CLICK, function(event) {
-      event.preventDefault();
+      if(Expander.isLink(EXPANDER.$control)) {
+        event.preventDefault();
+      }
     });
   }
   
@@ -193,7 +194,9 @@
     var EXPANDER = this;
 
     EXPANDER.$control.on(CLICK, function(event) {
-      event.preventDefault();
+      if(Expander.isLink(EXPANDER.$control)) {
+        event.preventDefault();
+      }
       Expander.on.call(EXPANDER);
       EXPANDER.toggle();
     });
@@ -254,6 +257,10 @@
       }
     }
     this.links.counter = counter;
+  }
+
+  Expander.isLink = function($element) {
+    return $element.get(0).tagName.toLowerCase() === "a";
   }
 
   Expander.prototype = new Object;

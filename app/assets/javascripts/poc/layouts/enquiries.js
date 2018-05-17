@@ -2,6 +2,10 @@
 // action: enquiries#new
 // action: enquiries#ceate
 //
+// REQUIRES:
+// jquery...min.js
+// dit.js
+// dit.class.expander.js
 
 //= require ./form.js
 //= require ../dit.class.selective_lookup.js
@@ -19,6 +23,7 @@ dit.page.enquiries = (new function () {
     cacheComponents();
     viewAdjustments(dit.responsive.mode());
     bindResponsiveListener();    
+    setupCompaniesHouseActivation();
     setupCompaniesHouseLookup();
 
     delete this.init; // Run once
@@ -53,8 +58,21 @@ dit.page.enquiries = (new function () {
     });
   }
 
-  /* Enhance Company name entry fields and create a
-   * service to fetch data from Companies House API
+  /* Toggle Company house lookup functionality.
+   **/
+  function setupCompaniesHouseActivation() {
+    var $switch = $("#has-companies-house-number");
+    var $companyNumber = $("#companies-house-number");
+    if($switch.length && $companyNumber.length) {
+      new dit.classes.Expander($companyNumber, {
+        $control: $switch,
+        closed: $switch.get(0).checked
+      });
+    }
+  }
+
+  /* Enhance Company entry fields and create a service 
+   * to fetch data from Companies House API.
    **/
   function setupCompaniesHouseLookup() {
     var $companyNameInput = $("#enquiry_company_name");

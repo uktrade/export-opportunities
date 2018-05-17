@@ -23,44 +23,48 @@
           = f.text_field :last_name, required: "required"
         .field
           = f.label :company_telephone, "Telephone Number", class: "required"
-          = f.text_field :company_telephone, class: "short-input", required: "required"
+          = f.text_field :company_telephone, required: "required"
 
       %fieldset.business
         %legend About Your Business
         - if current_user&.saved_enquiry_data?
-          .field{id: "companies-house-section"}
+          .field
             = f.label :company_name, "Company Name", class: "required"
-            = f.text_field :company_name, required: "required", class: "short-input"
+            = f.text_field :company_name, required: "required"
+          .field.checkbox
+            %input{:type=>"checkbox", :name=>"has_companies_house_number", :id=>"has-companies-house-number"}
+            %label{:for=>"has-companies-house-number"}
+              I do not have a Companies House number
+           
 
-          %div
-            .field
-              = f.label :company_house_number, "Companies House Number"
-              = f.text_field :company_house_number
-            .field
-              = f.label :company_address, "Company Address", class: "required"
-              = f.text_field :company_address, required: "required"
-            .field
-              = f.label :company_postcode, "Post Code", class: "required"
-              = f.text_field :company_postcode, {class: "short-input", required: "required"}
-            .field
-              = f.label :company_url, "Company URL (optional)"
-              = f.text_field :company_url
+          .field{:id=>"companies-house-number"}
+            = f.label :company_house_number, "Companies House Number"
+            = f.text_field :company_house_number
+          .field
+            = f.label :company_address, "Company Address", class: "required"
+            = f.text_field :company_address, required: "required"
+          .field
+            = f.label :company_postcode, "Post Code", class: "required"
+            = f.text_field :company_postcode, required: "required"
+          .field
+            = f.label :company_url, "Company URL (optional)"
+            = f.text_field :company_url
 
-            - if trade_profile(@enquiry.company_house_number)
-              %p
-                = 'We have identified that you have a trade profile.'
-              %p
-                = 'Your'
-                = link_to 'Trade Profile', trade_profile(@enquiry.company_house_number), target: :blank
-                = 'will be added to your application.'
-            - else
-              %p
-                It looks like you don't have a trade profile. A trade profile can increase your chance of winning business. 
-                = link_to "Create trade profile", Figaro.env.TRADE_PROFILE_CREATE_PAGE
+          - if trade_profile(@enquiry.company_house_number)
+            %p
+              = 'We have identified that you have a trade profile.'
+            %p
+              = 'Your'
+              = link_to 'Trade Profile', trade_profile(@enquiry.company_house_number), target: :blank
+              = 'will be added to your application.'
+          - else
+            %p
+              It looks like you don't have a trade profile. A trade profile can increase your chance of winning business. 
+              = link_to "Create trade profile", Figaro.env.TRADE_PROFILE_CREATE_PAGE
         - else
           .field{id: "companies-house-section"}
             = f.label :company_name, "Company Name", class: "required"
-            = f.text_field :company_name, required: "required", class: "short-input"
+            = f.text_field :company_name, required: "required"
             %span.loadingIndicator
             %button{id: "ch_search", class: "button companies-house-search-btn", type: "button"} Search Companies House
 
@@ -76,7 +80,7 @@
               = f.text_field :company_address, required: "required"
             .field
               = f.label :company_postcode, "Post Code", class: "required"
-              = f.text_field :company_postcode, {class: "short-input", required: "required"}
+              = f.text_field :company_postcode, required: "required"
             .field
               = f.label :company_url, "Company URL (optional)"
               = f.text_field :company_url
