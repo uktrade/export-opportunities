@@ -8,3 +8,7 @@
 -# 
 -#= javascript_include_tag 'header-footer.js'
 = javascript_include_tag 'poc/global'
+
+-# You can add constants for use in JS here:
+:javascript
+  dit.constants.COMPANIES_HOUSE_SEARCH = "#{Figaro.env.EXPORT_COMPANIES_HOUSE_SEARCH}"

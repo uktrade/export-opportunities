@@ -7,8 +7,5 @@ var dit = {
   components: {},
   data: {},
   page: {},
-  
-  constants: {
-    COMPANIES_HOUSE_SEARCH: "/api/internal/companies-house-search"
-  }
+  constants: {}
 }
