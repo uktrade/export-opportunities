@@ -33,7 +33,7 @@
     instance._private = {
       active: false, // State management to isolate the listener.
       service: service, // Service that retrieves and stores the data
-      $list: $("<ul class=\"SelectiveLookupDisplay\" style=\"display:none;\" id=\"" + popupId + "\" role=\"listbox\"></ul>"),
+      $list: $('<ul class="SelectiveLookupDisplay" style="display:none;" id="' + popupId + '" role="listbox" tabindex="-1"></ul>'),
       $input: $input,
       timer: null
     }
@@ -45,6 +45,7 @@
       $input.attr("autocomplete", "off"); // Because it interferes with results display.
       $input.on("focus.SelectiveLookup", function() { instance._private.active = true; });
       $input.on("blur.SelectiveLookup", function() { instance._private.active = false; });
+
       $input.on("input.SelectiveLookup", function() {
         // If first character is space, get rid of it. 
         if(this.value[0] === " ") {
@@ -75,12 +76,12 @@
         switch(e.which) {
         
           // Esc to close when on input
+          case 9:
           case 27:
             instance.close();
             break;
-          
+
           // Tab or arrow from input to list
-          case  9:
           case 40:
             if(!e.shiftKey && instance._private.$input.attr("aria-expanded") === "true") {
               e.preventDefault();
@@ -92,12 +93,6 @@
       instance._private.$list.on("keydown.SelectiveLookup", "li", function(e) {
         var $current = $(e.target);
         switch(e.which) {
-          // Prevent tabbing beyond list
-          case 9:
-            if($current.is(":last-child") && !e.shiftKey) {
-              e.preventDefault();
-            }
-            break;
 
           // Arrow movement between list items
           case 38:
@@ -110,21 +105,23 @@
             break;
 
           // Esc to close when on list item (re-focus on input)
+          case 9:
           case 27:
             instance.close();
-            $input.focus();
             break;
 
           // Enter key item selection
           case 13:
             e.preventDefault();
             $current.click();
+
+          default: // Nothing
         }
       });
 
-      // Tab or arrow movement from list to input
+      // Arrow movement from list to input
       instance._private.$list.on("keydown.SelectiveLookup", "li:first-child", function(e) {
-        if(e.shiftKey && e.which === 9 || e.which === 38) {
+        if(e.which === 38) {
           e.preventDefault();
           $input.focus();
         }
@@ -213,11 +210,11 @@
         // Note:
         // Only need to set a tabindex attribute to allow focus.
         // The value is not important here.
-        $list.append("<li role=\"option\" tabindex=\"1000\" data-value=\"" + data[i][map.value] + "\">" + data[i][map.text] + "</li>");
+        $list.append('<li role="option" data-value="' + data[i][map.value] + '" tabindex="-1">' + data[i][map.text] + '</li>');
       }
     }
     else {
-      $list.append("<li role=\"option\" data-value=\"\">No results found</li>");
+      $list.append('<li role="option" data-value="" tabindex="-1">No results found</li>');
     }
   }
   
