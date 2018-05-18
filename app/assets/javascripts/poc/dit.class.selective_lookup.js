@@ -59,7 +59,7 @@
         if(this.value.length >= opts.lookupOnCharacter) {
           instance._private.timer = setTimeout(function() {
             instance.search()
-          }, 500);
+          }, 300);
         }
       });
       
