@@ -19,8 +19,6 @@ namespace :elasticsearch do
         opp.__elasticsearch__.index_document refresh: true
       end
     end
-
-    puts
   end
 
   desc 'Import all subscriptions into ElasticSearch, deleting and recreating the index'
@@ -42,8 +40,6 @@ namespace :elasticsearch do
         sub.__elasticsearch__.update_document
       end
     end
-
-    puts
   end
 
   desc 'Import all subscription notifications into ElasticSearch, deleting and recreating the index'
@@ -65,7 +61,5 @@ namespace :elasticsearch do
         subnot.__elasticsearch__.update_document
       end
     end
-
-    puts
   end
 end

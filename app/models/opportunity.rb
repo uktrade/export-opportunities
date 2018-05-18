@@ -173,7 +173,7 @@ class Opportunity < ApplicationRecord
               "multi_match": {
                 "query": search_term,
                 "fields": %w[title^5 teaser^2 description],
-                "operator": 'and',
+                "operator": 'or',
               },
             },
             {
