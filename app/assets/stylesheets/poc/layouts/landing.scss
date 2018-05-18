@@ -8,6 +8,10 @@
 @import '../effects/tabbed_area';
 @import '../effects/filter_select';
 
+section {
+  padding: $spacing-1 0;
+}
+
 .benefit {
   @include items(3, $spacing-3);
   padding-top: $spacing-1;
@@ -19,11 +23,8 @@
 }
 
 .breadcrumbs {
-  border-bottom: none;
-  margin-bottom: $spacing-3;
-
   a {
-    color: $white;
+    color: inherit;
   }
 }
 

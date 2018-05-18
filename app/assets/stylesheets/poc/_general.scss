@@ -24,12 +24,12 @@ img.placeholder {
 
 main {
   background-color: $white;
+  clear: both;
 }
 
 section {
   clear: both;
   overflow: hidden;
-  padding: $spacing-1 0 $spacing-1 0;
   
   .heading {
     @include heading-m;

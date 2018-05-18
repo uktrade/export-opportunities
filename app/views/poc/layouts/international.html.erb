@@ -3,9 +3,11 @@
 <head>
   <title><%= t('organisation.name') %></title>
   <%= csrf_meta_tags %>
-  <%= render partial: 'includes/styles' %>
-  <%= render partial: 'includes/scripts' %>
-  <%= yield :page_specific_head %>
+  <%= render partial: 'includes/poc_head_tags' %>
+  <%= render partial: 'includes/poc_styles' %>
+  <%= render partial: 'includes/poc_scripts' %>
+
+  <%= yield :action_specific_head %>
 </head>
 <body>
   <%= render partial: 'includes/header_international' %>

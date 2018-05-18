@@ -22,8 +22,14 @@
       dataType: "json",
       method: "GET",
       success: function(response) {
-        service.json = response;
-        service.data = JSON.parse(response);
+        if(typeof response == "String") {
+          service.json = response;
+          service.data = JSON.parse(response);
+        }
+        else {
+         service.json = ""; // Could convert back to JSON, but why bother?
+         service.data = response;
+        }
       }
     }, options || {});
 

@@ -30,7 +30,8 @@
     var opts = $.extend({
       $after: $(), // (jQuery element) Specify an element to insert list after (gets appended to body if nothing passed).
       $errors: $(), // Where do we display errors.
-      $output: $() // Form field to receive the company number.
+      $output: $(), // Form field to receive the company number.
+      param: "term"
     }, options || {}); 
     
     // Inherit...
@@ -56,6 +57,7 @@
     this._private.$field = opts.$output; 
     this._private.$form = $form;
     this._private.$errors = opts.$errors;
+    this._private.param = opts.param;
   
     // Clear previously shown errors.
     this._private.$input.on("focus.CompaniesHouseNameLookup", function(e) {
@@ -79,7 +81,7 @@
   }
   
   CompaniesHouseNameLookup.prototype.param = function() {
-    return "term=" + this._private.$input.val();
+    return this._private.param + "=" + this._private.$input.val();
   }
   
   CompaniesHouseNameLookup.prototype.setContent = function() {

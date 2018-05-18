@@ -1,6 +1,6 @@
 - page = Poc::PagePresenter.new(@content)
 - form = Poc::FormPresenter.new(@content, @process)
-- content_for :page_specific_head do
+- content_for :action_specific_head do
   = javascript_include_tag 'poc/layouts/form.js'
 
 .process

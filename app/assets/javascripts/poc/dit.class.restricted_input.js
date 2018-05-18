@@ -4,8 +4,8 @@
  * counts down remaining characters until the maximum is reached.
  * Maximum character limit is specified by the maxlength attribute.
  *
- * REQUIRES:
- * jquery
+ * USES:
+ * jquery...min.js
  * dit.js
  *
  **/
@@ -34,6 +34,7 @@
       });
 
       $remaining.text(max);
+      $message.addClass("RestrictedInputCount");
       $message.text(" " + text);
       $message.prepend($remaining);
       $target.after($message);

@@ -1,6 +1,6 @@
 - page = Poc::PagePresenter.new(@content)
 - results = Poc::OpportunitySearchResultsPresenter.new(@content['search_results'], @search_results, @search_filters)
-- content_for :page_specific_head do
+- content_for :action_specific_head do
   = stylesheet_link_tag 'poc/layouts/results'
   = javascript_include_tag 'poc/layouts/results'
 

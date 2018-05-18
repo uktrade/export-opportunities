@@ -3,6 +3,7 @@ class EnquiriesController < ApplicationController
 
   before_action :set_no_cache_headers, only: [:new]
   before_action :log_cloudfront_headers
+  layout 'poc/layouts/enquiries'
 
   def new
     @opportunity = Opportunity.published.find_by!(slug: params[:slug])

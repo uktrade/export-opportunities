@@ -84,9 +84,11 @@ dit.global = (new function () {
    **/
   function enhanceLanguageSelector() {
     var $dialog = $("[data-component='language-selector-dialog']");
-    dit.components.languageSelector.enhanceDialog($dialog, {
-      $controlContainer: $("#personal-bar .container")
-    });
+    if($dialog.length) {
+      dit.components.languageSelector.enhanceDialog($dialog, {
+        $controlContainer: $("#personal-bar .container")
+      });
+    }
   }
 
   /* Activate (Expander) dropdown functionality on the menu
