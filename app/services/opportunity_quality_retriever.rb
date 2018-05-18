@@ -14,7 +14,8 @@ class OpportunityQualityRetriever
       response[:errors]&.each do |opps_quality_error|
         opportunity_check.error_id = opportunity.id
         opportunity_check.offset = opps_quality_error['offset']
-        # opportunity_check.length = opps_quality_error['length']
+        # length of string to be able to mark it as red in text
+        opportunity_check.length = opps_quality_error['token'].length
         opportunity_check.offensive_term = opps_quality_error['token']
 
         # hash with array of values, we pick the first suggestion which has higher probability

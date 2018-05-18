@@ -9,7 +9,7 @@ describe OpportunityQualityRetriever, type: :service do
       no_errors_result = File.read('spec/files/quality_opps/no_errors_check.json')
       no_errors_result_json = JSON.parse(no_errors_result).with_indifferent_access
 
-      allow_any_instance_of(OpportunityQualityRetriever).to receive(:quality_check).with(Figaro.env.TG_HOSTNAME!, Figaro.env.TG_API_KEY!, "#{opportunity.title} #{opportunity.description}").and_return(no_errors_result_json)
+      wallow_any_instance_of(OpportunityQualityRetriever).to receive(:quality_check).with(Figaro.env.TG_HOSTNAME!, Figaro.env.TG_API_KEY!, "#{opportunity.title} #{opportunity.description}").and_return(no_errors_result_json)
 
       response = OpportunityQualityRetriever.new.call(opportunity)
 
