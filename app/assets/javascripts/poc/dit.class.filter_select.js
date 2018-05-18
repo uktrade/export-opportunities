@@ -27,7 +27,7 @@
     var $parent = $select.parent();
     var opts = $.extend({
       $errors: $(), // TODO: Where/how do we display errors.
-      customInputAllowed: false // Allow user custom entry/value
+      allowCustomEntry: false // Allow user custom entry/value
     }, config || {}); 
 
     // Need to make sure we don't put things inside a label because
@@ -99,44 +99,49 @@
    **/
   FilterSelect.bindExtraInputEvents = function($input) {
     var filterSelect = this;
-
+	
     // Set and open list.
     $input.on("click.FilterSelect keydown.FilterSelect", function(e) {
       e.stopPropagation(); // Prevents "click.SelectiveLookupCloseAll" listener activation.
       var $input = $(this);
       switch(e.which) {
-        case 13: 
-          // If press ENTER, stop default form submit behaviour.
-          e.preventDefault();
-          break;
-        case 27:
-          // Close on Esc
-          filterSelect.close();
-          break;
-        case 9: 
-          // Skip tab activity
-          break;
-        default: 
+        case 40: 
           if($input.attr("aria-expanded") !== "true") {
             filterSelect.setContent();
             filterSelect.bindContentEvents();
             filterSelect.open();
-        }
+          }
+          break;
+        default: // Anything??
       }
     });
 
     // Update the hidden form field that replaced the original <select>
     // Make sure that entry on leaving user input field matches something
     // in the list or, use the original default value.
-    $input.on("blur.FilterSelect", function() { 
+    $input.on("blur.FilterSelect", function() {
       var $this = $(this);
       var data = filterSelect._private.service.data;
       var filtered = filterSelect._private.service.filtered($this.val());
       var $field = filterSelect._private.$field;
 
-      if(filtered.length < 1) {
-        $this.val("");
+      // If user entry field is empty, make sure hidden field is blank.
+      if($input.val().replace(/\s/g, "").length <= 0) {
         $field.val($field.attr(DATA_ATTRIBUTE_INITIAL_VALUE));  
+      }
+
+      // If user can set any value, set field to equal input.
+      if(filterSelect._private.opts.allowCustomEntry) {
+        if($field.val() !== $input.attr("data-selected")) {
+          $field.val($this.val());
+        }
+      }
+      else {
+        // If user entry doesn't match anything, blank input and field.
+        if(filtered.length < 1) {
+          $this.val("");
+          $field.val($field.attr(DATA_ATTRIBUTE_INITIAL_VALUE));  
+        }
       }
     });
   }
@@ -166,6 +171,7 @@
       var $eventTarget = $(event.target);
       if($eventTarget.attr("data-value") !== undefined) {
         instance._private.$field.val($eventTarget.attr("data-value"));
+        instance._private.$input.attr("data-selected", $eventTarget.attr("data-value"));
         if($eventTarget.attr("data-value") !== "") { // No results option
           instance._private.$input.val($eventTarget.text());
         }
@@ -195,6 +201,13 @@
     return this._private.$input.val();
   }
 
+
+  /* Overwrite open so we always blank any previous entry first. 
+   **/
+  FilterSelect.prototype.open = function() {
+    SelectiveLookup.prototype.open.call(this);
+    this._private.$field.val("");
+  }
 
   /* Internal Class
    * SelectiveLookup classes use a Service instance to provide JSON data
