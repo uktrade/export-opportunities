@@ -26,7 +26,8 @@
     var $field = FilterSelect.createHiddenInputField.call(instance, $select);
     var $parent = $select.parent();
     var opts = $.extend({
-      $errors: $(), // Where do we display errors.
+      $errors: $(), // TODO: Where/how do we display errors.
+      customInputAllowed: false // Allow user custom entry/value
     }, config || {}); 
 
     // Need to make sure we don't put things inside a label because
@@ -47,6 +48,7 @@
     // Add some more private stuff.
     instance._private.value = "";
     instance._private.$field = $field;
+    instance._private.opts = opts;
 
     // Bind additional events and add element that 
     // captures the user typed input to DOM.
@@ -132,9 +134,8 @@
       var filtered = filterSelect._private.service.filtered($this.val());
       var $field = filterSelect._private.$field;
 
-      // If we didn't find a match then set to default values.
       if(filtered.length < 1) {
-        $this.val($this.attr(DATA_ATTRIBUTE_INITIAL_VALUE));
+        $this.val("");
         $field.val($field.attr(DATA_ATTRIBUTE_INITIAL_VALUE));  
       }
     });
@@ -155,14 +156,20 @@
   }
   
   FilterSelect.prototype = new SelectiveLookup;
-  
+
+  /* What happens when something is selected from the list.
+   **/
   FilterSelect.prototype.bindContentEvents = function() {
     var instance = this;
     instance._private.$list.off("click.SelectiveLookupContent");
     instance._private.$list.on("click.SelectiveLookupContent", function(event) {
       var $eventTarget = $(event.target);
-      instance._private.$input.val($eventTarget.text());
-      instance._private.$field.val($eventTarget.attr("data-value"));
+      if($eventTarget.attr("data-value") !== undefined) {
+        instance._private.$field.val($eventTarget.attr("data-value"));
+        if($eventTarget.attr("data-value") !== "") { // No results option
+          instance._private.$input.val($eventTarget.text());
+        }
+      }
     });
   }
 

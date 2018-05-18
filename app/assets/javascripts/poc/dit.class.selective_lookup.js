@@ -165,13 +165,15 @@
 
   SelectiveLookup.prototype = {};
 
-  // Added to prototype to allow easy overwrite when inheriting.
+  /* What happens when something is selected from the list.
+   * Added to prototype to allow easy overwrite when inheriting.
+   **/
   SelectiveLookup.prototype.bindContentEvents = function() {
     var instance = this;
     instance._private.$list.off("click.SelectiveLookupContent");
     instance._private.$list.on("click.SelectiveLookupContent", function(event) {
       var $eventTarget = $(event.target);
-      if($eventTarget.attr("data-value")) {
+      if($eventTarget.attr("data-value") !== undefined) {
         instance._private.$input.val($eventTarget.attr("data-value"));
       }
     });
@@ -215,7 +217,7 @@
       }
     }
     else {
-      $list.append("<li role=\"option\">No results found</li>");
+      $list.append("<li role=\"option\" data-value=\"\">No results found</li>");
     }
   }
   
