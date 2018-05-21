@@ -9,8 +9,8 @@
   .container
     = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
 
-    %h1 Find business opportunities
-    %p Search for opportunitities and pitch your company to overseas buyers who are looking for products and services like yours.
+    %h1= @content["title"]
+    %p= @content["description"]
     = render "opportunities/search_form"
 
 %section#recent-opportunities
@@ -50,7 +50,7 @@
 
 %section.search-section
   .container
-    %h2 Find business opportunities
+    %h2= @content["title"]
     = render "opportunities/search_form"
 
 
