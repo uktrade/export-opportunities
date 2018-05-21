@@ -85,7 +85,12 @@
         Expander.focus.call(EXPANDER);
       });
 
-      
+
+      // Make sure the control is not inside of the expanding element.
+      if(Expander.needToMoveControl(this.$node, $control)) {
+        this.$node.before($control);
+      }
+
       this.$node.addClass(TYPE);
       this.$node.addClass(this.config.cls);
       this.$node.attr("id", id);
@@ -261,6 +266,14 @@
 
   Expander.isLink = function($element) {
     return $element.get(0).tagName.toLowerCase() === "a";
+  }
+
+  /* View will have problems if control is inside the Expanding
+   * node so need to calculate if should be moved.
+   **/ 
+  Expander.needToMoveControl = function($node, $control) {
+    var parents = $control.parents().toArray();
+    return parents.includes($node.get(0));
   }
 
   Expander.prototype = new Object;
