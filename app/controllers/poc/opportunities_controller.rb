@@ -264,9 +264,16 @@ class Poc::OpportunitiesController < OpportunitiesController
     }
   end
 
+  # cache expensive method call for 10 minutes at a time
+  def relevant_countries_from_search(query)
+    Rails.cache.fetch("cache/countries_from_search", expires_in: 10.minutes ) do
+      relevant_countries_from_search!(query)
+    end
+  end
+
   # Use search results to find and return
   # only which countries are relevant.
-  def relevant_countries_from_search(query)
+  def relevant_countries_from_search!(query)
     countries = []
     country_list = []
     query.records.each do |opportunity|
@@ -406,7 +413,7 @@ class Poc::OpportunitiesController < OpportunitiesController
   private def regions_list
     [
       { slug: 'australia_new_zealand',
-        countries: %w[australia siji new-zealand papua-new-guinea],
+        countries: %w[australia fiji new-zealand papua-new-guinea],
         name: 'Australia/New Zealand' },
       { slug: 'caribbean',
         countries: %w[barbados costa-rica cuba dominican-republic jamaica trinidad-and-tobago],
@@ -430,7 +437,7 @@ class Poc::OpportunitiesController < OpportunitiesController
         countries: %w[denmark estonia finland iceland latvia lithuania norway sweden],
         name: 'Nordic & Baltic' },
       { slug: 'north_africa',
-        countries: %w[algeria eygpt libya morocco tunisia],
+        countries: %w[algeria egypt libya morocco tunisia],
         name: 'North Africa' },
       { slug: 'north_america',
         countries: %w[canada the-usa],
