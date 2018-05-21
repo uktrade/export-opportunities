@@ -51,9 +51,9 @@ class Poc::OpportunitiesController < OpportunitiesController
                       end
     @total = @search_results[:total]
     @search_filters = {
-        'sectors': search_filter_sectors,
-        'countries': search_filter_countries(@search_results[:countries]),
-        'regions': search_filter_regions,
+      'sectors': search_filter_sectors,
+      'countries': search_filter_countries(@search_results[:countries]),
+      'regions': search_filter_regions,
     }
     render 'opportunities/results', layout: 'layouts/domestic'
   end
@@ -253,14 +253,14 @@ class Poc::OpportunitiesController < OpportunitiesController
     end
 
     {
-        filters: @filters,
-        results: results,
-        countries: country_list,
-        total: query.records.total,
-        limit: per_page,
-        term: @search_term,
-        sort_by: @sort_column_name,
-        subscription: subscription_form,
+      filters: @filters,
+      results: results,
+      countries: country_list,
+      total: query.records.total,
+      limit: per_page,
+      term: @search_term,
+      sort_by: @sort_column_name,
+      subscription: subscription_form,
     }
   end
 

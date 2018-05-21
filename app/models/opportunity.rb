@@ -136,60 +136,67 @@ class Opportunity < ApplicationRecord
   end
 
   def self.public_featured_industries_search(sector, search_term)
-    search_query = {
-      "bool": {
-        "should": [{
-          "bool": {
-            "must": [{
-              "match": {
-                "source": 'post',
+    search_query =
+      {
+        "bool": {
+          "should": [
+            {
+              "bool": {
+                "must": [
+                  {
+                    "match": {
+                      "source": 'post',
+                    },
+                  },
+                  {
+                    "match": {
+                      "sectors.slug": sector,
+                    },
+                  },
+                  {
+                    "match": {
+                      "status": 'publish',
+                    },
+                  },
+                  "range": {
+                    "response_due_on": {
+                      "gte": 'now/d',
+                    },
+                  },
+                ],
               },
             },
             {
-              "match": {
-                "sectors.slug": sector,
+              "bool": {
+                "must": [
+                  {
+                    "match": {
+                      "source": 'volume_opps',
+                    },
+                  },
+                  {
+                    "multi_match": {
+                      "query": search_term,
+                      "fields": %w[title^5 teaser^2 description],
+                      "operator": 'or',
+                    },
+                  },
+                  {
+                    "match": {
+                      "status": 'publish',
+                    },
+                  },
+                  "range": {
+                    "response_due_on": {
+                      "gte": 'now/d',
+                    },
+                  },
+                ],
               },
             },
-            {
-              "match": {
-                "status": 'publish',
-              },
-            },
-            "range": {
-              "response_due_on": {
-                "gte": 'now/d',
-              },
-            }],
-          },
+          ],
         },
-        {
-          "bool": {
-            "must": [{
-              "match": {
-                "source": 'volume_opps',
-              },
-            },
-            {
-              "multi_match": {
-                "query": search_term,
-                "fields": %w[title^5 teaser^2 description],
-                "operator": 'or',
-              },
-            },
-            {
-              "match": {
-                "status": 'publish',
-              },
-            },
-            "range": {
-              "response_due_on": {
-                "gte": 'now/d',
-              },
-            }],
-          },
-        }],
-      },
-    }
+      }
 
     search_sort = [{ "response_due_on": { "order": 'asc' } }]
 
