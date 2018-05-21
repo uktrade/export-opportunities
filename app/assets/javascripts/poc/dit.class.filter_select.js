@@ -105,6 +105,9 @@
       e.stopPropagation(); // Prevents "click.SelectiveLookupCloseAll" listener activation.
       var $input = $(this);
       switch(e.which) {
+        case 13: // Enter key (but we don't want to submit the form)
+          e.preventDefault();
+        case 1: // mouse click
         case 40: 
           if($input.attr("aria-expanded") !== "true") {
             filterSelect.setContent();
