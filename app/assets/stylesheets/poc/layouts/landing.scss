@@ -110,8 +110,7 @@ section {
   }
 }
 
-#featured-industries,
-#testimonials {
+#featured-industries {
   background-color: $stone-light;
 }
 
@@ -163,7 +162,33 @@ section {
   }
 }
 
+#testimonials {
+  background-image: image_url('testimonials.jpg');
+  background-position: top center;
+  background-repeat: no-repeat;
+  padding-bottom: $spacing-4;
+  position: relative;
 
+  .Carousel {
+    padding-bottom: 0;
+  }
+
+  .controls {
+    @include access-hidden;
+  }
+
+  &:before {
+    background-color: $stone-20;
+    content: "";
+    height: 100%;
+    left: 0;
+    opacity: 0.9;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: auto;
+  }
+}
 
 // RESPONSIVE
 @media screen and (max-width: 767px) {
