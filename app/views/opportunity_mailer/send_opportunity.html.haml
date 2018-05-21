@@ -9,20 +9,28 @@
 
 -# =@encrypted_user_id.to_s
 
-%h1{:style=>"font-size:30px"} 
-  = @count
-  matching opportunities
-
-%br
-%p
-  You have
-  %b{:style=>"font-size:30px"}
+- if @count > 1
+  %h1{:style=>"font-size:30px"} 
     = @count
-  - if @count > 1
-    opportunities 
-  - else
-    opportunity
-  that match your criteria
+    matching opportunities
+
+  %br
+  %p
+    You have
+    %b{:style=>"font-size:30px"}
+      = @count
+    opportunities that match your criteria
+- else
+  %h1{:style=>"font-size:30px"} 
+    = @count
+    matching opportunity
+
+  %br
+  %p
+    You have
+    %b{:style=>"font-size:30px"}
+      = @count
+    opportunity that matches your criteria
 
 %br
 
