@@ -131,6 +131,12 @@ section {
   }
 }
 
+#how-it-works {
+  .intro {
+    margin-bottom: $spacing-3;
+  }
+}
+
 #service-promotion {
   background: $mid-grey image_url('placeholder.png') no-repeat 90% 50%;
   overflow: hidden;
