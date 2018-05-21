@@ -10,6 +10,7 @@ a, body, dd, div, dl, dt, form, input, img, li, ol, textarea, ul {
 body {
   @include body-m;
   background-color: $white;
+  color: $grey;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
