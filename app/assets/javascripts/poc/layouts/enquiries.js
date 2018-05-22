@@ -65,6 +65,7 @@ dit.page.enquiries = (new function () {
     var $companyNumber = $("#companies-house-number");
     if($switch.length && $companyNumber.length) {
       new dit.classes.Expander($companyNumber, {
+        blur: false,
         $control: $switch,
         closed: $switch.get(0).checked
       });
