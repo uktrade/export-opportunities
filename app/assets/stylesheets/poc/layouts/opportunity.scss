@@ -92,6 +92,11 @@ h1 {
     padding-bottom: $spacing-3;
   }
 
+  .teaser {
+    @include body-l;
+    margin-bottom: $spacing-3;
+  }
+
   .type {
     color: $mid-grey;
     margin-bottom: 0;
