@@ -22,6 +22,11 @@ end
 
 RSpec.describe Api::ActivityStreamController, type: :controller do
   describe 'GET feed controller' do
+    it 'responds with a 401 error if connecting from unauthorized IP' do
+      allow_any_instance_of(ActionDispatch::Request).to receive(:remote_ip).and_return('1.2.3.4')
+      get :index, params: { format: :json }
+      expect(response.body).to eq(%({"message":"Connecting from unauthorized IP"}))
+    end
     it 'responds with a 401 error if Authorization header is not set' do
       get :index, params: { format: :json }
       expect(response.status).to eq(401)
