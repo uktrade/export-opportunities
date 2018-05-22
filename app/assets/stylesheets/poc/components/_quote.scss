@@ -1,20 +1,14 @@
 .quote {
-  background-color: $stone-light;
-  padding: $spacing-3;
+  padding: $spacing-1 0 $spacing-3 0;
   margin: 0 0 $spacing-3 0;
   
   cite {
     @include body-s;
-  }
-  
-  .company { 
-    border-left: $black solid 1px;
-    padding-left: 0.5em;
+    font-style: normal;
   }
 
   .name {
     display: block;
-    font-weight: 600;
   }
 
   .role { 
@@ -24,24 +18,13 @@
   .text {
     @include quote;
     display: block;
-    margin-bottom: $spacing-4;
-    
-    &:after {
-      content: close-quote;
-      visibility: hidden;
-    }
-  
+    margin-bottom: $spacing-2;
+    padding-top: $spacing-2;
+
     &:before {
-      color: $stone;
-      content: open-quote;
-      display: block;
-      font-family: sans-serif;
-      font-size: 120px;
-      font-weight: 600;
-      height: 60px;
-      left: -5px;
-      line-height: 120px;
-      position: relative;
+      @include great-red-trim;
+      top: $spacing-3;
+      width: $cols-6;
     }
   }
 }
