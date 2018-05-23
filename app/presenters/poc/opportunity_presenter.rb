@@ -22,6 +22,10 @@ class Poc::OpportunityPresenter < BasePresenter
     "#{country} - #{opportunity.title}"
   end
 
+  def first_country
+    opportunity.countries.size > 0 ? opportunity.countries[0][:name] : ''
+  end
+
   def description
     h.present_html_or_formatted_text(opportunity.description).html_safe
   end
@@ -33,7 +37,11 @@ class Poc::OpportunityPresenter < BasePresenter
   end
 
   def enquiries_total
-    opportunity.enquiries.size
+    if opportunity.enquiries.size > 0
+      opportunity.enquiries.size
+    else
+      0
+    end
   end
 
   def type
@@ -42,6 +50,10 @@ class Poc::OpportunityPresenter < BasePresenter
 
   def sectors_as_string
     opportunity.sectors.pluck(:name).to_sentence
+  end
+
+  def sectors
+    opportunity.sectors
   end
 
   def value
