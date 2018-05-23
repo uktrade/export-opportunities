@@ -93,7 +93,7 @@
                         = link_to country.name, "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank'
                 = opportunity.link_to_aid_funded "Your guide for aid funded business"
 
-            - if opportunity.source.eql? 'volume_opps'
+            - if opportunity.source('volume_opps')
               -# TODO: Just sending to feedback location for now
               = link_to "Report opportunity", Figaro.env.CONTACT_US_FORM, :class=>"report"
 
