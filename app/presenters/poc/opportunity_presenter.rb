@@ -1,6 +1,6 @@
 # TODO: This should be turned into a Delagator so that it can delegate rather than duplicated some methods.
 class Poc::OpportunityPresenter < BasePresenter
-  attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries, :tender_value, :tender_url, :opportunity_cpvs
+  attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries, :tender_value, :tender_url, :opportunity_cpvs, :sectors
 
   def initialize(helpers, opportunity)
     @h = helpers
@@ -11,6 +11,7 @@ class Poc::OpportunityPresenter < BasePresenter
     @buyer_name = opportunity&.buyer_address
     @opportunity_cpvs = opportunity&.opportunity_cpvs
     @teaser = opportunity.teaser
+    @sectors = opportunity.sectors
   end
 
   def title_with_country
@@ -23,7 +24,7 @@ class Poc::OpportunityPresenter < BasePresenter
   end
 
   def first_country
-    opportunity.countries.size > 0 ? opportunity.countries[0][:name] : ''
+    opportunity.countries.size.positive? ? opportunity.countries[0][:name] : ''
   end
 
   def description
@@ -37,7 +38,7 @@ class Poc::OpportunityPresenter < BasePresenter
   end
 
   def enquiries_total
-    if opportunity.enquiries.size > 0
+    if opportunity.enquiries.size.positive?
       opportunity.enquiries.size
     else
       0
@@ -50,10 +51,6 @@ class Poc::OpportunityPresenter < BasePresenter
 
   def sectors_as_string
     opportunity.sectors.pluck(:name).to_sentence
-  end
-
-  def sectors
-    opportunity.sectors
   end
 
   def value
