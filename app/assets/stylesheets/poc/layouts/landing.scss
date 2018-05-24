@@ -137,7 +137,7 @@ section {
 }
 
 #service-promotion {
-  background: $mid-grey image_url('placeholder.png') no-repeat 90% 50%;
+  background: $great-blue image_url('backgrounds/Benefits1290x830_1@2x@2x.png') no-repeat 90% 50%;
   overflow: hidden;
   padding: $spacing-1 0;
 
@@ -154,8 +154,9 @@ section {
 
   li {
     @include items(2, $spacing-3);
-    border-top: 5px solid $light-grey;
-    color: $light-grey;
+    @include body-s;
+    border-top: 4px solid $great-red;
+    color: $white;
     margin-bottom: $spacing-3;
     padding-top: $spacing-4;
   }
