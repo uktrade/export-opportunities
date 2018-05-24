@@ -11,6 +11,6 @@ class OpportunityMailer < ApplicationMailer
 
     mail from: "Export Opportunities <#{Figaro.env.MAILER_FROM_ADDRESS!}>",
          to: @user.email,
-         subject: "#{@count} matching opportunities"
+         subject: "#{@count} matching #{@count > 1 ? 'opportunities' : 'opportunity'}"
   end
 end
