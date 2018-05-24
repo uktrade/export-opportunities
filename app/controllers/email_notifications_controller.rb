@@ -9,12 +9,15 @@ class EmailNotificationsController < ApplicationController
     end
 
     @subscription_notifications = []
+    @results = []
     today_date = Time.zone.now.strftime('%Y-%m-%d')
 
     subscription_notification_ids = SubscriptionNotification.joins(:subscription).where('subscription_notifications.created_at >= ?', today_date).where(sent: true).where('subscriptions.user_id = ?', user_id).map(&:id)
     subscription_notification_ids.each do |sub_not_id|
-      @subscription_notifications.push(SubscriptionNotification.find(sub_not_id))
+      @results.push(SubscriptionNotification.find(sub_not_id).opportunity)
+      break if @results.size >= 1000
     end
+    @paginatable_results = Kaminari.paginate_array(@results).page(params[:page]).per(10)
   end
 
   def destroy
