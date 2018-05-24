@@ -1,4 +1,3 @@
-# TODO: This should be turned into a Delagator so that it can delegate rather than duplicated some methods.
 class Poc::OpportunityPresenter < BasePresenter
   attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries, :tender_value, :tender_url, :opportunity_cpvs, :sectors
 
@@ -8,7 +7,7 @@ class Poc::OpportunityPresenter < BasePresenter
     @tender_url = opportunity.tender_url
     @tender_value = opportunity.tender_value
     @buyer_name = opportunity&.buyer_name
-    @buyer_name = opportunity&.buyer_address
+    @buyer_address = opportunity&.buyer_address
     @opportunity_cpvs = opportunity&.opportunity_cpvs
     @teaser = opportunity.teaser
     @sectors = opportunity.sectors
@@ -93,6 +92,10 @@ class Poc::OpportunityPresenter < BasePresenter
 
   def source(value = '')
     opportunity.source.eql? value
+  end
+
+  def buyer_details_empty?
+    buyer_name.blank? && buyer_address.blank? && opportunity.contacts.empty?
   end
 
   private

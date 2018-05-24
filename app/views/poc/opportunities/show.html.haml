@@ -40,7 +40,7 @@
             = opportunity.value
 
 
-      - unless opportunity.source('post')
+      - unless opportunity.source('post') || opportunity.buyer_details_empty?
         .buyer
           %h2 About the buyer
           %dl
