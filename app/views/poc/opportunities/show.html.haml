@@ -97,6 +97,10 @@
             %dd.enquiries
               = opportunity.enquiries_total
 
+          %dt.value
+            Value of contract
+          %dd.value
+            = opportunity.value
 
           - if opportunity.guides_available
             %dt.guide
@@ -109,10 +113,9 @@
                       = link_to country.name, "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank'
               = opportunity.link_to_aid_funded "Your guide for aid funded business"
 
-          - if opportunity.source.eql? 'volume_opps'
-            -# TODO: Just sending to feedback location for now
-            = link_to "Report opportunity", Figaro.env.CONTACT_US_FORM, :class=>"report"
-
+        - if opportunity.source('volume_opps')
+          -# TODO: Just sending to feedback location for now
+          = link_to "Report opportunity", Figaro.env.CONTACT_US_FORM, :class=>"report"
 
       .bid
         - if opportunity.expired?
