@@ -183,4 +183,22 @@ feature 'Uploaders are restricted' do
     expect(page).to have_text('This page cannot be found')
     expect(page).to_not have_selector(:link_or_button, 'Editors')
   end
+
+  scenario 'Uploaders can not view volume_opps opportunities' do
+    dit_hq_service_provider = create(:service_provider, name: 'DIT HQ')
+    another_service_provider = create(:service_provider, name: 'Italy')
+
+    uploader_volume_opps = create(:uploader, service_provider: dit_hq_service_provider)
+    uploader_post = create(:uploader, service_provider: another_service_provider)
+
+    byebug
+    anothers_pending_opportunity = create(:opportunity, source: :volume_opps, author: uploader_volume_opps)
+    anothers_published_opportunity = create(:opportunity, :published, source: :volume_opps, author: uploader_volume_opps)
+    login_as(uploader_post)
+
+    visit '/admin/opportunities'
+
+    expect(page).not_to have_content(anothers_pending_opportunity.title)
+    expect(page).not_to have_content(anothers_published_opportunity.title)
+  end
 end
