@@ -8,6 +8,8 @@ class Admin::OpportunitiesController < Admin::BaseController
   def index
     @filters = OpportunityFilters.new(filter_params)
 
+    previewer_or_uploader = pundit_user.uploader? || pundit_user.previewer?
+
     session[:opportunity_filters] = filter_params
     session[:available_status] = filter_status(pundit_user.id)
 
@@ -17,6 +19,7 @@ class Admin::OpportunitiesController < Admin::BaseController
       search_term: @filters.sanitized_search,
       search_method: :admin_match,
       sort: @filters.sort,
+      previewer_or_uploader: previewer_or_uploader,
       hide_expired: @filters.hide_expired,
       page: @filters.page,
       per_page: OPPORTUNITIES_PER_PAGE,

@@ -1,10 +1,13 @@
 .steps-indicator {
+  text-align: right;
+
   img {
     margin-left: $spacing-3;
-    width: calc(#{$cols-6} - #{$spacing-3});
+    width: $cols-4;
   }
 
   li {
+    @include body-s;
     counter-increment: li;
     list-style: none;
     margin: 0 0 $spacing-2 0;
@@ -14,8 +17,8 @@
 
     &:before {
       @include body-special-bold;
-      color: $light-grey;
-      content: counter(li) " ";
+      color: $stone-90;
+      content: counter(li) " ";	
       left: 0;
       min-width: 70px;
       position: absolute;
@@ -25,19 +28,19 @@
   }
 
   ol {
-    @include columns(6);
+    @include columns(5);
     margin: 0;
     padding: $spacing-1 0 0 0;
+    text-align: left;
   }
 
   .action {
-    @include heading-s;
+    @include body-l;
     display: block;
     margin-bottom: $spacing-4;
   }
 
   .description {
-    color: $mid-grey;
     display: block;
   }
 
@@ -46,12 +49,15 @@
   }
 }
 
-// TABLET
+
+// RESPONSIVE
 @media (max-width: 767px) {
   .steps-indicator {
+    text-align: center;
+
     img {
       margin-left: 0;
-      width: 100%;
+      width: $cols-8;
     }
 
     li {

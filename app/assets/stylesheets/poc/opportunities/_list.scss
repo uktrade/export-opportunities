@@ -5,6 +5,7 @@
     border: $stone-50 solid 2px;
     border-top: none;
     margin: 0 0 $spacing-4 0;
+    position: relative;
   }
 
   dt {
@@ -12,13 +13,12 @@
     border: $stone-50 solid 2px;
     border-bottom: none;
     margin: 0;
-    padding: $spacing-3 $spacing-3 0 $spacing-3;
+    padding: $spacing-3 $spacing-3 $spacing-4 $spacing-3;
   }
 
   .actions {
     @include body-s;
     border-top: 1px solid $light-grey;
-    margin: $spacing-3 0 0 0;
     padding: $spacing-4 $spacing-3;
   }
 
@@ -39,7 +39,7 @@
 
   .text {
     display: block;
-    padding: 0 $spacing-3;
+    padding: 0 $spacing-3 $spacing-3 $spacing-3;
   }
 }
 
@@ -54,12 +54,12 @@
   }
 
   .source {
+    bottom: 90px;
     color: $mid-grey;
     display: block;
     font-size: 12px;
     position: absolute;
     right: $spacing-3;
-    top: 0;
 
     img {
       display: block;

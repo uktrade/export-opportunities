@@ -266,7 +266,7 @@ class Poc::OpportunitiesController < OpportunitiesController
 
   # cache expensive method call for 10 minutes
   def relevant_countries_from_search(query)
-    Rails.cache.fetch('countries_from_search', expires_in: 10.minutes) do
+    Rails.cache.fetch('cache/countries_from_search', expires_in: 10.minutes) do
       relevant_countries_from_search!(query)
     end
   end

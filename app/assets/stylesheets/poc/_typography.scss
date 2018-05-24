@@ -29,7 +29,7 @@ $brand-font-serif: georgia, serif;
   font-family: $brand-font-standard;
   font-size:   36px;
   font-weight: bold;
-  line-height: 1.1em;
+  line-height: 1.2em;
   margin: 0 0 1em 0;
 }
 
@@ -106,6 +106,7 @@ $brand-font-serif: georgia, serif;
 @mixin quote {
   font-family: $brand-font-serif;
   font-size:   24px;
+  font-style: italic;
   line-height: 32px;
 }
 
