@@ -1,6 +1,6 @@
 -# do we need javascript on this page?
 -#= javascript_include_tag 'poc/layouts/results'
-- @results = @paginatable_results
+- @results = @paginatable_results.page(params[:paged]).per(10)
 = stylesheet_link_tag 'email_notifications_show'
 
 .container
@@ -10,7 +10,7 @@
 #search-results
   .container
     .information
-      %p= "#{@results.size} Results found"
+      %p= "#{@results.total_count} Results found"
 .search-results
   %dl.opportunities-list
     - @results.each do |opportunity|
