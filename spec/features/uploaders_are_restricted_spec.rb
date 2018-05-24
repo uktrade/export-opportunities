@@ -191,7 +191,6 @@ feature 'Uploaders are restricted' do
     uploader_volume_opps = create(:uploader, service_provider: dit_hq_service_provider)
     uploader_post = create(:uploader, service_provider: another_service_provider)
 
-    byebug
     anothers_pending_opportunity = create(:opportunity, source: :volume_opps, author: uploader_volume_opps)
     anothers_published_opportunity = create(:opportunity, :published, source: :volume_opps, author: uploader_volume_opps)
     login_as(uploader_post)
