@@ -11,7 +11,7 @@ class Poc::OpportunitiesController < OpportunitiesController
     @summary_list_by_sector = summary_list_by_sector
     @sort_column_name = sort_column
     @recent_opportunities = recent_opportunities
-    @countries = Country.all
+    @countries = Country.all.order :name
     @regions = regions_list
     render 'opportunities/index', layout: 'layouts/domestic'
   end
