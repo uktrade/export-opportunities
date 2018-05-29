@@ -130,15 +130,6 @@
             = link_to 'Go to third party website', opportunity.tender_url, class: 'button', target: :_blank
 
           - elsif opportunity.source('post')
-            %h2
-              Contact Department for International Trade
-              = "in #{opportunity.first_country}" unless opportunity.first_country.empty?
-
-            %p 
-              For more information about this tender, submit your proposal to the Department for International Trade team 
-              = "in #{opportunity.first_country}" unless opportunity.first_country.empty?
-
-            %p All submissions will be reviewed and you will be notified of any potential next steps. You can only submit a proposal if you are a UK registered company
             = link_to 'Submit your proposal', opportunity.new_enquiry_path, class: 'button'
 
           - else
