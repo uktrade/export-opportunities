@@ -73,8 +73,6 @@ class VolumeOppsRetriever
 
     title = if opportunity_release['tender']['title'].present?
               clean_title(opportunity_release['tender']['title'])
-            else
-              nil
             end
 
     buyer = opportunity_release['buyer']
@@ -196,16 +194,14 @@ class VolumeOppsRetriever
   end
 
   def clean_title(title)
-  length = title.length
+    length = title.length
     if length > 250
       "#{title[0, 247]}..."
-    else
+    elsif length < 250 && title[-1] == '.'
       # if it ends with ., remove the dot
-      title = if title[-1] == '.'
-                title[0...-1]
-              else
-                title
-              end
+      title[0...-1]
+    else
+      title
     end
   end
 

@@ -55,7 +55,7 @@ class Opportunity < ApplicationRecord
 
   CONTACTS_PER_OPPORTUNITY = 2
   paginates_per 10
-  TITLE_LENGTH_LIMIT = 80.freeze
+  TITLE_LENGTH_LIMIT = 250.freeze
   TEASER_LENGTH_LIMIT = 140.freeze
 
   enum status: { pending: 1, publish: 2, draft: 3, trash: 4 }
@@ -96,7 +96,13 @@ class Opportunity < ApplicationRecord
   validates :title, presence: true, length: { maximum: TITLE_LENGTH_LIMIT }
   validate :teaser, :teaser_validations
   validates :response_due_on, :description, presence: true
-  validates :contacts, length: { is: CONTACTS_PER_OPPORTUNITY }
+  validate :contacts, :contact_validations
+
+  def contact_validations
+    if source == 'post'
+      errors.add(:contacts, "should have exactly #{CONTACTS_PER_OPPORTUNITY} contacts") if contacts.length < CONTACTS_PER_OPPORTUNITY
+    end
+  end
 
   def teaser_validations
     if source == 'post'
