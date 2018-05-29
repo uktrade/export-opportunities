@@ -139,6 +139,7 @@ section {
 
 #service-promotion {
   background: $great-blue image_url('backgrounds/ExOpps_Benefits1290x830_3@2x.jpg') no-repeat center;
+  background-size: 100%;
   overflow: hidden;
   padding: $spacing-1 0;
 
@@ -199,6 +200,12 @@ section {
 }
 
 // RESPONSIVE
+@media screen and (max-width: 1200px) {
+  #service-promotion {
+    background-size: auto 100%;
+  }
+}
+
 @media screen and (max-width: 767px) {
   .benefit {
     float: none;
