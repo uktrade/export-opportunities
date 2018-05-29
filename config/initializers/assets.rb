@@ -56,3 +56,5 @@ Rails.application.config.assets.precompile += %w[poc/layouts/enquiries.js]
 Rails.application.config.assets.precompile += %w['poc/*.js']
 Rails.application.config.assets.precompile += %w['poc/layouts/*.js']
 Rails.application.config.assets.precompile += %w['poc/third_party/*.js']
+
+Rails.application.config.assets.precompile += %w[email_notifications_show]
