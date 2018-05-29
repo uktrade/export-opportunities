@@ -70,6 +70,13 @@ class VolumeOppsRetriever
                   elsif opportunity_release['tender']['title'].present?
                     opportunity_release['tender']['title']
                   end
+
+    title = if opportunity_release['tender']['title'].present?
+              clean_title(opportunity_release['tender']['title'])
+            else
+              nil
+            end
+
     buyer = opportunity_release['buyer']
     tender_url = nil
 
@@ -85,7 +92,7 @@ class VolumeOppsRetriever
 
     if description && country && tender_url
       {
-        title: opportunity_release['tender']['title'].present? ? opportunity_release['tender']['title'][0, 250] : nil,
+        title: title,
         country_ids: country.id,
         sector_ids: ['2'],
         type_ids: ['2'], # type is always public
@@ -185,6 +192,20 @@ class VolumeOppsRetriever
       else
         invalid_opp_params += 1
       end
+    end
+  end
+
+  def clean_title(title)
+  length = title.length
+    if length > 250
+      "#{title[0, 247]}..."
+    else
+      # if it ends with ., remove the dot
+      title = if title[-1] == '.'
+                title[0...-1]
+              else
+                title
+              end
     end
   end
 

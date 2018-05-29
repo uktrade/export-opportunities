@@ -92,4 +92,27 @@ RSpec.describe VolumeOppsRetriever do
       expect(gbp_value[:gbp_value]).to eq -1
     end
   end
+
+  describe '#fixes title' do
+    it 'do nothing if there is not a dot in the end and length is less or equal to 250 chars' do
+      title = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu pretiu250"
+      trimmed_title = VolumeOppsRetriever.new.clean_title(title)
+
+      expect(trimmed_title).to eq(title)
+    end
+
+    it 'removes last dot if there is one and the title is less or equal to 250 chars' do
+      title = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec pellentesque eu pretiu250."
+      trimmed_title = VolumeOppsRetriever.new.clean_title(title)
+
+      expect(trimmed_title).to_not end_with('.')
+    end
+
+    it 'adds ... at the end of the title if the title is more than 250 chars' do
+      title = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretiu251"
+      trimmed_title = VolumeOppsRetriever.new.clean_title(title)
+
+      expect(trimmed_title).to end_with('...')
+    end
+  end
 end
