@@ -14,12 +14,16 @@ class Poc::OpportunityPresenter < BasePresenter
   end
 
   def title_with_country
-    country = if opportunity.countries.size > 1
-                'Multi Country'
-              else
-                opportunity.countries.map(&:name).join
-              end
-    "#{country} - #{opportunity.title}"
+    if source('post')
+      opportunity.title
+    else
+      country = if opportunity.countries.size > 1
+                  'Multi Country'
+                else
+                  opportunity.countries.map(&:name).join
+                end
+      "#{country} - #{opportunity.title}"
+    end
   end
 
   def first_country
