@@ -43,21 +43,4 @@ class EmailNotificationsController < ApplicationController
     reason = params.fetch(:reason)
     reason if Subscription.unsubscribe_reasons.keys.include?(reason)
   end
-
-  def update
-    user_id = EncryptedParams.decrypt(params[:id])
-
-    @subscription_ids = SubscriptionNotification.joins(:subscription).where(sent: true).where('subscriptions.user_id = ?', user_id).map(&:subscription_id)
-
-    Subscription.where(id: @subscription_ids).update_all(unsubscribe_reason: reason_param)
-
-    render status: :accepted
-  end
-
-  private def reason_param
-    byebug
-    reason = params.fetch(:reason)
-
-    reason if Subscription.unsubscribe_reasons.keys.include?(reason)
-  end
 end
