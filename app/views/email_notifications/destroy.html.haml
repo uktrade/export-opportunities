@@ -5,17 +5,18 @@
 
 .container
   = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
-  -#= render partial: "components/confirmation-notice", locals: { content: page.content["confirmation"] }
 
   %h1.verbose= page.content["title"]
 
   .confirmation-notice
     %p.notice= page.content["confirmation"]
 
-  %form{:method=>"post"}
-    -# Deleted subscriptions...
-    - @subscription_ids&.each do |sub|
-      %input{:type=>"hidden", :name=>"deleted_subscriptions[]", :value=>sub}
+  = form_tag update_email_notification_path(params[:user_id]), class: 'reason-form', method: :post do
+    %input{:type=>"hidden", :value=>"PATCH", :name=>"_method"}
+    -# TODO: No longer required???
+      -# Deleted subscriptions...
+      - @subscription_ids&.each do |sub|
+        =sub
 
-    = render partial: "forms/input_radio", locals: { input: form.input_radio("why") }
+    = render partial: "forms/input_radio", locals: { input: form.input_radio("reason") }
     %input{:type=>"submit", :value=>form.content["submit"], :class=>"button"}

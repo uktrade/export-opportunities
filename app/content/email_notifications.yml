@@ -4,12 +4,17 @@
 breadcrumb_current: Email alerts
 title: Email alerts
 confirmation: You have been unsubscribed from all email alerts
+thank_you: Thank you for explaining why you wish to unsubscribe
 submit: submit
+home_link: Search for opportunities
 
 fields:
-  why:
+  reason:
     question: "Please indicate why you wished to unsubscribe:"
     options:
       - label: I no longer want these emails
+        value: not_wanted
       - label: I didn't sign up for these emails
+        value: not_signed_up
       - label: These emails are spam
+        value: spam

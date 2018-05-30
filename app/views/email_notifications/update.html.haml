@@ -1,0 +1,16 @@
+- page = Poc::PagePresenter.new(@content)
+- form = Poc::FormPresenter.new(@content, @process)
+- content_for :action_specific_head do
+  = javascript_include_tag "poc/layouts/form.js"
+
+.container
+  = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
+  -#= render partial: "components/confirmation-notice", locals: { content: page.content["confirmation"] }
+
+  %h1.verbose= page.content["title"]
+
+  .confirmation-notice
+    %p.notice= page.content["confirmation"]
+
+  %p.thankyou= page.content["thank_you"]
+  = link_to page.content["home_link"], root_path, class: "button"

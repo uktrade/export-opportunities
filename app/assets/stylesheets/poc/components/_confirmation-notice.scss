@@ -2,10 +2,12 @@
   background-color: $dark-green;
   color: $white;
   margin-bottom: $spacing-3;
+  max-width: 770px;
   padding: $spacing-3 $spacing-3 1px $spacing-3;
 
   .button {
     @include button-ghost($white, $dark-green);
+    margin: $spacing-3 0 $spacing-4 0;
   }
 
   .notice {
