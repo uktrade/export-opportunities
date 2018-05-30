@@ -1,23 +1,11 @@
 @import '../config';
-@import 'effects/selective_lookup';
-@import 'effects/expander';
+@import 'poc/components/confirmation-notice';
 
 
 
 .business {
   .checkbox {
     margin-bottom: $spacing-2;
-  }
-}
-
-.confirmation {
-  background-color: $dark-green;
-  color: $white;
-  margin-bottom: $spacing-3;
-  padding: $spacing-3;
-
-  .button {
-    @include button-ghost($white, $dark-green);
   }
 }
 
