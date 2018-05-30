@@ -169,7 +169,8 @@ RSpec.feature 'Publishing opportunities:' do
       ],
       service_provider: create_service_provider('Italy Rome'),
       status: status,
-      author: create(:uploader)
+      author: create(:uploader),
+      source: :post
   end
 
   def create_service_provider(name)

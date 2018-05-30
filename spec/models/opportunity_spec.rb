@@ -23,7 +23,7 @@ RSpec.describe Opportunity do
     end
 
     it 'has to have two contacts' do
-      expect(Opportunity.new).to have(1).error_on(:contacts)
+      expect(Opportunity.new(source: :post)).to have(1).error_on(:contacts)
     end
 
     context 'when the contacts are valid' do
@@ -33,7 +33,7 @@ RSpec.describe Opportunity do
           { name: 'Mary', email: 'mary@example.com' },
         ]
 
-        opportunity = Opportunity.new(contacts_attributes: valid_contact_details)
+        opportunity = Opportunity.new(contacts_attributes: valid_contact_details, source: :post)
         opportunity.valid?
 
         expect(opportunity).to have(0).error_on(:contacts)
@@ -47,7 +47,7 @@ RSpec.describe Opportunity do
           { name: '', email: 'mary@example.com' },
         ]
 
-        opportunity = Opportunity.new(contacts_attributes: invalid_contact_details)
+        opportunity = Opportunity.new(contacts_attributes: invalid_contact_details, source: :post)
         opportunity.valid?
 
         expect(opportunity).to have(1).error_on(:"contacts.email")
@@ -55,7 +55,7 @@ RSpec.describe Opportunity do
       end
 
       it 'does not count empty contacts towards the minimum contacts requirement' do
-        opportunity = Opportunity.new(contacts_attributes: Array.new(Opportunity::CONTACTS_PER_OPPORTUNITY, {}))
+        opportunity = Opportunity.new(source: :post, contacts_attributes: Array.new(Opportunity::CONTACTS_PER_OPPORTUNITY, {}))
         expect(opportunity).to have(1).error_on(:contacts)
       end
     end

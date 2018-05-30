@@ -27,24 +27,7 @@ class VolumeOppsValidator
     # buyer contact point
     return false if opportunity[:buyer_name].blank? && opportunity[:buyer_address].blank?
 
-    first_contact = opportunity[:contacts_attributes][0]
-    # return false if first_contact[:name].blank? && first_contact[:email].blank?
-    if first_contact[:name].blank?
-      first_contact[:name] = 'Export Opportunities Team'
-    end
-
-    if first_contact[:email].blank?
-      first_contact[:email] = 'exportopportunities@trade.gsi.gov.uk'
-    end
-
-    second_contact = opportunity[:contacts_attributes][1]
-    if second_contact[:name].blank?
-      second_contact[:name] = 'Export Opportunities Team'
-    end
-
-    if second_contact[:email].blank?
-      second_contact[:email] = 'exportopportunities@trade.gsi.gov.uk'
-    end
+    return false if opportunity[:contacts_attributes].blank?
 
     true
   end

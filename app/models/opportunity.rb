@@ -100,13 +100,13 @@ class Opportunity < ApplicationRecord
 
   def contact_validations
     if source == 'post'
-      errors.add(:contacts, "should have exactly #{CONTACTS_PER_OPPORTUNITY} contacts") if contacts.length < CONTACTS_PER_OPPORTUNITY
+      errors.add(:contacts, "Contacts are missing (#{CONTACTS_PER_OPPORTUNITY} are required)") if contacts.length < CONTACTS_PER_OPPORTUNITY
     end
   end
 
   def teaser_validations
     if source == 'post'
-      if teaser
+      if teaser.present?
         errors.add(:teaser, "can't be more than #{TEASER_LENGTH_LIMIT}") if teaser.length > TEASER_LENGTH_LIMIT
       else
         errors.add(:teaser, 'is missing')

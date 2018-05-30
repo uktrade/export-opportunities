@@ -101,10 +101,10 @@ class VolumeOppsRetriever
         service_provider_id: 150,
         contacts_attributes: contact_attributes(buyer),
         buyer_name: buyer['name'],
-        buyer_address: buyer['address'].present? ? buyer['address']['countryName'] : nil,
+        buyer_address: buyer['address'].present? ? address_from_buyer(buyer['address']) : nil,
         language: opportunity_release['language'].present? ? opportunity_release['language'] : nil,
         tender_value: gbp_value.present? ? Integer(gbp_value).floor : nil,
-        source: 1,
+        source: :volume_opps,
         tender_content: opportunity['json'].to_json,
         first_published_at: published_date,
         tender_url: tender_url,
@@ -115,6 +115,14 @@ class VolumeOppsRetriever
     else
       return nil
     end
+  end
+
+  def address_from_buyer(address)
+    str = ''
+    str += " #{address['streetAddress']}" if address['streetAddress']
+    str += " #{address['locality']}" if address['locality']
+    str += " #{address['postalCode']}" if address['postalCode']
+    str + " #{address['countryName']}" if address['countryName']
   end
 
   def contact_attributes(buyer)
@@ -130,27 +138,10 @@ class VolumeOppsRetriever
     ]
 
     if buyer['contactPoint']
-      pii = OpportunitySensitivityRetriever.new.personal_identifiable_information(buyer['contactPoint']['name'])
-
-      return empty_hash unless pii
-
-      name = nil
-      email = nil
-
-      if pii[:email]
-        name = buyer['contactPoint']['name'].gsub(pii[:email], '')
-        email = buyer['contactPoint']['email'] = pii[:email]
-      end
-
-      name = buyer['contactPoint']['name'].gsub(pii[:address], '') if pii[:address]
-
-      name = buyer['contactPoint']['name'].gsub(pii[:phone][:number], '') if pii[:phone]
+      name = buyer['contactPoint']['name']
+      email = buyer['contactPoint']['email']
 
       return [
-        {
-          name: name,
-          email: email,
-        },
         {
           name: name,
           email: email,
@@ -197,7 +188,7 @@ class VolumeOppsRetriever
     length = title.length
     if length > 250
       "#{title[0, 247]}..."
-    elsif length < 250 && title[-1] == '.'
+    elsif length <= 250 && title[-1] == '.'
       # if it ends with ., remove the dot
       title[0...-1]
     else
