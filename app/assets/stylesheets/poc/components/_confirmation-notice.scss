@@ -1,0 +1,14 @@
+.confirmation-notice {
+  background-color: $dark-green;
+  color: $white;
+  margin-bottom: $spacing-3;
+  padding: $spacing-3 $spacing-3 1px $spacing-3;
+
+  .button {
+    @include button-ghost($white, $dark-green);
+  }
+
+  .notice {
+    @include heading-m;
+  }
+}

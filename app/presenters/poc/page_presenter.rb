@@ -1,7 +1,8 @@
 class Poc::PagePresenter < BasePresenter
-  attr_reader :breadcrumbs
+  attr_reader :content, :breadcrumbs
 
   def initialize(content)
+    @content = content
     @breadcrumbs = create_breadcrumbs
     add_breadcrumb_current(content['breadcrumb_current']) unless content.nil?
   end

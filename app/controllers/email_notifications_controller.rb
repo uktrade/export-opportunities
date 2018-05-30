@@ -21,11 +21,13 @@ class EmailNotificationsController < ApplicationController
   end
 
   def destroy
+    @content = get_content('email_notifications/destroy.yml')
     user_id = EncryptedParams.decrypt(params[:user_id])
 
     @subscription_ids = SubscriptionNotification.joins(:subscription).where(sent: true).where('subscriptions.user_id = ?', user_id).map(&:subscription_id)
 
     Subscription.where(id: @subscription_ids).update_all(unsubscribed_at: Time.zone.now)
+    render 'email_notifications/destroy', layout: 'layouts/notifications'
   end
 
   def update

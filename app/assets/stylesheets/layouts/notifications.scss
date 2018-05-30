@@ -1,0 +1,6 @@
+@import 'poc/config';
+@import 'poc/components/confirmation-notice';
+
+form {
+  padding: $spacing-3 0;
+}
