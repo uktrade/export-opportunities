@@ -172,9 +172,10 @@ section {
 }
 
 #testimonials {
-  background-image: image_url('testimonials.jpg');
+  background-image: image_url('backgrounds/custom-hero-regular-exporter@2x.png');
   background-position: top center;
   background-repeat: no-repeat;
+  background-size: 100%;
   padding-bottom: $spacing-4;
   position: relative;
 

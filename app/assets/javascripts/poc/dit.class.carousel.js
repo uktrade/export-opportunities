@@ -52,7 +52,7 @@
       total: $items.length
     };
 
-    if ($items.length) {
+    if ($items.length > 1) {
       $node = Carousel.createWrapper.call(this);
       $items.parent().append($node);
       $items.addClass("item");
