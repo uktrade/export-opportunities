@@ -39,11 +39,10 @@
     %tr
       %td
         - if opportunity.source.eql? 'volume_opps'
-          Provided by
-          %br
-          = image_tag "logos/openopps_logo.png", :alt=>"Open Opps", :width=>"150"
-          %br
-          %br
+          %p{:style=>"font-size:16px"}
+            Provided by
+            %br
+            = image_tag "logos/openopps_logo.png", :alt=>"Open Opps", :width=>"150"
 
         %b
           = link_to opportunity.title, opportunity_url(opportunity), { :style=>"white-space:inherit;" }
@@ -52,8 +51,9 @@
         = opportunity.teaser
         %br
         %br
-        Opportunity expires:
-        = opportunity.response_due_on
+        %p{:style=>"font-size:16px; margin-bottom:0;"}
+          Opportunity expires:
+          = opportunity.response_due_on
 
   %hr{ :style=>"background-color: #B00D23; height: 2px; margin: 0px; border: 2px solid #b00d23;" }
   %br

@@ -1,5 +1,6 @@
 // Helpers, vars, and settings
 @import 'config';
+@import 'layout-classes';
 
 // Global style
 @import 'general';
@@ -9,3 +10,7 @@
 // Global sections
 @import 'components/breadcrumbs';
 @import 'effects/modal';
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+@import url(https://fonts.googleapis.com/css?family=Overpass:400,800);

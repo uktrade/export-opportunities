@@ -1,6 +1,8 @@
 .opportunity-summary-list
   %ul.navigation
-    - list[:items].each do |item|
+    - list.each do |item|
       %li
-        = image_tag "poc/#{list[:type]}/#{item.slug}.png"
-        = link_to  item.name, "#{list[:url]}#{item.slug}"
+        %picture
+          %source{:srcset=>"#{image_url(item[:images][:small])}", :media=>"(max-width: 768px)"}
+          %img{:src=>"#{image_url(item[:images][:large])}", :alt=>item[:alt]}
+        = link_to  item[:title], item[:url]

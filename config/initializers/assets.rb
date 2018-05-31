@@ -31,6 +31,9 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 # New design update stuff after this point.
 Rails.application.config.assets.precompile += %w[updated/admin.css]
 Rails.application.config.assets.precompile += %w[updated/layouts/help.css]
+Rails.application.config.assets.precompile += %w[layouts/notifications.scss]
+
+Rails.application.config.assets.precompile += %w[layouts/notifications.js]
 
 # POC files beyond this point
 Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'stylesheets', 'poc')

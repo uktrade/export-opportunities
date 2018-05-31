@@ -39,6 +39,9 @@ module ExportOpportunities
       end
     end
 
+    # TODO: Temporary POC view path solution (remove when no longer using /poc/)
+    config.paths['app/views'].push("#{Rails.root}/app/views/poc")
+
     # TODO: temp workaround
     config.action_controller.permit_all_parameters = true
 

@@ -11,7 +11,6 @@
   }
 
   li {
-    margin-bottom: $spacing-4;
     position: static;
   }
 
@@ -168,7 +167,7 @@
       display: block;
       margin: 0;
       outline: none;
-      padding: $spacing-3;
+      padding: $spacing-4 $spacing-3;
       
       &:before {
         display: none;
@@ -288,7 +287,7 @@
     padding: 10px 45px 10px $spacing-4;
     position: absolute;
     right: 0;
-    top: 47px;
+    top: 60px;
     transition: none;
 
     span {

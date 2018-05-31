@@ -1,4 +1,4 @@
-- page = Poc::PagePresenter.new(@content)
+- page = Poc::OpportunityIndexPresenter.new(@content, @featured_industries)
 - recent_opportunities = Poc::OpportunitySearchResultsPresenter.new(@content, @recent_opportunities, {})
 - content_for :action_specific_head do
   = stylesheet_link_tag 'poc/layouts/landing'
@@ -22,7 +22,7 @@
 %section#featured-industries
   .container
     %h2 Featured industries
-    = render partial: "opportunity_summary_list", locals: { list: @summary_list_by_sector }
+    = render partial: "opportunity_summary_list", locals: { list: page.featured_industries }
 
 %section#service-promotion
   .container

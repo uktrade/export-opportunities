@@ -176,7 +176,8 @@ class ApplicationController < ActionController::Base
     render 'errors/invalid_authenticity_token', status: 422
   end
 
-  # TODO: (experiment) Gets form field content separated from the view
+  # (POC experiment) Gets keeps content separated from the view
+  # and makes easy to switch later to CMS-style content editing.
   def get_content(file)
     YAML.load_file('app/content/' + file)
   end
