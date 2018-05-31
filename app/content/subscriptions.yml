@@ -19,7 +19,7 @@ update:
   breadcrumb_current: "Email alerts"
   title: "Email alerts"
   confirmation: "You have been unsubscribed from this email alert"
-  thank_you: "Thank you for explaining why you wish to unsubscribe."
+  thank_you: "Thank you for telling us why you unsubscribed and delete the line of text under the green box."
   manage_alerts: "Go back to manage your alerts"
   next: "Search for opportunities"
 
@@ -27,13 +27,12 @@ destroy:
   breadcrumb_current: "Email alerts"
   title: "Email alerts"
   confirmation: "You have been unsubscribed from this alert"
-  thank_you: "Thank you for explaining why you wish to unsubscribe"
   submit: "submit"
   home_link: "Search for opportunities"
 
   fields:
     reason:
-      question: "Please indicate why you wished to unsubscribe:"
+      question: "Please let us know why you unsubscribed:"
       options:
         - label: I no longer want these emails
           value: not_wanted

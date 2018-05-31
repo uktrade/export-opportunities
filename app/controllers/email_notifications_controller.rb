@@ -27,7 +27,9 @@ class EmailNotificationsController < ApplicationController
     @subscription_ids = SubscriptionNotification.joins(:subscription).where(sent: true).where('subscriptions.user_id = ?', user_id).map(&:subscription_id)
 
     Subscription.where(id: @subscription_ids).update_all(unsubscribed_at: Time.zone.now)
-    render 'email_notifications/destroy', layout: 'layouts/notifications'
+    render 'email_notifications/destroy', layout: 'layouts/notifications', locals: {
+      content: @content["destroy"]
+    }
   end
 
   def update
@@ -37,7 +39,9 @@ class EmailNotificationsController < ApplicationController
 
     Subscription.where(id: @subscription_ids).update_all(unsubscribe_reason: reason_param)
 
-    render 'email_notifications/update', layout: 'layouts/notifications', status: :accepted
+    render 'email_notifications/update', layout: 'layouts/notifications', status: :accepted, locals: {
+      content: @content["update"]
+    }
   end
 
   private def reason_param
