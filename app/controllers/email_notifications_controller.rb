@@ -36,6 +36,7 @@ class EmailNotificationsController < ApplicationController
     @subscription_ids = SubscriptionNotification.joins(:subscription).where(sent: true).where('subscriptions.user_id = ?', user_id).map(&:subscription_id)
 
     Subscription.where(id: @subscription_ids).update_all(unsubscribe_reason: reason_param)
+
     render 'email_notifications/update', layout: 'layouts/notifications', status: :accepted
   end
 
