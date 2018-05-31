@@ -14,8 +14,6 @@ dit.page.landing = (new function () {
   
   // Page init
   this.init = function() {
-      enhanceIndustrySelector();
-
     cacheComponents();
     viewAdjustments(dit.responsive.mode());
     bindResponsiveListener();
@@ -65,14 +63,6 @@ dit.page.landing = (new function () {
       clearAdjustments();
       destroyEffects();
       viewAdjustments(mode);
-    });
-  }
-
-  /* Find and enhance the search form Industry <select> field
-   **/
-  function enhanceIndustrySelector() {
-    $("[data-component='filter-select']").each(function() {
-      new dit.classes.FilterSelect($(this));
     });
   }
 
