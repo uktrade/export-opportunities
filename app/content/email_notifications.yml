@@ -1,4 +1,7 @@
-# EmailNotificationsController#destroy
+# EmailNotificationsController
+# actions: 
+#   destroy
+#   update
 # ------------------------------------
 
 breadcrumb_current: Email alerts

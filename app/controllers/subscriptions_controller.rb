@@ -12,6 +12,8 @@ class SubscriptionsController < ApplicationController
   end
 
   def create
+    content = get_content('subscriptions.yml')
+    subscriptions = Subscription.where(user_id: current_user.id)
     subscription_form = SubscriptionForm.new(subscription_params)
 
     if subscription_form.valid?
@@ -21,7 +23,11 @@ class SubscriptionsController < ApplicationController
     end
 
     @subscription = SubscriptionPresenter.new(subscription)
-    render locals: { subscription: @subscription }
+    render layout: 'layouts/notifications', locals: {
+      subscription: @subscription,
+      subscriptions: subscriptions,
+      content: content,
+    }
   end
 
   def update

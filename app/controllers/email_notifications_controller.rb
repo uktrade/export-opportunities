@@ -33,17 +33,14 @@ class EmailNotificationsController < ApplicationController
   def update
     @content = get_content('email_notifications.yml')
     user_id = EncryptedParams.decrypt(params[:id])
-
     @subscription_ids = SubscriptionNotification.joins(:subscription).where(sent: true).where('subscriptions.user_id = ?', user_id).map(&:subscription_id)
 
     Subscription.where(id: @subscription_ids).update_all(unsubscribe_reason: reason_param)
-
     render 'email_notifications/update', layout: 'layouts/notifications', status: :accepted
   end
 
   private def reason_param
     reason = params.fetch(:reason)
-
     reason if Subscription.unsubscribe_reasons.keys.include?(reason)
   end
 end
