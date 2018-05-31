@@ -18,7 +18,7 @@ create:
 update:
   breadcrumb_current: "Email alerts"
   title: "Email alerts"
-  confirmation: "You have been unsubscribed"
+  confirmation: "You have been unsubscribed from this email alert"
   thank_you: "Thank you for explaining why you wish to unsubscribe."
   manage_alerts: "Go back to manage your alerts"
   next: "Search for opportunities"
