@@ -33,7 +33,7 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   end
 
   def title_with_country(opportunity)
-    if source('post')
+    if opportunity.source == 'post'
       opportunity.title
     else
       country = if opportunity.countries.size > 1
