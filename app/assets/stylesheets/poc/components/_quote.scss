@@ -1,6 +1,7 @@
 .quote {
   padding: $spacing-1 0 $spacing-3 0;
   margin: 0 0 $spacing-3 0;
+  position: relative;
   
   cite {
     @include body-s;
@@ -9,6 +10,7 @@
 
   .name {
     display: block;
+    font-weight: bold;
   }
 
   .role { 
