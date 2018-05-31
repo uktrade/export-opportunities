@@ -69,13 +69,14 @@
           %dd.expiry
             = opportunity.expires
 
-          %dt.opportunity_type
-            Opportunity type
-          %dd.opportunity_type
-            = opportunity.type
-            %br/
-            - if opportunity.type == 'Aid Funded Business'
-              = opportunity.link_to_aid_funded "Your guide for aid funded business"
+          - if opportunity.source('post')
+            %dt.opportunity_type
+              Opportunity type
+            %dd.opportunity_type
+              = opportunity.type
+              %br/
+              - if opportunity.type == 'Aid Funded Business'
+                = opportunity.link_to_aid_funded "Your guide for aid funded business"
 
           - if opportunity.sectors && opportunity.source('post')
             %dt.industry
