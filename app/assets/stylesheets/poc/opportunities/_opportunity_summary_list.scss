@@ -1,5 +1,6 @@
 .opportunity-summary-list {
  a {
+    @include body-m;
     display: block;
     font-weight: bold;
     margin: 10px $spacing-4 #{$spacing-4 + 4px} $spacing-4; /* 4px compensates for red trim */
