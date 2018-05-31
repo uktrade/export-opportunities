@@ -13,7 +13,7 @@ class SubscriptionsController < ApplicationController
 
   def create
     content = get_content('subscriptions.yml')
-    subscriptions = Subscription.where(user_id: current_user.id)
+    subscriptions = Subscription.where(user_id: current_user.id).where(unsubscribed_at: nil)
     subscription_form = SubscriptionForm.new(subscription_params)
 
     if subscription_form.valid?
