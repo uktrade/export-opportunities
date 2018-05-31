@@ -13,7 +13,7 @@ class Poc::OpportunitiesController < OpportunitiesController
     @recent_opportunities = recent_opportunities
     @countries = Country.all.order :name
     @regions = regions_list
-    render 'opportunities/index', layout: 'layouts/domestic'
+    render 'opportunities/index', layout: 'layouts/landing'
   end
 
   def international
