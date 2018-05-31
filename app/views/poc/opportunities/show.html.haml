@@ -68,7 +68,15 @@
             Opportunity closing date
           %dd.expiry
             = opportunity.expires
-              
+
+          %dt.opportunity_type
+            Opportunity type
+          %dd.opportunity_type
+            = opportunity.type
+            %br/
+            - if opportunity.type == 'Aid Funded Business'
+              = opportunity.link_to_aid_funded "Your guide for aid funded business"
+
           - if opportunity.sectors && opportunity.source('post')
             %dt.industry
               Industry
@@ -111,7 +119,7 @@
                   - opportunity.country_guides.each do |country|
                     %li
                       = link_to country.name, "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank'
-              = opportunity.link_to_aid_funded "Your guide for aid funded business"
+
 
         -# TODO: Just sending to feedback location for now
         = link_to "Report opportunity", Figaro.env.CONTACT_US_FORM, :class=>"report"
