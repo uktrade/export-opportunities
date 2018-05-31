@@ -68,8 +68,8 @@
             Opportunity closing date
           %dd.expiry
             = opportunity.expires
-
-          - if opportunity.sectors
+              
+          - if opportunity.sectors && opportunity.source('post')
             %dt.industry
               Industry
             %dd.industry
