@@ -46,10 +46,4 @@ class EmailNotificationsController < ApplicationController
 
     reason if Subscription.unsubscribe_reasons.keys.include?(reason)
   end
-
-  private def reason_param
-    reason = params.fetch(:reason)
-
-    reason if Subscription.unsubscribe_reasons.keys.include?(reason)
-  end
 end

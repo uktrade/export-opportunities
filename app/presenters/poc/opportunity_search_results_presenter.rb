@@ -33,12 +33,16 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   end
 
   def title_with_country(opportunity)
-    country = if opportunity.countries.size > 1
-                'Multi Country'
-              else
-                opportunity.countries.map(&:name).join
-              end
-    "#{country} - #{opportunity.title}"
+    if source('post')
+      opportunity.title
+    else
+      country = if opportunity.countries.size > 1
+                  'Multi Country'
+                else
+                  opportunity.countries.map(&:name).join
+                end
+      "#{country} - #{opportunity.title}"
+    end
   end
 
   # Only show all if there are more than currently viewed
