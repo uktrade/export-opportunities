@@ -7,6 +7,14 @@ class Poc::PagePresenter < BasePresenter
     add_breadcrumb_current(content['breadcrumb_current']) unless content.nil?
   end
 
+  def content_with_inclusion(key, includes)
+    str = @content[key] || ''
+    includes.each do |include|
+      str = str.sub(/\[\$.+?\]/, include)
+    end
+    str
+  end
+
   def add_breadcrumb_current(title)
     @breadcrumbs.push(title: title, slug: '') unless title.nil?
   end
