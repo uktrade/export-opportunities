@@ -8,7 +8,7 @@ class Poc::PagePresenter < BasePresenter
   end
 
   def content_with_inclusion(key, includes)
-    str = @content[key] || ""
+    str = @content[key] || ''
     includes.each do |include|
       str = str.sub(/\[\$.+?\]/, include)
     end
