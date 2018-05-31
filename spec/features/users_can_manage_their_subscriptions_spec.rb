@@ -48,11 +48,15 @@ feature 'User can manage their subscriptions' do
 
     visit '/email_notifications/unsubscribe_all/' + user_id
 
-    expect(page.body).to include('deleted')
+    expect(page.body).to include('You have been unsubscribed from all email alerts')
 
-    # select reason
-    # click on submit
-    # expect new page to have some content that we know should only be there if request is successful
+    # I didn't sign up for these emails
+    choose 'reason_1'
+
+    # get to the next page
+    click_on 'submit'
+
+    expect(page.body).to include('Thank you for explaining why you wish to unsubscribe')
   end
 
   scenario 'view a list of all subscription notifications in opportunities filter view' do
