@@ -13,7 +13,7 @@ class SubscriptionsController < ApplicationController
 
   def create
     content = get_content('subscriptions.yml')
-    subscriptions = Subscription.where(user_id: current_user.id)
+    subscriptions = Subscription.where(user_id: current_user.id).where(unsubscribed_at: nil)
     subscription_form = SubscriptionForm.new(subscription_params)
 
     if subscription_form.valid?
@@ -26,27 +26,34 @@ class SubscriptionsController < ApplicationController
     render layout: 'layouts/notifications', locals: {
       subscription: @subscription,
       subscriptions: subscriptions,
-      content: content,
+      content: content['create'],
     }
   end
 
   def update
+    content = get_content('subscriptions.yml')
     @subscription = Subscription.find(params[:id])
     @subscription.unsubscribe_reason = reason_param
 
     if @subscription.save
-      render status: :accepted
+      render layout: 'layouts/notifications', status: :accepted, locals: {
+        content: content['update'],
+      }
     else
       internal_server_error
     end
   end
 
   def destroy
+    content = get_content('subscriptions.yml')
     @subscription = Subscription.find(params[:id])
     @subscription.unsubscribed_at = DateTime.current
 
     if @subscription.save
-      render status: :accepted
+      render layout: 'layouts/notifications', status: :accepted, locals: {
+        subscription: @subscription,
+        content: content['destroy'],
+      }
     else
       internal_server_error
     end

@@ -1,14 +1,42 @@
 # SubscriptionsController
 # actions: 
 #   create
+#   destroy
 # ------------------------------------
 
-breadcrumb_current: "Email alert added"
-title: "Email alert added"
-confirmation: "You daily email alert has been added"
-message: "This will be sent to [$email] when opportunities that match your search terms are published."
-back: "Go back to search results"
-advice: "You can manage your daily email alerts at any time using the [$profile] link at the top of this page."
-alert_summary_title: "Alert summary"
-alert_summary_message: "You currently receive email alerts for the following search terms:"
-alert_summary_link: "Manage your alerts"
+create: 
+  breadcrumb_current: "Email alert added"
+  title: "Email alert added"
+  confirmation: "You daily email alert has been added"
+  message: "This will be sent to [$email] when opportunities that match your search terms are published."
+  back: "Go back to search results"
+  advice: "You can manage your daily email alerts at any time using the [$profile] link at the top of this page."
+  alert_summary_title: "Alert summary"
+  alert_summary_message: "You currently receive email alerts for the following search terms:"
+  alert_summary_link: "Manage your alerts"
+
+update:
+  breadcrumb_current: "Email alerts"
+  title: "Email alerts"
+  confirmation: "You have been unsubscribed from this email alert"
+  thank_you: "Thank you for telling us why you unsubscribed and delete the line of text under the green box."
+  manage_alerts: "Go back to manage your alerts"
+  next: "Search for opportunities"
+
+destroy:
+  breadcrumb_current: "Email alerts"
+  title: "Email alerts"
+  confirmation: "You have been unsubscribed from this alert"
+  submit: "submit"
+  home_link: "Search for opportunities"
+
+  fields:
+    reason:
+      question: "Please let us know why you unsubscribed:"
+      options:
+        - label: I no longer want these emails
+          value: not_wanted
+        - label: I didn't sign up for these emails
+          value: not_signed_up
+        - label: These emails are spam
+          value: spam

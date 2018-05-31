@@ -4,20 +4,28 @@
 #   update
 # ------------------------------------
 
-breadcrumb_current: Email alerts
-title: Email alerts
-confirmation: You have been unsubscribed from all email alerts
-thank_you: Thank you for explaining why you wish to unsubscribe
-submit: submit
-home_link: Search for opportunities
 
-fields:
-  reason:
-    question: "Please indicate why you wished to unsubscribe:"
-    options:
-      - label: I no longer want these emails
-        value: not_wanted
-      - label: I didn't sign up for these emails
-        value: not_signed_up
-      - label: These emails are spam
-        value: spam
+update:
+  breadcrumb_current: "Email alerts"
+  title: "Email alerts"
+  confirmation: "You have been unsubscribed from all email alerts"
+  thank_you: "Thank you for telling us why you unsubscribed and delete the line of text under the green box."
+  next: "Search for opportunities"
+
+
+destroy:
+  breadcrumb_current: "Email alerts"
+  title: "Email alerts"
+  confirmation: "You have been unsubscribed from all email alerts"
+  submit: "submit"
+
+  fields:
+    reason:
+      question: "Please let us know why you unsubscribed:"
+      options:
+        - label: I no longer want these emails
+          value: not_wanted
+        - label: I didn't sign up for these emails
+          value: not_signed_up
+        - label: These emails are spam
+          value: spam
