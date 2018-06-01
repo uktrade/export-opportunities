@@ -8,7 +8,7 @@
   .confirmation-notice
     %p.notice= page.content["confirmation"]
     %p.message
+      = page.content["thank_you"]
       = link_to page.content["manage_alerts"], dashboard_path(anchor: 'alerts', target: :alerts), class: "button"
 
-  %p.thankyou= page.content["thank_you"]
   = link_to page.content["next"], root_path, class: "button"

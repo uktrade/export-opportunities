@@ -9,7 +9,7 @@ update:
   breadcrumb_current: "Email alerts"
   title: "Email alerts"
   confirmation: "You have been unsubscribed from all email alerts"
-  thank_you: "Thank you for telling us why you unsubscribed and delete the line of text under the green box."
+  thank_you: "Thank you for telling us why you unsubscribed."
   next: "Search for opportunities"
 
 
