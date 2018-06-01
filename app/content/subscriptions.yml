@@ -29,6 +29,8 @@ destroy:
   confirmation: "You have been unsubscribed from this alert"
   submit: "submit"
   home_link: "Search for opportunities"
+  manage_alerts: "Go back to manage your alerts"
+  next: "Search for opportunities"
 
   fields:
     reason:

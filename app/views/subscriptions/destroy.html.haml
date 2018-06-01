@@ -1,7 +1,4 @@
 - page = Poc::PagePresenter.new(content)
-- form = Poc::FormPresenter.new(content, nil)
-- content_for :action_specific_head do
-  = javascript_include_tag "poc/layouts/form.js"
 
 .container
   = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
@@ -10,8 +7,7 @@
 
   .confirmation-notice
     %p.notice= page.content["confirmation"]
+    %p.message
+      = link_to page.content["manage_alerts"], dashboard_path(anchor: 'alerts', target: :alerts), class: "button"
 
-  = form_tag subscription_path(subscription), class: 'reason-form', method: :post do
-    = render partial: "forms/input_radio", locals: { input: form.input_radio("reason") }
-    %input{:type=>"hidden", :value=>"patch", :name=>"_method"}
-    %input{:type=>"submit", :value=>form.content["submit"], :class=>"button"}
+  = link_to page.content["next"], root_path, class: "button"
