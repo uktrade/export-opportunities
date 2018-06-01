@@ -172,10 +172,10 @@ section {
 }
 
 #testimonials {
-  background-image: image_url('backgrounds/custom-hero-regular-exporter@2x.png');
+  background-image: image_url('backgrounds/EXOpps_Quote1290x450@2x.jpg');
   background-position: top center;
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: cover;
   padding-bottom: $spacing-4;
   position: relative;
 
@@ -252,6 +252,11 @@ section {
   }
 }
 
+@media screen and (max-width:768px) {
+  .quote {
+    width: 75%;
+  }
+}
 
 @media screen and (max-width: 680px) {
   .hero-section {
@@ -278,6 +283,11 @@ section {
   }
 }
 
+@media screen and (max-width:480px) {
+  .quote {
+    width: auto;
+  }
+}
 
 @media screen and (max-width: 320px) {
   #recent-opportunities {
