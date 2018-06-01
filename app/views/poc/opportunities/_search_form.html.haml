@@ -7,7 +7,9 @@
 
   %label.filter
     %span.verbose Filter by country (optional)
-    %select{:placeholder=>'All regions and countries', :name=>'areas[]', autocomplete:'off'}
+    %select{:name=>'areas[]', autocomplete:'off'}
+      %option{:value=>""}
+        All regions and countries
       - @regions.each do |region|
         %option{:value=>region[:slug]}
           = region[:name]

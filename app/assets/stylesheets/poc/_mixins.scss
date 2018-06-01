@@ -98,9 +98,8 @@
 }
 
 @mixin focus {
-  &:focus {
-    outline: $focus-yellow solid 3px;
-  }
+  &::-moz-focus-inner { border: 0; }
+  &:focus { outline: $focus-yellow solid 3px; }
 }
 
 // BUTTONS

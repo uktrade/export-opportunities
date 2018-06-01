@@ -1,6 +1,5 @@
 .search-form {
   background-color: $grey-special;
-  color: $grey;
   max-width: none;
   padding: $spacing-3 $spacing-3 0 $spacing-3;
 
@@ -13,28 +12,19 @@
     @include access-hidden;
   }
 
-  option {
-    padding: $spacing-4 0;
-  }
-
   select {
     background-color: $white;
     float: left;
-    height: auto;
+    height: 54px;
     left: -2px;
     margin: 0;
-    max-height: 54px;
-    padding: 0 5px;
     position: relative;
+    width: 100%;
   }
 
   .filter {
     float: left;
     width: $cols-3;
-
-    select {
-      width: 100%;
-    }
   }
 
   .FilterSelectInput {
