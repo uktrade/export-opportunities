@@ -1,12 +1,12 @@
-@import '../config';
-@import '../opportunities/list';
-@import '../opportunities/search_form';
-@import '../components/steps_indicator';
-@import '../components/quote';
-@import '../opportunities/opportunity_summary_list';
-@import '../effects/carousel';
-@import '../effects/tabbed_area';
-@import '../effects/filter_select';
+@import '../poc/config';
+@import '../poc/opportunities/list';
+@import '../poc/opportunities/search_form';
+@import '../poc/components/steps_indicator';
+@import '../poc/components/quote';
+@import '../poc/opportunities/opportunity_summary_list';
+@import '../poc/effects/carousel';
+@import '../poc/effects/tabbed_area';
+@import '../poc/effects/filter_select';
 
 section {
   padding: $spacing-1 0;
