@@ -1,7 +1,7 @@
 # Be sure to restart your server when you modify this file.
 
 # Version of your assets, change this if you want to expire all your assets.
-Rails.application.config.assets.version = '1.1'
+Rails.application.config.assets.version = '1.4'
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
@@ -29,5 +29,35 @@ Rails.application.config.assets.precompile += %w[jquery3.2.0.js]
 Rails.application.config.assets.paths << Rails.root.join('node_modules')
 
 # New design update stuff after this point.
-Rails.application.config.assets.precompile += %w( updated/admin.css )
-Rails.application.config.assets.precompile += %w( updated/layouts/help.css )
+Rails.application.config.assets.precompile += %w[updated/admin.css]
+Rails.application.config.assets.precompile += %w[updated/layouts/help.css]
+Rails.application.config.assets.precompile += %w[layouts/notifications.scss]
+
+Rails.application.config.assets.precompile += %w[layouts/notifications.js]
+
+# POC files beyond this point
+Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'stylesheets', 'poc')
+Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'images', 'poc')
+Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'javascripts', 'poc')
+
+Rails.application.config.assets.precompile += %w[layouts/landing.scss]
+Rails.application.config.assets.precompile += %w[poc/poc.scss]
+Rails.application.config.assets.precompile += %w[poc/global.scss]
+Rails.application.config.assets.precompile += %w[poc/ie8_fixes.scss]
+Rails.application.config.assets.precompile += %w[poc/ie9_fixes.scss]
+Rails.application.config.assets.precompile += %w[poc/layouts/results.scss]
+Rails.application.config.assets.precompile += %w[poc/layouts/opportunity.scss]
+Rails.application.config.assets.precompile += %w[poc/layouts/enquiries.scss]
+
+Rails.application.config.assets.precompile += %w[poc/layouts/landing.js]
+Rails.application.config.assets.precompile += %w[poc/global.js]
+Rails.application.config.assets.precompile += %w[poc/layouts/results.js]
+Rails.application.config.assets.precompile += %w[poc/layouts/form.js]
+Rails.application.config.assets.precompile += %w[poc/layouts/opportunity.js]
+Rails.application.config.assets.precompile += %w[poc/layouts/enquiries.js]
+
+Rails.application.config.assets.precompile += %w['poc/*.js']
+Rails.application.config.assets.precompile += %w['poc/layouts/*.js']
+Rails.application.config.assets.precompile += %w['poc/third_party/*.js']
+
+Rails.application.config.assets.precompile += %w[email_notifications_show]

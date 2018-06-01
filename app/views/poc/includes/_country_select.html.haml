@@ -1,0 +1,2 @@
+%select.country-selector(placeholder='All countries'){:multiple => true, :name => 'countries[]', autocomplete: 'off' }
+  = options_for_select(@countries.map { |country| [country['name'], country['slug']] }, :selected => params[:countries])

@@ -1,0 +1,24 @@
+= form_tag subscriptions_path_for_current_user, :class=>'subscription-form' do
+  %h2
+    ="Subscribe to email alerts #{subscription[:what]} #{subscription[:where]}"
+
+  %p
+    Receive email alerts whenever a relevant opportunity is published.
+    - if current_user
+      These will be sent to
+      = current_user[:email]
+
+  .form-group
+    = hidden_field_tag 'subscription[query[search_term]]', subscription[:form].search_term
+    - subscription[:form].types.each do |type|
+      = hidden_field_tag 'subscription[query[types]][]', type.slug, multiple: true
+    - subscription[:form].sectors.each do |sector|
+      = hidden_field_tag 'subscription[query[sectors]][]', sector.slug, multiple: true
+    - subscription[:form].values.each do |value|
+      = hidden_field_tag 'subscription[query[values]][]', value.slug, multiple: true
+    - subscription[:form].countries.each do |country|
+      = hidden_field_tag 'subscription[query[countries]][]', country.slug, multiple: true
+    = submit_tag 'Subscribe', class: 'button'
+
+    - if current_user
+      = link_to "Manage email subscriptions", "/subscriptions"

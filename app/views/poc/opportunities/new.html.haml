@@ -1,0 +1,9 @@
+- page = Poc::PagePresenter.new(@content)
+- form = Poc::FormPresenter.new(@content, @process)
+- content_for :action_specific_head do
+  = javascript_include_tag 'poc/layouts/form.js'
+
+.process
+  .container
+    = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
+    = render partial: 'poc/opportunities/new/' + form.view, locals: { form: form }

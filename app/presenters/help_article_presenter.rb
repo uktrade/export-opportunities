@@ -15,7 +15,7 @@ class HelpArticlePresenter < BasePresenter
     str.downcase
   end
 
-  def set_related_link(text, href)
+  def related_link(text, href)
     @related_links.push(
       text: text,
       href: href

@@ -1,0 +1,61 @@
+<footer id="footer">
+  <div class="container">
+      <div class="link-group">
+        <%= link_to "https://www.gov.uk/", :id=>"footer-hm-logo" do %>
+          <%= image_tag "logos/HM_Government_logo_light.svg", :alt=>"UK Government" %>
+        <% end %>
+      </div>
+      <div class="link-group">
+        <p id="footer-export-readiness-links" class="list-heading">Invest</p>
+        <ul aria-labelledby="footer-export-readiness-links" class="navigation">
+          <li><a href="#">...</a></li>
+        </ul>
+      </div>
+      <div class="link-group">
+        <p id="footer-export-readiness-links" class="list-heading">Trade</p>
+        <ul aria-labelledby="footer-export-readiness-links" class="navigation">
+          <li><a href="#">...</a></li>
+        </ul>
+      </div>
+      <div class="link-group">
+        <p id="footer-export-readiness-links" class="list-heading">Opportunitites</p>
+        <ul aria-labelledby="footer-export-readiness-links" class="navigation">
+          <li><a href="#">...</a></li>
+        </ul>
+      </div>
+  </div>
+
+  <div id="footer-site-links">
+    <div class="container">
+      <ul class="navigation">
+        <li><%= link_to "Privacy and cookies", "/international/privacy-and-cookies/?lang=en-gb" %></li>
+        <li><%= link_to "Terms and Conditions", "/international/terms-and-conditions/?lang=en-gb" %></li>
+      </ul>
+
+      <p data-component="sharing-links" class="sharing-links">
+        <span class="label">Share </span>
+        <%= link_to "https://twitter.com/intent/tweet?text=Welcome%20to%20the%20UK%20https://www.great.gov.uk/international/?lang=en-gb" do %>
+          <%= image_tag "logos/twitter.svg", :width=>"36px", :alt=>"with Twitter" %>
+        <% end %>
+        <span class="verbose">, </span>
+        <%= link_to "https://www.facebook.com/share.php?u=https://www.great.gov.uk/international/?lang=en-gb" do %>
+          <%= image_tag "logos/facebook.svg", :width=>"36px", :alt=>"with Facebook" %>
+        <% end %>
+        <span class="verbose">, </span>
+        <%= link_to "https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.great.gov.uk/international/?lang=en-gb&amp;title=Welcome%20to%20the%20UK&amp;source=LinkedIn" do %>
+          <%= image_tag "logos/linkedin.svg", :width=>"36px", :alt=>"with LinkedIn" %>
+        <% end %>
+        <span class="verbose">, </span>
+        <%= link_to "mailto:?body=https://www.great.gov.uk/international/?lang=en-gb&amp;subject=Welcome%20to%20the%20UK" do %>
+          <%= image_tag "logos/email.svg", :width=>"36px", :alt=>"by email" %>
+        <% end %>
+      </p>
+    </div>
+  </div>
+
+  <div id="footer-site-bar">
+    <div class="container">
+      <p class="copyright">&copy; Crown copyright 2017. All rights reserved.</p>
+    </div>
+  </div>
+</footer>

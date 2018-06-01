@@ -1,0 +1,34 @@
+.breadcrumbs {
+  @include body-s;
+  margin-bottom: $spacing-3;
+  padding: $spacing-3 0;
+
+  a {
+    color: $grey;
+    text-decoration: underline;
+  }
+
+  .separator {
+    @include right-chevron-2($light-grey);
+    box-sizing: initial;
+    overflow: hidden;
+    text-indent: -1000px;
+  }
+
+  span:last-child:after {
+    border: none;
+  }
+}
+
+
+// RESPONSIVE
+@media screen and (max-width: 480px) {
+  .breadcrumbs {
+    padding: $spacing-4 0;
+    
+    a,
+    span {
+      @include body-s-mob;
+    }
+  }
+}

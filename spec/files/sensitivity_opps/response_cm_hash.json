@@ -1,0 +1,28 @@
+{"OriginalText"=>
+  "agiamasat@gmail.com drliamfox@gov.uk 3 whitehall place, london, sw1a2aw",
+  "NormalizedText"=>
+  "agiamasat@ gmail. com drliamfox@ gov. uk 3 whitehall place, london, sw1a2aw",
+  "Misrepresentation"=>nil,
+  "PII"=>
+{"Email"=>
+  [{"Detected"=>"agiamasat@gmail.com",
+  "SubType"=>"Regular",
+  "Text"=>"agiamasat@gmail.com",
+  "Index"=>0},
+  {"Detected"=>"drliamfox@gov.uk",
+  "SubType"=>"Regular",
+  "Text"=>"drliamfox@gov.uk",
+  "Index"=>20}],
+  "IPA"=>[],
+  "Phone"=>[],
+  "Address"=>[],
+  "SSN"=>[]},
+"Classification"=>
+{"ReviewRecommended"=>false,
+"Category1"=>{"Score"=>0.006145828869193792},
+"Category2"=>{"Score"=>0.2296631783246994},
+"Category3"=>{"Score"=>0.020050043240189552}},
+"Language"=>"eng",
+"Terms"=>nil,
+"Status"=>{"Code"=>3000, "Description"=>"OK", "Exception"=>nil},
+"TrackingId"=>"29e68aeb-0321-4f40-8824-b7ba5098b845"}

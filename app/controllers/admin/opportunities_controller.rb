@@ -8,6 +8,8 @@ class Admin::OpportunitiesController < Admin::BaseController
   def index
     @filters = OpportunityFilters.new(filter_params)
 
+    previewer_or_uploader = pundit_user.uploader? || pundit_user.previewer?
+
     session[:opportunity_filters] = filter_params
     session[:available_status] = filter_status(pundit_user.id)
 
@@ -17,6 +19,7 @@ class Admin::OpportunitiesController < Admin::BaseController
       search_term: @filters.sanitized_search,
       search_method: :admin_match,
       sort: @filters.sort,
+      previewer_or_uploader: previewer_or_uploader,
       hide_expired: @filters.hide_expired,
       page: @filters.page,
       per_page: OPPORTUNITIES_PER_PAGE,
@@ -53,7 +56,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   def create
     opportunity_status = params[:commit] == 'Save to Draft' ? :draft : :pending
 
-    @opportunity = CreateOpportunity.new(current_editor, opportunity_status).call(create_opportunity_params)
+    @opportunity = CreateOpportunity.new(current_editor, opportunity_status, :post).call(create_opportunity_params)
     authorize @opportunity
 
     if @opportunity.errors.empty?
@@ -128,7 +131,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def opportunity_params(contacts_attributes:)
-    params.require(:opportunity).permit(:title, :slug, { country_ids: [] }, { sector_ids: [] }, { type_ids: [] }, { value_ids: [] }, :teaser, :response_due_on, :description, { contacts_attributes: contacts_attributes }, :service_provider_id, :ragg)
+    params.require(:opportunity).permit(:title, :slug, { country_ids: [] }, { sector_ids: [] }, { type_ids: [] }, { value_ids: [] }, :teaser, :response_due_on, :description, { contacts_attributes: contacts_attributes }, :service_provider_id, :ragg, :buyer_name, :buyer_address, :language, :tender_value, :source, :tender_content, :tender_url, :tender_source, :tender_value, :ocid, :industry_id, :industry_scheme)
   end
 
   def create_contacts_attributes

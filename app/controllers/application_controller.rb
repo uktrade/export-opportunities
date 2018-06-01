@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  require 'yaml'
+
   # Protect by basic auth on staging
   # Use basic auth if set in the environment
   before_action :basic_auth, except: :check
@@ -45,7 +47,6 @@ class ApplicationController < ActionController::Base
     res = {}
 
     # opps that have not expired and are published
-    # db_opportunities = get_db_opportunities
     db_opportunities_ids = db_opportunities
     sort = OpenStruct.new(column: :response_due_on, order: :desc)
     query = OpportunitySearchBuilder.new(search_term: '', sort: sort).call
@@ -85,7 +86,7 @@ class ApplicationController < ActionController::Base
 
   def es_opportunities(query)
     res = []
-    es_opportunities = Opportunity.__elasticsearch__.search(size: 10_000, query: query[:search_query], sort: query[:search_sort])
+    es_opportunities = Opportunity.__elasticsearch__.search(size: 100_000, query: query[:search_query], sort: query[:search_sort])
     es_opportunities.each { |record| res.push record.id }
     res
   end
@@ -173,5 +174,11 @@ class ApplicationController < ActionController::Base
     # The exception this method rescues from is thrown
     # before it has the chance.
     render 'errors/invalid_authenticity_token', status: 422
+  end
+
+  # (POC experiment) Gets keeps content separated from the view
+  # and makes easy to switch later to CMS-style content editing.
+  def get_content(file)
+    YAML.load_file('app/content/' + file)
   end
 end

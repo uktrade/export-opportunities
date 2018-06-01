@@ -1,5 +1,5 @@
 class SearchFilter
-  attr_reader :sectors, :countries, :types, :values
+  attr_reader :sectors, :regions, :countries, :types, :values
 
   def initialize(params = {})
     @params = params
@@ -7,6 +7,11 @@ class SearchFilter
 
   def sectors
     @sectors ||= whitelisted_filters_for(:sectors, Sector)
+  end
+
+  # TODO: Not working from DB data (see opportunity_controller.rb)
+  def regions
+    @regions ||= (Array(@params[:regions]) || [])
   end
 
   def countries

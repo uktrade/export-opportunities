@@ -1,12 +1,19 @@
+- page = Poc::PagePresenter.new(@content)
+- page.add_breadcrumb_current('Proposal submitted')
+
 .container
-  .legacy.margin-top-30
-    %h1.h1 Thank you
-    %p Your details have been submitted and will be reviewed by our team. You will be notified of any potential next steps in 5 working days.
-    %p
-      = link_to 'View your proposals to date', dashboard_path, class: 'button button-blue'
+  = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
+
+  %section
+    .confirmation-notice
+      %h1.notice Thank you
+      %p.message 
+        Your details have been submitted and will be reviewed by our team. You will be notified of any potential next steps in 5 working days.
+        = link_to 'View your proposals to date', dashboard_path, class: 'button'
+
     - unless trade_profile(@enquiry.company_house_number)
       %p
         We noticed that you don't have a trade profile.
         = link_to 'You can create one here.', "#{Figaro.env.TRADE_PROFILE_CREATE_PAGE}#{@enquiry.company_house_number}", target: :blank
 
-        
+

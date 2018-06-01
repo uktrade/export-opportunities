@@ -1,0 +1,91 @@
+.search-form {
+  background-color: $grey-special;
+  max-width: none;
+  padding: $spacing-3 $spacing-3 0 $spacing-3;
+
+  input {
+    height: 54px;
+    margin: 0;
+  }
+
+  label.enhanced {
+    @include access-hidden;
+  }
+
+  select {
+    background-color: $white;
+    float: left;
+    height: 54px;
+    left: -2px;
+    margin: 0;
+    position: relative;
+    width: 100%;
+  }
+
+  .filter {
+    float: left;
+    width: $cols-3;
+  }
+
+  .FilterSelectInput {
+    float: left;
+    height: 54px;
+    left: -2px;
+    position: relative;
+    width: $cols-3;
+  }
+
+  .submit {
+    float: left;
+    margin: 0 0 0 $spacing-4;
+    padding-left: 0;
+    padding-right: 0;
+    width: calc(#{$cols-3} - #{$spacing-4});
+  }
+
+  .term {
+    float: left;
+    width: $cols-6;
+  }
+
+  &:after {
+    clear: both;
+    content: "";
+    display: block;
+  }
+}
+
+// RESPONSIVE
+@media screen and (max-width: 980px) {
+  .search-form {
+    .filter,
+    .FilterSelectInput {
+      width: $cols-4;
+    }
+
+    .submit {
+      margin: $spacing-4 0 0 0;
+      width: $cols-4;
+    }
+
+    .term {
+      width: $cols-8;
+    }
+  }
+}
+
+@media screen and (max-width: 660px) {
+  .search-form {
+    .filter,
+    .FilterSelectInput,
+    .term {
+      margin: 0 0 $spacing-4 0;
+      width: 100%;
+    }
+
+    .submit {
+      margin: 0;
+      width: 100%;
+    }
+  }
+}

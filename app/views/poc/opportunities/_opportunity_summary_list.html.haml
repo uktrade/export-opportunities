@@ -1,0 +1,8 @@
+.opportunity-summary-list
+  %ul.navigation
+    - list.each do |item|
+      %li
+        %picture
+          %source{:srcset=>"#{image_url(item[:images][:small])}", :media=>"(max-width: 768px)"}
+          %img{:src=>"#{image_url(item[:images][:large])}", :alt=>item[:alt]}
+        = link_to  item[:title], item[:url]

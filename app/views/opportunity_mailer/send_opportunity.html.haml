@@ -1,30 +1,82 @@
-- content_for :message_reason do
+
+-#%strong= @subscription.description
+
+-# TODO: generate unique URL for unsubscribe from all alerts
+-#= link_to 'Unsubscribe from this alert', unsubscribe_url(@subscription)
+-#- unless @subscription.user.stub?
+-#  %br
+-#  = link_to 'Manage your alerts', dashboard_url(anchor: 'alerts', target: :alerts)
+
+-# =@encrypted_user_id.to_s
+
+- if @count > 1
+  %h1{:style=>"font-size:30px"} 
+    = @count
+    matching opportunities
+
+  %br
   %p
-    You are receiving this email because you signed up for notifications about
-    %strong= @subscription.description
+    You have
+    %b{:style=>"font-size:30px"}
+      = @count
+    opportunities that match your criteria
+- else
+  %h1{:style=>"font-size:30px"} 
+    = @count
+    matching opportunity
 
-  = link_to 'Unsubscribe from this alert', unsubscribe_url(@subscription)
-  - unless @subscription.user.stub?
-    %br
-    = link_to 'Manage your alerts', dashboard_url(anchor: 'alerts', target: :alerts)
+  %br
+  %p
+    You have
+    %b{:style=>"font-size:30px"}
+      = @count
+    opportunity that matches your criteria
 
+%br
+
+- @opportunities.each do |opportunity|
+  %table.opportunity{ :border=>"0", :cellpadding=>"30", :cellspacing=>"0", :bgcolor=>"#f2eee8" }
+    %tr
+      %td
+        - if opportunity.source.eql? 'volume_opps'
+          %p{:style=>"font-size:16px"}
+            Provided by
+            %br
+            = image_tag "logos/openopps_logo.png", :alt=>"Open Opps", :width=>"150"
+
+        %b
+          = link_to opportunity.title, opportunity_url(opportunity), { :style=>"white-space:inherit;" }
+        %br
+        %br
+        = opportunity.teaser
+        %br
+        %br
+        %p{:style=>"font-size:16px; margin-bottom:0;"}
+          Opportunity expires:
+          = opportunity.response_due_on
+
+  %hr{ :style=>"background-color: #B00D23; height: 2px; margin: 0px; border: 2px solid #b00d23;" }
+  %br
+
+%p.action
+  = link_to "View all matching opportunities", "#{Figaro.env.DOMAIN}/email_notifications/#{@encrypted_user_id}", { :style=>"padding:10px 0px 10px 0px; text-align:center; width:100%" }
+
+%br
 %p
-  This export opportunity has just been published:
-%tr
-  %td.new-opportunity-box{:align => "left", :bgcolor => "#f2eee8", style: "margin-bottom: 10px; padding-top: 10px;"}
-    %table{:border => "0", :cellpadding => "10", :cellspacing => "0", :width => "100%", style: "margin-bottom: 15px;"}
-      %tr
-        %td.opportunity-title
-          %h3= @opportunity.title
-      %tr
-        %td.pad-below= @opportunity.teaser
-      %tr
-        %td.pad-below
-          Response due by
-          = @opportunity.response_due_on
-      %tr
-        %td
-          = link_to 'More details on this opportunity', opportunity_url(@opportunity)
-      %tr
-        %td
-          = link_to 'Search for other export opportunities', opportunities_url
+  You can also
+  = link_to "search for other export opportunities", opportunities_url
+
+- content_for :email_sub_footer do
+  %table{ :border=>"0", :cellpadding=>"30", :cellspacing=>"0", :width=>"600" }
+    %tr
+      %td
+        %center
+          %p You are receiving this email because you signed up for Export Opportunities email alerts
+          %p
+            = link_to "Manage your alerts", Figaro.env.SUD_PROFILE_PAGE_EMAIL_ALERTS.to_s
+            %br
+            = link_to "Unsubscribe from all alerts", "#{Figaro.env.DOMAIN}/email_notifications/unsubscribe_all/#{@encrypted_user_id}"
+            %br
+            = link_to "View privacy statement", "#{Figaro.env.EXPORT_READINESS_URL}/privacy-and-cookies/"
+            %br
+            = link_to "Give feedback", Figaro.env.CONTACT_US_FORM.to_s

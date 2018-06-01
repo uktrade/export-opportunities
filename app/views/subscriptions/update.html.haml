@@ -1,6 +1,14 @@
+- page = Poc::PagePresenter.new(content)
+
 .container
-  .legacy
-    %h1 Thank You
-    .panel.summary-panel
-      %h2 You have been unsubscribed
-      %p Thank you for explaining why you wish to unsubscribe.
+  = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
+
+  %h1.verbose= page.content["title"]
+
+  .confirmation-notice
+    %p.notice= page.content["confirmation"]
+    %p.message
+      = page.content["thank_you"]
+      = link_to page.content["manage_alerts"], dashboard_path(anchor: 'alerts', target: :alerts), class: "button"
+
+  = link_to page.content["next"], root_path, class: "button"

@@ -1,0 +1,59 @@
+- page = Poc::PagePresenter.new(@content)
+- results = Poc::OpportunitySearchResultsPresenter.new(@content['search_results'], @search_results, @search_filters)
+- content_for :action_specific_head do
+  = stylesheet_link_tag 'poc/layouts/results'
+  = javascript_include_tag 'poc/layouts/results'
+
+
+.container
+  = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
+
+#search-results
+  .container
+    %h1.verbose= @content['title']
+    .information
+      %p= results.found_message
+      = render partial: "components/subscription_link", locals: { subscription: results.subscription }
+
+    = form_tag results.form_path,  method: :get, :class=>"search" do
+      %label
+        %span New search
+        %input{:name=>"s", :autocomplete=>"off", :class=>"text", :type=>"search", :value=>"", :placeholder=>"What are you selling?"}
+      %input.submit{:value=>results.content['search_again_button'], :type=>"submit"}
+
+
+= form_tag results.form_path,  method: :get do
+  %input{:name=>"s", :type=>"hidden", :value=>@search_term}
+  
+  .container
+    - if results.found.length > 0
+
+      .search-results
+        %h2.verbose= results.content['title']
+        = results.displayed "information"
+        .sort
+          = render partial: "forms/input_select", locals: { input: results.sort_input_select }
+        = render partial: "opportunities/list", locals: { list: results }
+        = render partial: "components/pagination", locals: { items: results.found }
+        = results.view_all_link "button all"
+
+      .search-results-filters
+        %h3= results.content['title_filters']
+        - if results.selected_list.length > 0
+          .selected-filters
+            %h4= results.content['title_filters_selected']
+            %p= results.searched_in_html
+            = link_to "Clear all filters", results.reset_url(request), { :class=>"reset" }
+        = render partial: "forms/input_checkbox_group", locals: { group: results.input_checkbox_group('regions') }
+        = render partial: "forms/input_checkbox_group", locals: { group: results.input_checkbox_group('countries') }
+        %input.submit.button{:type=>"submit", :value=>"Update results"}
+        %input.reset.link{:type=>"reset", :value=>"Reset"}
+
+    - else
+      .search-results.none
+        %h2.verbose= results.content['title']
+        %p.information= results.content['no_results_message']
+        %p#no-results-instruction= results.content['no_results_instruction']
+        %ul{"aria-labelledby"=>"no-results-instruction"}
+          - results.content['no_results_actions'].each do |action|
+            %li= action

@@ -1,0 +1,20 @@
+= form_tag poc_opportunities_path, class: 'search-form', method: :get do
+  = hidden_field_tag :isSearchAndFilter, true
+  = hidden_field_tag :filterOpen, params[:filterOpen], id: 'filterOpen'
+  %label.term
+    %span.verbose Product or service keyword
+    %input{:name=>"s", :placeholder=>"What product or service are you selling?", :autocomplete=>"off", :type=>"search"}
+
+  %label.filter
+    %span.verbose Filter by country (optional)
+    %select{:name=>'areas[]', autocomplete:'off'}
+      %option{:value=>""}
+        All regions and countries
+      - @regions.each do |region|
+        %option{:value=>region[:slug]}
+          = region[:name]
+      - @countries.each do |country|
+        %option{:value=>country[:slug]}
+          = country[:name]
+
+  %input.button.submit{:name=>"commit", :value=>"Find opportunities", :type=>"submit"}

@@ -8,6 +8,7 @@ FactoryGirl.define do
 
     description { |attrs| attrs[:teaser] + Faker::Lorem.paragraph(1) }
     sequence(:slug) { |n| [title.downcase.parameterize, n].join('-') }
+    source { :post }
     status { :pending }
     response_due_on { Faker::Time.forward(23, :morning) }
 

@@ -46,6 +46,32 @@
               - else
                 Value unknown
 
+          .meta__item.meta__icon-value
+            %h4.meta__header
+              Source
+            %p.meta__content
+              =@opportunity.source
+
+          - unless @opportunity.source.eql?'post'
+            .meta__item.meta__icon-value
+              %h4.meta__header
+                Buyer
+              %p.meta__content
+                =@opportunity&.buyer_name
+                =@opportunity&.buyer_address
+
+            .meta__item.meta__icon-value
+              %h4.meta__header
+                Contact Point Name
+              %p.meta__content
+                =@opportunity.contacts.first.name
+
+            .meta__item.meta__icon-value
+              %h4.meta__header
+                Contact Point Email
+              %p.meta__content
+                =@opportunity.contacts.first.email
+
           - essential_information_required = @opportunity.countries.with_exporting_guide.any? || @opportunity.types.aid_funded.any?
           - if essential_information_required
             - @opportunity.countries.with_exporting_guide.each do |country|
@@ -68,3 +94,4 @@
             Visit the #{link_to 'opportunities page', opportunities_path} to find another.
         - else
           = link_to 'Submit your proposal', new_enquiry_path(slug: @opportunity.slug), class: 'button button-wide'
+          = link_to 'Go directly to tender site', @opportunity.tender_url, class: 'button button-wide'

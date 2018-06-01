@@ -1,0 +1,106 @@
+// GENERAL SITE STYLES
+// ---------------------
+
+a, body, dd, div, dl, dt, form, input, img, li, ol, textarea, ul {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  @include body-m;
+  background-color: $white;
+  color: $grey;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img.placeholder {
+  background-color: $light-grey;
+  border: $mid-grey solid 1px;
+  display: block;
+  padding: 16%;
+}
+
+main {
+  background-color: $white;
+  clear: both;
+}
+
+section {
+  clear: both;
+  overflow: hidden;
+  
+  .heading {
+    @include heading-m;
+    margin-bottom: $spacing-4;
+    max-width: 605px;
+  }
+
+  .intro {
+    clear: left;
+    margin-bottom: $spacing-2;
+    max-width: 605px;
+  }
+  
+  .static {
+    margin-bottom: $spacing-1;
+    max-width: 800px;
+  }
+}
+
+.container {
+  @include container;
+}
+
+.feedback {
+  padding: $spacing-1 0 $spacing-3 0;
+
+  a {
+    @include body-s;
+    color: $mid-grey;
+  }
+}
+
+.verbose {
+  @include access-hidden;
+}
+
+
+// TABLET
+@media (max-width: 767px) {
+  section {
+    .heading,
+    .section-header,
+    .intro,
+    .section-intro {
+      width: 100%;
+    }
+  }
+}
+
+
+// MOBILE
+@media (max-width: 420px) {
+  body {
+    @include body-m-mob;
+  }
+  
+  section {
+    padding-top: $spacing-3;
+    .heading,
+    .section-header {
+      @include heading-m-mob;
+    }
+  }
+}
+
+
+// PRINT
+@media print {
+  body {
+    width: 1200px;
+  }
+}

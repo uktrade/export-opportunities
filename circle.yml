@@ -8,7 +8,7 @@ deployment:
       - "[[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow"
       - git push -f git@heroku.com:${CIRCLE_PROJECT_REPONAME}-cont-depl.git ${CIRCLE_BRANCH}:master
   staging:
-    branch: develop
+    branch: develop_circleci
     commands:
       - |
         cat >~/.netrc <<EOF

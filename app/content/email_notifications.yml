@@ -1,0 +1,31 @@
+# EmailNotificationsController
+# actions: 
+#   destroy
+#   update
+# ------------------------------------
+
+
+update:
+  breadcrumb_current: "Email alerts"
+  title: "Email alerts"
+  confirmation: "You have been unsubscribed from all email alerts"
+  thank_you: "Thank you for telling us why you unsubscribed."
+  next: "Search for opportunities"
+
+
+destroy:
+  breadcrumb_current: "Email alerts"
+  title: "Email alerts"
+  confirmation: "You have been unsubscribed from all email alerts"
+  submit: "submit"
+
+  fields:
+    reason:
+      question: "Please let us know why you unsubscribed:"
+      options:
+        - label: I no longer want these emails
+          value: not_wanted
+        - label: I didn't sign up for these emails
+          value: not_signed_up
+        - label: These emails are spam
+          value: spam

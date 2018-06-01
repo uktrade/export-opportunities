@@ -1,0 +1,12 @@
+- page = Poc::PagePresenter.new(content)
+
+.container
+  = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
+
+  %h1.verbose= page.content["title"]
+
+  .confirmation-notice
+    %p.notice= page.content["confirmation"]
+    %p.message= page.content["thank_you"]
+
+  = link_to page.content["next"], root_path, class: "button"

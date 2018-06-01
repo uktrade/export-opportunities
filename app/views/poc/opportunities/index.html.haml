@@ -1,0 +1,51 @@
+- page = Poc::OpportunityIndexPresenter.new(@content, @featured_industries)
+- recent_opportunities = Poc::OpportunitySearchResultsPresenter.new(@content, @recent_opportunities, {})
+
+%section.hero-section.search-section
+  .container
+    = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
+
+    %h1= @content["title"]
+    %p= @content["description"]
+    = render "opportunities/search_form"
+
+%section#recent-opportunities
+  .container
+    %h2 Latest export opportunities
+    = render partial: "opportunities/list", locals: { list: recent_opportunities }
+    = link_to "View more", poc_opportunities_root_url, :class=>"more button"
+
+%section#featured-industries
+  .container
+    %h2 Featured industries
+    = render partial: "opportunity_summary_list", locals: { list: page.featured_industries }
+
+%section#service-promotion
+  .container
+    %h2 Thousands of export opportunities from around the world. All in one place.
+    %ul.navigation
+      %li
+        %strong Global opportunities
+        Find opportunities sourced by overseas trade professionals or provided by a third party.
+
+      %li 
+        %strong Overseas buyers
+        Connect with buyers from around the world and start trading.
+
+      %li
+        %strong Email alerts
+        Set up email alerts to get a daily summary of matching opportunities.
+
+
+= render "includes/testimonials_section"
+= render "includes/how_it_works_section"
+
+%section.search-section
+  .container
+    %h2= @content["title"]
+    = render "opportunities/search_form"
+
+
+
+- content_for :footer do
+  = render partial: 'includes/footer_domestic'

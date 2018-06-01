@@ -108,16 +108,16 @@ feature 'Administering opportunities' do
       name_fields[1].set 'Joe Bloggs'
       email_fields[1].set 'joe@bloggs.com'
 
-      fill_in 'Title', with: 'A creative man is motivated by the desire to achieve, not by the desire to beat others90'
+      fill_in 'Title', with: 'Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive253'
       fill_in t('admin.opportunity.teaser_field'), with: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p153'
 
-      expect(page).to have_text('8 characters over the limit')
+      expect(page).to have_text('3 characters over the limit')
 
       click_on 'Create Opportunity'
 
       expect(page.status_code).to eq 422
       expect(page).to have_text("Title can\'t be more than 80")
-      expect(page).to have_text("Summary can\'t be more than 140")
+      expect(page).to have_text("be 140 characters or fewer")
     end
   end
   feature 'updating an opportunity' do
@@ -136,7 +136,7 @@ feature 'Administering opportunities' do
       click_on opportunity.title
       click_on 'Edit opportunity'
 
-      fill_in 'opportunity_title', with: 'A creative man is motivated by the desire to achieve, not by the desire to beat others90'
+      fill_in 'opportunity_title', with: "Coloring book pickled fanny pack selfies blue bottle small batch palo santo jianbing marfa. Actually gastropub lomo, drinking vinegar typewriter biodiesel fashion axe kickstarter you probably haven't heard of them messenger bag echo park.1234567890 252"
       fill_in 'opportunity_teaser', with: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p153'
 
       click_on 'Update Opportunity'

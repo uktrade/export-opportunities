@@ -12,15 +12,13 @@ namespace :elasticsearch do
 
     print "Rebuilding index for #{opportunities.count} opportunities"
 
-    opportunities.find_in_batches(batch_size: 100) do |group|
+    opportunities.find_in_batches(batch_size: 5000) do |group|
       print '.'
 
       group.each do |opp|
-        opp.__elasticsearch__.update_document
+        opp.__elasticsearch__.index_document refresh: true
       end
     end
-
-    puts
   end
 
   desc 'Import all subscriptions into ElasticSearch, deleting and recreating the index'
@@ -35,15 +33,13 @@ namespace :elasticsearch do
 
     print "Rebuilding index for #{subscriptions.count} opportunities"
 
-    subscriptions.find_in_batches(batch_size: 100) do |group|
+    subscriptions.find_in_batches(batch_size: 500) do |group|
       print '.'
 
       group.each do |sub|
         sub.__elasticsearch__.update_document
       end
     end
-
-    puts
   end
 
   desc 'Import all subscription notifications into ElasticSearch, deleting and recreating the index'
@@ -58,14 +54,12 @@ namespace :elasticsearch do
 
     print "Rebuilding index for #{subscription_notifications.count} opportunities"
 
-    subscription_notifications.find_in_batches(batch_size: 100) do |group|
+    subscription_notifications.find_in_batches(batch_size: 500) do |group|
       print '.'
 
       group.each do |subnot|
         subnot.__elasticsearch__.update_document
       end
     end
-
-    puts
   end
 end

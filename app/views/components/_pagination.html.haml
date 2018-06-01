@@ -1,0 +1,13 @@
+-# Functionality for this is provided by Kaminari
+-# See customised Kaminari templates in /poc/components/kaminari/...
+.pagination
+  %p.verbose
+    Displaying page
+    = items.current_page
+    of total
+    = items.total_pages
+
+  = link_to_previous_page items, 'Previous', :class=>"previous"
+  = link_to_next_page items, 'Next', :class=>"next"
+  = paginate items, views_prefix: 'components'
+

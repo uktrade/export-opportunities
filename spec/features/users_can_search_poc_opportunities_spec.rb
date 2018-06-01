@@ -6,13 +6,13 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     create(:opportunity, status: 'publish', title: 'Boring opportunity')
 
     sleep 1
-    visit opportunities_path
+    visit poc_opportunities_path
 
-    expect(page).to have_content('What product or service are you selling?')
+    expect(page).to have_content('2 results found')
 
-    within '#search-form' do
+    within '.search' do
       fill_in 's', with: 'Super'
-      page.find('.filters__searchbutton').click
+      page.find('.submit').click
     end
 
     expect(page).to have_content('Super opportunity')
@@ -24,13 +24,13 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     create(:opportunity, status: 'publish', title: 'Childrens opportunity')
 
     sleep 1
-    visit opportunities_path
+    visit poc_opportunities_path
 
-    expect(page).to have_content('What product or service are you selling?')
+    expect(page).to have_content('2 results found')
 
-    within '#search-form' do
+    within '.search' do
       fill_in 's', with: "Children\'s"
-      page.find('.filters__searchbutton').click
+      page.find('.submit').click
     end
 
     expect(page).to have_content("Children's opportunity")
@@ -42,11 +42,11 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     create(:opportunity, status: 'publish', title: 'Award-winning jam and marmalade required')
 
     sleep 1
-    visit opportunities_path
+    visit poc_opportunities_path
 
-    within '#search-form' do
+    within '.search' do
       fill_in 's', with: 'fishing'
-      page.find('.filters__searchbutton').click
+      page.find('.submit').click
     end
 
     expect(page).to have_content('Innovative products for fish catching')
@@ -57,11 +57,11 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     opportunity = create(:opportunity, status: 'publish', title: 'France requires back bacon')
 
     sleep 1
-    visit opportunities_path
+    visit poc_opportunities_path
 
-    within '#search-form' do
+    within '.search' do
       fill_in 's', with: 'bacon'
-      page.find('.filters__searchbutton').click
+      page.find('.submit').click
     end
 
     expect(page).to have_content('France requires back bacon')
@@ -71,9 +71,9 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     opportunity.save!
     Opportunity.__elasticsearch__.refresh_index!
 
-    within '#search-form' do
+    within '.search' do
       fill_in 's', with: 'pork'
-      page.find('.filters__searchbutton').click
+      page.find('.submit').click
     end
 
     expect(page).to have_content('France requires pork sausages')

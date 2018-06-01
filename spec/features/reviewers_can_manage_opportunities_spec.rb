@@ -115,4 +115,16 @@ feature 'previewers can manage opportunities' do
 
     expect(page).to have_text('Edit opportunity')
   end
+
+  scenario 'can not view volume_opps opportunities' do
+    previewer = create(:previewer)
+    opportunity = create(:opportunity, source: :volume_opps, author: previewer, status: 'pending')
+    published_opportunity = create(:opportunity, source: :volume_opps, author: previewer, status: 'publish')
+
+    login_as(previewer)
+    visit admin_opportunities_path
+
+    expect(page).not_to have_content(opportunity.title)
+    expect(page).not_to have_content(published_opportunity.title)
+  end
 end
