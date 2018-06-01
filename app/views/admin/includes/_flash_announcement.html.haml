@@ -1,5 +1,16 @@
-- if current_editor and not @admin_updates
-  %p.flash.announcement
-    Updated guidance documents
-    = link_to 'Read more', "/admin/updates"
-  %br
+-#  TEMPORARY ACTION
+-#  Disabling the usual flash.announcement for one month, 
+-#  while we show the flash.ptu-announcement, instead.
+-#  Make sure to delete the CSS in admin.scss when reversing
+-#  this temporary adjustment.
+-#  ------------------------------------------------------ 
+-# - if current_editor and not @admin_updates
+-#   %p.flash.announcement
+-#     Updated guidance documents
+-#     = link_to 'Read more', "/admin/updates"
+-#   %br
+
+%p.flash.ptu-announcement
+  Important service update - using new reply feature mandatory after 3 April 2018
+  = link_to 'Read more', "/admin/updates"
+

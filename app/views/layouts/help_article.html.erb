@@ -17,13 +17,12 @@
 
   <main id="main" role="main" class="container">
     <%= render partial: 'admin/includes/phase_banner' %>
+    <%= render partial: 'admin/includes/flash_announcement' %>
+    <%= render partial: 'admin/includes/flash_error' %>
+    <%= render partial: 'admin/includes/flash_notice' %>
+    <%= content_for?(:errors) ? yield(:errors) : "" %>
 
     <article>
-      <%= render partial: 'admin/includes/flash_announcement' %>
-      <%= render partial: 'admin/includes/flash_error' %>
-      <%= render partial: 'admin/includes/flash_notice' %>
-      <%= content_for?(:errors) ? yield(:errors) : "" %>
-
       <h1><%= @article.title %></h1>
       <div class="article-index">
         <ol>
@@ -32,7 +31,7 @@
               <% if s[:current] %>
                 <span class="selected"><%= s[:heading] %></span>
               <% else %>
-                <%= link_to s[:heading], s[:url] %>
+                <%= link_to s[:heading], admin_help_article_path(s[:id], s[:section]) %>
               <% end %>
             </li>
           <% end %>
@@ -61,20 +60,16 @@
       </div>
 
       <div class="article-controls">
-        <a href="/<%= @article.url %>/print">
+        <%= link_to admin_help_article_print_path do %>
           <%= image_tag "icons/print.png", :class => "icon", :alt => "", :width => "16" %>Print entire guide
-        </a>
+        <% end %>
       </div>
 
     </article>
 
     <aside>
       <h2>Other Guidance</h2>
-      <ul class="navigation">
-        <% @article.related_links.each do |s| %>
-          <li><%= link_to s[:text], s[:href] %></li>
-        <% end %>
-      </ul>
+      <%= render partial: 'admin/help/article_list', locals: { articles: @article.other_articles(@article_list) } %>
     </aside>
   </main>
 

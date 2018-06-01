@@ -42,7 +42,7 @@ ukti.Tabs = (function($) {
     tab.attr('aria-selected', "true").parent().addClass('active');
 
     if (callback) {
-      callback(tab.parent().index());
+      callback(tab.parent().index(), this);
     }
   };
 

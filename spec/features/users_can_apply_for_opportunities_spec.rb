@@ -120,6 +120,39 @@ RSpec.feature 'users can apply for opportunities', js: true do
     end
   end
 
+  scenario 'user can apply with more than 1100 characters in company description, first 1100 will be saved' do
+    opportunity = create(:opportunity, status: 'publish')
+    create(:sector)
+
+    visit "enquiries/#{opportunity.slug}"
+
+    fill_in_form
+    fake_description = Faker::Lorem.characters(1102)
+
+    fill_in :enquiry_company_explanation, with: fake_description
+
+    click_on 'Submit'
+
+    # form will crop our last 2 chars+terminating character and save company explanation
+    expect(Enquiry.first.company_explanation).to eq(fake_description[0..-3])
+    expect(page).to have_content('Thank you')
+  end
+
+  scenario 'user can apply with exactly 1100 characters in company description', js: true do
+    opportunity = create(:opportunity, status: 'publish')
+    create(:sector)
+
+    visit "enquiries/#{opportunity.slug}"
+
+    fill_in_form
+    fake_description = Faker::Lorem.characters(1100)
+    fill_in :enquiry_company_explanation, with: fake_description
+
+    click_on 'Submit'
+
+    expect(page).to have_content('Thank you')
+  end
+
   scenario 'user enquiries are emailed to DIT' do
     allow(Figaro.env).to receive(:enquiries_cc_email).and_return('dit-cc@example.org')
     clear_email
@@ -128,22 +161,22 @@ RSpec.feature 'users can apply for opportunities', js: true do
     create(:sector)
     apply_to_opportunity(opportunity)
     enquiry = opportunity.enquiries.first
+    reply_by_date = (Date.today + 7.days).strftime("%d %B %Y")
 
     opportunity.contacts.each do |contact|
       open_email(contact.email)
       expect(current_email).not_to be_nil
       expect(current_email.cc).to eq(['dit-cc@example.org'])
-      expect(current_email).to have_link(opportunity.title)
+      expect(current_email).to have_content(opportunity.title)
       expect(current_email).to have_content(enquiry.company_name)
-      expect(current_email).to have_content(enquiry.email)
+      expect(current_email).to have_content("You need to respond to the enquiry using the correct reply template in the admin centre by #{reply_by_date}")
     end
 
     open_email('dit-cc@example.org')
     expect(current_email).not_to be_nil
-    expect(current_email).to have_link(opportunity.title)
+    expect(current_email).to have_content(opportunity.title)
     expect(current_email).to have_content(enquiry.company_name)
-    expect(current_email).to have_content(enquiry.email)
-    expect(current_email).to have_content('Details can be used for marketing by DIT and trusted partners: Y')
+    expect(current_email).to have_content('Remember to record a new interaction in Data Hub.')
   end
 
   scenario 'DIT are not CCed if enquiries_cc_email not set' do

@@ -68,7 +68,7 @@
       - else
         %h2.heading-small This response is pending
       %div.comment_body
-        = @enquiry_response.email_body.html_safe
+        = present_html_or_formatted_text(@enquiry_response.email_body)
 
   %table.horizontal
     %tr

@@ -260,4 +260,12 @@ feature 'admin can view enquiries' do
     expect(page).to have_link(enquiry.company_name, href: 'https://beta.companieshouse.gov.uk/company/10804351')
     expect(page).to have_link(enquiry.company_name, href: 'https://trade.great.gov.uk/amazon')
   end
+
+  scenario 'can not generate multiple enquiry responses' do
+    opportunity = create(:opportunity)
+    enquiry = create(:enquiry, company_house_number: '12345678', opportunity: opportunity)
+    create(:enquiry_response, enquiry: enquiry)
+
+    expect { create(:enquiry_response, enquiry: enquiry) }.to raise_error(ActiveRecord::RecordInvalid)
+  end
 end

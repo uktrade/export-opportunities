@@ -2,17 +2,11 @@
 @article.title = "How to assess a company"
 
 
-# Set any related article links
-# -----------------------------
-@article.related_link "How to respond to UK companies that are 'Right for opportunity'", "/admin/help/right-for-opportunity-responses/overview"
-@article.related_link "How to respond to UK companies that are 'Not right for opportunity'", "/admin/help/not-right-for-opportunity-responses/overview"
-
-
 # Set up the sections within article
 # ----------------------------------
 
-@article.section "Overview", <<-SECTION
-  <p>You will need to assess whether a company is both eligible and suitable for the opportunity it has applied for. To do this, you must cross reference the information the company has included in its application with its website and Companies House profile. Do not just assume that the information contained in the application is accurate.</p>
+@article.set_section "Overview", <<-SECTION
+  <p>You will need to assess whether a company is both eligible and suitable for the opportunity it has applied for by researching online or using Companies House. Please note, however, that not all companies are registered with Companies House, but this does not automatically make them ineligible.</p>
 SECTION
 
 
@@ -46,8 +40,11 @@ SECTION
 SECTION
 
 
-@article.section "Select a decision", <<-SECTION
-  <p>There are 5 different decisions you can make on a proposal. You should select the decision that most closely matches the outcome.</p>
+@article.set_section "Select a decision", <<-SECTION
+  <p>You should be able to decide if a company is eligible and suitable based on its proposal and on your own research. There are 4 replies you can use: 1 'right for opportunity' and 3 'not right for opportunity' replies.</p>
+
+  <p>If you need more information, you will need to contact the company and then make a decision within 5 days from when the company submitted its proposal. If the company does not get back to you within the 5 days, make a decision based on the available information.</p>
+
 
   <h3>Right for opportunity</h3>
   <p>If the UK company is eligible and suitable, select ‘Right for opportunity’.</p>
@@ -70,11 +67,6 @@ SECTION
   <h3>Not for third parties</h3>
   <p>Select ‘Not for third party’ if the buyer only wants to deal directly with UK companies.</p>
 
-  <h3>Need more company information</h3>
-  <p>Contact the company directly and tell them to provide the missing information.</p>
-  <p>You need to do this within 5 working days from the date the company submitted its proposal.</p>
-  <p>When you have the missing information, you should make a decision on the proposal.</p>
-  <p>If you do not hear back from them, make a decision based on the information available to you.</p>
 SECTION
 
 

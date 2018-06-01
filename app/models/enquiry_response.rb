@@ -2,9 +2,9 @@ class EnquiryResponse < ApplicationRecord
   include EnquiryResponseHelper
   mount_uploaders :attachments, EnquiryResponseUploader
   attr_accessor :completed_at
-  # default_scope { where.not(completed_at: nil) }
 
   validate :email_body_length_check
+  validates :enquiry_id, uniqueness: true
 
   belongs_to :enquiry
   belongs_to :editor

@@ -4,14 +4,13 @@ class Admin::HelpController < Admin::BaseController
   helper_method :sections_links
 
   def index
+    @article_list = article_list
     render layout: 'help'
   end
 
   def show
     page_url = params[:id]
     case page_url
-    when 'opportunities'
-      render 'admin/opportunities/help'
     when 'enquiries'
       render 'admin/enquiries/help'
     else
@@ -20,9 +19,10 @@ class Admin::HelpController < Admin::BaseController
   end
 
   def article
-    article_path = 'admin/help/' + id_to_file(params[:id])
-    @article = HelpArticlePresenter.new(article_path, params[:section])
-    render article_path, layout: 'help_article'
+    file_path = 'admin/help/' + id_to_file(params[:id])
+    @article = HelpArticlePresenter.new(params[:id], params[:section])
+    @article_list = article_list
+    render file_path, layout: 'help_article'
   end
 
   def render_error_not_found
@@ -35,8 +35,25 @@ class Admin::HelpController < Admin::BaseController
   end
 
   def article_print
-    article_path = 'admin/help/' + id_to_file(params[:id])
-    @article = HelpArticlePresenter.new(article_path, params[:section])
-    render article_path, layout: 'help_article_print'
+    file_path = 'admin/help/' + id_to_file(params[:id])
+    @article = HelpArticlePresenter.new(params[:id], params[:section])
+    render file_path, layout: 'help_article_print'
+  end
+
+  def article_list
+    [
+      { id: 'how-to-write-an-export-opportunity',
+        section: 'overview',
+        title: 'How to write an export opportunity' },
+      { id: 'how-to-assess-a-company',
+        title: 'How to assess a company',
+        section: 'overview' },
+      { id: 'right-for-opportunity-responses',
+        title: 'How to respond to UK companies that are \'Right for opportunity\'',
+        section: 'overview' },
+      { id: 'not-right-for-opportunity-responses',
+        title: 'How to respond to UK companies that are \'Not right for opportunity\'',
+        section: 'overview' },
+    ]
   end
 end

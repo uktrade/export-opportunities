@@ -124,6 +124,6 @@ feature 'previewers can view enquiries' do
 
     click_on 'Generate report'
 
-    expect(page).to have_content('The requested Enquiries report has been emailed to you')
+    expect(page).to have_content('The Enquiries report has been emailed')
   end
 end

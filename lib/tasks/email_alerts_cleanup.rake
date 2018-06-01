@@ -30,4 +30,19 @@ namespace :reports do
       end
     end
   end
+
+  desc 'Add users to impact email blacklist'
+  task impact_email_alerts_cleanup: :environment do
+    arr_file = CSV.parse(open(Figaro.env.UNSUBSCRIBE_IMPACT_EMAILS_URL))
+    arr_file.each_with_index do |data, line|
+      next if line.zero?
+
+      puts 'next impact email to add to the blacklist:'
+      email = data[0]
+      puts email
+      user = User.where(email: email).first
+      next unless user&.id
+      FeedbackOptOut.new(user_id: user.id).save!
+    end
+  end
 end

@@ -1,0 +1,23 @@
+// REQUIRED SUPPORTING STYLES
+// --------------------------
+//
+// Because there is a lot of CSS already in place and ExOpps is not going through a
+// full redesign/update, we need to avoid affecting the views in place. 
+// Unfortunately, to get the updated look on areas that are within a scope of change,
+// we need to compromise and bring in what we can. 
+// 
+// Obvious examples are around the general and content sass files which would have a 
+// wide impact on the site with unknown results, if linked in.
+//
+// These styles are taken from existing files within the styleguide_export folder, 
+// but altered to make them more specific or adaptive to working within the ExOpps
+// environment, alongside the old/existing CSS.
+
+
+// From _general.scss
+.verbose {
+  overflow: hidden;
+  position: absolute;
+  text-indent: -1000px;
+  z-index: -1;
+}

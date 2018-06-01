@@ -77,14 +77,10 @@ describe ApplicationHelper do
 
     # This test requires internet connection to Trade Profile API
     it 'returns trade profile for a company house number that we know exists in Profile Staging' do
+      skip('TODO: reintroduce once FAS adds data in their staging env')
       result = trade_profile('SC406536')
-      expect(result).to_not be(nil)
+      expect(result).to_not eq(nil)
       expect(result).to include('SC406536')
-    end
-
-    it 'returns nil for a company house number that we know does not exist in Profile Staging' do
-      result = trade_profile('SC40 6536')
-      expect(result).to eq(nil)
     end
 
     it 'returns nil for a company house number that we know does not exist in Profile Staging' do

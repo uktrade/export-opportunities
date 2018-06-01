@@ -23,16 +23,10 @@ ukti.EnquiryResponse = (function($) {
       return ukti.Utilities.getValueFromRadioButton('enquiry_response[response_type]');
     };
 
+    // Pass in the current response type, not the tab index number.
     var setState = function (mode) {
       mode = parseInt(mode, 10);
       switch (mode) {
-          case 2:
-              document.getElementById('custom-response').classList.add('hidden');
-              document.getElementById('signature').classList.add('hidden');
-              document.getElementById('attachments').classList.add('hidden');
-              document.getElementById('submit').classList.add('hidden');
-              updateSubmitButton('Preview');
-              break;
           case 3:
               document.getElementById('custom-response').classList.remove('hidden');
               document.getElementById('signature').classList.add('hidden');
@@ -63,8 +57,13 @@ ukti.EnquiryResponse = (function($) {
       }
     };
 
-    var tabsCallback = function (index) {
-      setState(index+1);
+    // @index (Number) Clicked tab in order of display.
+    // @el (HTML Node) Actual element to fire click event.
+    var tabsCallback = function (index, el) {
+      var input = document.getElementById(el.getAttribute('for'));
+      if(input) {
+        setState(input.value);
+      }
       ukti.Forms.clearErrorsFromFields();
     };
 

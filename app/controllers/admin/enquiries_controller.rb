@@ -29,8 +29,9 @@ class Admin::EnquiriesController < Admin::BaseController
       end
       format.csv do
         enquiries = policy_scope(Enquiry).includes(:enquiry_response).all.order(created_at: :desc)
-        SendEnquiriesReportToMatchingAdminUser.perform_async(current_editor.email, enquiries.pluck(:id), @enquiry_form.from, @enquiry_form.to, false) if @enquiry_form.dates?
-        redirect_to admin_enquiries_path, notice: 'The requested Enquiries report has been emailed to you.'
+        zip_file_enquiries_cutoff_env_var = Figaro.env.zip_file_enquiries_cutoff ? Figaro.env.zip_file_enquiries_cutoff!.to_i : 6000
+        SendEnquiriesReportToMatchingAdminUser.perform_async(current_editor.email, enquiries.pluck(:id), @enquiry_form.from, @enquiry_form.to, zip_file_enquiries_cutoff_env_var) if @enquiry_form.dates?
+        redirect_to admin_enquiries_path, notice: 'The Enquiries report has been emailed. If you have requested a large amount of data, the report will be sent as sections in separate emails.'
       end
     end
   end
@@ -39,7 +40,13 @@ class Admin::EnquiriesController < Admin::BaseController
     enquiry_id = params.fetch(:id, nil)
     @enquiry = Enquiry.find(enquiry_id)
 
-    @enquiry_response = EnquiryResponse.where(enquiry_id: enquiry_id).first
+    enquiry_responses = EnquiryResponse.where(enquiry_id: enquiry_id)
+    @enquiry_response = if enquiry_responses.pluck(:completed_at).compact.size.positive?
+                          enquiry_responses.where(completed_at: enquiry_responses.pluck(:completed_at).compact.first).first
+                        else
+                          enquiry_responses.first
+                        end
+
     @trade_profile_url = trade_profile(@enquiry.company_house_number)
     @companies_house_url = companies_house_url(@enquiry.company_house_number)
     authorize @enquiry

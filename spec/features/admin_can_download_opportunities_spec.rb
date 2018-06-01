@@ -13,6 +13,7 @@ feature 'admins can download opportunities' do
 
     login_as(admin)
     visit admin_opportunities_path
+
     click_on 'Download'
 
     click_on 'Download as CSV'

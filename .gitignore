@@ -44,6 +44,8 @@ public/assets
 
 heroku_config_variables
 
+*.sh
+
 # local deployment scripts
 *.sh
 

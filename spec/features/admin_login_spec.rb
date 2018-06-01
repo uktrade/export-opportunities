@@ -8,9 +8,8 @@ feature 'Logging in as an admin' do
   end
 
   scenario 'Unauthenticated editor visits help and enquiries pages' do
-    visit '/admin/help/opportunities'
+    visit '/admin/help/how-to-write-an-export-opportunity/overview'
     expect_editor_to_be_logged_out
-    visit '/admin/enquiries'
     expect(page).to_not have_text('This page cannot be found')
     expect(page).to have_text('Log in')
   end
@@ -32,7 +31,7 @@ feature 'Logging in as an admin' do
   scenario 'Logging in successfully to help guide' do
     create(:editor, email: 'email@example.com', password: 'wibble-sidecar-sling')
 
-    visit '/admin/help/opportunities'
+    visit '/admin/help/how-to-write-an-export-opportunity/overview'
 
     within '#new_editor' do
       fill_in 'Email',    with: 'email@example.com'
@@ -47,33 +46,33 @@ feature 'Logging in as an admin' do
     editor = create(:editor)
     login_as(editor)
 
-    visit '/admin/help/opportunities'
+    visit '/admin/help/how-to-write-an-export-opportunity/overview'
 
     expect_editor_to_be_logged_in
-    expect(page.body).to include('Example of a')
-    expect(page.body).to include('Export opportunities guidance')
+    expect(page.body).to include('This guidance aims to help you write export opportunities')
+    expect(page.body).to include('How to write an export opportunity')
   end
 
   scenario 'visiting admin help guide for enquiries' do
     editor = create(:editor)
     login_as(editor)
 
-    visit '/admin/help/enquiries'
+    visit '/admin/help/how-to-assess-a-company/overview'
 
     # we are logged in but can't see the Log out option without js.
     expect(page).to have_content('Opportunities Enquiries Stats')
-    expect(page).to have_content('This guidance has been designed to help you respond to UK companies')
+    expect(page).to have_content('You will need to assess whether a company is both eligible and suitable')
   end
 
   scenario 'visiting admin old sign in page after we have signed in' do
     editor = create(:editor)
     login_as(editor)
 
-    visit '/admin/help/enquiries'
+    visit '/admin/help/how-to-assess-a-company/overview'
 
     # we are logged in but can't see the Log out option without js.
     expect(page).to have_content('Opportunities Enquiries Stats')
-    expect(page).to have_content('This guidance has been designed to help you respond to UK companies')
+    expect(page).to have_content('You will need to assess whether a company is both eligible and suitable')
 
     visit '/admin/editors/sign_in'
 
@@ -91,9 +90,7 @@ feature 'Logging in as an admin' do
 
     expect_editor_to_be_logged_out
 
-    within '.flash.error' do
-      expect(page).to have_content(I18n.t('devise.failure.invalid'))
-    end
+    expect(page).to have_content(I18n.t('devise.failure.invalid'))
   end
 
   feature 'Attempting to log in with the wrong password' do
@@ -110,9 +107,7 @@ feature 'Logging in as an admin' do
 
       expect_editor_to_be_logged_out
 
-      within '.flash.error' do
-        expect(page).to have_content(I18n.t('devise.failure.invalid'))
-      end
+      expect(page).to have_content(I18n.t('devise.failure.invalid'))
     end
 
     scenario 'account is locked after a number of attempts' do
@@ -138,9 +133,7 @@ feature 'Logging in as an admin' do
 
       expect_editor_to_be_logged_out
 
-      within '.flash.error' do
-        expect(page).to have_content(I18n.t('devise.failure.invalid'))
-      end
+      expect(page).to have_content(I18n.t('devise.failure.invalid'))
     end
 
     scenario 'shows an error when account is locked' do
@@ -157,9 +150,7 @@ feature 'Logging in as an admin' do
 
       expect_editor_to_be_logged_out
 
-      within '.flash.error' do
-        expect(page).to have_content(I18n.t('devise.failure.invalid'))
-      end
+      expect(page).to have_content(I18n.t('devise.failure.invalid'))
     end
 
     scenario 'account can be unlocked by clicking link in email', sidekiq: :inline do

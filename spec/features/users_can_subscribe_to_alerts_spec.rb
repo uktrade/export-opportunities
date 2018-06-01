@@ -90,7 +90,8 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
       wait_for_ajax
 
       expect(page).to have_content 'Your email alert has been created'
-      expect(page).to have_content 'Search term:transformers'
+      expect(page).to have_content 'Search term:'
+      expect(page).to have_content 'transformers'
       expect(page).to have_content 'Italy'
       expect(page).to have_content 'Toys'
       expect(page).to have_content 'Magical'
