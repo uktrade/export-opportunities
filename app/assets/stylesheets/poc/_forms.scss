@@ -30,6 +30,7 @@ form {
 }
 
 input {
+  @include focus;
   @include body-m;
   border: 2px solid $grey;
   height: 50px;
@@ -61,21 +62,27 @@ legend {
   margin-bottom: $spacing-3;
 }
 
+option { 
+  background-color: $white;
+}
+
 pre {
   font-family: inherit;
 }
 
 select {
+  @include focus;
   @include body-m;
   background: $white image_url('arrow_down.png') no-repeat 98%/15px;
   border: 2px solid $grey;
+  border-radius: 0;
   display: block;
   height: 50px;
   margin-bottom: $spacing-3;
   padding: 10px 20px 10px 10px;
   -moz-appearance: none;
   -webkit-appearance: none;
-  text-overflow: '';
+  -webkit-padding-start: 10px;
 }
 
 textarea {
