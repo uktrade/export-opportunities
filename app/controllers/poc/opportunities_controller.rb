@@ -355,7 +355,7 @@ class Poc::OpportunitiesController < OpportunitiesController
     # Education & Training = id(10)
     # Oil & Gas = id(25)
     # Retail and luxury = id(30)
-    Sector.where(id: [11, 34, 17, 13, 28, 33])
+    Sector.where(id: [9, 31, 14, 10, 25, 30])
   end
 
   private def subscription_form
