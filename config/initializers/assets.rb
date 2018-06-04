@@ -28,12 +28,13 @@ Rails.application.config.assets.precompile += %w[jquery3.2.0.js]
 # Add Yarn node_modules folder to the asset load path.
 Rails.application.config.assets.paths << Rails.root.join('node_modules')
 
-# New design update stuff after this point.
+# New (Post-POC) design update stuff after this point.
 Rails.application.config.assets.precompile += %w[updated/admin.css]
 Rails.application.config.assets.precompile += %w[updated/layouts/help.css]
 Rails.application.config.assets.precompile += %w[layouts/notifications.scss]
 
 Rails.application.config.assets.precompile += %w[layouts/notifications.js]
+Rails.application.config.assets.precompile += %w[layouts/landing.js]
 
 # POC files beyond this point
 Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'stylesheets', 'poc')
@@ -49,7 +50,6 @@ Rails.application.config.assets.precompile += %w[poc/layouts/results.scss]
 Rails.application.config.assets.precompile += %w[poc/layouts/opportunity.scss]
 Rails.application.config.assets.precompile += %w[poc/layouts/enquiries.scss]
 
-Rails.application.config.assets.precompile += %w[poc/layouts/landing.js]
 Rails.application.config.assets.precompile += %w[poc/global.js]
 Rails.application.config.assets.precompile += %w[poc/layouts/results.js]
 Rails.application.config.assets.precompile += %w[poc/layouts/form.js]

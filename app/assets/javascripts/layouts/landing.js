@@ -1,9 +1,9 @@
 // Layout: opportunities#international
 //
-//= require ../dit.class.carousel
-//= require ../dit.class.tabbed_area
-//= require ../dit.class.selective_lookup
-//= require ../dit.class.filter_select
+//= require ../poc/dit.class.carousel
+//= require ../poc/dit.class.tabbed_area
+//= require ../poc/dit.class.selective_lookup
+//= require ../poc/dit.class.filter_select
 
 dit.page.landing = (new function () {
   var _landing = this;
