@@ -355,7 +355,7 @@ class Poc::OpportunitiesController < OpportunitiesController
     # Education & Training = id(10)
     # Oil & Gas = id(25)
     # Retail and luxury = id(30)
-    Sector.where(id: [9, 31, 14, 10, 25, 30])
+    Sector.where(id: Figaro.env.GREAT_FEATURED_INDUSTRIES.split(',').map(&:to_i).to_a)
   end
 
   private def subscription_form
