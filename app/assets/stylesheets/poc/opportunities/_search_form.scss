@@ -8,10 +8,6 @@
     margin: 0;
   }
 
-  label.enhanced {
-    @include access-hidden;
-  }
-
   select {
     background-color: $white;
     float: left;
@@ -24,14 +20,6 @@
 
   .filter {
     float: left;
-    width: $cols-3;
-  }
-
-  .FilterSelectInput {
-    float: left;
-    height: 54px;
-    left: -2px;
-    position: relative;
     width: $cols-3;
   }
 
@@ -58,33 +46,31 @@
 // RESPONSIVE
 @media screen and (max-width: 980px) {
   .search-form {
-    .filter,
-    .FilterSelectInput {
+    padding-bottom: $spacing-3;
+
+    .filter {
+      margin-bottom: $spacing-3;
       width: $cols-4;
     }
 
     .submit {
-      margin: $spacing-4 0 0 0;
+      margin: 0;
       width: $cols-4;
     }
 
     .term {
+      margin-bottom: $spacing-3;
       width: $cols-8;
     }
   }
 }
 
+
 @media screen and (max-width: 660px) {
   .search-form {
     .filter,
-    .FilterSelectInput,
+    .submit,
     .term {
-      margin: 0 0 $spacing-4 0;
-      width: 100%;
-    }
-
-    .submit {
-      margin: 0;
       width: 100%;
     }
   }

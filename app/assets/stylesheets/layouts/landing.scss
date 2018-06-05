@@ -244,14 +244,6 @@ section {
   }
 }
 
-@media screen and (max-width: 982px) {
-  .opportunities-search-form {
-    .FilterSelectInput {
-      width: $cols-4;
-    }
-  }
-}
-
 @media screen and (max-width:768px) {
   .quote {
     width: 75%;
@@ -262,24 +254,6 @@ section {
   .hero-section {
     background-size: auto;
     background-position: 60% -60px;
-  }
-
-  .opportunities-search-form {
-    padding: $spacing-3-m;
-
-    input,
-    select, 
-    .FilterSelectInput {
-      float: none;
-      margin-bottom: $spacing-3-m;
-      width: 100%;
-    }
-
-    .term {
-      float: none;
-      margin-bottom: 0;
-      width: 100%;
-    }
   }
 }
 
