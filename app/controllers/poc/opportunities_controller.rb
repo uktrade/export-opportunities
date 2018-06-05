@@ -17,7 +17,7 @@ class Poc::OpportunitiesController < OpportunitiesController
   end
 
   def international
-    render 'opportunities/international', layout: 'layouts/international'
+    render 'opportunities/international', layout: 'poc/layouts/international'
   end
 
   def results_digest

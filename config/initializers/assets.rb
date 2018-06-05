@@ -40,6 +40,7 @@ Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'style
 Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'images', 'poc')
 Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'javascripts', 'poc')
 
+Rails.application.config.assets.precompile += %w[layouts/international.scss]
 Rails.application.config.assets.precompile += %w[layouts/landing.scss]
 Rails.application.config.assets.precompile += %w[poc/poc.scss]
 Rails.application.config.assets.precompile += %w[poc/global.scss]
@@ -49,6 +50,7 @@ Rails.application.config.assets.precompile += %w[poc/layouts/results.scss]
 Rails.application.config.assets.precompile += %w[poc/layouts/opportunity.scss]
 Rails.application.config.assets.precompile += %w[poc/layouts/enquiries.scss]
 
+Rails.application.config.assets.precompile += %w[poc/layouts/international.js]
 Rails.application.config.assets.precompile += %w[poc/layouts/landing.js]
 Rails.application.config.assets.precompile += %w[poc/global.js]
 Rails.application.config.assets.precompile += %w[poc/layouts/results.js]

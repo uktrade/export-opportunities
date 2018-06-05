@@ -33,8 +33,8 @@ Rails.application.routes.draw do
   get 'poc/opportunities/digest/:id', to: 'poc/opportunities#results_digest'
 
   post 'poc/opportunities/new' => 'poc/opportunities#new'
+  get 'poc/international' => 'poc/opportunities#international'
   namespace :poc do
-    get 'international' => 'opportunities#international'
     resources :opportunities do
       get 'opportunities/:id', to: 'poc/opportunities#show'
       root "opportunities#results"
