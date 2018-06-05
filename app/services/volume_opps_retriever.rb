@@ -98,7 +98,7 @@ class VolumeOppsRetriever
         teaser: nil,
         response_due_on: response_due_on,
         description: description,
-        service_provider_id: 150,
+        service_provider_id: 27, # DIT HQ
         contacts_attributes: contact_attributes(buyer),
         buyer_name: buyer['name'],
         buyer_address: buyer['address'].present? ? address_from_buyer(buyer['address']) : nil,

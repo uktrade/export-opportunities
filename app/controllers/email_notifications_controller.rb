@@ -28,7 +28,7 @@ class EmailNotificationsController < ApplicationController
 
     Subscription.where(id: @subscription_ids).update_all(unsubscribed_at: Time.zone.now)
     render 'email_notifications/destroy', layout: 'layouts/notifications', locals: {
-      content: @content["destroy"]
+      content: @content['destroy'],
     }
   end
 
@@ -40,7 +40,7 @@ class EmailNotificationsController < ApplicationController
     Subscription.where(id: @subscription_ids).update_all(unsubscribe_reason: reason_param)
 
     render 'email_notifications/update', layout: 'layouts/notifications', status: :accepted, locals: {
-      content: @content["update"]
+      content: @content['update'],
     }
   end
 

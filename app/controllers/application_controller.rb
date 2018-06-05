@@ -80,6 +80,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def api_check
+    rs = Sidekiq::RetrySet.new
+    retry_jobs = rs.select { |retri| retri.item['class'] == 'RetrieveVolumeOpps' }
+
+    if retry_jobs.size.positive?
+      render json: { status: 'error', retry_error_count: retry_jobs.size }
+    else
+      render json: { status: 'OK' }
+    end
+  end
+
   def db_opportunities
     Opportunity.where('response_due_on >= ? and status = ?', DateTime.now.utc, 2).pluck(:id)
   end
