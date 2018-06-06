@@ -31,33 +31,34 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 # New design update stuff after this point.
 Rails.application.config.assets.precompile += %w[updated/admin.css]
 Rails.application.config.assets.precompile += %w[updated/layouts/help.css]
-Rails.application.config.assets.precompile += %w[layouts/notifications.scss]
 
+# Transformation project (built from POC)
+Rails.application.config.assets.precompile += %w[global.scss]
+Rails.application.config.assets.precompile += %w[layouts/landing.scss]
+Rails.application.config.assets.precompile += %w[layouts/results.scss]
+Rails.application.config.assets.precompile += %w[layouts/opportunity.scss]
+Rails.application.config.assets.precompile += %w[poc/layouts/enquiries.scss]
+Rails.application.config.assets.precompile += %w[layouts/notifications.scss]
+Rails.application.config.assets.precompile += %w[ie8_fixes.scss]
+Rails.application.config.assets.precompile += %w[ie9_fixes.scss]
+
+Rails.application.config.assets.precompile += %w[global.js]
+Rails.application.config.assets.precompile += %w[layouts/form.js]
 Rails.application.config.assets.precompile += %w[layouts/notifications.js]
+Rails.application.config.assets.precompile += %w[layouts/landing.js]
+Rails.application.config.assets.precompile += %w[layouts/results.js]
+Rails.application.config.assets.precompile += %w[layouts/opportunity.js]
+Rails.application.config.assets.precompile += %w[poc/layouts/enquiries.js]
 
 # POC files beyond this point
+Rails.application.config.assets.precompile += %w[poc/poc.scss]
+Rails.application.config.assets.precompile += %w[layouts/international.scss]
 Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'stylesheets', 'poc')
 Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'images', 'poc')
 Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'javascripts', 'poc')
 
-Rails.application.config.assets.precompile += %w[layouts/international.scss]
-Rails.application.config.assets.precompile += %w[layouts/landing.scss]
-Rails.application.config.assets.precompile += %w[poc/poc.scss]
-Rails.application.config.assets.precompile += %w[poc/global.scss]
-Rails.application.config.assets.precompile += %w[poc/ie8_fixes.scss]
-Rails.application.config.assets.precompile += %w[poc/ie9_fixes.scss]
-Rails.application.config.assets.precompile += %w[poc/layouts/results.scss]
-Rails.application.config.assets.precompile += %w[poc/layouts/opportunity.scss]
-Rails.application.config.assets.precompile += %w[poc/layouts/enquiries.scss]
 
 Rails.application.config.assets.precompile += %w[poc/layouts/international.js]
-Rails.application.config.assets.precompile += %w[poc/layouts/landing.js]
-Rails.application.config.assets.precompile += %w[poc/global.js]
-Rails.application.config.assets.precompile += %w[poc/layouts/results.js]
-Rails.application.config.assets.precompile += %w[poc/layouts/form.js]
-Rails.application.config.assets.precompile += %w[poc/layouts/opportunity.js]
-Rails.application.config.assets.precompile += %w[poc/layouts/enquiries.js]
-
 Rails.application.config.assets.precompile += %w['poc/*.js']
 Rails.application.config.assets.precompile += %w['poc/layouts/*.js']
 Rails.application.config.assets.precompile += %w['poc/third_party/*.js']

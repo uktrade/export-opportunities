@@ -6,9 +6,6 @@
   <%= render partial: 'includes/global_head_tags' %>
   <%= render partial: 'includes/global_styles' %>
   <%= render partial: 'includes/global_scripts' %>
-
-  <%= stylesheet_link_tag 'layouts/landing', media: 'all' %>
-  <%= javascript_include_tag 'layouts/landing' %>
   <%= yield :action_specific_head %>
 
   <%= render partial: 'google_analytics' %>

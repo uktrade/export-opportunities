@@ -1,5 +1,8 @@
 - page = Poc::PagePresenter.new(@content)
 - page.add_breadcrumb_current('Proposal submitted')
+- content_for :action_specific_head do
+  = stylesheet_link_tag 'layouts/enquiries'
+  = javascript_include_tag 'layouts/enquiries'
 
 .container
   = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }

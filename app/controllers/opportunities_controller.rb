@@ -3,6 +3,7 @@ require 'set'
 
 class OpportunitiesController < ApplicationController
   protect_from_forgery except: :index
+  layout 'transformation'
 
   def index
     @content = get_content('opportunities/index.yml')
@@ -11,7 +12,6 @@ class OpportunitiesController < ApplicationController
     @recent_opportunities = recent_opportunities
     @countries = Country.all.order :name
     @regions = regions_list
-    render 'opportunities/index', layout: 'layouts/landing'
   end
 
   def results
@@ -35,13 +35,11 @@ class OpportunitiesController < ApplicationController
       'countries': search_filter_countries(@search_results[:countries]),
       'regions': search_filter_regions,
     }
-    render 'opportunities/results', layout: 'layouts/domestic'
   end
 
   def show
     @content = get_content('opportunities/new.yml')
     @opportunity = Opportunity.published.find(params[:id])
-    render 'opportunities/show', layout: 'layouts/domestic'
   end
 
   private def search_term
