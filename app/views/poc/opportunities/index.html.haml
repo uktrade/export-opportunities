@@ -13,7 +13,7 @@
   .container
     %h2 Latest export opportunities
     = render partial: "opportunities/list", locals: { list: recent_opportunities }
-    = link_to "View more", poc_opportunities_root_url, :class=>"more button"
+    = link_to "View more", opportunities_url, :class=>"more button"
 
 %section#featured-industries
   .container

@@ -89,7 +89,9 @@ class Poc::FormPresenter < Poc::BasePresenter
 
   # Return formatted data for Radio input component
   def input_radio(name)
+    puts "input_radio... #{name}"
     field = field_content(name)
+    puts "field... #{field}"
     input = {}
     unless field.nil?
       input[:question] = prop(field, 'question')

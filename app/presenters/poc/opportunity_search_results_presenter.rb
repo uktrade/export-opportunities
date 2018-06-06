@@ -11,7 +11,7 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
     @sort_by = search[:sort_by]
     @term = search[:term]
     @selected_list = selected_filter_list
-    @form_path = poc_opportunities_path
+    @form_path = opportunities_path
   end
 
   def field_content(name)
@@ -49,7 +49,7 @@ class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
   # TODO: What is the view all URL?
   def view_all_link(css_classes = '')
     if @total > @view_limit
-      link_to "View all (#{@total})", poc_opportunities_path, 'class': css_classes
+      link_to "View all (#{@total})", opportunities_path, 'class': css_classes
     end
   end
 

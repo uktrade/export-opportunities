@@ -1,4 +1,4 @@
-= form_tag poc_opportunities_path, class: 'search-form', method: :get do
+= form_tag opportunities_path, class: 'search-form', method: :get do
   = hidden_field_tag :isSearchAndFilter, true
   = hidden_field_tag :filterOpen, params[:filterOpen], id: 'filterOpen'
   %label.term
