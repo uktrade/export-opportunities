@@ -3,7 +3,6 @@ require 'set'
 
 class OpportunitiesController < ApplicationController
   protect_from_forgery except: :index
-  prepend_view_path 'app/views/poc'
 
   def index
     @content = get_content('opportunities/index.yml')
