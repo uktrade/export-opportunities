@@ -39,6 +39,7 @@ input {
   padding: 0 10px;
   text-transform: none;
   width: 100%;
+  -webkit-appearance: none; /* Fix: Safari being awkward with input[type=search] (alternative remove type=search) */
 
   &[type='hidden'] {
     visibility: hidden;
