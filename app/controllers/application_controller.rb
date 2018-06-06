@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
   require 'yaml'
+  # for how many days should we notify pingdom that a volume opps job has failed
+  PUBLISH_SIDEKIQ_ERROR_DAYS = 1.freeze
 
   # Protect by basic auth on staging
   # Use basic auth if set in the environment
@@ -81,11 +83,16 @@ class ApplicationController < ActionController::Base
   end
 
   def api_check
-    rs = Sidekiq::RetrySet.new
-    retry_jobs = rs.select { |retri| retri.item['class'] == 'RetrieveVolumeOpps' }
+    redis = Redis.new(url: Figaro.env.redis_url!)
+    latest_sidekiq_failure = redis.get(:sidekiq_retry_jobs_last_failure)
 
-    if retry_jobs.size.positive?
-      render json: { status: 'error', retry_error_count: retry_jobs.size }
+    sidekiq_retry_jobs_count = sidekiq_retry_count
+    retry_count = redis_oo_retry_count(redis)
+
+    update_redis_counter(redis, sidekiq_retry_jobs_count, latest_sidekiq_failure)
+
+    if (sidekiq_retry_jobs_count-retry_count).positive? && days_since_last_failure(latest_sidekiq_failure) < PUBLISH_SIDEKIQ_ERROR_DAYS
+      render json: { status: 'error', retry_error_count: sidekiq_retry_jobs_count }
     else
       render json: { status: 'OK' }
     end
@@ -191,5 +198,31 @@ class ApplicationController < ActionController::Base
   # and makes easy to switch later to CMS-style content editing.
   def get_content(file)
     YAML.load_file('app/content/' + file)
+  end
+
+  def redis_oo_retry_count(redis)
+    # nil-safe redis fetch from counter
+    return redis.get('oo_retry_error_count').to_i
+  end
+
+  def sidekiq_retry_count
+    rs = Sidekiq::RetrySet.new
+    retry_jobs = rs.select { |retri| retri.item['class'] == 'RetrieveVolumeOpps' }
+    retry_jobs.size
+  end
+
+  def update_redis_counter(redis, sidekiq_retry_jobs_count, latest_sidekiq_failure)
+    # set initial value if it's the first time
+    redis.set('sidekiq_retry_jobs_last_failure', Time.zone.now) unless latest_sidekiq_failure
+
+    if days_since_last_failure(latest_sidekiq_failure) > PUBLISH_SIDEKIQ_ERROR_DAYS
+      redis.set('oo_retry_error_count', sidekiq_retry_jobs_count)
+      redis.set('sidekiq_retry_jobs_last_failure', Time.zone.now)
+    end
+  end
+
+  def days_since_last_failure(latest_sidekiq_failure)
+    return 0 unless latest_sidekiq_failure
+    ((Time.zone.now - Time.parse(latest_sidekiq_failure)) / 86400)
   end
 end
