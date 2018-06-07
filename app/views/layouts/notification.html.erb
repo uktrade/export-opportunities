@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <title><%= t('site_name') %></title>
+  <%= csrf_meta_tags %>
+  <%= render partial: 'includes/transformation_head_tags' %>
+  <%= render partial: 'includes/transformation_styles' %>
+  <%= render partial: 'includes/transformation_scripts' %>
+
+  <%= stylesheet_link_tag 'transformation/pages/notification' %>
+  <%= javascript_include_tag 'transformation/dit.page.notification' %>
+  <%= yield :action_specific_head %>
+
+  <%= render partial: 'google_analytics' %>
+</head>
+<body>
+  <%= render partial: 'layouts/dit_header' %>
+
+  <main id="main" role="main">
+    <%= content_for?(:errors) ? yield(:errors) : "" %>
+    <%= content_for?(:content) ? yield(:content) : yield %>
+
+    <%= render "components/feedback" %>
+  </main>
+
+  <%= render partial: 'layouts/dit_footer' %>
+</body>
+</html>

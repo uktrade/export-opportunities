@@ -17,7 +17,7 @@ class Poc::OpportunitiesController < OpportunitiesController
       errors: {},
     }
     
-    render layout: 'layouts/international'
+    render layout: 'poc/layouts/form'
   end
 
   def create
@@ -38,9 +38,9 @@ class Poc::OpportunitiesController < OpportunitiesController
 
     if @process[:view] == 'complete'
       # TODO: Something to save opportunity in DB
-      render layout: 'layouts/international'
+      render layout: 'poc/layouts/international'
     else
-      render 'opportunities/new', layout: 'layouts/international'
+      render 'opportunities/new', layout: 'poc/layouts/form'
     end
   end
 

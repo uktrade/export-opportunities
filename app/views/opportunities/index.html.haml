@@ -1,8 +1,6 @@
 - page = Poc::OpportunityIndexPresenter.new(@content, @featured_industries)
 - recent_opportunities = Poc::OpportunitySearchResultsPresenter.new(@content, @recent_opportunities, {})
-- content_for :action_specific_head do
-  = stylesheet_link_tag 'layouts/landing'
-  = javascript_include_tag 'layouts/landing'
+
 
 %section.hero-section.search-section
   .container

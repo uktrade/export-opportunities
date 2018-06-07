@@ -1,9 +1,5 @@
 - page = Poc::PagePresenter.new(@content)
 - results = Poc::OpportunitySearchResultsPresenter.new(@content['search_results'], @search_results, @search_filters)
-- content_for :action_specific_head do
-  = stylesheet_link_tag 'layouts/results'
-  = javascript_include_tag 'layouts/results'
-
 
 .container
   = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }

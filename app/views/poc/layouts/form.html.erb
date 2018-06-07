@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
-  <title><%= t('organisation.name') %></title>
+  <title><%= t('site_name') %></title>
   <%= csrf_meta_tags %>
   <%= render partial: 'includes/poc_head_tags' %>
   <%= render partial: 'includes/poc_styles' %>
   <%= render partial: 'includes/poc_scripts' %>
 
-  <%= stylesheet_link_tag 'poc/pages/international' %>
-  <%= javascript_include_tag 'poc/dit.page.international' %>
+  <%= stylesheet_link_tag 'transformation/pages/form' %>
+  <%= javascript_include_tag 'transformation/dit.page.form' %>
   <%= yield :action_specific_head %>
 </head>
+<body>
   <%= render partial: 'includes/header_international' %>
 
   <main id="main" role="main">
