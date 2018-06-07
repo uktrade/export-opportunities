@@ -90,10 +90,10 @@
   - @opportunity.opportunity_checks.each do |check|
     %h3
       - if check.offset
-        =check.submitted_text[0..check.offset-1]
+        =check.submitted_text[0..check.offset-2]
         %span.error_term
-          =check.submitted_text[check.offset..check.offset+check.length]
-        =check.submitted_text[check.offset+check.length..check.submitted_text.length]
+          =check.submitted_text[check.offset-1..check.offset+check.length]
+        =check.submitted_text[check.offset+check.length+1..check.submitted_text.length]
       - else
         =check.submitted_text
       %table.horizontal
