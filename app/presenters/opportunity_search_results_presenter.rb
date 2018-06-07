@@ -1,4 +1,4 @@
-class Poc::OpportunitySearchResultsPresenter < Poc::FormPresenter
+class OpportunitySearchResultsPresenter < Poc::FormPresenter
   attr_reader :found, :form_path, :term, :selected_list, :unfiltered_search_url
 
   def initialize(content, search, filters)

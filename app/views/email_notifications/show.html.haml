@@ -1,6 +1,6 @@
 - paged_results = @paginatable_results.page(params[:paged]).per(10)
 - page = Poc::PagePresenter.new(content)
-- results = Poc::OpportunitySearchResultsPresenter.new(content, { results: paged_results, limit: 0, total: 0, sort_by: ""}, {})
+- results = OpportunitySearchResultsPresenter.new(content, { results: paged_results, limit: 0, total: 0, sort_by: ""}, {})
 
 .container
   = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
