@@ -1,34 +1,18 @@
--# do we need javascript on this page?
--#= javascript_include_tag 'poc/layouts/results'
-- @results = @paginatable_results.page(params[:paged]).per(10)
-= stylesheet_link_tag 'email_notifications_show'
+- paged_results = @paginatable_results.page(params[:paged]).per(10)
+- page = Poc::PagePresenter.new(content)
+- results = Poc::OpportunitySearchResultsPresenter.new(content, { results: paged_results, limit: 0, total: 0, sort_by: ""}, {})
 
 .container
-  = render partial: 'components/breadcrumbs', locals: { breadcrumbs: [{:title=>"Home", :slug=>"https://www.great.gov.uk/"}, {:title=>"Export Opportunities", :slug=>"/"}, {:title=>"Email Notifications", :slug=>""}]}
+  = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
 
 
-#search-results
-  .container
-    .information
-      %p= "#{@results.total_count} Results found"
-.search-results
-  %dl.opportunities-list
-    - @results.each do |opportunity|
-      %dt{:class=>"#{opportunity.source}"}
-        = link_to "#{opportunity.countries.map(&:name).join} - #{opportunity.title}", poc_opportunity_path(opportunity)
+#opportunity-match-results
+  .information
+    .container
+      %h1.verbose= page.content['title']
+      %p= "#{paged_results.total_count} Results found"
 
-      %dd{class: "#{opportunity.source}"}
-        %span.text
-          = opportunity.teaser
-
-        - if opportunity.source.eql? 'volume_opps'
-          %span.source
-            Provided by
-            = image_tag "logos/openopps_logo.png", :alt=>"Open Opps"
-
-        .actions
-          %span.expires
-            Closing date:
-            = opportunity.response_due_on.strftime('%d %B %Y')
-
-  = render partial: "components/pagination", locals: { items: @results }
+  .match-results
+    .container
+      = render partial: "opportunities/list", locals: { list: results }
+      = render partial: "components/pagination", locals: { items: paged_results }

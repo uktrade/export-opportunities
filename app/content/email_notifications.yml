@@ -4,6 +4,10 @@
 #   update
 # ------------------------------------
 
+show:
+  breadcrumb_current: "Matching opportunities"
+  title: "Matching opportunities"
+
 
 update:
   breadcrumb_current: "Email alerts"

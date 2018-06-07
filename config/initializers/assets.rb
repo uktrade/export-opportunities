@@ -48,7 +48,6 @@ Rails.application.config.assets.precompile += %w[transformation/pages/form.scss]
 Rails.application.config.assets.precompile += %w[transformation/pages/opportunity.scss]
 Rails.application.config.assets.precompile += %w[transformation/pages/enquiries.scss]
 Rails.application.config.assets.precompile += %w[transformation/pages/notification.scss]
-Rails.application.config.assets.precompile += %w[email_notifications_show]
 
 # JS...
 Rails.application.config.assets.precompile += %w[transformation/dit.page.all.js]

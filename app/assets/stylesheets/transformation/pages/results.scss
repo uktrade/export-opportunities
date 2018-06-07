@@ -164,7 +164,24 @@ form {
   }
 }
 
-#search-results {
+#opportunity-match-results {
+  padding: $spacing-3 0;
+  overflow: hidden;
+
+  .information {
+    background-color: $stone-50;
+    display: block;
+    margin: 0 0 $spacing-3 0;
+    padding: $spacing-3;
+  }
+
+  .opportunities-list,
+  .pagination {
+    max-width: 870px;
+  }
+}
+
+#opportunity-search-results {
   background-color: $stone-50;
   margin: 0;
   padding: $spacing-3 0;
