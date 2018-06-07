@@ -200,5 +200,29 @@ feature 'Administering opportunities' do
         expect(page).to have_text('red')
       end
     end
+
+    feature 'managing spelling and sensitivity errors in opportunities' do
+      scenario 'published opportunity with a spelling error, error should be highlighted with the correct alignment in *red* font' do
+        admin = create(:admin)
+        opportunity = create(:opportunity, status: :publish, title: 'A sample title', slug: 'spelling-bee-contest')
+        opportunity_check = OpportunityCheck.new
+        opportunity_check.submitted_text = "A sample title permeate should not be spelled as permeat. This is a difficult word to spell"
+        opportunity_check.offensive_term = "permeat"
+        opportunity_check.suggested_term = "permeate"
+        opportunity_check.score = 94
+        opportunity_check.offset = 50
+        opportunity_check.length = 7
+        opportunity_check.opportunity_id = opportunity.id
+
+        opportunity_check.save!
+
+        login_as(admin)
+        visit admin_opportunities_path
+
+        click_on opportunity.title
+
+        expect(page.body).to have_content('permeat. This is a difficult word to spell')
+      end
+    end
   end
 end
