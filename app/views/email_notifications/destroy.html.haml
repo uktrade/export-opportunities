@@ -1,5 +1,5 @@
 - page = Poc::PagePresenter.new(content)
-- form = Poc::FormPresenter.new(content, nil)
+- form = FormPresenter.new(content, nil)
 
 .container
   = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
