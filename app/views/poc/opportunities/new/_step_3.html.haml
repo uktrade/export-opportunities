@@ -1,4 +1,4 @@
-%form{:method=>'post'}
+%form{:method=>'post', :action=>poc_opportunities_path}
   = form.hidden_fields
 
   %h1
@@ -14,21 +14,21 @@
     %dt Industry:
     %dd 
       = form.entries['industry']
-      = link_to 'edit/industries', :class=> 'edit' do
+      = link_to edit_poc_opportunity_path('industries'), :class=> 'edit' do
         Edit
         %span.verbose industry
 
     %dt Keywords (optional):
     %dd 
       = form.entries['keywords']
-      = link_to 'edit/keywords', :class=> 'edit' do
+      = link_to edit_poc_opportunity_path('keywords'), :class=> 'edit' do
         Edit
         %span.verbose keywords
 
     %dt The value of this order is:
     %dd
       = form.entries['value']
-      = link_to 'edit/value', :class=> 'edit' do
+      = link_to edit_poc_opportunity_path('value'), :class=> 'edit' do
         Edit
         %span.verbose value
 
@@ -36,21 +36,21 @@
     %dd
       %pre
       = form.entries['specifications']
-      = link_to 'edit/specifications', :class=> 'edit' do
+      = link_to edit_poc_opportunity_path('specifications'), :class=> 'edit' do
         Edit
         %span.verbose specifications
 
     %dt Need to receive proposals by:
     %dd
       = form.entries['respond_by']
-      = link_to 'edit/respond_by', :class=> 'edit' do
+      = link_to edit_poc_opportunity_path('respond_by'), :class=> 'edit' do
         Edit
         %span.verbose respond by date
 
     %dt Responses should be sent to:
     %dd
       = form.entries['respond_to']
-      = link_to 'edit/respond_to', :class=> 'edit' do
+      = link_to edit_poc_opportunity_path('respond_to'), :class=> 'edit' do
         Edit
         %span.verbose respond to contact
 

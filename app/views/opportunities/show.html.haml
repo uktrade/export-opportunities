@@ -1,97 +1,148 @@
-.container
-  = render 'partials/breadcrumbs'
+- page = PagePresenter.new(@content)
+- opportunity = OpportunityPresenter.new(self, @opportunity)
+- page.add_breadcrumb_current(opportunity.title_with_country)
 
-  .legacy.margin-top-30 
-    .new-wrapper
-      %h1.h1.constrained-width= @opportunity.title
-      .opportunity__main.panel
-        %h3.h3= @opportunity.teaser
-        .opportunity__content
-          = present_html_or_formatted_text(@opportunity.description).html_safe
 
-      .opportunity__information.panel
-        %h3.h3 Essential information
+%article.opportunity
+  .container
+    = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
 
-        .meta
-          .meta__item.meta__icon-sector
-            %h4.meta__header
-              Sectors
-            %p.meta__content
-              = @opportunity.sectors.pluck(:name).to_sentence
+    %h1
+      = opportunity.title_with_country
 
-          .meta__item.meta__icon-type
-            %h4.meta__header
+    %p.summary
+      - if opportunity.source('volume_opps')
+        For more information and to make a bid you will need to go to the third party website.
+      - else
+        This is a business opportunity from an overseas buyer. Pitch for the business and explain how your company meets their requirements.
+
+    .content
+      .teaser
+        = opportunity.teaser
+
+
+      .description
+        %h2 Description
+        = opportunity.description
+
+        %dl
+          %dt.expiry
+            Opportunity closing date
+          %dd.expiry
+            = opportunity.expires
+
+          %dt.value
+            Value of contract
+          %dd.value
+            = opportunity.value
+
+
+      - unless opportunity.source('post') || opportunity.buyer_details_empty?
+        .buyer
+          %h2 About the buyer
+          %dl
+            %dt.address
+              Address
+            %dd.address
+              = opportunity.buyer_name
+              = opportunity.buyer_address
+
+            %dt.contact
+              Contact
+            %dd.contact
+              = opportunity.contact
+
+
+      .details
+        %h2 Details
+        - if opportunity.source('volume_opps')
+          %p{:class => "provider volume_opps"}
+            Provided by
+            = image_tag "logos/openopps_logo.png", alt: "Open Opps"
+
+        %dl
+          %dt.expiry
+            Opportunity closing date
+          %dd.expiry
+            = opportunity.expires
+
+          - if opportunity.source('post')
+            %dt.opportunity_type
               Opportunity type
-            %p.meta__content
-              = @opportunity.types.pluck(:name).to_sentence
+            %dd.opportunity_type
+              = opportunity.type
+              %br/
+              - if opportunity.type == 'Aid Funded Business'
+                = opportunity.link_to_aid_funded "Your guide for aid funded business"
 
-          .meta__item.meta__icon-response
-            %h4.meta__header
-              Expiry date
-            %p.meta__content
-              = @opportunity.response_due_on.strftime('%d %B %Y')
+          - if opportunity.sectors && opportunity.source('post')
+            %dt.industry
+              Industry
+            %dd.industry
+              - opportunity.sectors.each do |sector|
+                = link_to sector[:name], "#{poc_opportunities_path}?sectors[]=#{sector[:slug]}" 
 
-          .meta__item.meta__icon-enquiries
-            %h4.meta__header
-              Applications received
-            %p.meta__content
-              = @opportunity.enquiries.size
+          - unless opportunity.source('post') || opportunity.opportunity_cpvs.size < 1
+            %dt.category
+              Category
+            %dd.category
+              - opportunity.opportunity_cpvs.each do |opportunity_cpv|
+                - if opportunity_cpv.industry_id
+                  ="#{opportunity_cpv.industry_scheme}: #{opportunity_cpv.industry_id}"
+                  - result = cpv_description(opportunity_cpv.industry_id)
+                  - if result && result['cpv']
+                    =result['cpv']['description']
+                  -# TODO: Not introducing codes, yet.
+                    %dt.enquiries
+                      HS Code
+                    =result['hs']['description']
 
-          .meta__item.meta__icon-value
-            %h4.meta__header
-              Value of contract
-            %p.meta__content
-              - if @opportunity.values.any?
-                = @opportunity.values.first.name
-              - else
-                Value unknown
+          - unless opportunity.source('volume_opps')
+            %dt.enquiries
+              Enquiries received
+            %dd.enquiries
+              = opportunity.enquiries_total
 
-          .meta__item.meta__icon-value
-            %h4.meta__header
-              Source
-            %p.meta__content
-              =@opportunity.source
+          %dt.value
+            Value of contract
+          %dd.value
+            = opportunity.value
 
-          - unless @opportunity.source.eql?'post'
-            .meta__item.meta__icon-value
-              %h4.meta__header
-                Buyer
-              %p.meta__content
-                =@opportunity&.buyer_name
-                =@opportunity&.buyer_address
+          - if opportunity.guides_available
+            %dt.guide
+              Your guide to exporting
+            %dd.guide
+              - unless opportunity.country_guides.empty?
+                %ul.navigation
+                  - opportunity.country_guides.each do |country|
+                    %li
+                      = link_to country.name, "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank'
 
-            .meta__item.meta__icon-value
-              %h4.meta__header
-                Contact Point Name
-              %p.meta__content
-                =@opportunity.contacts.first.name
 
-            .meta__item.meta__icon-value
-              %h4.meta__header
-                Contact Point Email
-              %p.meta__content
-                =@opportunity.contacts.first.email
+        -# TODO: Just sending to feedback location for now
+        = link_to "Report opportunity", Figaro.env.CONTACT_US_FORM, :class=>"report"
 
-          - essential_information_required = @opportunity.countries.with_exporting_guide.any? || @opportunity.types.aid_funded.any?
-          - if essential_information_required
-            - @opportunity.countries.with_exporting_guide.each do |country|
-              .meta__item.meta__icon-guide
-                %h4.meta__header
-                  Your guide to exporting
-                %p.meta__content              
-                  = link_to "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank' do
-                    = country.name
-            - if @opportunity.types.aid_funded.any?
-              .meta__item.meta__icon-guide
-                %p.meta__content  
-                  = link_to 'https://www.gov.uk/guidance/aid-funded-business', target: '_blank' do
-                    Your guide for aid funded business
-
-        - if @opportunity.expired?
-          %p
-            %strong= t('opportunity.expired')
-          %p
+      .bid
+        - if opportunity.expired?
+          %p.expired
+            %strong
+              = t('opportunity.expired')
             Visit the #{link_to 'opportunities page', opportunities_path} to find another.
+
         - else
-          = link_to 'Submit your proposal', new_enquiry_path(slug: @opportunity.slug), class: 'button button-wide'
-          = link_to 'Go directly to tender site', @opportunity.tender_url, class: 'button button-wide'
+          - if opportunity.source('volume_opps')
+            %h2 Bid for tender
+            %p If your company meets the requirements of the tender, go to the website where the tender is hosted and submit your bid.
+            = link_to 'Go to third party website', opportunity.tender_url, class: 'button', target: :_blank
+
+          - elsif opportunity.source('post')
+            = link_to 'Submit your proposal', opportunity.new_enquiry_path, class: 'button'
+
+          - else
+            %h2 Contact the buyer
+            %p If you meet the requirements contact the buyer.
+            %p You will be notified if you are right for this opportunity. You can only apply if you are a UK registered companny.
+            = link_to 'Contact buyer', opportunity.new_enquiry_path, class: 'button'
+
+
+  = render partial: 'components/feedback'

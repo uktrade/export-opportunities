@@ -2,6 +2,7 @@ class EmailNotificationsController < ApplicationController
   before_action :require_sso!
 
   def show
+    content = get_content('email_notifications.yml')
     begin
       user_id = EncryptedParams.decrypt(params[:user_id])
     rescue EncryptedParams::CouldNotDecrypt
@@ -18,29 +19,33 @@ class EmailNotificationsController < ApplicationController
       break if @results.size >= 1000
     end
     @paginatable_results = Kaminari.paginate_array(@results).page(params[:page]).per(10)
+
+    render layout: 'results', locals: {
+      content: content['show'],
+    }
   end
 
   def destroy
-    @content = get_content('email_notifications.yml')
+    content = get_content('email_notifications.yml')
     user_id = EncryptedParams.decrypt(params[:user_id])
 
     @subscription_ids = SubscriptionNotification.joins(:subscription).where(sent: true).where('subscriptions.user_id = ?', user_id).map(&:subscription_id)
 
     Subscription.where(id: @subscription_ids).update_all(unsubscribed_at: Time.zone.now)
-    render 'email_notifications/destroy', layout: 'layouts/notifications', locals: {
-      content: @content['destroy'],
+    render 'email_notifications/destroy', layout: 'notification', locals: {
+      content: content['destroy'],
     }
   end
 
   def update
-    @content = get_content('email_notifications.yml')
+    content = get_content('email_notifications.yml')
     user_id = EncryptedParams.decrypt(params[:id])
     @subscription_ids = SubscriptionNotification.joins(:subscription).where(sent: true).where('subscriptions.user_id = ?', user_id).map(&:subscription_id)
 
     Subscription.where(id: @subscription_ids).update_all(unsubscribe_reason: reason_param)
 
-    render 'email_notifications/update', layout: 'layouts/notifications', status: :accepted, locals: {
-      content: @content['update'],
+    render 'email_notifications/update', layout: 'notification', status: :accepted, locals: {
+      content: content['update'],
     }
   end
 

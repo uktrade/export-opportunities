@@ -22,7 +22,7 @@ class HelpArticlePresenter < BasePresenter
     )
   end
 
-  def set_section(heading = '', content = '')
+  def section(heading = '', content = '')
     section = text_to_id(heading)
     current_section = section.eql? @section
     @sections.push(id: @id,

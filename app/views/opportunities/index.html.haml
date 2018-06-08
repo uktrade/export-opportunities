@@ -1,28 +1,52 @@
-
-= content_for :head do
-  %link{href: url_for(params.merge(format: :atom, only_path: false)), type: 'application/atom+xml', rel: 'alternate', title: t('site_name')}/
-
-.hero__main{"id" => "content-top"}
-  .hero__specialContainer
-    %h1.hero__header Find export opportunities
-    %p.hero__text Find and apply for overseas opportunities from businesses looking for products or services like yours
-    %hr.thin
-  = render 'filters'
-
-- if !@subscription_form.minimum_search_criteria?
-  = render 'benefits'
-  = render 'giantsteps_panel'
-  = render 'cta_block'
-
-- if @subscription_form.minimum_search_criteria? and !@suppress_subscription_block
-  = render 'subscription_form'
-
-- if @subscription_form.minimum_search_criteria? and @opportunities.any? and @opportunities.total > 1
-  = render 'opportunities_order'
-
-- if @subscription_form.minimum_search_criteria?
-  = render 'opportunities'
+- page = LandingPresenter.new(@content, @featured_industries)
+- recent_opportunities = OpportunitySearchResultsPresenter.new(@content, @recent_opportunities, {})
 
 
+%section.hero-section.search-section
+  .container
+    = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
+
+    %h1= @content["title"]
+    %p= @content["description"]
+    = render "opportunities/search_form"
+
+%section#recent-opportunities
+  .container
+    %h2 Latest export opportunities
+    = render partial: "opportunities/list", locals: { list: recent_opportunities }
+    = link_to "View more", opportunities_url, :class=>"more button"
+
+%section#featured-industries
+  .container
+    %h2 Featured industries
+    = render partial: "summary_list", locals: { list: page.featured_industries }
+
+%section#service-promotion
+  .container
+    %h2 Thousands of export opportunities from around the world. All in one place.
+    %ul.navigation
+      %li
+        %strong Global opportunities
+        Find opportunities sourced by overseas trade professionals or provided by a third party.
+
+      %li 
+        %strong Overseas buyers
+        Connect with buyers from around the world and start trading.
+
+      %li
+        %strong Email alerts
+        Set up email alerts to get a daily summary of matching opportunities.
 
 
+= render "includes/testimonials_section"
+= render "includes/how_it_works_section"
+
+%section.search-section
+  .container
+    %h2= @content["title"]
+    = render "opportunities/search_form"
+
+
+
+- content_for :footer do
+  = render partial: 'includes/footer_domestic'

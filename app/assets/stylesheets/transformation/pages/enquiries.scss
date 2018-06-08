@@ -1,0 +1,16 @@
+@import 'transformation/config';
+@import 'transformation/components/confirmation_notice';
+
+
+
+.business {
+  .checkbox {
+    margin-bottom: $spacing-2;
+  }
+}
+
+.RestrictedInputCount {
+  position: relative;
+  top: -#{$spacing-3 - 10};
+}
+
