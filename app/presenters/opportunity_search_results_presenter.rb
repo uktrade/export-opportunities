@@ -14,6 +14,8 @@ class OpportunitySearchResultsPresenter < FormPresenter
     @form_path = opportunities_path
   end
 
+  # Overwriting FormPresenter.field_content to allocate for getting
+  # fields and values from an unexpected location or the controller.
   def field_content(name)
     field = super(name)
     case name
@@ -160,7 +162,15 @@ class OpportunitySearchResultsPresenter < FormPresenter
     path = request.original_fullpath.gsub(/^(.*?)\?.*$/, '\\1')
     keep_params = []
     request.query_parameters.each_pair do |key, value|
-      keep_params.push("#{key}=#{value}") unless skip_params.include? key
+      unless skip_params.include? key
+        if value.is_a? Array
+          value.each do |val|
+            keep_params.push("#{key}[]=#{val}")
+          end
+        else
+          keep_params.push("#{key}=#{value}")
+        end
+      end
     end
     "#{path}?#{keep_params.join('&')}"
   end
