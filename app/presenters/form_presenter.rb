@@ -1,4 +1,4 @@
-class FormPresenter < Poc::BasePresenter
+class FormPresenter < BasePresenter
   include ActionView::Helpers::FormTagHelper
   require 'yaml'
   attr_reader :content, :description, :entries, :title, :view

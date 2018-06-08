@@ -1,5 +1,5 @@
 - paged_results = @paginatable_results.page(params[:paged]).per(10)
-- page = Poc::PagePresenter.new(content)
+- page = PagePresenter.new(content)
 - results = OpportunitySearchResultsPresenter.new(content, { results: paged_results, limit: 0, total: 0, sort_by: ""}, {})
 
 .container

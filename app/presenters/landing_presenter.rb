@@ -1,4 +1,4 @@
-class LandingPresenter < Poc::PagePresenter
+class LandingPresenter < PagePresenter
   def initialize(content, sector_list)
     super(content)
     @sector_list = sector_list
