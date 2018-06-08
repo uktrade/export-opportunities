@@ -16,7 +16,7 @@ class Poc::OpportunitiesController < OpportunitiesController
       entries: {},
       errors: {},
     }
-    
+
     render layout: 'poc/layouts/form'
   end
 
@@ -44,8 +44,7 @@ class Poc::OpportunitiesController < OpportunitiesController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   private def process_add_user_entries
     POC_OPPORTUNITY_PROPS.each do |prop|

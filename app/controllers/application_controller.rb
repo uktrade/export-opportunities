@@ -91,7 +91,7 @@ class ApplicationController < ActionController::Base
 
     update_redis_counter(redis, sidekiq_retry_jobs_count, latest_sidekiq_failure)
 
-    if (sidekiq_retry_jobs_count-retry_count).positive? && days_since_last_failure(latest_sidekiq_failure) < PUBLISH_SIDEKIQ_ERROR_DAYS
+    if (sidekiq_retry_jobs_count - retry_count).positive? && days_since_last_failure(latest_sidekiq_failure) < PUBLISH_SIDEKIQ_ERROR_DAYS
       render json: { status: 'error', retry_error_count: sidekiq_retry_jobs_count }
     else
       render json: { status: 'OK' }
@@ -202,7 +202,7 @@ class ApplicationController < ActionController::Base
 
   def redis_oo_retry_count(redis)
     # nil-safe redis fetch from counter
-    return redis.get('oo_retry_error_count').to_i
+    redis.get('oo_retry_error_count').to_i
   end
 
   def sidekiq_retry_count
@@ -223,6 +223,6 @@ class ApplicationController < ActionController::Base
 
   def days_since_last_failure(latest_sidekiq_failure)
     return 0 unless latest_sidekiq_failure
-    ((Time.zone.now - Time.parse(latest_sidekiq_failure)) / 86400)
+    ((Time.zone.now - Time.zone.parse(latest_sidekiq_failure)) / 86_400)
   end
 end
