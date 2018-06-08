@@ -97,17 +97,3 @@ dit.page.landing = (new function () {
 $(document).ready(function() {
   dit.page.landing.init();
 });
-
-
-/* DO NOT WAIT FOR $(document).ready()
- * THIS SHOULD FIRE BEFORE <body> tag creation
- * Attempts to redirect user based on detected country
- * only if the location is site root (www.great.gov.uk/)
- **/
-var root = location.protocol + "//" + location.host + "/";
-if (location.href == root) {
-  $(document).on(dit.geolocation.GEO_LOCATION_UPDATE_EVENT, function() { 
-    dit.geolocation.redirectToCountryUrl("/"); 
-  });
-  dit.geolocation.fetchCountryCode();
-}
