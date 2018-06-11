@@ -164,7 +164,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
     request.query_parameters.each_pair do |key, value|
       unless skip_params.include? key
         if value.is_a? Array
-          value.each do |val|
+          value.each_with_index do |val, index|
             keep_params.push("#{key}[]=#{val}")
           end
         else

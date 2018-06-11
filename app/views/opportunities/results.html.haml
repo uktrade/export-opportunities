@@ -19,6 +19,8 @@
 
 
 = form_tag results.form_path,  method: :get do
+  - params[:areas].each do |area|
+    %input{:name=>"areas[]", :type=>"hidden", :value=>"#{area}"}
   %input{:name=>"s", :type=>"hidden", :value=>@search_term}
   
   .container
