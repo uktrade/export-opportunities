@@ -7,7 +7,9 @@
   <%= render partial: 'includes/transformation_styles' %>
   <%= render partial: 'includes/transformation_scripts' %>
 
+  <%= stylesheet_link_tag 'transformation/pages/form' %>
   <%= stylesheet_link_tag 'transformation/pages/enquiries' %>
+  <%= javascript_include_tag 'transformation/dit.page.form' %>
   <%= javascript_include_tag 'transformation/dit.page.enquiries' %>
   <%= yield :action_specific_head %>
 
