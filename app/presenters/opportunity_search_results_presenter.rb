@@ -49,9 +49,9 @@ class OpportunitySearchResultsPresenter < FormPresenter
 
   # Only show all if there are more than currently viewed
   # TODO: What is the view all URL?
-  def view_all_link(css_classes = '')
+  def view_all_link(url, css_classes = '')
     if @total > @view_limit
-      link_to "View all (#{@total})", opportunities_path, 'class': css_classes
+      link_to "View all (#{@total})", url, 'class': css_classes
     end
   end
 

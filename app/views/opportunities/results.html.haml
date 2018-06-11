@@ -18,7 +18,7 @@
       %input.submit{:value=>results.content['search_again_button'], :type=>"submit"}
 
 
-= form_tag results.form_path,  method: :get do
+= form_tag opportunities_path,  method: :get do
   - params[:areas].each do |area|
     %input{:name=>"areas[]", :type=>"hidden", :value=>"#{area}"}
   %input{:name=>"s", :type=>"hidden", :value=>@search_term}
@@ -33,7 +33,7 @@
           = render partial: "forms/input_select", locals: { input: results.sort_input_select }
         = render partial: "opportunities/list", locals: { list: results }
         = render partial: "components/pagination", locals: { items: results.found }
-        = results.view_all_link "button all"
+        = results.view_all_link opportunities_path, "button all"
 
       .search-results-filters
         %h3= results.content['title_filters']
