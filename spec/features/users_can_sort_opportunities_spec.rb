@@ -7,7 +7,7 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
     create(:opportunity, :published, title: 'Third Opp', first_published_at: 3.days.ago, response_due_on: 1.day.from_now)
 
     sleep 1
-    visit poc_opportunities_path
+    visit opportunities_path
 
     within('.search') do
       fill_in 's', with: 'Opp'
@@ -37,7 +37,7 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       create(:opportunity, :published, title: 'Cod', first_published_at: 3.days.ago, response_due_on: 1.day.from_now)
 
       sleep 1
-      visit poc_opportunities_path
+      visit opportunities_path
 
       within('.search') do
         fill_in 's', with: 'Sardines'

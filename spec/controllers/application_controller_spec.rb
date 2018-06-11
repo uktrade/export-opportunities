@@ -11,7 +11,7 @@ RSpec.describe ApplicationController, type: :controller do
     end
 
     it 'api check endpoint is publically accessible' do
-      expect(get: '/api_sync_check').to route_to(controller: 'application', action: 'api_check')
+      expect(get: '/api_check').to route_to(controller: 'application', action: 'api_check')
     end
 
   end

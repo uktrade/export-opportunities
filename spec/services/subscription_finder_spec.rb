@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SubscriptionFinder, :elasticsearch, :commit, type: :service do
+
   describe '#call' do
     context 'when filtering by one or more categories' do
       it 'returns a list of subscriptions which match the given opportunity' do

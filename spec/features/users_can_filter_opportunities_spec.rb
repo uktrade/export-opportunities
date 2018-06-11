@@ -7,7 +7,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
     opportunity_with_market = create(:opportunity, :published, countries: [country])
 
     sleep 1
-    visit poc_opportunities_path
+    visit opportunities_path
 
     expect(page).to have_content 'Iran (1)'
 
@@ -25,7 +25,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
     opportunity_with_market = create(:opportunity, :published, countries: [country])
 
     sleep 1
-    visit poc_opportunities_path
+    visit opportunities_path
 
     # select Iran
     page.find("#countries_0").click
@@ -40,7 +40,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
     opportunity_with_market.save!
 
     sleep 1
-    visit poc_opportunities_path
+    visit opportunities_path
 
     # select Italy
     page.find("#countries_0").click
@@ -57,7 +57,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
     opportunity_with_market = create(:opportunity, :published, countries: [country, another_country])
 
     sleep 1
-    visit poc_opportunities_path
+    visit opportunities_path
 
     # select Iran
     page.find("#countries_0").click
@@ -67,7 +67,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
 
     expect(page.body).to include('1 result found in <span class="param">Iran')
 
-    visit poc_opportunities_path
+    visit opportunities_path
 
     # select Italy
     page.find("#countries_1").click
@@ -117,7 +117,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
 
     sleep 1
 
-    visit poc_opportunities_path
+    visit opportunities_path
 
     # select selected 1
     page.find("#countries_1").click

@@ -45,7 +45,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
 
       it 'rejects them' do
         expect(Opportunity).to receive(:public_search)
-          .with(a_hash_including(search_term: 'hello glyn'))
+          .with(a_hash_including(search_term: nil)).with(a_hash_including(filters: instance_of(SearchFilter)))
           .and_call_original
 
         get_index

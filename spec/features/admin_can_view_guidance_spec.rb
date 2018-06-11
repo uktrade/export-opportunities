@@ -7,7 +7,7 @@ feature 'admin can view guidance page' do
     login_as(admin)
     visit admin_help_path
 
-    expect(page).to have_content('Find out how to assess and respond to an enquiry')
+    expect(page).to have_content('How to write an export opportunity')
   end
 
   scenario 'viewing how to assess a company' do
