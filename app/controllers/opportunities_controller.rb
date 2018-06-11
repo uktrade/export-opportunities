@@ -67,8 +67,11 @@ class OpportunitiesController < ApplicationController
   # Due to the combined Region/Country single selector on
   # standard search area (e.g. landing page), we need to
   # convert passed areas[] into regions[] and countries[]
+  # Note: If regions and countries exist, then search results
+  # page has been viewed and those filters have already been
+  # applied.
   private def convert_areas_params_into_regions_and_countries
-    unless params[:areas].nil?
+    unless params[:regions] || params[:countries] || params[:areas].nil?
       params[:regions] = []
       params[:countries] = []
       params[:areas].each do |area|
@@ -80,7 +83,6 @@ class OpportunitiesController < ApplicationController
           end
         end
       end
-      params.delete(:areas)
     end
   end
 
@@ -318,11 +320,21 @@ class OpportunitiesController < ApplicationController
 
   private def search_filter_regions
     # @filters.regions ... lists all selected regions
-    # regions_list ... lists all regionss (not stored in DB)
+    # regions_list ... lists all regions (not stored in DB)
     {
       'name': 'regions[]',
       'options': regions_list,
       'selected': @filters.regions,
+    }
+  end
+
+  private def search_filter_areas
+    # @filters.areas ... lists all selected areas
+    # areas_list ... lists all areas (not stored in DB)
+    {
+      'name': 'areas[]',
+      'options': areas_list,
+      'selected': @filters.areas,
     }
   end
 
