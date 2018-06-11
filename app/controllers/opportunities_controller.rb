@@ -393,6 +393,6 @@ class OpportunitiesController < ApplicationController
       { slug: 'western_europe',
         countries: %w[austria belgium france germany ireland luxembourg netherlands switzerland],
         name: 'Western Europe' },
-    ]
+    ].sort_by { |region| region[:name] }
   end
 end
