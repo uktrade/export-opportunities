@@ -79,8 +79,8 @@
 
     .actions,
     .text {
-      padding-left: $spacing-4;
-      padding-right: $spacing-4;
+      padding-left: $spacing-3-m;
+      padding-right: $spacing-3-m;
     }
   }
 }
@@ -93,9 +93,8 @@
     }
 
     .source {
-      padding-top: $spacing-3-m;
+      margin: 0 0 $spacing-3-m $spacing-3-m;
       position: static;
-      right: $spacing-3;
     }
   }
 }
