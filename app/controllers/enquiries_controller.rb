@@ -13,7 +13,7 @@ class EnquiriesController < ApplicationController
                else
                  Enquiry.new
                end
-    render layout: 'form'
+    render layout: 'enquiries'
   end
 
   def create
