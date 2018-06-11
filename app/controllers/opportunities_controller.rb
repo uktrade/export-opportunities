@@ -68,10 +68,10 @@ class OpportunitiesController < ApplicationController
   # standard search area (e.g. landing page), we need to
   # convert passed areas[] into regions[] and countries[]
   # Note: If regions and countries exist, then search results
-  # page has been viewed and those filters have already been 
-  # applied. 
+  # page has been viewed and those filters have already been
+  # applied.
   private def convert_areas_params_into_regions_and_countries
-    unless params[:regions] or params[:countries] or params[:areas].nil?
+    unless params[:regions] || params[:countries] || params[:areas].nil?
       params[:regions] = []
       params[:countries] = []
       params[:areas].each do |area|
@@ -83,7 +83,6 @@ class OpportunitiesController < ApplicationController
           end
         end
       end
-      #params.delete(:areas)
     end
   end
 
