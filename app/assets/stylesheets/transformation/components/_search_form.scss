@@ -1,0 +1,77 @@
+.search-form {
+  background-color: $grey-special;
+  max-width: none;
+  padding: $spacing-3 $spacing-3 0 $spacing-3;
+
+  input {
+    height: 54px;
+    margin: 0;
+  }
+
+  select {
+    background-color: $white;
+    float: left;
+    height: 54px;
+    left: -2px;
+    margin: 0;
+    position: relative;
+    width: 100%;
+  }
+
+  .filter {
+    float: left;
+    width: $cols-3;
+  }
+
+  .submit {
+    float: left;
+    margin: 0 0 0 $spacing-4;
+    padding-left: 0;
+    padding-right: 0;
+    width: calc(#{$cols-3} - #{$spacing-4});
+  }
+
+  .term {
+    float: left;
+    width: $cols-6;
+  }
+
+  &:after {
+    clear: both;
+    content: "";
+    display: block;
+  }
+}
+
+// RESPONSIVE
+@media screen and (max-width: 980px) {
+  .search-form {
+    padding-bottom: $spacing-3;
+
+    .filter {
+      margin-bottom: $spacing-3;
+      width: $cols-4;
+    }
+
+    .submit {
+      margin: 0;
+      width: $cols-4;
+    }
+
+    .term {
+      margin-bottom: $spacing-3;
+      width: $cols-8;
+    }
+  }
+}
+
+
+@media screen and (max-width: 660px) {
+  .search-form {
+    .filter,
+    .submit,
+    .term {
+      width: 100%;
+    }
+  }
+}

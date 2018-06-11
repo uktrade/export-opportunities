@@ -13,7 +13,7 @@ class OpportunityQualityRetriever
 
       response[:errors]&.each do |opps_quality_error|
         opportunity_check.error_id = opportunity.id
-        opportunity_check.offset = opps_quality_error['offset']
+        opportunity_check.offset = opps_quality_error['offset'] - 1
         # length of string to be able to mark it as red in text
         opportunity_check.length = opps_quality_error['token'].length
         opportunity_check.offensive_term = opps_quality_error['token']

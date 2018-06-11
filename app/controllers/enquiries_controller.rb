@@ -3,7 +3,6 @@ class EnquiriesController < ApplicationController
 
   before_action :set_no_cache_headers, only: [:new]
   before_action :log_cloudfront_headers
-  layout 'poc/layouts/enquiries'
 
   def new
     @opportunity = Opportunity.published.find_by!(slug: params[:slug])
@@ -14,6 +13,7 @@ class EnquiriesController < ApplicationController
                else
                  Enquiry.new
                end
+    render layout: 'form'
   end
 
   def create
@@ -27,6 +27,8 @@ class EnquiriesController < ApplicationController
       flash.now[:error] = @enquiry.errors.full_messages.join(', ')
       render :new
     end
+
+    render layout: 'notification'
   end
 
   private def enquiry_params

@@ -35,7 +35,7 @@
 %br
 
 - @opportunities.each do |opportunity|
-  %table.opportunity{ :border=>"0", :cellpadding=>"30", :cellspacing=>"0", :bgcolor=>"#f2eee8" }
+  %table.opportunity{ :border=>"0", :cellpadding=>"30", :cellspacing=>"0", :bgcolor=>"#f2eee8", :width=>"540", :style=> "table-layout: fixed;" }
     %tr
       %td
         - if opportunity.source.eql? 'volume_opps'

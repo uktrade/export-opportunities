@@ -2,8 +2,12 @@
 Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
 
+  # site's root page
+  root to: 'opportunities#index'
+
   get 'check' => 'application#check'
   get 'data_sync_check' => 'application#data_sync_check'
+  get 'api_check' => 'application#api_check'
 
   devise_for :users, module: 'users', skip: :sessions
 
@@ -29,16 +33,13 @@ Rails.application.routes.draw do
   # Legacy dashboard index page
   get '/dashboard/enquiries', to: redirect('/dashboard')
 
-  get 'poc/opportunities/digest/:id', to: 'poc/opportunities#results_digest'
+  namespace :poc  do
+    resources :opportunities, except: [:index, :destroy]
+    get 'international', to: 'opportunities#international'
+  end
 
-  post 'poc/opportunities/new' => 'poc/opportunities#new'
-  namespace :poc do
-    get 'international' => 'opportunities#international'
-    resources :opportunities do
-      get 'opportunities/:id', to: 'poc/opportunities#show'
-      root "opportunities#results"
-    end
-    root "opportunities#index"
+  resources :opportunities, only: [:show] do
+    root action: 'results', as: ''
   end
 
   namespace :admin do
@@ -106,11 +107,6 @@ Rails.application.routes.draw do
   post '/enquiries/:slug' => 'enquiries#create', as: :enquiries
 
   resources :company_details, only: [:index]
-
-  resources :opportunities, only: %i[index show]
-
-  # site's root page
-  root 'opportunities#index'
 
   resources :subscriptions, only: %i[create show destroy update]
   resources :pending_subscriptions, only: [:create]

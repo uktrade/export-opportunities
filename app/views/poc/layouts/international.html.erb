@@ -7,9 +7,10 @@
   <%= render partial: 'includes/poc_styles' %>
   <%= render partial: 'includes/poc_scripts' %>
 
+  <%= stylesheet_link_tag 'poc/pages/international' %>
+  <%= javascript_include_tag 'poc/dit.page.international' %>
   <%= yield :action_specific_head %>
 </head>
-<body>
   <%= render partial: 'includes/header_international' %>
 
   <main id="main" role="main">

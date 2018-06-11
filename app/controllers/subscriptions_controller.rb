@@ -23,7 +23,7 @@ class SubscriptionsController < ApplicationController
     end
 
     @subscription = SubscriptionPresenter.new(subscription)
-    render layout: 'layouts/notifications', locals: {
+    render layout: 'notification', locals: {
       subscription: @subscription,
       subscriptions: subscriptions,
       content: content['create'],
@@ -36,7 +36,7 @@ class SubscriptionsController < ApplicationController
     @subscription.unsubscribe_reason = reason_param
 
     if @subscription.save
-      render layout: 'layouts/notifications', status: :accepted, locals: {
+      render layout: 'notification', status: :accepted, locals: {
         content: content['update'],
       }
     else
@@ -50,7 +50,7 @@ class SubscriptionsController < ApplicationController
     @subscription.unsubscribed_at = DateTime.current
 
     if @subscription.save
-      render layout: 'layouts/notifications', status: :accepted, locals: {
+      render layout: 'notification', status: :accepted, locals: {
         subscription: @subscription,
         content: content['destroy'],
       }

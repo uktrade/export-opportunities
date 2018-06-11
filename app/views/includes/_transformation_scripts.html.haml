@@ -1,0 +1,14 @@
+-# NOTE: static header-footer was meant to be a temporary workaround solution for areas of
+-# the Great.gov.uk site that did not have or support the original ExRed (now pattern library)
+-# updated design. Updated Export Opportunity pages running with the global.js file come with
+-# support for those original ExRed individual JS files, so the header-footer (bundle) file is
+-# not required. Also, the header-footer bundle does not use the proper/original 'dit' object
+-# namespace (intentionally for name clash avoidance reasons), so to include the bundle file
+-# would result in duplicating some required (dit namespace) JS files.
+-# 
+-#= javascript_include_tag 'header-footer.js'
+= javascript_include_tag 'transformation/dit.page.all'
+
+-# You can add constants for use in JS here:
+:javascript
+  dit.constants.COMPANIES_HOUSE_SEARCH = "#{Figaro.env.EXPORT_COMPANIES_HOUSE_SEARCH}"
