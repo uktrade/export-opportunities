@@ -27,9 +27,9 @@ class OppsQualityConnector
     end
 
     begin
-      # TODO: refactor this to POST to be able to submit up to 32768 chars.
       response = connection.post hostname.to_s do |req|
         req.headers['Ocp-Apim-Subscription-Key'] = quality_api_key
+        req.headers['mkt'] = 'en-GB'
         req.body = 'Text=' + quality_text.to_json
       end
 
