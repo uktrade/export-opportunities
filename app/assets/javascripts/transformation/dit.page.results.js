@@ -59,6 +59,7 @@ dit.page.results = (new function () {
     $labels = $groups.find("legend");
     $groups.each(function(index) {
       RESULTS.expanders.push(new dit.classes.Expander($(this), {
+        closed: false,
         $control: $labels.eq(index),
         blur: false
       }));
