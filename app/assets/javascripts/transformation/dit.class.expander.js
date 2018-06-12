@@ -273,7 +273,16 @@
    **/ 
   Expander.needToMoveControl = function($node, $control) {
     var parents = $control.parents().toArray();
-    return parents.includes($node.get(0));
+    //return parents.includes($node.get(0)); // Causes error in IE so using long-winded alternative
+    var inParents = false;
+    for(var i=0; i<parents.length; ++i) {
+      inParents = (parents[i] == $node.get(0));
+      if(inParents) {
+        break;
+      }
+    }
+    return inParents;
+    
   }
 
   Expander.prototype = new Object;
