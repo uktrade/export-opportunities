@@ -186,6 +186,7 @@ GEM
       tilt
     hashdiff (0.3.7)
     hashie (3.5.7)
+    hawk-auth (0.2.5)
     htmlentities (4.3.4)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
@@ -513,6 +514,7 @@ DEPENDENCIES
   fuubar
   hairtrigger
   haml
+  hawk-auth
   immutable-struct
   jbuilder
   jquery-rails

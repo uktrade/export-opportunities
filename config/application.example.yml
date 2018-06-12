@@ -46,6 +46,9 @@ flipper_whitelist: 'email@example.com'
 legacy_domain: 'exportingisgreat.gov.uk'
 
 api_profile_dashboard_shared_secret: 'taki'
+ACTIVITY_STREAM_ACCESS_KEY_ID: '12345'
+ACTIVITY_STREAM_SECRET_ACCESS_KEY: '?[!@$%^%'
+ACTIVITY_STREAM_IP_WHITELIST: '0.0.0.0'
 
 # Elasticsearch
 elastic_search_url: 'http://localhost:9200'
