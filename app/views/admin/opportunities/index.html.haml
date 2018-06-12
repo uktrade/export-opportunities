@@ -76,7 +76,7 @@
         %td.numeric= opportunity.enquiries.size
         %td.numeric= opportunity.created_at.to_s(:admin_datetime)
         %td.numeric.first-published= opportunity.first_published_at&.to_s(:admin_datetime)
-        %td= opportunity.source
+        %td.numeric.source= opportunity.source
         %td.numeric= opportunity.response_due_on.to_s(:admin_date)
 
 = paginate @opportunities
