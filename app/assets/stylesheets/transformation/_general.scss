@@ -17,6 +17,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+img {
+  border: none;
+}
+
 img.placeholder {
   background-color: $light-grey;
   border: $mid-grey solid 1px;
