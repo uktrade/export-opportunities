@@ -79,12 +79,21 @@ class OpportunitiesController < ApplicationController
       params[:regions] = []
       params[:countries] = []
       params[:areas].each do |area|
+        is_region = false
         regions_list.each do |region|
           if region[:slug].eql? area
             params[:regions].push area
           else
             params[:countries].push area
+            is_region = true
+            break
           end
+        end
+ 
+        if is_region
+          params[:regions].push area
+        else
+          params[:countries].push area
         end
       end
     end
