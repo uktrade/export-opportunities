@@ -39,8 +39,10 @@ class RulesEngine
   end
 
   def save_and_publish(opportunity)
-    opportunity.status = 2
-    opportunity.save!
+    # make sure that we create a subscription notification for matching subscriptions
+    result = UpdateOpportunityStatus.new.call(opportunity, 'publish')
+
+    Rails.logger.error("This opportunity has a problem. Please edit and save to resolve any issues: #{opportunity.id}") unless result.success?
   end
 
   def save_as_pending(opportunity)
