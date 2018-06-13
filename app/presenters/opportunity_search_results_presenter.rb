@@ -61,16 +61,20 @@ class OpportunitySearchResultsPresenter < FormPresenter
     end
   end
 
-  def found_message
+  def found_message(total)
+    if total > 1
+      "#{total} results found"
+    elsif total.zero?
+      '0 results found'
+    else
+      '1 result found'
+    end
+  end
+
+  def information
     for_message = searched_for(true)
     in_message = searched_in(true)
-    message = if @total > 1
-                "#{@total} results found"
-              elsif @total.zero?
-                '0 results found'
-              else
-                '1 result found'
-              end
+    message = found_message(@total)
     message += for_message unless for_message.empty?
     message += in_message unless in_message.empty?
     message.html_safe

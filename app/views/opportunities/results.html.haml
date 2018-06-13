@@ -8,7 +8,7 @@
   .container
     %h1.verbose= @content['title']
     .information
-      %p= results.found_message
+      %p= results.information
       = render partial: "components/subscription_link", locals: { subscription: results.subscription }
 
     = form_tag results.form_path,  method: :get, :class=>"search" do

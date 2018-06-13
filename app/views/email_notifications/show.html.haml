@@ -10,7 +10,7 @@
   .information
     .container
       %h1.verbose= page.content['title']
-      %p= "#{paged_results.total_count} Results found"
+      %p= results.found_message paged_results.total_count
 
   .match-results
     .container
