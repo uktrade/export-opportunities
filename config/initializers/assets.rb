@@ -28,6 +28,7 @@ Rails.application.config.assets.precompile += %w[jquery3.2.0.js]
 # Add Yarn node_modules folder to the asset load path.
 Rails.application.config.assets.paths << Rails.root.join('node_modules')
 
+
 ###################################
 # 2018 New design beyond this point
 ###################################
