@@ -9,7 +9,7 @@ class OpportunitiesController < ApplicationController
     @featured_industries = featured_industries
     @sort_column_name = sort_column
     @recent_opportunities = recent_opportunities
-    @countries = Country.all.order :name
+    @countries = all_countries
     @regions = regions_list
 
     render layout: 'landing'
@@ -45,6 +45,10 @@ class OpportunitiesController < ApplicationController
     @opportunity = Opportunity.published.find(params[:id])
 
     render layout: 'opportunity'
+  end
+
+  private def all_countries
+    Country.all.where.not(name: ['DSO', 'DIT HQ', 'NATO', 'UKREP']).order :name
   end
 
   private def search_term
