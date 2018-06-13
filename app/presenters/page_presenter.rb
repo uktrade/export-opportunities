@@ -15,6 +15,14 @@ class PagePresenter < BasePresenter
     str
   end
 
+  def create_trade_profile_url(number=nil)
+    if number.empty?
+      "#{Figaro.env.TRADE_PROFILE_CREATE_WITHOUT_NUMBER}"
+    else
+      "#{Figaro.env.TRADE_PROFILE_CREATE_WITH_NUMBER}#{number}"
+    end
+  end
+
   def add_breadcrumb_current(title)
     @breadcrumbs.push(title: title, slug: '') unless title.nil?
   end

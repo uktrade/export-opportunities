@@ -12,10 +12,6 @@
         = link_to 'View your proposals to date', dashboard_path, class: 'button'
 
     - unless trade_profile(@enquiry.company_house_number)
-      %p
-        We notice that you don’t have a trade profile.
-        %br
-        = link_to "Create a trade profile", "#{Figaro.env.TRADE_PROFILE_CREATE_PAGE}#{@enquiry.company_house_number}", target: :blank
-        for free to promote what you sell and provide an easy way for overseas buyers to find you.
+      = render partial: "no_trade_profile", locals: { url: page.create_trade_profile_url(@enquiry.company_house_number) }
 
 
