@@ -82,6 +82,7 @@ class VolumeOppsRetriever
       tender_url = document['url'].to_s if document['id'].eql?('tender_url')
     end
 
+    # TODO: change to ted_published_date
     published_date = if opportunity_source.eql?('ted_notices')
                        opportunity['releasedate']
                      else
@@ -106,7 +107,7 @@ class VolumeOppsRetriever
         tender_value: gbp_value.present? ? Integer(gbp_value).floor : nil,
         source: :volume_opps,
         tender_content: opportunity['json'].to_json,
-        first_published_at: published_date,
+        first_published_at: nil,
         tender_url: tender_url,
         ocid: opportunity['ocid'],
         tender_source: opportunity_source,
