@@ -48,7 +48,7 @@ class OpportunitiesController < ApplicationController
   end
 
   private def all_countries
-    Country.all.where.not(name: ['DSO', 'DIT HQ', 'NATO', 'UKREP']).order :name
+    Country.all.where.not(name: ['DSO HQ', 'DIT HQ', 'NATO', 'UKREP']).order :name
   end
 
   private def search_term
