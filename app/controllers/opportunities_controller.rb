@@ -33,7 +33,7 @@ class OpportunitiesController < ApplicationController
     @total = @search_results[:total]
     @search_filters = {
       'sectors': search_filter_sectors,
-      'countries': search_filter_countries(@search_results[:countries]),
+      'countries': search_filter_countries,
       'regions': search_filter_regions,
     }
 
@@ -321,12 +321,13 @@ class OpportunitiesController < ApplicationController
     }
   end
 
-  private def search_filter_countries(countries)
+  private def search_filter_countries
     # @filters.countries ... lists all selected countries in filters
     # search_results[:countries]... lists all countries in relevant to search
+    countries = @search_results[:countries]
     {
       'name': 'countries[]',
-      'options': countries,
+      'options': countries.empty? ? Country.where(slug: @filters.countries) : countries,
       'selected': @filters.countries,
     }
   end
