@@ -89,7 +89,7 @@ class OpportunitiesController < ApplicationController
             break
           end
         end
- 
+
         if is_region
           params[:regions].push area
         else

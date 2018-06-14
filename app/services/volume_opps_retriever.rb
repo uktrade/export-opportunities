@@ -83,11 +83,11 @@ class VolumeOppsRetriever
     end
 
     # TODO: change to ted_published_date
-    published_date = if opportunity_source.eql?('ted_notices')
-                       opportunity['releasedate']
-                     else
-                       opportunity['pubdate']
-                     end
+    # published_date = if opportunity_source.eql?('ted_notices')
+    #                    opportunity['releasedate']
+    #                  else
+    #                    opportunity['pubdate']
+    #                  end
 
     if description && country && tender_url
       {
