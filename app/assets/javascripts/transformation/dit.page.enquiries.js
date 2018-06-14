@@ -2,7 +2,6 @@
 // action: enquiries#new
 // action: enquiries#ceate
 //
-//= require transformation/dit.page.form.js
 //= require transformation/dit.class.selective_lookup.js
 //= require transformation/dit.class.service.js
 //= require transformation/dit.class.companies_house_name_lookup.js

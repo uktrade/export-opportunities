@@ -56,9 +56,7 @@
             = link_to 'Trade Profile', trade_profile(@enquiry.company_house_number), target: :blank
             = 'will be added to your application.'
         - else
-          %p
-            It looks like you don't have a trade profile. A trade profile can increase your chance of winning business. 
-            = link_to "Create trade profile", Figaro.env.TRADE_PROFILE_CREATE_PAGE
+          = render partial: "no_trade_profile", locals: { url: page.create_trade_profile_url(@enquiry.company_house_number) }
 
       %fieldset.your-exporting
         %legend About Your Exporting Experience
