@@ -8,9 +8,7 @@
         = opportunity.teaser
 
       - if opportunity.source.eql? 'volume_opps'
-        %span.source
-          Provided by
-          = image_tag "logos/openopps_logo.png", :alt=>"Open Opps"
+        = render partial: "partials/open_opps_link"
 
       .actions
         %span.expires
