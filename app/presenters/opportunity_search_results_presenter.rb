@@ -102,7 +102,6 @@ class OpportunitySearchResultsPresenter < FormPresenter
     message = ''
     filters = @search[:filters]
     if filters.countries.present? || filters.regions.present?
-      message = ' in '
       if with_html
         selected_filter_list.each do |filter|
           message += content_tag('span', filter, 'class': 'param')
@@ -112,7 +111,8 @@ class OpportunitySearchResultsPresenter < FormPresenter
         message += selected_filter_list.join(' or ')
       end
     end
-    message.gsub(/(\sor\s)$/, '').html_safe
+
+    message.gsub(/(.*)(\sor\s)$/, ' in \\1').html_safe
   end
 
   def searched_in_html
