@@ -25,28 +25,28 @@ class LandingPresenter < PagePresenter
     name = key.to_sym
     map = {
       "creative-media": {
-        large: 'sectors/ExOpps_CTA_Creative_and_media_170x255@2x.jpg',
-        small: 'sectors/ExOpps_CTA_Creative_and_media_170x255-mob@2x.png',
+        large: 'sectors/ExOpps-CTA_Sixth_7_170x255_12@2x.jpg',
+        small: 'sectors/ExOpps-CTA_Sixth_7_170x255_12-mob@2x.jpg',
       },
       "education-training": {
         large: 'sectors/ExOpps_CTA_Education_170x255@2x.jpg',
         small: 'sectors/ExOpps_CTA_Education_170x255-mob@2x.png',
       },
       "food-drink": {
-        large: 'sectors/ExOpps_CTA_Food_and_drink_170x255@2x.jpg',
-        small: 'sectors/ExOpps_CTA_Food_and_drink_170x255-mob@2x.png',
+        large: 'sectors/ExOpps-CTA_Sixth_11_170x255@2x.jpg',
+        small: 'sectors/ExOpps-CTA_Sixth_11_170x255-mob@2x.jpg',
       },
       "oil-gas": {
-        large: 'sectors/ExOpps_CTA_Oil_and_gas_170x255@2x.jpg',
-        small: 'sectors/ExOpps_CTA_Sixth_10_170x255-mob@2x.png',
+        large: 'sectors/ExOpps-CTA_OilAndGas_170x255@2x.jpg',
+        small: 'sectors/ExOpps-CTA_OilAndGas_170x255-mob@2x.jpg',
       },
       "retail-and-luxury": {
-        large: 'sectors/ExOpps_CTA_Retail_and_luxury_170x255@2x.jpg',
-        small: 'sectors/ExOpps_CTA_Sixth_9_170x255-mob@2x.png',
+        large: 'sectors/ExOpps-CTA_Sixth_9_170x255@2x.jpg',
+        small: 'sectors/ExOpps-CTA_Sixth_9_170x255-mob@2x.jpg',
       },
       "security": {
-        large: 'sectors/ExOpps_CTA_Security_170x255@2x.jpg',
-        small: 'sectors/ExOpps_CTA_Security_170x255-mob@2x.png',
+        large: 'sectors/ExOpps-CTA_Sixth_5_170x255@2x.jpg',
+        small: 'sectors/ExOpps-CTA_Sixth_5_170x255-mob@2x.jpg',
       },
     }
 
