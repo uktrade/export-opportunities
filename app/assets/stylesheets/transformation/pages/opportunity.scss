@@ -85,7 +85,7 @@ h1 {
     }
   }
 
-  .provider {
+  .source {
     @include body-s;
     color: $mid-grey;
     display: none;
@@ -97,7 +97,7 @@ h1 {
       width: 100%;
     }
 
-    &.volume_opps {
+    &.open-opps {
       clear: both;
       display: block;
     }

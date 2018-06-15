@@ -56,9 +56,7 @@
       .details
         %h2 Details
         - if opportunity.source('volume_opps')
-          %p{:class => "provider volume_opps"}
-            Provided by
-            = image_tag "logos/openopps_logo.png", alt: "Open Opps"
+          = render partial: "partials/open_opps_link"
 
         %dl
           %dt.expiry

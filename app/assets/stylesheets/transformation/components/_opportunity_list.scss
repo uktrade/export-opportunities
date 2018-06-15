@@ -44,28 +44,28 @@
   }
 }
 
-
 .volume_opps {
-  position: relative;
-
-  a,
-  .text {
-    display: block;
-    margin-right: 155px;
-  }
-
   .source {
-    bottom: 90px;
+    bottom: 70px;
     color: $mid-grey;
     display: block;
+    float: right;
     font-size: 12px;
-    position: absolute;
+    position: relative;
     right: $spacing-3;
+
+    a {
+      display: block;
+    }
 
     img {
       display: block;
       width: 110px;
     }
+  }
+
+  .text {
+    margin-right: 155px;
   }
 }
 
@@ -85,14 +85,14 @@
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 620px) {
   .volume_opps {
-    a,
     .text {
       margin-right: 0;
     }
 
     .source {
+      float: none;
       margin: 0 0 $spacing-3-m $spacing-3-m;
       position: static;
     }
