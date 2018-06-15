@@ -1,3 +1,8 @@
+-# Global header-footer styles
+- unless request.fullpath.include?('/admin')
+  = stylesheet_link_tag('header-footer')
+
+
 = stylesheet_link_tag 'transformation/main', media: 'all'
 /[if IE 9]
   = stylesheet_link_tag 'transformation/main_ie9_fixes'
