@@ -12,7 +12,8 @@ namespace :volume do
                 Figaro.env.OO_FETCH_TO_DATE
               end
 
-    VolumeOppsRetriever.new.call(Editor.find(1337), from_date, to_date)
+    # all volume opps will be assigned to the following editor, needs to be present in DB
+    VolumeOppsRetriever.new.call(Editor.where(email: Figaro.env.MAILER_FROM_ADDRESS).first, from_date, to_date)
   end
 
   task delete_opps: :environment do

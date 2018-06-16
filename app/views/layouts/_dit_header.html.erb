@@ -7,7 +7,7 @@
       <div class="account-locale-links">
         <ul aria-label="Account links" class="navigation account-links">
         <% if !current_user %>
-          <li class="anonymous"><a id="header-register-link" href="<%=Figaro.env.SSO_ENDPOINT_BASE_URI %>accounts/signup" class="register">Register</a></li>
+          <li class="anonymous"><a id="header-register-link" href="<%=Figaro.env.SSO_ENDPOINT_BASE_URI %>/accounts/signup" class="register">Register</a></li>
           <li class="anonymous"><a id="header-sign-in-link" href="<%=dashboard_path%>" class="signin">Sign in</a></li>
         <% else %>
           <li class="authenticated"><a id="header-profile-link" href="<%=dashboard_path%>" class="profile">Profile</a></li>
