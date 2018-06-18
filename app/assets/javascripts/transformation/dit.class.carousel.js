@@ -315,53 +315,53 @@
    * include carousel at certain dimensions.
    **/
   Carousel.prototype.destroy = function () {
-    var node =  this.$node.get(0);
-    
-    // Put the breaks on.
-    this.pause();
+    if(this.$node && this.$node.length) {
+      // Put the breaks on.
+      this.pause();
 
-    // Clear any timers. 
-    clearTimeout(this.pauseTimer);
-    clearInterval(this.autoInterval);
+      // Clear any timers. 
+      clearTimeout(this.pauseTimer);
+      clearInterval(this.autoInterval);
 
-    // Stop anything still moving.
-    this.$items.stop(true, true);
-    this.$items.each(function(i) {
-       // Reset any position or display stuff.
-      this.style.height = "";
-      this.style.position = "";
-      this.style.top = "";
-      this.style.width = "";
-      this.style.left = "";
+      // Stop anything still moving.
+      this.$items.stop(true, true);
+      this.$items.each(function(i) {
+        // Reset any position or display stuff.
+        this.style.height = "";
+        this.style.position = "";
+        this.style.top = "";
+        this.style.width = "";
+        this.style.left = "";
 
-      // To avoid unsightly full exposure before rebuild
-      // we hide all but one of the items. 
-      if(i != 1) {
-        this.style.display = "none";
+        // To avoid unsightly full exposure before rebuild
+        // we hide all but one of the items. 
+        if(i != 1) {
+          this.style.display = "none";
+        }
+      });
+
+      if(this.$buttons && this.$buttons.length) {
+        this.$buttons.remove();
       }
-    });
 
-    if(this.$buttons && this.$buttons.length) {
-      this.$buttons.remove();
-    }
+      if(this.$controls && this.$controls.length) {
+        this.$controls.remove();
+      }
 
-    if(this.$controls && this.$controls.length) {
-      this.$controls.remove();
-    }
-
-    this.$node
-      .off(MOUSEOVER + " " + MOUSEOUT)
-      .removeAttr(ACCESS_HIDDEN)
-      .removeClass(CSS_CLASS_CAROUSEL);
+      this.$node
+        .off(MOUSEOVER + " " + MOUSEOUT)
+        .removeAttr(ACCESS_HIDDEN)
+        .removeClass(CSS_CLASS_CAROUSEL);
       
-    // Reset (inline styles)
-    node.style = {};
+      // Reset (inline styles)
+      this.$node.get(0).style = {};
 
-    // If we created a wrapper element, we need to remove it
-    // and avoid duplications on rebuild.
-    if(this.config.wrapper.length < 1) {
-      this.$node.after(this.$node.children());
-      this.$node.remove();
+      // If we created a wrapper element, we need to remove it
+      // and avoid duplications on rebuild.
+      if(this.config.wrapper.length < 1) {
+        this.$node.after(this.$node.children());
+        this.$node.remove();
+      }
     }
   };
 
