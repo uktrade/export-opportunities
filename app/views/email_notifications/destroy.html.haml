@@ -1,0 +1,20 @@
+- page = PagePresenter.new(content)
+- form = FormPresenter.new(content, nil)
+
+.container
+  = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
+
+  %h1.verbose= page.content["title"]
+
+  .confirmation-notice
+    %p.notice= page.content["confirmation"]
+
+  = form_tag update_email_notification_path(params[:user_id]), class: 'reason-form', method: :post do
+    %input{:type=>"hidden", :value=>"PATCH", :name=>"_method"}
+    -# TODO: No longer required???
+      -# Deleted subscriptions...
+      - @subscription_ids&.each do |sub|
+        =sub
+
+    = render partial: "forms/input_radio", locals: { input: form.input_radio("reason") }
+    %input{:type=>"submit", :value=>form.content["submit"], :class=>"button"}

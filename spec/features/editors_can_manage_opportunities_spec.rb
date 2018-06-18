@@ -108,16 +108,16 @@ feature 'Administering opportunities' do
       name_fields[1].set 'Joe Bloggs'
       email_fields[1].set 'joe@bloggs.com'
 
-      fill_in 'Title', with: 'A creative man is motivated by the desire to achieve, not by the desire to beat others90'
+      fill_in 'Title', with: 'Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive253'
       fill_in t('admin.opportunity.teaser_field'), with: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p153'
 
-      expect(page).to have_text('8 characters over the limit')
+      expect(page).to have_text('3 characters over the limit')
 
       click_on 'Create Opportunity'
 
       expect(page.status_code).to eq 422
       expect(page).to have_text("Title can\'t be more than 80")
-      expect(page).to have_text("Summary can\'t be more than 140")
+      expect(page).to have_text("be 140 characters or fewer")
     end
   end
   feature 'updating an opportunity' do
@@ -136,7 +136,7 @@ feature 'Administering opportunities' do
       click_on opportunity.title
       click_on 'Edit opportunity'
 
-      fill_in 'opportunity_title', with: 'A creative man is motivated by the desire to achieve, not by the desire to beat others90'
+      fill_in 'opportunity_title', with: "Coloring book pickled fanny pack selfies blue bottle small batch palo santo jianbing marfa. Actually gastropub lomo, drinking vinegar typewriter biodiesel fashion axe kickstarter you probably haven't heard of them messenger bag echo park.1234567890 252"
       fill_in 'opportunity_teaser', with: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p153'
 
       click_on 'Update Opportunity'
@@ -198,6 +198,30 @@ feature 'Administering opportunities' do
 
       within(:css, 'table td.ragg-cell') do
         expect(page).to have_text('red')
+      end
+    end
+
+    feature 'managing spelling and sensitivity errors in opportunities' do
+      scenario 'published opportunity with a spelling error, error should be highlighted with the correct alignment in *red* font' do
+        admin = create(:admin)
+        opportunity = create(:opportunity, status: :publish, title: 'A sample title', slug: 'spelling-bee-contest')
+        opportunity_check = OpportunityCheck.new
+        opportunity_check.submitted_text = "A sample title permeate should not be spelled as permeat. This is a difficult word to spell"
+        opportunity_check.offensive_term = "permeat"
+        opportunity_check.suggested_term = "permeate"
+        opportunity_check.score = 94
+        opportunity_check.offset = 50
+        opportunity_check.length = 7
+        opportunity_check.opportunity_id = opportunity.id
+
+        opportunity_check.save!
+
+        login_as(admin)
+        visit admin_opportunities_path
+
+        click_on opportunity.title
+
+        expect(page.body).to have_content('permeat. This is a difficult word to spell')
       end
     end
   end

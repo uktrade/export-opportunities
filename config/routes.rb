@@ -2,8 +2,12 @@
 Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
 
+  # site's root page
+  root to: 'opportunities#index'
+
   get 'check' => 'application#check'
   get 'data_sync_check' => 'application#data_sync_check'
+  get 'api_check' => 'application#api_check'
 
   devise_for :users, module: 'users', skip: :sessions
 
@@ -16,7 +20,7 @@ Rails.application.routes.draw do
 
   devise_for :subscriptions,
              controllers: {
-                 confirmations: 'subscriptions',
+              confirmations: 'subscriptions',
              }
 
   get '/dashboard' => 'users/dashboard#index', as: 'dashboard'
@@ -29,6 +33,15 @@ Rails.application.routes.draw do
   # Legacy dashboard index page
   get '/dashboard/enquiries', to: redirect('/dashboard')
 
+  namespace :poc  do
+    resources :opportunities, except: [:index, :destroy]
+    get 'international', to: 'opportunities#international'
+  end
+
+  resources :opportunities, only: [:show] do
+    root action: 'results', as: ''
+  end
+
   namespace :admin do
     get 'help', to: 'help#index'
     get 'help/:id', to: 'help#show'
@@ -39,7 +52,7 @@ Rails.application.routes.draw do
                singular: :editor,
                only: %i[registrations sessions passwords unlocks],
                path_names: {
-                   sign_up: 'new',
+                 sign_up: 'new',
                }
 
     devise_scope :editor do
@@ -95,11 +108,6 @@ Rails.application.routes.draw do
 
   resources :company_details, only: [:index]
 
-  resources :opportunities, only: %i[index show]
-
-  # site's root page
-  root 'opportunities#index'
-
   resources :subscriptions, only: %i[create show destroy update]
   resources :pending_subscriptions, only: [:create]
   get '/pending_subscriptions/:id' => 'pending_subscriptions#update', as: :update_pending_subscription
@@ -154,11 +162,16 @@ Rails.application.routes.draw do
 
   # Mailer previews. This need to be declared explicitly or they get snapped up
   # by the wildcard rule below before Rails has a chance to route them
-  if Rails.env.development?
-    get '/rails/mailers' => 'rails/mailers#index'
-    get '/rails/mailers/*path' => 'rails/mailers#preview'
-  end
- 
+  # if Rails.env.development?
+  get '/rails/mailers' => 'rails/mailers#index'
+  get '/rails/mailers/*path' => 'rails/mailers#preview'
+  # end
+
+
+  get '/email_notifications/:user_id', to: 'email_notifications#show'
+  get '/email_notifications/unsubscribe_all/:user_id', to: 'email_notifications#destroy'
+  patch '/email_notifications/unsubscribe_all/:id', to: 'email_notifications#update', as: :update_email_notification
+
   get '/api/profile_dashboard', action: :index, controller: 'api/profile_dashboard', format: 'json', via: [:get]
   post '/api/document/', action: :create, controller: 'api/document'
 

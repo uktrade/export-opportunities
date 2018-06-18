@@ -14,16 +14,31 @@ We aim to follow [GDS service standards](https://www.gov.uk/service-manual/servi
 ## Installation
 
 * Copy the application configuration
-```bash
-$ cp config/application.example.yml config/application.yml
-```
+  ```bash
+  $ cp config/application.example.yml config/application.yml
+  ```
+
+* Have an instance of postgres running and configured in your `application.yml`
+  ```bash
+  docker run --rm -p 5432:5432 postgres:10.3
+  ```
+
 * Have an instance of redis-server running and configured in your `application.yml`
+  ```bash
+  docker run --rm -p 6379:6379 redis
+  ```
 
 * Have an instance of elasticsearch running (can be default localhost:9200) and configured in your `application.yml`
+  ```bash
+  docker run --rm -p 9200:9200 docker.elastic.co/elasticsearch:5.6.8
+  ```
+
+* Increase the max window size to >=100_000 using something like this:
+```curl -XPUT "http://<host>:<port>/<index_name>/_settings" -d '{ "index" : { "max_result_window" : 500000 } }'```
 
 * After setting up your database with rake db:migrate, you need to run the 2 elasticsearch rake tasks to setup the elasticsearch indexes:
     * rake elasticsearch:import_opportunities
-    * rake elasticsearc:import_subscriptions
+    * rake elasticsearch:import_subscriptions
     
 
 ## Running tests

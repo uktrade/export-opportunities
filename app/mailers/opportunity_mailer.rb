@@ -1,11 +1,16 @@
 class OpportunityMailer < ApplicationMailer
-  layout 'eig-email'
+  layout 'email'
 
-  def send_opportunity(opportunity, subscription)
-    @opportunity = opportunity
-    @subscription = SubscriptionPresenter.new(subscription)
+  def send_opportunity(user, opportunities)
+    @count = opportunities.count
+    # TODO: don't use sample if the number of opps can be too large
+    @opportunities = opportunities.sample(5)
+    @user = user
+    @encrypted_user_id = EncryptedParams.encrypt(user.id)
+    @date = Time.zone.now.strftime('%Y-%m-%d')
 
-    mail to: @subscription.email,
-         subject: "New opportunity from #{t('site_name')}: #{@opportunity.title}"
+    mail from: "Export Opportunities <#{Figaro.env.MAILER_FROM_ADDRESS!}>",
+         to: @user.email,
+         subject: "#{@count} matching #{@count > 1 ? 'opportunities' : 'opportunity'}"
   end
 end

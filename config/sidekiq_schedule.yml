@@ -3,3 +3,15 @@ schedule_automated_impact_email_job:
   class: "SendImpactEmailToMatchingEnquiriesWorker"
   queue: default
   active_job: true
+
+schedule_volume_import_opps_job:
+  cron: "30 10 * * *"
+  class: "RetrieveVolumeOpps"
+  queue: default
+  active_job: true
+
+schedule_digest_email_notifications_job:
+  cron: "0 19 * * *"
+  class: "SendOpportunitiesDigest"
+  queue: default
+  active_job: true

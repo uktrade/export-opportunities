@@ -1,0 +1,3 @@
+.field.text
+  = render partial: "forms/input_label", locals: { label: input[:label] }
+  %input{:type=>'text', :id=>input[:id], :name=>input[:name]}

@@ -24,6 +24,7 @@ coverage/
 
 # Ignore application configuration
 /config/application.yml
+/config/application.textgears.yml
 
 # Ignore examples persistence file
 /spec/examples.txt
@@ -61,9 +62,22 @@ public/capybara.html
 
 vendor/bundle/*
 # vendor/cache/*
+# /vendor/cache/**/*
 
 # OS hidden files
 .DS_Store
 
 # ignore simplecov configuration
 .simplecov
+
+/node_modules/
+
+# OS specific files
+.DS_Store
+
+# ignore test files
+*.zip
+*.xls
+*.xlsx
+
+output.png

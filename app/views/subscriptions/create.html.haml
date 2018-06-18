@@ -1,32 +1,24 @@
-.container
-  .legacy.margin-top-30
-    %h1
-      Your email alert has been created
-    %p
-      When we publish relevant opportunities, they will be sent automatically to
-      %strong= current_user.email
-    %p
-      You can manage your email alerts at any time using the
-      "Profile" link at the top of this page.
-    .panel.summary-panel
-      %h3 Alert summary
-      %dl.metadata
-        - if subscription.search_term.present?
-          %dt Search term:
-          %dd= subscription.search_term
-        - if subscription.country_names.present?
-          %dt Markets:
-          %dd= subscription.country_names
-        - if subscription.sector_names.present?
-          %dt Sectors:
-          %dd= subscription.sector_names
-        - if subscription.type_names.present?
-          %dt Types:
-          %dd= subscription.type_names
-        - if subscription.value_names.present?
-          %dt Values:
-          %dd= subscription.value_names
+- page = PagePresenter.new(content)
 
-      %div
-        = link_to('Manage your email alerts', dashboard_path(anchor: 'alerts', target: :alerts), class: 'button button--slimline')
-        = link_to('Search for more opportunities', opportunities_path, class: 'button button--naked button--slimline')
+.container
+  = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
+  %h1.verbose= page.content["title"]
+
+  .confirmation-notice
+    %p.notice= page.content["confirmation"]
+    %p.message= page.content_with_inclusion "message", [current_user.email]
+
+  .alert-panel
+    %h2= page.content["alert_summary_title"]
+    %p= page.content["alert_summary_message"]
+
+    - if subscriptions.size > 0
+      %ul.subscriptions
+        - subscriptions.each do |sub|
+          %li= sub.search_term
+
+    = link_to page.content["alert_summary_link"], dashboard_path(anchor: 'alerts', target: :alerts)
+
+  %p= page.content_with_inclusion("advice", [link_to("Profile", "/dashboard")]).html_safe
+  %p.back
+    =link_to page.content["back"], request.referrer, :class=>"button"

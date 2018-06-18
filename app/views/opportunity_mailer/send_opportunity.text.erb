@@ -1,17 +1,46 @@
-This opportunity has just been published:
+<% if @count > 1 %>
+<%= @count %> matching opportunities
 
-<%= @opportunity.title %>
-<%= @opportunity.teaser %>
-More details at: <%= opportunity_url(@opportunity) %>
+You have <%= @count %> opportunities that match your criteria
+<% else %>
+<%= @count %> matching opportunity
 
-Search for other export opportunities at https://opportunities.export.great.gov.uk/
-
-The Export Opportunities Team
-https://opportunities.export.great.gov.uk/
-
-You are receiving this email because you signed up for notifications about: <%= @subscription.description %>
-
-Unsubscribe from this alert by visiting <%= unsubscribe_url(@subscription) %>
-<% unless @subscription.user.stub? %>
-  Manage your alerts: <%= dashboard_url(anchor: 'alerts', target: :alerts) %>
+You have <%= @count %> opportunity that matches your criteria
 <% end %>
+
+
+<% @opportunities.each do |opportunity| %>
+
+<%= opportunity.title %>
+
+<%= opportunity.teaser %>
+
+Opportunity expires: <%= opportunity.response_due_on %>
+<%= opportunity_url(opportunity) %>
+
+-------------------------
+
+<% end %>
+
+
+View all matching opportunities at: 
+<%= opportunities_url %>
+
+You can also search for other export opportunities at: 
+<%= opportunities_url %>
+
+
+You are receiving this email because you signed up for Export Opportunities email alerts.
+
+Manage your alerts
+http:/insert/url/here
+
+Unsubscribe from all alerts
+http:/insert/url/here
+
+View privacy statement
+http:/insert/url/here
+
+Give feedback at
+http:/insert/url/here
+

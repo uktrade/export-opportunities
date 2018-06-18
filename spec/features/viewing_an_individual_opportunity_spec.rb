@@ -21,12 +21,38 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
     expect(page).to have_content t('opportunity.expired')
   end
 
-  scenario 'Potential exporter can view details of an opportunity' do
+  scenario 'Potential exporter can view details of a 3rd party submitted opportunity' do
     sectors = create_list(:sector, 3)
     types = create_list(:type, 5)
     countries = [create(:country, exporting_guide_path: '/somelink')]
 
     opportunity = create(:opportunity, status: 'publish', sectors: sectors, types: types, countries: countries)
+
+    create_list(:enquiry, 3, opportunity: opportunity)
+
+    sleep 1
+    visit opportunities_path
+
+    click_on opportunity.title
+    expect(page).to have_content opportunity.title
+
+    countries.each do |c|
+      expect(page).to have_content c.name
+    end
+
+    expect(page).to have_content opportunity.teaser
+    expect(page).to have_content opportunity.description
+
+    expect(page).to have_link 'Go to third party website'
+  end
+
+  scenario 'Potential exporter can view details of an opportunity' do
+    skip('TODO: refactor for new look and feel of post submitted opps')
+    sectors = create_list(:sector, 3)
+    types = create_list(:type, 5)
+    countries = [create(:country, exporting_guide_path: '/somelink')]
+
+    opportunity = create(:opportunity, source: :post, status: 'publish', sectors: sectors, types: types, countries: countries)
 
     create_list(:enquiry, 3, opportunity: opportunity)
 
@@ -66,6 +92,7 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
     expect(page).to have_link 'Submit your proposal'
     expect(page).to have_content('Applications received 3')
   end
+
 
   scenario 'country with a link to exporting guide' do
     country = create(:country, exporting_guide_path: '/government/publications/exporting-to-egypt')

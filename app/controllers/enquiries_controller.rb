@@ -13,6 +13,7 @@ class EnquiriesController < ApplicationController
                else
                  Enquiry.new
                end
+    render layout: 'enquiries'
   end
 
   def create
@@ -26,6 +27,8 @@ class EnquiriesController < ApplicationController
       flash.now[:error] = @enquiry.errors.full_messages.join(', ')
       render :new
     end
+
+    render layout: 'notification'
   end
 
   private def enquiry_params

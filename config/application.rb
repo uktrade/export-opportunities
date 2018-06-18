@@ -39,8 +39,14 @@ module ExportOpportunities
       end
     end
 
+    # TODO: Temporary POC view path solution (remove when no longer using /poc/)
+    config.paths['app/views'].push("#{Rails.root}/app/views/poc")
+
     # TODO: temp workaround
     config.action_controller.permit_all_parameters = true
+
+    # precompile assets
+    # config.serve_static_assets = true
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

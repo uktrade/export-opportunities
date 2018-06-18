@@ -1,0 +1,100 @@
+.opportunities-list {
+  clear: both;
+
+  dd {
+    border: $stone-50 solid 2px;
+    border-top: none;
+    margin: 0 0 $spacing-4 0;
+    position: relative;
+  }
+
+  dt {
+    @include body-l;
+    border: $stone-50 solid 2px;
+    border-bottom: none;
+    font-weight: bold;
+    margin: 0;
+    padding: $spacing-3 $spacing-3 $spacing-4 $spacing-3;
+  }
+
+  .actions {
+    @include body-s;
+    border-top: 1px solid $light-grey;
+    padding: $spacing-4 $spacing-3;
+  }
+
+  .all {
+    @include button-ghost($active-blue, $white);
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    width: 165px;
+  }
+
+  .save {
+    background: transparent image_url("star.png") 100% 40% no-repeat;
+    background-size: 17px;
+    float: right;
+    padding-right: 25px;
+  }
+
+  .text {
+    display: block;
+    padding: 0 $spacing-3 $spacing-3 $spacing-3;
+  }
+}
+
+.volume_opps {
+  .source {
+    bottom: 70px;
+    color: $mid-grey;
+    display: block;
+    float: right;
+    font-size: 12px;
+    position: relative;
+    right: $spacing-3;
+
+    a {
+      display: block;
+    }
+
+    img {
+      display: block;
+      width: 110px;
+    }
+  }
+
+  .text {
+    margin-right: 155px;
+  }
+}
+
+
+// RESPONSIVE
+@media screen and (max-width: 767px) {
+  .opportunities-list {
+    dt {
+      padding: $spacing-3-m $spacing-3-m 0 $spacing-3-m;
+    }
+
+    .actions,
+    .text {
+      padding-left: $spacing-3-m;
+      padding-right: $spacing-3-m;
+    }
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .volume_opps {
+    .text {
+      margin-right: 0;
+    }
+
+    .source {
+      float: none;
+      margin: 0 0 $spacing-3-m $spacing-3-m;
+      position: static;
+    }
+  }
+}

@@ -1,0 +1,8 @@
+%form{:method=>'post', :action=>poc_opportunities_path}
+  %h1= form.title
+  %p.description.intro= form.description
+
+  = form.hidden_fields
+  = render partial: "forms/input_radio", locals: { input: form.input_radio('what') }
+  %input{:type=>'submit', :value=>form.content['submit'], :class=>'button'}
+

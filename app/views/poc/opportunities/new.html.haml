@@ -1,0 +1,8 @@
+- page = PagePresenter.new(@content)
+- form = FormPresenter.new(@content, @process)
+
+
+.process
+  .container
+    = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
+    = render partial: 'poc/opportunities/new/' + form.view, locals: { form: form }

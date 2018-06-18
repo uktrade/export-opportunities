@@ -1,12 +1,12 @@
 class OpportunityQuery
   attr_reader :count, :opportunities
 
-  def initialize(scope: Opportunity.all, status: nil, hide_expired: false, search_term: nil, search_method: :fuzzy_match, filters: NullFilter.new, sort:, page: 1, per_page: 10, ignore_sort: false)
+  def initialize(scope: Opportunity.all, status: nil, hide_expired: false, search_term: nil, search_method: :fuzzy_match, filters: NullFilter.new, sort:, page: 1, per_page: 10, ignore_sort: false, previewer_or_uploader: true)
     @scope = scope
 
     @status = status
     @hide_expired = hide_expired
-
+    @previewer_or_uploader = previewer_or_uploader
     @search_term = search_term
     @search_method = search_method
     @filters = filters
@@ -14,7 +14,6 @@ class OpportunityQuery
     @page = page
     @per_page = per_page
     @ignore_sort = ignore_sort
-
     @opportunities = fetch_opportunities
   end
 
@@ -46,6 +45,8 @@ class OpportunityQuery
     return Opportunity.none if query.nil?
 
     query = query.where(status: Opportunity.statuses[@status]) if @status
+
+    query = query.where(source: :post) if @previewer_or_uploader
 
     query = query.applicable if @hide_expired
 

@@ -1,4 +1,8 @@
 class ApplicationController < ActionController::Base
+  require 'yaml'
+  # for how many days should we notify pingdom that a volume opps job has failed
+  PUBLISH_SIDEKIQ_ERROR_DAYS = 1.freeze
+
   # Protect by basic auth on staging
   # Use basic auth if set in the environment
   before_action :basic_auth, except: :check
@@ -45,7 +49,6 @@ class ApplicationController < ActionController::Base
     res = {}
 
     # opps that have not expired and are published
-    # db_opportunities = get_db_opportunities
     db_opportunities_ids = db_opportunities
     sort = OpenStruct.new(column: :response_due_on, order: :desc)
     query = OpportunitySearchBuilder.new(search_term: '', sort: sort).call
@@ -79,13 +82,29 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def api_check
+    redis = Redis.new(url: Figaro.env.redis_url!)
+    latest_sidekiq_failure = redis.get(:sidekiq_retry_jobs_last_failure)
+
+    sidekiq_retry_jobs_count = sidekiq_retry_count
+    retry_count = redis_oo_retry_count(redis)
+
+    update_redis_counter(redis, sidekiq_retry_jobs_count, latest_sidekiq_failure)
+
+    if (sidekiq_retry_jobs_count - retry_count).positive? && days_since_last_failure(latest_sidekiq_failure) < PUBLISH_SIDEKIQ_ERROR_DAYS
+      render json: { status: 'error', retry_error_count: sidekiq_retry_jobs_count }
+    else
+      render json: { status: 'OK' }
+    end
+  end
+
   def db_opportunities
     Opportunity.where('response_due_on >= ? and status = ?', DateTime.now.utc, 2).pluck(:id)
   end
 
   def es_opportunities(query)
     res = []
-    es_opportunities = Opportunity.__elasticsearch__.search(size: 10_000, query: query[:search_query], sort: query[:search_sort])
+    es_opportunities = Opportunity.__elasticsearch__.search(size: 100_000, query: query[:search_query], sort: query[:search_sort])
     es_opportunities.each { |record| res.push record.id }
     res
   end
@@ -173,5 +192,37 @@ class ApplicationController < ActionController::Base
     # The exception this method rescues from is thrown
     # before it has the chance.
     render 'errors/invalid_authenticity_token', status: 422
+  end
+
+  # (POC experiment) Gets keeps content separated from the view
+  # and makes easy to switch later to CMS-style content editing.
+  def get_content(file)
+    YAML.load_file('app/content/' + file)
+  end
+
+  def redis_oo_retry_count(redis)
+    # nil-safe redis fetch from counter
+    redis.get('oo_retry_error_count').to_i
+  end
+
+  def sidekiq_retry_count
+    rs = Sidekiq::RetrySet.new
+    retry_jobs = rs.select { |retri| retri.item['class'] == 'RetrieveVolumeOpps' }
+    retry_jobs.size
+  end
+
+  def update_redis_counter(redis, sidekiq_retry_jobs_count, latest_sidekiq_failure)
+    # set initial value if it's the first time
+    redis.set('sidekiq_retry_jobs_last_failure', Time.zone.now) unless latest_sidekiq_failure
+
+    if days_since_last_failure(latest_sidekiq_failure) > PUBLISH_SIDEKIQ_ERROR_DAYS
+      redis.set('oo_retry_error_count', sidekiq_retry_jobs_count)
+      redis.set('sidekiq_retry_jobs_last_failure', Time.zone.now)
+    end
+  end
+
+  def days_since_last_failure(latest_sidekiq_failure)
+    return 0 unless latest_sidekiq_failure
+    ((Time.zone.now - Time.zone.parse(latest_sidekiq_failure)) / 86_400)
   end
 end

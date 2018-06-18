@@ -4,12 +4,13 @@ class Opportunity < ApplicationRecord
   include Elasticsearch::Model
   index_name [base_class.to_s.pluralize.underscore, Rails.env].join('_')
 
-  # built in callbacks won't work with our customly indexed taxnomies
+  # built in callbacks won't work with our custom indexed taxonomies
   after_commit on: [:create] do
     __elasticsearch__.index_document
   end
 
   after_commit on: [:update] do
+    __elasticsearch__.delete_document
     __elasticsearch__.index_document
   end
 
@@ -17,31 +18,34 @@ class Opportunity < ApplicationRecord
     __elasticsearch__.delete_document
   end
 
-  mappings dynamic: 'false' do
-    indexes :title, analyzer: 'english'
-    indexes :teaser, analyzer: 'english'
-    indexes :description, analyzer: 'english'
+  settings index: { max_result_window: 100_000 } do
+    mappings dynamic: 'false' do
+      indexes :title, analyzer: 'english'
+      indexes :teaser, analyzer: 'english'
+      indexes :description, analyzer: 'english'
 
-    indexes :types do
-      indexes :slug, type: :keyword
+      indexes :types do
+        indexes :slug, type: :keyword
+      end
+
+      indexes :values do
+        indexes :slug, type: :keyword
+      end
+
+      indexes :countries do
+        indexes :slug, type: :keyword
+      end
+
+      indexes :sectors do
+        indexes :slug, type: :keyword
+      end
+
+      indexes :response_due_on, type: :date
+      indexes :first_published_at, type: :date
+      indexes :updated_at, type: :date
+      indexes :status, type: :keyword
+      indexes :source, type: :keyword
     end
-
-    indexes :values do
-      indexes :slug, type: :keyword
-    end
-
-    indexes :countries do
-      indexes :slug, type: :keyword
-    end
-
-    indexes :sectors do
-      indexes :slug, type: :keyword
-    end
-
-    indexes :response_due_on, type: :date
-    indexes :first_published_at, type: :date
-    indexes :updated_at, type: :date
-    indexes :status, type: :keyword
   end
 
   has_paper_trail class_name: 'OpportunityVersion', only: [:status]
@@ -50,12 +54,13 @@ class Opportunity < ApplicationRecord
   friendly_id :title, use: %i[slugged finders]
 
   CONTACTS_PER_OPPORTUNITY = 2
-  paginates_per 20
-  TITLE_LENGTH_LIMIT = 80.freeze
+  paginates_per 10
+  TITLE_LENGTH_LIMIT = 250.freeze
   TEASER_LENGTH_LIMIT = 140.freeze
 
   enum status: { pending: 1, publish: 2, draft: 3, trash: 4 }
   enum ragg: { undefined: 0, blue: 2, green: 4, amber: 6, red: 8 }
+  enum source: { post: 0, volume_opps: 1, buyer: 2 }
 
   include PgSearch
 
@@ -82,13 +87,33 @@ class Opportunity < ApplicationRecord
   has_many :comments, -> { order(:created_at) }, class_name: 'OpportunityComment'
   has_many :enquiries
   has_many :subscription_notifications
+  has_many :opportunity_checks
+  has_many :opportunity_sensitivity_checks
+  has_many :opportunity_cpvs
 
   accepts_nested_attributes_for :contacts, reject_if: :all_blank
 
   validates :title, presence: true, length: { maximum: TITLE_LENGTH_LIMIT }
-  validates :teaser, presence: true, length: { maximum: TEASER_LENGTH_LIMIT }
+  validate :teaser, :teaser_validations
   validates :response_due_on, :description, presence: true
-  validates :contacts, length: { is: CONTACTS_PER_OPPORTUNITY }
+  validate :contacts, :contact_validations
+
+  def contact_validations
+    if source == 'post'
+      errors.add(:contacts, "Contacts are missing (#{CONTACTS_PER_OPPORTUNITY} are required)") if contacts.length < CONTACTS_PER_OPPORTUNITY
+    end
+  end
+
+  def teaser_validations
+    if source == 'post'
+      if teaser.present?
+        errors.add(:teaser, "can't be more than #{TEASER_LENGTH_LIMIT}") if teaser.length > TEASER_LENGTH_LIMIT
+      else
+        errors.add(:teaser, 'is missing')
+      end
+    end
+  end
+
   validates :slug, presence: true, uniqueness: true
 
   # Database triggers to make Postgres rebuild its fulltext search
@@ -112,12 +137,81 @@ class Opportunity < ApplicationRecord
 
   def self.public_search(search_term: nil, filters: NullFilter.new, sort:)
     query = OpportunitySearchBuilder.new(search_term: search_term, sectors: filters.sectors, countries: filters.countries, opportunity_types: filters.types, values: filters.values, sort: sort).call
+
     ElasticSearchFinder.new.call(query[:search_query], query[:search_sort])
+  end
+
+  def self.public_featured_industries_search(sector, search_term)
+    search_query =
+      {
+        "bool": {
+          "should": [
+            {
+              "bool": {
+                "must": [
+                  {
+                    "match": {
+                      "source": 'post',
+                    },
+                  },
+                  {
+                    "match": {
+                      "sectors.slug": sector,
+                    },
+                  },
+                  {
+                    "match": {
+                      "status": 'publish',
+                    },
+                  },
+                  "range": {
+                    "response_due_on": {
+                      "gte": 'now/d',
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              "bool": {
+                "must": [
+                  {
+                    "match": {
+                      "source": 'volume_opps',
+                    },
+                  },
+                  {
+                    "multi_match": {
+                      "query": search_term,
+                      "fields": %w[title^5 teaser^2 description],
+                      "operator": 'or',
+                    },
+                  },
+                  {
+                    "match": {
+                      "status": 'publish',
+                    },
+                  },
+                  "range": {
+                    "response_due_on": {
+                      "gte": 'now/d',
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      }
+
+    search_sort = [{ "response_due_on": { "order": 'asc' } }]
+
+    ElasticSearchFinder.new.call(search_query, search_sort)
   end
 
   def as_indexed_json(_ = {})
     as_json(
-      only: %i[title teaser description created_at updated_at status response_due_on first_published_at],
+      only: %i[title teaser description created_at updated_at status response_due_on first_published_at source],
       include: {
         countries: { only: :slug },
         types: { only: :slug },

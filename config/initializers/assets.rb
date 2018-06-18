@@ -1,7 +1,7 @@
 # Be sure to restart your server when you modify this file.
 
 # Version of your assets, change this if you want to expire all your assets.
-Rails.application.config.assets.version = '1.1'
+Rails.application.config.assets.version = '1.4'
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
@@ -28,6 +28,43 @@ Rails.application.config.assets.precompile += %w[jquery3.2.0.js]
 # Add Yarn node_modules folder to the asset load path.
 Rails.application.config.assets.paths << Rails.root.join('node_modules')
 
-# New design update stuff after this point.
-Rails.application.config.assets.precompile += %w( updated/admin.css )
-Rails.application.config.assets.precompile += %w( updated/layouts/help.css )
+
+###################################
+# 2018 New design beyond this point
+###################################
+
+# Updated admin designs on develop (needs to be merged with Transformation project files).
+Rails.application.config.assets.precompile += %w[updated/admin.css]
+Rails.application.config.assets.precompile += %w[updated/layouts/help.css]
+
+# Transformation project (built from POC on develop_zeus)
+# -------------------------------------------------------
+# CSS...
+Rails.application.config.assets.precompile += %w[transformation/main.scss]
+Rails.application.config.assets.precompile += %w[transformation/main_ie8_fixes.scss]
+Rails.application.config.assets.precompile += %w[transformation/main_ie9_fixes.scss]
+Rails.application.config.assets.precompile += %w[transformation/pages/landing.scss]
+Rails.application.config.assets.precompile += %w[transformation/pages/results.scss]
+Rails.application.config.assets.precompile += %w[transformation/pages/form.scss]
+Rails.application.config.assets.precompile += %w[transformation/pages/opportunity.scss]
+Rails.application.config.assets.precompile += %w[transformation/pages/enquiries.scss]
+Rails.application.config.assets.precompile += %w[transformation/pages/notification.scss]
+
+# JS...
+Rails.application.config.assets.precompile += %w[transformation/dit.page.all.js]
+Rails.application.config.assets.precompile += %w[transformation/dit.page.form.js]
+Rails.application.config.assets.precompile += %w[transformation/dit.page.notification.js]
+Rails.application.config.assets.precompile += %w[transformation/dit.page.landing.js]
+Rails.application.config.assets.precompile += %w[transformation/dit.page.results.js]
+Rails.application.config.assets.precompile += %w[transformation/dit.page.opportunity.js]
+Rails.application.config.assets.precompile += %w[transformation/dit.page.enquiries.js]
+Rails.application.config.assets.precompile += %w['transformation/third_party/*.js']
+
+# POC files (originally on develop_zeus)
+Rails.application.config.assets.precompile += %w[poc/main.scss]
+Rails.application.config.assets.precompile += %w[poc/pages/international.scss]
+Rails.application.config.assets.precompile += %w[poc/dit.page.international.js]
+
+#Rails.application.config.assets.precompile += %w['poc/*.js']
+#Rails.application.config.assets.precompile += %w['poc/layouts/*.js']
+

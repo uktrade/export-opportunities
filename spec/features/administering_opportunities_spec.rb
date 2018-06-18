@@ -478,7 +478,8 @@ feature 'Administering opportunities' do
       ],
       service_provider: create_service_provider('Italy Rome'),
       status: status,
-      author: uploader
+      author: uploader,
+      source: :post
   end
 
   def create_country(name)

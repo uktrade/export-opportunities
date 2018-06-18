@@ -1,11 +1,13 @@
+- page = PagePresenter.new(content)
+
 .container
-  .legacy
-    %h1 Thank You
-    .panel.summary-panel
-      %h2 You have been unsubscribed from this alert
+  = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
 
-      %p Please indicate why you wished to unsubscribe:
+  %h1.verbose= page.content["title"]
 
-      %p= button_to("I no longer want these emails", subscription_path(@subscription, reason: 'not_wanted', format: :html), class: 'button', method: :patch)
-      %p= button_to("I didn't sign up for these emails", subscription_path(@subscription, reason: 'not_signed_up', format: :html), class: 'button', method: :patch)
-      %p= button_to("These emails are spam", subscription_path(@subscription, reason: 'spam', format: :html), class: 'button', method: :patch)
+  .confirmation-notice
+    %p.notice= page.content["confirmation"]
+    %p.message
+      = link_to page.content["manage_alerts"], dashboard_path(anchor: 'alerts', target: :alerts), class: "button"
+
+  = link_to page.content["next"], root_path, class: "button"

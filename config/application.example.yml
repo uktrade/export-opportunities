@@ -58,13 +58,15 @@ CLAM_AV_HOST: ''
 CLAM_AV_USERNAME: ''
 CLAM_AV_PASSWORD:
 
+SENTRY_RAVEN_DSN: 'http://sentry.example.org/'
+
 post_user_communication_s3_bucket: ''
 
 # Links to "external services" or, websites
 TRADE_GREAT_GOV_UK: 'https://trade.great.gov.uk'
 OFFICE_FINDER_BASE_URL: 'https://www.contactus.trade.gov.uk/office-finder/'
-TRADE_PROFILE_CREATE_PAGE: 'https://find-a-buyer.export.great.gov.uk/register/company?company_number='
-
+TRADE_PROFILE_CREATE_WITHOUT_NUMBER: 'https://find-a-buyer.export.great.gov.uk'
+TRADE_PROFILE_CREATE_WITH_NUMBER: 'https://find-a-buyer.export.great.gov.uk/register/company?company_number='
 # Supress Announcement - we detect its presence or absence and only need it in CI environment
 SUPPRESS_ANNOUNCEMENT: "true"
 

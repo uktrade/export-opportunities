@@ -1,0 +1,1 @@
+{"status": true, "score": 33, "errors": [{"id":"ec7d3af1", "offset": 0, "length": 2, "bad": "UD", "better": ["US", "U", "UK", "UN", "USD"]}]}

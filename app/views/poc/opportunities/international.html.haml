@@ -1,0 +1,104 @@
+%section#intro.hero-section.international
+  .container
+    %p.non-breadcrumb Business opportunities
+
+    %h1.title Find UK companies to do business with
+    %p Tell UK companies about the products or services you're looking for. Search for and get in touch with companies that provide what you need.
+    = link_to "Get started", "/poc/opportunities/new", :class=>"button button-cta"
+
+
+%section#service-benefits
+  .container
+    %h2.heading How this service can help your business
+    .benefits
+      .benefit
+        %h3 Build your network of suppliers
+        %p Find trusted UK sellers all in one place.
+  
+      .benefit
+        %h3 Contact UK companies
+        %p Find out more about a company while choosing to remain anonymous.
+  
+      .benefit
+        %h3 Reduce business costs
+        %p Reduce the time it takes to import the products and services you need.
+
+
+= render "includes/testimonials_section"
+= render "includes/how_it_works_international_section"
+
+
+%section#create-opportunities
+  .container
+    %h2.heading Find UK companies to do business with
+    = link_to "Get started", "/opportunities/new", :class=>"button button-cta"
+
+
+%section#meet-companies
+  .container
+    %h2.heading View UK companies
+    %p.intro Search and select from verified UK companies that provide what you're looking for.
+
+    %h3.sector Food and drink
+    .companies
+      .company
+        = image_tag "companies/placeholder.png"
+        %h4.name Joe &amp; Seph&apos;s
+        %p Joe &amp; Seph&apos;s are a family business who launced in 2010 with a mission to produce the best tasting popcorn in the world.
+      .company
+        = image_tag "companies/placeholder.png"
+        %h4.name Atom Brewing
+        %p Founded in 2014 with a mission to produce consistently flavour forward beers with an ethos of science and education.
+      .company
+        = image_tag "companies/placeholder.png"
+        %h4.name The French Kitchen
+        %p The French Kitchen produce premium 75g sharing tubs of 'crisps made for foodies', based on classic French bistro recipes.
+
+    %h3.sector Retail and luxury
+    .companies
+      .company
+        = image_tag "companies/placeholder.png"
+        %h4.name Company RAL 1
+        %p Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+      .company
+        = image_tag "companies/placeholder.png"
+        %h4.name Company RAL 2
+        %p Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+      .company
+        = image_tag "companies/placeholder.png"
+        %h4.name Company RAL 3
+        %p Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+
+    %h3.sector Creative and media
+    .companies
+      .company
+        = image_tag "companies/placeholder.png"
+        %h4.name Company CAM 1
+        %p Joe &amp; Seph&apos;s are a family business who launced in 2010 with a mission to produce the best tasting popcorn in the world.
+      .company
+        = image_tag "companies/placeholder.png"
+        %h4.name Company CAM 2
+        %p Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+      .company
+        = image_tag "companies/placeholder.png"
+        %h4.name Company CAM 3
+        %p Joe &amp; Seph&apos;s are a family business who launced in 2010 with a mission to produce the best tasting popcorn in the world.
+    
+    %h3.sector Software and IT
+    .companies
+      .company
+        = image_tag "companies/placeholder.png"
+        %h4.name Company SAIT 1
+        %p Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+      .company
+        = image_tag "companies/placeholder.png"
+        %h4.name Company SAIT 1
+        %p Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+      .company
+        = image_tag "companies/placeholder.png"
+        %h4.name Company SAIT 1
+        %p Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+
+    = link_to "/poc/companies", :class => "button" do
+      View all 
+      %span.verbose companies 

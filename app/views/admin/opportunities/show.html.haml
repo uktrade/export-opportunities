@@ -83,6 +83,60 @@
 = render 'comment_form'
 %br
 
+%h2 Opportunity Checks
+- if @opportunity.opportunity_checks.size == 0
+  %p We haven't quality checked this opportunity yet.
+- else
+  - @opportunity.opportunity_checks.each do |check|
+    %h3
+      - if check.offset
+        =check.submitted_text[0..check.offset-2]
+        %span.error_term
+          =check.submitted_text[check.offset-1..check.offset+check.length]
+        =check.submitted_text[check.offset+check.length+1..check.submitted_text.length]
+      - else
+        =check.submitted_text
+      %table.horizontal
+        %tr
+          %th{:scope => 'row'} Score
+          %td= check.score
+        %tr
+          %th{:scope => 'row'} Offensive Term
+          %td= check.offensive_term
+        %tr
+          %th{:scope => 'row'} Suggested Term
+          %td= check.suggested_term
+        %tr
+          %th{:scope => 'row'} Error Id
+          %td= check.error_id
+
+- if @opportunity.opportunity_sensitivity_checks.size == 0
+  %p We haven't sensitivity checked this opportunity yet.
+- else
+  - @opportunity.opportunity_sensitivity_checks.each do |check|
+    %h3
+      =check.submitted_text.truncate(160, omission: '...(continued)')
+      %table.horizontal
+        %tr
+          %th{:scope => 'row'} Review Recommended?
+          %td= check.review_recommended
+        %tr
+          %th{:scope => 'row'} sexually explicit or adult
+          %td= number_to_percentage(check.category1_score*100, precision: 2)
+        %tr
+          %th{:scope => 'row'} sexually suggestive or mature
+          %td= number_to_percentage(check.category2_score*100, precision: 2)
+        %tr
+          %th{:scope => 'row'} offensive
+          %td= number_to_percentage(check.category3_score*100, precision: 2)
+    - if check&.opportunity_sensitivity_term_checks.size > 0
+      %h3 BST (Business Sensitive Terms) Matched:
+      - check&.opportunity_sensitivity_term_checks.each do |term_check|
+        %table.horizontal
+          %tr
+            %th{:scope => 'row'} BST
+            %td= term_check.term
+
 %h2 Enquiries
 - if @opportunity.enquiries.size == 0
   %p No enquiries have been made about this opportunity.

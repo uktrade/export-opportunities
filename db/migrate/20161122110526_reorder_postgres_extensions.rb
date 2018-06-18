@@ -1,9 +1,9 @@
 class ReorderPostgresExtensions < ActiveRecord::Migration[4.2]
   def up
-    disable_extension 'uuid-ossp'
-    disable_extension 'pg_stat_statements'
-    disable_extension 'plpgsql'
-
+    # disable_extension 'uuid-ossp'
+    # disable_extension 'pg_stat_statements'
+    # disable_extension 'plpgsql'
+    #
     enable_extension 'plpgsql'
     enable_extension 'pg_stat_statements'
     enable_extension 'uuid-ossp'
