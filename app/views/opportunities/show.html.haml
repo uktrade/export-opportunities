@@ -78,7 +78,7 @@
               Industry
             %dd.industry
               - opportunity.sectors.each do |sector|
-                = link_to sector[:name], "#{poc_opportunities_path}?sectors[]=#{sector[:slug]}" 
+                = link_to sector[:name], "#{opportunities_path}?sectors[]=#{sector[:slug]}"
 
           - unless opportunity.source('post') || opportunity.opportunity_cpvs.size < 1
             %dt.category
@@ -144,6 +144,3 @@
             %p If you meet the requirements contact the buyer.
             %p You will be notified if you are right for this opportunity. You can only apply if you are a UK registered companny.
             = link_to 'Contact buyer', opportunity.new_enquiry_path, class: 'button'
-
-
-  = render partial: 'components/feedback'
