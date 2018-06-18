@@ -84,6 +84,15 @@ class OpportunityPresenter < BasePresenter
     h.new_enquiry_path(slug: opportunity.slug)
   end
 
+  def industry_links
+    links = ''
+    opportunity.sectors.each_with_index do |sector, index|
+      links += h.link_to sector[:name], "#{opportunities_path}?sectors[]=#{sector[:slug]}"
+      links += content_tag 'span', ', ' unless index == (opportunity.sectors.length - 1)
+    end
+    links.html_safe
+  end
+
   def link_to_aid_funded(text)
     link = ''
     if opportunity.types.aid_funded.any?
