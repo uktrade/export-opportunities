@@ -16,6 +16,18 @@ module Api
       end
     end
 
+    def correct_credentials
+      {
+        id: Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+        key: Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        algorithm: 'sha256',
+      }
+    end
+
+    def credentials_lookup(id)
+      id == correct_credentials[:id] ? correct_credentials : nil
+    end
+
     def respond_401(message)
       respond_to do |format|
         response.headers['Content-Type'] = 'application/json'
@@ -47,11 +59,6 @@ module Api
       end
 
       # Ensure Authorization header is correct
-      credentials = {
-        id: Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
-        key: Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        algorithm: 'sha256',
-      }
       res = Hawk::Server.authenticate(
         request.headers['Authorization'],
         method: request.method,
@@ -60,10 +67,10 @@ module Api
         port: '443',
         content_type: request.headers['Content-Type'],
         payload: request.body.read,
-        credentials_lookup: ->(id) { id == credentials[:id] ? credentials : nil },
+        credentials_lookup: method(:credentials_lookup),
         nonce_lookup: method(:check_and_save_nonce)
       )
-      if res != credentials
+      if res != correct_credentials
         respond_401 res.message
         return
       end
