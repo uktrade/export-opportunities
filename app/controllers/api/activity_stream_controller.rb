@@ -38,6 +38,13 @@ module Api
       end
     end
 
+    def respond_200(contents)
+      respond_to do |format|
+        response.headers['Content-Type'] = 'application/activity+json'
+        format.json { render status: 200, json: contents.to_json }
+      end
+    end
+
     def index
       # 401 if the server can't authenticate the request
       # 403 is never sent, since there is is no finer granularity for this endpoint:
@@ -75,13 +82,7 @@ module Api
         return
       end
 
-      contents = {
-        secret: 'content-for-pen-test',
-      }
-      respond_to do |format|
-        response.headers['Content-Type'] = 'application/activity+json'
-        format.json { render status: 200, json: contents.to_json }
-      end
+      respond_200 secret: 'content-for-pen-test'
     end
   end
 end
