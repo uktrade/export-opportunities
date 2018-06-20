@@ -41,6 +41,10 @@
     margin: 0 auto;
   }
 
+  .separator {
+    @include access-hidden;
+  }
+
   .submit {
     margin: $spacing-3 0 $spacing-4 0;
     width: 100%;
