@@ -115,11 +115,11 @@ class OpportunitySearchResultsPresenter < FormPresenter
 
       # Make it a string and remove any trailing separator_or
       message = filters.join(separator_or)
-      message = message.sub(Regexp.new("(.+)\s" + separator_or + "\s"), "\\1")
+      message = message.sub(Regexp.new("(.+)\s" + separator_or + "\s"), '\\1')
     end
 
     # Return message (if not empty, add prefix separator)
-    message.sub(/^(.+)$/, separator_in + "\\1").html_safe
+    message.sub(/^(.+)$/, separator_in + '\\1').html_safe
   end
 
   def searched_in_html
