@@ -263,6 +263,16 @@ section {
 }
 
 @media screen and (max-width:480px) {
+  .hero-section {
+    h1 {
+      @include heading-hero-mob;
+    }
+
+    p {
+      width: auto;
+    }
+  }
+
   .quote {
     width: auto;
   }
