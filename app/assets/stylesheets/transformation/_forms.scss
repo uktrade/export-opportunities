@@ -74,7 +74,7 @@ pre {
 select {
   @include focus;
   @include body-m;
-  background: $white image_url('icons/arrow_down.png') no-repeat 98%/15px;
+  background: $white image_url('icons/DropdownIcon.svg') no-repeat 95%;
   border: 2px solid $grey;
   border-radius: 0;
   display: block;
