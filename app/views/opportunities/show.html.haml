@@ -77,8 +77,7 @@
             %dt.industry
               Industry
             %dd.industry
-              - opportunity.sectors.each do |sector|
-                = link_to sector[:name], "#{opportunities_path}?sectors[]=#{sector[:slug]}"
+              = opportunity.industry_links
 
           - unless opportunity.source('post') || opportunity.opportunity_cpvs.size < 1
             %dt.category
