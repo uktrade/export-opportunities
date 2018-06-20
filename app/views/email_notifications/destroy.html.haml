@@ -1,5 +1,7 @@
 - page = PagePresenter.new(content)
 - form = FormPresenter.new(content, nil)
+- content_for :action_specific_head  do
+  = stylesheet_link_tag('transformation/pages/form')
 
 .container
   = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
