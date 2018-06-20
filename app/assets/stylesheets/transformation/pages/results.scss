@@ -47,32 +47,34 @@ form {
   max-width: $design-max-width;
   position: relative;
 
+  label {
+    float: left;
+    margin: 0;
+    min-width: 225px;
+    
+    span {
+      font-weight: normal;
+    }
+  }
+
   .submit {
     background-color: transparent;
     background-image: asset_url("icons/search.png");
     background-position: center;
     background-size: 50px;
-    border-left: none;
-    bottom: 0;
+    border: none;
+    bottom: 2px;
     cursor: pointer;
+    height: 46px;
+    overflow: hidden;
     position: absolute;
-    right: 0;
+    right: 52px;
     text-indent: 50px;
     width: 50px;
   }
 
-  label {
-    float: left;
-    margin: 0 50px 0 0;
-    min-width: 225px;
-
-    input {
-      border-right: none;
-    }
-    
-    span {
-      font-weight: normal;
-    }
+  .text {
+    width: 340px;
   }
 }
 

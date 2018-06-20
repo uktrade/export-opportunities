@@ -1,5 +1,6 @@
 require 'sidekiq'
 require 'sidekiq/web'
+require 'sidekiq/cron/web'
 
 Sidekiq.configure_server do |config|
   config.redis = { url: Figaro.env.redis_url! }

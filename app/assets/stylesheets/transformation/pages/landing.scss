@@ -52,9 +52,9 @@ section {
 
 .hero-section {
   background-image: asset_url("backgrounds/ExOpps_HeroBanner1290x400_27@2x.jpg");
-  background-position: center;
+  background-position: top left;
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: cover;
   padding: 0 0 $spacing-3 0;
 
   h1 {
@@ -206,12 +206,6 @@ section {
 }
 
 // RESPONSIVE
-@media screen and (max-width: 1420px) {
-  .hero-section {
-    background-size: auto 100%;
-  }
-}
-
 @media screen and (max-width: 1200px) {
   #service-promotion {
     background-size: auto 100%;
@@ -255,24 +249,26 @@ section {
   }
 }
 
-@media screen and (max-width: 680px) {
-  .hero-section {
-    background-size: auto;
-    background-position: 60% -60px;
-  }
-}
-
 @media screen and (max-width:480px) {
+  .hero-section {
+    h1 {
+      @include heading-hero-mob;
+    }
+
+    p {
+      width: auto;
+    }
+  }
+
   .quote {
     width: auto;
   }
-}
 
-@media screen and (max-width: 320px) {
   #recent-opportunities {
     .more {
-      min-width: none;
+      min-width: 100px;
       width: 100%;
     }
   }
 }
+

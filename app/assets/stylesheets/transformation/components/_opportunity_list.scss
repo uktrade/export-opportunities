@@ -1,98 +1,89 @@
 .opportunities-list {
   clear: both;
 
-  dd {
+  li {
     border: $stone-50 solid 2px;
-    border-top: none;
-    margin: 0 0 $spacing-4 0;
-    position: relative;
+    margin-bottom: $spacing-3;
+    padding: $spacing-3 0 0 0;
   }
 
-  dt {
-    @include body-l;
-    border: $stone-50 solid 2px;
-    border-bottom: none;
-    font-weight: bold;
-    margin: 0;
-    padding: $spacing-3 $spacing-3 $spacing-4 $spacing-3;
-  }
-
-  .actions {
+  .expires {
     @include body-s;
     border-top: 1px solid $light-grey;
+    clear: both;
+    display: block;
+    margin-top: $spacing-4;
     padding: $spacing-4 $spacing-3;
   }
 
-  .all {
-    @include button-ghost($active-blue, $white);
-    display: block;
-    margin: 0 auto;
-    text-align: center;
-    width: 165px;
-  }
-
-  .save {
-    background: transparent image_url("star.png") 100% 40% no-repeat;
-    background-size: 17px;
-    float: right;
-    padding-right: 25px;
-  }
-
   .text {
+    clear: both;
     display: block;
-    padding: 0 $spacing-3 $spacing-3 $spacing-3;
+    padding: 0 $spacing-3 $spacing-4 $spacing-3;
+  }
+
+  .title {
+    @include body-l;
+    font-weight: bold;
+    padding: 0 $spacing-3 $spacing-4 $spacing-3;
   }
 }
 
 .volume_opps {
   .source {
-    bottom: 70px;
-    color: $mid-grey;
-    display: block;
     float: right;
-    font-size: 12px;
-    position: relative;
-    right: $spacing-3;
-
-    a {
-      display: block;
-    }
-
-    img {
-      display: block;
-      width: 110px;
-    }
   }
 
-  .text {
-    margin-right: 155px;
+  .title {
+    float: left;
+    width: calc(100% - 150px);
+  }
+}
+
+.open-opps {
+  color: $mid-grey;
+  font-size: 12px;
+  position: absolute;
+  right: $spacing-3;
+  top: $spacing-3;
+
+  a {
+    display: block;
+  }
+
+  img {
+    display: block;
+    width: 110px;
   }
 }
 
 
 // RESPONSIVE
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 620px) {
   .opportunities-list {
-    dt {
-      padding: $spacing-3-m $spacing-3-m 0 $spacing-3-m;
+    li {
+      padding-top: $spacing-3-m;
     }
 
-    .actions,
-    .text {
-      padding-left: $spacing-3-m;
-      padding-right: $spacing-3-m;
+    .expires {
+      padding: $spacing-4 $spacing-3-m;
+    }
+
+    .text,
+    .title {
+      display: block;
+      padding: 0 $spacing-3-m $spacing-4 $spacing-3-m;
     }
   }
-}
 
-@media screen and (max-width: 620px) {
   .volume_opps {
-    .text {
-      margin-right: 0;
+    .title {
+      float: none;
+      width: auto;
     }
 
     .source {
-      float: none;
+      float: left;
       margin: 0 0 $spacing-3-m $spacing-3-m;
       position: static;
     }

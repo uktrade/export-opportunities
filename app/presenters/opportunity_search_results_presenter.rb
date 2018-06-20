@@ -95,24 +95,31 @@ class OpportunitySearchResultsPresenter < FormPresenter
     message.html_safe
   end
 
-  # TODO: Need to get 'name' rather than using 'slug' for output message
   # Add to 'X results found' message
   # Returns ' in [a country name here]' or ''
   def searched_in(with_html = false)
     message = ''
-    filters = @search[:filters]
-    if filters.countries.present? || filters.regions.present?
+    separator_in = ' in '
+    if @search[:filters].countries.present? || @search[:filters].regions.present?
+      separator_or = ' or '
+      filters = selected_filter_list
+
+      # If HTML is required, wrap things in tags.
       if with_html
-        selected_filter_list.each do |filter|
-          message += content_tag('span', filter, 'class': 'param')
-          message += ' or '
+        separator_in = content_tag('span', separator_in, 'class': 'separator')
+        separator_or = content_tag('span', separator_or, 'class': 'separator')
+        filters.each_index do |i|
+          filters[i] = content_tag('span', filters[i], 'class': 'param')
         end
-      else
-        message += selected_filter_list.join(' or ')
       end
+
+      # Make it a string and remove any trailing separator_or
+      message = filters.join(separator_or)
+      message = message.sub(Regexp.new("(.+)\s" + separator_or + "\s"), '\\1')
     end
 
-    message.gsub(/(.*)(\sor\s)$/, ' in \\1').html_safe
+    # Return message (if not empty, add prefix separator)
+    message.sub(/^(.+)$/, separator_in + '\\1').html_safe
   end
 
   def searched_in_html

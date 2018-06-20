@@ -10,16 +10,19 @@
     %p= @content["description"]
     = render "opportunities/search_form"
 
+
 %section#recent-opportunities
   .container
     %h2 Latest export opportunities
     = render partial: "opportunities/list", locals: { list: recent_opportunities }
     = link_to "View more", opportunities_url, :class=>"more button"
 
+
 %section#featured-industries
   .container
     %h2 Featured industries
     = render partial: "summary_list", locals: { list: page.featured_industries }
+
 
 %section#service-promotion
   .container
@@ -38,7 +41,13 @@
         Set up email alerts to get a daily summary of matching opportunities.
 
 
-= render "includes/testimonials_section"
+%section#testimonials
+  .container
+    -# NOTE: Just duplicate (with altered content) quotes and code will do the rest.
+    - page.content["testimonials"].each do |quote|
+      = render partial: "components/quote", locals: { quote: quote }
+
+
 = render "includes/how_it_works_section"
 
 %section.search-section
