@@ -1,17 +1,15 @@
-%dl.opportunities-list
+%ul.navigation.opportunities-list
   - list.found.each do |opportunity|
-    %dt{:class=>"#{opportunity.source}"}
-      = link_to list.title_with_country(opportunity), opportunity_path(opportunity)
+    %li{:class=>"#{opportunity.source}"}
+      = link_to list.title_with_country(opportunity), opportunity_path(opportunity), {:class => "title" }
 
-    %dd{class: "#{opportunity.source}"}
       %span.text
         = opportunity.teaser
 
       - if opportunity.source.eql? 'volume_opps'
         = render partial: "partials/open_opps_link"
 
-      .actions
-        %span.expires
-          Closing date:
-          = opportunity.response_due_on.strftime('%d %B %Y')
-        -#= link_to "Save for later", "TODO", :class=>"save"
+      %span.expires
+        Closing date:
+        = opportunity.response_due_on.strftime('%d %B %Y')
+
