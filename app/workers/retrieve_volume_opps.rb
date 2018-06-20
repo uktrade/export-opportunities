@@ -6,12 +6,12 @@ class RetrieveVolumeOpps
 
     today_date = Time.zone.now.strftime('%Y-%m-%d')
     from_date = today_date
-    to_date = today_date
+    to_date = (Time.zone.now + 1.day).strftime('%Y-%m-%d')
 
     # fetch opportunities
     VolumeOppsRetriever.new.call(editor, from_date, to_date)
 
-    opportunity_result_set = Opportunity.where('created_at > ?', today_date)
+    opportunity_result_set = Opportunity.where('created_at > ? and source=1', today_date)
 
     # run sensitivity checks
     opportunity_result_set.each do |opportunity|
@@ -29,6 +29,6 @@ class RetrieveVolumeOpps
     end
 
     # force re-indexing of results
-    Opportunity.import query: -> { where('created_at>?', today_date) }
+    Opportunity.import query: -> { where('created_at>? and source=1', today_date) }
   end
 end
