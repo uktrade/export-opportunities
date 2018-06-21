@@ -77,6 +77,24 @@ RSpec.describe OpportunityPresenter do
     end
   end
 
+  describe '#enquiries_total' do
+    it 'returns correct number of enquiries' do
+      enquiry_1 = create(:enquiry)
+      enquiry_2 = create(:enquiry)
+      opportunity = create(:opportunity, enquiries: [enquiry_1, enquiry_2])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.enquiries_total).to eq(2)
+    end
+
+    it 'returns zero when opportunity has no enquiries' do
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.enquiries_total).to eq(0)
+    end
+  end
+
   describe '#buyer_details_empty?' do
     it 'returns true when buyer details empty' do
       opportunity = create(:opportunity)
