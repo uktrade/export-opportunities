@@ -1,6 +1,6 @@
 raise if Rails.env.production?
 
-require 'factory_girl_rails'
+require 'factory_bot_rails'
 require 'faker'
 I18n.reload! # Faker translations need reloading: https://github.com/stympy/faker/issues/278
 
@@ -407,7 +407,7 @@ italy = Country.create(slug: 'italy', name: 'Italy', exporting_guide_path: '/gov
 naples = ServiceProvider.create(name: 'Italy Naples')
 paris = ServiceProvider.create(name: 'France Paris')
 
-editor = FactoryGirl.create(:editor,
+editor = FactoryBot.create(:editor,
   email: 'email@example.com',
   password: 'wintles is coming',
   name: 'John Doe',
@@ -416,7 +416,7 @@ editor = FactoryGirl.create(:editor,
   confirmed_at: DateTime.current,
   role: 4)
 
-FactoryGirl.create(:editor,
+FactoryBot.create(:editor,
   email: 'uploader@example.com',
   password: 'wintles is coming',
   name: 'Uploader Jane',
@@ -435,7 +435,7 @@ future_expiry_date = 2.years.from_now
 past_expiry_date   = 2.weeks.ago
 
 # Valid opportunity
-valid_opportunity = FactoryGirl.create(:opportunity,
+valid_opportunity = FactoryBot.create(:opportunity,
   slug: 'french-sardines-required',
   title: 'French sardines required',
   response_due_on: 9.months.from_now,
@@ -450,10 +450,10 @@ valid_opportunity = FactoryGirl.create(:opportunity,
   status: :publish)
 
 # Created an enquiry for a valid opportunity
-FactoryGirl.create(:enquiry, opportunity: valid_opportunity)
+FactoryBot.create(:enquiry, opportunity: valid_opportunity)
 
 # Expired opportunity
-FactoryGirl.create(:opportunity,
+FactoryBot.create(:opportunity,
   slug: 'italy-needs-a-porsche',
   title: 'Italy needs a porsche',
   response_due_on: 1.month.ago,
@@ -467,7 +467,7 @@ FactoryGirl.create(:opportunity,
   first_published_at: 6.weeks.ago,
   status: :publish)
 
-FactoryGirl.create(:opportunity,
+FactoryBot.create(:opportunity,
   title: 'Published opportunity',
   response_due_on: future_expiry_date,
   author: editor,
@@ -480,7 +480,7 @@ FactoryGirl.create(:opportunity,
   first_published_at: Time.zone.now,
   status: :publish)
 
-FactoryGirl.create(:opportunity,
+FactoryBot.create(:opportunity,
   title: 'Pending opportunity',
   response_due_on: future_expiry_date,
   author: editor,
@@ -491,7 +491,7 @@ FactoryGirl.create(:opportunity,
   values: [Value.all.sample],
   status: :pending)
 
-FactoryGirl.create(:opportunity,
+FactoryBot.create(:opportunity,
   title: 'Pending opportunity that was once published',
   response_due_on: future_expiry_date,
   author: editor,
@@ -504,7 +504,7 @@ FactoryGirl.create(:opportunity,
   first_published_at: 1.week.ago,
   status: :pending)
 
-FactoryGirl.create(:opportunity,
+FactoryBot.create(:opportunity,
   title: 'Trashed opportunity',
   response_due_on: future_expiry_date,
   service_provider: ServiceProvider.all.sample,
@@ -514,7 +514,7 @@ FactoryGirl.create(:opportunity,
   values: [Value.all.sample],
   status: :trash)
 
-FactoryGirl.create(:opportunity,
+FactoryBot.create(:opportunity,
   title: 'Trashed opportunity that was once published',
   response_due_on: future_expiry_date,
   service_provider: ServiceProvider.all.sample,
@@ -526,7 +526,7 @@ FactoryGirl.create(:opportunity,
   first_published_at: 1.week.ago,
   status: :trash)
 
-FactoryGirl.create(:opportunity,
+FactoryBot.create(:opportunity,
   title: 'Expired published opportunity',
   response_due_on: past_expiry_date,
   author: editor,
@@ -539,7 +539,7 @@ FactoryGirl.create(:opportunity,
   first_published_at: 1.month.ago,
   status: :publish)
 
-FactoryGirl.create(:opportunity,
+FactoryBot.create(:opportunity,
   title: 'Expired pending opportunity',
   response_due_on: past_expiry_date,
   author: editor,
@@ -550,7 +550,7 @@ FactoryGirl.create(:opportunity,
   values: [Value.all.sample],
   status: :pending)
 
-FactoryGirl.create(:opportunity,
+FactoryBot.create(:opportunity,
   title: 'Expired trashed opportunity',
   response_due_on: past_expiry_date,
   service_provider: ServiceProvider.all.sample,
@@ -560,7 +560,7 @@ FactoryGirl.create(:opportunity,
   values: [Value.all.sample],
   status: :trash)
 
-FactoryGirl.create(:opportunity,
+FactoryBot.create(:opportunity,
   title: 'Pending opportunity from Paris service provider',
   response_due_on: future_expiry_date,
   service_provider: paris,

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :opportunity_comment do
     association :opportunity
     association :author, factory: :editor
