@@ -36,7 +36,6 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
     expect(page).to have_content opportunity_with_market.title
     expect(page).to have_no_content opportunity.title
 
-
     opportunity_with_market.countries = [another_country]
     opportunity_with_market.save!
 

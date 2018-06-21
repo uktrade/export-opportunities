@@ -238,7 +238,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
   end
 
   def tick_data_protection_checkbox
-    find(:css, "#data-protection", visible: :false).trigger('click')
+    find(:css, "#enquiry_data_protection", visible: :false).trigger('click')
   end
 
   def apply_to_opportunity(opportunity)
