@@ -1,11 +1,11 @@
 class HelpArticlePresenter < BasePresenter
-  attr_reader :content, :sections, :id
+  attr_reader :content, :sections, :article_id, :section_id
   attr_accessor :title
   include Rails.application.routes.url_helpers
 
-  def initialize(id, section)
-    @id = id
-    @section = section || ''
+  def initialize(article_id, section_id)
+    @article_id = article_id
+    @section_id = section_id || ''
     @sections = []
   end
 
@@ -23,13 +23,13 @@ class HelpArticlePresenter < BasePresenter
   end
 
   def section(heading = '', content = '')
-    section = text_to_id(heading)
-    current_section = section.eql? @section
-    @sections.push(id: @id,
-                   section: section,
+    id = text_to_id(heading)
+    current_section = id.eql? @section_id
+    @sections.push(article_id: @article_id,
+                   id: id,
                    heading: heading,
                    content: content,
-                   url: admin_help_article_path(@id, section),
+                   url: admin_help_article_path(@article_id, id),
                    current: current_section)
   end
 
@@ -59,7 +59,7 @@ class HelpArticlePresenter < BasePresenter
   def other_articles(article_list)
     others = []
     article_list.each do |article|
-      others.push(article) unless article[:id].eql? @id
+      others.push(article) unless article[:article_id].eql? @article_id
     end
     others
   end
