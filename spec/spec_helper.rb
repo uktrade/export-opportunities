@@ -29,7 +29,7 @@ RSpec.configure do |config|
   config.include Helpers
   config.around :each, elasticsearch: true do |example|
     [Opportunity, Subscription].each do |model|
-      model.__elasticsearch__.create_index!(force: true, max_result_window: 100000)
+      model.__elasticsearch__.create_index!(force: true)
       model.__elasticsearch__.refresh_index! if model.__elasticsearch__.index_exists? index: model.__elasticsearch__.index_name
     end
     example.run

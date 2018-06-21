@@ -25,6 +25,8 @@ require 'capybara-screenshot/rspec'
 
 ActiveRecord::Migration.maintain_test_schema!
 
+Capybara::Screenshot.autosave_on_failure = false
+
 RSpec.configure do |config|
   config.extend ControllerMacros, type: :controller
   config.include ActiveSupport::Testing::TimeHelpers

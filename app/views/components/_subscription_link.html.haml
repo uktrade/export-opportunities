@@ -9,5 +9,5 @@
   - subscription[:form].countries.each do |country|
     = hidden_field_tag 'subscription[query[countries]][]', country.slug, multiple: true
 
-  = submit_tag "Subscribe to email alerts #{subscription[:what]} #{subscription[:where]}", :class=>"link"
+  = submit_tag "Subscribe to email alerts#{subscription[:what]}#{subscription[:where]}", :class=>"link"
 

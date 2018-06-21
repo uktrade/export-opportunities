@@ -78,3 +78,7 @@ EVENTS_URL: 'https://events.trade.gov.uk'
 
 REPORT_TARGETS_URL: 'https://private-url-with-csv-formatted-file'
 UNSUBSCRIBE_EMAILS_URL: 'https://private-url-with-csv-formatted-file'
+
+# production level settings for max result window size on subscription/opportunity
+OPPORTUNITY_ES_MAX_RESULT_WINDOW_SIZE: '100000'
+SUBSCRIPTION_ES_MAX_RESULT_WINDOW_SIZE: '50000'
