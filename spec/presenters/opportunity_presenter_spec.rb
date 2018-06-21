@@ -95,6 +95,36 @@ RSpec.describe OpportunityPresenter do
     end
   end
 
+  describe '#type' do
+    it 'returns the correct opportunity type when only has one' do
+      type = create(:type, name: 'Public Sector')
+      opportunity = create(:opportunity, types: [type])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.type).to eq('Public Sector')
+    end
+
+    it 'returns the correct opportunity type when has more than one' do
+      type_1 = create(:type, name: 'Public Sector')
+      type_2 = create(:type, name: 'Public Sector')
+      opportunity = create(:opportunity, types: [type_1, type_2])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.type).to eq('Public Sector and Public Sector')
+    end
+  end
+
+
+
+
+
+
+
+
+
+
+
+
   describe '#buyer_details_empty?' do
     it 'returns true when buyer details empty' do
       opportunity = create(:opportunity)
