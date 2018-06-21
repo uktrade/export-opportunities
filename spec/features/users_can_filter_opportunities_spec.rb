@@ -30,6 +30,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
     # select Iran
     page.find("#countries_0").click
     page.find('.button.submit').click
+
     expect(page).to have_content('1 result found in Iran')
 
     expect(page).to have_content opportunity_with_market.title
@@ -45,6 +46,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
     # select Italy
     page.find("#countries_0").click
     page.find('.button.submit').click
+    search_results_information = page.find(:css, '#opportunity-search-results').text
 
     expect(page).to have_content opportunity_with_market.title
     expect(page).to have_no_content opportunity.title
@@ -62,6 +64,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
     # select Iran
     page.find("#countries_0").click
     page.find('.button.submit').click
+    search_results_information = page.find(:css, '#opportunity-search-results').text
 
     expect(page).to have_content opportunity_with_market.title
 
@@ -72,6 +75,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
     # select Italy
     page.find("#countries_1").click
     page.find('.button.submit').click
+    search_results_information = page.find(:css, '#opportunity-search-results').text
 
     expect(page).to have_content opportunity_with_market.title
     expect(page).to have_content('1 result found in Italy')
