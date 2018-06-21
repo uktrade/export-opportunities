@@ -59,6 +59,15 @@ RSpec.describe OpportunityPresenter do
     end
   end
 
+  describe '#description' do
+    it 'returns opportunity.description' do
+      opportunity = create(:opportunity, description: 'Opportunity description')
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.description).to eq('<p>Opportunity description</p>')
+    end
+  end
+
   describe '#buyer_details_empty?' do
     it 'returns true when buyer details empty' do
       opportunity = create(:opportunity)
