@@ -3,6 +3,8 @@ class OpportunityPresenter < BasePresenter
 
   attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries, :tender_value, :tender_url, :opportunity_cpvs, :sectors
 
+  delegate :expired?, to: :opportunity
+
   def initialize(helpers, opportunity)
     @h = helpers
     @opportunity = opportunity
@@ -35,8 +37,6 @@ class OpportunityPresenter < BasePresenter
   def description
     present_html_or_formatted_text(opportunity.description).html_safe
   end
-
-  delegate :expired?, to: :opportunity
 
   def expires
     opportunity.response_due_on.strftime('%d %B %Y')
