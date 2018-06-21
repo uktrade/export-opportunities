@@ -39,6 +39,26 @@ RSpec.describe OpportunityPresenter do
     end
   end
 
+  describe '#first_country' do
+    it 'returns first opportunity country name only' do
+      country_1 = create(:country, name: 'Iran')
+      country_2 = create(:country, name: 'France')
+      opportunity = create(:opportunity, countries: [country_1, country_2])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(opportunity.countries.size).to eq(2)
+      expect(presenter.first_country).to eq('Iran')
+    end
+
+    it 'returns blank string if no country' do
+      opportunity = create(:opportunity, countries: [])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(opportunity.countries.size).to eq(0)
+      expect(presenter.first_country).to eq('')
+    end
+  end
+
   describe '#buyer_details_empty?' do
     it 'returns true when buyer details empty' do
       opportunity = create(:opportunity)
