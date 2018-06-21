@@ -184,7 +184,7 @@ RSpec.describe OpportunityPresenter do
     end
 
     it 'return contact name when does not have email' do
-      skip('Cannot test while contact creation requires email')
+      skip 'Cannot test while contact creation requires email'
       contact = create(:contact, email: '', name: 'fred')
       opportunity = create(:opportunity, contacts: [contact])
       opportunity = create(:opportunity)
@@ -204,10 +204,29 @@ RSpec.describe OpportunityPresenter do
     end
   end
 
+  describe '#guides_available' do
+    skip 'TODO: ...'
+  end
 
+  describe '#country_guides' do
+    skip 'TODO: ...'
+  end
 
+  describe '#new_enquiry_path' do
+    skip 'TODO: ...'
+  end
 
+  describe '#industry_links' do
+    skip 'TODO: ...'
+  end
 
+  describe '#link_to_aid_funded' do
+    skip 'TODO: ...'
+  end
+
+  describe '#source' do
+    skip 'TODO: ...'
+  end
 
   describe '#buyer_details_empty?' do
     it 'returns true when buyer details empty' do
