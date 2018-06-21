@@ -76,9 +76,9 @@
           = f.text_area :company_explanation, {required: "required", rows: "8", maxlength: "1100"}
 
         .field.checkbox
-          %input{:type=>"checkbox", :name=>"enquiry[data_protection]", :id=>"data-protection"}
+          -#%input{:type=>"checkbox", :name=>"enquiry[data_protection]", :id=>"data-protection"}
+          = f.check_box :data_protection
           %label{:for=>"data-protection"}
-            -#= f.check_box :data_protection
             = "I agree my details may be used for marketing by #{t('organisation.name')} and trusted partners (optional)"
 
       = f.submit 'Submit', class: 'button'
