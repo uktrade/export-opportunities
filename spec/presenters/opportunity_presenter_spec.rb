@@ -174,7 +174,35 @@ RSpec.describe OpportunityPresenter do
     end
   end
 
+  describe '#contact' do
+    it 'return contact email when has one' do
+      contact = create(:contact, email: 'foo@bar.com')
+      opportunity = create(:opportunity, contacts: [contact])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
 
+      expect(presenter.contact).to eq('foo@bar.com')
+    end
+
+    it 'return contact name when does not have email' do
+      skip('Cannot test while contact creation requires email')
+      contact = create(:contact, email: '', name: 'fred')
+      opportunity = create(:opportunity, contacts: [contact])
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.contact).to eq(0)
+    end
+
+    it 'return "Contact unknown" when does not have email or contact name' do
+      skip('Cannot test while contact creation requires email')
+      contact = create(:contact, email: '', name: '')
+      opportunity = create(:opportunity, contacts: [contact])
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.contact).to eq(0)
+    end
+  end
 
 
 
