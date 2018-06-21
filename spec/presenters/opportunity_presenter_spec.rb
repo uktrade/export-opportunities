@@ -11,6 +11,34 @@ RSpec.describe OpportunityPresenter do
     end
   end
 
+  describe '#title_with_country' do
+    it 'does not change title if source is post' do
+      opportunity = create(:opportunity, title: 'foo', source: 0)
+      opportunity.countries = create_list(:country, 2)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(opportunity.source).to eq('post')
+      expect(presenter.title_with_country).to eq('foo')
+    end
+
+    it 'adds "Multi Country" if opportunity has more than one country' do
+      opportunity = create(:opportunity, title: 'foo', source: 1)
+      opportunity.countries = create_list(:country, 2)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(opportunity.source).to_not eq('post')
+      expect(presenter.title_with_country).to eq('Multi Country - foo')
+    end
+
+    it 'adds country to opportunity title' do
+      country = create(:country, name: 'Iran')
+      opportunity = create(:opportunity, title: 'foo', source: 1, countries: [country])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+      expect(opportunity.source).to_not eq('post')
+      expect(presenter.title_with_country).to eq('Iran - foo')
+    end
+  end
+
   describe '#buyer_details_empty?' do
     it 'returns true when buyer details empty' do
       opportunity = create(:opportunity)
