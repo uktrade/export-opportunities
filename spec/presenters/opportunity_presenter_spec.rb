@@ -147,7 +147,32 @@ RSpec.describe OpportunityPresenter do
     end
   end
 
+  describe '#value' do
+    it 'returns opportunity value' do
+      value = create(:value, name: '100k')
+      opportunity = create(:opportunity, values: [value])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
 
+      expect(presenter.value).to eq('100k')
+    end
+
+    it 'returns first value from multiple' do
+      value_1 = create(:value, name: '100k')
+      value_2 = create(:value, name: '150k')
+      opportunity = create(:opportunity, values: [value_1, value_2])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.value).to eq('100k')
+      expect(presenter.value).to_not eq('150k')
+    end
+
+    it 'returns "Value unknown" when has no value' do
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.value).to eq('Value unknown')
+    end
+  end
 
 
 
