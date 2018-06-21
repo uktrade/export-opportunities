@@ -8,6 +8,8 @@ class PendingSubscriptionsController < ApplicationController
   end
 
   def update
+    content = get_content('pending_subscriptions.yml')
+
     pending_subscription = PendingSubscription.find(params[:id])
     subscription_form = SubscriptionForm.new(pending_subscription.query_params)
 
@@ -22,7 +24,7 @@ class PendingSubscriptionsController < ApplicationController
     flash.clear
 
     @subscription = SubscriptionPresenter.new(subscription)
-    render 'subscriptions/create', locals: { subscription: @subscription }
+    render 'subscriptions/create', locals: { subscription: @subscription, content: content }
   end
 
   private def subscription_params

@@ -8,10 +8,6 @@ RSpec.describe 'Basic auth', :elasticsearch, :commit, type: :request do
     '/company_details',
     '/subscriptions',
     '/pending_subscriptions',
-    '/country/france',
-    '/industry/cheese',
-    '/sector/public-sector',
-    '/value/over-100k',
   ].freeze
 
   ADMIN_VIEW_ROUTES = [

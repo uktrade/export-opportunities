@@ -23,23 +23,15 @@ feature 'Looking up company details through Companies House API', js: true do
     opportunity = create(:opportunity, status: 'publish')
     visit opportunity_path(opportunity)
 
-    within '.opportunity__information' do
-      click_on 'Submit your proposal'
-    end
+    click_on 'Submit your proposal'
 
     expect(find_field('enquiry_company_name').value).to be_blank
     expect(find_field('enquiry_company_house_number').value).to be_blank
     expect(find_field('enquiry_company_postcode').value).to be_blank
 
-    expect(page).to have_content 'Search Companies House'
-
-    within '.your-business' do
-      fill_in 'enquiry_company_name', with: 'dxw'
-    end
+    fill_in 'enquiry_company_name', with: 'dxw'
 
     stub_finder_call(items: example_company_house_response)
-
-    click_on 'Search Companies House'
 
     expect(page).to have_selector('#ch_search-results ul li')
     expect(page).to have_content 'DXW LTD'

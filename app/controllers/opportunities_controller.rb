@@ -12,7 +12,15 @@ class OpportunitiesController < ApplicationController
     @countries = all_countries
     @regions = regions_list
 
-    render layout: 'landing'
+    respond_to do |format|
+      format.html do
+        render layout: 'landing'
+      end
+      format.js
+      format.any(:atom, :xml) do
+        render :results, formats: :atom
+      end
+    end
   end
 
   def results
@@ -37,14 +45,30 @@ class OpportunitiesController < ApplicationController
       'regions': search_filter_regions,
     }
 
-    render layout: 'results'
+    respond_to do |format|
+      format.html do
+        render layout: 'results'
+      end
+      format.js
+      format.any(:atom, :xml) do
+        render :results, formats: :atom
+      end
+    end
   end
 
   def show
     @content = get_content('opportunities/new.yml')
     @opportunity = Opportunity.published.find(params[:id])
 
-    render layout: 'opportunity'
+    respond_to do |format|
+      format.html do
+        render layout: 'opportunity'
+      end
+      format.js
+      format.any(:atom, :xml) do
+        render :results, formats: :atom
+      end
+    end
   end
 
   private def all_countries
