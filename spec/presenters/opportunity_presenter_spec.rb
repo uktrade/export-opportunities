@@ -114,7 +114,38 @@ RSpec.describe OpportunityPresenter do
     end
   end
 
+  describe '#sectors_as_string' do
+    it 'returns empty string when sectors uninitialised' do
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
 
+      expect(presenter.sectors_as_string).to eq('')
+    end
+
+    it 'returns empty string when has no sectors' do
+      opportunity = create(:opportunity, sectors: [])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.sectors_as_string).to eq('')
+    end
+
+    it 'returns single sector as a string' do
+      sector_1 = create(:sector, name: 'Aerospace')
+      opportunity = create(:opportunity, sectors: [sector_1])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.sectors_as_string).to eq('Aerospace')
+    end
+
+    it 'returns multiple sectors as a string' do
+      sector_1 = create(:sector, name: 'Aerospace')
+      sector_2 = create(:sector, name: 'Agriculture')
+      opportunity = create(:opportunity, sectors: [sector_1, sector_2])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.sectors_as_string).to eq('Aerospace and Agriculture')
+    end
+  end
 
 
 
