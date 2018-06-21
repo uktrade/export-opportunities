@@ -20,8 +20,6 @@ class Admin::HelpController < Admin::BaseController
 
   def article
     file_path = 'admin/help/' + id_to_file(params[:article_id])
-    puts "params[:article_id] #{params[:article_id]}"
-    puts "params[:section_id] #{params[:section_id]}"
     @article = HelpArticlePresenter.new(params[:article_id], params[:section_id])
     @article_list = article_list
     render file_path, layout: 'help_article'
