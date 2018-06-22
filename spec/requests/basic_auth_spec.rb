@@ -84,6 +84,16 @@ RSpec.describe 'Basic auth', :elasticsearch, :commit, type: :request do
       get '/check'
       expect(response.status).to eq(200)
     end
+
+    it 'should always return 404 on /poc/international' do
+      get '/poc/international'
+      expect(response.status).to eq(404)
+    end
+
+    it 'should always return 404 on /poc/opportunities/new' do
+      get '/poc/opportunities/new'
+      expect(response.status).to eq(404)
+    end
   end
 
   context 'in staging' do
