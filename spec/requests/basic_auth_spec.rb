@@ -41,6 +41,7 @@ RSpec.describe 'Basic auth', :elasticsearch, :commit, type: :request do
     before do
       fake_env = double.as_null_object
       allow(Figaro).to receive(:env).and_return(fake_env)
+      allow(fake_env).to receive(:OPPORTUNITY_ES_MAX_RESULT_WINDOW_SIZE).and_return(10000)
       allow(fake_env).to receive(:staging_http_user?).and_return(false)
       allow(fake_env).to receive(:staging_http_pass?).and_return(false)
       allow(fake_env).to receive(:staging_http_user).and_return(nil)
