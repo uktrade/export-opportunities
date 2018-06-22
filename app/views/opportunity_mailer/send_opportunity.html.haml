@@ -77,6 +77,6 @@
             %br
             = link_to "Unsubscribe from all alerts", "#{Figaro.env.DOMAIN}/email_notifications/unsubscribe_all/#{@encrypted_user_id}"
             %br
-            = link_to "View privacy statement", "#{Figaro.env.EXPORT_READINESS_URL}/privacy-and-cookies/"
+            = link_to "View privacy statement", Figaro.env.PRIVACY_AND_COOKIES_URL.to_s
             %br
             = link_to "Give feedback", Figaro.env.CONTACT_US_FORM.to_s
