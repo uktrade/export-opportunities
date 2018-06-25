@@ -445,6 +445,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(item['object']['type']).to include('Document')
       expect(item['object']['type']).to include('dit:exportOpportunities:Enquiry')
       expect(item['object']['id']).to eq("export-oportunity-enquiry-made-#{enquiry.id}")
+      expect(item['object']['url']).to eq("http://test.host/admin/enquiries/#{enquiry.id}")
     end
 
     it 'has a two entries, in reverse date order, if two enquiries have been made with company house numbers' do
