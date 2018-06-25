@@ -3,7 +3,7 @@ require 'digest'
 require 'json'
 require 'openssl'
 
-def elastic_search_wrapper(enquiry)
+def to_activity(enquiry)
   {
     action_and_metadata: {
       index: {
@@ -126,7 +126,7 @@ module Api
       next_page_href = request.base_url + request.env['PATH_INFO'] + '?page=' + (page + 1).to_s
       next_page_hash = include_next_page_href ? { next_url: next_page_href } : {}
 
-      items = enquiries.map(&method(:elastic_search_wrapper))
+      items = enquiries.map(&method(:to_activity))
       contents = {
         items: items,
       }.merge(next_page_hash)
