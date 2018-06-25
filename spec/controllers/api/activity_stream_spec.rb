@@ -444,7 +444,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(item['actor']['dit:companiesHouseNumber']).to eq('123')
       expect(item['object']['type']).to include('Document')
       expect(item['object']['type']).to include('dit:exportOpportunities:Enquiry')
-      expect(item['object']['id']).to eq("export-oportunity-enquiry-made-#{enquiry.id}")
+      expect(item['object']['id']).to eq("dit:exportOpportunities:Enquiry:#{enquiry.id}")
       expect(item['object']['url']).to eq("http://test.host/admin/enquiries/#{enquiry.id}")
     end
 

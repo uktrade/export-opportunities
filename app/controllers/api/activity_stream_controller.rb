@@ -26,7 +26,7 @@ def to_activity(enquiry)
     },
     'object': {
       'type': ['Document', 'dit:exportOpportunities:Enquiry'],
-      'id': 'export-oportunity-enquiry-made-' + enquiry.id.to_s,
+      'id': 'dit:exportOpportunities:Enquiry:' + enquiry.id.to_s,
       'url': admin_enquiry_url(enquiry),
     },
   }
