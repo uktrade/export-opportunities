@@ -5,17 +5,16 @@ require 'openssl'
 
 def to_activity(enquiry)
   {
-    action_and_metadata: {
-      index: {
-        _index: 'company_timeline',
-        _type: '_doc',
-        _id: 'export-oportunity-enquiry-made-' + enquiry.id.to_s,
-      },
+    'type': 'Create',
+    'published': enquiry.created_at.to_datetime.rfc3339,
+    'dit:application': 'exportOpportunities',
+    'actor': {
+      'type': ['Organization', 'dit:Company'],
+      'dit:companiesHouseNumber': enquiry.company_house_number,
     },
-    source: {
-      date: enquiry.created_at.to_datetime.rfc3339,
-      activity: 'export-oportunity-enquiry-made',
-      company_house_number: enquiry.company_house_number,
+    'object': {
+      'type': ['Document', 'dit:exportOpportunities:Enquiry'],
+      'id': 'export-oportunity-enquiry-made-' + enquiry.id.to_s,
     },
   }
 end

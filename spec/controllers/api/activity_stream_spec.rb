@@ -436,14 +436,15 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       items = feed_hash['items']
       expect(items.length).to eq(1)
 
-      elastic_search_bulk =  items[0]
-      expect(elastic_search_bulk['action_and_metadata']['index']['_index']).to eq('company_timeline')
-      expect(elastic_search_bulk['action_and_metadata']['index']['_type']).to eq('_doc')
-      expect(elastic_search_bulk['action_and_metadata']['index']['_id']).to eq("export-oportunity-enquiry-made-#{enquiry.id}")
-
-      expect(elastic_search_bulk['source']['date']).to eq('2008-09-01T12:01:02+00:00')
-      expect(elastic_search_bulk['source']['activity']).to eq('export-oportunity-enquiry-made')
-      expect(elastic_search_bulk['source']['company_house_number']).to eq('123')
+      item =  items[0]
+      expect(item['type']).to eq('Create')
+      expect(item['published']).to eq('2008-09-01T12:01:02+00:00')
+      expect(item['actor']['type']).to include('Organization')
+      expect(item['actor']['type']).to include('dit:Company')
+      expect(item['actor']['dit:companiesHouseNumber']).to eq('123')
+      expect(item['object']['type']).to include('Document')
+      expect(item['object']['type']).to include('dit:exportOpportunities:Enquiry')
+      expect(item['object']['id']).to eq("export-oportunity-enquiry-made-#{enquiry.id}")
     end
 
     it 'has a two entries, in reverse date order, if two enquiries have been made with company house numbers' do
@@ -472,10 +473,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(items.length).to eq(2)
 
       elastic_search_bulk_1 = items[0]
-      expect(elastic_search_bulk_1['source']['date']).to eq('2008-09-01T12:01:03+00:00')
+      expect(elastic_search_bulk_1['published']).to eq('2008-09-01T12:01:03+00:00')
 
       elastic_search_bulk_2 =  items[1]
-      expect(elastic_search_bulk_2['source']['date']).to eq('2008-09-01T12:01:02+00:00')
+      expect(elastic_search_bulk_2['published']).to eq('2008-09-01T12:01:02+00:00')
     end
 
     it 'is paginated with a link element if there are 20 enquiries' do
