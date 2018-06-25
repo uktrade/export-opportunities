@@ -380,7 +380,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       )
       get :index, params: { format: :json }
 
-      expect(response.body).to eq('{"items":[]}')
+      expect(JSON.parse(response.body)['orderedItems']).to eq([])
       expect(response.headers['Content-Type']).to eq('application/activity+json')
     end
 
@@ -397,7 +397,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       )
       get :index, params: { format: :json }
 
-      expect(response.body).to eq('{"items":[]}')
+      expect(JSON.parse(response.body)['orderedItems']).to eq([])
     end
 
     it 'does not have any entry elements if an enquiry made without a blank company house number' do
@@ -413,7 +413,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       )
       get :index, params: { format: :json }
 
-      expect(response.body).to eq('{"items":[]}')
+      expect(JSON.parse(response.body)['orderedItems']).to eq([])
     end
 
     it 'has a single entry element if a company has been made with a company house number' do
@@ -433,7 +433,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       get :index, params: { format: :json }
       feed_hash = JSON.parse(response.body)
 
-      items = feed_hash['items']
+      items = feed_hash['orderedItems']
       expect(items.length).to eq(1)
 
       item =  items[0]
@@ -469,7 +469,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       get :index, params: { format: :json }
       feed_hash = JSON.parse(response.body)
 
-      items = feed_hash['items']
+      items = feed_hash['orderedItems']
       expect(items.length).to eq(2)
 
       elastic_search_bulk_1 = items[0]
@@ -495,9 +495,9 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       get :index, params: { format: :json }
       feed_hash_1 = JSON.parse(response.body)
 
-      expect(feed_hash_1['items'].length).to eq(20)
-      expect(feed_hash_1.key?('next_url')).to eq(true)
-      expect(feed_hash_1['next_url']).to include('?page=1')
+      expect(feed_hash_1['orderedItems'].length).to eq(20)
+      expect(feed_hash_1.key?('next')).to eq(true)
+      expect(feed_hash_1['next']).to include('?page=1')
 
       @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = auth_header(
@@ -510,8 +510,8 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       get :index, params: { format: :json, page: '1' }
       feed_hash_2 = JSON.parse(response.body)
 
-      expect(feed_hash_2.key?('next_url')).to eq(false)
-      expect(feed_hash_2['items']).to eq([])
+      expect(feed_hash_2.key?('next')).to eq(false)
+      expect(feed_hash_2['orderedItems']).to eq([])
     end
   end
 end

@@ -3,6 +3,18 @@ require 'digest'
 require 'json'
 require 'openssl'
 
+def to_activity_collection(activities)
+  {
+    '@context': [
+      'https://www.w3.org/ns/activitystreams', {
+        'dit': 'https://www.trade.gov.uk/ns/activitystreams/v1',
+      }
+    ],
+    'type': 'Collection',
+    'orderedItems': activities,
+  }
+end
+
 def to_activity(enquiry)
   {
     'type': 'Create',
@@ -123,12 +135,10 @@ module Api
 
       include_next_page_href = enquiries.count == MAX_PER_PAGE
       next_page_href = request.base_url + request.env['PATH_INFO'] + '?page=' + (page + 1).to_s
-      next_page_hash = include_next_page_href ? { next_url: next_page_href } : {}
+      next_page_hash = include_next_page_href ? { next: next_page_href } : {}
 
       items = enquiries.map(&method(:to_activity))
-      contents = {
-        items: items,
-      }.merge(next_page_hash)
+      contents = to_activity_collection(items).merge(next_page_hash)
       respond_200 contents
     end
   end
