@@ -32,12 +32,7 @@ Rails.application.routes.draw do
 
   # Legacy dashboard index page
   get '/dashboard/enquiries', to: redirect('/dashboard')
-
-  namespace :poc  do
-    resources :opportunities, except: [:index, :destroy]
-    get 'international', to: 'opportunities#international'
-  end
-
+  
   resources :opportunities, only: [:show] do
     root action: 'results', as: ''
   end
