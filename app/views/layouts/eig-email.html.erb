@@ -353,7 +353,7 @@
                                       <%= yield :footer_links %>
                                     <% end %>
                                     
-                                    <div><a href="#{Figaro.env.GREAT_GOV_URL}privacy-and-cookies/">See the privacy statement to see how we keep your data and privacy safe</a></div>
+                                    <div><a href="<%=Figaro.env.PRIVACY_AND_COOKIES_URL %>">See the privacy statement to see how we keep your data and privacy safe</a></div>
                                     <div><a href="https://contact-us.export.great.gov.uk/opportunities">Give feedback on this service</a></div>
                                   </div>
 
