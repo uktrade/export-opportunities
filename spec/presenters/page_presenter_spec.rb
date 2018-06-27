@@ -24,7 +24,7 @@ RSpec.describe PagePresenter do
 
   describe '#create_trade_profile_url' do
     it 'returns the correct url depending on passed number' do
-      content = { some: 'content' }
+      content = { fields: { countries: {}, industries: {}, regions: {} }}
       presenter = PagePresenter.new(content)
 
       expect(presenter.create_trade_profile_url).to eql(Figaro.env.TRADE_PROFILE_CREATE_WITHOUT_NUMBER)
