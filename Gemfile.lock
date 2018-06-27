@@ -6,6 +6,13 @@ GIT
       devise (>= 3.0.0, < 5.0)
       railties (>= 3.2.6, < 6.0)
 
+GIT
+  remote: https://github.com/uktrade/export_components.git
+  revision: adf882b57e9a739c79498d89d17e7a2055ff0209
+  specs:
+    export_components (0.1.0)
+      rails (~> 5.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -502,6 +509,7 @@ DEPENDENCIES
   elasticsearch-extensions
   elasticsearch-model
   elasticsearch-rails
+  export_components (= 0.1.0)!
   factory_girl_rails
   faker
   faraday
