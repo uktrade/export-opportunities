@@ -8,8 +8,8 @@ class PagePresenter < BasePresenter
   end
 
   # Injects values into a formatted string
-  # 
-  # e.g. Returns string "something goes here and there" 
+  #
+  # e.g. Returns string "something goes here and there"
   # when
   # str = "something [$any_name] here and [$another_string]"
   # and
@@ -17,7 +17,7 @@ class PagePresenter < BasePresenter
   #
   # The identifiers any_name and another_string are irrelevant
   # and only need be used to help understand what content will
-  # be injected. 
+  # be injected.
   def content_with_inclusion(key, includes)
     str = @content[key] || ''
     includes.each do |include|
