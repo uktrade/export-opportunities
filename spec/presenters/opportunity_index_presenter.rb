@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe LandingPresenter do
-  describe '#featured_industries' do
+  describe '#initialize' do
     it 'initializes a presenter' do
       content = { 'some': "content" }
       industries = Sector.where(id: [9, 31])
