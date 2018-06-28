@@ -50,7 +50,25 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#view_all_link' do
-    skip("...")
+    it 'Returns a link when has more opportunites to show' do
+      presenter = OpportunitySearchResultsPresenter.new(SOME_CONTENT, { total: 2, limit: 1 }, {})
+
+      expect(presenter.view_all_link('some/where')).to include('View all (2)')
+    end
+
+    it 'Returns nil when does not have more opportunities to show' do
+      presenter = OpportunitySearchResultsPresenter.new(SOME_CONTENT, { total: 1, limit: 2 }, {})
+      
+      expect(presenter.view_all_link('some/where')).to eql(nil)
+    end
+
+    it 'Adds a class name when passed' do
+      presenter = OpportunitySearchResultsPresenter.new(SOME_CONTENT, { total: 2, limit: 1 }, {})
+      class_name = 'with-class'
+
+      expect(presenter.view_all_link('some/where')).to_not include(class_name)
+      expect(presenter.view_all_link('some/where', class_name)).to include(class_name)
+    end
   end
 
   describe '#displayed' do
