@@ -101,7 +101,23 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#found_message' do
-    skip("...")
+    it 'Returns the correct message when more than one results is found' do 
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
+
+      expect(presenter.found_message(2)).to eql('2 results found')
+    end
+
+    it 'Returns the correct message when one results is found' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
+
+      expect(presenter.found_message(1)).to eql('1 result found')
+    end
+
+    it 'Returns the correct message when no results are found' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
+
+      expect(presenter.found_message(0)).to eql('0 results found')
+    end
   end
 
   describe '#information' do
