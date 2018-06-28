@@ -2,11 +2,11 @@
 require 'rails_helper'
 
 RSpec.describe OpportunitySearchResultsPresenter do
-  SOME_CONTENT = { some: 'content' }.freeze
+  CONTENT = { some: 'content' }.freeze
 
   describe '#initialize' do
     it 'initialises a presenter' do
-      presenter = OpportunitySearchResultsPresenter.new(SOME_CONTENT, {}, {})
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
 
       expect(presenter.form_path).to eql('/opportunities')
     end
@@ -23,7 +23,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#title_with_country' do
-    presenter = OpportunitySearchResultsPresenter.new(SOME_CONTENT, {}, {})
+    presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
     title = 'An Export Opportunity'
 
     it 'Returns unaltered opportunity.title when from Post' do
@@ -51,19 +51,19 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
   describe '#view_all_link' do
     it 'Returns a link when has more opportunites to show' do
-      presenter = OpportunitySearchResultsPresenter.new(SOME_CONTENT, { total: 2, limit: 1 }, {})
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { total: 2, limit: 1 }, {})
 
       expect(presenter.view_all_link('some/where')).to include('View all (2)')
     end
 
     it 'Returns nil when does not have more opportunities to show' do
-      presenter = OpportunitySearchResultsPresenter.new(SOME_CONTENT, { total: 1, limit: 2 }, {})
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { total: 1, limit: 2 }, {})
       
       expect(presenter.view_all_link('some/where')).to eql(nil)
     end
 
     it 'Adds a class name when passed' do
-      presenter = OpportunitySearchResultsPresenter.new(SOME_CONTENT, { total: 2, limit: 1 }, {})
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { total: 2, limit: 1 }, {})
       class_name = 'with-class'
 
       expect(presenter.view_all_link('some/where')).to_not include(class_name)
@@ -72,7 +72,32 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#displayed' do
-    skip("...")
+    it 'Returns a <p> element containing information about results displayed' do
+      create(:opportunity, :published, { title: 'food' })
+      query = Opportunity.public_search(
+        search_term: 'food',
+        filters: SearchFilter.new({s: 'food'}),
+        sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
+      )
+
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { results: query.results }, {})
+    
+      expect(presenter.displayed).to start_with('<p')
+      expect(presenter.displayed).to include('Displaying items')
+    end
+
+    it 'Adds a class name when passed' do
+      create(:opportunity, :published, { title: 'food' })
+      query = Opportunity.public_search(
+        search_term: 'food',
+        filters: SearchFilter.new({s: 'food'}),
+        sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
+      )
+
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { results: query.results }, {})
+
+      expect(presenter.displayed('class-name')).to include('class-name')
+    end
   end
 
   describe '#found_message' do
