@@ -2,11 +2,11 @@
 require 'rails_helper'
 
 RSpec.describe OpportunitySearchResultsPresenter do
+  SOME_CONTENT = { some: 'content' }.freeze
 
   describe '#initialize' do
     it 'initialises a presenter' do
-      content = { some: 'content' }
-      presenter = OpportunitySearchResultsPresenter.new(content, {}, {})
+      presenter = OpportunitySearchResultsPresenter.new(SOME_CONTENT, {}, {})
 
       expect(presenter.form_path).to eql('/opportunities')
     end
@@ -23,7 +23,30 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#title_with_country' do
-    skip("...")
+    presenter = OpportunitySearchResultsPresenter.new(SOME_CONTENT, {}, {})
+    title = 'An Export Opportunity'
+
+    it 'Returns unaltered opportunity.title when from Post' do
+      countries = [ create(:country, { name: 'Spain' }), create(:country, { name: 'France' }) ]
+      opportunity = create(:opportunity, { title: title, source: :post, countries: countries })
+
+      expect(presenter.title_with_country(opportunity)).to eql(opportunity.title)
+      expect(presenter.title_with_country(opportunity)).to eql(title)
+    end
+
+    it 'Returns "Multi Country - [opportunity.title]" when has multiple countries' do
+      countries = [ create(:country, { name: 'Spain' }), create(:country, { name: 'France' }) ]
+      opportunity = create(:opportunity, { title: title, source: :volume_opps, countries: countries })
+
+      expect(presenter.title_with_country(opportunity)).to eql("Multi Country - #{title}")
+    end
+
+     it 'Returns "[country] - [opportunity.title]" when has single country.' do
+       countries = [ create(:country, { name: 'Spain' }) ]
+       opportunity = create(:opportunity, { title: title, source: :volume_opps, countries: countries })
+
+       expect(presenter.title_with_country(opportunity)).to eql("Spain - #{title}")
+     end
   end
 
   describe '#view_all_link' do

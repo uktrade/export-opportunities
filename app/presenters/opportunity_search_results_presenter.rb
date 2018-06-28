@@ -34,6 +34,11 @@ class OpportunitySearchResultsPresenter < FormPresenter
     field
   end
 
+  # Opportunity.title in required format.
+  # Returns...
+  # Unaltered opportunity.title when from Post.
+  # 'Multi Country - [opportunity.title]' when has multiple countries.
+  # '[country] - [opportunity.title]' when has single country.
   def title_with_country(opportunity)
     if opportunity.source == 'post'
       opportunity.title
