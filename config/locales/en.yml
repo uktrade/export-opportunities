@@ -24,7 +24,7 @@ en:
         blank: 'is missing'
   organisation:
     name: 'DIT'
-    feedback_email: 'exportopportunities@trade.gsi.gov.uk'
+    feedback_email: 'exportopportunities@trade.gov.uk'
   site_name: Export opportunities
   log_in:
     subheading: 'Please log in to make and view your export enquiries'
