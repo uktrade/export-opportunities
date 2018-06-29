@@ -32,7 +32,7 @@ Rails.application.routes.draw do
 
   # Legacy dashboard index page
   get '/dashboard/enquiries', to: redirect('/dashboard')
-  
+
   resources :opportunities, only: [:show] do
     root action: 'results', as: ''
   end
