@@ -64,7 +64,7 @@ RSpec.describe VolumeOppsValidator do
       first_contact[:email] = nil
       result = VolumeOppsValidator.new.validate_each(@opportunity_params)
       expect(@opportunity_params[:contacts_attributes][0][:name]).to eq 'Export Opportunities Team'
-      expect(@opportunity_params[:contacts_attributes][0][:email]).to eq 'exportopportunities@trade.gsi.gov.uk'
+      expect(@opportunity_params[:contacts_attributes][0][:email]).to eq 'exportopportunities@trade.gov.uk'
       expect(result).to eq true
     end
 
