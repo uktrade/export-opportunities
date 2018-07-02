@@ -23,7 +23,7 @@
 
     -# Global header-footer styles
     - unless request.fullpath.include?('/admin')
-      = stylesheet_link_tag('header-footer')
+      = stylesheet_link_tag('export-components')
 
     = stylesheet_link_tag 'application', media: 'all'
     /[if lte IE 9]
@@ -32,14 +32,14 @@
       = javascript_include_tag 'eventListener.polyfill.min'
 
     = javascript_include_tag 'jquery3.2.0.js'
-    = javascript_include_tag 'header-footer.js'
+    = javascript_include_tag 'export-components-header.js'
 
     = render partial: 'google_analytics'
 
   %body{id: ExportOpportunities.flipper.enabled?(:new_header_and_footer) ? nil : 'dit'}
     = render partial: 'svg_icons'
 
-    = render 'layouts/dit_header'
+    = render 'export_components/header'
 
     - if content_for?(:hero)
       .hero-header-wrapper
@@ -61,7 +61,7 @@
 
       = yield
 
-    = render 'layouts/dit_footer'
+    = render 'export_components/footer'
 
     = javascript_include_tag 'modernizr.min', defer: true
     = javascript_include_tag 'application'
