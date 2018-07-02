@@ -16,7 +16,10 @@ def to_activity_collection(activities)
 end
 
 def to_activity(enquiry)
+  obj_id = 'dit:exportOpportunities:Enquiry:' + enquiry.id.to_s
+  activity_id = obj_id + ':Create'
   {
+    'id': activity_id,
     'type': 'Create',
     'published': enquiry.created_at.to_datetime.rfc3339,
     'dit:application': 'exportOpportunities',
@@ -26,7 +29,7 @@ def to_activity(enquiry)
     },
     'object': {
       'type': ['Document', 'dit:exportOpportunities:Enquiry'],
-      'id': 'dit:exportOpportunities:Enquiry:' + enquiry.id.to_s,
+      'id': obj_id,
       'url': admin_enquiry_url(enquiry),
     },
   }

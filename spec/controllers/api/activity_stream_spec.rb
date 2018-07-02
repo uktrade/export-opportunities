@@ -437,6 +437,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(items.length).to eq(1)
 
       item =  items[0]
+      expect(item['id']).to eq("dit:exportOpportunities:Enquiry:#{enquiry.id}:Create")
       expect(item['type']).to eq('Create')
       expect(item['published']).to eq('2008-09-01T12:01:02+00:00')
       expect(item['actor']['type']).to include('Organization')
