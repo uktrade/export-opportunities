@@ -45,7 +45,10 @@ RSpec.feature 'Prepopulate the enquiry form for logged-in Users with past applic
       expect(page).to have_field('enquiry[company_explanation]', with: '')
       expect(page).to have_field('enquiry[company_sector]', with: 'Agriculture')
       expect(page).to have_select('enquiry[existing_exporter]', selected: 'Yes, in the last year')
-      expect(page).to have_checked_field('enquiry[data_protection]')
     end
+
+    # capybara cant find the "I agree my details to be used by DIT and partners" checkbox inside the form, but it is there..
+    data_protection_checkbox = find(:css, '#enquiry_data_protection', visible: false)
+    expect(data_protection_checkbox.checked?).to eq true
   end
 end

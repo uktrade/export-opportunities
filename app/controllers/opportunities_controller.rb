@@ -12,7 +12,25 @@ class OpportunitiesController < ApplicationController
     @countries = all_countries
     @regions = regions_list
 
-    render layout: 'landing'
+    if atom_request?
+      query = Opportunity.public_search(
+        search_term: @search_term,
+        filters: filters_with_mapped_regions,
+        sort: sort
+      )
+
+      atom_request_query(query)
+    end
+
+    respond_to do |format|
+      format.html do
+        render layout: 'landing'
+      end
+      format.js
+      format.any(:atom, :xml) do
+        render :index, formats: :atom
+      end
+    end
   end
 
   def results
@@ -37,14 +55,30 @@ class OpportunitiesController < ApplicationController
       'regions': search_filter_regions,
     }
 
-    render layout: 'results'
+    respond_to do |format|
+      format.html do
+        render layout: 'results'
+      end
+      format.js
+      format.any(:atom, :xml) do
+        render :index, formats: :atom
+      end
+    end
   end
 
   def show
     @content = get_content('opportunities/new.yml')
     @opportunity = Opportunity.published.find(params[:id])
 
-    render layout: 'opportunity'
+    respond_to do |format|
+      format.html do
+        render layout: 'opportunity'
+      end
+      format.js
+      format.any(:atom, :xml) do
+        render :results, formats: :atom
+      end
+    end
   end
 
   private def all_countries
@@ -154,21 +188,19 @@ class OpportunitiesController < ApplicationController
     )
 
     if atom_request?
-      query = query.records
-      query = query.page(params[:paged]).per(per_page)
-      query = AtomOpportunityQueryDecorator.new(query, view_context)
-      results = query
+      atom_request_query(query)
     else
       country_list = relevant_countries_from_search(query) # Run before paging.
       query = query.page(params[:paged]).per(per_page)
       results = query.records
+      @total = query.records.total
     end
 
     {
       filters: @filters,
       results: results,
       countries: country_list,
-      total: query.records.total,
+      total: @total,
       limit: per_page,
       term: @search_term,
       sort_by: @sort_column_name,
@@ -280,6 +312,7 @@ class OpportunitiesController < ApplicationController
       sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
     )
     query = query.page(params[:paged]).per(per_page)
+
     {
       results: query.records,
       total: query.records.total,
@@ -408,5 +441,16 @@ class OpportunitiesController < ApplicationController
         countries: %w[austria belgium france germany ireland luxembourg netherlands switzerland],
         name: 'Western Europe' },
     ].sort_by { |region| region[:name] }
+  end
+
+  private def atom_request_query(query)
+    query = query.records
+
+    # return 25 results per page for atom feed
+    query = query.page(params[:paged]).per(25)
+    query = AtomOpportunityQueryDecorator.new(query, view_context)
+    @query = query
+    @opportunities = query.records
+    @total = query.records.size
   end
 end

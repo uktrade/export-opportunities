@@ -59,6 +59,7 @@ RSpec.describe VolumeOppsRetriever do
     end
 
     it 'strips email/address from name field, adds them to email overwriting existing entry' do
+      skip('TODO: deprecated functionality, to remove or reintroduce')
       res = VolumeOppsRetriever.new.contact_attributes({contactPoint: {name: 'alex giamas agiamasat@gmail.com Westminster, London SW1A 1AA', email: 'aninvalidemail'}}.with_indifferent_access)
 
       expect(res[0][:name]).not_to include('agiamasat@gmail.com')

@@ -25,7 +25,7 @@
     height: 38px;
     z-index: 1;
 
-    // IE8 doesn’t support pseudoelements, so we don’t want to hide native elements there.
+    // IE8 doesn’t support pseudoelements, so we don't want to hide native elements there.
     @if ($is-ie == false) or ($ie-version == 9) {
       margin: 0;
       @include opacity(0);

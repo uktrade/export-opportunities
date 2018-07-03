@@ -8,10 +8,6 @@ RSpec.describe 'Basic auth', :elasticsearch, :commit, type: :request do
     '/company_details',
     '/subscriptions',
     '/pending_subscriptions',
-    '/country/france',
-    '/industry/cheese',
-    '/sector/public-sector',
-    '/value/over-100k',
   ].freeze
 
   ADMIN_VIEW_ROUTES = [
@@ -45,11 +41,13 @@ RSpec.describe 'Basic auth', :elasticsearch, :commit, type: :request do
     before do
       fake_env = double.as_null_object
       allow(Figaro).to receive(:env).and_return(fake_env)
+      allow(fake_env).to receive(:OPPORTUNITY_ES_MAX_RESULT_WINDOW_SIZE).and_return(10000)
       allow(fake_env).to receive(:staging_http_user?).and_return(false)
       allow(fake_env).to receive(:staging_http_pass?).and_return(false)
       allow(fake_env).to receive(:staging_http_user).and_return(nil)
       allow(fake_env).to receive(:staging_http_pass).and_return(nil)
       allow(fake_env).to receive(:enquiry_endpoint_token).and_return('fake_token')
+      allow(fake_env).to receive(:CONTACT_US_FORM).and_return(nil)
     end
 
     (PUBLIC_VIEW_ROUTES + ADMIN_VIEW_ROUTES).each do |route|
@@ -85,6 +83,16 @@ RSpec.describe 'Basic auth', :elasticsearch, :commit, type: :request do
     it 'should always return 200 on /check' do
       get '/check'
       expect(response.status).to eq(200)
+    end
+
+    it 'should always return 404 on /poc/international' do
+      get '/poc/international'
+      expect(response.status).to eq(404)
+    end
+
+    it 'should always return 404 on /poc/opportunities/new' do
+      get '/poc/opportunities/new'
+      expect(response.status).to eq(404)
     end
   end
 

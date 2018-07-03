@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 require 'app/services/company_house_finder'
 
 RSpec.describe CompanyHouseFinder, type: :service do

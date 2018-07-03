@@ -11,7 +11,7 @@ class RetrieveVolumeOpps
     # fetch opportunities
     VolumeOppsRetriever.new.call(editor, from_date, to_date)
 
-    opportunity_result_set = Opportunity.where('created_at > ? and source=1', today_date)
+    opportunity_result_set = Opportunity.where('created_at>? and source=1', today_date)
 
     # run sensitivity checks
     opportunity_result_set.each do |opportunity|

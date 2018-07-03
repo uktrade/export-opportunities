@@ -9,7 +9,7 @@ class Admin::HelpController < Admin::BaseController
   end
 
   def show
-    page_url = params[:id]
+    page_url = params[:article_id]
     case page_url
     when 'enquiries'
       render 'admin/enquiries/help'
@@ -19,8 +19,8 @@ class Admin::HelpController < Admin::BaseController
   end
 
   def article
-    file_path = 'admin/help/' + id_to_file(params[:id])
-    @article = HelpArticlePresenter.new(params[:id], params[:section])
+    file_path = 'admin/help/' + id_to_file(params[:article_id])
+    @article = HelpArticlePresenter.new(params[:article_id], params[:section_id])
     @article_list = article_list
     render file_path, layout: 'help_article'
   end
@@ -35,25 +35,25 @@ class Admin::HelpController < Admin::BaseController
   end
 
   def article_print
-    file_path = 'admin/help/' + id_to_file(params[:id])
-    @article = HelpArticlePresenter.new(params[:id], params[:section])
+    file_path = 'admin/help/' + id_to_file(params[:article_id])
+    @article = HelpArticlePresenter.new(params[:article_id], params[:section_id])
     render file_path, layout: 'help_article_print'
   end
 
   def article_list
     [
       { id: 'how-to-write-an-export-opportunity',
-        section: 'overview',
+        section_id: 'overview',
         title: 'How to write an export opportunity' },
       { id: 'how-to-assess-a-company',
         title: 'How to assess a company',
-        section: 'overview' },
+        section_id: 'overview' },
       { id: 'right-for-opportunity-responses',
         title: 'How to respond to UK companies that are \'Right for opportunity\'',
-        section: 'overview' },
+        section_id: 'overview' },
       { id: 'not-right-for-opportunity-responses',
         title: 'How to respond to UK companies that are \'Not right for opportunity\'',
-        section: 'overview' },
+        section_id: 'overview' },
     ]
   end
 end

@@ -117,7 +117,7 @@ group :test do
   gem 'rspec_junit_formatter'
   gem 'pundit-matchers'
   gem 'database_cleaner'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'faker'
   gem 'launchy'
   gem 'poltergeist'

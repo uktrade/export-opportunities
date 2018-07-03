@@ -26,9 +26,9 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
     types = create_list(:type, 5)
     countries = [create(:country, exporting_guide_path: '/somelink')]
 
-    opportunity = create(:opportunity, status: 'publish', sectors: sectors, types: types, countries: countries)
+    opportunity = create(:opportunity, status: 'publish', sectors: sectors, types: types, countries: countries, source: :volume_opps)
 
-    create_list(:enquiry, 3, opportunity: opportunity)
+    # create_list(:enquiry, 3, opportunity: opportunity)
 
     sleep 1
     visit opportunities_path
@@ -47,7 +47,6 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
   end
 
   scenario 'Potential exporter can view details of an opportunity' do
-    skip('TODO: refactor for new look and feel of post submitted opps')
     sectors = create_list(:sector, 3)
     types = create_list(:type, 5)
     countries = [create(:country, exporting_guide_path: '/somelink')]
@@ -59,9 +58,9 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
     sleep 1
     visit opportunities_path
 
-    within '#search-form' do
+    within '.search' do
       fill_in 's', with: opportunity.title
-      page.find('.filters__searchbutton').click
+      page.find('.submit').click
     end
 
     click_on opportunity.title
@@ -90,7 +89,7 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
     end
 
     expect(page).to have_link 'Submit your proposal'
-    expect(page).to have_content('Applications received 3')
+    expect(page).to have_content('Enquiries received 3')
   end
 
 
@@ -141,7 +140,7 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
     acceptable_html_examples.each do |example|
       op = create(:opportunity, status: 'publish', description: example[:html])
       visit opportunity_path(op.id)
-      expect(page).to have_css('.opportunity__content ' + example[:selector])
+      expect(page).to have_css('.description ' + example[:selector])
     end
 
     unacceptable_html_examples = [
@@ -169,7 +168,7 @@ EOD
 
     op = create(:opportunity, status: 'publish', description: example)
     visit opportunity_path(op.id)
-    expect(page).to have_css('.opportunity__content p:nth-last-child(3)')
+    expect(page).to have_css('.description p:nth-last-child(3)')
   end
 
   scenario "Opportunity view shouldn't use simple_format when HTML present" do

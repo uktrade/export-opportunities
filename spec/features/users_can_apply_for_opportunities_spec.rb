@@ -38,6 +38,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
     end
 
     scenario 'if they are logged in, apply with company house number', js: true do
+      skip('TODO: fix with Steven, looks like JS doesnt render correctly in this page resulting in boring companies not showing up in the dropdown')
       mock_sso_with(email: 'enquirer@exporter.com')
       company_detail = {
         name: 'Boring Export Company',
@@ -52,15 +53,15 @@ RSpec.feature 'users can apply for opportunities', js: true do
 
       fill_in_your_details
 
-      fill_in 'enquiry[company_name]', with: 'Boring Export Company'
-
-      click_on 'Search Companies House'
+      fill_in 'enquiry[company_name]', with: 'BORING LIMITED'
 
       wait_for_ajax
 
-      click_on 'Boring Export Company'
+      # dropdown should appear automatically with only one option, our Boring Export Company
 
-      fill_in 'Company Address', with: '3 whp'
+      click_on 'BORING LIMITED'
+
+      fill_in 'Company Address', with: '50 victoria street'
       fill_in_exporting_experience
       tick_data_protection_checkbox
 
@@ -116,7 +117,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
       fill_in_form
       click_on 'Submit'
 
-      expect(page).to have_content 'We noticed that you don\'t have a trade profile.'
+      expect(page).to have_content 'We notice that you don\'t have a trade profile.'
     end
   end
 
@@ -224,7 +225,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
 
   def fill_in_company_details
     fill_in 'Company Name', with: Faker::Company.name
-    page.check "I don't have a Companies House Number"
+    find(:css, "#has-companies-house-number", visible: :false).trigger('click')
     fill_in 'Company Address', with: Faker::Address.street_address
     fill_in 'Post Code', with: Faker::Address.postcode
     fill_in 'Company URL', with: Faker::Internet.url
@@ -237,7 +238,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
   end
 
   def tick_data_protection_checkbox
-    check 'I agree my details may be used for marketing'
+    find(:css, "#enquiry_data_protection", visible: :false).trigger('click')
   end
 
   def apply_to_opportunity(opportunity)

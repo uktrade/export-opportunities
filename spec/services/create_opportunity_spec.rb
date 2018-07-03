@@ -11,7 +11,7 @@ describe CreateOpportunity, type: :service do
     end
 
     it 'creates a new opportunity' do
-      service_provider = create(:service_provider)
+      service_provider = create(:service_provider, id: '6')
       editor = create(:editor, service_provider_id: service_provider.id)
 
       expect { CreateOpportunity.new(editor).call(opportunity_params) }

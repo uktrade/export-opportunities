@@ -31,7 +31,7 @@
               <% if s[:current] %>
                 <span class="selected"><%= s[:heading] %></span>
               <% else %>
-                <%= link_to s[:heading], admin_help_article_path(s[:id], s[:section]) %>
+                <%= link_to s[:heading], admin_help_article_path(s[:article_id], s[:id]) %>
               <% end %>
             </li>
           <% end %>
