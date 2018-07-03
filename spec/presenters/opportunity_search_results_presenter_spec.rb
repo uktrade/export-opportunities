@@ -18,7 +18,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
       presenter = OpportunitySearchResultsPresenter.new(content, {}, search_filters)
       field = presenter.field_content('countries')
       
-      expect(field['options']).to include({:label=>"Barbados (0)", :value=>"barbados"})
+      expect(field['options']).to include({:label => "Mexico (0)", :value => "mexico", :checked => "true"})
     end
   end
 
@@ -141,7 +141,13 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#selected_filter_list' do
-    skip("...")
+    it 'returns the selected filter names' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
+      selected_filters = presenter.selected_filter_list(search_filters)
+      expect(selected_filters).to include('Mexico')
+      expect(selected_filters).to include('Spain')
+      expect(selected_filters).to_not include('Dominica')
+    end
   end
 
   describe '#reset_url' do
@@ -152,54 +158,31 @@ RSpec.describe OpportunitySearchResultsPresenter do
     skip("...")
   end
 
+  def country(name, slug='')
+    country = Country.find_by(name: name)
+    if country.nil?
+      if slug.length > 0
+        country = create(:country, { name: name, slug: slug })
+      else
+        country = create(:country, { name: name })
+      end
+    end
+    country
+  end
+
   def search_filters
+    country_1 = country('Spain', 'spain')
+    country_2 = country('Mexico', 'mexico')
     {
-      sectors:  {
+      sectors: {
         name: 'sectors[]',
         options: [],
       },
  
       countries: {
         name: 'countries[]',
-        options: [
-          Country.new({
-            id: 105,
-            slug: 'barbados',
-            name: 'Barbados',
-            exporting_guide_path: '/government/publications/exporting-to-barbados',
-            region_id: nil,
-            published_target: nil,
-            responses_target: nil,
-          }),
-          Country.new({
-            id: 4,
-            slug: 'dominican-republic',
-            name: 'Dominican Republic',
-            exporting_guide_path: nil,
-            region_id: nil,
-            published_target: nil,
-            responses_target: nil,
-          }),
-          Country.new({
-            id: 55,
-            slug: 'jamaica',
-            name: 'Jamaica',
-            exporting_guide_path: '/government/publications/exporting-to-jamaica',
-            region_id: nil,
-            published_target: nil,
-            responses_target: nil,
-          }),
-          Country.new({
-            id: 94,
-            slug: 'paraguay',
-            name: 'Paraguay',
-            exporting_guide_path: nil,
-            region_id: nil,
-            published_target: nil,
-            responses_target: nil
-          })
-        ],
-        selected: []
+        options: [ country_1, country_2 ],
+        selected: [country_1.slug, country_2.slug]
       },
 
       regions: {
