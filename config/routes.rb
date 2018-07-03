@@ -168,6 +168,7 @@ Rails.application.routes.draw do
   patch '/email_notifications/unsubscribe_all/:id', to: 'email_notifications#update', as: :update_email_notification
 
   get '/api/profile_dashboard', action: :index, controller: 'api/profile_dashboard', format: 'json', via: [:get]
+  get '/api/activity_stream', action: :index, controller: 'api/activity_stream', format: 'json', via: [:get]
   post '/api/document/', action: :create, controller: 'api/document'
 
   match '*path', to: 'errors#not_found', via: %i[get post patch put delete]

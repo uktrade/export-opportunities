@@ -11,7 +11,7 @@ schedule_volume_import_opps_job:
   active_job: true
 
 schedule_digest_email_notifications_job:
-  cron: "0 19 * * *"
+  cron: "15 11 * * *"
   class: "SendOpportunitiesDigest"
   queue: default
   active_job: true

@@ -9,7 +9,11 @@ Rails.application.config.assets.version = '1.4'
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
 
 # Rails.application.config.sass.precision = 8
-Rails.application.config.assets.precompile += %w[header-footer.css]
+Rails.application.config.assets.precompile += %w[dfit-logo-white.png]
+Rails.application.config.assets.precompile += %w[eig-logo-stacked.png]
+Rails.application.config.assets.precompile += %w[export-components-header.js]
+Rails.application.config.assets.precompile += %w[export-components.css]
+Rails.application.config.assets.precompile += %w[export-components-no-js.css]
 Rails.application.config.assets.precompile += %w[application-admin.css]
 Rails.application.config.assets.precompile += %w[application.css application-legacy.css email.css]
 Rails.application.config.assets.precompile += %w[dit-ie8-2017.css]
@@ -67,4 +71,3 @@ Rails.application.config.assets.precompile += %w[poc/dit.page.international.js]
 
 #Rails.application.config.assets.precompile += %w['poc/*.js']
 #Rails.application.config.assets.precompile += %w['poc/layouts/*.js']
-

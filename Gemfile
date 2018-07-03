@@ -21,6 +21,7 @@ gem 'nokogiri', '1.8.2'
 # Authentication & authorisation
 gem 'devise', '4.3.0'
 gem 'devise-async'
+gem 'hawk-auth'
 gem 'omniauth'
 gem 'omniauth-oauth2'
 gem 'pundit', require: true
@@ -44,6 +45,7 @@ gem 'neat', '1.8.0'
 gem 'autoprefixer-rails'
 gem 'normalize-scss'
 gem 'sass-rails'
+gem 'export_components', '0.1.0', git: 'https://github.com/uktrade/export_components.git'
 
 # Javascript
 gem 'jquery-rails'

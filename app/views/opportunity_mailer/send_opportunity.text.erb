@@ -24,7 +24,7 @@ Opportunity expires: <%= opportunity.response_due_on %>
 
 
 View all matching opportunities at: 
-<%= opportunities_url %>
+<%= "#{Figaro.env.DOMAIN}/email_notifications/#{@encrypted_user_id}" %>
 
 You can also search for other export opportunities at: 
 <%= opportunities_url %>
@@ -33,14 +33,14 @@ You can also search for other export opportunities at:
 You are receiving this email because you signed up for Export Opportunities email alerts.
 
 Manage your alerts
-http:/insert/url/here
+<%= Figaro.env.SUD_PROFILE_PAGE_EMAIL_ALERTS.to_s %>
 
 Unsubscribe from all alerts
-http:/insert/url/here
+<%= "#{Figaro.env.DOMAIN}/email_notifications/unsubscribe_all/#{@encrypted_user_id}" %>
 
 View privacy statement
-http:/insert/url/here
+<%= Figaro.env.PRIVACY_AND_COOKIES_URL.to_s %>
 
 Give feedback at
-http:/insert/url/here
+<%= Figaro.env.CONTACT_US_FORM.to_s %>
 
