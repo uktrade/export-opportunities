@@ -125,7 +125,26 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#searched_for' do
-    skip("...")
+    it 'Returns plain text message " for [search term]"' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { term: 'food' }, {})
+
+      expect(presenter.searched_for).to eql(' for food')
+    end
+
+    it 'Returns HTML markup for message " for [search term]"' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { term: 'food' }, {})
+      message = presenter.searched_for(true)
+      message_has_html = /\<\/\w+\>/.match(message)
+
+      expect(message).to include('food')
+      expect(message_has_html).to be_truthy
+    end
+
+    it 'Returns an empty string when searching without a specified term' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
+
+      expect(presenter.searched_for).to eql('')
+    end
   end
 
   describe '#searched_in' do
@@ -144,6 +163,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
     it 'returns the selected filter names' do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
       selected_filters = presenter.selected_filter_list(search_filters)
+
       expect(selected_filters).to include('Mexico')
       expect(selected_filters).to include('Spain')
       expect(selected_filters).to_not include('Dominica')
