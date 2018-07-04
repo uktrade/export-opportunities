@@ -105,23 +105,20 @@ class OpportunitySearchResultsPresenter < FormPresenter
   def searched_in(with_html = false)
     message = ''
     separator_in = ' in '
-    has_countries = @search[:filters].respond_to? :countries
-    has_regions = @search[:filters].respond_to? :regions
-    if @search[:filters].countries.present? || has_regions
+    if @selected_list.length > 0
       separator_or = ' or '
-      selected_filters = selected_filter_list(@filters)
 
       # If HTML is required, wrap things in tags.
       if with_html
         separator_in = content_tag('span', separator_in, 'class': 'separator')
         separator_or = content_tag('span', separator_or, 'class': 'separator')
-        selected_filters.each_index do |i|
-          selected_filters[i] = content_tag('span', selected_filters[i], 'class': 'param')
+        @selected_list.each_index do |i|
+          @selected_list[i] = content_tag('span', @selected_list[i], 'class': 'param')
         end
       end
 
       # Make it a string and remove any trailing separator_or
-      message = selected_filters.join(separator_or)
+      message = @selected_list.join(separator_or)
       message = message.sub(Regexp.new("(.+)\s" + separator_or + "\s"), '\\1')
     end
 

@@ -134,10 +134,9 @@ RSpec.describe OpportunitySearchResultsPresenter do
     it 'Returns HTML markup for message " for [search term]"' do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, { term: 'food' }, {})
       message = presenter.searched_for(true)
-      message_has_html = /\<\/\w+\>/.match(message)
 
       expect(message).to include('food')
-      expect(message_has_html).to be_truthy
+      expect(message_has_html(message)).to be_truthy
     end
 
     it 'Returns an empty string when searching without a specified term' do
@@ -148,7 +147,40 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#searched_in' do
-    skip("...")
+    it 'Returns plain text message " in [country]"' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters(true))
+
+      expect(presenter.searched_in).to eql(' in Spain')
+    end
+
+    it 'Returns plain text message " in [country] or [country]"' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
+
+      expect(presenter.searched_in).to eql(' in Spain or Mexico')
+    end
+
+    it 'Returns HTML markup for message " in [country]"' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters(true))
+      message = presenter.searched_in(true)
+
+      expect(message).to include('Spain')
+      expect(message_has_html(message)).to be_truthy
+    end
+
+    it 'Returns HTML markup for message " in [country] or [country]"' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
+      message = presenter.searched_in(true)
+
+      expect(message).to include('Spain')
+      expect(message).to include('Mexico')
+      expect(message_has_html(message)).to be_truthy
+    end
+
+    it 'Returns empty string when no searching without regions or countries' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
+
+      expect(presenter.searched_in).to eql('')
+    end
   end
 
   describe '#searched_in_html' do
@@ -178,6 +210,10 @@ RSpec.describe OpportunitySearchResultsPresenter do
     skip("...")
   end
 
+  def message_has_html(message)
+    /\<\/\w+\>/.match(message)
+  end
+
   def country(name, slug='')
     country = Country.find_by(name: name)
     if country.nil?
@@ -190,9 +226,17 @@ RSpec.describe OpportunitySearchResultsPresenter do
     country
   end
 
-  def search_filters
+  def search_filters(single_country = false)
     country_1 = country('Spain', 'spain')
     country_2 = country('Mexico', 'mexico')
+    options = [ country_1, country_2 ]
+    selected = [ country_1.slug, country_2.slug ]
+
+    if single_country
+      options.pop
+      selected.pop
+    end
+
     {
       sectors: {
         name: 'sectors[]',
@@ -201,8 +245,8 @@ RSpec.describe OpportunitySearchResultsPresenter do
  
       countries: {
         name: 'countries[]',
-        options: [ country_1, country_2 ],
-        selected: [country_1.slug, country_2.slug]
+        options: options,
+        selected: selected
       },
 
       regions: {
