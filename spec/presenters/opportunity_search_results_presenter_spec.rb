@@ -163,6 +163,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters(true))
       message = presenter.searched_in(true)
 
+      expect(message).to include(' in ')
       expect(message).to include('Spain')
       expect(message_has_html(message)).to be_truthy
     end
@@ -171,7 +172,9 @@ RSpec.describe OpportunitySearchResultsPresenter do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
       message = presenter.searched_in(true)
 
+      expect(message).to include(' in ')
       expect(message).to include('Spain')
+      expect(message).to include(' or ')
       expect(message).to include('Mexico')
       expect(message_has_html(message)).to be_truthy
     end
@@ -184,7 +187,25 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#searched_in_html' do
-    skip("...")
+    it 'Returns HTML markup for message " in [country]"' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters(true))
+      message = presenter.searched_in_html
+
+      expect(message).to include(' in ')
+      expect(message).to include('Spain')
+      expect(message_has_html(message)).to be_truthy
+    end
+
+    it 'Returns HTML markup for message " in [country] or [country]"' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
+      message = presenter.searched_in_html
+
+      expect(message).to include(' in ')
+      expect(message).to include('Spain')
+      expect(message).to include(' or ')
+      expect(message).to include('Mexico')
+      expect(message_has_html(message)).to be_truthy
+    end
   end
 
   describe '#sort_input_select' do
