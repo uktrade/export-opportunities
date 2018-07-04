@@ -76,6 +76,8 @@ class OpportunitySearchResultsPresenter < FormPresenter
     end
   end
 
+  # Returns results information message (with HTML)
+  # e.g. "X results found for [term] in [country] or [country]"
   def information
     for_message = searched_for(true)
     in_message = searched_in(true)

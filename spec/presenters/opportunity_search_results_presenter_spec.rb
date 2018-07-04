@@ -2,7 +2,13 @@
 require 'rails_helper'
 
 RSpec.describe OpportunitySearchResultsPresenter do
-  CONTENT = { some: 'content' }.freeze
+  CONTENT = { some: 'content', 
+              fields: {
+                countries: {
+                  question: 'Countries'
+                }
+              }
+            }.freeze
 
   describe '#initialize' do
     it 'initialises a presenter' do
@@ -14,8 +20,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
   describe '#field_content' do
     it 'returns the correct content' do
-      content = { fields: { countries: { question: 'Countries' } } }
-      presenter = OpportunitySearchResultsPresenter.new(content, {}, search_filters)
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
       field = presenter.field_content('countries')
       
       expect(field['options']).to include({:label => "Mexico (0)", :value => "mexico", :checked => "true"})
@@ -121,22 +126,58 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#information' do
-    skip("...")
+    it 'Returns result found information message' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { total: 1 }, {})
+      message = presenter.information
+
+      expect(message).to eql('1 result found')
+      expect(has_html?(message)).to be_falsey
+    end
+
+    it 'Returns result found information message with search term' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { term: 'food', total: 1 }, {})
+      message = presenter.information
+
+      expect(message).to include('1 result found for')
+      expect(message).to include('food')
+      expect(has_html?(message)).to be_truthy
+    end
+
+    it 'Returns result found information message with countries' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { total: 1 }, search_filters)
+      message = presenter.information
+
+      expect(message).to include('1 result found')
+      expect(message).to include(' in ')
+      expect(has_html?(message)).to be_truthy
+    end
+
+    it 'Returns result found information message with search term and countries' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { term: 'food', total: 1 }, search_filters)
+      message = presenter.information
+
+      expect(message).to include('1 result found for')
+      expect(message).to include('food')
+      expect(message).to include(' in ')
+      expect(has_html?(message)).to be_truthy
+    end
   end
 
   describe '#searched_for' do
     it 'Returns plain text message " for [search term]"' do
+      create(:opportunity, :published, { title: 'food' })
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, { term: 'food' }, {})
 
       expect(presenter.searched_for).to eql(' for food')
     end
 
     it 'Returns HTML markup for message " for [search term]"' do
+      create(:opportunity, :published, { title: 'food' })
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, { term: 'food' }, {})
       message = presenter.searched_for(true)
 
       expect(message).to include('food')
-      expect(message_has_html(message)).to be_truthy
+      expect(has_html?(message)).to be_truthy
     end
 
     it 'Returns an empty string when searching without a specified term' do
@@ -165,7 +206,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
       expect(message).to include(' in ')
       expect(message).to include('Spain')
-      expect(message_has_html(message)).to be_truthy
+      expect(has_html?(message)).to be_truthy
     end
 
     it 'Returns HTML markup for message " in [country] or [country]"' do
@@ -176,7 +217,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
       expect(message).to include('Spain')
       expect(message).to include(' or ')
       expect(message).to include('Mexico')
-      expect(message_has_html(message)).to be_truthy
+      expect(has_html?(message)).to be_truthy
     end
 
     it 'Returns empty string when no searching without regions or countries' do
@@ -193,7 +234,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
       expect(message).to include(' in ')
       expect(message).to include('Spain')
-      expect(message_has_html(message)).to be_truthy
+      expect(has_html?(message)).to be_truthy
     end
 
     it 'Returns HTML markup for message " in [country] or [country]"' do
@@ -204,7 +245,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
       expect(message).to include('Spain')
       expect(message).to include(' or ')
       expect(message).to include('Mexico')
-      expect(message_has_html(message)).to be_truthy
+      expect(has_html?(message)).to be_truthy
     end
   end
 
@@ -231,7 +272,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
     skip("...")
   end
 
-  def message_has_html(message)
+  def has_html?(message)
     /\<\/\w+\>/.match(message)
   end
 
