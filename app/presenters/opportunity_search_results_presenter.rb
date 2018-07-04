@@ -79,8 +79,8 @@ class OpportunitySearchResultsPresenter < FormPresenter
   # Returns results information message (with HTML)
   # e.g. "X results found for [term] in [country] or [country]"
   def information
-    for_message = searched_for(true)
-    in_message = searched_in(true)
+    for_message = searched_for_with_html
+    in_message = searched_in_with_html
     message = found_message(@total)
     message += for_message unless for_message.empty?
     message += in_message unless in_message.empty?
@@ -107,6 +107,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
   def searched_in(with_html = false)
     message = ''
     separator_in = ' in '
+    list = []
     if @selected_list.length > 0
       separator_or = ' or '
 
@@ -115,12 +116,14 @@ class OpportunitySearchResultsPresenter < FormPresenter
         separator_in = content_tag('span', separator_in, 'class': 'separator')
         separator_or = content_tag('span', separator_or, 'class': 'separator')
         @selected_list.each_index do |i|
-          @selected_list[i] = content_tag('span', @selected_list[i], 'class': 'param')
+          list.push(content_tag('span',  @selected_list[i], 'class': 'param'))
         end
+      else
+        list = @selected_list
       end
 
       # Make it a string and remove any trailing separator_or
-      message = @selected_list.join(separator_or)
+      message = list.join(separator_or)
       message = message.sub(Regexp.new("(.+)\s" + separator_or + "\s"), '\\1')
     end
 
@@ -128,8 +131,12 @@ class OpportunitySearchResultsPresenter < FormPresenter
     message.sub(/^(.+)$/, separator_in + '\\1').html_safe
   end
 
-  def searched_in_html
+  def searched_in_with_html
     searched_in(true)
+  end
+
+  def searched_for_with_html
+    searched_for(true)
   end
 
   def sort_input_select

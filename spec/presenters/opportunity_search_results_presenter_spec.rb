@@ -190,14 +190,18 @@ RSpec.describe OpportunitySearchResultsPresenter do
   describe '#searched_in' do
     it 'Returns plain text message " in [country]"' do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters(true))
+      message = presenter.searched_in(true)
 
       expect(presenter.searched_in).to eql(' in Spain')
+      expect(has_html?(message)).to be_truthy
     end
 
     it 'Returns plain text message " in [country] or [country]"' do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
+      message = presenter.searched_in(true)
 
       expect(presenter.searched_in).to eql(' in Spain or Mexico')
+      expect(has_html?(message)).to be_truthy
     end
 
     it 'Returns HTML markup for message " in [country]"' do
@@ -227,10 +231,10 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
   end
 
-  describe '#searched_in_html' do
+  describe '#searched_in_with_html' do
     it 'Returns HTML markup for message " in [country]"' do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters(true))
-      message = presenter.searched_in_html
+      message = presenter.searched_in_with_html
 
       expect(message).to include(' in ')
       expect(message).to include('Spain')
@@ -239,7 +243,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
     it 'Returns HTML markup for message " in [country] or [country]"' do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
-      message = presenter.searched_in_html
+      message = presenter.searched_in_with_html
 
       expect(message).to include(' in ')
       expect(message).to include('Spain')
