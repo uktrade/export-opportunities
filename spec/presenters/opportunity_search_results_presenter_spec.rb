@@ -187,6 +187,23 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
   end
 
+  describe '#searched_for_with_html' do
+    it 'Returns HTML markup for message " for [search term]"' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { term: 'food' }, search_filters(true))
+      message = presenter.searched_for_with_html
+
+      expect(message).to include(' for ')
+      expect(message).to include('food')
+      expect(has_html?(message)).to be_truthy
+    end
+
+    it 'Returns an empty string when searching without a specified term' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
+
+      expect(presenter.searched_for_with_html).to eql('')
+    end
+  end
+
   describe '#searched_in' do
     it 'Returns plain text message " in [country]"' do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters(true))
