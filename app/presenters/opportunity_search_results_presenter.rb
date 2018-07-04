@@ -59,7 +59,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
     end
   end
 
-  # Returns a <p> tag encased message 
+  # Returns a <p> tag encased message
   def displayed(css_classes = '')
     content_tag(:p, 'class': css_classes) do
       page_entries_info @found, entry_name: 'item'
@@ -108,7 +108,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
     message = ''
     separator_in = ' in '
     list = []
-    if @selected_list.length > 0
+    if @selected_list.length.positive?
       separator_or = ' or '
 
       # If HTML is required, wrap things in tags.
@@ -116,7 +116,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
         separator_in = content_tag('span', separator_in, 'class': 'separator')
         separator_or = content_tag('span', separator_or, 'class': 'separator')
         @selected_list.each_index do |i|
-          list.push(content_tag('span',  @selected_list[i], 'class': 'param'))
+          list.push(content_tag('span', @selected_list[i], 'class': 'param'))
         end
       else
         list = @selected_list
