@@ -270,8 +270,16 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
   end
 
-  describe '#reset_url' do
-    skip("...")
+  describe '#reset_url', type: :request do
+    it 'Returns url and params, without filters, as a string' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
+      params = {"s"=>"food and drink", "sort_column_name"=>"response_due_on", "countries"=>["dominica", "mexico"]}
+      headers = { "CONTENT_TYPE" => "text/html" }
+
+      get opportunities_path, params: params, headers: headers
+      expect(response.status).to eq 200
+      expect(presenter.reset_url(request)).to eql('/opportunities?s=food and drink&sort_column_name=response_due_on')
+    end
   end
 
   describe '#subscription' do
