@@ -221,7 +221,19 @@ RSpec.describe OpportunityPresenter do
   end
 
   describe '#source' do
-    skip 'TODO: ...'
+    it 'Returns true if the source matches passed string' do
+      opportunity = create(:opportunity, source: 1)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.source('volume_opps')).to be_truthy
+    end
+
+    it 'Returns false if the source matches passed string' do
+      opportunity = create(:opportunity, source: 1)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.source('foo')).to be_falsey
+    end
   end
 
   describe '#buyer_details_empty?' do
