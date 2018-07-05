@@ -93,6 +93,8 @@ class OpportunityPresenter < BasePresenter
     links.html_safe
   end
 
+  # Returns link to Government Aid Funded Business guideance, if applicable, or empty string.
+  # @param text (String) visible link text
   def link_to_aid_funded(text)
     link = ''
     if opportunity.types.aid_funded.any?

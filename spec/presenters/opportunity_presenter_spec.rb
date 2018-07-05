@@ -217,7 +217,23 @@ RSpec.describe OpportunityPresenter do
   end
 
   describe '#link_to_aid_funded' do
-    skip 'TODO: ...'
+    it 'Returns HTML link if opportunity.aid_funded is true' do
+      opportunity = create(:opportunity, types: [create(:type, slug: 'aid-funded-business')])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+      link = presenter.link_to_aid_funded('foo')
+
+      expect(link).to include('href') # should mean it is a HTML link markup
+      expect(link).to include('https://www.gov.uk/guidance/aid-funded-business') # should mean it has correct url
+      expect(link).to include('foo') # should mean it injects the passed link text
+    end
+
+    it 'Returns empty string if opportunity.aid_funded is false' do
+      opportunity = create(:opportunity, types: [create(:type)])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+      link = presenter.link_to_aid_funded('foo')
+
+      expect(link).to eql('')
+    end
   end
 
   describe '#source' do
