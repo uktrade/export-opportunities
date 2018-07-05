@@ -184,23 +184,23 @@ RSpec.describe OpportunityPresenter do
     end
 
     it 'return contact name when does not have email' do
-      skip 'Cannot test while contact creation requires email'
-      contact = create(:contact, email: '', name: 'fred')
+      contact = create(:contact)
       opportunity = create(:opportunity, contacts: [contact])
-      opportunity = create(:opportunity)
+
+      # Only likely on third-party Opps??
+      opportunity.contacts.first.name = 'fred' 
+      opportunity.contacts.first.email = ''
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
 
-      expect(presenter.contact).to eq(0)
+      expect(presenter.contact).to eq('fred')
     end
 
     it 'return "Contact unknown" when does not have email or contact name' do
-      skip('Cannot test while contact creation requires email')
-      contact = create(:contact, email: '', name: '')
-      opportunity = create(:opportunity, contacts: [contact])
       opportunity = create(:opportunity)
+      opportunity.contacts = [] # because create adds a default even if we pass an empty Array
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
 
-      expect(presenter.contact).to eq(0)
+      expect(presenter.contact).to eq('Contact unknown')
     end
   end
 

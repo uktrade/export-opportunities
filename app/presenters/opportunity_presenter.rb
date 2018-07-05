@@ -67,11 +67,13 @@ class OpportunityPresenter < BasePresenter
   end
 
   def contact
+    contact = ''
     if opportunity.contacts.length.positive?
-      contact_email || contact_name
-    else
-      'Contact unknown'
+      contact = contact_email
+      contact = contact_name unless contact.present?
     end
+    contact = 'Contact unknown' unless contact.present?
+    contact
   end
 
   def guides_available
