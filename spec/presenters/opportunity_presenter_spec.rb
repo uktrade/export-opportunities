@@ -217,7 +217,13 @@ RSpec.describe OpportunityPresenter do
   end
 
   describe '#link_to_aid_funded' do
-    skip 'TODO: ...'
+    it 'Returns HTML link if opportunity.aid_funded is true' do
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+      link = presenter.link_to_aid_funded('foo')
+
+      expect(link).to include('foo')
+    end
   end
 
   describe '#source' do
