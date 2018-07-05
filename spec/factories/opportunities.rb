@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :opportunity do
     association :author, factory: :editor
     association :service_provider

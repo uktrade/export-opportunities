@@ -6,6 +6,13 @@ GIT
       devise (>= 3.0.0, < 5.0)
       railties (>= 3.2.6, < 6.0)
 
+GIT
+  remote: https://github.com/uktrade/export_components.git
+  revision: adf882b57e9a739c79498d89d17e7a2055ff0209
+  specs:
+    export_components (0.1.0)
+      rails (~> 5.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -146,10 +153,10 @@ GEM
     et-orbi (1.0.9)
       tzinfo
     execjs (2.7.0)
-    factory_girl (4.9.0)
+    factory_bot (4.10.0)
       activesupport (>= 3.0.0)
-    factory_girl_rails (4.9.0)
-      factory_girl (~> 4.9.0)
+    factory_bot_rails (4.10.0)
+      factory_bot (~> 4.10.0)
       railties (>= 3.0.0)
     faker (1.8.7)
       i18n (>= 0.7)
@@ -502,7 +509,8 @@ DEPENDENCIES
   elasticsearch-extensions
   elasticsearch-model
   elasticsearch-rails
-  factory_girl_rails
+  factory_bot_rails
+  export_components (= 0.1.0)!
   faker
   faraday
   faraday_middleware-aws-signers-v4

@@ -10,7 +10,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
     @total = search[:total]
     @sort_by = search[:sort_by]
     @term = search[:term]
-    @selected_list = selected_filter_list
+    @selected_list = selected_filter_list(filters)
     @form_path = opportunities_path
   end
 
@@ -34,6 +34,11 @@ class OpportunitySearchResultsPresenter < FormPresenter
     field
   end
 
+  # Opportunity.title in required format.
+  # Returns...
+  # Unaltered opportunity.title when from Post.
+  # 'Multi Country - [opportunity.title]' when has multiple countries.
+  # '[country] - [opportunity.title]' when has single country.
   def title_with_country(opportunity)
     if opportunity.source == 'post'
       opportunity.title
@@ -48,13 +53,13 @@ class OpportunitySearchResultsPresenter < FormPresenter
   end
 
   # Only show all if there are more than currently viewed
-  # TODO: What is the view all URL?
   def view_all_link(url, css_classes = '')
     if @total > @view_limit
       link_to "View all (#{@total})", url, 'class': css_classes
     end
   end
 
+  # Returns a <p> tag encased message
   def displayed(css_classes = '')
     content_tag(:p, 'class': css_classes) do
       page_entries_info @found, entry_name: 'item'
@@ -71,9 +76,11 @@ class OpportunitySearchResultsPresenter < FormPresenter
     end
   end
 
+  # Returns results information message (with HTML)
+  # e.g. "X results found for [term] in [country] or [country]"
   def information
-    for_message = searched_for(true)
-    in_message = searched_in(true)
+    for_message = searched_for_with_html
+    in_message = searched_in_with_html
     message = found_message(@total)
     message += for_message unless for_message.empty?
     message += in_message unless in_message.empty?
@@ -100,21 +107,23 @@ class OpportunitySearchResultsPresenter < FormPresenter
   def searched_in(with_html = false)
     message = ''
     separator_in = ' in '
-    if @search[:filters].countries.present? || @search[:filters].regions.present?
+    list = []
+    if @selected_list.length.positive?
       separator_or = ' or '
-      filters = selected_filter_list
 
       # If HTML is required, wrap things in tags.
       if with_html
         separator_in = content_tag('span', separator_in, 'class': 'separator')
         separator_or = content_tag('span', separator_or, 'class': 'separator')
-        filters.each_index do |i|
-          filters[i] = content_tag('span', filters[i], 'class': 'param')
+        @selected_list.each_index do |i|
+          list.push(content_tag('span', @selected_list[i], 'class': 'param'))
         end
+      else
+        list = @selected_list
       end
 
       # Make it a string and remove any trailing separator_or
-      message = filters.join(separator_or)
+      message = list.join(separator_or)
       message = message.sub(Regexp.new("(.+)\s" + separator_or + "\s"), '\\1')
     end
 
@@ -122,8 +131,12 @@ class OpportunitySearchResultsPresenter < FormPresenter
     message.sub(/^(.+)$/, separator_in + '\\1').html_safe
   end
 
-  def searched_in_html
+  def searched_in_with_html
     searched_in(true)
+  end
+
+  def searched_for_with_html
+    searched_for(true)
   end
 
   def sort_input_select
@@ -152,9 +165,9 @@ class OpportunitySearchResultsPresenter < FormPresenter
   # Actual data for each filter is an array, with
   # the first element being a symbol and the second
   # (e.g. filter[1]) being the object we want.
-  def selected_filter_list
+  def selected_filter_list(filters = [])
     selected = []
-    @filters.each do |filter|
+    filters.each do |filter|
       next unless filter[1].key?(:selected) && filter[1][:selected].length.positive?
       filter[1][:options].each do |option|
         if filter[1][:selected].include? option[:slug]

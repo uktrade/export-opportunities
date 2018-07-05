@@ -7,6 +7,17 @@ class PagePresenter < BasePresenter
     add_breadcrumb_current(content['breadcrumb_current']) unless content.nil?
   end
 
+  # Injects values into a formatted string
+  #
+  # e.g. Returns string "something goes here and there"
+  # when
+  # str = "something [$any_name] here and [$another_string]"
+  # and
+  # includes = ["goes", "there"]
+  #
+  # The identifiers any_name and another_string are irrelevant
+  # and only need be used to help understand what content will
+  # be injected.
   def content_with_inclusion(key, includes)
     str = @content[key] || ''
     includes.each do |include|

@@ -3,7 +3,7 @@ module ControllerMacros
   def login_editor(role: :user)
     before(:each) do
       @request.env['devise.mapping'] = Devise.mappings[:editor]
-      editor = FactoryGirl.create(role)
+      editor = FactoryBot.create(role)
       editor.confirm
       sign_in editor
     end

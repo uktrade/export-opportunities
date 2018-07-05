@@ -21,7 +21,7 @@
   classes.SelectiveLookup = SelectiveLookup;
   function SelectiveLookup($input, service, options) {
     var instance = this;
-    var popupId = utils.generateUniqueStr();
+    var popupId = utils.generateUniqueStr("_");
 
     // Configure options.
     var opts = $.extend({

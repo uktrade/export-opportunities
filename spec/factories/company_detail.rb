@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :company_detail do
     name { Faker::Company.name }
     number { Faker::Number.number(8).to_s }

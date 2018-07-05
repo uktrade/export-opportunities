@@ -27,7 +27,8 @@ RSpec.describe VolumeOppsValidator do
       expect(result).to eq true
     end
 
-    it 'returns false if opportunity doesnt have a published date' do
+    it 'returns false if opportunity doesnt have a VO published date' do
+      skip('TODO: introduce VO_published_date field that would be populated instead of first_published_at')
       @opportunity_params[:first_published_at] = nil
       result = VolumeOppsValidator.new.validate_each(@opportunity_params)
       expect(result).to eq false
@@ -58,13 +59,13 @@ RSpec.describe VolumeOppsValidator do
       expect(result).to eq false
     end
 
-    it 'substitutes contact points details with default values if they dont exist' do
+    it 'does not substitute contact points details with default values if they dont exist' do
       first_contact = @opportunity_params[:contacts_attributes][0]
       first_contact[:name] = nil
       first_contact[:email] = nil
       result = VolumeOppsValidator.new.validate_each(@opportunity_params)
-      expect(@opportunity_params[:contacts_attributes][0][:name]).to eq 'Export Opportunities Team'
-      expect(@opportunity_params[:contacts_attributes][0][:email]).to eq 'exportopportunities@trade.gov.uk'
+      expect(@opportunity_params[:contacts_attributes][0][:name]).to eq nil
+      expect(@opportunity_params[:contacts_attributes][0][:email]).to eq nil
       expect(result).to eq true
     end
 

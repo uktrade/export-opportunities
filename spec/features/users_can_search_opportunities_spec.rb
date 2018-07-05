@@ -6,7 +6,7 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     create(:opportunity, status: 'publish', title: 'Boring opportunity')
 
     sleep 1
-    visit poc_opportunities_path
+    visit opportunities_path
 
     expect(page).to have_content('2 results found')
 
@@ -24,7 +24,7 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     create(:opportunity, status: 'publish', title: 'Childrens opportunity')
 
     sleep 1
-    visit poc_opportunities_path
+    visit opportunities_path
 
     expect(page).to have_content('2 results found')
 
@@ -42,7 +42,7 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     create(:opportunity, status: 'publish', title: 'Award-winning jam and marmalade required')
 
     sleep 1
-    visit poc_opportunities_path
+    visit opportunities_path
 
     within '.search' do
       fill_in 's', with: 'fishing'
@@ -57,7 +57,7 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     opportunity = create(:opportunity, status: 'publish', title: 'France requires back bacon')
 
     sleep 1
-    visit poc_opportunities_path
+    visit opportunities_path
 
     within '.search' do
       fill_in 's', with: 'bacon'

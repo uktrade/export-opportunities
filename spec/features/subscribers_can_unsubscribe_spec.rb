@@ -27,21 +27,6 @@ feature 'subscribers can unsubscribe' do
     expect(subscription.unsubscribed_at).to be_between(DateTime.current - 1.hour, DateTime.current)
   end
 
-  scenario 'providing a reason' do
-    user = create(:user)
-    mock_sso_with(email: user.email)
-    subscription = create(:subscription, user: user, id: '8e5528f7-0c23-4ede-a491-44af02171591')
-    visit '/subscriptions/unsubscribe/8e5528f7-0c23-4ede-a491-44af02171591'
-
-    click_button('I no longer want these emails')
-
-    expect(page.status_code).to eq(202)
-    expect(page).to have_content('Thank you for explaining')
-
-    subscription.reload
-    expect(subscription).to be_not_wanted
-  end
-
   scenario 'unsubscribes a subscription from an old email' do
     user = create(:user)
     mock_sso_with(email: user.email)

@@ -6,14 +6,17 @@ class EnquiriesController < ApplicationController
 
   def new
     @opportunity = Opportunity.published.find_by!(slug: params[:slug])
-    redirect_to opportunity_path(@opportunity) if @opportunity.expired?
-
     @enquiry = if enquiry_current_user
                  Enquiry.initialize_from_existing(enquiry_current_user.enquiries.last)
                else
                  Enquiry.new
                end
-    render layout: 'enquiries'
+
+    if @opportunity.expired?
+      redirect_to opportunity_path(@opportunity)
+    else
+      render layout: 'enquiries'
+    end
   end
 
   def create
@@ -23,12 +26,11 @@ class EnquiriesController < ApplicationController
 
     if @enquiry.save && !@enquiry.opportunity.nil?
       EnquiryMailer.send_enquiry(@enquiry).deliver_later!
+      render layout: 'notification'
     else
       flash.now[:error] = @enquiry.errors.full_messages.join(', ')
       render :new
     end
-
-    render layout: 'notification'
   end
 
   private def enquiry_params

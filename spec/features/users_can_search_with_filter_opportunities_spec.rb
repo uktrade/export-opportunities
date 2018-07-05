@@ -7,7 +7,7 @@ feature 'Searching opportunities with filter', elasticsearch: true do
     opportunity_with_market = create(:opportunity, :published, countries: [country])
 
     sleep 1
-    visit poc_opportunities_path
+    visit opportunities_path
 
     # select Western Europe region
     page.find("#regions_15").click
