@@ -136,10 +136,10 @@
             = link_to 'Go to third party website', opportunity.tender_url, class: 'button', target: :_blank
 
           - elsif opportunity.source('post')
-            = link_to 'Submit your proposal', opportunity.new_enquiry_path, class: 'button'
+            = link_to 'Submit your proposal', new_enquiry_path(@opportunity.slug), class: 'button'
 
           - else
             %h2 Contact the buyer
             %p If you meet the requirements contact the buyer.
             %p You will be notified if you are right for this opportunity. You can only apply if you are a UK registered companny.
-            = link_to 'Contact buyer', opportunity.new_enquiry_path, class: 'button'
+            = link_to 'Contact buyer', new_enquiry_path(@opportunity.slug), class: 'button'

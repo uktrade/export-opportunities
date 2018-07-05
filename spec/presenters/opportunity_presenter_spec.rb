@@ -212,10 +212,6 @@ RSpec.describe OpportunityPresenter do
     skip 'TODO: ...'
   end
 
-  describe '#new_enquiry_path' do
-    skip 'TODO: ...'
-  end
-
   describe '#industry_links' do
     skip 'TODO: ...'
   end

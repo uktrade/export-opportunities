@@ -82,10 +82,6 @@ class OpportunityPresenter < BasePresenter
     opportunity.countries.with_exporting_guide
   end
 
-  def new_enquiry_path
-    h.new_enquiry_path(slug: opportunity.slug)
-  end
-
   def industry_links
     links = ''
     opportunity.sectors.each_with_index do |sector, index|
