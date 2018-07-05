@@ -214,12 +214,12 @@ class FormPresenter < BasePresenter
     value
   end
 
-  # Get form field content
+  # Returns form field content or empty hash
   def field_content(name)
+    field = {}
     if @fields.key?(name) || @fields.key?(name.to_sym)
-      @fields[name]
-    else
-      {}
+      field = @fields[name] || field
     end
+    field
   end
 end

@@ -41,7 +41,7 @@
         - if results.selected_list.length > 0
           .selected-filters
             %h4= results.content['title_filters_selected']
-            %p= results.searched_in_html
+            %p= results.searched_in_with_html
             = link_to "Clear all filters", results.reset_url(request), { :class=>"reset" }
         = render partial: "forms/input_checkbox_group", locals: { group: results.input_checkbox_group('regions') }
         = render partial: "forms/input_checkbox_group", locals: { group: results.input_checkbox_group('countries') }
