@@ -1,18 +1,64 @@
-require 'hawk'
+require 'Base64'
+require 'digest'
 require 'json'
+require 'openssl'
 
 module Api
   class ActivityStreamController < ApplicationController
+    def authenticate(
+      authorization_header:,
+      method:, request_uri:, host:, port:,
+      content_type:, payload:,
+      credentials_lookup:, nonce_lookup:
+    )
+      parsed_header_array = authorization_header.scan(/([a-z]+)="([^"]+)"/)
+      parsed_header = parsed_header_array.each_with_object({}) do |key_val, memo|
+        memo[key_val[0].to_sym] = key_val[1]
+      end
+
+      id_is_correct = credentials_lookup.call(parsed_header[:id])
+      return { message: 'Unidentified id' } unless id_is_correct
+
+      canonical_payload = 'hawk.1.payload'  + "\n" +
+                          content_type.to_s + "\n" +
+                          payload.to_s      + "\n"
+      correct_payload_hash = Digest::SHA256.base64digest canonical_payload
+
+      canonical_request = 'hawk.1.header'       + "\n" +
+                          parsed_header[:ts]    + "\n" +
+                          parsed_header[:nonce] + "\n" +
+                          method                + "\n" +
+                          request_uri           + "\n" +
+                          host                  + "\n" +
+                          port                  + "\n" +
+                          correct_payload_hash  + "\n" + "\n"
+      correct_mac = Base64.encode64(
+        OpenSSL::HMAC.digest(
+          OpenSSL::Digest.new('sha256'), correct_credentials[:key], canonical_request
+        )
+      ).strip
+      return { message: 'Invalid hash' }  unless secure_compare(correct_payload_hash, parsed_header[:hash])
+      return { message: 'Stale ts' }      unless (Time.now.getutc.to_i - parsed_header[:ts].to_i).abs <= 60
+      return { message: 'Invalid mac' }   unless secure_compare(correct_mac, parsed_header[:mac])
+      return { message: 'Invalid nonce' } unless nonce_lookup.call(parsed_header[:nonce])
+
+      correct_credentials
+    end
+
+    def secure_compare(a, b)
+      ActiveSupport::SecurityUtils.variable_size_secure_compare(a, b)
+    end
+
     def check_and_save_nonce(nonce)
       redis = Redis.new(url: Figaro.env.redis_url)
       key = 'activity-stream-nonce-' + nonce
       key_used = redis.get(key)
       if key_used
-        true
+        false
       else
         redis.set(key, true)
         redis.expire(key, 120)
-        false
+        true
       end
     end
 
@@ -25,7 +71,7 @@ module Api
     end
 
     def credentials_lookup(id)
-      ActiveSupport::SecurityUtils.variable_size_secure_compare(id, correct_credentials[:id]) ? correct_credentials : nil
+      secure_compare(id, correct_credentials[:id]) ? correct_credentials : nil
     end
 
     def respond_401(message)
@@ -66,8 +112,8 @@ module Api
       end
 
       # Ensure Authorization header is correct
-      res = Hawk::Server.authenticate(
-        request.headers['Authorization'],
+      res = authenticate(
+        authorization_header: request.headers['Authorization'],
         method: request.method,
         request_uri: request.original_fullpath,
         host: request.host,
@@ -78,7 +124,7 @@ module Api
         nonce_lookup: method(:check_and_save_nonce)
       )
       if res != correct_credentials
-        respond_401 res.message
+        respond_401 res[:message]
         return
       end
 
