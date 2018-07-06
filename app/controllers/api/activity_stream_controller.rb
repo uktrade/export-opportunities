@@ -9,15 +9,14 @@ module Api
       authorization_header:,
       method:, request_uri:, host:, port:,
       content_type:, payload:,
-      credentials_lookup:, nonce_lookup:
+      is_id_correct:, nonce_lookup:
     )
       parsed_header_array = authorization_header.scan(/([a-z]+)="([^"]+)"/)
       parsed_header = parsed_header_array.each_with_object({}) do |key_val, memo|
         memo[key_val[0].to_sym] = key_val[1]
       end
 
-      id_is_correct = credentials_lookup.call(parsed_header[:id])
-      return { message: 'Unidentified id' } unless id_is_correct
+      return { message: 'Unidentified id' } unless is_id_correct.call(parsed_header[:id])
 
       canonical_payload = 'hawk.1.payload'  + "\n" +
                           content_type.to_s + "\n" +
@@ -70,7 +69,7 @@ module Api
       }
     end
 
-    def credentials_lookup(id)
+    def id_correct?(id)
       secure_compare(id, correct_credentials[:id]) ? correct_credentials : nil
     end
 
@@ -120,7 +119,7 @@ module Api
         port: '443',
         content_type: request.headers['Content-Type'],
         payload: request.body.read,
-        credentials_lookup: method(:credentials_lookup),
+        is_id_correct: method(:id_correct?),
         nonce_lookup: method(:check_and_save_nonce)
       )
       if res != correct_credentials
