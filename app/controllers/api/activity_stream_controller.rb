@@ -17,6 +17,7 @@ module Api
       end
 
       return { message: 'Missing ts' }      unless parsed_header.key? :ts
+      return { message: 'Invalid ts' }      unless /\d+/.match?(parsed_header[:ts])
       return { message: 'Missing hash' }    unless parsed_header.key? :hash
       return { message: 'Missing mac' }     unless parsed_header.key? :mac
       return { message: 'Missing nonce' }   unless parsed_header.key? :nonce

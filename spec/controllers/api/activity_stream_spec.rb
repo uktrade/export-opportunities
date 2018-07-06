@@ -54,6 +54,14 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(response.body).to include("Missing ts")
     end
 
+    it 'responds with a 401 if Authorization header has non integer ts' do
+      @request.headers['Authorization'] = 'Hawk ts="a" mac="a" hash="b" nonce="c"'
+      get :index, params: { format: :json }
+
+      expect(response.status).to eq(401)
+      expect(response.body).to include("Invalid ts")
+    end
+
     it 'responds with a 401 if Authorization header misses mac' do
       @request.headers['Authorization'] = 'Hawk ts="1", hash="b", nonce="c"'
       get :index, params: { format: :json }
