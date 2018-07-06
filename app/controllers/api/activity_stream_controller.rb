@@ -25,7 +25,7 @@ module Api
     end
 
     def credentials_lookup(id)
-      id == correct_credentials[:id] ? correct_credentials : nil
+      ActiveSupport::SecurityUtils.variable_size_secure_compare(id, correct_credentials[:id]) ? correct_credentials : nil
     end
 
     def respond_401(message)
