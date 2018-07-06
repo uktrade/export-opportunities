@@ -43,7 +43,7 @@ module Api
       return { message: 'Invalid hash' }  unless secure_compare(correct_payload_hash, parsed_header[:hash])
       return { message: 'Stale ts' }      unless (Time.now.getutc.to_i - parsed_header[:ts].to_i).abs <= 60
       return { message: 'Invalid mac' }   unless secure_compare(correct_mac, parsed_header[:mac])
-      return { message: 'Invalid nonce' } unless is_nonce_available.call(parsed_header[:nonce])
+      return { message: 'Invalid nonce' } unless is_nonce_available.call(parsed_header[:nonce], parsed_header[:id])
 
       correct_credentials
     end
@@ -52,13 +52,11 @@ module Api
       ActiveSupport::SecurityUtils.variable_size_secure_compare(a, b)
     end
 
-    def nonce_available?(nonce)
+    def nonce_available?(nonce, id)
       redis = Redis.new(url: Figaro.env.redis_url)
-      key = 'activity-stream-nonce-' + nonce
-      key_set = redis.setnx(key, nonce)
-      if key_set
-        redis.expire(key, 120)
-      end
+      key = "activity-stream-nonce-#{nonce}-#{id}"
+      key_set = redis.setnx(key, true)
+      redis.expire(key, 120) if key_set
       key_set
     end
 
