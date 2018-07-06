@@ -77,7 +77,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#displayed' do
-    it 'Returns a <p> element containing information about results displayed' do
+    it 'Returns a HTML dontaining information about results displayed' do
       create(:opportunity, :published, { title: 'food' })
       query = Opportunity.public_search(
         search_term: 'food',
@@ -86,10 +86,10 @@ RSpec.describe OpportunitySearchResultsPresenter do
       )
 
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, { results: query.results }, {})
-    
-      expect(presenter.displayed).to start_with('<p')
+      message = presenter.displayed
 
-      expect(presenter.displayed).to include('Displaying <b>1</b> item')
+      expect(presenter.displayed).to include('Displaying ')
+      expect(has_html?(message)).to be_truthy
     end
 
     it 'Adds a class name when passed' do
