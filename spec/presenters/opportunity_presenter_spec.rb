@@ -209,7 +209,34 @@ RSpec.describe OpportunityPresenter do
   end
 
   describe '#country_guides' do
-    skip 'TODO: ...'
+    it 'Returns an empty Array when there are no country guides' do
+      opportunity = create(:opportunity, countries: create_list(:country, 3))
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.country_guides).to eql([])
+    end
+
+    it 'Returns a list of country guide links' do
+      countries = create_list(:country, 3, exporting_guide_path: "/file/#{Faker::Lorem.word}")
+      opportunity = create(:opportunity, countries: countries)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+      links = presenter.country_guides
+
+      expect(links.length).to eql(3)
+      expect(links[0]).to include('href=')
+      expect(links[0]).to include('/file/')
+    end
+
+    it 'Returns a single "Country guides" link when has more than 5 country guides' do
+      countries = create_list(:country, 6, exporting_guide_path: "/file/#{Faker::Lorem.word}")
+      opportunity = create(:opportunity, countries: countries)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+      links = presenter.country_guides
+
+      expect(links.length).to eql(1)
+      expect(links[0]).to include('href=')
+      expect(links[0]).to include('Country guides')
+    end
   end
 
   describe '#industry_links' do

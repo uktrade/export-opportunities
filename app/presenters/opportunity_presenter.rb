@@ -81,7 +81,17 @@ class OpportunityPresenter < BasePresenter
   end
 
   def country_guides
-    opportunity.countries.with_exporting_guide
+    guides = opportunity.countries.with_exporting_guide
+    links = []
+    if guides.length > 5
+      links.push(h.link_to "Country guides", "https://www.gov.uk/government/collections/exporting-country-guides", target: "_blank")
+    else
+      guides.each do |country|
+        link = link_to country.name, "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank'
+        links.push(link.html_safe)
+      end
+    end
+    links
   end
 
   def industry_links
