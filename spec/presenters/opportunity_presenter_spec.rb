@@ -213,7 +213,31 @@ RSpec.describe OpportunityPresenter do
   end
 
   describe '#industry_links' do
-    skip 'TODO: ...'
+    it 'Returns a relevant link to when has an industry' do
+      opportunity = create(:opportunity, sectors: [create(:sector, name: 'this is a sector name')])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+      links = presenter.industry_links
+
+      expect(links).to include('href=') # should mean it is an html link
+      expect(links).to include('this is a sector name')
+    end
+
+    it 'Returns multipls links when has more than one industry' do
+      opportunity = create(:opportunity, sectors: [create(:sector, name: 'sector_1'), create(:sector, name: 'sector_2')])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+      links = presenter.industry_links
+
+      expect(links).to include('href=') # should mean it is an html link
+      expect(links).to include('sector_1')
+      expect(links).to include('sector_2')
+    end
+
+    it 'Returns an empty string when has no industries' do
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.industry_links).to eql('')
+    end
   end
 
   describe '#link_to_aid_funded' do
