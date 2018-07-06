@@ -55,14 +55,11 @@ module Api
     def nonce_available?(nonce)
       redis = Redis.new(url: Figaro.env.redis_url)
       key = 'activity-stream-nonce-' + nonce
-      key_used = redis.get(key)
-      if key_used
-        false
-      else
-        redis.set(key, true)
+      key_set = redis.setnx(key, nonce)
+      if key_set
         redis.expire(key, 120)
-        true
       end
+      key_set
     end
 
     def correct_credentials
