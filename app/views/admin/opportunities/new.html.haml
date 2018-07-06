@@ -1,12 +1,4 @@
 %h1.heading-large= t('admin.opportunity.create_new')
 %p.lede Use this form to tell UK companies about an opportunity to do business in your market
 
-%p.message.message-warning 
-	%b
-		November 2017 update:
-	%b
-	The guidance has changed. Please
-	= link_to 'read the updated guidance', '/admin/help/how_to_write_an_export_opportunity/overview', target: 'guidance'
-	before creating any opportunities.
-
 = render 'form', opportunity: @opportunity
