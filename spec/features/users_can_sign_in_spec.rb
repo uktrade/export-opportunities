@@ -42,8 +42,8 @@ feature 'Signing in as a user', :elasticsearch do
     visit '/dashboard'
 
     expect(page).to have_flash_message 'You are now signed in'
-
-    click_link 'Sign out'
+    
+    visit '/sign_out'
 
     expect(page).to have_no_link 'Sign out'
   end

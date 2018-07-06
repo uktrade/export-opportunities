@@ -11,6 +11,7 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction
+    es_delete_all
   end
 
   config.before(:each, js: true) do
@@ -42,5 +43,11 @@ RSpec.configure do |config|
       # specs, so use truncation strategy.
       DatabaseCleaner.strategy = :truncation
     end
+  end
+
+  private def es_delete_all
+    Opportunity.__elasticsearch__.refresh_index!
+    # we don't need to refresh indexes for subscriptions yet
+    # Subscription.__elasticsearch__.refresh_index!
   end
 end

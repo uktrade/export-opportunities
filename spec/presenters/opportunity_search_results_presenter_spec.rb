@@ -88,7 +88,8 @@ RSpec.describe OpportunitySearchResultsPresenter do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, { results: query.results }, {})
     
       expect(presenter.displayed).to start_with('<p')
-      expect(presenter.displayed).to include('Displaying items')
+
+      expect(presenter.displayed).to include('Displaying <b>1</b> item')
     end
 
     it 'Adds a class name when passed' do
