@@ -9,7 +9,7 @@ module Api
       authorization_header:,
       method:, request_uri:, host:, port:,
       content_type:, payload:,
-      is_id_correct:, nonce_lookup:
+      is_id_correct:, is_nonce_available:
     )
       parsed_header_array = authorization_header.scan(/([a-z]+)="([^"]+)"/)
       parsed_header = parsed_header_array.each_with_object({}) do |key_val, memo|
@@ -39,7 +39,7 @@ module Api
       return { message: 'Invalid hash' }  unless secure_compare(correct_payload_hash, parsed_header[:hash])
       return { message: 'Stale ts' }      unless (Time.now.getutc.to_i - parsed_header[:ts].to_i).abs <= 60
       return { message: 'Invalid mac' }   unless secure_compare(correct_mac, parsed_header[:mac])
-      return { message: 'Invalid nonce' } unless nonce_lookup.call(parsed_header[:nonce])
+      return { message: 'Invalid nonce' } unless is_nonce_available.call(parsed_header[:nonce])
 
       correct_credentials
     end
@@ -48,7 +48,7 @@ module Api
       ActiveSupport::SecurityUtils.variable_size_secure_compare(a, b)
     end
 
-    def check_and_save_nonce(nonce)
+    def nonce_available?(nonce)
       redis = Redis.new(url: Figaro.env.redis_url)
       key = 'activity-stream-nonce-' + nonce
       key_used = redis.get(key)
@@ -120,7 +120,7 @@ module Api
         content_type: request.headers['Content-Type'],
         payload: request.body.read,
         is_id_correct: method(:id_correct?),
-        nonce_lookup: method(:check_and_save_nonce)
+        is_nonce_available: method(:nonce_available?)
       )
       if res != correct_credentials
         respond_401 res[:message]
