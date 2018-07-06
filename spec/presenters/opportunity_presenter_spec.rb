@@ -205,7 +205,7 @@ RSpec.describe OpportunityPresenter do
   end
 
   describe '#guides_available' do
-    skip 'TODO: ...'
+    skip 'TODO: On hold due to related work required for JIRA#XOT-271'
   end
 
   describe '#country_guides' do
