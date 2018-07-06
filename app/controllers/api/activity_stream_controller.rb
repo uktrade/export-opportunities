@@ -16,6 +16,10 @@ module Api
         memo[key_val[0].to_sym] = key_val[1]
       end
 
+      return { message: 'Missing ts' }      unless parsed_header.key? :ts
+      return { message: 'Missing hash' }    unless parsed_header.key? :hash
+      return { message: 'Missing mac' }     unless parsed_header.key? :mac
+      return { message: 'Missing nonce' }   unless parsed_header.key? :nonce
       return { message: 'Unidentified id' } unless is_id_correct.call(parsed_header[:id])
 
       canonical_payload = 'hawk.1.payload'  + "\n" +

@@ -46,6 +46,38 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(response.body).to eq(%({"message":"Stale ts"}))
     end
 
+    it 'responds with a 401 if Authorization header misses ts' do
+      @request.headers['Authorization'] = 'Hawk mac="a", hash="b", nonce="c"'
+      get :index, params: { format: :json }
+
+      expect(response.status).to eq(401)
+      expect(response.body).to include("Missing ts")
+    end
+
+    it 'responds with a 401 if Authorization header misses mac' do
+      @request.headers['Authorization'] = 'Hawk ts="1", hash="b", nonce="c"'
+      get :index, params: { format: :json }
+
+      expect(response.status).to eq(401)
+      expect(response.body).to include("Missing mac")
+    end
+
+    it 'responds with a 401 if Authorization header misses hash' do
+      @request.headers['Authorization'] = 'Hawk ts="1", mac="a", nonce="c"'
+      get :index, params: { format: :json }
+
+      expect(response.status).to eq(401)
+      expect(response.body).to include("Missing hash")
+    end
+
+    it 'responds with a 401 if Authorization header misses nonce' do
+      @request.headers['Authorization'] = 'Hawk ts="1", mac="a"'
+      get :index, params: { format: :json }
+
+      expect(response.status).to eq(401)
+      expect(response.body).to include("Missing hash")
+    end
+
     it 'responds with a 401 if Authorization header uses incorrect key ID' do
       @request.headers['Authorization'] = auth_header(
         Time.now.getutc.to_i,
