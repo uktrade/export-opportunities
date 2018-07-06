@@ -69,11 +69,15 @@ class OpportunityPresenter < BasePresenter
   def contact
     contact = ''
     if opportunity.contacts.length.positive?
-      contact = contact_email
-      contact = contact_name unless contact.present?
+      contact = if contact_email.blank?
+                  contact_name
+                else
+                  contact_email
+                end
     end
-    contact = 'Contact unknown' unless contact.present?
-    contact
+
+    # Final check to make sure it is not still blank.
+    contact.blank? ? 'Contact unknown' : contact
   end
 
   def guides_available
@@ -84,7 +88,7 @@ class OpportunityPresenter < BasePresenter
     guides = opportunity.countries.with_exporting_guide
     links = []
     if guides.length > 5
-      links.push(h.link_to "Country guides", "https://www.gov.uk/government/collections/exporting-country-guides", target: "_blank")
+      links.push(h.link_to('Country guides', 'https://www.gov.uk/government/collections/exporting-country-guides', target: '_blank'))
     else
       guides.each do |country|
         link = link_to country.name, "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank'
