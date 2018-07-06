@@ -204,7 +204,7 @@ class OpportunitiesController < ApplicationController
       limit: per_page,
       term: @search_term,
       sort_by: @sort_column_name,
-      subscription: subscription_form,
+      subscription: subscription_form(filters_with_mapped_regions)
     }
   end
 
@@ -232,7 +232,7 @@ class OpportunitiesController < ApplicationController
       limit: per_page,
       term: @search_term,
       sort_by: @sort_column_name,
-      subscription: subscription_form,
+      subscription: subscription_form(filters_with_mapped_regions),
     }
   end
 
@@ -332,14 +332,14 @@ class OpportunitiesController < ApplicationController
     Sector.where(id: Figaro.env.GREAT_FEATURED_INDUSTRIES.split(',').map(&:to_i).to_a)
   end
 
-  private def subscription_form
+  private def subscription_form(filters)
     SubscriptionForm.new(
       query: {
         search_term: @search_term,
-        sectors: @filters.sectors,
-        types: @filters.types,
-        countries: @filters.countries,
-        values: @filters.values,
+        sectors: filters.sectors,
+        types: filters.types,
+        countries: filters.countries,
+        values: filters.values,
       }
     )
   end
