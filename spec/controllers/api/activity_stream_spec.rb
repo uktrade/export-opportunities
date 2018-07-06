@@ -2,7 +2,7 @@ require 'hawk'
 require 'rails_helper'
 require 'socket'
 
-def auth_header(ts, key_id, secret_key)
+def auth_header(ts, key_id, secret_key, payload)
   credentials = {
     id: key_id,
     key: secret_key,
@@ -16,7 +16,7 @@ def auth_header(ts, key_id, secret_key)
     host: 'test.host',
     port: '443',
     content_type: '',
-    payload: '',
+    payload: payload,
   )
 end
 
@@ -38,6 +38,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i - 61,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '',
       )
       get :index, params: { format: :json }
 
@@ -50,6 +51,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID + 'something-incorrect',
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '',
       )
       get :index, params: { format: :json }
 
@@ -62,6 +64,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY + 'something-incorrect',
+        '',
       )
       get :index, params: { format: :json }
 
@@ -69,11 +72,25 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(response.body).to include("Invalid mac")
     end
 
+    it 'responds with a 401 if Authorization header uses incorrect payload' do
+      @request.headers['Authorization'] = auth_header(
+        Time.now.getutc.to_i,
+        Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+        Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        'something-incorrect',
+      )
+      get :index, params: { format: :json }
+
+      expect(response.status).to eq(401)
+      expect(response.body).to include("Invalid hash")
+    end
+
     it 'responds with a 401 if header is reused' do
       @request.headers['Authorization'] = auth_header(
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '',
       )
       get :index, params: { format: :json }
 
@@ -95,6 +112,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '',
       )
       begin
         get :index, params: { format: :json }
@@ -108,6 +126,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '',
       )
       get :index, params: { format: :json }
 
