@@ -64,6 +64,11 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Invalid header"}))
 
+      @request.headers['Authorization'] = 'Hawk, b="a", c="d"'  # Should not have comma after Hawk
+      get :index, params: { format: :json }
+      expect(response.status).to eq(401)
+      expect(response.body).to eq(%({"message":"Invalid header"}))
+
       @request.headers['Authorization'] = 'Hawk b="a",c="d"'  # Should have space after comma
       get :index, params: { format: :json }
       expect(response.status).to eq(401)
@@ -76,6 +81,61 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
 
       @request.headers['Authorization'] = 'Hawk B="a"'  # Keys must be lower case
       get :index, params: { format: :json }
+      expect(response.status).to eq(401)
+      expect(response.body).to eq(%({"message":"Invalid header"}))
+
+      @request.headers['Authorization'] = auth_header(
+        Time.now.getutc.to_i,
+        Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+        Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '',
+      ).sub('Hawk ', 'AWS ')
+      get :index, params: { format: :json }
+
+      expect(response.status).to eq(401)
+      expect(response.body).to eq(%({"message":"Invalid header"}))
+
+      @request.headers['Authorization'] = auth_header(
+        Time.now.getutc.to_i,
+        Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+        Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '',
+      ).sub('Hawk ', ' Hawk ')  # Should not have leading space
+      get :index, params: { format: :json }
+
+      expect(response.status).to eq(401)
+      expect(response.body).to eq(%({"message":"Invalid header"}))
+
+      @request.headers['Authorization'] = auth_header(
+        Time.now.getutc.to_i,
+        Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+        Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '',
+      ).sub('Hawk ', '')
+      get :index, params: { format: :json }
+
+      expect(response.status).to eq(401)
+      expect(response.body).to eq(%({"message":"Invalid header"}))
+
+      @request.headers['Authorization'] = auth_header(
+        Time.now.getutc.to_i,
+        Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+        Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '',
+      ).sub('Hawk ', ', ')
+      get :index, params: { format: :json }
+
+      expect(response.status).to eq(401)
+      expect(response.body).to eq(%({"message":"Invalid header"}))
+
+      @request.headers['Authorization'] = auth_header(
+        Time.now.getutc.to_i,
+        Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+        Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '',
+      ).sub('Hawk ', '", ')
+      get :index, params: { format: :json }
+
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Invalid header"}))
     end
