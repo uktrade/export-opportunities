@@ -62,8 +62,24 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(response.body).to include("Invalid ts")
     end
 
+    it 'responds with a 401 if Authorization header has empty ts' do
+      @request.headers['Authorization'] = 'Hawk ts="", mac="a", hash="b", nonce="c", id="d"'
+      get :index, params: { format: :json }
+
+      expect(response.status).to eq(401)
+      expect(response.body).to include("Missing ts")
+    end
+
     it 'responds with a 401 if Authorization header misses mac' do
       @request.headers['Authorization'] = 'Hawk ts="1", hash="b", nonce="c", id="d"'
+      get :index, params: { format: :json }
+
+      expect(response.status).to eq(401)
+      expect(response.body).to include("Missing mac")
+    end
+
+    it 'responds with a 401 if Authorization header has empty mac' do
+      @request.headers['Authorization'] = 'Hawk ts="1", mac="", hash="b", nonce="c", id="d"'
       get :index, params: { format: :json }
 
       expect(response.status).to eq(401)
@@ -78,6 +94,14 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(response.body).to include("Missing hash")
     end
 
+    it 'responds with a 401 if Authorization header has empty hash' do
+      @request.headers['Authorization'] = 'Hawk ts="1", mac="a", hash="", nonce="c", id="d"'
+      get :index, params: { format: :json }
+
+      expect(response.status).to eq(401)
+      expect(response.body).to include("Missing hash")
+    end
+
     it 'responds with a 401 if Authorization header misses nonce' do
       @request.headers['Authorization'] = 'Hawk ts="1", mac="a", id="d"'
       get :index, params: { format: :json }
@@ -86,8 +110,24 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(response.body).to include("Missing hash")
     end
 
+    it 'responds with a 401 if Authorization header has empty nonce' do
+      @request.headers['Authorization'] = 'Hawk ts="1", mac="a", nonce="", id="d"'
+      get :index, params: { format: :json }
+
+      expect(response.status).to eq(401)
+      expect(response.body).to include("Missing hash")
+    end
+
     it 'responds with a 401 if Authorization header misses id' do
       @request.headers['Authorization'] = 'Hawk ts="1", mac="a", hash="b", nonce="c"'
+      get :index, params: { format: :json }
+
+      expect(response.status).to eq(401)
+      expect(response.body).to include("Missing id")
+    end
+
+    it 'responds with a 401 if Authorization header has empty id' do
+      @request.headers['Authorization'] = 'Hawk ts="1", mac="a", hash="b", nonce="c", id=""'
       get :index, params: { format: :json }
 
       expect(response.status).to eq(401)
