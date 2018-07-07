@@ -21,7 +21,7 @@ module Api
       return { message: 'Missing mac' }     unless parsed_header.key? :mac
       return { message: 'Missing nonce' }   unless parsed_header.key? :nonce
       return { message: 'Missing id' }      unless parsed_header.key? :id
-      return { message: 'Unidentified id' } unless id_correct?(parsed_header[:id])
+      return { message: 'Unidentified id' } unless secure_compare(correct_credentials[:id], parsed_header[:id])
 
       canonical_payload = 'hawk.1.payload'  + "\n" +
                           content_type.to_s + "\n" +
@@ -67,10 +67,6 @@ module Api
         key: Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
         algorithm: 'sha256',
       }
-    end
-
-    def id_correct?(id)
-      secure_compare(id, correct_credentials[:id])
     end
 
     def respond_401(message)
