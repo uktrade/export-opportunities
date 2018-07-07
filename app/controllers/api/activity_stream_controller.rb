@@ -8,8 +8,7 @@ module Api
     def authenticate(
       authorization_header:,
       method:, request_uri:, host:, port:,
-      content_type:, payload:,
-      is_id_correct:, is_nonce_available:
+      content_type:, payload:
     )
       parsed_header_array = authorization_header.scan(/([a-z]+)="([^"]+)"/)
       parsed_header = parsed_header_array.each_with_object({}) do |key_val, memo|
@@ -21,7 +20,7 @@ module Api
       return { message: 'Missing hash' }    unless parsed_header.key? :hash
       return { message: 'Missing mac' }     unless parsed_header.key? :mac
       return { message: 'Missing nonce' }   unless parsed_header.key? :nonce
-      return { message: 'Unidentified id' } unless is_id_correct.call(parsed_header[:id])
+      return { message: 'Unidentified id' } unless id_correct?(parsed_header[:id])
 
       canonical_payload = 'hawk.1.payload'  + "\n" +
                           content_type.to_s + "\n" +
@@ -44,7 +43,7 @@ module Api
       return { message: 'Invalid hash' }  unless secure_compare(correct_payload_hash, parsed_header[:hash])
       return { message: 'Stale ts' }      unless (Time.now.getutc.to_i - parsed_header[:ts].to_i).abs <= 60
       return { message: 'Invalid mac' }   unless secure_compare(correct_mac, parsed_header[:mac])
-      return { message: 'Invalid nonce' } unless is_nonce_available.call(parsed_header[:nonce], parsed_header[:id])
+      return { message: 'Invalid nonce' } unless nonce_available?(parsed_header[:nonce], parsed_header[:id])
 
       correct_credentials
     end
@@ -118,9 +117,7 @@ module Api
         host: request.host,
         port: '443',
         content_type: request.headers['Content-Type'],
-        payload: request.body.read,
-        is_id_correct: method(:id_correct?),
-        is_nonce_available: method(:nonce_available?)
+        payload: request.body.read
       )
       if res != correct_credentials
         respond_401 res[:message]
