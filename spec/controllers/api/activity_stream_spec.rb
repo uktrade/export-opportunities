@@ -33,6 +33,53 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(response.body).to eq(%({"message":"Authorization header is missing"}))
     end
 
+    it 'responds with a 401 if Authorization header in invalid format' do
+      @request.headers['Authorization'] = 'Hawk'  # Should have a space after
+      get :index, params: { format: :json }
+      expect(response.status).to eq(401)
+      expect(response.body).to eq(%({"message":"Invalid header"}))
+
+      @request.headers['Authorization'] = 'Hawk  '  # Should not have two spaces after
+      get :index, params: { format: :json }
+      expect(response.status).to eq(401)
+      expect(response.body).to eq(%({"message":"Invalid header"}))
+
+      @request.headers['Authorization'] = 'Hawk a'
+      get :index, params: { format: :json }
+      expect(response.status).to eq(401)
+      expect(response.body).to eq(%({"message":"Invalid header"}))
+
+      @request.headers['Authorization'] = 'Hawk b='
+      get :index, params: { format: :json }
+      expect(response.status).to eq(401)
+      expect(response.body).to eq(%({"message":"Invalid header"}))
+
+      @request.headers['Authorization'] = 'Hawk b="'
+      get :index, params: { format: :json }
+      expect(response.status).to eq(401)
+      expect(response.body).to eq(%({"message":"Invalid header"}))
+
+      @request.headers['Authorization'] = 'Hawk b="a" c="d"'  # Should have commas
+      get :index, params: { format: :json }
+      expect(response.status).to eq(401)
+      expect(response.body).to eq(%({"message":"Invalid header"}))
+
+      @request.headers['Authorization'] = 'Hawk b="a",c="d"'  # Should have space after comma
+      get :index, params: { format: :json }
+      expect(response.status).to eq(401)
+      expect(response.body).to eq(%({"message":"Invalid header"}))
+
+      @request.headers['Authorization'] = 'Hawk b="a", c="d" '  # Should not have trailing space
+      get :index, params: { format: :json }
+      expect(response.status).to eq(401)
+      expect(response.body).to eq(%({"message":"Invalid header"}))
+
+      @request.headers['Authorization'] = 'Hawk B="a"'  # Keys must be lower case
+      get :index, params: { format: :json }
+      expect(response.status).to eq(401)
+      expect(response.body).to eq(%({"message":"Invalid header"}))
+    end
+
     it 'responds with a 401 if Authorization header is set, but timestamped 61 seconds in the past' do
       @request.headers['Authorization'] = auth_header(
         Time.now.getutc.to_i - 61,

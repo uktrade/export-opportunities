@@ -15,6 +15,7 @@ module Api
         memo[key_val[0].to_sym] = key_val[1]
       end
 
+      return { message: 'Invalid header' }  unless /^Hawk (((?<="), )?[a-z]+="[^"]*")*$/.match?(authorization_header)
       return { message: 'Missing ts' }      unless parsed_header.key? :ts
       return { message: 'Invalid ts' }      unless /\d+/.match?(parsed_header[:ts])
       return { message: 'Missing hash' }    unless parsed_header.key? :hash
