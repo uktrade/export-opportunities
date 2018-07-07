@@ -70,7 +70,7 @@ module Api
     end
 
     def id_correct?(id)
-      secure_compare(id, correct_credentials[:id]) ? correct_credentials : nil
+      secure_compare(id, correct_credentials[:id])
     end
 
     def respond_401(message)
