@@ -20,6 +20,7 @@ module Api
       return { message: 'Missing hash' }    unless parsed_header.key? :hash
       return { message: 'Missing mac' }     unless parsed_header.key? :mac
       return { message: 'Missing nonce' }   unless parsed_header.key? :nonce
+      return { message: 'Missing id' }      unless parsed_header.key? :id
       return { message: 'Unidentified id' } unless id_correct?(parsed_header[:id])
 
       canonical_payload = 'hawk.1.payload'  + "\n" +
