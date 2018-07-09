@@ -77,7 +77,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#displayed' do
-    it 'Returns a HTML dontaining information about results displayed' do
+    it 'Returns a HTML containing information about results displayed' do
       create(:opportunity, :published, { title: 'food' })
       query = Opportunity.public_search(
         search_term: 'food',
