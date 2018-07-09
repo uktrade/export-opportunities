@@ -36,9 +36,9 @@
     = javascript_include_tag 'jquery3.2.0.js'
     = javascript_include_tag 'export-components-header.js'
 
-    = render partial: 'google_analytics'
 
   %body{id: ExportOpportunities.flipper.enabled?(:new_header_and_footer) ? nil : 'dit'}
+    = render partial: 'google_analytics'
     = render partial: 'svg_icons'
 
     = render 'export_components/header'
