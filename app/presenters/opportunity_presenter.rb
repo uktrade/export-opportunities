@@ -75,7 +75,7 @@ class OpportunityPresenter < BasePresenter
   end
 
   def guides_available
-    opportunity.countries.with_exporting_guide.any? || opportunity.types.aid_funded.any?
+    opportunity.countries.with_exporting_guide.any?
   end
 
   def country_guides
