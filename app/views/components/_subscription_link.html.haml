@@ -1,5 +1,6 @@
 = form_tag subscriptions_path_for_current_user, :class=>'subscription-link' do
-  = hidden_field_tag 'subscription[query[search_term]]', subscription[:form].search_term
+  = hidden_field_tag 'subscription[title]', subscription[:title]
+  = hidden_field_tag 'subscription[query[search_term]]', subscription[:search_term]
   - subscription[:form].types.each do |type|
     = hidden_field_tag 'subscription[query[types]][]', type.slug, multiple: true
   - subscription[:form].sectors.each do |sector|
