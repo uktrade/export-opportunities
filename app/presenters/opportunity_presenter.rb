@@ -67,11 +67,17 @@ class OpportunityPresenter < BasePresenter
   end
 
   def contact
+    contact = ''
     if opportunity.contacts.length.positive?
-      contact_email || contact_name
-    else
-      'Contact unknown'
+      contact = if contact_email.blank?
+                  contact_name
+                else
+                  contact_email
+                end
     end
+
+    # Final check to make sure it is not still blank.
+    contact.blank? ? 'Contact unknown' : contact
   end
 
   def guides_available
@@ -79,11 +85,17 @@ class OpportunityPresenter < BasePresenter
   end
 
   def country_guides
-    opportunity.countries.with_exporting_guide
-  end
-
-  def new_enquiry_path
-    h.new_enquiry_path(slug: opportunity.slug)
+    guides = opportunity.countries.with_exporting_guide
+    links = []
+    if guides.length > 5
+      links.push(h.link_to('Country guides', 'https://www.gov.uk/government/collections/exporting-country-guides', target: '_blank'))
+    else
+      guides.each do |country|
+        link = link_to country.name, "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank'
+        links.push(link.html_safe)
+      end
+    end
+    links
   end
 
   def industry_links
@@ -95,6 +107,8 @@ class OpportunityPresenter < BasePresenter
     links.html_safe
   end
 
+  # Returns link to Government Aid Funded Business guideance, if applicable, or empty string.
+  # @param text (String) visible link text
   def link_to_aid_funded(text)
     link = ''
     if opportunity.types.aid_funded.any?
