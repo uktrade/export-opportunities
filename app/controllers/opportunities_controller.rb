@@ -204,7 +204,7 @@ class OpportunitiesController < ApplicationController
       limit: per_page,
       term: @search_term,
       sort_by: @sort_column_name,
-      subscription: subscription_form(filters_with_mapped_regions)
+      subscription: subscription_form(filters_with_mapped_regions),
     }
   end
 
