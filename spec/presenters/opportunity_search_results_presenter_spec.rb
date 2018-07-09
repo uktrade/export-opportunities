@@ -307,19 +307,21 @@ RSpec.describe OpportunitySearchResultsPresenter do
   describe '#subscription' do
     it 'Returns subscription data object' do
       filters = search_filters
+      term = 'food'
       form = SubscriptionForm.new(
         query: {
-          search_term: 'food',
+          search_term: term,
           sectors: [],
           types: [],
-          countries: filters[:countries],
+          countries: [],
           values: [],
         }
       )
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: form, term: 'food' }, filters)
-      subscription = presenter.subscription
 
-      expect(subscription[:form]).to eql(form)
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: form, term: term }, filters)
+      subscription = presenter.subscription
+      expect(subscription[:title]).to eql('food in Spain or Mexico')
+      expect(subscription[:keywords]).to eql('food')
       expect(subscription[:what]).to eql(' for food')
       expect(subscription[:where]).to eql(' in Spain or Mexico')
     end

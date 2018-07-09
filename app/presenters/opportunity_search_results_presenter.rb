@@ -203,12 +203,15 @@ class OpportunitySearchResultsPresenter < FormPresenter
   # components/subscription_form
   # components/subscription_link
   def subscription
-    title = searched_for + searched_in
-    subscription_form = @search[:subscription]
+    what = searched_for
+    where = searched_in
+    subscription = @search[:subscription]
     {
-      title: title.sub(/\sin\s|\sfor\s/, ''), # strip out opening ' in ' or ' for '
-      keywords: subscription[:search_term],
-      countries: subscription[:countries],
+      title: (what + where).sub(/\sin\s|\sfor\s/, ''), # strip out opening ' in ' or ' for '
+      keywords: subscription.search_term,
+      countries: subscription.countries,
+      what: what,
+      where: where,
     }
   end
 

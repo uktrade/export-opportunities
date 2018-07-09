@@ -1,13 +1,7 @@
 = form_tag subscriptions_path_for_current_user, :class=>'subscription-link' do
   = hidden_field_tag 'subscription[title]', subscription[:title]
-  = hidden_field_tag 'subscription[query[search_term]]', subscription[:search_term]
-  - subscription[:form].types.each do |type|
-    = hidden_field_tag 'subscription[query[types]][]', type.slug, multiple: true
-  - subscription[:form].sectors.each do |sector|
-    = hidden_field_tag 'subscription[query[sectors]][]', sector.slug, multiple: true
-  - subscription[:form].values.each do |value|
-    = hidden_field_tag 'subscription[query[values]][]', value.slug, multiple: true
-  - subscription[:form].countries.each do |country|
+  = hidden_field_tag 'subscription[query[search_term]]', subscription[:keywords]
+  - subscription[:countries].each do |country|
     = hidden_field_tag 'subscription[query[countries]][]', country.slug, multiple: true
 
   = submit_tag "Subscribe to email alerts#{subscription[:what]}#{subscription[:where]}", :class=>"link"
