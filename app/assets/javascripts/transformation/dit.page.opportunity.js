@@ -24,7 +24,7 @@ dit.page.opportunity = (new function () {
    * functionality when have time and/or need.
    **/
   function applyAbcButtonTesting() {
-    var $button = $(".bid .button");
+    var $button = $(".bid .abcbutton");
     var text = dit.page.opportunity.abcButtonText;
 
     // Update to the required wording. 
@@ -53,11 +53,3 @@ dit.page.opportunity = (new function () {
 $(document).ready(function() {
   dit.page.opportunity.init();
 });
-
-
-// This needs to run immediately.
-// Let GA know what is being delivered on page.
-dataLayer = [{
- 'pageCategory': 'opportunity',
- 'buttonText': dit.page.opportunity.abcButtonText
-}];
