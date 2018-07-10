@@ -9,16 +9,40 @@ class EmailNotificationsController < ApplicationController
       redirect_to not_found && return
     end
 
-    @subscription_notifications = []
-    @results = []
-    today_date = Time.zone.now.strftime('%Y-%m-%d')
+    result_set = Set.new
 
-    subscription_notification_ids = SubscriptionNotification.joins(:subscription).where('subscription_notifications.created_at >= ?', today_date).where(sent: true).where('subscriptions.user_id = ?', user_id).map(&:id)
-    subscription_notification_ids.each do |sub_not_id|
-      @results.push(SubscriptionNotification.find(sub_not_id).opportunity)
-      break if @results.size >= 1000
+    subscriptions = Subscription.where(user_id: user_id)
+
+    if every_opportunity_subscription?(subscriptions)
+      query = Opportunity.public_search(
+          search_term: nil,
+          filters: SearchFilter.new,
+          sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
+      )
+      @results = query.records.to_a
+      @paginatable_results = Kaminari.paginate_array(@results).page(params[:page]).per(10)
+    else
+      subscriptions.each do |subscription|
+        params = {
+            sectors: subscription.sectors,
+            countries: subscription.countries,
+            types: subscription.types,
+            values: subscription.values,
+        }
+        query = Opportunity.public_search(
+            search_term: subscription.search_term,
+            filters: SearchFilter.new(params),
+            sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
+        )
+        query.records.to_a.each do |opp|
+          result_set.add(opp)
+        end
+      end
+
+      @results = result_set.to_a
+      @paginatable_results = Kaminari.paginate_array(@results).page(params[:page]).per(10)
     end
-    @paginatable_results = Kaminari.paginate_array(@results).page(params[:page]).per(10)
+
 
     render layout: 'results', locals: {
       content: content['show'],
@@ -52,5 +76,14 @@ class EmailNotificationsController < ApplicationController
   private def reason_param
     reason = params.fetch(:reason)
     reason if Subscription.unsubscribe_reasons.keys.include?(reason)
+  end
+
+  private def every_opportunity_subscription?(subscriptions)
+    subscriptions.each do |subscription|
+      if subscription.search_term='' && subscription.countries.size == 0 && subscription.types.size == 0 && subscription.values.size == 0 && subscription.sectors.size == 0
+        return true
+      end
+    end
+    return false
   end
 end
