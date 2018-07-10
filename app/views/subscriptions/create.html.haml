@@ -16,8 +16,8 @@
       %ul.subscriptions
         - subscriptions.each do |sub|
           %li= sub.search_term
-
-    = link_to page.content["alert_summary_link"], dashboard_path(anchor: 'alerts', target: :alerts)
+    =subscription.inspect
+    = link_to 'View alerts', dashboard_path(anchor: 'alerts', target: :alerts)
 
   %p= page.content_with_inclusion("advice", [link_to("Profile", "/dashboard")]).html_safe
   %p.back
