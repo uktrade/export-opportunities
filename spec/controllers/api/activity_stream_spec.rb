@@ -23,17 +23,41 @@ end
 RSpec.describe Api::ActivityStreamController, type: :controller do
   describe 'GET feed controller' do
     it 'responds with a 401 error if connecting from unauthorized IP' do
-      allow_any_instance_of(ActionDispatch::Request).to receive(:remote_ip).and_return('1.2.3.4')
+      # The whitelist is 0.0.0.0, and we reject all requests that don't have
+      # 0.0.0.0 as the second-to-last IP in X-Fowarded-For, as this isn't
+      # spoofable in PaaS
+      get :index, params: { format: :json }
+      expect(response.body).to eq(%({"message":"Connecting from unauthorized IP"}))
+
+      @request.headers['X-Forwarded-For'] = '1.2.3.4'
+      get :index, params: { format: :json }
+      expect(response.body).to eq(%({"message":"Connecting from unauthorized IP"}))
+
+      @request.headers['X-Forwarded-For'] = '0.0.0.0'
+      get :index, params: { format: :json }
+      expect(response.body).to eq(%({"message":"Connecting from unauthorized IP"}))
+
+      @request.headers['X-Forwarded-For'] = '1.2.3.4, 0.0.0.0'
+      get :index, params: { format: :json }
+      expect(response.body).to eq(%({"message":"Connecting from unauthorized IP"}))
+
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4, 123.123.123'
+      get :index, params: { format: :json }
+      expect(response.body).to eq(%({"message":"Connecting from unauthorized IP"}))
+
+      @request.headers['X-Forwarded-For'] = '1.2.3.4, 123.123.123, 0.0.0.0'
       get :index, params: { format: :json }
       expect(response.body).to eq(%({"message":"Connecting from unauthorized IP"}))
     end
     it 'responds with a 401 error if Authorization header is not set' do
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       get :index, params: { format: :json }
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Authorization header is missing"}))
     end
 
     it 'responds with a 401 if Authorization header is set, but timestamped 61 seconds in the past' do
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = auth_header(
         Time.now.getutc.to_i - 61,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
@@ -46,6 +70,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     end
 
     it 'responds with a 401 if Authorization header uses incorrect key ID' do
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = auth_header(
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID + 'something-incorrect',
@@ -58,6 +83,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     end
 
     it 'responds with a 401 if Authorization header uses incorrect key' do
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = auth_header(
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
@@ -70,6 +96,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     end
 
     it 'responds with a 401 if header is reused' do
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = auth_header(
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
@@ -91,6 +118,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       # in the case of socket errors, since, within reason, it's better for the
       # test to fail too much than too little.
       allow_any_instance_of(Socket).to receive(:connect_nonblock).and_raise(SocketError)
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = auth_header(
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
@@ -104,6 +132,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     end
 
     it 'responds with a dummy JSON object if Authorization header is set and correct' do
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = auth_header(
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,

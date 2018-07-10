@@ -46,11 +46,14 @@ module Api
     end
 
     def is_authorized_ip_address(request)
-      # Ensure connecting from an authorized IP
-      # request.remote_ip does look at X-Forwarded-For, and so is suitable behind a
-      # load balancer
+      # Ensure connecting from an authorized IP: the second-to-last IP in
+      # X-Fowarded-For isn't spoofable in PaaS
+
+      return false unless request.headers.key?('X-Forwarded-For')
+
+      remote_ips = request.headers['X-Forwarded-For'].split(',')
       authorized_ip_addresses = Figaro.env.ACTIVITY_STREAM_IP_WHITELIST.split(',')
-      authorized_ip_addresses.include?(request.remote_ip)
+      return remote_ips.length >= 2 && authorized_ip_addresses.include?(remote_ips[-2])
     end
 
     def index
