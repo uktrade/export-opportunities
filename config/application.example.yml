@@ -85,3 +85,6 @@ UNSUBSCRIBE_EMAILS_URL: 'https://private-url-with-csv-formatted-file'
 # production level settings for max result window size on subscription/opportunity
 OPPORTUNITY_ES_MAX_RESULT_WINDOW_SIZE: '100000'
 SUBSCRIPTION_ES_MAX_RESULT_WINDOW_SIZE: '50000'
+
+# optional env vars
+IMPACT_EMAIL_CHANGE_FREQUENCY: '2018-07-30'

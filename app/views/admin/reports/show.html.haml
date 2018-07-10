@@ -1,4 +1,9 @@
 %p Impact email report
+- if Figaro.env.IMPACT_EMAIL_CHANGE_FREQUENCY
+  %p.flash.ptu-announcement{ :style => "font-weight:normal;" }
+    Impact email reports after
+    =Figaro.env.IMPACT_EMAIL_CHANGE_FREQUENCY
+    are sent 3 months after the original enquiry
 
 %section
   .grid-row
