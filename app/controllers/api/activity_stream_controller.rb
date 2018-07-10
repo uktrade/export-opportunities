@@ -45,18 +45,22 @@ module Api
       end
     end
 
+    def is_authorized_ip_address(request)
+      # Ensure connecting from an authorized IP
+      # request.remote_ip does look at X-Forwarded-For, and so is suitable behind a
+      # load balancer
+      authorized_ip_addresses = Figaro.env.ACTIVITY_STREAM_IP_WHITELIST.split(',')
+      authorized_ip_addresses.include?(request.remote_ip)
+    end
+
     def index
       # 401 if the server can't authenticate the request
       # 403 is never sent, since there is is no finer granularity for this endpoint:
       # the holder of the secret key is allowed to access the data
 
-      # Ensure connecting from an authorized IP
-      # request.remote_ip does look at X-Forwarded-For, and so is suitable behind a
-      # load balancer
-      authorized_ip_addresses = Figaro.env.ACTIVITY_STREAM_IP_WHITELIST.split(',')
-      unless authorized_ip_addresses.include?(request.remote_ip)
+      unless is_authorized_ip_address(request)
         respond_401 'Connecting from unauthorized IP'
-        return
+        return 
       end
 
       # Ensure Authorization header is sent
