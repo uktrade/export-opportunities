@@ -87,7 +87,7 @@ module Api
       end
     end
 
-    def is_authorized_ip_address(request)
+    def authorized_ip_address?(request)
       # Ensure connecting from an authorized IP: the second-to-last IP in
       # X-Fowarded-For isn't spoofable in PaaS
 
@@ -95,7 +95,7 @@ module Api
 
       remote_ips = request.headers['X-Forwarded-For'].split(',')
       authorized_ip_addresses = Figaro.env.ACTIVITY_STREAM_IP_WHITELIST.split(',')
-      return remote_ips.length >= 2 && authorized_ip_addresses.include?(remote_ips[-2])
+      remote_ips.length >= 2 && authorized_ip_addresses.include?(remote_ips[-2])
     end
 
     def index
@@ -103,9 +103,9 @@ module Api
       # 403 is never sent, since there is is no finer granularity for this endpoint:
       # the holder of the secret key is allowed to access the data
 
-      unless is_authorized_ip_address(request)
+      unless authorized_ip_address?(request)
         respond_401 'Connecting from unauthorized IP'
-        return 
+        return
       end
 
       # Ensure Authorization header is sent
