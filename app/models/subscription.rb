@@ -23,6 +23,7 @@ class Subscription < ApplicationRecord
     indexes :search_term, analyzer: 'english'
     indexes :confirmed_at, type: :date
     indexes :unsubscribed_at, type: :date
+    indexes :title, analyzer: 'english'
 
     indexes :types do
       indexes :id, type: :keyword
@@ -73,7 +74,7 @@ class Subscription < ApplicationRecord
 
   def as_indexed_json(_ = {})
     as_json(
-      only: %i[search_term confirmed_at unsubscribed_at],
+      only: %i[search_term confirmed_at unsubscribed_at title],
       include: {
         countries: { only: :id },
         types: { only: :id },

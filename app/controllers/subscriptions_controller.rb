@@ -72,6 +72,6 @@ class SubscriptionsController < ApplicationController
   end
 
   private def subscription_params
-    params.require(:subscription).permit(query: [:search_term, sectors: [], countries: [], types: [], values: []])
+    params.require(:subscription).permit(query: [:title, :search_term, sectors: [], countries: [], types: [], values: []])
   end
 end

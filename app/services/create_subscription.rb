@@ -2,6 +2,7 @@ class CreateSubscription
   def call(form, user)
     Subscription.create!(
       user: user,
+      title: form.title,
       search_term: form.search_term,
       countries: form.countries,
       sectors: form.sectors,

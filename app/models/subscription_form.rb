@@ -15,6 +15,10 @@ class SubscriptionForm
     query[:search_term]
   end
 
+  def title
+    query[:title]
+  end
+
   def search_term?
     search_term.present?
   end

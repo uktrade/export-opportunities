@@ -9,7 +9,7 @@
       = current_user[:email]
 
   .form-group
-    = hidden_field_tag 'subscription[title]', subscription[:title]
+    = hidden_field_tag 'subscription[query[title]]', subscription[:title]
     = hidden_field_tag 'subscription[query[search_term]]', subscription[:keywords]
     - subscription[:countries].each do |country|
       = hidden_field_tag 'subscription[query[countries]][]', country.slug, multiple: true
