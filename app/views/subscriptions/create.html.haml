@@ -15,7 +15,6 @@
     - if subscriptions != nil && subscriptions.size > 0
       %ul.subscriptions
         - subscriptions.each do |sub|
-          %li= sub.search_term
           %li= sub.title
 
     = link_to page.content["alert_summary_link"], dashboard_path(anchor: 'alerts', target: :alerts)
