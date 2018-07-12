@@ -15,24 +15,23 @@ class EmailNotificationsController < ApplicationController
 
     if every_opportunity_subscription?(subscriptions)
       query = Opportunity.public_search(
-          search_term: nil,
-          filters: SearchFilter.new,
-          sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
+        search_term: nil,
+        filters: SearchFilter.new,
+        sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
       )
       @results = query.records.to_a
-      @paginatable_results = Kaminari.paginate_array(@results).page(params[:page]).per(10)
     else
       subscriptions.each do |subscription|
         params = {
-            sectors: subscription.sectors,
-            countries: subscription.countries,
-            types: subscription.types,
-            values: subscription.values,
+          sectors: subscription.sectors,
+          countries: subscription.countries,
+          types: subscription.types,
+          values: subscription.values,
         }
         query = Opportunity.public_search(
-            search_term: subscription.search_term,
-            filters: SearchFilter.new(params),
-            sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
+          search_term: subscription.search_term,
+          filters: SearchFilter.new(params),
+          sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
         )
         query.records.to_a.each do |opp|
           result_set.add(opp)
@@ -40,9 +39,8 @@ class EmailNotificationsController < ApplicationController
       end
 
       @results = result_set.to_a
-      @paginatable_results = Kaminari.paginate_array(@results).page(params[:page]).per(10)
     end
-
+    @paginatable_results = Kaminari.paginate_array(@results).page(params[:page]).per(10)
 
     render layout: 'results', locals: {
       content: content['show'],
@@ -80,10 +78,10 @@ class EmailNotificationsController < ApplicationController
 
   private def every_opportunity_subscription?(subscriptions)
     subscriptions.each do |subscription|
-      if subscription.search_term='' && subscription.countries.size == 0 && subscription.types.size == 0 && subscription.values.size == 0 && subscription.sectors.size == 0
-        return true
+      if subscription.search_term.blank? && subscription.countries.size.zero? && subscription.types.size.zero? && subscription.values.size.zero? && subscription.sectors.size.zero?
+        true
       end
     end
-    return false
+    false
   end
 end
