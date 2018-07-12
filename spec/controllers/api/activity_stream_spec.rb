@@ -57,6 +57,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     end
 
     it 'responds with a 401 if Authorization header in invalid format' do
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk'  # Should have a space after
       get :index, params: { format: :json }
       expect(response.status).to eq(401)
@@ -178,6 +179,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     end
 
     it 'responds with a 401 if Authorization header misses ts' do
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk mac="a", hash="b", nonce="c", id="d"'
       get :index, params: { format: :json }
 
@@ -186,6 +188,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     end
 
     it 'responds with a 401 if Authorization header has non integer ts' do
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk ts="a", mac="a", hash="b", nonce="c", id="d"'
       get :index, params: { format: :json }
 
@@ -194,6 +197,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     end
 
     it 'responds with a 401 if Authorization header has empty ts' do
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk ts="", mac="a", hash="b", nonce="c", id="d"'
       get :index, params: { format: :json }
 
@@ -202,6 +206,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     end
 
     it 'responds with a 401 if Authorization header misses mac' do
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk ts="1", hash="b", nonce="c", id="d"'
       get :index, params: { format: :json }
 
@@ -210,6 +215,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     end
 
     it 'responds with a 401 if Authorization header has empty mac' do
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk ts="1", mac="", hash="b", nonce="c", id="d"'
       get :index, params: { format: :json }
 
@@ -218,6 +224,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     end
 
     it 'responds with a 401 if Authorization header misses hash' do
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk ts="1", mac="a", nonce="c", id="d"'
       get :index, params: { format: :json }
 
@@ -226,6 +233,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     end
 
     it 'responds with a 401 if Authorization header has empty hash' do
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk ts="1", mac="a", hash="", nonce="c", id="d"'
       get :index, params: { format: :json }
 
@@ -234,6 +242,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     end
 
     it 'responds with a 401 if Authorization header misses nonce' do
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk ts="1", mac="a", id="d"'
       get :index, params: { format: :json }
 
@@ -242,6 +251,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     end
 
     it 'responds with a 401 if Authorization header has empty nonce' do
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk ts="1", mac="a", nonce="", id="d"'
       get :index, params: { format: :json }
 
@@ -250,6 +260,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     end
 
     it 'responds with a 401 if Authorization header misses id' do
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk ts="1", mac="a", hash="b", nonce="c"'
       get :index, params: { format: :json }
 
@@ -258,6 +269,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     end
 
     it 'responds with a 401 if Authorization header has empty id' do
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk ts="1", mac="a", hash="b", nonce="c", id=""'
       get :index, params: { format: :json }
 
@@ -294,6 +306,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     end
 
     it 'responds with a 401 if Authorization header uses incorrect payload' do
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = auth_header(
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
