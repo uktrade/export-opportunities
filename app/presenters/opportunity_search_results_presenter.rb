@@ -98,6 +98,8 @@ class OpportunitySearchResultsPresenter < FormPresenter
                  else
                    @term.to_s
                  end
+    else
+      message += ' for all opportunities '
     end
     message.html_safe
   end
