@@ -20,9 +20,9 @@ class SubscriptionsController < ApplicationController
       subscription = CreateSubscription.new.call(subscription_form, current_user)
       @subscription = SubscriptionPresenter.new(subscription)
       render layout: 'notification', locals: {
-          subscription: @subscription,
-          subscriptions: subscriptions,
-          content: content['create'],
+        subscription: @subscription,
+        subscriptions: subscriptions,
+        content: content['create'],
       }
     else
       redirect_to opportunities_path(s: subscription_form.search_term), alert: subscription_form.errors.full_messages
