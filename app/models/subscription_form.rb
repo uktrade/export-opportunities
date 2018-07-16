@@ -23,6 +23,10 @@ class SubscriptionForm
     search_term.present?
   end
 
+  def subscription_countries
+    query[:countries]
+  end
+
   def countries
     find_all_by_slug(:countries, Country)
   end

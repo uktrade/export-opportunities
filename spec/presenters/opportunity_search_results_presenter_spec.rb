@@ -55,7 +55,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#view_all_link' do
-    it 'Returns a link when has more opportunites to show' do
+    it 'Returns a link when has more opportunities to show' do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, { total: 2, limit: 1 }, {})
 
       expect(presenter.view_all_link('some/where')).to include('View all (2)')

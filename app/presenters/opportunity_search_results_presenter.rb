@@ -211,7 +211,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
     {
       title: (what + where).sub(/\sin\s|\sfor\s/, ''), # strip out opening ' in ' or ' for '
       keywords: subscription.search_term,
-      countries: subscription.countries,
+      countries: subscription.subscription_countries,
       what: what,
       where: where,
     }

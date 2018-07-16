@@ -2,7 +2,9 @@
   = hidden_field_tag 'subscription[query[title]]', subscription[:title]
   = hidden_field_tag 'subscription[query[search_term]]', subscription[:keywords]
   - subscription[:countries].each do |country|
-    = hidden_field_tag 'subscription[query[countries]][]', country.slug, multiple: true
+    = hidden_field_tag 'subscription[query[countries]][]', country, multiple: true
+
+    
 
   = submit_tag "Subscribe to email alerts#{subscription[:what]}#{subscription[:where]}", :class=>"link"
 
