@@ -43,11 +43,10 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
 
       find(:css, '#countries_0').set(true)
       click_on 'Update results'
+      
+      expect(page.body).to include 'Subscribe to email alerts for all opportunities  in Italy'
 
-
-      expect(page.body).to include 'Subscribe to email alerts in Italy'
-
-      click_button 'Subscribe to email alerts in Italy'
+      click_button 'Subscribe to email alerts for all opportunities  in Italy'
 
       subscription = @user.subscriptions.first
       expect(subscription.search_term).to eq ''
@@ -56,8 +55,8 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
 
       expect(page.body).to have_content 'Your daily email alert has been added'
 
-      # TODO: subscription should include countries
-      # expect(page.body).to have_content 'Italy'
+      # subscription includes countries
+      expect(page.body).to have_content 'Italy'
 
       subscription.reload
       expect(subscription).to be_confirmed

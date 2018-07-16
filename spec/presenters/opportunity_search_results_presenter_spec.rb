@@ -131,7 +131,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, { total: 1 }, {})
       message = presenter.information
 
-      expect(message).to eql('1 result found')
+      expect(message).to eql('1 result found for all opportunities ')
       expect(has_html?(message)).to be_falsey
     end
 
@@ -184,7 +184,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
     it 'Returns an empty string when searching without a specified term' do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
 
-      expect(presenter.searched_for).to eql('')
+      expect(presenter.searched_for).to eql(' for all opportunities ')
     end
   end
 
@@ -201,7 +201,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
     it 'Returns an empty string when searching without a specified term' do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
 
-      expect(presenter.searched_for_with_html).to eql('')
+      expect(presenter.searched_for_with_html).to eql(' for all opportunities ')
     end
   end
 

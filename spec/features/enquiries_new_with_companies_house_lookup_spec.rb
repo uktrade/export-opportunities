@@ -28,6 +28,7 @@ feature 'JS-on adds Companies House API lookup', js: true do
   scenario 'Companies House input will be enhanced with show/hide functionality' do
     opportunity = create(:opportunity, status: 'publish')
     visit opportunity_path(opportunity)
+
     click_on 'Submit your proposal'
 
     # control created

@@ -7,13 +7,16 @@ feature 'User can manage their subscriptions' do
     user = create(:user, email: 'john@green.com')
     user_id = EncryptedParams.encrypt(user.id)
 
-    opportunity = create(:opportunity, title: 'Great Opportunity!', slug: 'great-opportunity')
-    subscription = create(:subscription, user: user, confirmation_token: token)
-    create(:subscription_notification, :sent, subscription: subscription, opportunity: opportunity)
+    opportunity = create(:opportunity, title: 'opportunities match by live searching', slug: 'great-opportunity', status: :publish)
+
+    # email digest results match based on searching across published opportunities
+    create(:subscription, user: user, confirmation_token: token, search_term: 'opportunities match by live searching')
 
     login_as(user, scope: :user)
+    sleep 1
 
     visit '/email_notifications/' + user_id
+
     expect(page.body).to include(opportunity.title)
   end
 
