@@ -1,0 +1,8 @@
+# PendingSubscriptionsController
+# actions:
+#   update
+# ------------------------------------
+
+update:
+  breadcrumb_current: "Pending Subscriptions"
+  title: "Pending Subscriptions"

@@ -76,6 +76,7 @@ RSpec.describe CreateSubscription do
       instance_double(
         'SubscriptionForm',
         search_term: search_term,
+        title: "#{search_term} in #{countries}",
         countries: countries,
         sectors: sectors,
         types: types,

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :subscription do
     user
 
@@ -6,6 +6,7 @@ FactoryGirl.define do
     confirmed_at { 1.day.ago }
     confirmation_sent_at { 2.days.ago }
     unsubscribed_at nil
+    title { Faker::Lorem.word }
 
     trait :unconfirmed do
       confirmed_at nil

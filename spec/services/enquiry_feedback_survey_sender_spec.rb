@@ -4,7 +4,7 @@ RSpec.describe EnquiryFeedbackSurveySender do
   describe 'start_date and end_date' do
     it 'selects enquiries from a given date range, not inclusive' do
       yesterday = Time.zone.now.beginning_of_day - 1.day
-      opp = create(:opportunity, response_due_on: yesterday - 1.year)
+      opp = create(:opportunity, response_due_on: yesterday - 3.months)
       enquiries_in_range = [
         create(:enquiry, opportunity: opp, created_at: yesterday),
         create(:enquiry, opportunity: opp, created_at: yesterday + 12.hours),
@@ -14,7 +14,7 @@ RSpec.describe EnquiryFeedbackSurveySender do
       enquiries_not_in_range = [
         create(:enquiry, created_at: yesterday - 1.second),
         create(:enquiry, created_at: yesterday + 1.day + 1.second),
-        create(:enquiry, created_at: yesterday - 1.year),
+        create(:enquiry, created_at: yesterday - 3.months),
       ]
 
       returned = EnquiryFeedbackSurveySender.new.call
@@ -24,7 +24,7 @@ RSpec.describe EnquiryFeedbackSurveySender do
   end
 
   it 'does not return enquiries whose authors have opted out of emails' do
-    date_to_sample = Time.zone.now.beginning_of_day - 1.year - 1.day
+    date_to_sample = Time.zone.now.beginning_of_day - 3.months - 1.day
     user = create(:user, email: 'opt-out@example.com')
     opp = create(:opportunity, response_due_on: date_to_sample)
 
@@ -40,7 +40,7 @@ RSpec.describe EnquiryFeedbackSurveySender do
 
   it 'dispatches the matched enquiries to EnquiryFeedbackSender' do
     yesterday = Time.zone.now.beginning_of_day - 1.day
-    opp = create(:opportunity, response_due_on: yesterday - 1.year)
+    opp = create(:opportunity, response_due_on: yesterday - 3.months)
 
     first_matched_enquiry = create(:enquiry, created_at: yesterday, opportunity: opp)
     second_matched_enquiry = create(:enquiry, created_at: yesterday + 1.day, opportunity: opp)

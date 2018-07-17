@@ -15,8 +15,16 @@ class SubscriptionForm
     query[:search_term]
   end
 
+  def title
+    query[:title]
+  end
+
   def search_term?
     search_term.present?
+  end
+
+  def subscription_countries
+    query[:countries]
   end
 
   def countries

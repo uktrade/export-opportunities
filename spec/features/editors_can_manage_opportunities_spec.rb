@@ -33,7 +33,7 @@ feature 'Administering opportunities' do
     name_fields[1].set 'Joe Bloggs'
     email_fields[1].set 'joe.bloggs@example.com'
 
-    expect(page).to have_text('11 characters remaining')
+    expect(page).to have_text('181 characters remaining')
 
     click_on 'Create Opportunity'
 
@@ -116,7 +116,7 @@ feature 'Administering opportunities' do
       click_on 'Create Opportunity'
 
       expect(page.status_code).to eq 422
-      expect(page).to have_text("Title can\'t be more than 80")
+      expect(page).to have_text("Title can\'t be more than 250")
       expect(page).to have_text("be 140 characters or fewer")
     end
   end
@@ -140,7 +140,7 @@ feature 'Administering opportunities' do
       fill_in 'opportunity_teaser', with: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p153'
 
       click_on 'Update Opportunity'
-      expect(page).to have_text("Title can\'t be more than 80")
+      expect(page).to have_text("Title can\'t be more than 250")
       expect(page).to have_text("Summary can\'t be more than 140")
     end
   end

@@ -12,10 +12,10 @@
     %h2= page.content["alert_summary_title"]
     %p= page.content["alert_summary_message"]
 
-    - if subscriptions.size > 0
+    - if subscriptions != nil && subscriptions.size > 0
       %ul.subscriptions
         - subscriptions.each do |sub|
-          %li= sub.search_term
+          %li= sub.title
 
     = link_to page.content["alert_summary_link"], dashboard_path(anchor: 'alerts', target: :alerts)
 

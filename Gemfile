@@ -45,6 +45,7 @@ gem 'neat', '1.8.0'
 gem 'autoprefixer-rails'
 gem 'normalize-scss'
 gem 'sass-rails'
+gem 'export_components', '0.1.0', git: 'https://github.com/uktrade/export_components.git'
 
 # Javascript
 gem 'jquery-rails'
@@ -116,7 +117,7 @@ group :test do
   gem 'rspec_junit_formatter'
   gem 'pundit-matchers'
   gem 'database_cleaner'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'faker'
   gem 'launchy'
   gem 'poltergeist'

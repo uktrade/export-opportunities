@@ -1,12 +1,13 @@
+# coding: utf-8
 require 'rails_helper'
 
 RSpec.describe HelpArticlePresenter do
   describe '#initialize' do
     it 'initializes a presenter' do
-      help_article_presenter = HelpArticlePresenter.new('url', 'some_section_id')
+      help_article_presenter = HelpArticlePresenter.new('an_article_id', 'a_section_id')
 
-      expect(help_article_presenter.url).to eq('url')
-      expect(help_article_presenter.section_id).to eq('some_section_id')
+      expect(help_article_presenter.article_id).to eq('an_article_id')
+      expect(help_article_presenter.section_id).to eq('a_section_id')
     end
   end
 
@@ -34,7 +35,7 @@ RSpec.describe HelpArticlePresenter do
 
       expect(first_section[:id]).to eq('kroxldyphivc')
       expect(first_section[:content]).to eq('some_content')
-      expect(first_section[:url]).to eq('/url/kroxldyphivc')
+      expect(first_section[:url]).to eq('/admin/help/url/kroxldyphivc')
       expect(first_section[:current]).to eq false
     end
 
@@ -45,7 +46,7 @@ RSpec.describe HelpArticlePresenter do
 
       expect(first_section[:id]).to eq('chare')
       expect(first_section[:content]).to eq('some_content')
-      expect(first_section[:url]).to eq('/url/chare')
+      expect(first_section[:url]).to eq('/admin/help/url/chare')
       expect(first_section[:current]).to eq true
     end
   end

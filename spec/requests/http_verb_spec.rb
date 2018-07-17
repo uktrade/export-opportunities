@@ -6,6 +6,11 @@ RSpec.describe 'HTTP verbs', :elasticsearch, :commit, type: :request do
     expect(response).to have_http_status(200)
   end
 
+  it 'return 200 status for GET /api_check' do
+    get '/api_check'
+    expect(response).to have_http_status(200)
+  end
+
   it 'return 200 status for HEAD /check' do
     head '/check'
     expect(response).to have_http_status(200)

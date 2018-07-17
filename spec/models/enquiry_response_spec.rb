@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe EnquiryResponse do
   describe 'validations' do
-    subject { FactoryGirl.build(:enquiry_response) }
+    subject { FactoryBot.build(:enquiry_response) }
     it { is_expected.to belong_to :enquiry }
     it { is_expected.to belong_to :editor }
 

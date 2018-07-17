@@ -16,13 +16,13 @@ RSpec.feature 'Viewing opportunities', :elasticsearch, :commit do
     sleep 1
     visit opportunities_path
 
-    within '#search-form' do
+    within '.search' do
       fill_in 's', with: valid_opportunity.title
-      page.find('.filters__searchbutton').click
+      page.find('.submit').click
     end
 
     expect(page).to have_content(valid_opportunity.title)
-    expect(page).to have_selector('.results__item', count: 1)
+    expect(page).to have_content('Displaying 1 item')
   end
 
   scenario 'Potential exporter can see the response date of an opportunity' do
@@ -30,32 +30,14 @@ RSpec.feature 'Viewing opportunities', :elasticsearch, :commit do
     sleep 1
     visit opportunities_path
 
-    within '#search-form' do
+    within '.search' do
       fill_in 's', with: opportunity.title
-      page.find('.filters__searchbutton').click
+      page.find('.submit').click
     end
 
-    within '.results' do
+    within '.opportunities-list' do
       expect(page).to have_content(opportunity.title)
       expect(page).to have_content(opportunity.response_due_on.strftime('%d %B %Y'))
-    end
-  end
-
-  scenario 'Potential exporter can see the number of enquiries for an opportunity' do
-    opportunity = create(:opportunity, :published, title: 'Hello World', slug: 'hello-world')
-    create_list(:enquiry, 3, opportunity: opportunity)
-
-    sleep 1
-    visit opportunities_path
-
-    within '#search-form' do
-      fill_in 's', with: 'Hello World'
-      page.find('.filters__searchbutton').click
-    end
-
-    within '.results' do
-      expect(page).to have_content(opportunity.title)
-      expect(page).to have_content('Applications received: 3')
     end
   end
 
@@ -66,12 +48,12 @@ RSpec.feature 'Viewing opportunities', :elasticsearch, :commit do
     sleep 1
     visit opportunities_path
 
-    within '#search-form' do
+    within '.search' do
       fill_in 's', with: 'Hello World'
-      page.find('.filters__searchbutton').click
+      page.find('.submit').click
     end
 
-    expect(page).to have_no_selector('.pagination')
+    expect(page).to have_content('Displaying page 1 of total 1')
   end
 
   scenario 'Opportunities should paginate when over pagination limit' do
@@ -84,11 +66,12 @@ RSpec.feature 'Viewing opportunities', :elasticsearch, :commit do
 
     visit opportunities_path
 
-    within '#search-form' do
+    within '.search' do
       fill_in 's', with: 'Hello World'
-      page.find('.filters__searchbutton').click
+      page.find('.submit').click
     end
 
+    expect(page).to have_content('Displaying page 1 of total 2')
     expect(page).to have_selector('.pagination .current')
   end
 end

@@ -8,14 +8,6 @@ RSpec.feature 'visiting the site on different domains', :elasticsearch, :commit 
         visit '/'
         expect(page).to have_content 'Find and apply for overseas opportunities'
       end
-
-      scenario 'visiting /opportunities redirects to /' do
-        allow_any_instance_of(NewDomainConstraint).to receive(:matches?).and_return(true)
-
-        visit '/opportunities'
-        expect(current_path).to eq '/'
-        expect(page).to have_content 'Find and apply for overseas opportunities'
-      end
     end
 
     context 'when logged in as a user' do

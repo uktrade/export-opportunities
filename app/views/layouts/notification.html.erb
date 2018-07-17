@@ -11,10 +11,10 @@
   <%= javascript_include_tag 'transformation/dit.page.notification' %>
   <%= yield :action_specific_head %>
 
-  <%= render partial: 'google_analytics' %>
 </head>
 <body>
-  <%= render partial: 'layouts/dit_header' %>
+  <%= render partial: 'google_analytics' %>
+  <%= render partial: 'export_components/header' %>
 
   <main id="main" role="main">
     <%= content_for?(:errors) ? yield(:errors) : "" %>
@@ -23,6 +23,6 @@
     <%= render "components/feedback" %>
   </main>
 
-  <%= render partial: 'layouts/dit_footer' %>
+  <%= render partial: 'export_components/footer' %>
 </body>
 </html>

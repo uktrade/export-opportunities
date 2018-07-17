@@ -1,5 +1,9 @@
 class OpportunityPresenter < BasePresenter
+  include ApplicationHelper
+
   attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries, :tender_value, :tender_url, :opportunity_cpvs, :sectors
+
+  delegate :expired?, to: :opportunity
 
   def initialize(helpers, opportunity)
     @h = helpers
@@ -31,10 +35,8 @@ class OpportunityPresenter < BasePresenter
   end
 
   def description
-    h.present_html_or_formatted_text(opportunity.description).html_safe
+    present_html_or_formatted_text(opportunity.description).html_safe
   end
-
-  delegate :expired?, to: :opportunity
 
   def expires
     opportunity.response_due_on.strftime('%d %B %Y')
@@ -65,23 +67,35 @@ class OpportunityPresenter < BasePresenter
   end
 
   def contact
+    contact = ''
     if opportunity.contacts.length.positive?
-      contact_email || contact_name
-    else
-      'Contact unknown'
+      contact = if contact_email.blank?
+                  contact_name
+                else
+                  contact_email
+                end
     end
+
+    # Final check to make sure it is not still blank.
+    contact.blank? ? 'Contact unknown' : contact
   end
 
   def guides_available
-    opportunity.countries.with_exporting_guide.any? || opportunity.types.aid_funded.any?
+    opportunity.countries.with_exporting_guide.any?
   end
 
   def country_guides
-    opportunity.countries.with_exporting_guide
-  end
-
-  def new_enquiry_path
-    h.new_enquiry_path(slug: opportunity.slug)
+    guides = opportunity.countries.with_exporting_guide
+    links = []
+    if guides.length > 5
+      links.push(h.link_to('Country guides', 'https://www.gov.uk/government/collections/exporting-country-guides', target: '_blank'))
+    else
+      guides.each do |country|
+        link = link_to country.name, "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank'
+        links.push(link.html_safe)
+      end
+    end
+    links
   end
 
   def industry_links
@@ -93,6 +107,8 @@ class OpportunityPresenter < BasePresenter
     links.html_safe
   end
 
+  # Returns link to Government Aid Funded Business guideance, if applicable, or empty string.
+  # @param text (String) visible link text
   def link_to_aid_funded(text)
     link = ''
     if opportunity.types.aid_funded.any?

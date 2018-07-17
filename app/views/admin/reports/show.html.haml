@@ -1,4 +1,9 @@
 %p Impact email report
+- if Figaro.env.IMPACT_EMAIL_CHANGE_FREQUENCY
+  %p.flash.ptu-announcement{ :style => "font-weight:normal;" }
+    From
+    =Figaro.env.IMPACT_EMAIL_CHANGE_FREQUENCY
+    impact emails are sent to UK companies 3 months after they apply for an opportunity
 
 %section
   .grid-row

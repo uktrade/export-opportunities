@@ -7,7 +7,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
     opportunity_with_market = create(:opportunity, :published, countries: [country])
 
     sleep 1
-    visit poc_opportunities_path
+    visit opportunities_path
 
     expect(page).to have_content 'Iran (1)'
 
@@ -25,30 +25,31 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
     opportunity_with_market = create(:opportunity, :published, countries: [country])
 
     sleep 1
-    visit poc_opportunities_path
+    visit opportunities_path
 
     # select Iran
     page.find("#countries_0").click
     page.find('.button.submit').click
-    expect(page.body).to include('1 result found in <span class="param">Iran')
+
+    expect(page).to have_content('1 result found for all opportunities  in Iran')
 
     expect(page).to have_content opportunity_with_market.title
     expect(page).to have_no_content opportunity.title
-
 
     opportunity_with_market.countries = [another_country]
     opportunity_with_market.save!
 
     sleep 1
-    visit poc_opportunities_path
+    visit opportunities_path
 
     # select Italy
     page.find("#countries_0").click
     page.find('.button.submit').click
+    search_results_information = page.find(:css, '#opportunity-search-results').text
 
     expect(page).to have_content opportunity_with_market.title
     expect(page).to have_no_content opportunity.title
-    expect(page.body).to include('1 result found in <span class="param">Italy')
+    expect(page).to have_content('1 result found for all opportunities  in Italy')
   end
 
   scenario 'users can filter opportunity that belongs to multiple markets' do
@@ -57,24 +58,26 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
     opportunity_with_market = create(:opportunity, :published, countries: [country, another_country])
 
     sleep 1
-    visit poc_opportunities_path
+    visit opportunities_path
 
     # select Iran
     page.find("#countries_0").click
     page.find('.button.submit').click
+    search_results_information = page.find(:css, '#opportunity-search-results').text
 
     expect(page).to have_content opportunity_with_market.title
 
-    expect(page.body).to include('1 result found in <span class="param">Iran')
+    expect(page).to have_content('1 result found for all opportunities  in Iran')
 
-    visit poc_opportunities_path
+    visit opportunities_path
 
     # select Italy
     page.find("#countries_1").click
     page.find('.button.submit').click
+    search_results_information = page.find(:css, '#opportunity-search-results').text
 
     expect(page).to have_content opportunity_with_market.title
-    expect(page.body).to include('1 result found in <span class="param">Italy')
+    expect(page).to have_content('1 result found for all opportunities  in Italy')
   end
 
   scenario 'users can filter by multiple categories' do
@@ -117,7 +120,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
 
     sleep 1
 
-    visit poc_opportunities_path
+    visit opportunities_path
 
     # select selected 1
     page.find("#countries_1").click

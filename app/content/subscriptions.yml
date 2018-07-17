@@ -7,7 +7,7 @@
 create: 
   breadcrumb_current: "Email alert added"
   title: "Email alert added"
-  confirmation: "You daily email alert has been added"
+  confirmation: "Your daily email alert has been added"
   message: "This will be sent to [$email] when opportunities that match your search terms are published."
   back: "Go back to search results"
   advice: "You can manage your daily email alerts at any time using the [$profile] link at the top of this page."

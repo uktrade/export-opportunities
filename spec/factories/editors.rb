@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :editor do
     service_provider
     sequence(:wordpress_id) { |n| (n + 1).to_s }

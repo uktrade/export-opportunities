@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Opportunity do
   describe 'validations' do
-    subject { FactoryGirl.build(:opportunity) }
+    subject { FactoryBot.build(:opportunity) }
     it { is_expected.to validate_uniqueness_of(:slug).case_insensitive }
     it { is_expected.to have_many(:comments).class_name('OpportunityComment') }
 

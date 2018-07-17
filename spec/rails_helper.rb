@@ -12,7 +12,7 @@ require 'webmock/rspec'
 require 'support/capybara'
 require 'support/controller_macros'
 require 'support/database_cleaner'
-require 'support/factory_girl'
+require 'support/factory_bot'
 require 'support/devise'
 require 'support/shoulda_matchers'
 require 'support/wait_for_ajax'
@@ -24,6 +24,8 @@ require 'support/request_spec_helper'
 require 'capybara-screenshot/rspec'
 
 ActiveRecord::Migration.maintain_test_schema!
+
+Capybara::Screenshot.autosave_on_failure = false
 
 RSpec.configure do |config|
   config.extend ControllerMacros, type: :controller

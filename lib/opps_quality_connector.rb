@@ -30,6 +30,7 @@ class OppsQualityConnector
       response = connection.post hostname.to_s do |req|
         req.headers['Ocp-Apim-Subscription-Key'] = quality_api_key
         req.headers['mkt'] = 'en-GB'
+        req.headers['setLang'] = 'EN'
         req.body = 'Text=' + quality_text.to_json
       end
 
