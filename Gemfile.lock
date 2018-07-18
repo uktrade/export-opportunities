@@ -8,9 +8,9 @@ GIT
 
 GIT
   remote: https://github.com/uktrade/export_components.git
-  revision: adf882b57e9a739c79498d89d17e7a2055ff0209
+  revision: 40e404fabbd62cff59ec2465b58317ac9f7ec348
   specs:
-    export_components (0.1.0)
+    export_components (0.3.0)
       rails (~> 5.0)
 
 GEM
@@ -495,7 +495,7 @@ DEPENDENCIES
   aws-sdk
   bourbon
   bullet
-  bundler (= 1.16.1)
+  bundler (= 1.16.3)
   byebug
   capybara
   capybara-email
@@ -509,7 +509,7 @@ DEPENDENCIES
   elasticsearch-extensions
   elasticsearch-model
   elasticsearch-rails
-  export_components (= 0.1.0)!
+  export_components (= 0.3.0)!
   factory_bot_rails
   faker
   faraday
@@ -579,4 +579,4 @@ RUBY VERSION
    ruby 2.4.3p205
 
 BUNDLED WITH
-   1.16.2
+   1.16.3
