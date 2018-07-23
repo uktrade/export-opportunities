@@ -133,18 +133,24 @@ module Api
       is_authentic, message = authenticate(request)
       return respond_401 message unless is_authentic
 
-      page = Integer(!params.key?(:page) ? '0' : params[:page])
+      search_after = !params.key?(:search_after) ? '0_0' : params[:search_after]
+      search_after_time_str, search_after_id_str = search_after.split('_')
+      search_after_time = DateTime.strptime(search_after_time_str, '%s')
+      search_after_id = Integer(search_after_id_str)
       companies_with_number = Enquiry
         .where("company_house_number IS NOT NULL AND company_house_number != ''")
+        .where('created_at > ? OR (created_at = ? AND id > ?)', search_after_time, search_after_time, search_after_id)
         .order('created_at ASC, id ASC')
-      enquiries = companies_with_number.offset(page * MAX_PER_PAGE).take(MAX_PER_PAGE)
-
-      include_next_page_href = !enquiries.empty?
-      next_page_href = request.base_url + request.env['PATH_INFO'] + '?page=' + (page + 1).to_s
-      next_page_hash = include_next_page_href ? { next: next_page_href } : {}
+      enquiries = companies_with_number.take(MAX_PER_PAGE)
 
       items = enquiries.map(&method(:to_activity))
-      contents = to_activity_collection(items).merge(next_page_hash)
+      contents = to_activity_collection(items).merge(
+        if !enquiries.empty?
+          { next: "#{request.base_url}#{request.env['PATH_INFO']}?search_after=#{enquiries[-1].created_at.to_datetime.to_i}_#{enquiries[-1].id}" }
+        else
+          {}
+        end
+      )
       respond_200 contents
     end
   end
