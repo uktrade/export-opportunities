@@ -134,7 +134,9 @@ module Api
       return respond_401 message unless is_authentic
 
       page = Integer(!params.key?(:page) ? '0' : params[:page])
-      companies_with_number = Enquiry.where.not(company_house_number: nil).where.not(company_house_number: '').order('created_at ASC, id ASC')
+      companies_with_number = Enquiry
+        .where("company_house_number IS NOT NULL AND company_house_number != ''")
+        .order('created_at ASC, id ASC')
       enquiries = companies_with_number.offset(page * MAX_PER_PAGE).take(MAX_PER_PAGE)
 
       include_next_page_href = enquiries.count == MAX_PER_PAGE
