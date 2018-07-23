@@ -481,6 +481,37 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(elastic_search_bulk_2['published']).to eq('2008-09-01T12:01:03+00:00')
     end
 
+    it 'in ID order if two enquiries are made at the same time' do
+      enquiry_1 = nil
+      Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2)) do
+        enquiry_1 = create(:enquiry, company_house_number: '123', id: 2345)
+      end
+
+      enquiry_2 = nil
+      Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2)) do
+        enquiry_1 = create(:enquiry, company_house_number: '124', id: 2344)
+      end
+
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
+      @request.headers['Authorization'] = auth_header(
+        Time.now.getutc.to_i,
+        Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+        Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '/api/activity_stream',
+        '',
+      )
+      get :index, params: { format: :json }
+      feed_hash = JSON.parse(response.body)
+
+      items = feed_hash['orderedItems']
+
+      elastic_search_bulk_1 = items[0]
+      expect(elastic_search_bulk_1['actor']['dit:companiesHouseNumber']).to eq('124')
+
+      elastic_search_bulk_2 =  items[1]
+      expect(elastic_search_bulk_2['actor']['dit:companiesHouseNumber']).to eq('123')
+    end
+
     it 'is paginated with a link element if there are 20 enquiries' do
       for i in 1..20 do
         create(:enquiry, company_house_number: i.to_s)
