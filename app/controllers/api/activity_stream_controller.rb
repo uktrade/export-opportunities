@@ -9,20 +9,12 @@ module Api
       return [false, 'Connecting from unauthorized IP'] unless authorized_ip_address?(request)
       return [false, 'Authorization header is missing'] unless request.headers.key?('Authorization')
 
-      authorization_header = request.headers['Authorization']
-      method = request.method
-      request_uri = request.original_fullpath
-      host = request.host
-      port = '443'
-      content_type = request.headers['Content-Type']
-      payload = request.body.read
-
-      parsed_header_array = authorization_header.scan(/([a-z]+)="([^"]+)"/)
+      parsed_header_array = request.headers['Authorization'].scan(/([a-z]+)="([^"]+)"/)
       parsed_header = parsed_header_array.each_with_object({}) do |key_val, memo|
         memo[key_val[0].to_sym] = key_val[1]
       end
 
-      return [false, 'Invalid header']  unless /^Hawk (((?<="), )?[a-z]+="[^"]*")*$/.match?(authorization_header)
+      return [false, 'Invalid header']  unless /^Hawk (((?<="), )?[a-z]+="[^"]*")*$/.match?(request.headers['Authorization'])
       return [false, 'Missing ts']      unless parsed_header.key? :ts
       return [false, 'Invalid ts']      unless /\d+/.match?(parsed_header[:ts])
       return [false, 'Missing hash']    unless parsed_header.key? :hash
@@ -31,19 +23,19 @@ module Api
       return [false, 'Missing id']      unless parsed_header.key? :id
       return [false, 'Unidentified id'] unless secure_compare(correct_credentials[:id], parsed_header[:id])
 
-      canonical_payload = 'hawk.1.payload'  + "\n" +
-                          content_type.to_s + "\n" +
-                          payload.to_s      + "\n"
+      canonical_payload = 'hawk.1.payload'                     + "\n" +
+                          request.headers['Content-Type'].to_s + "\n" +
+                          request.body.read.to_s               + "\n"
       correct_payload_hash = Digest::SHA256.base64digest canonical_payload
 
-      canonical_request = 'hawk.1.header'       + "\n" +
-                          parsed_header[:ts]    + "\n" +
-                          parsed_header[:nonce] + "\n" +
-                          method                + "\n" +
-                          request_uri           + "\n" +
-                          host                  + "\n" +
-                          port                  + "\n" +
-                          correct_payload_hash  + "\n" + "\n"
+      canonical_request = 'hawk.1.header'           + "\n" +
+                          parsed_header[:ts]        + "\n" +
+                          parsed_header[:nonce]     + "\n" +
+                          request.method            + "\n" +
+                          request.original_fullpath + "\n" +
+                          request.host              + "\n" \
+                          '443'                     + "\n" +
+                          correct_payload_hash      + "\n" + "\n"
       correct_mac = Base64.encode64(
         OpenSSL::HMAC.digest(
           OpenSSL::Digest.new('sha256'), correct_credentials[:key], canonical_request
