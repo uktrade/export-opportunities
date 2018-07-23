@@ -15,14 +15,14 @@ module Api
         memo[key_val[0].to_sym] = key_val[1]
       end
 
-      return { message: 'Invalid header' }  unless /^Hawk (((?<="), )?[a-z]+="[^"]*")*$/.match?(authorization_header)
-      return { message: 'Missing ts' }      unless parsed_header.key? :ts
-      return { message: 'Invalid ts' }      unless /\d+/.match?(parsed_header[:ts])
-      return { message: 'Missing hash' }    unless parsed_header.key? :hash
-      return { message: 'Missing mac' }     unless parsed_header.key? :mac
-      return { message: 'Missing nonce' }   unless parsed_header.key? :nonce
-      return { message: 'Missing id' }      unless parsed_header.key? :id
-      return { message: 'Unidentified id' } unless secure_compare(correct_credentials[:id], parsed_header[:id])
+      return [false, 'Invalid header']  unless /^Hawk (((?<="), )?[a-z]+="[^"]*")*$/.match?(authorization_header)
+      return [false, 'Missing ts']      unless parsed_header.key? :ts
+      return [false, 'Invalid ts']      unless /\d+/.match?(parsed_header[:ts])
+      return [false, 'Missing hash']    unless parsed_header.key? :hash
+      return [false, 'Missing mac']     unless parsed_header.key? :mac
+      return [false, 'Missing nonce']   unless parsed_header.key? :nonce
+      return [false, 'Missing id']      unless parsed_header.key? :id
+      return [false, 'Unidentified id'] unless secure_compare(correct_credentials[:id], parsed_header[:id])
 
       canonical_payload = 'hawk.1.payload'  + "\n" +
                           content_type.to_s + "\n" +
@@ -42,12 +42,12 @@ module Api
           OpenSSL::Digest.new('sha256'), correct_credentials[:key], canonical_request
         )
       ).strip
-      return { message: 'Invalid hash' }  unless secure_compare(correct_payload_hash, parsed_header[:hash])
-      return { message: 'Stale ts' }      unless (Time.now.getutc.to_i - parsed_header[:ts].to_i).abs <= 60
-      return { message: 'Invalid mac' }   unless secure_compare(correct_mac, parsed_header[:mac])
-      return { message: 'Invalid nonce' } unless nonce_available?(parsed_header[:nonce], parsed_header[:id])
+      return [false, 'Invalid hash']  unless secure_compare(correct_payload_hash, parsed_header[:hash])
+      return [false, 'Stale ts']      unless (Time.now.getutc.to_i - parsed_header[:ts].to_i).abs <= 60
+      return [false, 'Invalid mac']   unless secure_compare(correct_mac, parsed_header[:mac])
+      return [false, 'Invalid nonce'] unless nonce_available?(parsed_header[:nonce], parsed_header[:id])
 
-      correct_credentials
+      [true, '']
     end
 
     def secure_compare(a, b)
@@ -102,7 +102,7 @@ module Api
       return [false, 'Connecting from unauthorized IP'] unless authorized_ip_address?(request)
       return [false, 'Authorization header is missing'] unless request.headers.key?('Authorization')
 
-      res = authenticate(
+      is_authentic, message = authenticate(
         authorization_header: request.headers['Authorization'],
         method: request.method,
         request_uri: request.original_fullpath,
@@ -111,7 +111,7 @@ module Api
         content_type: request.headers['Content-Type'],
         payload: request.body.read
       )
-      return [false, res[:message]] unless res == correct_credentials
+      return [is_authentic, message] unless is_authentic
 
       [true, '']
     end
