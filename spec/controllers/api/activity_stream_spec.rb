@@ -449,14 +449,14 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(item['object']['url']).to eq("http://test.host/admin/enquiries/#{enquiry.id}")
     end
 
-    it 'has a two entries, in reverse date order, if two enquiries have been made with company house numbers' do
+    it 'has a two entries, in date order, if two enquiries have been made with company house numbers' do
       enquiry_1 = nil
-      Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2)) do
+      Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 3)) do
         enquiry_1 = create(:enquiry, company_house_number: '123')
       end
 
       enquiry_2 = nil
-      Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 3)) do
+      Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2)) do
         enquiry_1 = create(:enquiry, company_house_number: '124')
       end
 
@@ -475,10 +475,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(items.length).to eq(2)
 
       elastic_search_bulk_1 = items[0]
-      expect(elastic_search_bulk_1['published']).to eq('2008-09-01T12:01:03+00:00')
+      expect(elastic_search_bulk_1['published']).to eq('2008-09-01T12:01:02+00:00')
 
       elastic_search_bulk_2 =  items[1]
-      expect(elastic_search_bulk_2['published']).to eq('2008-09-01T12:01:02+00:00')
+      expect(elastic_search_bulk_2['published']).to eq('2008-09-01T12:01:03+00:00')
     end
 
     it 'is paginated with a link element if there are 20 enquiries' do
