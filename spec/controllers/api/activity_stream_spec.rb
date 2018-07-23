@@ -512,7 +512,9 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(elastic_search_bulk_2['actor']['dit:companiesHouseNumber']).to eq('123')
     end
 
-    it 'is paginated with a link element if there are 21 enquiries' do
+    it 'is paginated with a link element if there are MAX_PER_PAGE enquiries' do
+      # Creating records takes quite a while. Stub for a quicker test
+      stub_const("MAX_PER_PAGE", 20)
       Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2)) do
         for i in 1..21 do
           create(:enquiry, company_house_number: i.to_s, id:(2923 + i))

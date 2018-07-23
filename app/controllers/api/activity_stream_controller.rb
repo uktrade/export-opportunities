@@ -35,7 +35,7 @@ def to_activity(enquiry)
   }
 end
 
-MAX_PER_PAGE = 20
+MAX_PER_PAGE = 500
 
 module Api
   class ActivityStreamController < ApplicationController
