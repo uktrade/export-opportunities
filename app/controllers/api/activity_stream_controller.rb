@@ -104,14 +104,12 @@ module Api
       # the holder of the secret key is allowed to access the data
 
       unless authorized_ip_address?(request)
-        respond_401 'Connecting from unauthorized IP'
-        return
+        return respond_401 'Connecting from unauthorized IP'
       end
 
       # Ensure Authorization header is sent
       unless request.headers.key?('Authorization')
-        respond_401 'Authorization header is missing'
-        return
+        return respond_401 'Authorization header is missing'  
       end
 
       # Ensure Authorization header is correct
@@ -125,8 +123,7 @@ module Api
         payload: request.body.read
       )
       if res != correct_credentials
-        respond_401 res[:message]
-        return
+        return respond_401 res[:message]  
       end
 
       respond_200 secret: 'content-for-pen-test'
