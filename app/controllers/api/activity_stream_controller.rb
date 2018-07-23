@@ -100,11 +100,8 @@ module Api
 
     def authenticate_request(request)
       return [false, 'Connecting from unauthorized IP'] unless authorized_ip_address?(request)
-
-      # Ensure Authorization header is sent
       return [false, 'Authorization header is missing'] unless request.headers.key?('Authorization')
 
-      # Ensure Authorization header is correct
       res = authenticate(
         authorization_header: request.headers['Authorization'],
         method: request.method,
