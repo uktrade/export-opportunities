@@ -139,7 +139,7 @@ module Api
         .order('created_at ASC, id ASC')
       enquiries = companies_with_number.offset(page * MAX_PER_PAGE).take(MAX_PER_PAGE)
 
-      include_next_page_href = enquiries.count == MAX_PER_PAGE
+      include_next_page_href = !enquiries.empty?
       next_page_href = request.base_url + request.env['PATH_INFO'] + '?page=' + (page + 1).to_s
       next_page_hash = include_next_page_href ? { next: next_page_href } : {}
 
