@@ -133,7 +133,7 @@ module Api
       is_authentic, message = authenticate(request)
       return respond_401 message unless is_authentic
 
-      search_after = !params.key?(:search_after) ? '0_0' : params[:search_after]
+      search_after = params.key?(:search_after) ? params[:search_after] : '0_0'
       search_after_time_str, search_after_id_str = search_after.split('_')
       search_after_time = DateTime.strptime(search_after_time_str, '%s')
       search_after_id = Integer(search_after_id_str)
