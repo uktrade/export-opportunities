@@ -145,10 +145,10 @@ module Api
 
       items = enquiries.map(&method(:to_activity))
       contents = to_activity_collection(items).merge(
-        if !enquiries.empty?
-          { next: "#{request.base_url}#{request.env['PATH_INFO']}?search_after=#{enquiries[-1].created_at.to_datetime.to_i}_#{enquiries[-1].id}" }
-        else
+        if enquiries.empty?
           {}
+        else
+          { next: "#{request.base_url}#{request.env['PATH_INFO']}?search_after=#{enquiries[-1].created_at.to_datetime.to_i}_#{enquiries[-1].id}" }
         end
       )
       respond_200 contents
