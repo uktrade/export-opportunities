@@ -103,14 +103,10 @@ module Api
       # 403 is never sent, since there is is no finer granularity for this endpoint:
       # the holder of the secret key is allowed to access the data
 
-      unless authorized_ip_address?(request)
-        return respond_401 'Connecting from unauthorized IP'
-      end
+      return respond_401 'Connecting from unauthorized IP' unless authorized_ip_address?(request)
 
       # Ensure Authorization header is sent
-      unless request.headers.key?('Authorization')
-        return respond_401 'Authorization header is missing'  
-      end
+      return respond_401 'Authorization header is missing' unless request.headers.key?('Authorization')
 
       # Ensure Authorization header is correct
       res = authenticate(
@@ -122,9 +118,7 @@ module Api
         content_type: request.headers['Content-Type'],
         payload: request.body.read
       )
-      if res != correct_credentials
-        return respond_401 res[:message]  
-      end
+      return respond_401 res[:message] unless res == correct_credentials
 
       respond_200 secret: 'content-for-pen-test'
     end
