@@ -5,11 +5,18 @@ require 'openssl'
 
 module Api
   class ActivityStreamController < ApplicationController
-    def authenticate(
-      authorization_header:,
-      method:, request_uri:, host:, port:,
-      content_type:, payload:
-    )
+    def authenticate(request)
+      return [false, 'Connecting from unauthorized IP'] unless authorized_ip_address?(request)
+      return [false, 'Authorization header is missing'] unless request.headers.key?('Authorization')
+
+      authorization_header = request.headers['Authorization']
+      method = request.method
+      request_uri = request.original_fullpath
+      host = request.host
+      port = '443'
+      content_type = request.headers['Content-Type']
+      payload = request.body.read
+
       parsed_header_array = authorization_header.scan(/([a-z]+)="([^"]+)"/)
       parsed_header = parsed_header_array.each_with_object({}) do |key_val, memo|
         memo[key_val[0].to_sym] = key_val[1]
@@ -98,30 +105,12 @@ module Api
       remote_ips.length >= 2 && authorized_ip_addresses.include?(remote_ips[-2])
     end
 
-    def authenticate_request(request)
-      return [false, 'Connecting from unauthorized IP'] unless authorized_ip_address?(request)
-      return [false, 'Authorization header is missing'] unless request.headers.key?('Authorization')
-
-      is_authentic, message = authenticate(
-        authorization_header: request.headers['Authorization'],
-        method: request.method,
-        request_uri: request.original_fullpath,
-        host: request.host,
-        port: '443',
-        content_type: request.headers['Content-Type'],
-        payload: request.body.read
-      )
-      return [is_authentic, message] unless is_authentic
-
-      [true, '']
-    end
-
     def index
       # 401 if the server can't authenticate the request
       # 403 is never sent, since there is is no finer granularity for this endpoint:
       # the holder of the secret key is allowed to access the data
 
-      is_authentic, message = authenticate_request(request)
+      is_authentic, message = authenticate(request)
       return respond_401 message unless is_authentic
 
       respond_200 secret: 'content-for-pen-test'
