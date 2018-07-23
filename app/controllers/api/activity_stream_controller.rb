@@ -98,15 +98,11 @@ module Api
       remote_ips.length >= 2 && authorized_ip_addresses.include?(remote_ips[-2])
     end
 
-    def index
-      # 401 if the server can't authenticate the request
-      # 403 is never sent, since there is is no finer granularity for this endpoint:
-      # the holder of the secret key is allowed to access the data
-
-      return respond_401 'Connecting from unauthorized IP' unless authorized_ip_address?(request)
+    def authenticate_request(request)
+      return [false, 'Connecting from unauthorized IP'] unless authorized_ip_address?(request)
 
       # Ensure Authorization header is sent
-      return respond_401 'Authorization header is missing' unless request.headers.key?('Authorization')
+      return [false, 'Authorization header is missing'] unless request.headers.key?('Authorization')
 
       # Ensure Authorization header is correct
       res = authenticate(
@@ -118,7 +114,18 @@ module Api
         content_type: request.headers['Content-Type'],
         payload: request.body.read
       )
-      return respond_401 res[:message] unless res == correct_credentials
+      return [false, res[:message]] unless res == correct_credentials
+
+      [true, '']
+    end
+
+    def index
+      # 401 if the server can't authenticate the request
+      # 403 is never sent, since there is is no finer granularity for this endpoint:
+      # the holder of the secret key is allowed to access the data
+
+      is_authentic, message = authenticate_request(request)
+      return respond_401 message unless is_authentic
 
       respond_200 secret: 'content-for-pen-test'
     end
