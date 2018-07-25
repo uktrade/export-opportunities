@@ -74,7 +74,7 @@ section {
 }
 
 
-// TABLET
+// RESPONSIVE
 @media (max-width: 767px) {
   section {
     .heading,
@@ -86,8 +86,6 @@ section {
   }
 }
 
-
-// MOBILE
 @media (max-width: 420px) {
   body {
     @include body-m-mob;
@@ -99,6 +97,11 @@ section {
     .section-header {
       @include heading-m-mob;
     }
+  }
+
+  .container {
+    margin-left: $spacing-3-m;
+    margin-right: $spacing-3-m;
   }
 }
 
