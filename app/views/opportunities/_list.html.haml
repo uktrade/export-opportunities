@@ -1,15 +1,16 @@
 %ul.navigation.opportunities-list
-  - list.found.each do |opportunity|
+  - list.each do | opp |
+    - opportunity = OpportunityPresenter.new(self, opp)
     %li{:class=>"#{opportunity.source}"}
-      = link_to list.title_with_country(opportunity), opportunity_path(opportunity), {:class => "title" }
+      = link_to opportunity.title_with_country, opportunity_path(opp), {:class => "title" }
 
       %span.text
         = opportunity.teaser
 
-      - if opportunity.source.eql? 'volume_opps'
+      - if opportunity.source('volume_opps')
         = render partial: "partials/open_opps_link"
 
       %span.expires
         Closing date:
-        = opportunity.response_due_on.strftime('%d %B %Y')
+        = opportunity.expires
 

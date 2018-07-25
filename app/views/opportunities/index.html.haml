@@ -14,7 +14,7 @@
 %section#recent-opportunities
   .container
     %h2 Latest export opportunities
-    = render partial: "opportunities/list", locals: { list: recent_opportunities }
+    = render partial: "opportunities/list", locals: { list: recent_opportunities.found }
     = link_to "View more", opportunities_url, :class=>"more button"
 
 

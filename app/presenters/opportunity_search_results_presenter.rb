@@ -34,24 +34,6 @@ class OpportunitySearchResultsPresenter < FormPresenter
     field
   end
 
-  # Opportunity.title in required format.
-  # Returns...
-  # Unaltered opportunity.title when from Post.
-  # 'Multi Country - [opportunity.title]' when has multiple countries.
-  # '[country] - [opportunity.title]' when has single country.
-  def title_with_country(opportunity)
-    if opportunity.source == 'post'
-      opportunity.title
-    else
-      country = if opportunity.countries.size > 1
-                  'Multi Country'
-                else
-                  opportunity.countries.map(&:name).join
-                end
-      "#{country} - #{opportunity.title}"
-    end
-  end
-
   # Only show all if there are more than currently viewed
   def view_all_link(url, css_classes = '')
     if @total > @view_limit
