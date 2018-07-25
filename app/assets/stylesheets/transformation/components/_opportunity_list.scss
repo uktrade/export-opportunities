@@ -24,6 +24,7 @@
 
   .title {
     @include body-l;
+    display: block;
     font-weight: bold;
     padding: 0 $spacing-3 $spacing-4 $spacing-3;
   }
@@ -45,7 +46,7 @@
   font-size: 12px;
   position: absolute;
   right: $spacing-3;
-  top: $spacing-3;
+  top: 25px;
 
   a {
     display: block;
