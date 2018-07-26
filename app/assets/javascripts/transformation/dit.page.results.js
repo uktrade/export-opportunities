@@ -5,48 +5,13 @@
 
 dit.page.results = (new function () {
   var RESULTS = this;
-  var _cache = {
-  }
   
   // Page init
   this.init = function() {
     enhanceResultFilters();
+    bindAutoUpdateListener();
 
-    cacheComponents();
-    viewAdjustments(dit.responsive.mode());
-    bindResponsiveListener();
-    
     delete this.init; // Run once
-  }
-  
-  
-  /* Grab and store elements that are manipulated throughout
-   * the lifetime of the page or, that are used across 
-   * several functions
-   **/
-  function cacheComponents() {
-    // e.g. _cache.teasers_site = $("[data-component='teaser-site']");
-  }
-
-  function viewAdjustments(view) {
-    var alignHeights = dit.utils.alignHeights;
-    switch(view) {
-      case "desktop":
-        break;
-      case "tablet":
-        break;
-      case "mobile":
-        break;
-    }
-  }
-    
-  /* Bind listener for the dit.responsive.reset event
-   * to reset the view when triggered.
-   **/
-  function bindResponsiveListener() {
-    $(document.body).on(dit.responsive.reset, function(e, mode) {
-      viewAdjustments(mode);
-    });
   }
 
   /* Find and enhance the filter groups.
@@ -63,6 +28,14 @@ dit.page.results = (new function () {
         $control: $labels.eq(index),
         blur: false
       }));
+    });
+  }
+
+  /* Auto-update results when sort value is changed.
+   **/
+  function bindAutoUpdateListener() {
+    $("#search-sort").on("change", function() {
+      this.form.submit();
     });
   }
 
