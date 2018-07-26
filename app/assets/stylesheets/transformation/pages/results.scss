@@ -152,12 +152,13 @@ form {
   label {
     @include body-s;
     display: inline-block;
+    margin: $spacing-4;
   }
 
   select {
     @include body-s;
     display: inline-block;
-    margin: 0 0 0 1em;
+    margin: 0;
     min-width: 175px;
   }
 
