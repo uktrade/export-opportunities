@@ -48,8 +48,11 @@
   .search-form {
     padding-bottom: $spacing-3;
 
-    .filter {
+    label {
       margin-bottom: $spacing-3;
+    }
+
+    .filter {
       width: $cols-4;
     }
 
@@ -59,12 +62,20 @@
     }
 
     .term {
-      margin-bottom: $spacing-3;
       width: $cols-8;
     }
   }
 }
 
+@media screen and (max-width: 768px) {
+  .search-form {
+    padding: $spacing-3-m;
+
+    label {
+      margin-bottom: $spacing-3-m;
+    }
+  }
+}
 
 @media screen and (max-width: 660px) {
   .search-form {

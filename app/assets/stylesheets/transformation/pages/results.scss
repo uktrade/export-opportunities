@@ -237,10 +237,24 @@ form {
   }
 }
 
+@media (max-width: 620px) {
+  .search {
+    &,
+    label,
+    .text {
+      width: 100%;
+    }
+  }
+}
+
 @media (max-width: 420px) {
   .search-results-filters {
     .submit {
       width: 100%;
     }
+  }
+
+  .sort {
+    float: none;
   }
 }
