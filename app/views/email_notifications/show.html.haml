@@ -14,5 +14,5 @@
 
   .match-results
     .container
-      = render partial: "opportunities/list", locals: { list: results }
+      = render partial: "opportunities/list", locals: { list: results.found }
       = render partial: "components/pagination", locals: { items: paged_results }
