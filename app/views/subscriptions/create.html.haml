@@ -14,8 +14,9 @@
 
     - if subscriptions != nil && subscriptions.size > 0
       %ul.subscriptions
-        - subscriptions.each do |sub|
-          %li= sub.title
+        - subscriptions.each do |item|
+          - sub = SubscriptionPresenter.new(item)
+          %li= sub.description
 
     = link_to page.content["alert_summary_link"], dashboard_path(anchor: 'alerts', target: :alerts)
 
