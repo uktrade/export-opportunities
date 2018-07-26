@@ -128,6 +128,14 @@ class OpportunityPresenter < BasePresenter
     opportunity.source.eql? value
   end
 
+  def css_class_name
+    if source('volume_opps')
+      'opportunity-external'
+    else
+      'opportunity-internal'
+    end
+  end
+
   def buyer_details_empty?
     buyer_name.blank? && buyer_address.blank? && opportunity.contacts.empty?
   end

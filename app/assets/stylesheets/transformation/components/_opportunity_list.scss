@@ -24,13 +24,12 @@
 
   .title {
     @include body-l;
-    display: block;
     font-weight: bold;
     padding: 0 $spacing-3 $spacing-4 $spacing-3;
   }
 }
 
-.volume_opps {
+.opportunity-external {
   .source {
     float: right;
   }
@@ -78,7 +77,7 @@
     }
   }
 
-  .volume_opps {
+  .opportunity-external {
     .title {
       float: none;
       width: auto;

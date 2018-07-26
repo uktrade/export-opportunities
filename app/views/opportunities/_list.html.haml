@@ -1,7 +1,7 @@
 %ul.navigation.opportunities-list
   - list.each do | opp |
     - opportunity = OpportunityPresenter.new(self, opp)
-    %li{:class=>"#{opportunity.source}"}
+    %li{:class=>"#{opportunity.css_class_name}"}
       = link_to opportunity.title_with_country, opportunity_path(opp), {:class => "title" }
 
       %span.text
