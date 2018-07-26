@@ -60,9 +60,10 @@
 
 
 // RESPONSIVE
-@media screen and (max-width: 620px) {
+@media screen and (max-width: 768px) {
   .opportunities-list {
     li {
+      margin-bottom: $spacing-3-m;
       padding-top: $spacing-3-m;
     }
 
