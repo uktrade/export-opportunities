@@ -27,33 +27,6 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
   end
 
-  describe '#title_with_country' do
-    presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
-    title = 'An Export Opportunity'
-
-    it 'Returns unaltered opportunity.title when from Post' do
-      countries = [ create(:country, { name: 'Spain' }), create(:country, { name: 'France' }) ]
-      opportunity = create(:opportunity, { title: title, source: :post, countries: countries })
-
-      expect(presenter.title_with_country(opportunity)).to eql(opportunity.title)
-      expect(presenter.title_with_country(opportunity)).to eql(title)
-    end
-
-    it 'Returns "Multi Country - [opportunity.title]" when has multiple countries' do
-      countries = [ create(:country, { name: 'Spain' }), create(:country, { name: 'France' }) ]
-      opportunity = create(:opportunity, { title: title, source: :volume_opps, countries: countries })
-
-      expect(presenter.title_with_country(opportunity)).to eql("Multi Country - #{title}")
-    end
-
-     it 'Returns "[country] - [opportunity.title]" when has single country.' do
-       countries = [ create(:country, { name: 'Spain' }) ]
-       opportunity = create(:opportunity, { title: title, source: :volume_opps, countries: countries })
-
-       expect(presenter.title_with_country(opportunity)).to eql("Spain - #{title}")
-     end
-  end
-
   describe '#view_all_link' do
     it 'Returns a link when has more opportunities to show' do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, { total: 2, limit: 1 }, {})
@@ -289,6 +262,26 @@ RSpec.describe OpportunitySearchResultsPresenter do
       expect(selected_filters).to include('Mexico')
       expect(selected_filters).to include('Spain')
       expect(selected_filters).to_not include('Dominica')
+    end
+
+    it 'returns the list of unique values' do
+      country_1 = country('Spain', 'spain')
+      country_2 = country('Mexico', 'mexico')
+      country_3 = country('Spain', 'spain')
+      options = [ country_1, country_2, country_3 ]
+      selected = [ country_1.slug, country_2.slug, country_3.slug ]
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
+      selected_filters = presenter.selected_filter_list({
+        countries: {
+          name: 'countries[]',
+          options: options,
+          selected: selected
+        }
+      })
+
+      expect(selected_filters).to include('Mexico')
+      expect(selected_filters).to include('Spain')
+      expect(selected_filters.length).to be(2)
     end
   end
 
