@@ -35,6 +35,10 @@ def to_activity(enquiry)
   }
 end
 
+def to_search_after(enquiry)
+  "#{enquiry.created_at.to_datetime.to_f}_#{enquiry.id}"
+end
+
 MAX_PER_PAGE = 500
 
 module Api
@@ -148,7 +152,7 @@ module Api
         if enquiries.empty?
           {}
         else
-          { next: "#{request.base_url}#{request.env['PATH_INFO']}?search_after=#{enquiries[-1].created_at.to_datetime.to_f}_#{enquiries[-1].id}" }
+          { next: "#{request.base_url}#{request.env['PATH_INFO']}?search_after=#{to_search_after(enquiries[-1])}" }
         end
       )
       respond_200 contents
