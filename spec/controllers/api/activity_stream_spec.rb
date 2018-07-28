@@ -515,7 +515,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     it 'is paginated with a link element if there are MAX_PER_PAGE enquiries' do
       # Creating records takes quite a while. Stub for a quicker test
       stub_const("MAX_PER_PAGE", 20)
-      Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2, 123)) do
+      Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2, 344590)) do
         for i in 1..21 do
           create(:enquiry, company_house_number: i.to_s, id:(2923 + i))
         end
@@ -534,17 +534,17 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
 
       expect(feed_hash_1['orderedItems'].length).to eq(20)
       expect(feed_hash_1.key?('next')).to eq(true)
-      expect(feed_hash_1['next']).to include('?search_after=1220270462.000123_2943')
+      expect(feed_hash_1['next']).to include('?search_after=1220270462.344590_2943')
 
       @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = auth_header(
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        '/api/activity_stream?search_after=1220270462.000123_2943',
+        '/api/activity_stream?search_after=1220270462.344590_2943',
         '',
       )
-      get :index, params: { format: :json, search_after: '1220270462.000123_2943' }
+      get :index, params: { format: :json, search_after: '1220270462.344590_2943' }
       feed_hash_2 = JSON.parse(response.body)
       expect(feed_hash_2.key?('next')).to eq(true)
       expect(feed_hash_2['orderedItems'][0]['id']).to eq('dit:exportOpportunities:Enquiry:2944:Create')
@@ -553,10 +553,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        '/api/activity_stream?search_after=1220270462.000123_2944',
+        '/api/activity_stream?search_after=1220270462.344590_2944',
         '',
       )
-      get :index, params: { format: :json, search_after: '1220270462.000123_2944' }
+      get :index, params: { format: :json, search_after: '1220270462.344590_2944' }
       feed_hash_3 = JSON.parse(response.body)
       expect(feed_hash_3.key?('next')).to eq(false)
       expect(feed_hash_3['orderedItems']).to eq([])

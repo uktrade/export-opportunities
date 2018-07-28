@@ -36,7 +36,9 @@ def to_activity(enquiry)
 end
 
 def to_search_after(enquiry)
-  "#{enquiry.created_at.to_datetime.to_f}_#{enquiry.id}"
+  timestamp_str = format('%.6f', enquiry.created_at.to_datetime.to_f)
+  id_str = enquiry.id.to_s
+  "#{timestamp_str}_#{id_str}"
 end
 
 MAX_PER_PAGE = 500
