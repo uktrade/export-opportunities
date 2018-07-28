@@ -133,13 +133,13 @@ module Api
       is_authentic, message = authenticate(request)
       return respond_401 message unless is_authentic
 
-      search_after = params.fetch(:search_after, '0_0')
+      search_after = params.fetch(:search_after, '0.000000_0')
       search_after_time_str, search_after_id_str = search_after.split('_')
-      search_after_time = DateTime.strptime(search_after_time_str, '%s')
+      search_after_time = Float(search_after_time_str)
       search_after_id = Integer(search_after_id_str)
       companies_with_number = Enquiry
         .where("company_house_number IS NOT NULL AND company_house_number != ''")
-        .where('created_at > ? OR (created_at = ? AND id > ?)', search_after_time, search_after_time, search_after_id)
+        .where('created_at > to_timestamp(?) OR (created_at = to_timestamp(?) AND id > ?)', search_after_time, search_after_time, search_after_id)
         .order('created_at ASC, id ASC')
       enquiries = companies_with_number.take(MAX_PER_PAGE)
 
@@ -148,7 +148,7 @@ module Api
         if enquiries.empty?
           {}
         else
-          { next: "#{request.base_url}#{request.env['PATH_INFO']}?search_after=#{enquiries[-1].created_at.to_datetime.to_i}_#{enquiries[-1].id}" }
+          { next: "#{request.base_url}#{request.env['PATH_INFO']}?search_after=#{enquiries[-1].created_at.to_datetime.to_f}_#{enquiries[-1].id}" }
         end
       )
       respond_200 contents
