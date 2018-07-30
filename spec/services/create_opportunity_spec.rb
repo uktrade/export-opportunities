@@ -18,6 +18,24 @@ describe CreateOpportunity, type: :service do
         .to change { Opportunity.count }.by(1)
     end
 
+    it 'creates a new custom target URL opportunity without target_url' do
+      service_provider = create(:service_provider, name: 'DFID')
+      editor = create(:editor, service_provider_id: service_provider.id)
+
+      expect { CreateOpportunity.new(editor).call(opportunity_params(title: 'DFID title', service_provider_id: service_provider.id)) }
+          .to change { Opportunity.count }.by(0)
+    end
+
+    it 'creates a new custom target URL opportunity with invalid URL scheme target_url' do
+      service_provider = create(:service_provider, name: 'DFID')
+      editor = create(:editor, service_provider_id: service_provider.id)
+
+      opportunity_params = opportunity_params(title: 'DFID title', service_provider_id: service_provider.id)
+      opportunity_params[:target_url] = 'http:// great gov uk'
+      expect { CreateOpportunity.new(editor).call(opportunity_params) }
+          .to change { Opportunity.count }.by(0)
+    end
+
     it 'returns an opportunity' do
       editor = create(:editor, service_provider: @service_provider)
 
@@ -60,7 +78,7 @@ describe CreateOpportunity, type: :service do
   end
 end
 
-def opportunity_params(title: 'title')
+def opportunity_params(title: 'title', service_provider_id: 5)
   {
     title: title,
     country_ids: ['1'],
@@ -74,6 +92,6 @@ def opportunity_params(title: 'title')
       { name: 'foo', email: 'email@foo.com' },
       { name: 'bar', email: 'email@bar.com' },
     ],
-    service_provider_id: '5',
+    service_provider_id: service_provider_id,
   }
 end
