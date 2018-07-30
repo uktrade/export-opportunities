@@ -79,7 +79,7 @@ class EmailNotificationsController < ApplicationController
   private def every_opportunity_subscription?(subscriptions)
     subscriptions.each do |subscription|
       if subscription.search_term.blank? && subscription.countries.size.zero? && subscription.types.size.zero? && subscription.values.size.zero? && subscription.sectors.size.zero?
-        true
+        return true
       end
     end
     false
