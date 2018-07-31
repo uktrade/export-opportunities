@@ -71,8 +71,8 @@
     margin: 0 $spacing-3;
   }
 
-  @media (max-width: 420px) {
-    margin: 0 20px; // Special figure intentionally outside of standard.
+  @media (max-width: 768px) {
+    margin: 0 $spacing-3-m;
   }
 }
 

@@ -24,7 +24,11 @@ class PendingSubscriptionsController < ApplicationController
     flash.clear
 
     @subscription = SubscriptionPresenter.new(subscription)
-    render 'subscriptions/create', locals: { subscriptions: [subscription], subscription: @subscription, content: content }
+    render 'subscriptions/create', layout: 'notification', locals: {
+      subscriptions: [subscription],
+      subscription: @subscription,
+      content: content['update'],
+    }
   end
 
   private def subscription_params

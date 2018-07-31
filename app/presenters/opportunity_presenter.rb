@@ -17,6 +17,11 @@ class OpportunityPresenter < BasePresenter
     @sectors = opportunity.sectors
   end
 
+  # Opportunity.title in required format.
+  # Returns...
+  # Unaltered opportunity.title when from Post.
+  # 'Multi Country - [opportunity.title]' when has multiple countries.
+  # '[country] - [opportunity.title]' when has single country.
   def title_with_country
     if source('post')
       opportunity.title
@@ -121,6 +126,14 @@ class OpportunityPresenter < BasePresenter
 
   def source(value = '')
     opportunity.source.eql? value
+  end
+
+  def css_class_name
+    if source('volume_opps')
+      'opportunity-external'
+    else
+      'opportunity-internal'
+    end
   end
 
   def buyer_details_empty?
