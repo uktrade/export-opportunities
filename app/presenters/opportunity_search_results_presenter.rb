@@ -159,7 +159,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
         end
       end
     end
-    selected
+    selected.uniq
   end
 
   # Pass in the query params (request.query_parameters)
