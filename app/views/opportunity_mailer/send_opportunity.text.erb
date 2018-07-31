@@ -9,14 +9,15 @@ You have <%= @count %> opportunity that matches your criteria
 <% end %>
 
 
-<% @opportunities.each do |opportunity| %>
+<% @opportunities.each do |opp| %>
+<% opportunity = OpportunityPresenter.new(self, opp) %>
 
-<%= opportunity.title %>
+<%= opportunity.title_with_country %>
 
 <%= opportunity.teaser %>
 
-Opportunity expires: <%= opportunity.response_due_on %>
-<%= opportunity_url(opportunity) %>
+Opportunity expires: <%= opportunity.expires %>
+<%= opportunity_url(opp) %>
 
 -------------------------
 
