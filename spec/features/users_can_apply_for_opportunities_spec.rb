@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'rails_helper'
 require 'capybara/email/rspec'
 
@@ -220,7 +221,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
   def fill_in_your_details
     fill_in 'First Name', with: Faker::Name.first_name
     fill_in 'Last Name', with: Faker::Name.last_name
-    fill_in 'Telephone Number', with: Faker::PhoneNumber.phone_number
+    fill_in 'Phone Number', with: Faker::PhoneNumber.phone_number
   end
 
   def fill_in_company_details
