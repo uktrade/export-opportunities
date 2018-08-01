@@ -131,6 +131,9 @@
             %p If your company meets the requirements of the tender, go to the website where the tender is hosted and submit your bid.
             = link_to 'Go to third party website', opportunity.tender_url, class: 'button', target: :_blank
 
+          - elsif opportunity.target_url
+            = link_to 'Go to third party website', opportunity.target_url, class: 'button', target: :_blank
+
           - elsif opportunity.source('post')
             = link_to 'Submit your proposal', new_enquiry_path(@opportunity.slug), class: 'button abcbutton'
 
