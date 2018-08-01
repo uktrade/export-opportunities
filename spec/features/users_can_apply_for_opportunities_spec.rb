@@ -102,7 +102,12 @@ RSpec.feature 'users can apply for opportunities', js: true do
     end
 
     scenario 'when the SSO response is invalid' do
-      OmniAuth.config.mock_auth[:exporting_is_great] = :invalid_credentials
+      if Figaro.env.bypass_sso?
+        provider = :developer
+      else
+        provider = :exporting_is_great
+      end
+      OmniAuth.config.mock_auth[provider] = :invalid_credentials
 
       visit 'enquiries/great-opportunity'
 
