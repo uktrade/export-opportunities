@@ -29,9 +29,23 @@ class VolumeOppsRetriever
     return { id: 2 } if value.nil? || currency_name.nil?
 
     gbp_value = value_to_gbp(value, currency_name)
-    # set value to 1<100,000GBP or 3>100,000GBP
-    id = if gbp_value < 100_000
+    # set value to:
+    # 2, less than 100k
+    # 1, 100k-1m
+    # 3, value unknown  (value_to_gbp returns -1)
+    # 4, £1m-5m
+    # 5, £5m-50m
+    # 6, more than £50m,
+    id = if gbp_value < 100_000 && gbp_value >= 0
+           2
+         elsif gbp_value > 100_000 && gbp_value < 1_000_000
            1
+         elsif gbp_value > 1_000_000 && gbp_value < 5_000_000
+           4
+         elsif gbp_value > 5_000_000 && gbp_value < 50_000_000
+           5
+         elsif gbp_value > 50_000_000
+           6
          else
            3
          end
