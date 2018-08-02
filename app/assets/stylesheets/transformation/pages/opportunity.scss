@@ -1,9 +1,25 @@
 @import "transformation/config";
+@import "transformation/components/sharing-links";
 @import "transformation/effects/simple_text_display_restrictor";
 
 
+@mixin content {
+  clear: left;
+  float: left;
+  width: $cols-8;
+}
+
 h1 {
   margin-bottom: $spacing-2;
+}
+
+.bid {
+  @include content;
+  margin-bottom: $spacing-1;
+
+  a {
+    margin-top: $spacing-3;
+  }
 }
 
 .breadcrumbs {
@@ -11,21 +27,22 @@ h1 {
 }
 
 .buyer {
+  @include content;
   margin-bottom: $spacing-1;
 }
 
 .details {
+  float: right;
   padding-left: $spacing-3;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: $cols-4;
+  width: $cols-3;
 
-  dd.share {
-    display: block;
+  dd {
+    @include body-s;
   }
 
-  dl dt {
+  dt {
+    @include body-s;
+    font-weight: bold;
     margin-bottom: 0;
   }
 
@@ -34,8 +51,25 @@ h1 {
   }
 }
 
+.description {
+  @include content;
+  margin-bottom: $spacing-1;
+
+  dl {
+    padding-top: $spacing-3;
+  }
+
+  h2 {
+    @include body-m;
+    font-weight: bold;
+  }
+}
+
 .opportunity {
   margin-bottom: $spacing-1;
+  padding-left: $cols-2;
+  position: relative;
+  
 
   dd {
     margin-bottom: $spacing-3;
@@ -48,41 +82,6 @@ h1 {
 
   .action {
     padding-bottom: $spacing-3;
-  }
-
-  .bid {
-    a {
-      margin-top: $spacing-3;
-    }
-  }
-
-  .content {
-    padding-right: $cols-5;
-    position: relative;
-  }
-
-  .description {
-    margin-bottom: $spacing-1;
-
-    dl {
-      padding-top: $spacing-3;
-    }
-
-    h2 {
-      @include body-m;
-      font-weight: bold;
-    }
-  }
-
-  .details {
-    dd {
-      @include body-s;
-    }
-
-    dt {
-      @include body-s;
-      font-weight: bold;
-    }
   }
 
   .source {
@@ -109,36 +108,54 @@ h1 {
     margin: $spacing-3 0;
   }
 
-  .summary {
-    @include body-s;
-    border-bottom: $light-grey solid 2px;
-    margin-bottom: $spacing-1;
-    padding-bottom: $spacing-3;
-  }
-
-  .teaser {
-    @include body-l;
-    margin-bottom: $spacing-3;
-  }
-
   .type {
     color: $mid-grey;
     margin-bottom: 0;
   }  
 }
 
+.sharing-links {
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+.summary {
+  @include body-s;
+  border-bottom: $light-grey solid 2px;
+  margin-bottom: $spacing-1;
+  padding-bottom: $spacing-3;
+}
+
+.teaser {
+  @include content;
+  @include body-l;
+  margin-bottom: $spacing-3;
+}
+
 
 // RESPONSIVE
 @media screen and (max-width: 767px) {
-  .details {
-    margin-bottom: $spacing-1;
-    padding-left: 0;
-    position: static;
+  .bid,
+  .buyer,
+  .description,
+  .teaser {
+    float: none;
     width: auto;
   }
+
+  .details {
+    float: none;
+    margin-bottom: $spacing-1;
+    padding-left: 0;
+    width: auto;
+  }
+
   .opportunity {
-    .content {
-      padding-right: 0;
-    }
+    padding-left: 0;
+  }
+
+  .sharing-links {
+    position: static;
   }
 }
