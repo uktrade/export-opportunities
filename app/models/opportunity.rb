@@ -102,10 +102,10 @@ class Opportunity < ApplicationRecord
   def enquiry_url_validations
     if source == 'post' && custom_url_service_provider?
       if target_url.blank?
-        errors.add(:target_url, 'You need to supply a custom target enquiry URL for this opportunity')
+        return errors.add(:target_url, 'You need to supply a custom target enquiry URL for this opportunity')
       end
       if not_a_url?(target_url)
-        errors.add(:target_url, 'The custom target enquiry URL is not a valid URL')
+        errors.add(:target_url, 'The custom target enquiry URL is not a valid URL. A valid URL starts with http:// or https://')
       end
     end
   end
@@ -251,6 +251,6 @@ class Opportunity < ApplicationRecord
 
   def not_a_url?(target_url)
     return true if target_url.blank?
-    target_url.match(/\A(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?\Z/i).blank?
+    target_url.match(/\A(https?:\/\/)+([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?\Z/i).blank?
   end
 end
