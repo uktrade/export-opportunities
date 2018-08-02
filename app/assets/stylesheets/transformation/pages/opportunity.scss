@@ -153,6 +153,16 @@ h1 {
 
   .opportunity {
     padding-left: 0;
+
+    dd {
+      margin-bottom: $spacing-3-m;
+    }
+  }
+
+  .report {
+    bottom: -90px;
+    position: absolute;
+    right: 0;
   }
 
   .sharing-links {
