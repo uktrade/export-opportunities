@@ -25,7 +25,7 @@
   <%= render partial: 'google_analytics' %>
   <%= render partial: 'export_components/header' %>
 
-  <main id="main" role="main">
+  <main id="content" role="main">
     <%= content_for?(:errors) ? yield(:errors) : "" %>
     <%= content_for?(:content) ? yield(:content) : yield %>
 
