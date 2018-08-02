@@ -47,9 +47,9 @@
         .filters-panel
           %h2 Values
           .form-group
-            = f.collection_check_boxes :value_ids, @values, :id, :name do |field|
+            = f.collection_radio_buttons :value_ids, @values, :id, :name do |field|
               %div
-                = field.check_box
+                = field.radio_button
                 = field.label
 
   .form-group
