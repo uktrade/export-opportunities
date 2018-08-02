@@ -2,8 +2,7 @@
 - unless request.fullpath.include?('/admin')
   = stylesheet_link_tag('export-components')
   %noscript
-    .js-disabled
-      = stylesheet_link_tag('export-components-no-js')
+    = stylesheet_link_tag('export-components-no-js')
 
 = stylesheet_link_tag 'transformation/main', media: 'all'
 /[if IE 9]
