@@ -93,7 +93,7 @@
     = f.collection_select :service_provider_id, @service_providers, :id, :name, { prompt: '', selected: @selected_service_provider&.id }, { class: 'form-control', required: true }
 
   .form-group{ 'data-node' => 'target-url' }
-    = f.label "Enter the external opportunity link, it must start with http:// or https://", for: "opportunity_target_url", class: 'form-label-bold'
+    = f.label "Enter the external opportunity link, it must start with http:// or https:// (optional)", for: "opportunity_target_url", class: 'form-label-bold'
     = f.text_field :target_url, class: 'form-control'
     %noscript
       %p.form-hint
