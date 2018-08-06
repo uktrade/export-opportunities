@@ -50,7 +50,7 @@
           .hero-header__content
             = yield(:hero)
 
-    %main.main{:role => "main"}
+    %main#application.main{:role => "main"}
 
       - if content_for?(:errors)
         .container
