@@ -1,0 +1,57 @@
+// Social media share links
+// -----------------------------
+
+.sharing-links {
+  @include body-s;
+  margin-bottom: 15px;
+
+  a {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 36px 36px;
+    display: block;
+    height: 36px;
+    width: 36px;
+  }
+
+  img {
+    display: block;
+    margin-bottom: $spacing-4;
+  }
+
+  li {
+    @include text-hidden;
+    margin-bottom: 5px;
+  }
+
+  .email a {
+    background-image: asset_url("logos/email-2.svg");
+  }
+
+  .facebook a {
+    background-image: asset_url("logos/facebook-2.svg");
+  }
+
+  .linkedin a {
+    background-image: asset_url("logos/linkedin-2.svg");
+  }
+
+  .twitter a {
+    background-image: asset_url("logos/twitter-2.svg");
+  }
+}
+
+
+// RESPONSIVE
+@media screen and (max-width: 767px) {
+  .sharing-links {
+    li {
+      display: inline-block;
+      margin-left: $spacing-3-m;
+    }
+
+    p {
+      float: left;
+    }
+  }
+}

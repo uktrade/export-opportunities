@@ -15,6 +15,11 @@
   z-index: -1;
 }
 
+@mixin text-hidden {
+  overflow: hidden;
+  text-indent: -2000px;
+}
+
 @mixin link {
   background-color: transparent;
   border: none;
