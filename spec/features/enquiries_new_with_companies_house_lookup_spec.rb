@@ -22,14 +22,13 @@ feature 'JS-on adds Companies House API lookup', js: true do
   before :each do
     @user = create(:user, email: 'test@example.com')
     login_as @user, scope: :user
+
+    opportunity = create(:opportunity, status: 'publish')
+    visit enquiries_path(opportunity)
   end
 
   # JS functionality adds Companies House input show/hide
   scenario 'Companies House input will be enhanced with show/hide functionality' do
-    opportunity = create(:opportunity, status: 'publish')
-    visit opportunity_path(opportunity)
-
-    click_on 'Submit your proposal'
 
     # control created
     expander_control = find_field('has_companies_house_number')
@@ -53,9 +52,6 @@ feature 'JS-on adds Companies House API lookup', js: true do
 
   # JS functionality allows Companies House lookup and selection
   scenario 'Entering company name will fetch Companies House data' do
-    opportunity = create(:opportunity, status: 'publish')
-    visit opportunity_path(opportunity)
-    click_on 'Submit your proposal'
 
     stub_jquery_ajax(COMPANIES_HOUSE_SEARCH + 'FAKE', companies_house_search_response)
 

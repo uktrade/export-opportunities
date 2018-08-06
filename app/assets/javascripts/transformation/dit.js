@@ -7,5 +7,6 @@ var dit = {
   components: {},
   data: {},
   page: {},
-  constants: {}
+  constants: {},
+  admin: {}
 }

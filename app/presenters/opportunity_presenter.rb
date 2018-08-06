@@ -1,7 +1,7 @@
 class OpportunityPresenter < BasePresenter
   include ApplicationHelper
 
-  attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries, :tender_value, :tender_url, :opportunity_cpvs, :sectors
+  attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries, :tender_value, :tender_url, :target_url, :opportunity_cpvs, :sectors
 
   delegate :expired?, to: :opportunity
 
@@ -9,6 +9,7 @@ class OpportunityPresenter < BasePresenter
     @h = helpers
     @opportunity = opportunity
     @tender_url = opportunity.tender_url
+    @target_url = opportunity.target_url
     @tender_value = opportunity.tender_value
     @buyer_name = opportunity&.buyer_name
     @buyer_address = opportunity&.buyer_address

@@ -63,6 +63,7 @@ Rails.application.config.assets.precompile += %w[transformation/dit.page.results
 Rails.application.config.assets.precompile += %w[transformation/dit.page.opportunity.js]
 Rails.application.config.assets.precompile += %w[transformation/dit.page.enquiries.js]
 Rails.application.config.assets.precompile += %w['transformation/third_party/*.js']
+Rails.application.config.assets.precompile += %w[transformation/dit.admin.opportunity.js]
 
 # POC files (originally on develop_zeus)
 Rails.application.config.assets.precompile += %w[poc/main.scss]

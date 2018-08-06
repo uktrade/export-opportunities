@@ -97,6 +97,15 @@ class Opportunity < ApplicationRecord
   validate :teaser, :teaser_validations
   validates :response_due_on, :description, presence: true
   validate :contacts, :contact_validations
+  validate :target_url, :enquiry_url_validations
+
+  def enquiry_url_validations
+    if source == 'post' && custom_url_service_provider?
+      if not_a_url?(target_url)
+        errors.add(:target_url, 'The custom target enquiry URL is not a valid URL. A valid URL starts with http:// or https://')
+      end
+    end
+  end
 
   def contact_validations
     if source == 'post'
@@ -231,5 +240,14 @@ class Opportunity < ApplicationRecord
 
   def published?
     status == :publish
+  end
+
+  def custom_url_service_provider?
+    service_provider.name == 'DFID'
+  end
+
+  def not_a_url?(target_url)
+    return false if target_url.blank?
+    target_url.match(/\A(https?:\/\/)+([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?\Z/i).blank?
   end
 end

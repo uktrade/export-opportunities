@@ -65,6 +65,12 @@
   %tr
     %th{:scope => 'row'} Description
     %td= present_html_or_formatted_text(@opportunity.description).html_safe
+
+  - if true
+    %tr
+      %th{:scope => 'row'} External opportunity link
+      %td= present_html_or_formatted_text(@opportunity.target_url).html_safe
+
   %tr
     %th{:scope => 'row'} Contacts
     %td= @opportunity.contacts.map { |contact| "#{contact.name} <#{contact.email}>" }.join(', ')
