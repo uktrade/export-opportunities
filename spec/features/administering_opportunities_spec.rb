@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'rails_helper'
 
 feature 'Administering opportunities' do
@@ -163,15 +164,29 @@ feature 'Administering opportunities' do
   end
 
   scenario 'Editing an opportunity' do
+    val_1 = create_value(1, 'Unknown')
+    val_2 = create_value(2, 'More than £1K')
+    val_3 = create_value(3, 'More than £5K')
     admin = create(:admin)
     opportunity = create_opportunity(admin, status: 'pending')
+    opportunity.values = [val_2]
 
     login_as(admin)
     visit admin_opportunities_path
     click_on opportunity.title
+
+    expect(page.status_code).to eq 200
+    expect(page).to have_text(opportunity.title)
+    expect(page).to have_text('Edit opportunity')
     click_on 'Edit opportunity'
+
+    value_field = find_by_id('opportunity_value_ids_2')
     fill_in 'Title', with: 'France desperately needs injection moulded widgets'
     fill_in t('admin.opportunity.description_field'), with: 'They can’t get enough of them.'
+
+    expect(value_field).to_not be_nil
+    expect(value_field.value).to eql('2')
+    expect(value_field.checked?).to be_truthy
     click_on 'Update Opportunity'
 
     expect(page.status_code).to eq 200
@@ -179,6 +194,7 @@ feature 'Administering opportunities' do
     expect(page).to have_text('They can’t get enough of them.')
     expect(page).to have_selector(:link_or_button, 'Publish')
     click_on 'Publish'
+
     expect(page).to have_selector(:link_or_button, 'Unpublish')
   end
 
@@ -503,5 +519,11 @@ feature 'Administering opportunities' do
   def create_service_provider(name)
     ServiceProvider.create! \
       name: name
+  end
+
+  def create_value(id, name)
+    Value.create! \
+      name: name,
+      slug: id
   end
 end
