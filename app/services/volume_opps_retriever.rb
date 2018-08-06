@@ -151,10 +151,17 @@ class VolumeOppsRetriever
         email: nil,
       },
     ]
+puts buyer.inspect
 
     if buyer['contactPoint']
-      name = buyer['contactPoint']['name']
-      email = buyer['contactPoint']['email']
+      name = if buyer['contactPoint']['name']
+               buyer['contactPoint']['name']
+             elsif buyer['name']
+               buyer['name']
+             else
+               'NOT APPLICABLE'
+             end
+      email = buyer['contactPoint']['email'] ? buyer['contactPoint']['email'] : Figaro.env.MAILER_FROM_ADDRESS
 
       return [
         {

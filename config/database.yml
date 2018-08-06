@@ -10,7 +10,7 @@ development:
 
 test:
   <<: *default
-  database: export_opportunities_test_zeus
+  database: export_opportunities_test
 
 production:
   <<: *default
