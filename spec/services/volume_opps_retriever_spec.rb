@@ -75,7 +75,7 @@ RSpec.describe VolumeOppsRetriever do
     it 'converts values to GBP in opps, from a known currency, using seed exchange data, under 100,000GBP' do
       gbp_value = VolumeOppsRetriever.new.calculate_value(OpenStruct.new({amount: 1000, currency: 'PHP'}))
 
-      expect(gbp_value[:id]).to eq 1
+      expect(gbp_value[:id]).to eq 2
       expect(gbp_value[:gbp_value]).to eq 13.77
     end
 
@@ -89,7 +89,7 @@ RSpec.describe VolumeOppsRetriever do
     it 'converts values to GBP in opps, from an unknown currency' do
       gbp_value = VolumeOppsRetriever.new.calculate_value(OpenStruct.new({amount: 100000000, currency: 'GRD'}))
 
-      expect(gbp_value[:id]).to eq 1
+      expect(gbp_value[:id]).to eq 3
       expect(gbp_value[:gbp_value]).to eq -1
     end
   end

@@ -14,12 +14,13 @@ class AddOpportunityToMatchingSubscriptionsQueueWorker
         # subscription.notifications.create!(opportunity_id: opportunity_id, sent: false)
       else
         # create a new notification and save it as sent false until we actually send it
-        subscription.notifications.create!(opportunity_id: opportunity_id, sent: false)
-        unless Rails.env.test?
-          logger.info "Queueing alert for opportunity #{opportunity.id} to #{subscription.email}"
+        unless subscription.unsubscribed_at
+          subscription.notifications.create!(opportunity_id: opportunity_id, sent: false)
+          email_addresses_notified[subscription.email] = true
         end
-        # OpportunityMailer.send_opportunity(opportunity, subscription).deliver_later!
-        email_addresses_notified[subscription.email] = true
+        unless Rails.env.test?
+          logger.info "Queueing alert for opportunity #{opportunity.id} to #{subscription.email} with status #{subscription.unsubscribed_at}"
+        end
       end
     end
   end

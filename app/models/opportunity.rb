@@ -248,6 +248,6 @@ class Opportunity < ApplicationRecord
 
   def not_a_url?(target_url)
     return false if target_url.blank?
-    target_url.match(/\A(https?:\/\/)+([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?\Z/i).blank?
+    target_url.downcase.match(%r{\A(https?:\/\/)+([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?\Z}).blank?
   end
 end

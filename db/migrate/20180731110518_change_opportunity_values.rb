@@ -1,5 +1,13 @@
 class ChangeOpportunityValues < ActiveRecord::Migration[5.1]
   def up
+    Value.delete_all
+    v3 = Value.new(id: 3, slug:'unknown', name:'Value unknown')
+    v3.save!
+    v2 = Value.new(id: 2, slug:'10k', name:'Less than 100K')
+    v2.save!
+    v1 = Value.new(id: 1, slug:'100k', name:'More than 100K')
+    v1.save!
+
     v1 = Value.where(slug: '100k').first
     v1.name = '£100k-1m'
     v1.save!
