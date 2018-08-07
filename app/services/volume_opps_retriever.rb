@@ -33,9 +33,9 @@ class VolumeOppsRetriever
     # 2, less than 100k
     # 1, 100k-1m
     # 3, value unknown  (value_to_gbp returns -1)
-    # 4, £1m-5m
-    # 5, £5m-50m
-    # 6, more than £50m,
+    # 4, GBP1m-5m
+    # 5, GBP5m-50m
+    # 6, more than GBP50m,
     id = if gbp_value < 100_000 && gbp_value >= 0
            2
          elsif gbp_value > 100_000 && gbp_value < 1_000_000
