@@ -164,9 +164,9 @@ feature 'Administering opportunities' do
   end
 
   scenario 'Editing an opportunity' do
-    val_1 = create_value(1, '£0-100k')
-    val_2 = create_value(2, 'unknown')
-    val_3 = create_value(3, '£100k-1m')
+    val_1 = create_value(1, '£100k-1m')
+    val_2 = create_value(2, '£0-100k')
+    val_3 = create_value(3, 'unknown')
     admin = create(:admin)
     opportunity = create_opportunity(admin, status: 'pending')
     opportunity.values = [val_2]
