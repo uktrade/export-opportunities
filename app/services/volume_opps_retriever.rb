@@ -151,7 +151,6 @@ class VolumeOppsRetriever
         email: nil,
       },
     ]
-puts buyer.inspect
 
     if buyer['contactPoint']
       name = if buyer['contactPoint']['name']
