@@ -107,7 +107,7 @@ class ApplicationController < ActionController::Base
     pending_monthly_count = volume_opps.where('created_at>?', (today_date - 30.days).strftime('%Y-%m-%d')).where(status: 1).count
 
     azure_list_id = Figaro.env.AZ_CUSTOM_LIST_ID
-    azure_az_api_key = "#{Figaro.env.AZ_API_KEY[0..3]}...#{Figaro.env.AZ_API_KEY[-4..-1]}"
+    azure_az_api_key = "...#{Figaro.env.AZ_API_KEY[-4..-1]}"
 
     volume_opps_failed_timestamp = redis.get(:application_error)&.strip
 
