@@ -243,7 +243,7 @@ class Opportunity < ApplicationRecord
   end
 
   def custom_url_service_provider?
-    service_provider.name == 'DFID'
+    service_provider && service_provider.name == 'DFID'
   end
 
   def not_a_url?(target_url)

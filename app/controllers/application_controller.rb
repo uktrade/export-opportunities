@@ -114,7 +114,7 @@ class ApplicationController < ActionController::Base
     if (sidekiq_retry_jobs_count - retry_count).positive? && days_since_last_failure(latest_sidekiq_failure) < PUBLISH_SIDEKIQ_ERROR_DAYS
       render json: { status: 'error', retry_error_count: sidekiq_retry_jobs_count }
     else
-      render json: { status: 'OK', fetched: { daily: daily_count, weekly: weekly_count, thirty_days: monthly_count }, trashed: { daily: trashed_daily_count, weekly: trashed_weekly_count, thirty_days: trashed_monthly_count }, pending: { daily: pending_daily_count, weekly: pending_weekly_count, thirty_days: pending_monthly_count }, api_config: { list_id: azure_list_id, api_key: azure_az_api_key}, latest_application_error: volume_opps_failed_timestamp }
+      render json: { status: 'OK', fetched: { daily: daily_count, weekly: weekly_count, thirty_days: monthly_count }, trashed: { daily: trashed_daily_count, weekly: trashed_weekly_count, thirty_days: trashed_monthly_count }, pending: { daily: pending_daily_count, weekly: pending_weekly_count, thirty_days: pending_monthly_count }, api_config: { list_id: azure_list_id, api_key: azure_az_api_key }, latest_application_error: volume_opps_failed_timestamp }
     end
   end
 
