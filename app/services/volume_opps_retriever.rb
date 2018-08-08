@@ -151,7 +151,6 @@ class VolumeOppsRetriever
         email: nil,
       },
     ]
-puts buyer.inspect
 
     if buyer['contactPoint']
       name = if buyer['contactPoint']['name']
@@ -179,7 +178,15 @@ puts buyer.inspect
   end
 
   def jwt_volume_connector_data(token, hostname, url, from_date, to_date)
-    JwtVolumeConnector.new.data(token, hostname, url, from_date, to_date)
+    begin
+      JwtVolumeConnector.new.data(token, hostname, url, from_date, to_date)
+    rescue JSON::ParserError
+      Rails.logger.error "Can't parse JSON result. Probably an Application Error 500 on VO side"
+      redis = Redis.new(url: Figaro.env.redis_url!)
+      redis.set(:application_error, Time.zone.now)
+
+      raise RuntimeError
+    end
   end
 
   def process_result_page(res, editor)
