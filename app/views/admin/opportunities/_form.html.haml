@@ -45,7 +45,7 @@
     .column-one-quarter
       .filters
         .filters-panel
-          %h2 Values
+          %h2 Value
           .form-group
             = f.collection_radio_buttons :value_ids, @values, :id, :name, { checked: @opportunity.values.map(&:id).join('') } do |field|
               %div
