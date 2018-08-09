@@ -1,3 +1,4 @@
+require ''
 class VolumeOppsValidator
   def validate_each(opportunity)
     # title V
@@ -18,8 +19,8 @@ class VolumeOppsValidator
     end
 
     # return false if opportunity[:first_published_at].blank?
-    return false unless opportunity[:language].to_s.downcase.include? 'en'
 
+    return false unless SUPPORTED_LANGUAGES.include?(opportunity[:language].to_s.downcase)
     return false if opportunity[:response_due_on].blank?
 
     return false if opportunity[:country_ids].blank?
