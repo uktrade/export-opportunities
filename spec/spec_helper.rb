@@ -1,6 +1,7 @@
 require 'vcr'
 require 'elasticsearch/extensions/test/cluster'
 require 'capybara'
+require 'webmock/rspec'
 
 module Helpers
   def select2_select_multiple(select_these, _id)
