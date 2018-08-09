@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang='en-GB'>
+<head>
+  <title><%= t('organisation.name') %> - Admin</title>
+  <%= csrf_meta_tags %>
+  <%= render partial: 'admin/includes/transformation_head' %>
+  <%= render partial: 'admin/includes/transformation_styles' %>
+  <%= render partial: 'admin/includes/transformation_scripts' %>
+  <%= yield :action_specific_head %>
+
+</head>
+<body class="admin">
+  <%= render partial: 'admin/includes/header' %>
+
+  <main id="content" role="main" class="container">
+    <%= render partial: 'admin/includes/phase_banner' %>
+    <%= render partial: 'admin/includes/flash_announcement' %>
+    <%= render partial: 'admin/includes/flash_error' %>
+    <%= render partial: 'admin/includes/flash_notice' %>
+    <%= content_for?(:errors) ? yield(:errors) : "" %>
+    <%= content_for?(:content) ? yield(:content) : yield %>
+  </main>
+
+  <%= render partial: 'admin/includes/footer' %>
+</body>
+</html>
+#
