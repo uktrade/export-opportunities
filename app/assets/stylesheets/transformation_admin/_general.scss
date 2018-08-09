@@ -33,6 +33,7 @@ body {
   width: auto;
 
   .button {
+    border: none;
     float: right;
     font-size: $font-size-body-s;
     font-weight: normal;
@@ -42,7 +43,6 @@ body {
     position: relative;
     right: 0;
     top: 24px;
-    width: auto;
   }
 }
 
@@ -60,19 +60,6 @@ body {
     &::before {
       display: none;
     }
-  }
-}
-
-.flash {
-  border-style: solid;
-  border-width: 0 0 0 5px;
-  font-size: $font-size-body-s;
-  margin: 0;
-  padding: $spacing-4;
-
-  &.announcement {
-    background-color: $olive-grey;
-    border-color: $olive;
   }
 }
 
