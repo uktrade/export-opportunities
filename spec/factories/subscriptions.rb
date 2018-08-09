@@ -2,11 +2,13 @@ FactoryBot.define do
   factory :subscription do
     user
 
-    search_term { Faker::Lorem.word }
+    fake_search_term = Faker::Lorem.word
+
+    search_term { fake_search_term }
     confirmed_at { 1.day.ago }
     confirmation_sent_at { 2.days.ago }
     unsubscribed_at nil
-    title { Faker::Lorem.word }
+    title { fake_search_term }
 
     trait :unconfirmed do
       confirmed_at nil
