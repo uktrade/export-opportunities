@@ -1,0 +1,54 @@
+// CSS classes should be functionally, not visually, descriptive.
+//
+// E.g. 
+// .article, or .contact-list, or .number
+// rather than
+// .left-align, .full-width, .no-border
+//
+// This is because markup should provide semantic structure, 
+// independent of design. Also, to use visually descriptive 
+// naming is only a little better than using inline styles.
+// Inlines styles will produce hard to maintain code, as often
+// tends to be the result when visually descriptive class names
+// are used. 
+// 
+// Rules will always have grey areas and there are always be those
+// that want to ignore them. Sometimes we can sensibly justify 
+// ignoring the rules for the greater good. 
+//
+// This stylesheet exists to group generic, visually descriptive 
+// class names in the hope they can be kept to a minimum, used
+// sensibly, and only when really necessary.
+//
+// Please try to avoid adding visually descriptive classes!!
+//
+// -------------------------------------------------------------------------
+//
+
+
+// Predefined layout classes.
+// Make (x) number of elements sit on one row and wrap where necessary. 
+@media (min-width: 768px) {
+  .lg-6 { @include items(6, $spacing-3); }
+  .lg-5 { @include items(5, $spacing-3); }
+  .lg-4 { @include items(4, $spacing-3); }
+  .lg-3 { @include items(3, $spacing-3); }
+  .lg-2 { @include items(2, $spacing-3); }
+  .lg-1 { @include items-1; }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .md-4 { @include items(4, $spacing-3); }
+  .md-3 { @include items(3, $spacing-3); }
+  .md-2 { @include items(2, $spacing-3); }
+  .md-1 { @include items-1; }
+}
+
+@media (max-width: 480px) {
+  .sm-4 { @include items(4, $spacing-4); }
+  .sm-3 { @include items(3, $spacing-4); }
+  .sm-2 { @include items(2, $spacing-4); }
+  .sm-1 { @include items-1; }
+}
+
+

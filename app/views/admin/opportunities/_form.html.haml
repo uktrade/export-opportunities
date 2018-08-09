@@ -1,5 +1,6 @@
 - content_for :action_specific_head  do
-  = javascript_include_tag('transformation/dit.admin.opportunity')
+  = stylesheet_link_tag 'transformation_admin/pages/opportunity'
+  = javascript_include_tag 'transformation/dit.admin.opportunity'
 
 = form_for [:admin, opportunity] do |f|
   - if opportunity.errors.any?
@@ -11,97 +12,81 @@
         - opportunity.errors.full_messages.each do |message|
           %li= message
 
-  .grid-row
-    .column-one-quarter
-      .filters
-        .filters-panel
-          %h2 Country
-          .form-group
-            = f.collection_check_boxes :country_ids, @countries, :id, :name do |field|
-              %div
-                = field.check_box
-                = field.label
+  %h2 Country
+  = f.collection_check_boxes :country_ids, @countries, :id, :name do |field|
+    %div
+      = field.check_box
+      = field.label
 
-    .column-one-quarter
-      .filters
-        .filters-panel
-          %h2 Sector
-          .form-group
-            = f.collection_check_boxes :sector_ids, @sectors, :id, :name do |field|
-              %div
-                = field.check_box
-                = field.label
+  %h2 Sector
+  = f.collection_check_boxes :sector_ids, @sectors, :id, :name do |field|
+    %div
+      = field.check_box
+      = field.label
 
-    .column-one-quarter
-      .filters
-        .filters-panel
-          %h2 Type
-          .form-group
-            = f.collection_check_boxes :type_ids, @types, :id, :name do |field|
-              %div
-                = field.check_box
-                = field.label
+  %h2 Type
+  = f.collection_check_boxes :type_ids, @types, :id, :name do |field|
+    %div
+      = field.check_box
+      = field.label
 
-    .column-one-quarter
-      .filters
-        .filters-panel
-          %h2 Value
-          .form-group
-            = f.collection_radio_buttons :value_ids, @values, :id, :name, { checked: @opportunity.values.map(&:id).join('') } do |field|
-              %div
-                = field.radio_button
-                = field.label
+  %fieldset.field.radio-group
+    %legend.question Value
+    = f.collection_radio_buttons :value_ids, @values, :id, :name, { checked: @opportunity.values.map(&:id).join('') } do |field|
+      .radio
+        = field.radio_button
+        = field.label
 
-  .form-group
-    = f.label :title, class: 'form-label-bold'
-    = f.text_field :title, class: 'form-control', required: true
-    %p.form-hint
-      This must start with the country and describe the opportunity in
-      = Opportunity::TITLE_LENGTH_LIMIT
-      characters or fewer.
-      = link_to 'See more guidance for this field', '/admin/help/how_to_write_an_export_opportunity/writingthetitle', class: 'text', target: 'guidance'
+  = f.label :title, class: 'form-label-bold'
+  = f.text_field :title, class: 'form-control', required: true
+  %p 
+    This must start with the country and describe the opportunity in
+    = Opportunity::TITLE_LENGTH_LIMIT
+    characters or fewer.
+    = link_to 'See more guidance for this field', '/admin/help/how_to_write_an_export_opportunity/writingthetitle', class: 'text', target: 'guidance'
+
 
   - if opportunity.errors[:slug].any?
-    .form-group
-      = f.label :slug, class: 'form-label-bold'
-      = f.text_field :slug, class: 'form-control', required: true
+    = f.label :slug, class: 'form-label-bold'
+    = f.text_field :slug, class: 'form-control', required: true
 
-  .form-group
-    = f.label :teaser, t('admin.opportunity.teaser_field'), class: 'form-label-bold'
-    = f.text_field :teaser, class: 'form-control', required: true
-    %p.form-hint
-      This will be the text that appears on email alerts and as the first line of the opportunity online.
-      It must be different to the title and be
-      = Opportunity::TEASER_LENGTH_LIMIT
-      characters or fewer.
-      = link_to 'See more guidance for this field', '/admin/help/how_to_write_an_export_opportunity/writingthesummary', class: 'text', target: 'guidance'
-      
-  .form-group
-    = f.label :description, t('admin.opportunity.description_field'), class: 'form-label-bold'
-    = f.text_area :description, class: 'form-control', required: true
-    %p.form-hint
-      Include details relevant for UK businesses, such as product or service specifications, language
-      requirements, exact value of contract, timescales and potential barriers to trade.
-    %p.form-hint
-      Also include details of the type of UK business that might be able to fulfil this opportunity.
-    %p.form-hint
-      Do not post events, competitions, news or requests for investment.
-      = link_to 'See more guidance for this field', '/admin/help/how_to_write_an_export_opportunity/describeyouropportunitypart1of2', class: 'text', target: 'guidance'
 
-  .form-group{ 'data-node' => 'service-provider' }
-    = f.label :service_provider_id, class: 'form-label-bold'
-    = f.collection_select :service_provider_id, @service_providers, :id, :name, { prompt: '', selected: @selected_service_provider&.id }, { class: 'form-control', required: true }
+  = f.label :teaser, t('admin.opportunity.teaser_field'), class: 'form-label-bold'
+  = f.text_field :teaser, class: 'form-control', required: true
+  %p.form-hint
+    This will be the text that appears on email alerts and as the first line of the opportunity online.
+    It must be different to the title and be
+    = Opportunity::TEASER_LENGTH_LIMIT
+    characters or fewer.
+    = link_to 'See more guidance for this field', '/admin/help/how_to_write_an_export_opportunity/writingthesummary', class: 'text', target: 'guidance'
 
-  .form-group{ 'data-node' => 'target-url' }
+
+  = f.label :description, t('admin.opportunity.description_field'), class: 'form-label-bold'
+  = f.text_area :description, class: 'form-control', required: true
+  %p
+    Include details relevant for UK businesses, such as product or service specifications, language
+    requirements, exact value of contract, timescales and potential barriers to trade.
+  %p
+    Also include details of the type of UK business that might be able to fulfil this opportunity.
+  %p
+    Do not post events, competitions, news or requests for investment.
+    = link_to 'See more guidance for this field', '/admin/help/how_to_write_an_export_opportunity/describeyouropportunitypart1of2', class: 'text', target: 'guidance'
+
+
+  = f.label :service_provider_id, class: 'form-label-bold'
+  = f.collection_select :service_provider_id, @service_providers, :id, :name, { prompt: '', selected: @selected_service_provider&.id }, { class: 'form-control', required: true }
+
+  %div{ 'data-node' => 'target-url' }
     = f.label "Enter an optional external opportunity link (it must start with http:// or https://)", for: "opportunity_target_url", class: 'form-label-bold'
     = f.text_field :target_url, class: 'form-control'
     %noscript
       %p.form-hint
         (Only available for DFID service provider)
 
-  .form-group
-    = f.label :response_due_on, class: 'form-label-bold'
-    = f.date_select :response_due_on, { prompt: '' }, { required: true }
+
+  = f.label :response_due_on, class: 'form-label-bold'
+  = f.date_select :response_due_on, { prompt: '' }, { required: true }
+
 
   = f.fields_for :contacts do |form|
     .grid-row
@@ -114,27 +99,25 @@
           = form.label :email, 'Email address', class: 'form-label'
           = form.text_field :email, class: 'form-control', type: :email, required: true
 
-  - if policy(@opportunity).show_ragg? && opportunity.id.present?
 
+  - if policy(@opportunity).show_ragg? && opportunity.id.present?
     %h2 Triage rating
-    .form-group.ragg_choice
-      %fieldset.inline
-        %legend Set the rating: Red to indicate rejection, Amber to indicate editing required, Blue to indicate special consideration required.
-        .multiple-choice.ragg_choice-red
-          = f.radio_button :ragg, :red, id: 'radio-inline-1', 'autocomplete': 'off'
-          %label{:for => "radio-inline-1"} Red
-        .multiple-choice.ragg_choice-amber
-          = f.radio_button :ragg, :amber, id: 'radio-inline-2', 'autocomplete': 'off'
-          %label{:for => "radio-inline-2"} Amber
-        .multiple-choice.ragg_choice-green
-          = f.radio_button :ragg, :green, id: 'radio-inline-3', 'autocomplete': 'off'
-          %label{:for => "radio-inline-3"} Green
-        .multiple-choice.ragg_choice-blue
-          = f.radio_button :ragg, :blue, id: 'radio-inline-4', 'autocomplete': 'off'
-          %label{:for => "radio-inline-4"} Blue
-  .grid-row
-    .column-one-half
-      .form-group
-        = f.submit class: 'button'
-        - if current_page?(action: 'new') && @save_to_draft_button
-          = f.submit 'Save to Draft', class: 'button button-draft'
+    %fieldset
+      %legend Set the rating: Red to indicate rejection, Amber to indicate editing required, Blue to indicate special consideration required.
+      .multiple-choice.ragg_choice-red
+        = f.radio_button :ragg, :red, id: 'radio-inline-1', 'autocomplete': 'off'
+        %label{:for => "radio-inline-1"} Red
+      .multiple-choice.ragg_choice-amber
+        = f.radio_button :ragg, :amber, id: 'radio-inline-2', 'autocomplete': 'off'
+        %label{:for => "radio-inline-2"} Amber
+      .multiple-choice.ragg_choice-green
+        = f.radio_button :ragg, :green, id: 'radio-inline-3', 'autocomplete': 'off'
+        %label{:for => "radio-inline-3"} Green
+      .multiple-choice.ragg_choice-blue
+        = f.radio_button :ragg, :blue, id: 'radio-inline-4', 'autocomplete': 'off'
+        %label{:for => "radio-inline-4"} Blue
+
+
+  = f.submit class: 'button'
+  - if current_page?(action: 'new') && @save_to_draft_button
+    = f.submit 'Save to Draft', class: 'button button-draft'

@@ -1,4 +1,4 @@
-%h1.heading-large= t('admin.opportunity.create_new')
-%p.lede Use this form to tell UK companies about an opportunity to do business in your market
+%h1= content['title']
+%p.mandatory= content['mandatory']
 
 = render 'form', opportunity: @opportunity

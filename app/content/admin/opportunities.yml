@@ -1,0 +1,219 @@
+# Type of opportunity
+# -------------------------------------------------
+
+step_1:
+
+  title: Create a new export opportunity
+  submit: Save and continue
+  description: 
+  mandatory: All fields are required unless marked as optional.
+
+  legend: Type of opportunity
+  fields:
+    what:
+      question: What is the buyer looking for?
+      options:
+        - label: goods
+        - label: services
+
+    tender:
+      question: Is this a tender?
+      options:
+        - label: yes
+        - label: no
+
+
+
+
+# Opportunity details
+# ------------------------------------
+
+step_2.1:
+
+  breadcrumb_current: Create opportunity
+  title: Request products
+  description: You will be able to see what your opportunity looks like on the next page
+
+  fields:
+    need:
+      label: "Enter the product you need:"
+      description: For example traffic cameras, safety equipment, biscuits. This will appear as the title of your opportunity.
+      placeholder: 
+
+    industry:
+      label: "Industry:"
+      description: Select the relevant industries for this opportunity
+      placeholder: 
+
+    keywords:
+      label: "Commodity codes (optional):"
+      description: Add commodity codes for the goods you need to help suppliers to find your opportunity. Look up <a href="#">commodity codes</a>
+      placeholder: 
+
+    usage:
+      question: "I am looking:"
+      options:
+        - label: for samples to test the market
+        - label: for products to sell
+        - label: to use the product
+
+    value:
+      label: "This value of this order is:"
+      description: 
+
+    specifications:
+      label: "Describe what you need:"
+      description: Enter enough information so potential suppliers know what you need. For example, the amount, specifications, or whether it is mass market or premium.
+
+    respond_by:
+      label: "I need to receive proposals by:"
+      description: The opportunity will be unpublished on this day.
+
+    respond_to:
+      label: "Responses should be sent to:"
+      description: 
+      placeholder: 
+
+
+
+# Buyer's details
+# ---------------------------
+
+step_2.2:
+
+  breadcrumb_current: Create opportunity
+  title: Request services
+  description: You will be able to see what your opportunity looks like on the next page
+
+  fields:
+    need:
+      label: "Enter the service you need:"
+      description: List service(s) you want UK companies to supply. For example, training services, traffic flow analysis, mining consultancy.
+      placeholder: 
+
+    industry:
+      label: "Industry:"
+      description: Select the relevant industries for this opportunity
+      placeholder: 
+
+    keywords:
+      label: "Keywords (optional):"
+      description: Add topical keywords to help the right suppliers to find your opportunity.
+      placeholder: 
+
+    value:
+      label: "This value of this order is:"
+      description: 
+
+    specifications:
+      label: "Describe what you need:"
+      description: Enter enough information so potential suppliers know what you need. For example, the amount, specifications, or whether it is mass market or premium.
+
+    respond_by:
+      label: "I need to receive proposals by:"
+      description: The opportunity will be unpublished on this day.
+
+    respond_to:
+      label: "Responses should be sent to:"
+      description: 
+      placeholder: 
+
+
+
+# (2.3) Software services
+# -----------------------
+
+step_2.3:
+
+  breadcrumb_current: Create opportunity
+  title: Request services
+  description: You will be able to see what your opportunity looks like on the next page
+
+  fields:
+    need:
+      label: "Enter the service you need:"
+      description: List service(s) you want UK companies to supply. For example, training services, traffic flow analysis, mining consultancy.
+      placeholder: 
+
+    industry:
+      label: "Industry:"
+      description: Select the relevant industries for this opportunity
+      placeholder: 
+
+    keywords:
+      label: "Keywords (optional):"
+      description: Add topical keywords to help the right suppliers to find your opportunity.
+      placeholder: 
+
+    value:
+      label: "This value of this order is:"
+      description: 
+
+    specifications:
+      label: "Describe what you need:"
+      description: Enter enough information so potential suppliers know what you need. For example, the amount, specifications, or whether it is mass market or premium.
+
+    respond_by:
+      label: "I need to receive proposals by:"
+      description: The opportunity will be unpublished on this day.
+
+    respond_to:
+      label: "Responses should be sent to:"
+      description: 
+      placeholder: 
+
+
+
+# (2.4) Promote a tender
+# ----------------------
+
+step_2.4:
+
+  breadcrumb_current: Create opportunity
+  title: Promote a tender
+  description: You will be able to see what your opportunity looks like on the next page
+
+  fields:
+    need:
+      label: "Enter the product or service you need:"
+      description: For example turnkey solutions, a sports stadium, mining consultancy. This will appear as the title of your opportunity.
+      placeholder: 
+
+    industry:
+      label: "Industry:"
+      description: Select the relevant industries for this opportunity
+      placeholder: 
+
+    keywords:
+      label: "<abbr title='Common Procurement Vocabulary'>CPV</abbr> codes (optional):"
+      description: Add CPV codes for the goods you need to help suppliers to find your opportunity. Look up <a href="#">commodity codes</a>
+      placeholder: 
+
+    value:
+      label: "This value of this order is:"
+      description: 
+
+    specifications:
+      label: "Describe what you need:"
+      description: Enter enough information so potential suppliers know what you need. For example, the amount, specifications, or whether it is mass market or premium.
+
+    link:
+      label: "Link to tender:"
+
+    respond_by:
+      label: "I need to receive proposals by:"
+      description: The opportunity will be unpublished on this day.
+
+    respond_to:
+      label: "Responses should be sent to:"
+      description: 
+      placeholder: 
+
+
+
+# 3 Completion of Opportunity creation
+# ------------------------------------
+
+step_3:
+  breadcrumb_current: Create opportunity
+  title: Checking opportunity

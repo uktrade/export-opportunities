@@ -1,0 +1,5 @@
+- if current_editor
+  = button_to('Log out', destroy_editor_session_path, :form_class => 'authenticator', :class => 'button', :id => 'logout', :method => :delete)
+	
+- else
+  = link_to('Log in', new_editor_session_path, :class => 'button', :id => 'login')
