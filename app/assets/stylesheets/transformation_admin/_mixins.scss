@@ -4,15 +4,18 @@
 
 @mixin container {
   max-width: $design-max-width;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
   width: auto;
 
   @media (max-width: #{$design-max-width + ($spacing-3 * 2)}) {
-    margin: 0 $spacing-3;
+    margin-left: $spacing-3;
+    margin-right: $spacing-3;
   }
 
   @media (max-width: 420px) {
-    margin: 0 $spacing-4-m;
+    margin-left: $spacing-4-m;
+    margin-right: $spacing-4-m;
   }
 }
 
@@ -45,7 +48,6 @@
   box-shadow: none;
   cursor: pointer;
   display: inline-block;
-  font-family: inherit;
   font-weight: bold;
   line-height: 26px;
   overflow: hidden;
@@ -119,29 +121,6 @@
     width: 80%;
   }
 }
-
-// BUTTONS
-//@mixin button($colour-1, $colour-2) {
-//  background-color: $colour-1;
-//  border: none;
-//	box-shadow: 0 2px 0 $green-3;
-//  color: $white;
-//  cursor: pointer;
-//  font-family: inherit;
-//  font-size: $font-size-body-s;
-//  font-weight: normal;
-//  display: inline-block;
-//  line-height: 1.2em;
-//  overflow: hidden;
-//  padding: 7px 15px;
-//  text-decoration: none; 
-
- 
-//  &:hover {
-//    background-color: $colour-2;
-//    color: $white;
-//  }
-//}
 
 @mixin button-disabled {
   cursor: default;

@@ -32,8 +32,6 @@ form {
 input {
   @include focus;
   border: 2px solid $grey-1;
-  font-family: inherit;
-  font-size: inherit;
   height: 50px;
   display: block;
   max-width: 570px;
@@ -66,10 +64,6 @@ legend {
 
 option { 
   background-color: $white;
-}
-
-pre {
-  font-family: inherit;
 }
 
 select {
