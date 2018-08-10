@@ -57,7 +57,7 @@ gem 'addressable'
 
 # ActiveRecord tools
 gem 'activerecord', '5.2.0'
-gem 'hairtrigger'
+gem 'hairtrigger', '0.2.21'
 gem 'active_record_union'
 
 # Parsing JSON
