@@ -51,7 +51,7 @@ module Api
     end
 
     def secure_compare(a, b)
-      ActiveSupport::SecurityUtils.variable_size_secure_compare(a, b)
+      ActiveSupport::SecurityUtils.secure_compare(a, b)
     end
 
     def nonce_available?(nonce, id)
