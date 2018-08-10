@@ -91,6 +91,7 @@ gem 'jwt'
 
 group :development, :test do
   gem 'byebug'
+  gem 'faker'
   gem 'pry-rescue'
   gem 'pry-stack_explorer'
   gem 'bullet'
@@ -119,7 +120,6 @@ group :test do
   gem 'pundit-matchers'
   gem 'database_cleaner'
   gem 'factory_bot_rails'
-  gem 'faker'
   gem 'launchy'
   gem 'poltergeist'
   gem 'simplecov'
