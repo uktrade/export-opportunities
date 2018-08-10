@@ -70,6 +70,7 @@ Rails.application.config.assets.precompile += %w[transformation/dit.admin.opport
 # ---------------------------------
 Rails.application.config.assets.precompile += %w[transformation_admin/main.scss]
 Rails.application.config.assets.precompile += %w[transformation_admin/pages/opportunity.scss]
+Rails.application.config.assets.precompile += %w[transformation_admin/pages/help.scss]
 
 
 # POC - originally on develop_zeus.

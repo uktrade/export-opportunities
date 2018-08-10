@@ -28,6 +28,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+main,
+.container {
+  @include container;
+}
+
 .authenticator {
   margin-bottom: 0;
   width: auto;
@@ -46,8 +51,44 @@ body {
   }
 }
 
-.container {
+.flash {
   @include container;
+  border-style: solid;
+  border-width: 0 0 0 5px;
+  font-size: $font-size-body-s;
+  margin-bottom: $spacing-3;
+  padding: $spacing-4;
+
+  &.alert {
+    background-color: $green-4;
+    border-color: $green-5;
+    color: $green-6;
+  }
+
+  &.announcement {
+    background-color: $olive-grey;
+    border-color: $olive;
+  }
+
+  &.error {
+    background-color: $red-3;
+    border-color: $red-4;
+    color: $red-5;
+  }
+
+  // Temporary rule - you can safely delete if grep 
+  // of views reveals classname no longer exists.
+  &.ptu-announcement {
+    background-color: #539C95;
+    border: none;
+    color: $white;
+    font-weight: bold;
+
+    a {
+      color: $white;
+      font-weight: normal;
+    }
+  }
 }
 
 .navigation {
@@ -179,6 +220,7 @@ body {
 }
 
 #phase-banner {
+  @include container;
   border-top: $red-1 solid 10px;
   font-size: $font-size-body-s;
   margin-bottom: $spacing-3;
@@ -225,18 +267,4 @@ body {
   #menu {
     margin-top: 10px;
   }
-}
-
-
-
-// -----------------------------------------------------------------------------
-// TEMPORARY RULES ONLY FROM THIS POINT
-// These styles are only here until older admin pages no longer use the old CSS. 
-// Once all admin pages have been updated to use the new (stylesheets/updated/)
-// CSS, rules beyond this point can be safely removed. 
-// -----------------------------------------------------------------------------
-main#content {
-  @include container;
-
-  line-height: inherit;
 }

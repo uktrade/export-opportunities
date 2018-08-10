@@ -31,8 +31,9 @@ form {
 
 input {
   @include focus;
-  @include body-m;
   border: 2px solid $grey-1;
+  font-family: inherit;
+  font-size: inherit;
   height: 50px;
   display: block;
   max-width: 570px;
