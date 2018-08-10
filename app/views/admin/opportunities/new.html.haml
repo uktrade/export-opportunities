@@ -1,4 +1,6 @@
-%h1= content['title']
-%p.mandatory= content['mandatory']
+.intro
+  %h1= content['title']
+  %p.mandatory= content['mandatory']
 
-= render 'form', opportunity: @opportunity
+.process
+  = render 'form', opportunity: @opportunity
