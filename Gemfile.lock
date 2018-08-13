@@ -520,7 +520,7 @@ DEPENDENCIES
   elasticsearch-extensions
   elasticsearch-model
   elasticsearch-rails
-  export_components (= 0.4.0)!
+  export_components (~> 0.4)!
   factory_bot_rails
   faker
   faraday
