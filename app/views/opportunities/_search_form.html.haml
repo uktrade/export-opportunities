@@ -1,4 +1,4 @@
-= form_tag opportunities_path, class: 'search-form', method: :get do
+%form.search-form{:action=>opportunities_path, :method=>"get"}
   %label.term
     %span.verbose Product or service keyword
     %input{:name=>"s", :placeholder=>"What product or service are you selling?", :autocomplete=>"off", :type=>"search"}
