@@ -12,6 +12,7 @@ Rails.application.config.assets.version = '1.4'
 Rails.application.config.assets.precompile += %w[dfit-logo-white.png]
 Rails.application.config.assets.precompile += %w[eig-logo-stacked.png]
 Rails.application.config.assets.precompile += %w[export-components-header.js]
+Rails.application.config.assets.precompile += %w[dit.components.cookie-notice.js]
 Rails.application.config.assets.precompile += %w[export-components.css]
 Rails.application.config.assets.precompile += %w[export-components-no-js.css]
 Rails.application.config.assets.precompile += %w[application-admin.css]

@@ -42,6 +42,8 @@
     = render partial: 'google_analytics'
     = render partial: 'svg_icons'
 
+    = render 'export_components/skip_link'
+    = render 'export_components/cookie_notice'
     = render 'export_components/header'
 
     - if content_for?(:hero)

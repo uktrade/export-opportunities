@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: https://github.com/uktrade/export_components.git
-  revision: 3698f226b0afce92c33abae5975d7422c895198b
+  revision: ed8915985a6f8e6d4802a703e92b8734bca21ffc
   specs:
     export_components (0.4.0)
       rails (~> 5.2)
@@ -520,7 +520,7 @@ DEPENDENCIES
   elasticsearch-extensions
   elasticsearch-model
   elasticsearch-rails
-  export_components (~> 0.3)!
+  export_components (= 0.4.0)!
   factory_bot_rails
   faker
   faraday
