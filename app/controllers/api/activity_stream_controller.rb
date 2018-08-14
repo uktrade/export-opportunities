@@ -156,9 +156,10 @@ module Api
       search_after_id = Integer(search_after_id_str)
 
       companies_with_number = Enquiry
-        .where("company_house_number IS NOT NULL AND company_house_number != ''")
-        .where('created_at > to_timestamp(?) OR (created_at = to_timestamp(?) AND id > ?)', search_after_time, search_after_time, search_after_id)
-        .order('created_at ASC, id ASC')
+        .where("enquiries.company_house_number IS NOT NULL AND enquiries.company_house_number != ''")
+        .where('enquiries.created_at > to_timestamp(?) OR (enquiries.created_at = to_timestamp(?) AND enquiries.id > ?)',
+          search_after_time, search_after_time, search_after_id)
+        .order('enquiries.created_at ASC, enquiries.id ASC')
       enquiries = companies_with_number.take(MAX_PER_PAGE)
 
       items = enquiries.map(&method(:to_activity))
