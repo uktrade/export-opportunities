@@ -148,13 +148,19 @@ class FormPresenter < BasePresenter
   private
 
   # Return lowercase string with alphanumeric+hyphen only.
-  # e.g. "This -  is    a string" into "this-is-a-string"
+  # Adds the current @view value, if exists.
+  # e.g. "This -  [is]    a_string" into "this-is-a-string"
   def field_id(str)
-    clean_str("#{@view} #{str}").tr('_', '-')
+    cleaned = if @view.present?
+                "#{clean_str(@view)}-#{clean_str(str)}"
+              else
+                clean_str(str)
+              end
+    cleaned.tr('_', '-')
   end
 
   # Return lowercase string with alphanumeric+underscore only.
-  # e.g. "This - is    a string" into "this_is_a_string"
+  # e.g. "This -  [is]    a_string" into "this_is_a_string"
   def clean_str(str)
     str = str.gsub(/[^\w\s]/, '').downcase
     str.gsub(/[\s]+/, '_')
