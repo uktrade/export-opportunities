@@ -26,6 +26,14 @@ def to_activity(enquiry)
     'actor': {
       'type': ['Organization', 'dit:Company'],
       'dit:companiesHouseNumber': enquiry.company_house_number,
+      'dit:companyIsExistingExporter': enquiry.existing_exporter,
+      'dit:sector': enquiry.company_sector,
+      'dit:phoneNumber': enquiry.company_telephone,
+      'name': enquiry.company_name,
+      'location': {
+        'dit:postcode': enquiry.company_postcode,
+      },
+      'url': enquiry.company_url,
     },
     'object': {
       'type': ['Document', 'dit:exportOpportunities:Enquiry'],
