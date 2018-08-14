@@ -16,6 +16,12 @@ def to_activity_collection(activities)
 end
 
 def to_activity(enquiry)
+  # When making changes, be mindful to use .joins, .includes,
+  # .preload or .eager_load in the query that has produced
+  # `enquiry` in order to avoid any queries per activity.
+  # If in doubt, while developing use
+  #
+  # ActiveRecord::Base.logger = Logger.new(STDOUT)
   obj_id = 'dit:exportOpportunities:Enquiry:' + enquiry.id.to_s
   activity_id = obj_id + ':Create'
   {
@@ -39,6 +45,11 @@ def to_activity(enquiry)
       'type': ['Document', 'dit:exportOpportunities:Enquiry'],
       'id': obj_id,
       'url': admin_enquiry_url(enquiry),
+      'inReplyTo': {
+        'type': ['Document', 'dit:exportOpportunities:Opportunity'],
+        'dit:exportOpportunities:Opportunity:id': enquiry.opportunity_id,
+        'name': enquiry.opportunity_title,
+      },
     },
   }
 end
@@ -156,10 +167,12 @@ module Api
       search_after_id = Integer(search_after_id_str)
 
       companies_with_number = Enquiry
+        .joins(:opportunity)
         .select(
           'enquiries.id, enquiries.created_at, enquiries.company_house_number, enquiries.existing_exporter, ' \
           'enquiries.company_sector, enquiries.company_name, enquiries.company_postcode, enquiries.company_url, ' \
-          'enquiries.company_telephone'
+          'enquiries.company_telephone, ' \
+          'enquiries.opportunity_id, opportunities.title as opportunity_title'
         )
         .where("enquiries.company_house_number IS NOT NULL AND enquiries.company_house_number != ''")
         .where('enquiries.created_at > to_timestamp(?) OR (enquiries.created_at = to_timestamp(?) AND enquiries.id > ?)',
