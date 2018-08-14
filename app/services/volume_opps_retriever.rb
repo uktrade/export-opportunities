@@ -26,7 +26,7 @@ class VolumeOppsRetriever
     value = local_currency_value_hash['amount']
     currency_name = local_currency_value_hash['currency']
 
-    return { id: 2 } if value.nil? || currency_name.nil?
+    return { id: 3 } if value.nil? || currency_name.nil?
 
     gbp_value = value_to_gbp(value, currency_name)
     # set value to:
@@ -179,6 +179,12 @@ class VolumeOppsRetriever
 
   def jwt_volume_connector_data(token, hostname, url, from_date, to_date)
     JwtVolumeConnector.new.data(token, hostname, url, from_date, to_date)
+  rescue JSON::ParserError
+    Rails.logger.error "Can't parse JSON result. Probably an Application Error 500 on VO side"
+    redis = Redis.new(url: Figaro.env.redis_url!)
+    redis.set(:application_error, Time.zone.now)
+
+    raise RuntimeError
   end
 
   def process_result_page(res, editor)

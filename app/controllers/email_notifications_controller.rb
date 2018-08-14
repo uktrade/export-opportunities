@@ -11,7 +11,7 @@ class EmailNotificationsController < ApplicationController
 
     result_set = Set.new
 
-    subscriptions = Subscription.where(user_id: user_id)
+    subscriptions = Subscription.where(user_id: user_id).where(unsubscribed_at: nil)
 
     if every_opportunity_subscription?(subscriptions)
       query = Opportunity.public_search(

@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.4.3'
+ruby '2.5.1'
 
-gem 'rails', '5.1.4'
+gem 'rails', '5.2.0'
 gem 'bundler', '1.16.3'
 gem 'puma', '3.8.0'
 gem 'pg', '0.21.0'
@@ -16,10 +16,10 @@ gem 'figaro'
 gem 'friendly_id'
 gem 'immutable-struct'
 
-gem 'nokogiri', '1.8.2'
+gem 'nokogiri', '1.8.4'
 
 # Authentication & authorisation
-gem 'devise', '4.3.0'
+gem 'devise', '4.4.3'
 gem 'devise-async'
 gem 'hawk-auth'
 gem 'omniauth'
@@ -45,7 +45,7 @@ gem 'neat', '1.8.0'
 gem 'autoprefixer-rails'
 gem 'normalize-scss'
 gem 'sass-rails'
-gem 'export_components', '~> 0.3', git: 'https://github.com/uktrade/export_components.git'
+gem 'export_components', '~> 0.5', git: 'https://github.com/uktrade/export_components.git'
 
 # Javascript
 gem 'jquery-rails'
@@ -56,7 +56,8 @@ gem 'stringex', require: false
 gem 'addressable'
 
 # ActiveRecord tools
-gem 'hairtrigger'
+gem 'activerecord', '5.2.0'
+gem 'hairtrigger', '0.2.21'
 gem 'active_record_union'
 
 # Parsing JSON
@@ -68,7 +69,7 @@ gem 'premailer-rails'
 gem 'flipper'
 gem 'flipper-redis'
 gem 'flipper-ui'
-gem 'paper_trail'
+gem 'paper_trail', '9.2.0'
 
 # aws sdk for s3 storage of post-user communications
 gem 'aws-sdk'
@@ -90,6 +91,7 @@ gem 'jwt'
 
 group :development, :test do
   gem 'byebug'
+  gem 'faker'
   gem 'pry-rescue'
   gem 'pry-stack_explorer'
   gem 'bullet'
@@ -118,7 +120,6 @@ group :test do
   gem 'pundit-matchers'
   gem 'database_cleaner'
   gem 'factory_bot_rails'
-  gem 'faker'
   gem 'launchy'
   gem 'poltergeist'
   gem 'simplecov'

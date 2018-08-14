@@ -30,7 +30,7 @@ We aim to follow [GDS service standards](https://www.gov.uk/service-manual/servi
 
 * Have an instance of elasticsearch running (can be default localhost:9200) and configured in your `application.yml`
   ```bash
-  docker run --rm -p 9200:9200 docker.elastic.co/elasticsearch:5.6.8
+  docker run --rm -p 9200:9200 elasticsearch:5.6.8
   ```
 
 * Increase the max window size to >=100_000 using something like this:

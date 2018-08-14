@@ -18,12 +18,12 @@ describe CreateOpportunity, type: :service do
         .to change { Opportunity.count }.by(1)
     end
 
-    it 'creates a new custom target URL opportunity without target_url' do
+    it 'creates a new custom target URL opportunity without target_url (target_url is optional)' do
       service_provider = create(:service_provider, name: 'DFID')
       editor = create(:editor, service_provider_id: service_provider.id)
 
       expect { CreateOpportunity.new(editor).call(opportunity_params(title: 'DFID title', service_provider_id: service_provider.id)) }
-          .to change { Opportunity.count }.by(0)
+          .to change { Opportunity.count }.by(1)
     end
 
     it 'creates a new custom target URL opportunity with invalid URL scheme target_url' do

@@ -312,7 +312,6 @@ class OpportunitiesController < ApplicationController
       sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
     )
     query = query.page(params[:paged]).per(per_page)
-
     {
       results: query.records,
       total: query.records.total,
@@ -413,6 +412,9 @@ class OpportunitiesController < ApplicationController
       { slug: 'middle_east',
         countries: %w[afghanistan bahrain iran iraq jordan kuwait lebanon oman pakistan palestine qatar saudi-arabia the-united-arab-emirates],
         name: 'Middle East' },
+      { slug: 'nato',
+        countries: %w[nato],
+        name: 'NATO' },
       { slug: 'nordic_and_baltic',
         countries: %w[denmark estonia finland iceland latvia lithuania norway sweden],
         name: 'Nordic & Baltic' },
@@ -445,7 +447,6 @@ class OpportunitiesController < ApplicationController
 
   private def atom_request_query(query)
     query = query.records
-
     # return 25 results per page for atom feed
     query = query.page(params[:paged]).per(25)
     query = AtomOpportunityQueryDecorator.new(query, view_context)

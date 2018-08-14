@@ -91,10 +91,30 @@ class ApplicationController < ActionController::Base
 
     update_redis_counter(redis, sidekiq_retry_jobs_count, latest_sidekiq_failure)
 
+    # calculate counters
+    today_date = Time.zone.now
+    volume_opps = Opportunity.where(source: :volume_opps)
+    daily_count = volume_opps.where('created_at>?', today_date.strftime('%Y-%m-%d')).count
+    weekly_count = volume_opps.where('created_at>?', (today_date - 7.days).strftime('%Y-%m-%d')).count
+    monthly_count = volume_opps.where('created_at>?', (today_date - 30.days).strftime('%Y-%m-%d')).count
+
+    trashed_daily_count = volume_opps.where('created_at>?', today_date.strftime('%Y-%m-%d')).where(status: 4).count
+    trashed_weekly_count = volume_opps.where('created_at>?', (today_date - 7.days).strftime('%Y-%m-%d')).where(status: 4).count
+    trashed_monthly_count = volume_opps.where('created_at>?', (today_date - 30.days).strftime('%Y-%m-%d')).where(status: 4).count
+
+    pending_daily_count = volume_opps.where('created_at>?', today_date.strftime('%Y-%m-%d')).where(status: 1).count
+    pending_weekly_count = volume_opps.where('created_at>?', (today_date - 7.days).strftime('%Y-%m-%d')).where(status: 1).count
+    pending_monthly_count = volume_opps.where('created_at>?', (today_date - 30.days).strftime('%Y-%m-%d')).where(status: 1).count
+
+    azure_list_id = Figaro.env.AZ_CUSTOM_LIST_ID
+    azure_az_api_key = "...#{Figaro.env.AZ_API_KEY[-4..-1]}"
+
+    volume_opps_failed_timestamp = redis.get(:application_error)&.strip
+
     if (sidekiq_retry_jobs_count - retry_count).positive? && days_since_last_failure(latest_sidekiq_failure) < PUBLISH_SIDEKIQ_ERROR_DAYS
       render json: { status: 'error', retry_error_count: sidekiq_retry_jobs_count }
     else
-      render json: { status: 'OK' }
+      render json: { status: 'OK', fetched: { daily: daily_count, weekly: weekly_count, thirty_days: monthly_count }, trashed: { daily: trashed_daily_count, weekly: trashed_weekly_count, thirty_days: trashed_monthly_count }, pending: { daily: pending_daily_count, weekly: pending_weekly_count, thirty_days: pending_monthly_count }, api_config: { list_id: azure_list_id, api_key: azure_az_api_key }, latest_application_error: volume_opps_failed_timestamp }
     end
   end
 

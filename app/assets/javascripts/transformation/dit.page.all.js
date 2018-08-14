@@ -11,6 +11,7 @@
 //= require transformation/dit.class.select_tracker
 //= require transformation/dit.component.language_selector
 //= require transformation/dit.component.menu
+//= require dit.components.cookie-notice
 
 
 dit.page.all = (new function () {
@@ -26,19 +27,19 @@ dit.page.all = (new function () {
       "tablet" : "max-width: 767px",
       "mobile" : "max-width: 480px"
     });
-    
+
     enhanceLanguageSelector();
     enhanceMenu();
 
     cacheComponents();
     viewAdjustments(dit.responsive.mode());
     bindResponsiveListener();
-    
+
     delete this.init; // Run once
   }
 
   /* Grab and store elements that are manipulated throughout
-   * the lifetime of the page or, that are used across 
+   * the lifetime of the page or, that are used across
    * several functions
    **/
   function cacheComponents() {
@@ -69,7 +70,7 @@ dit.page.all = (new function () {
     clearHeights(_cache.submenuItems);
     clearHeights(_cache.submenuLinks);
   }
-    
+
   /* Bind listener for the dit.responsive.reset event
    * to reset the view when triggered.
    **/

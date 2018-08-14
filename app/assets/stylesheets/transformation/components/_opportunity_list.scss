@@ -24,6 +24,8 @@
 
   .title {
     @include body-l;
+    display: block;
+    float: left;
     font-weight: bold;
     padding: 0 $spacing-3 $spacing-4 $spacing-3;
   }
@@ -35,7 +37,6 @@
   }
 
   .title {
-    float: left;
     width: calc(100% - 150px);
   }
 }
@@ -72,14 +73,12 @@
 
     .text,
     .title {
-      display: block;
       padding: 0 $spacing-3-m $spacing-4 $spacing-3-m;
     }
   }
 
   .opportunity-external {
     .title {
-      float: none;
       width: auto;
     }
 

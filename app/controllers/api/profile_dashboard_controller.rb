@@ -31,6 +31,8 @@ module Api
           term: sub.search_term,
           created_on: sub.created_at,
           unsubscribe_url: unsubscribe_url(sub.id),
+          description: sub.title,
+          countries: sub.countries.map(&:name).join(','),
         }
       end
       respond_to do |format|
