@@ -11,14 +11,14 @@
       %p= results.information
       = render partial: "components/subscription_link", locals: { subscription: results.subscription }
 
-    = form_tag results.form_path,  method: :get, :class=>"search" do
+    %form.search{:action=>results.form_path, :method=>"get"}
       %label
         %span New search
         %input{:name=>"s", :autocomplete=>"off", :class=>"text", :type=>"search", :value=>"", :placeholder=>"What are you selling?"}
       %input.submit{:value=>results.content['search_again_button'], :type=>"submit"}
 
 
-= form_tag opportunities_path,  method: :get do
+%form{:action=>opportunities_path, :method=>"get"}
   - params[:areas]&.each do |area|
     %input{:name=>"areas[]", :type=>"hidden", :value=>"#{area}"}
 
