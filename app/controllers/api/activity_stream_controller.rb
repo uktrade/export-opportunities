@@ -114,13 +114,13 @@ module Api
       }
     end
 
-    def respond_401(message)
+    def respond(code, message)
       respond_to do |format|
         response.headers['Content-Type'] = 'application/json'
         error_object = {
           message: message,
         }
-        format.json { render status: 401, json: error_object.to_json }
+        format.json { render status: code, json: error_object.to_json }
       end
     end
 
@@ -137,7 +137,7 @@ module Api
       # the holder of the secret key is allowed to access the data
 
       is_authentic, message = authenticate(request)
-      return respond_401 message unless is_authentic
+      return respond(401, message) unless is_authentic
 
       search_after = params.fetch(:search_after, '0.000000_0')
       search_after_time_str, search_after_id_str = search_after.split('_')
