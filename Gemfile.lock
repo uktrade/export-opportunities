@@ -8,9 +8,9 @@ GIT
 
 GIT
   remote: https://github.com/uktrade/export_components.git
-  revision: d5e07cda899bfd4ac1a7930b001c9acf2a0d3dc2
+  revision: 4b2a0d1fa494b408709591b7f0ca8783f6da4610
   specs:
-    export_components (0.5.0)
+    export_components (0.6.0)
       rails (~> 5.2)
 
 GEM
@@ -245,7 +245,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
     mimemagic (0.3.2)
-    mini_mime (1.0.0)
+    mini_mime (1.0.1)
     mini_portile2 (2.3.0)
     minitest (5.11.3)
     multi_json (1.13.1)
