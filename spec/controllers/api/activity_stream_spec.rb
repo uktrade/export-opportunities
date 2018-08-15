@@ -34,7 +34,7 @@ end
 RSpec.describe Api::ActivityStreamController, type: :controller do
   describe 'GET feed controller if activity_stream is enabled' do
     before :each do
-      ExportOpportunities.flipper.enable(:activity_stream)
+      allow(Figaro.env).to receive('ACTIVITY_STREAM_ENABLED').and_return('true')
     end
 
     it 'responds with a 401 error if connecting from unauthorized IP' do
