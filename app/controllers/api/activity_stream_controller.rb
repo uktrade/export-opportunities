@@ -53,6 +53,10 @@ def to_activity(enquiry)
         'type': ['Document', 'dit:exportOpportunities:Opportunity'],
         'dit:exportOpportunities:Opportunity:id': enquiry.opportunity_id,
         'name': enquiry.opportunity_title,
+        'generator': {
+          'type': ['Organization', 'dit:ServiceProvider'],
+          'name': enquiry.opportunity_service_provider_name,
+        },
       },
     },
   }
@@ -171,12 +175,13 @@ module Api
       search_after_id = Integer(search_after_id_str)
 
       companies_with_number = Enquiry
-        .joins(:opportunity)
+        .joins(opportunity: :service_provider)
         .select(
           'enquiries.id, enquiries.created_at, enquiries.company_house_number, enquiries.existing_exporter, ' \
           'enquiries.company_sector, enquiries.company_name, enquiries.company_postcode, enquiries.company_url, ' \
           'enquiries.company_telephone, ' \
-          'enquiries.opportunity_id, opportunities.title as opportunity_title'
+          'enquiries.opportunity_id, opportunities.title as opportunity_title, ' \
+          'service_providers.name as opportunity_service_provider_name'
         )
         .where("enquiries.company_house_number IS NOT NULL AND enquiries.company_house_number != ''")
         .where('enquiries.created_at > to_timestamp(?) OR (enquiries.created_at = to_timestamp(?) AND enquiries.id > ?)',
