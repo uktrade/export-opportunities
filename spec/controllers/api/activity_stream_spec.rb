@@ -22,7 +22,21 @@ def auth_header(ts, key_id, secret_key, uri, payload)
 end
 
 RSpec.describe Api::ActivityStreamController, type: :controller do
-  describe 'GET feed controller' do
+  describe 'GET feed controller if activity_stream is not enabled' do
+    it 'responds with a 403 error' do
+      get :index, params: { format: :json }
+      expect(response.status).to eq(403)
+      expect(response.body).to eq(%({"message":"Activity Stream is disabled"}))
+    end
+  end
+end
+
+RSpec.describe Api::ActivityStreamController, type: :controller do
+  describe 'GET feed controller if activity_stream is enabled' do
+    before :each do
+      ExportOpportunities.flipper.enable(:activity_stream)
+    end
+
     it 'responds with a 401 error if connecting from unauthorized IP' do
       # The whitelist is 0.0.0.0, and we reject all requests that don't have
       # 0.0.0.0 as the second-to-last IP in X-Fowarded-For, as this isn't

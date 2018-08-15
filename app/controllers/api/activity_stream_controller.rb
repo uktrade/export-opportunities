@@ -133,8 +133,11 @@ module Api
 
     def index
       # 401 if the server can't authenticate the request
-      # 403 is never sent, since there is is no finer granularity for this endpoint:
-      # the holder of the secret key is allowed to access the data
+      # 403 is only sent if the activity stream is disabled, since there is
+      # no finer granularity for this endpoint: the holder of the secret key
+      # is allowed to access the data
+
+      return respond(403, 'Activity Stream is disabled') unless ExportOpportunities.flipper.enabled?(:activity_stream)
 
       is_authentic, message = authenticate(request)
       return respond(401, message) unless is_authentic
