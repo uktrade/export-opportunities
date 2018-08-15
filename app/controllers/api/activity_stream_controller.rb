@@ -156,6 +156,11 @@ module Api
       search_after_id = Integer(search_after_id_str)
 
       companies_with_number = Enquiry
+        .select(
+          'enquiries.id, enquiries.created_at, enquiries.company_house_number, enquiries.existing_exporter, ' \
+          'enquiries.company_sector, enquiries.company_name, enquiries.company_postcode, enquiries.company_url, ' \
+          'enquiries.company_telephone'
+        )
         .where("enquiries.company_house_number IS NOT NULL AND enquiries.company_house_number != ''")
         .where('enquiries.created_at > to_timestamp(?) OR (enquiries.created_at = to_timestamp(?) AND enquiries.id > ?)',
           search_after_time, search_after_time, search_after_id)
