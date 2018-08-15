@@ -432,8 +432,11 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
 
     it 'has a single entry element if a company has been made with a company house number' do
       enquiry = nil
+      country_1 = create(:country, name: 'a')
+      country_2 = create(:country, name: 'b')
       Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2)) do
         enquiry = create(:enquiry, company_house_number: '123')
+        enquiry.opportunity.countries = [country_1, country_2]
       end
 
       @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
@@ -461,6 +464,8 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(item['object']['type']).to include('dit:exportOpportunities:Enquiry')
       expect(item['object']['id']).to eq("dit:exportOpportunities:Enquiry:#{enquiry.id}")
       expect(item['object']['url']).to eq("http://test.host/admin/enquiries/#{enquiry.id}")
+      expect(item['object']['inReplyTo']['dit:country'][0]).to eq('a')
+      expect(item['object']['inReplyTo']['dit:country'][1]).to eq('b')
     end
 
     it 'has a two entries, in date order, if two enquiries have been made with company house numbers' do
@@ -527,11 +532,15 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     end
 
     it 'is paginated with a link element if there are MAX_PER_PAGE enquiries' do
+      country_1 = create(:country)
+      country_2 = create(:country)
+
       # Creating records takes quite a while. Stub for a quicker test
       stub_const("MAX_PER_PAGE", 20)
       Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2, 344590)) do
         for i in 1..21 do
-          create(:enquiry, company_house_number: i.to_s, id:(2923 + i))
+          enquiry = create(:enquiry, company_house_number: i.to_s, id:(2923 + i))
+          enquiry.opportunity.countries = [country_1, country_2]
         end
       end
 

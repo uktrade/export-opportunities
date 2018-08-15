@@ -15,7 +15,7 @@ def to_activity_collection(activities)
   }
 end
 
-def to_activity(enquiry)
+def to_activity(country_names, enquiry)
   # When making changes, be mindful to use .joins, .includes,
   # .preload or .eager_load in the query that has produced
   # `enquiry` in order to avoid any queries per activity.
@@ -56,6 +56,7 @@ def to_activity(enquiry)
       'inReplyTo': {
         'type': ['Document', 'dit:exportOpportunities:Opportunity'],
         'dit:exportOpportunities:Opportunity:id': enquiry.opportunity_id,
+        'dit:country': country_names[enquiry.opportunity_id],
         'name': enquiry.opportunity_title,
         'generator': {
           'type': ['Organization', 'dit:ServiceProvider'],
@@ -195,7 +196,41 @@ module Api
         .order('enquiries.created_at ASC, enquiries.id ASC')
       enquiries = companies_with_number.take(MAX_PER_PAGE)
 
-      items = enquiries.map(&method(:to_activity))
+      # To avoid...
+      # - A query per activity
+      # - select * (as opposed to specifying column names)
+      # - unnecessary joins
+      # ... there doesn't seem to be a pure ActiveRecord way of doing this. Specifically, it
+      # seems to be due to the fact that the countries of an opportunity is quite a "deep"
+      # relation.
+      # Note the WHERE IN (...) as opposted to WHERE IN (VALUES ...). The VALUES version was
+      # tested on staging with 1000 IDs, and was found to be slower, and from EXPLAIN ANALYZE
+      # it involved a full table scan, while the current version was faster and did not
+      # involve a full table scan (other than on the countries table itself, but it's small
+      # so that makes sense)
+      #
+      # Also, wake sure to not error with cases where both there are no opportunity IDs,
+      # and if the opportunity has no associated countries.
+      opportunity_ids = enquiries.map { |enquiry| [nil, enquiry.opportunity_id] }
+      where_clause = enquiries.map.with_index { |_enquiry, i| "$#{i + 1}::uuid" }.join(',')
+      country_names_str = \
+        if opportunity_ids.empty? then {} else ActiveRecord::Base
+          .connection
+          .select_rows(
+            'SELECT countries_opportunities.opportunity_id, STRING_AGG(countries.name, \'__SEP__\' ORDER BY name) as country_name ' \
+            'FROM countries_opportunities ' \
+            'INNER JOIN countries ON (countries_opportunities.country_id = countries.id) ' \
+            'WHERE countries_opportunities.opportunity_id IN (' + where_clause + ') ' \
+            'GROUP BY countries_opportunities.opportunity_id ',
+            nil, opportunity_ids
+          )
+          .to_h
+        end
+      country_names_empty_str = Hash[enquiries.map { |enquiry, _| [enquiry.opportunity_id, ''] }]
+      country_names_all = country_names_empty_str.merge(country_names_str)
+      country_names = Hash[country_names_all.map { |opp_id, country_str| [opp_id, country_str.split('__SEP__')] }]
+
+      items = enquiries.map { |enquiry| to_activity(country_names, enquiry) }
       contents = to_activity_collection(items).merge(
         if enquiries.empty?
           {}
