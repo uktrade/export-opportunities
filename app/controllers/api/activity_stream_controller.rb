@@ -28,7 +28,10 @@ def to_activity(enquiry)
     'id': activity_id,
     'type': 'Create',
     'published': enquiry.created_at.to_datetime.rfc3339,
-    'dit:application': 'exportOpportunities',
+    'generator': {
+      'type': 'Application',
+      'name': 'exportOpportunities',
+    },
     'actor': {
       'type': ['Organization', 'dit:Company'],
       'dit:companiesHouseNumber': enquiry.company_house_number,
