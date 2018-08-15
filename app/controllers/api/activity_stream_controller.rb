@@ -43,6 +43,9 @@ def to_activity(enquiry)
         'dit:postcode': enquiry.company_postcode,
       },
       'url': enquiry.company_url,
+    }, {
+      'type': 'Person',
+      'name': [enquiry.first_name, enquiry.last_name],
     }],
     'object': {
       'type': ['Document', 'dit:exportOpportunities:Enquiry'],
@@ -179,7 +182,7 @@ module Api
         .select(
           'enquiries.id, enquiries.created_at, enquiries.company_house_number, enquiries.existing_exporter, ' \
           'enquiries.company_sector, enquiries.company_name, enquiries.company_postcode, enquiries.company_url, ' \
-          'enquiries.company_telephone, ' \
+          'enquiries.company_telephone, enquiries.first_name, enquiries.last_name, ' \
           'enquiries.opportunity_id, opportunities.title as opportunity_title, ' \
           'service_providers.name as opportunity_service_provider_name'
         )
