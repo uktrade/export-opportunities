@@ -154,6 +154,7 @@ module Api
       search_after_time_str, search_after_id_str = search_after.split('_')
       search_after_time = Float(search_after_time_str)
       search_after_id = Integer(search_after_id_str)
+
       companies_with_number = Enquiry
         .where("company_house_number IS NOT NULL AND company_house_number != ''")
         .where('created_at > to_timestamp(?) OR (created_at = to_timestamp(?) AND id > ?)', search_after_time, search_after_time, search_after_id)
