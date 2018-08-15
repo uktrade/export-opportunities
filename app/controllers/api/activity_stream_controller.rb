@@ -30,7 +30,7 @@ def to_activity(enquiry)
     'published': enquiry.created_at.to_datetime.rfc3339,
     'generator': {
       'type': 'Application',
-      'name': 'exportOpportunities',
+      'name': 'dit:exportOpportunities',
     },
     'actor': {
       'type': ['Organization', 'dit:Company'],
