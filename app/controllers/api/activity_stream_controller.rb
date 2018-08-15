@@ -32,7 +32,7 @@ def to_activity(enquiry)
       'type': 'Application',
       'name': 'dit:exportOpportunities',
     },
-    'actor': {
+    'actor': [{
       'type': ['Organization', 'dit:Company'],
       'dit:companiesHouseNumber': enquiry.company_house_number,
       'dit:companyIsExistingExporter': enquiry.existing_exporter,
@@ -43,7 +43,7 @@ def to_activity(enquiry)
         'dit:postcode': enquiry.company_postcode,
       },
       'url': enquiry.company_url,
-    },
+    }],
     'object': {
       'type': ['Document', 'dit:exportOpportunities:Enquiry'],
       'id': obj_id,
