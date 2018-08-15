@@ -46,6 +46,7 @@ def to_activity(enquiry)
     }, {
       'type': 'Person',
       'name': [enquiry.first_name, enquiry.last_name],
+      'dit:emailAddress': enquiry.user_email,
     }],
     'object': {
       'type': ['Document', 'dit:exportOpportunities:Enquiry'],
@@ -179,12 +180,14 @@ module Api
 
       companies_with_number = Enquiry
         .joins(opportunity: :service_provider)
+        .joins(:user)
         .select(
           'enquiries.id, enquiries.created_at, enquiries.company_house_number, enquiries.existing_exporter, ' \
           'enquiries.company_sector, enquiries.company_name, enquiries.company_postcode, enquiries.company_url, ' \
           'enquiries.company_telephone, enquiries.first_name, enquiries.last_name, ' \
           'enquiries.opportunity_id, opportunities.title as opportunity_title, ' \
-          'service_providers.name as opportunity_service_provider_name'
+          'service_providers.name as opportunity_service_provider_name, ' \
+          'users.email as user_email' \
         )
         .where("enquiries.company_house_number IS NOT NULL AND enquiries.company_house_number != ''")
         .where('enquiries.created_at > to_timestamp(?) OR (enquiries.created_at = to_timestamp(?) AND enquiries.id > ?)',
