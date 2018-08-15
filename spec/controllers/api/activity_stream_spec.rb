@@ -453,7 +453,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       item =  items[0]
       expect(item['id']).to eq("dit:exportOpportunities:Enquiry:#{enquiry.id}:Create")
       expect(item['type']).to eq('Create')
-      expect(item['published']).to eq('2008-09-01T12:01:02+00:00')
+      expect(item['object']['published']).to eq('2008-09-01T12:01:02+00:00')
       expect(item['actor']['type']).to include('Organization')
       expect(item['actor']['type']).to include('dit:Company')
       expect(item['actor']['dit:companiesHouseNumber']).to eq('123')
@@ -489,10 +489,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(items.length).to eq(2)
 
       elastic_search_bulk_1 = items[0]
-      expect(elastic_search_bulk_1['published']).to eq('2008-09-01T12:01:02+00:00')
+      expect(elastic_search_bulk_1['object']['published']).to eq('2008-09-01T12:01:02+00:00')
 
       elastic_search_bulk_2 =  items[1]
-      expect(elastic_search_bulk_2['published']).to eq('2008-09-01T12:01:03+00:00')
+      expect(elastic_search_bulk_2['object']['published']).to eq('2008-09-01T12:01:03+00:00')
     end
 
     it 'in ID order if two enquiries are made at the same time' do

@@ -47,6 +47,7 @@ def to_activity(enquiry)
     'object': {
       'type': ['Document', 'dit:exportOpportunities:Enquiry'],
       'id': obj_id,
+      'published': enquiry.created_at.to_datetime.rfc3339,
       'url': admin_enquiry_url(enquiry),
       'inReplyTo': {
         'type': ['Document', 'dit:exportOpportunities:Opportunity'],
