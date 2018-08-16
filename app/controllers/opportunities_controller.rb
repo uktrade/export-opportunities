@@ -3,8 +3,7 @@ require 'set'
 
 class OpportunitiesController < ApplicationController
   protect_from_forgery except: :index
-  # caches_page :results, if: :no_params?
-  caches_page :index
+  # caches_page :index
 
   def index
     @content = get_content('opportunities/index.yml')
@@ -192,9 +191,10 @@ class OpportunitiesController < ApplicationController
     if atom_request?
       atom_request_query(query)
     else
-      country_list = relevant_countries_from_search(query) # Run before paging.
-      query = query.page(params[:paged]).per(per_page)
       results = query.records
+      country_list = relevant_countries_from_search(results.includes(:countries).includes(:opportunities_countries)) # Run before paging.
+      query = query.page(params[:paged]).per(per_page)
+
       @total = query.records.total
     end
 
@@ -456,9 +456,4 @@ class OpportunitiesController < ApplicationController
     @opportunities = query.records
     @total = query.records.size
   end
-
-  private def no_params?
-    params[:s].blank? && params[:sort_column_name].blank? && params[:regions].blank? && params[:countries].blank?
-  end
-
 end

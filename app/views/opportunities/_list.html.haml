@@ -1,16 +1,17 @@
 %ul.navigation.opportunities-list
   - list.each do | opp |
-    - opportunity = OpportunityPresenter.new(self, opp)
-    %li{:class=>"#{opportunity.css_class_name}"}
-      = link_to opportunity.title_with_country, opportunity_path(opp), {:class => "title" }
+    = cache opp do
+      - opportunity = OpportunityPresenter.new(self, opp)
+      %li{:class=>"#{opportunity.css_class_name}"}
+        = link_to opportunity.title_with_country, opportunity_path(opp), {:class => "title" }
 
-      %span.text
-        = opportunity.teaser
+        %span.text
+          = opportunity.teaser
 
-      - if opportunity.source('volume_opps')
-        = render partial: "partials/open_opps_link"
+        - if opportunity.source('volume_opps')
+          = render partial: "partials/open_opps_link"
 
-      %span.expires
-        Closing date:
-        = opportunity.expires
+        %span.expires
+          Closing date:
+          = opportunity.expires
 
