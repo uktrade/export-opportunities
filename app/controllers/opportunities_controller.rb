@@ -3,7 +3,8 @@ require 'set'
 
 class OpportunitiesController < ApplicationController
   protect_from_forgery except: :index
-  caches_page :results, if: :no_params?
+  # caches_page :results, if: :no_params?
+  caches_page :index
 
   def index
     @content = get_content('opportunities/index.yml')
