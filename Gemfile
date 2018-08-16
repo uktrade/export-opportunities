@@ -89,6 +89,9 @@ gem 'rubyzip'
 # JSON Web Tokens for Volume Opps
 gem 'jwt'
 
+# caching
+gem "actionpack-page_caching"
+
 group :development, :test do
   gem 'byebug'
   gem 'faker'

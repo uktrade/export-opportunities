@@ -45,6 +45,8 @@ module ExportOpportunities
     # TODO: temp workaround
     config.action_controller.permit_all_parameters = true
 
+    config.action_controller.page_cache_directory = "#{Rails.root.to_s}/public"
+
     # precompile assets
     # config.serve_static_assets = true
 

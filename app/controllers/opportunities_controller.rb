@@ -3,6 +3,7 @@ require 'set'
 
 class OpportunitiesController < ApplicationController
   protect_from_forgery except: :index
+  caches_page :results, if: :no_params?
 
   def index
     @content = get_content('opportunities/index.yml')
@@ -454,4 +455,9 @@ class OpportunitiesController < ApplicationController
     @opportunities = query.records
     @total = query.records.size
   end
+
+  private def no_params?
+    params[:s].blank? && params[:sort_column_name].blank? && params[:regions].blank? && params[:countries].blank?
+  end
+
 end
