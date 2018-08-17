@@ -312,10 +312,11 @@ class OpportunitiesController < ApplicationController
       filters: SearchFilter.new,
       sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
     )
-    query = query.page(params[:paged]).per(per_page)
+    total = query.results.total
+    records = query.records.page(params[:paged]).per(per_page)
     {
-      results: query.records,
-      total: query.records.total,
+      results: records,
+      total: total,
       limit: per_page,
       sort_by: @sort_column_name,
     }
