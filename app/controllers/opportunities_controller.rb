@@ -192,10 +192,9 @@ class OpportunitiesController < ApplicationController
       atom_request_query(query)
     else
       results = query.records
+      @total = query.results.total
       country_list = relevant_countries_from_search(results.includes(:countries).includes(:opportunities_countries)) # Run before paging.
-      query = query.page(params[:paged]).per(per_page)
-
-      @total = query.records.total
+      query.page(params[:paged]).per(per_page)
     end
 
     {
