@@ -135,10 +135,10 @@ GEM
     docile (1.1.5)
     domain_name (0.5.20170404)
       unf (>= 0.0.5, < 1.0.0)
-    elasticsearch (5.0.4)
-      elasticsearch-api (= 5.0.4)
-      elasticsearch-transport (= 5.0.4)
-    elasticsearch-api (5.0.4)
+    elasticsearch (5.0.5)
+      elasticsearch-api (= 5.0.5)
+      elasticsearch-transport (= 5.0.5)
+    elasticsearch-api (5.0.5)
       multi_json
     elasticsearch-extensions (0.0.27)
       ansi
@@ -146,12 +146,12 @@ GEM
       oj
       patron
       ruby-prof
-    elasticsearch-model (5.0.2)
+    elasticsearch-model (5.1.0)
       activesupport (> 3)
       elasticsearch (~> 5)
       hashie
     elasticsearch-rails (5.1.0)
-    elasticsearch-transport (5.0.4)
+    elasticsearch-transport (5.0.5)
       faraday
       multi_json
     erubi (1.7.1)
@@ -486,7 +486,7 @@ GEM
       activemodel (>= 5.0)
       bindex (>= 0.4.0)
       railties (>= 5.0)
-    webmock (3.4.1)
+    webmock (3.4.2)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
@@ -521,7 +521,7 @@ DEPENDENCIES
   devise-async
   devise_security_extension!
   elasticsearch-extensions
-  elasticsearch-model
+  elasticsearch-model (= 5.1.0)
   elasticsearch-rails (= 5.1.0)
   export_components (~> 0.7)!
   factory_bot_rails
@@ -586,7 +586,7 @@ DEPENDENCIES
   uglifier
   vcr
   web-console
-  webmock (= 3.4.1)
+  webmock (= 3.4.2)
   yajl-ruby (>= 1.3.1)
 
 RUBY VERSION

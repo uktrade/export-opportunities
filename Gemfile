@@ -36,7 +36,7 @@ gem 'pg_search'
 gem 'kaminari'
 gem 'faraday_middleware-aws-signers-v4'
 gem 'elasticsearch-rails', '5.1.0'
-gem 'elasticsearch-model'
+gem 'elasticsearch-model', '5.1.0'
 gem 'devise_security_extension', git: 'https://github.com/phatworx/devise_security_extension.git'
 
 # Styling
@@ -116,7 +116,7 @@ group :test do
   gem 'rspec-sidekiq'
   gem 'timecop'
 
-  gem 'webmock', '3.4.1'
+  gem 'webmock', '3.4.2'
   gem 'rspec-rails'
   gem 'rspec-collection_matchers'
   gem 'rspec_junit_formatter'
