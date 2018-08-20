@@ -3,7 +3,7 @@ require 'net/http'
 class TranslationConnector
   def call(opportunity, configuration, hostname, translation_api_key)
     configuration.each do |config|
-      uri = URI(hostname)
+     uri = URI(hostname)
       uri.query = URI.encode_www_form(
           auth_key: translation_api_key,
           text: opportunity[config],
@@ -22,12 +22,14 @@ class TranslationConnector
       source_language = body['translations'][0]['detected_source_language']
       text = body['translations'][0]['text']
 
-      puts ">>original text: #{opportunity[config]}"
-      puts ">>>translated text: #{text}"
+      Rails.logger.debug ">>original text: #{opportunity[config]}"
+      Rails.logger.debug ">>>translated text: #{text}"
+
       # assign translated value in place
       opportunity[config] = text
 
-      opportunity['original_language'] ||= source_language
+      opportunity['original_language'] = source_language.downcase
     end
+    opportunity.save!
   end
 end

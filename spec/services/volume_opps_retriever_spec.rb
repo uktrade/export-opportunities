@@ -120,8 +120,11 @@ RSpec.describe VolumeOppsRetriever do
   describe '#translates opportunity' do
     it 'translates a sample opp' do
       opportunity = create(:opportunity, description: 'alex jest świetny, niech żyje alex')
-      res = VolumeOppsRetriever.new.translate(opportunity, [:description, :teaser, :title])
-      puts res
+
+      VolumeOppsRetriever.new.translate(opportunity, [:description, :teaser, :title])
+
+      expect(opportunity.description).to eq('alex is great, let alex live')
+      expect(opportunity.original_language).to eq('pl')
     end
 
     it 'queries translate API to translate the opportunity' do
@@ -151,12 +154,23 @@ Ce système, basé sur d’anciennes technologies constitue un risque fort au ni
 
 Les langages utilisés et à considérer comme obsolètes sont Matrix, Matlab, Fortran, C et autres analogues à modifier. Dans ce contexte, l'objectif principal est de maintenir le niveau de savoir-faire présent dans le code du logiciel tout en modernisant le cœur du produit.",
                            tender_url: 'https://ted.europa.eu/udl?uri=TED:NOTICE:354260-2018:TEXT:EN:HTML&src=0&tabId=1')
-      res = VolumeOppsRetriever.new.translate(opportunity, nil)
-      puts res.pretty_print_inspect
+
+      VolumeOppsRetriever.new.translate(opportunity, [:description, :teaser, :title])
+      expect(opportunity.original_language).to eq('fr')
+      expect(opportunity.title).to include('Overhaul of the Matys business application')
+      expect(opportunity.description).to include("RATP's Matys application is a business application for railway studies")
+      expect(opportunity.teaser).to include('The services included in the market scope are described below')
     end
 
     it 'fails gracefully when translate API fails' do
+      # expect_any_instance_of(NewDomainConstraint).to receive(:matches?).and_return(false)
+      stub_request(:any, "#{Figaro.env.DL_HOSTNAME}?auth_key=#{Figaro.env.DL_API_KEY}&text=alex+jest+%C5%9Bwietny%2C+niech+%C5%BCyje+alex&target_lang=en").to_timeout
+      # RestClient.post('http://www.request-timeout.co.uk', 'abc')
+      # expect_any_instance_of(VolumeOppsRetriever).to receive(:translate).and_return(nil)
 
+      opportunity = create(:opportunity, description: 'alex jest świetny, niech żyje alex')
+
+      expect { VolumeOppsRetriever.new.translate(opportunity, [:description, :teaser, :title]) }.to raise_error(Net::OpenTimeout)
     end
   end
 end
