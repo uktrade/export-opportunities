@@ -14,31 +14,30 @@ class EmailNotificationsController < ApplicationController
     subscriptions = Subscription.where(user_id: user_id).where(unsubscribed_at: nil)
 
     if every_opportunity_subscription?(subscriptions)
-      query = Opportunity.public_search(
-        search_term: nil,
-        filters: SearchFilter.new,
-        sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
-      )
-      @results = query.records.includes(:countries).includes(:opportunities_countries).to_a
+      return redirect_to(opportunities_path)
     else
-      subscriptions.each do |subscription|
-        params = {
-          sectors: subscription.sectors,
-          countries: subscription.countries,
-          types: subscription.types,
-          values: subscription.values,
-        }
-        query = Opportunity.public_search(
-          search_term: subscription.search_term,
-          filters: SearchFilter.new(params),
-          sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
-        )
-        query.records.includes(:countries).includes(:opportunities_countries).to_a.each do |opp|
-          result_set.add(opp)
+      if non_overlapping_subscriptions?(subscriptions)
+        return redirect_to(opportunities_path(s: subscriptions.map(&:search_term).join(" "), countries: subscriptions.map(&:countries)[0].map(&:name).join(",")))
+      else
+        subscriptions.each do |subscription|
+            params = {
+              sectors: subscription.sectors,
+              countries: subscription.countries,
+              types: subscription.types,
+              values: subscription.values,
+            }
+            query = Opportunity.public_search(
+              search_term: subscription.search_term,
+              filters: SearchFilter.new(params),
+              sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
+            )
+            query.records.includes(:countries).includes(:opportunities_countries).to_a.each do |opp|
+              result_set.add(opp)
+            end
         end
-      end
 
-      @results = result_set.to_a
+        @results = result_set.to_a
+      end
     end
     @paginatable_results = Kaminari.paginate_array(@results).page(params[:page]).per(10)
 
@@ -83,5 +82,9 @@ class EmailNotificationsController < ApplicationController
       end
     end
     false
+  end
+
+  private def non_overlapping_subscriptions?(subscriptions)
+    subscriptions.size == 1
   end
 end
