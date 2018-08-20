@@ -1,4 +1,3 @@
-require ''
 class VolumeOppsValidator
   def validate_each(opportunity)
     # title V

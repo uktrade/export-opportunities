@@ -248,8 +248,7 @@ class VolumeOppsRetriever
     end
   end
 
-  def translate(opportunity:, fields="ddd" ) #Hash.new(:description, :teaser, :title))
-    byebug
+  def translate(opportunity, fields='description,teaser,title' ) #Hash.new(:description, :teaser, :title))
     hostname = Figaro.env.DL_HOSTNAME!
     api_key = Figaro.env.DL_API_KEY!
     TranslationConnector.new.call(opportunity, fields, hostname, api_key)
