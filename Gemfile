@@ -2,16 +2,16 @@ source 'https://rubygems.org'
 
 ruby '2.5.1'
 
-gem 'rails', '5.2.0'
+gem 'rails', '5.2.1'
 gem 'bundler', '1.16.3'
-gem 'puma', '3.8.0'
+gem 'puma', '3.12.0'
 gem 'pg', '0.21.0'
 gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'sidekiq-failures'
 gem 'redis', '3.3.3'
 gem 'redis-namespace'
-gem 'faraday'
+gem 'faraday', '0.12.2'
 gem 'figaro'
 gem 'friendly_id'
 gem 'immutable-struct'
@@ -35,8 +35,8 @@ gem 'sdoc'
 gem 'pg_search'
 gem 'kaminari'
 gem 'faraday_middleware-aws-signers-v4'
-gem 'elasticsearch-rails'
-gem 'elasticsearch-model'
+gem 'elasticsearch-rails', '5.1.0'
+gem 'elasticsearch-model', '5.1.0'
 gem 'devise_security_extension', git: 'https://github.com/phatworx/devise_security_extension.git'
 
 # Styling
@@ -45,7 +45,7 @@ gem 'neat', '1.8.0'
 gem 'autoprefixer-rails'
 gem 'normalize-scss'
 gem 'sass-rails'
-gem 'export_components', '~> 0.5', git: 'https://github.com/uktrade/export_components.git'
+gem 'export_components', '~> 0.7', git: 'https://github.com/uktrade/export_components.git'
 
 # Javascript
 gem 'jquery-rails'
@@ -56,7 +56,7 @@ gem 'stringex', require: false
 gem 'addressable'
 
 # ActiveRecord tools
-gem 'activerecord', '5.2.0'
+gem 'activerecord', '5.2.1'
 gem 'hairtrigger', '0.2.21'
 gem 'active_record_union'
 
@@ -89,6 +89,9 @@ gem 'rubyzip'
 # JSON Web Tokens for Volume Opps
 gem 'jwt'
 
+# caching
+gem 'actionpack-page_caching'
+
 group :development, :test do
   gem 'byebug'
   gem 'faker'
@@ -113,7 +116,7 @@ group :test do
   gem 'rspec-sidekiq'
   gem 'timecop'
 
-  gem 'webmock'
+  gem 'webmock', '3.4.2'
   gem 'rspec-rails'
   gem 'rspec-collection_matchers'
   gem 'rspec_junit_formatter'

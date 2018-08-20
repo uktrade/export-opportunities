@@ -88,3 +88,6 @@ SUBSCRIPTION_ES_MAX_RESULT_WINDOW_SIZE: '50000'
 
 # optional env vars
 IMPACT_EMAIL_CHANGE_FREQUENCY: '2018-07-30'
+
+# if you want to have a single cookie across domains (used for cookie disclaimer notice)
+"PRIVACY_COOKIE_DOMAIN": ".great.gov.uk"
