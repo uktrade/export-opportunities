@@ -28,7 +28,7 @@ class Admin::EnquiriesController < Admin::BaseController
         @next_enquiry = next_enquiry if params[:reply_sent]
       end
       format.csv do
-        enquiries = policy_scope(Enquiry).includes(:enquiry_response).all.order(created_at: :desc)
+        enquiries = policy_scope(Enquiry).includes(:enquiry_response).where('created_at >= ?', @enquiry_form.from).where('created_at < ?', @enquiry_form.to).order(created_at: :desc)
         zip_file_enquiries_cutoff_env_var = Figaro.env.zip_file_enquiries_cutoff ? Figaro.env.zip_file_enquiries_cutoff!.to_i : 6000
         SendEnquiriesReportToMatchingAdminUser.perform_async(current_editor.email, enquiries.pluck(:id), @enquiry_form.from, @enquiry_form.to, zip_file_enquiries_cutoff_env_var) if @enquiry_form.dates?
         redirect_to admin_enquiries_path, notice: 'The Enquiries report has been emailed. If you have requested a large amount of data, the report will be sent as sections in separate emails.'
