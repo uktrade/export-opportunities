@@ -16,21 +16,52 @@ def to_activity_collection(activities)
 end
 
 def to_activity(enquiry)
+  # When making changes, be mindful to use .joins, .includes,
+  # .preload or .eager_load in the query that has produced
+  # `enquiry` in order to avoid any queries per activity.
+  # If in doubt, while developing use
+  #
+  # ActiveRecord::Base.logger = Logger.new(STDOUT)
   obj_id = 'dit:exportOpportunities:Enquiry:' + enquiry.id.to_s
   activity_id = obj_id + ':Create'
   {
     'id': activity_id,
     'type': 'Create',
     'published': enquiry.created_at.to_datetime.rfc3339,
-    'dit:application': 'exportOpportunities',
-    'actor': {
+    'generator': {
+      'type': 'Application',
+      'name': 'dit:exportOpportunities',
+    },
+    'actor': [{
       'type': ['Organization', 'dit:Company'],
       'dit:companiesHouseNumber': enquiry.company_house_number,
-    },
+      'dit:companyIsExistingExporter': enquiry.existing_exporter,
+      'dit:sector': enquiry.company_sector,
+      'dit:phoneNumber': enquiry.company_telephone,
+      'name': enquiry.company_name,
+      'location': {
+        'dit:postcode': enquiry.company_postcode,
+      },
+      'url': enquiry.company_url,
+    }, {
+      'type': 'Person',
+      'name': [enquiry.first_name, enquiry.last_name],
+      'dit:emailAddress': enquiry.user_email,
+    }],
     'object': {
       'type': ['Document', 'dit:exportOpportunities:Enquiry'],
       'id': obj_id,
+      'published': enquiry.created_at.to_datetime.rfc3339,
       'url': admin_enquiry_url(enquiry),
+      'inReplyTo': {
+        'type': ['Document', 'dit:exportOpportunities:Opportunity'],
+        'dit:exportOpportunities:Opportunity:id': enquiry.opportunity_id,
+        'name': enquiry.opportunity_title,
+        'generator': {
+          'type': ['Organization', 'dit:ServiceProvider'],
+          'name': enquiry.opportunity_service_provider_name,
+        },
+      },
     },
   }
 end
@@ -146,10 +177,22 @@ module Api
       search_after_time_str, search_after_id_str = search_after.split('_')
       search_after_time = Float(search_after_time_str)
       search_after_id = Integer(search_after_id_str)
+
       companies_with_number = Enquiry
-        .where("company_house_number IS NOT NULL AND company_house_number != ''")
-        .where('created_at > to_timestamp(?) OR (created_at = to_timestamp(?) AND id > ?)', search_after_time, search_after_time, search_after_id)
-        .order('created_at ASC, id ASC')
+        .joins(opportunity: :service_provider)
+        .joins(:user)
+        .select(
+          'enquiries.id, enquiries.created_at, enquiries.company_house_number, enquiries.existing_exporter, ' \
+          'enquiries.company_sector, enquiries.company_name, enquiries.company_postcode, enquiries.company_url, ' \
+          'enquiries.company_telephone, enquiries.first_name, enquiries.last_name, ' \
+          'enquiries.opportunity_id, opportunities.title as opportunity_title, ' \
+          'service_providers.name as opportunity_service_provider_name, ' \
+          'users.email as user_email' \
+        )
+        .where("enquiries.company_house_number IS NOT NULL AND enquiries.company_house_number != ''")
+        .where('enquiries.created_at > to_timestamp(?) OR (enquiries.created_at = to_timestamp(?) AND enquiries.id > ?)',
+          search_after_time, search_after_time, search_after_id)
+        .order('enquiries.created_at ASC, enquiries.id ASC')
       enquiries = companies_with_number.take(MAX_PER_PAGE)
 
       items = enquiries.map(&method(:to_activity))
