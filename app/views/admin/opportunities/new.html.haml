@@ -3,4 +3,4 @@
   %p.mandatory= content['mandatory']
 
 .process
-  = render 'form', opportunity: @opportunity
+  = render  partial: 'form', locals: { opportunity: @opportunity, content: content }

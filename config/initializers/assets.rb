@@ -63,7 +63,7 @@ Rails.application.config.assets.precompile += %w[transformation/dit.page.landing
 Rails.application.config.assets.precompile += %w[transformation/dit.page.results.js]
 Rails.application.config.assets.precompile += %w[transformation/dit.page.opportunity.js]
 Rails.application.config.assets.precompile += %w[transformation/dit.page.enquiries.js]
-Rails.application.config.assets.precompile += %w['transformation/third_party/*.js']
+Rails.application.config.assets.precompile += %w[transformation/third_party/*.js]
 Rails.application.config.assets.precompile += %w[transformation/dit.admin.opportunity.js]
 
 # Transformation Admin

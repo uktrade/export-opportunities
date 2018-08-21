@@ -17,8 +17,8 @@ dit.admin.opportunity = (new function () {
    * lifetime of the page or used across several functions.
    **/
   function cacheComponents() {
-    _cache.$serviceProvider = $("[data-node='service-provider'] select");
-    _cache.$targetUrl = $("[data-node='target-url']");
+    _cache.$serviceProvider = $("[data-node='service-provider']");
+    _cache.$targetUrlParent = $("[data-node='target-url']").parent();
   }
 
   /* Listen for changes to the Service Provider
@@ -31,12 +31,12 @@ dit.admin.opportunity = (new function () {
   /* Control visibility of Opportunity Target URL field
    **/
   function adjustTargetUrlField() {
-    var serviceProviderName = _cache.$serviceProvider.children().eq(_cache.$serviceProvider.get(0).selectedIndex).text()
+    var serviceProviderName = _cache.$serviceProvider.val();
     if (serviceProviderName == "DFID") {
-      _cache.$targetUrl.show();
+      _cache.$targetUrlParent.show();
     }
     else {
-      _cache.$targetUrl.hide();
+      _cache.$targetUrlParent.hide();
     }
   }
 });

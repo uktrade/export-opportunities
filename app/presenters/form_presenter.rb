@@ -55,8 +55,8 @@ class FormPresenter < BasePresenter
     group
   end
 
-  # Return formatted data for Date Selector component
-  def input_date_selector(name)
+  # Return formatted data for separated datecomponent
+  def input_date_month_year(name)
     field = field_content(name)
     id = field_id(name)
     {
@@ -65,7 +65,7 @@ class FormPresenter < BasePresenter
       name_mm: "#{id}_mm",
       name_yy: "#{id}_yy",
       description: prop(field, 'description'),
-      text: prop(field, 'label'),
+      label: prop(field, 'label'),
     }
   end
 
@@ -102,16 +102,23 @@ class FormPresenter < BasePresenter
   # Return formatted data for Select input component
   def input_select(name)
     field = field_content(name)
+    options = prop(field, 'options') || []
     input = {}
-    options = []
+    opts = []
     unless field.nil?
       input[:id] = field_id(name)
       input[:label] = label(field, name)
       input[:name] = name
-      prop(field, 'options').each do |option|
-        options.push('value': option)
+      if options.present?
+        options.each do |option|
+          label = value_by_key(option, :label)
+          opts.push({
+            text: label,
+            value: clean_str(label),
+          })
+        end
       end
-      input[:options] = options
+      input[:options] = opts
     end
     input
   end
@@ -129,8 +136,8 @@ class FormPresenter < BasePresenter
 
   # Return formatted data for Textarea component
   # (Basically same properties as input[text] )
-  def input_textarea(name)
-    input_text(name)
+  def input_textarea(name, attributes = {})
+    input_text(name).merge(attributes)
   end
 
   # Return formatted data for Form label component
@@ -143,6 +150,34 @@ class FormPresenter < BasePresenter
   def field_exists?(name)
     fields = @fields
     fields.key?(name) || fields.key?(name.to_sym)
+  end
+
+
+  def build_input_date_month_year(builder, name, attributes = {})
+    builder.input_date_month_year(name, input_date_month_year(name.to_s), attributes)
+  end
+
+  def build_input_radio(builder, name, collection, attributes = {})
+    input = input_radio(name.to_s)
+    builder.input_radio(name, input.merge({ options: collection }), attributes)
+  end
+
+  def build_input_select(builder, name, collection, attributes = {})
+    input = input_select(name.to_s)
+    builder.input_select(name, input.merge({ options: collection }), attributes)
+  end
+
+  def build_input_text(builder, name, attributes = {})
+    builder.input_text name, input_text(name.to_s), attributes
+  end
+
+  def build_input_textarea(builder, name, attributes = {})
+    builder.input_textarea name, input_textarea(name.to_s), attributes
+  end
+
+  def build_output_value(builder, name, value, attributes = {})
+    label = input_label(name.to_s).merge({ value: value })
+    builder.output_value name, label, attributes
   end
 
   private
@@ -180,13 +215,15 @@ class FormPresenter < BasePresenter
 
   def options_group(group, name)
     options = []
-    group.each_with_index do |item, index|
-      id = clean_str("#{name}_#{index}")
-      option = option_item(item, id, name)
-      value = prop(item, 'value')
-      option[:value] = index + 1 if value.blank?
+    if group.present?
+      group.each_with_index do |item, index|
+        id = clean_str("#{name}_#{index}")
+        option = option_item(item, id, name)
+        value = prop(item, 'value')
+        option[:value] = index + 1 if value.blank?
 
-      options.push(option)
+        options.push(option)
+      end
     end
     options
   end
@@ -227,5 +264,10 @@ class FormPresenter < BasePresenter
       field = @fields[name] || field
     end
     field
+  end
+
+  # Fix stupid Ruby handling of keys in a hash
+  def value_by_key(hash, key)
+    hash[key.to_s] || hash[key.to_sym]
   end
 end

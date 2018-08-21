@@ -49,11 +49,12 @@ class Admin::OpportunitiesController < Admin::BaseController
     content = get_content('admin/opportunities.yml')
     @opportunity = Opportunity.new
     @save_to_draft_button = policy(@opportunity).uploader_previewer?
+
     load_options_for_form(@opportunity)
     setup_opportunity_contacts(@opportunity)
     authorize @opportunity
     render layout: 'admin_transformed', locals: {
-      content: content['step_1']
+      content: content,
     }
   end
 
