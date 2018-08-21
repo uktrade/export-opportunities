@@ -1,8 +1,9 @@
 require 'hawk'
+require 'json'
 require 'rails_helper'
 require 'socket'
 
-def auth_header(ts, key_id, secret_key, payload)
+def auth_header(ts, key_id, secret_key, uri, payload)
   credentials = {
     id: key_id,
     key: secret_key,
@@ -12,7 +13,7 @@ def auth_header(ts, key_id, secret_key, payload)
     credentials: credentials,
     ts: ts,
     method: 'GET',
-    request_uri: '/api/activity_stream',
+    request_uri: uri,
     host: 'test.host',
     port: '443',
     content_type: '',
@@ -21,7 +22,21 @@ def auth_header(ts, key_id, secret_key, payload)
 end
 
 RSpec.describe Api::ActivityStreamController, type: :controller do
-  describe 'GET feed controller' do
+  describe 'GET feed controller if activity_stream is not enabled' do
+    it 'responds with a 403 error' do
+      get :index, params: { format: :json }
+      expect(response.status).to eq(403)
+      expect(response.body).to eq(%({"message":"Activity Stream is disabled"}))
+    end
+  end
+end
+
+RSpec.describe Api::ActivityStreamController, type: :controller do
+  describe 'GET feed controller if activity_stream is enabled' do
+    before :each do
+      allow(Figaro.env).to receive('ACTIVITY_STREAM_ENABLED').and_return('true')
+    end
+
     it 'responds with a 401 error if connecting from unauthorized IP' do
       # The whitelist is 0.0.0.0, and we reject all requests that don't have
       # 0.0.0.0 as the second-to-last IP in X-Fowarded-For, as this isn't
@@ -112,6 +127,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '/api/activity_stream',
         '',
       ).sub('Hawk ', 'AWS ')
       get :index, params: { format: :json }
@@ -123,6 +139,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '/api/activity_stream',
         '',
       ).sub('Hawk ', ' Hawk ')  # Should not have leading space
       get :index, params: { format: :json }
@@ -134,6 +151,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '/api/activity_stream',
         '',
       ).sub('Hawk ', '')
       get :index, params: { format: :json }
@@ -145,6 +163,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '/api/activity_stream',
         '',
       ).sub('Hawk ', ', ')
       get :index, params: { format: :json }
@@ -156,6 +175,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '/api/activity_stream',
         '',
       ).sub('Hawk ', '", ')
       get :index, params: { format: :json }
@@ -170,6 +190,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i - 61,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '/api/activity_stream',
         '',
       )
       get :index, params: { format: :json }
@@ -283,6 +304,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID + 'something-incorrect',
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '/api/activity_stream',
         '',
       )
       get :index, params: { format: :json }
@@ -297,6 +319,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY + 'something-incorrect',
+        '/api/activity_stream',
         '',
       )
       get :index, params: { format: :json }
@@ -311,6 +334,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '/api/activity_stream',
         'something-incorrect',
       )
       get :index, params: { format: :json }
@@ -325,6 +349,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '/api/activity_stream',
         '',
       )
       get :index, params: { format: :json }
@@ -348,6 +373,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '/api/activity_stream',
         '',
       )
       begin
@@ -357,18 +383,206 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(ex.backtrace.to_s).to include('/redis/')
     end
 
-    it 'responds with a dummy JSON object if Authorization header is set and correct' do
+    it 'responds with no items if Authorization header is set and correct' do
       @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = auth_header(
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '/api/activity_stream',
         '',
       )
       get :index, params: { format: :json }
 
-      expect(response.body).to eq('{"secret":"content-for-pen-test"}')
+      expect(JSON.parse(response.body)['orderedItems']).to eq([])
       expect(response.headers['Content-Type']).to eq('application/activity+json')
+    end
+
+    it 'does not have any entry elements if an enquiry made without a company number' do
+      create(:enquiry, company_house_number: nil)
+
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
+      @request.headers['Authorization'] = auth_header(
+        Time.now.getutc.to_i,
+        Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+        Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '/api/activity_stream',
+        '',
+      )
+      get :index, params: { format: :json }
+
+      expect(JSON.parse(response.body)['orderedItems']).to eq([])
+    end
+
+    it 'does not have any entry elements if an enquiry made without a blank company house number' do
+      create(:enquiry, company_house_number: '')
+
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
+      @request.headers['Authorization'] = auth_header(
+        Time.now.getutc.to_i,
+        Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+        Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '/api/activity_stream',
+        '',
+      )
+      get :index, params: { format: :json }
+
+      expect(JSON.parse(response.body)['orderedItems']).to eq([])
+    end
+
+    it 'has a single entry element if a company has been made with a company house number' do
+      enquiry = nil
+      country_1 = create(:country, name: 'a')
+      country_2 = create(:country, name: 'b')
+      Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2)) do
+        enquiry = create(:enquiry, company_house_number: '123')
+        enquiry.opportunity.countries = [country_1, country_2]
+      end
+
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
+      @request.headers['Authorization'] = auth_header(
+        Time.now.getutc.to_i,
+        Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+        Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '/api/activity_stream',
+        '',
+      )
+      get :index, params: { format: :json }
+      feed_hash = JSON.parse(response.body)
+
+      items = feed_hash['orderedItems']
+      expect(items.length).to eq(1)
+
+      item =  items[0]
+      expect(item['id']).to eq("dit:exportOpportunities:Enquiry:#{enquiry.id}:Create")
+      expect(item['type']).to eq('Create')
+      expect(item['object']['published']).to eq('2008-09-01T12:01:02+00:00')
+      expect(item['actor'][0]['type']).to include('Organization')
+      expect(item['actor'][0]['type']).to include('dit:Company')
+      expect(item['actor'][0]['dit:companiesHouseNumber']).to eq('123')
+      expect(item['object']['type']).to include('Document')
+      expect(item['object']['type']).to include('dit:exportOpportunities:Enquiry')
+      expect(item['object']['id']).to eq("dit:exportOpportunities:Enquiry:#{enquiry.id}")
+      expect(item['object']['url']).to eq("http://test.host/admin/enquiries/#{enquiry.id}")
+      expect(item['object']['inReplyTo']['dit:country'][0]).to eq('a')
+      expect(item['object']['inReplyTo']['dit:country'][1]).to eq('b')
+    end
+
+    it 'has a two entries, in date order, if two enquiries have been made with company house numbers' do
+      enquiry_1 = nil
+      Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 3)) do
+        enquiry_1 = create(:enquiry, company_house_number: '123')
+      end
+
+      enquiry_2 = nil
+      Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2)) do
+        enquiry_1 = create(:enquiry, company_house_number: '124')
+      end
+
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
+      @request.headers['Authorization'] = auth_header(
+        Time.now.getutc.to_i,
+        Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+        Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '/api/activity_stream',
+        '',
+      )
+      get :index, params: { format: :json }
+      feed_hash = JSON.parse(response.body)
+
+      items = feed_hash['orderedItems']
+      expect(items.length).to eq(2)
+
+      elastic_search_bulk_1 = items[0]
+      expect(elastic_search_bulk_1['object']['published']).to eq('2008-09-01T12:01:02+00:00')
+
+      elastic_search_bulk_2 =  items[1]
+      expect(elastic_search_bulk_2['object']['published']).to eq('2008-09-01T12:01:03+00:00')
+    end
+
+    it 'in ID order if two enquiries are made at the same time' do
+      enquiry_1 = nil
+      Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2)) do
+        enquiry_1 = create(:enquiry, company_house_number: '123', id: 2345)
+      end
+
+      enquiry_2 = nil
+      Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2)) do
+        enquiry_1 = create(:enquiry, company_house_number: '124', id: 2344)
+      end
+
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
+      @request.headers['Authorization'] = auth_header(
+        Time.now.getutc.to_i,
+        Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+        Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '/api/activity_stream',
+        '',
+      )
+      get :index, params: { format: :json }
+      feed_hash = JSON.parse(response.body)
+
+      items = feed_hash['orderedItems']
+
+      elastic_search_bulk_1 = items[0]
+      expect(elastic_search_bulk_1['actor'][0]['dit:companiesHouseNumber']).to eq('124')
+
+      elastic_search_bulk_2 =  items[1]
+      expect(elastic_search_bulk_2['actor'][0]['dit:companiesHouseNumber']).to eq('123')
+    end
+
+    it 'is paginated with a link element if there are MAX_PER_PAGE enquiries' do
+      country_1 = create(:country)
+      country_2 = create(:country)
+
+      # Creating records takes quite a while. Stub for a quicker test
+      stub_const("MAX_PER_PAGE", 20)
+      Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2, 344590)) do
+        for i in 1..21 do
+          enquiry = create(:enquiry, company_house_number: i.to_s, id:(2923 + i))
+          enquiry.opportunity.countries = [country_1, country_2]
+        end
+      end
+
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
+      @request.headers['Authorization'] = auth_header(
+        Time.now.getutc.to_i,
+        Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+        Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '/api/activity_stream',
+        '',
+      )
+      get :index, params: { format: :json }
+      feed_hash_1 = JSON.parse(response.body)
+
+      expect(feed_hash_1['orderedItems'].length).to eq(20)
+      expect(feed_hash_1.key?('next')).to eq(true)
+      expect(feed_hash_1['next']).to include('?search_after=1220270462.344590_2943')
+
+      @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
+      @request.headers['Authorization'] = auth_header(
+        Time.now.getutc.to_i,
+        Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+        Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '/api/activity_stream?search_after=1220270462.344590_2943',
+        '',
+      )
+      get :index, params: { format: :json, search_after: '1220270462.344590_2943' }
+      feed_hash_2 = JSON.parse(response.body)
+      expect(feed_hash_2.key?('next')).to eq(true)
+      expect(feed_hash_2['orderedItems'][0]['id']).to eq('dit:exportOpportunities:Enquiry:2944:Create')
+
+      @request.headers['Authorization'] = auth_header(
+        Time.now.getutc.to_i,
+        Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+        Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        '/api/activity_stream?search_after=1220270462.344590_2944',
+        '',
+      )
+      get :index, params: { format: :json, search_after: '1220270462.344590_2944' }
+      feed_hash_3 = JSON.parse(response.body)
+      expect(feed_hash_3.key?('next')).to eq(false)
+      expect(feed_hash_3['orderedItems']).to eq([])
     end
   end
 end
