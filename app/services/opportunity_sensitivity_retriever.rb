@@ -16,7 +16,7 @@ class OpportunitySensitivityRetriever
 
       opp_sensitivity_check.error_id = hashed_response['TrackingId']
       opp_sensitivity_check.submitted_text = hashed_response['OriginalText']
-byebug
+
       classification = hashed_response['Classification']
       opp_sensitivity_check.review_recommended = false
       opp_sensitivity_check.category1_score = classification['Category1']['Score']
