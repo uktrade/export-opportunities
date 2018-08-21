@@ -50,6 +50,7 @@ input {
 
 label,
 .date legend,
+.date-month-year legend,
 .multi-currency-amount legend,
 .radio-group legend {
   @include body-m;
@@ -85,6 +86,11 @@ select {
   -moz-appearance: none;
   -webkit-appearance: none;
   -webkit-padding-start: 10px;
+
+  &[multiple] {
+    background-image: none;
+    height: auto;
+  }
 }
 
 textarea {
@@ -101,7 +107,8 @@ textarea {
   color: $great-red;
 }
 
-.date {
+.date,
+.date-month-year {
   label {
     @include body-s;
     display: inline-block;
@@ -124,6 +131,14 @@ textarea {
 .field {
   clear: both;
   margin-bottom: $spacing-3;
+
+  &.output input,
+  &.output textarea {
+    background-color: inherit;
+    border: none;
+    color: inherit;
+    padding: 0;
+  }
 }
 
 .intro {

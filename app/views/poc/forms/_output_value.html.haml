@@ -1,0 +1,9 @@
+.field.output
+  - attributes = {} if local_assigns[:attributes].nil?
+  - attributes = attributes.merge({ id: label[:id], name: label[:name], disabled: true })
+  = render partial: "forms/input_label", locals: { label: label }
+  - if attributes[:multiple].present?
+    %textarea{attributes }
+      = value
+  - else
+    %input{attributes, type: "text", value: value }

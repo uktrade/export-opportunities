@@ -1,3 +1,4 @@
 .field.textarea
+  - attributes = {} if local_assigns[:attributes].nil?
   = render partial: "forms/input_label", locals: { label: input[:label] }
-  %textarea{:id=>input[:id], :name=>input[:name]}
+  %textarea{attributes, id: input[:id], name: input[:name]}

@@ -1,25 +1,6 @@
 @import 'transformation_admin/config';
 @import 'transformation_admin/forms';
 
-
-dl.company {
-  margin-bottom: 0;
-
-  dd {
-    margin-bottom: 0;
-  }
-
-  dt {
-    @include heading-s;
-    margin-bottom: 0;
-  }
-
-  & + a {
-    display: inline-block;
-    margin-bottom: $spacing-3;
-  }
-}
-
 main {
   max-width: none;
 }
@@ -45,3 +26,4 @@ main {
     @include container;
   }
 }
+

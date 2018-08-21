@@ -1,219 +1,129 @@
-# Type of opportunity
+# New Opportunity Form
 # -------------------------------------------------
 
-step_1:
 
-  title: Create a new export opportunity
-  submit: Save and continue
-  description: 
-  mandatory: All fields are required unless marked as optional.
+title: Create a new export opportunity
+description: 
+mandatory: All fields are required unless marked as optional.
+save_continue: Save and continue
+save_draft: Save as a draft
+submit: Submit opportunity
+search: Search
+help_title: Need help?
+help_link: Read advice on how to add a new export opportunity
 
-  legend: Type of opportunity
-  fields:
-    what:
-      question: What is the buyer looking for?
-      options:
-        - label: goods
-        - label: services
+group_1_title: Type of opportunity
+group_2_title: Opportunity details
+group_2_description: Provide details for this opportunity
+group_3_title: Buyer details
+group_3_description: Select or add a new buyer. You'll be able to keep the buyer anonymous and reveal only to customers who are right for the opportunity.
 
-    tender:
-      question: Is this a tender?
-      options:
-        - label: yes
-        - label: no
+fields:
+  types:
+    question: What is the buyer looking for?
+    options:
+      - label: goods
+      - label: services
 
+  tender:
+    question: Is this a tender?
+    options:
+      - label: !!str yes
+      - label: !!str no
 
+  title:
+    label: Enter the goods that the buyer is looking for
+    description: This will appear as the title of your opportunity. For example, traffic cameras, safety equipment, biscuits.
 
+  teaser:
+    label: Summarise the export opportunity in a sentence
+    description: This will show as the first line of the opportunity and will also show in email alerts. It must be different to the title.
 
-# Opportunity details
-# ------------------------------------
+  usage:
+    question: Buyer is looking for
+    options:
+      - label: samples to test the market
+      - label: goods to sell
+      - label: to use the product
 
-step_2.1:
+  description:
+    label: Describe what the buyer is looking for
+    description: Enter clear information for suppliers to easily understand what the buyer is looking for. For example, quantity, specifications, mass-market or premium.
 
-  breadcrumb_current: Create opportunity
-  title: Request products
-  description: You will be able to see what your opportunity looks like on the next page
+  country_ids:
+    label: Country
+    description: Select the relevant countries for this opportunity. Your default country has been preselected.
 
-  fields:
-    need:
-      label: "Enter the product you need:"
-      description: For example traffic cameras, safety equipment, biscuits. This will appear as the title of your opportunity.
-      placeholder: 
+  value_ids:
+    question: Order value
 
-    industry:
-      label: "Industry:"
-      description: Select the relevant industries for this opportunity
-      placeholder: 
+  sector_ids:
+    label: Industry
+    description: Select the relevant industries for this opportunity.
 
-    keywords:
-      label: "Commodity codes (optional):"
-      description: Add commodity codes for the goods you need to help suppliers to find your opportunity. Look up <a href="#">commodity codes</a>
-      placeholder: 
+  organisation:
+    question: Type of organisation
+    options:
+      - label: Private company
+      - label: Public organisation
+      - label: Aid funded business
+      - label: NATO
+      - label: Workd Bank
 
-    usage:
-      question: "I am looking:"
-      options:
-        - label: for samples to test the market
-        - label: for products to sell
-        - label: to use the product
+  talk_to:
+    question: The buyer is happy to talk to
+    description: Select all that apply.
+    options:
+      - label: manufacturers
+      - label: wholesalers
+      - label: distributors
+      - label: agents
+      - label: consultants
 
-    value:
-      label: "This value of this order is:"
-      description: 
+  commodity_codes:
+    label: Commodity codes (optional)
+    description: Enter commodity code for the products you need to help suppliers to find your opportunity. For example, 0804201000.
 
-    specifications:
-      label: "Describe what you need:"
-      description: Enter enough information so potential suppliers know what you need. For example, the amount, specifications, or whether it is mass market or premium.
+  response_due_on:
+    label: Deadline for proposals
+    description: Opportunity will be automatically closed on this day.
 
-    respond_by:
-      label: "I need to receive proposals by:"
-      description: The opportunity will be unpublished on this day.
+  service_provider_id:
+    label: Service provider
 
-    respond_to:
-      label: "Responses should be sent to:"
-      description: 
-      placeholder: 
+  target_url:
+    label: Enter an optional external opportunity link (it must start with http:// or https://)
+    description: Only available for DFID service provider
 
+  next_step_for_customers:
+    question: The next step for customers is
+    options:
+      - label: I will respond to customers
+      - label: I want customers to go to another website and contact the buyer directly
 
+  sign_off_line:
+    label: Sign off line
 
-# Buyer's details
-# ---------------------------
+  contact_1:
+    question: "Responses should be sent to:"
+    options:
+      - label: John Smith
+      - label: Fred Smith
+      - label: Harry Smith
 
-step_2.2:
+  contact_2:
+    question: "Contact 2 for this opportunity is:"
+    options:
+      - label: John Smith
+      - label: Fred Smith
+      - label: Harry Smith
 
-  breadcrumb_current: Create opportunity
-  title: Request services
-  description: You will be able to see what your opportunity looks like on the next page
+  buyer_lookup:
+    label: Find an organisation record in the Export Opportunities database
 
-  fields:
-    need:
-      label: "Enter the service you need:"
-      description: List service(s) you want UK companies to supply. For example, training services, traffic flow analysis, mining consultancy.
-      placeholder: 
+  buyer_display:
+    question: Choose how to display buyer details
+    options:
+      - label: Display buyer's details on the opportunity page
+      - label: Keep buyer's details hidden, and only display them to UK business when they are right for the opportunity
 
-    industry:
-      label: "Industry:"
-      description: Select the relevant industries for this opportunity
-      placeholder: 
-
-    keywords:
-      label: "Keywords (optional):"
-      description: Add topical keywords to help the right suppliers to find your opportunity.
-      placeholder: 
-
-    value:
-      label: "This value of this order is:"
-      description: 
-
-    specifications:
-      label: "Describe what you need:"
-      description: Enter enough information so potential suppliers know what you need. For example, the amount, specifications, or whether it is mass market or premium.
-
-    respond_by:
-      label: "I need to receive proposals by:"
-      description: The opportunity will be unpublished on this day.
-
-    respond_to:
-      label: "Responses should be sent to:"
-      description: 
-      placeholder: 
-
-
-
-# (2.3) Software services
-# -----------------------
-
-step_2.3:
-
-  breadcrumb_current: Create opportunity
-  title: Request services
-  description: You will be able to see what your opportunity looks like on the next page
-
-  fields:
-    need:
-      label: "Enter the service you need:"
-      description: List service(s) you want UK companies to supply. For example, training services, traffic flow analysis, mining consultancy.
-      placeholder: 
-
-    industry:
-      label: "Industry:"
-      description: Select the relevant industries for this opportunity
-      placeholder: 
-
-    keywords:
-      label: "Keywords (optional):"
-      description: Add topical keywords to help the right suppliers to find your opportunity.
-      placeholder: 
-
-    value:
-      label: "This value of this order is:"
-      description: 
-
-    specifications:
-      label: "Describe what you need:"
-      description: Enter enough information so potential suppliers know what you need. For example, the amount, specifications, or whether it is mass market or premium.
-
-    respond_by:
-      label: "I need to receive proposals by:"
-      description: The opportunity will be unpublished on this day.
-
-    respond_to:
-      label: "Responses should be sent to:"
-      description: 
-      placeholder: 
-
-
-
-# (2.4) Promote a tender
-# ----------------------
-
-step_2.4:
-
-  breadcrumb_current: Create opportunity
-  title: Promote a tender
-  description: You will be able to see what your opportunity looks like on the next page
-
-  fields:
-    need:
-      label: "Enter the product or service you need:"
-      description: For example turnkey solutions, a sports stadium, mining consultancy. This will appear as the title of your opportunity.
-      placeholder: 
-
-    industry:
-      label: "Industry:"
-      description: Select the relevant industries for this opportunity
-      placeholder: 
-
-    keywords:
-      label: "<abbr title='Common Procurement Vocabulary'>CPV</abbr> codes (optional):"
-      description: Add CPV codes for the goods you need to help suppliers to find your opportunity. Look up <a href="#">commodity codes</a>
-      placeholder: 
-
-    value:
-      label: "This value of this order is:"
-      description: 
-
-    specifications:
-      label: "Describe what you need:"
-      description: Enter enough information so potential suppliers know what you need. For example, the amount, specifications, or whether it is mass market or premium.
-
-    link:
-      label: "Link to tender:"
-
-    respond_by:
-      label: "I need to receive proposals by:"
-      description: The opportunity will be unpublished on this day.
-
-    respond_to:
-      label: "Responses should be sent to:"
-      description: 
-      placeholder: 
-
-
-
-# 3 Completion of Opportunity creation
-# ------------------------------------
-
-step_3:
-  breadcrumb_current: Create opportunity
-  title: Checking opportunity
