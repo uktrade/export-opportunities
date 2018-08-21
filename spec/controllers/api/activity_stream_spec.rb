@@ -432,8 +432,11 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
 
     it 'has a single entry element if a company has been made with a company house number' do
       enquiry = nil
+      country_1 = create(:country, name: 'a')
+      country_2 = create(:country, name: 'b')
       Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2)) do
         enquiry = create(:enquiry, company_house_number: '123')
+        enquiry.opportunity.countries = [country_1, country_2]
       end
 
       @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
@@ -453,14 +456,16 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       item =  items[0]
       expect(item['id']).to eq("dit:exportOpportunities:Enquiry:#{enquiry.id}:Create")
       expect(item['type']).to eq('Create')
-      expect(item['published']).to eq('2008-09-01T12:01:02+00:00')
-      expect(item['actor']['type']).to include('Organization')
-      expect(item['actor']['type']).to include('dit:Company')
-      expect(item['actor']['dit:companiesHouseNumber']).to eq('123')
+      expect(item['object']['published']).to eq('2008-09-01T12:01:02+00:00')
+      expect(item['actor'][0]['type']).to include('Organization')
+      expect(item['actor'][0]['type']).to include('dit:Company')
+      expect(item['actor'][0]['dit:companiesHouseNumber']).to eq('123')
       expect(item['object']['type']).to include('Document')
       expect(item['object']['type']).to include('dit:exportOpportunities:Enquiry')
       expect(item['object']['id']).to eq("dit:exportOpportunities:Enquiry:#{enquiry.id}")
       expect(item['object']['url']).to eq("http://test.host/admin/enquiries/#{enquiry.id}")
+      expect(item['object']['inReplyTo']['dit:country'][0]).to eq('a')
+      expect(item['object']['inReplyTo']['dit:country'][1]).to eq('b')
     end
 
     it 'has a two entries, in date order, if two enquiries have been made with company house numbers' do
@@ -489,10 +494,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(items.length).to eq(2)
 
       elastic_search_bulk_1 = items[0]
-      expect(elastic_search_bulk_1['published']).to eq('2008-09-01T12:01:02+00:00')
+      expect(elastic_search_bulk_1['object']['published']).to eq('2008-09-01T12:01:02+00:00')
 
       elastic_search_bulk_2 =  items[1]
-      expect(elastic_search_bulk_2['published']).to eq('2008-09-01T12:01:03+00:00')
+      expect(elastic_search_bulk_2['object']['published']).to eq('2008-09-01T12:01:03+00:00')
     end
 
     it 'in ID order if two enquiries are made at the same time' do
@@ -520,18 +525,22 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       items = feed_hash['orderedItems']
 
       elastic_search_bulk_1 = items[0]
-      expect(elastic_search_bulk_1['actor']['dit:companiesHouseNumber']).to eq('124')
+      expect(elastic_search_bulk_1['actor'][0]['dit:companiesHouseNumber']).to eq('124')
 
       elastic_search_bulk_2 =  items[1]
-      expect(elastic_search_bulk_2['actor']['dit:companiesHouseNumber']).to eq('123')
+      expect(elastic_search_bulk_2['actor'][0]['dit:companiesHouseNumber']).to eq('123')
     end
 
     it 'is paginated with a link element if there are MAX_PER_PAGE enquiries' do
+      country_1 = create(:country)
+      country_2 = create(:country)
+
       # Creating records takes quite a while. Stub for a quicker test
       stub_const("MAX_PER_PAGE", 20)
       Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2, 344590)) do
         for i in 1..21 do
-          create(:enquiry, company_house_number: i.to_s, id:(2923 + i))
+          enquiry = create(:enquiry, company_house_number: i.to_s, id:(2923 + i))
+          enquiry.opportunity.countries = [country_1, country_2]
         end
       end
 

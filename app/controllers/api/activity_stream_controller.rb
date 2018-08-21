@@ -15,22 +15,54 @@ def to_activity_collection(activities)
   }
 end
 
-def to_activity(enquiry)
+def to_activity(country_names, enquiry)
+  # When making changes, be mindful to use .joins, .includes,
+  # .preload or .eager_load in the query that has produced
+  # `enquiry` in order to avoid any queries per activity.
+  # If in doubt, while developing use
+  #
+  # ActiveRecord::Base.logger = Logger.new(STDOUT)
   obj_id = 'dit:exportOpportunities:Enquiry:' + enquiry.id.to_s
   activity_id = obj_id + ':Create'
   {
     'id': activity_id,
     'type': 'Create',
     'published': enquiry.created_at.to_datetime.rfc3339,
-    'dit:application': 'exportOpportunities',
-    'actor': {
+    'generator': {
+      'type': 'Application',
+      'name': 'dit:exportOpportunities',
+    },
+    'actor': [{
       'type': ['Organization', 'dit:Company'],
       'dit:companiesHouseNumber': enquiry.company_house_number,
-    },
+      'dit:companyIsExistingExporter': enquiry.existing_exporter,
+      'dit:sector': enquiry.company_sector,
+      'dit:phoneNumber': enquiry.company_telephone,
+      'name': enquiry.company_name,
+      'location': {
+        'dit:postcode': enquiry.company_postcode,
+      },
+      'url': enquiry.company_url,
+    }, {
+      'type': 'Person',
+      'name': [enquiry.first_name, enquiry.last_name],
+      'dit:emailAddress': enquiry.user_email,
+    }],
     'object': {
       'type': ['Document', 'dit:exportOpportunities:Enquiry'],
       'id': obj_id,
+      'published': enquiry.created_at.to_datetime.rfc3339,
       'url': admin_enquiry_url(enquiry),
+      'inReplyTo': {
+        'type': ['Document', 'dit:exportOpportunities:Opportunity'],
+        'dit:exportOpportunities:Opportunity:id': enquiry.opportunity_id,
+        'dit:country': country_names[enquiry.opportunity_id],
+        'name': enquiry.opportunity_title,
+        'generator': {
+          'type': ['Organization', 'dit:ServiceProvider'],
+          'name': enquiry.opportunity_service_provider_name,
+        },
+      },
     },
   }
 end
@@ -146,13 +178,59 @@ module Api
       search_after_time_str, search_after_id_str = search_after.split('_')
       search_after_time = Float(search_after_time_str)
       search_after_id = Integer(search_after_id_str)
+
       companies_with_number = Enquiry
-        .where("company_house_number IS NOT NULL AND company_house_number != ''")
-        .where('created_at > to_timestamp(?) OR (created_at = to_timestamp(?) AND id > ?)', search_after_time, search_after_time, search_after_id)
-        .order('created_at ASC, id ASC')
+        .joins(opportunity: :service_provider)
+        .joins(:user)
+        .select(
+          'enquiries.id, enquiries.created_at, enquiries.company_house_number, enquiries.existing_exporter, ' \
+          'enquiries.company_sector, enquiries.company_name, enquiries.company_postcode, enquiries.company_url, ' \
+          'enquiries.company_telephone, enquiries.first_name, enquiries.last_name, ' \
+          'enquiries.opportunity_id, opportunities.title as opportunity_title, ' \
+          'service_providers.name as opportunity_service_provider_name, ' \
+          'users.email as user_email' \
+        )
+        .where("enquiries.company_house_number IS NOT NULL AND enquiries.company_house_number != ''")
+        .where('enquiries.created_at > to_timestamp(?) OR (enquiries.created_at = to_timestamp(?) AND enquiries.id > ?)',
+          search_after_time, search_after_time, search_after_id)
+        .order('enquiries.created_at ASC, enquiries.id ASC')
       enquiries = companies_with_number.take(MAX_PER_PAGE)
 
-      items = enquiries.map(&method(:to_activity))
+      # To avoid...
+      # - A query per activity
+      # - select * (as opposed to specifying column names)
+      # - unnecessary joins
+      # ... there doesn't seem to be a pure ActiveRecord way of doing this. Specifically, it
+      # seems to be due to the fact that the countries of an opportunity is quite a "deep"
+      # relation.
+      # Note the WHERE IN (...) as opposted to WHERE IN (VALUES ...). The VALUES version was
+      # tested on staging with 1000 IDs, and was found to be slower, and from EXPLAIN ANALYZE
+      # it involved a full table scan, while the current version was faster and did not
+      # involve a full table scan (other than on the countries table itself, but it's small
+      # so that makes sense)
+      #
+      # Also, wake sure to not error with cases where both there are no opportunity IDs,
+      # and if the opportunity has no associated countries.
+      opportunity_ids = enquiries.map { |enquiry| [nil, enquiry.opportunity_id] }
+      where_clause = enquiries.map.with_index { |_enquiry, i| "$#{i + 1}::uuid" }.join(',')
+      country_names_str = \
+        if opportunity_ids.empty? then {} else ActiveRecord::Base
+          .connection
+          .select_rows(
+            'SELECT countries_opportunities.opportunity_id, STRING_AGG(countries.name, \'__SEP__\' ORDER BY name) as country_name ' \
+            'FROM countries_opportunities ' \
+            'INNER JOIN countries ON (countries_opportunities.country_id = countries.id) ' \
+            'WHERE countries_opportunities.opportunity_id IN (' + where_clause + ') ' \
+            'GROUP BY countries_opportunities.opportunity_id ',
+            nil, opportunity_ids
+          )
+          .to_h
+        end
+      country_names_empty_str = Hash[enquiries.map { |enquiry, _| [enquiry.opportunity_id, ''] }]
+      country_names_all = country_names_empty_str.merge(country_names_str)
+      country_names = Hash[country_names_all.map { |opp_id, country_str| [opp_id, country_str.split('__SEP__')] }]
+
+      items = enquiries.map { |enquiry| to_activity(country_names, enquiry) }
       contents = to_activity_collection(items).merge(
         if enquiries.empty?
           {}
