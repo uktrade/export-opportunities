@@ -1,1 +1,1 @@
-SUPPORTED_LANGUAGES = %w(de fr es it nl pl).freeze
+SUPPORTED_LANGUAGES = %w(en de fr es it nl pl).freeze

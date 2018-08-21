@@ -32,6 +32,7 @@ RSpec.describe VolumeOppsRetriever do
       create(:type, id: '3')
       create(:type, id: '2')
       create(:value, id: '2')
+      create(:value, id: '3')
       create(:service_provider, id: '150', country: country)
 
       allow_any_instance_of(VolumeOppsRetriever).to receive(:jwt_volume_connector_token).and_return(OpenStruct.new(body: "{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9\"}"))

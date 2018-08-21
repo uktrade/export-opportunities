@@ -103,7 +103,7 @@ end
 
 group :development do
   gem 'web-console'
-  gem 'rubocop', '~> 0.50.0', require: false
+  gem 'rubocop', '~> 0.49.1', require: false
   gem 'listen'
 end
 
