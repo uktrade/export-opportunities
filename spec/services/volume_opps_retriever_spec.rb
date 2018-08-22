@@ -120,7 +120,7 @@ RSpec.describe VolumeOppsRetriever do
 
   describe '#translates opportunity' do
     it 'translates a sample opp' do
-      opportunity = create(:opportunity, description: 'alex jest świetny, niech żyje alex')
+      opportunity = create(:opportunity, description: 'alex jest świetny, niech żyje alex', original_language: 'pl')
 
       VolumeOppsRetriever.new.translate(opportunity, [:description, :teaser, :title])
 
@@ -131,6 +131,7 @@ RSpec.describe VolumeOppsRetriever do
     it 'queries translate API to translate the opportunity' do
       opportunity = create(:opportunity,
                            source: :volume_opps,
+                           original_language: 'fr',
                            title: "Refonte de l'application métier Matys
 
 Numéro de référence: DHA_2018SIT12812",

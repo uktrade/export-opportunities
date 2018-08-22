@@ -2,12 +2,14 @@ require 'net/http'
 
 class TranslationConnector
   def call(opportunity, configuration, hostname, translation_api_key)
+    opportunity_language = opportunity.original_language
     configuration.each do |config|
       uri = URI(hostname)
       uri.query = URI.encode_www_form(
         auth_key: translation_api_key,
         text: opportunity[config],
-        target_lang: 'en'
+        target_lang: 'en',
+        source_lang: opportunity_language,
       )
 
       request = Net::HTTP::Post.new(uri.request_uri)

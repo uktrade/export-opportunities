@@ -16,14 +16,14 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
 
     # sort by published date
     page.find('#search-sort').select('Published date')
-    page.find('.button.submit').click
+    sleep 2
 
     expect('Second').to appear_before('First')
     expect('First').to appear_before('Third')
 
     # sort by expiry date
     page.find('#search-sort').select('Expiry date')
-    page.find('.button.submit').click
+    sleep 2
 
     expect('Third').to appear_before('Second')
     expect('Second').to appear_before('First')

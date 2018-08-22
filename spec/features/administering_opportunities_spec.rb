@@ -180,6 +180,7 @@ feature 'Administering opportunities' do
     expect(page).to have_text('Edit opportunity')
     click_on 'Edit opportunity'
 
+    sleep 1
     value_field = find_by_id('opportunity_value_ids_2')
     fill_in 'Title', with: 'France desperately needs injection moulded widgets'
     fill_in t('admin.opportunity.description_field'), with: 'They can’t get enough of them.'
