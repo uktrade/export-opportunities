@@ -18,7 +18,7 @@ class OpportunitySensitivityRetriever
       opp_sensitivity_check.submitted_text = hashed_response['OriginalText']
 
       classification = hashed_response['Classification']
-      opp_sensitivity_check.review_recommended = classification['ReviewRecommended']
+      opp_sensitivity_check.review_recommended = false
       opp_sensitivity_check.category1_score = classification['Category1']['Score']
       opp_sensitivity_check.category2_score = classification['Category2']['Score']
       opp_sensitivity_check.category3_score = classification['Category3']['Score']
@@ -39,6 +39,10 @@ class OpportunitySensitivityRetriever
         check_term.opportunity_sensitivity_check_id = opp_sensitivity_check.id
 
         check_term.save!
+
+        opp_sensitivity_check.review_recommended = true
+
+        opp_sensitivity_check.save!
       end
 
       { review_recommended: opp_sensitivity_check.review_recommended, category1_score: opp_sensitivity_check.category1_score, category2_score: opp_sensitivity_check.category2_score, category3_score: opp_sensitivity_check.category3_score }
