@@ -165,12 +165,9 @@ Les langages utilisés et à considérer comme obsolètes sont Matrix, Matlab, F
     end
 
     it 'fails gracefully when translate API fails' do
-      # expect_any_instance_of(NewDomainConstraint).to receive(:matches?).and_return(false)
-      stub_request(:any, "#{Figaro.env.DL_HOSTNAME}?auth_key=#{Figaro.env.DL_API_KEY}&text=alex+jest+%C5%9Bwietny%2C+niech+%C5%BCyje+alex&target_lang=en").to_timeout
-      # RestClient.post('http://www.request-timeout.co.uk', 'abc')
-      # expect_any_instance_of(VolumeOppsRetriever).to receive(:translate).and_return(nil)
+      stub_request(:any, "#{Figaro.env.DL_HOSTNAME}?auth_key=#{Figaro.env.DL_API_KEY}&text=alex+jest+%C5%9Bwietny%2C+niech+%C5%BCyje+alex&target_lang=en&source_lang=pl").to_timeout
 
-      opportunity = create(:opportunity, description: 'alex jest świetny, niech żyje alex')
+      opportunity = create(:opportunity, description: 'alex jest świetny, niech żyje alex', original_language: 'pl')
 
       expect { VolumeOppsRetriever.new.translate(opportunity, [:description, :teaser, :title]) }.to raise_error(Net::OpenTimeout)
     end

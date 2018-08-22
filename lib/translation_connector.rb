@@ -9,7 +9,7 @@ class TranslationConnector
         auth_key: translation_api_key,
         text: opportunity[config],
         target_lang: 'en',
-        source_lang: opportunity_language,
+        source_lang: opportunity_language
       )
 
       request = Net::HTTP::Post.new(uri.request_uri)
