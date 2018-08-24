@@ -6,10 +6,10 @@
     %p.large
       If you followed a link here
       = succeed '.' do
-        =link_to 'let us know', "#{Figaro.env.CONTACT_US_FORM}"
+        =link_to 'let us know', "#{ENV['CONTACT_US_FORM']}"
 
     %p.large
-      =link_to 'Go to the homepage', "#{Figaro.env.DOMAIN}"
+      =link_to 'Go to the homepage', "#{ENV['DOMAIN']}"
 
     %br
     %br
