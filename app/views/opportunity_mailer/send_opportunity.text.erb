@@ -43,5 +43,5 @@ View privacy statement
 <%= Figaro.env.PRIVACY_AND_COOKIES_URL.to_s %>
 
 Give feedback at
-<%= Figaro.env.CONTACT_US_FORM.to_s %>
+<%= ENV['CONTACT_US_FORM'].to_s %>
 
