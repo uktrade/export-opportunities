@@ -13,7 +13,7 @@ module ApplicationHelper
 
   def companies_house_url(companies_house_number)
     return nil if companies_house_number.blank?
-    companies_house_url = Figaro.env.COMPANIES_HOUSE_BASE_URL + companies_house_number
+    companies_house_url = ENV['COMPANIES_HOUSE_BASE_URL'] + companies_house_number
     begin
       response = companies_house_url if Net::HTTP.get(URI(companies_house_url))
     rescue
@@ -24,7 +24,7 @@ module ApplicationHelper
 
   def trade_profile(companies_house_number)
     return nil unless companies_house_number
-    trade_profile_url = Figaro.env.TRADE_PROFILE_PAGE + companies_house_number + '/'
+    trade_profile_url = ENV['TRADE_PROFILE_PAGE'] + companies_house_number + '/'
     begin
       response = Net::HTTP.get_response(URI.parse(trade_profile_url.to_s))
     rescue
@@ -39,7 +39,7 @@ module ApplicationHelper
 
   def cpv_description(cpv_id)
     return nil unless cpv_id
-    cpv_description_microservice_url = Figaro.env.CPV_TRANSLATOR_URL + '/api/v1/cpv/' + cpv_id.to_s
+    cpv_description_microservice_url = ENV['CPV_TRANSLATOR_URL'] + '/api/v1/cpv/' + cpv_id.to_s
     begin
       json = JSON.parse(Net::HTTP.get(URI(cpv_description_microservice_url)))
       response = json
