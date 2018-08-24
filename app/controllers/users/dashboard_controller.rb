@@ -3,9 +3,9 @@ module Users
     def index
       if Rails.env.production?
         if params[:target] == 'alerts'
-          redirect_to(Figaro.env.SUD_PROFILE_PAGE_EMAIL_ALERTS)
+          redirect_to(ENV['SUD_PROFILE_PAGE_EMAIL_ALERTS'])
         else
-          redirect_to(Figaro.env.SUD_PROFILE_PAGE)
+          redirect_to(ENV['SUD_PROFILE_PAGE'])
         end
       end
 

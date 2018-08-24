@@ -26,7 +26,7 @@ module Api
         res = DocumentStorage.new.call(original_filename, doc_params['file_blob'].path)
         if res
           s3_filename = enquiry_id.to_s + '_' + user_id.to_s + '_' + original_filename
-          document_url = 'https://s3.' + Figaro.env.aws_region_ptu! + '.amazonaws.com/' + Figaro.env.post_user_communication_s3_bucket! + '/' + s3_filename
+          document_url = 'https://s3.' + ENV['aws_region_ptu'] + '.amazonaws.com/' + ENV['post_user_communication_s3_bucket'] + '/' + s3_filename
           short_url = DocumentUrlShortener.new.shorten_and_save_link(document_url, user_id, enquiry_id, original_filename)
         else
           Raven.capture_exception('couldnt store file to S3:')
@@ -41,7 +41,7 @@ module Api
         @result = {
           status: 200,
           id: short_url,
-          base_url: Figaro.env.domain! + '/dashboard/downloads/',
+          base_url: ENV.fetch('DOMAIN') + '/dashboard/downloads/',
         }
       end
       respond_to do |format|

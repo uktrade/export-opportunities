@@ -13,7 +13,7 @@ RSpec.describe Users::DashboardController, type: :controller do
 
     context 'if it is in production' do
       it 'redirects to SUD alerts page' do
-        allow(Figaro.env).to receive(:SUD_PROFILE_PAGE_EMAIL_ALERTS).and_return('/sud_alerts')
+        ENV['SUD_PROFILE_PAGE_EMAIL_ALERTS'] = '/sud_alerts'
 
         get :index, params: { target: 'alerts' }
 
@@ -22,7 +22,7 @@ RSpec.describe Users::DashboardController, type: :controller do
       end
 
       it 'redirects to SUD home page' do
-        allow(Figaro.env).to receive(:SUD_PROFILE_PAGE).and_return('/sud_homepage')
+        ENV['SUD_PROFILE_PAGE'] = '/sud_homepage'
 
         get :index
 

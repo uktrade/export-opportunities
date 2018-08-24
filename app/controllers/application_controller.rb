@@ -79,7 +79,7 @@ class ApplicationController < ActionController::Base
   end
 
   def api_check
-    redis = Redis.new(url: Figaro.env.redis_url!)
+    redis = Redis.new(url: ENV['redis_url'])
     latest_sidekiq_failure = redis.get(:sidekiq_retry_jobs_last_failure)
 
     sidekiq_retry_jobs_count = sidekiq_retry_count
@@ -102,8 +102,8 @@ class ApplicationController < ActionController::Base
     pending_weekly_count = volume_opps.where('created_at>?', (today_date - 7.days).strftime('%Y-%m-%d')).where(status: 1).count
     pending_monthly_count = volume_opps.where('created_at>?', (today_date - 30.days).strftime('%Y-%m-%d')).where(status: 1).count
 
-    azure_list_id = Figaro.env.AZ_CUSTOM_LIST_ID
-    azure_az_api_key = "...#{Figaro.env.AZ_API_KEY[-4..-1]}"
+    azure_list_id = ENV['AZ_CUSTOM_LIST_ID']
+    azure_az_api_key = "...#{ENV['AZ_API_KEY'][-4..-1]}"
 
     volume_opps_failed_timestamp = redis.get(:application_error)&.strip
 
@@ -144,7 +144,7 @@ class ApplicationController < ActionController::Base
     # So omniauth can return us where we left off
     store_location_for(:user, request.url)
 
-    if Figaro.env.bypass_sso?
+    if ENV.key?('bypass_sso')
       redirect_to user_developer_omniauth_authorize_path
     else
       redirect_to user_exporting_is_great_omniauth_authorize_path
