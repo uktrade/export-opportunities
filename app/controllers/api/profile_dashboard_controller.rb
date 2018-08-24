@@ -4,7 +4,7 @@ module Api
 
     def index
       return bad_request! unless params[:sso_user_id] && params[:shared_secret]
-      return forbidden! if params[:shared_secret] != Figaro.env.api_profile_dashboard_shared_secret
+      return forbidden! if params[:shared_secret] != ENV['api_profile_dashboard_shared_secret']
 
       user_id = params[:sso_user_id].to_i
 
