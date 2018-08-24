@@ -58,10 +58,10 @@ daemonize false
 port Integer(ENV.fetch('PORT', 3000))
 environment ENV['RAILS_ENV'] || 'development'
 
-thread_count = Integer(ENV.fetch('THREADS', 30))
+thread_count = Integer(ENV.fetch('THREADS', 15))
 threads thread_count, thread_count
 
-workers Integer(ENV.fetch('PROCESSES', 8))
+workers Integer(ENV.fetch('PROCESSES', 4))
 
 preload_app!
 
