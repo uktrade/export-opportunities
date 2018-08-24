@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   include DeviseUserMethods
 
-  if Figaro.env.bypass_sso?
+  if ENV.key?('bypass_sso')
     devise :rememberable, :omniauthable, omniauth_providers: [:developer]
   else
     devise :rememberable, :omniauthable, omniauth_providers: [:exporting_is_great]
