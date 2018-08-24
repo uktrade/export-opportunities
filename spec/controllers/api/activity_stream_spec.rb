@@ -24,6 +24,7 @@ end
 RSpec.describe Api::ActivityStreamController, type: :controller do
   describe 'GET feed controller if activity_stream is not enabled' do
     it 'responds with a 403 error' do
+      allow(Figaro.env).to receive('ACTIVITY_STREAM_ENABLED').and_return('false')
       get :index, params: { format: :json }
       expect(response.status).to eq(403)
       expect(response.body).to eq(%({"message":"Activity Stream is disabled"}))
