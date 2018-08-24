@@ -10,20 +10,16 @@ class ApplicationController < ActionController::Base
   rescue_from ActionController::InvalidAuthenticityToken, with: :invalid_authenticity_token
 
   def basic_auth
-    return unless Figaro.env.staging_http_user? && Figaro.env.staging_http_pass?
+    return unless ENV.key?('staging_http_user') && ENV.key?('staging_http_pass')
     authenticate_or_request_with_http_basic do |name, password|
-      name == Figaro.env.staging_http_user && password == Figaro.env.staging_http_pass
+      name == ENV['staging_http_user'] && password == ENV['staging_http_pass']
     end
   end
 
   before_action :set_google_tag_manager
 
   def set_google_tag_manager
-    @google_tag_manager = if Figaro.env.google_tag_manager_keys?
-                            Figaro.env.google_tag_manager_keys.split(',').map(&:strip)
-                          else
-                            []
-                          end
+    @google_tag_manager = ENV.fetch('GOOGLE_TAG_MANAGER_KEYS', '').split(',').map(&:strip)
   end
 
   protect_from_forgery with: :exception
