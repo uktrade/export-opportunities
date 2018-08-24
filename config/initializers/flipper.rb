@@ -8,9 +8,10 @@ module ExportOpportunities
                    redis = Redis.new(url: Figaro.env.redis_url!)
                    namespaced_redis = Redis::Namespace.new(:flipper, redis: redis)
                    adapter = Flipper::Adapters::Redis.new(namespaced_redis)
-                   Flipper.new(adapter)
+                   flipper = Flipper.new(adapter)
+                   flipper.enable(:activity_stream) if Figaro.env.ACTIVITY_STREAM_ENABLED == 'true'
+                   flipper
                  end
-    @flipper.enable(:activity_stream) if Figaro.env.ACTIVITY_STREAM_ENABLED == 'true'
     @flipper
   end
 end

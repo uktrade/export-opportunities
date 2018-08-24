@@ -81,7 +81,7 @@ module Api
       return [false, 'Connecting from unauthorized IP'] unless request.headers.key?('X-Forwarded-For')
       remote_ips = request.headers['X-Forwarded-For'].split(',')
       return [false, 'Connecting from unauthorized IP'] unless remote_ips.length >= 2
-      authorized_ip_addresses = Figaro.env.ACTIVITY_STREAM_IP_WHITELIST.split(',')
+      authorized_ip_addresses = ENV['ACTIVITY_STREAM_IP_WHITELIST'].split(',')
       return [false, 'Connecting from unauthorized IP'] unless authorized_ip_addresses.include?(remote_ips[-2])
 
       return [false, 'Authorization header is missing'] unless request.headers.key?('Authorization')
@@ -131,7 +131,7 @@ module Api
     end
 
     def nonce_available?(nonce, id)
-      redis = Redis.new(url: Figaro.env.redis_url)
+      redis = Redis.new(url: ENV['redis_url'])
       key = "activity-stream-nonce-#{nonce}-#{id}"
       key_set = redis.setnx(key, true)
       redis.expire(key, 120) if key_set
@@ -140,8 +140,8 @@ module Api
 
     def correct_credentials
       {
-        id: Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
-        key: Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+        id: ENV['ACTIVITY_STREAM_ACCESS_KEY_ID'],
+        key: ENV['ACTIVITY_STREAM_SECRET_ACCESS_KEY'],
         algorithm: 'sha256',
       }
     end
