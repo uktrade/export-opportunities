@@ -6,10 +6,10 @@ class Users::SessionsController < Devise::SessionsController
   # end
   #
   def after_sign_out_path_for(_resource)
-    if Figaro.env.bypass_sso?
+    if ENV.key?('bypass_sso')
       opportunities_url
     else
-      "#{Figaro.env.sso_endpoint_base_uri}/accounts/logout?next=#{opportunities_url}"
+      "#{ENV['SSO_ENDPOINT_BASE_URI']}/accounts/logout?next=#{opportunities_url}"
     end
   end
 

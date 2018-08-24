@@ -330,7 +330,7 @@ class OpportunitiesController < ApplicationController
     # Education & Training = id(10)
     # Oil & Gas = id(25)
     # Retail and luxury = id(30)
-    Sector.where(id: Figaro.env.GREAT_FEATURED_INDUSTRIES.split(',').map(&:to_i).to_a)
+    Sector.where(id: ENV['GREAT_FEATURED_INDUSTRIES'].split(',').map(&:to_i).to_a)
   end
 
   private def subscription_form(filters)
