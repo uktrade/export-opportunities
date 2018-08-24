@@ -80,7 +80,7 @@
                 %li= link
 
       -# TODO: Just sending to feedback location for now
-      = link_to "Report opportunity", Figaro.env.CONTACT_US_FORM, :class=>"report"
+      = link_to "Report opportunity", ENV['CONTACT_US_FORM'], :class=>"report"
 
 
     .description

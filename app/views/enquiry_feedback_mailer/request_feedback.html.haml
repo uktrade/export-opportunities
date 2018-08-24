@@ -1,7 +1,7 @@
 / Preamble
 %div{:style => "text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;margin-top:3px;color:#5F5F5F;line-height:135%;background-color: #ececec; padding: 10px"} We value your feedback. Responding to this email will help us improve our service.
 %div{:style => "text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:18px;margin-bottom:0;margin-top:3px;color:#5F5F5F;line-height:135%; margin-top: 20px;"}On #{@enquiry_feedback.enquiry.created_at.strftime('%e %B %Y')} you applied for:
-%a{:href => "#{Figaro.env.DOMAIN}/opportunities/#{@enquiry_feedback.enquiry.opportunity.slug}", :style => "text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:18px;margin-bottom:0;margin-top:3px;color:#0a569d;line-height:135%;"} #{@enquiry_feedback.enquiry.opportunity.title}
+%a{:href => "#{ENV['DOMAIN']}/opportunities/#{@enquiry_feedback.enquiry.opportunity.slug}", :style => "text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:18px;margin-bottom:0;margin-top:3px;color:#0a569d;line-height:135%;"} #{@enquiry_feedback.enquiry.opportunity.title}
 %div{:style => "text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:18px;margin-bottom:0;margin-top:3px;color:#5F5F5F;line-height:135%; margin-top: 15px; margin-bottom: 20px;"} What happened after you applied for this opportunity?
 
 %table.flexibleContainer{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%"}
@@ -59,7 +59,7 @@
     %td.flexibleContainerCell{:align => "left", :valign => "top", :width => "50%"}
       %div{:style => "font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#333333;line-height:120%;"}
         The Export Opportunities team
-        %a{:href => "#{Figaro.env.GREAT_GOV_URL}" }https://great.gov.uk/export
+        %a{:href => "#{ENV['GREAT_GOV_URL']}" }https://great.gov.uk/export
 
     %td.flexibleContainerCell{:align => "right", :valign => "top", :width => "50%"}
       = image_tag('dept_logo_mini-2x.gif', style: "width: 130px; height: 59px; width: px;")
@@ -73,4 +73,4 @@
     from future ‘Give feedback on’ emails
   %div{:style => "margin-bottom: 6px;"}
     View
-    = link_to('privacy statement', "#{Figaro.env.PRIVACY_AND_COOKIES_URL}")
+    = link_to('privacy statement', "#{ENV['PRIVACY_AND_COOKIES_URL']}")
