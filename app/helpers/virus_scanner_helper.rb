@@ -4,13 +4,13 @@ module VirusScannerHelper
   def scan_clean_by_file_path?(file_path)
     request = RestClient::Request.new(
       method: :post,
-      url: Figaro.env.CLAM_AV_HOST,
+      url: ENV['CLAM_AV_HOST'],
       payload: {
         multipart: true,
         file: File.new(file_path, 'rb'),
       },
-      user: Figaro.env.CLAM_AV_USERNAME,
-      password: Figaro.env.CLAM_AV_PASSWORD
+      user: ENV['CLAM_AV_USERNAME'],
+      password: ENV['CLAM_AV_PASSWORD']
     )
 
     response = request.execute
