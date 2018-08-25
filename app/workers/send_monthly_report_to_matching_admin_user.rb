@@ -143,7 +143,7 @@ class SendMonthlyReportToMatchingAdminUser
   end
 
   def financial_year_end
-    return Figaro.env.FINANCIAL_REPORTING_YEAR.to_i if Figaro.env.FINANCIAL_REPORTING_YEAR
+    return ENV['FINANCIAL_REPORTING_YEAR'].to_i if ENV.key?('FINANCIAL_REPORTING_YEAR')
     today = Time.zone.now
     if today.month < 4
       (today.year - 1)

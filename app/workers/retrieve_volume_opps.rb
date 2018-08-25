@@ -2,7 +2,7 @@ class RetrieveVolumeOpps
   include Sidekiq::Worker
 
   def perform
-    editor = Editor.where(email: Figaro.env.MAILER_FROM_ADDRESS!).first
+    editor = Editor.where(email: ENV.fetch('MAILER_FROM_ADDRESS')).first
 
     today_date = Time.zone.now.strftime('%Y-%m-%d')
     from_date = today_date
