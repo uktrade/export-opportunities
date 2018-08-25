@@ -8,7 +8,8 @@ GIT
 
 GIT
   remote: https://github.com/uktrade/export_components.git
-  revision: dc1ae003bc7f755bcc30bd502fe43a452a62e5b4
+  revision: 079c6571a8de892a84cda7189ca703863251c281
+  ref: 079c6571a8de892a84cda7189ca703863251c281
   specs:
     export_components (0.7.0)
       rails (~> 5.2)
