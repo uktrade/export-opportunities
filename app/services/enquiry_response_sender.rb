@@ -3,7 +3,7 @@ class EnquiryResponseSender
     enquiry_response_type = enquiry_response.response_type
     @enquiry = enquiry
     editor_email = enquiry_response.editor.email
-    no_reply_address = Figaro.env.MAILER_NOREPLY_ADDRESS!
+    no_reply_address = ENV.fetch('MAILER_NOREPLY_ADDRESS')
 
     case enquiry_response_type
     when 1
