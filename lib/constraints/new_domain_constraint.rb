@@ -1,5 +1,5 @@
 class NewDomainConstraint
   def matches?(request)
-    request.host != Figaro.env.legacy_domain!
+    request.host != ENV.fetch('legacy_domain')
   end
 end

@@ -7,7 +7,7 @@ require 'csv'
 namespace :reports do
   desc 'Update database with publish and response targets per country'
   task load_targets: :environment do
-    arr_file = CSV.parse(open(Figaro.env.REPORT_TARGETS_URL))
+    arr_file = CSV.parse(open(ENV['REPORT_TARGETS_URL']))
     arr_file.each_with_index do |data, line|
       next if line.zero?
       if line == arr_file.size - 1

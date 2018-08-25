@@ -6,12 +6,12 @@ module OmniAuth
       option :name, 'exporting_is_great'
 
       option :client_options,
-        site: Figaro.env.sso_endpoint_base_uri,
+        site: ENV['SSO_ENDPOINT_BASE_URI'],
         authorize_url: '/oauth2/authorize/',
         token_url: '/oauth2/token/'
 
       option :token_params,
-        redirect_uri: "#{Figaro.env.domain}/users/auth/exporting_is_great/callback"
+        redirect_uri: "#{ENV['DOMAIN']}/users/auth/exporting_is_great/callback"
 
       uid { raw_info['id'] }
 
