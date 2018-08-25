@@ -4,14 +4,14 @@ require 'faraday_middleware/aws_signers_v4'
 Hashie.logger = Logger.new(nil)
 
 Elasticsearch::Model.client = if Rails.env.production?
-                                Elasticsearch::Client.new(url: Figaro.env.elastic_search_url) do |f|
+                                Elasticsearch::Client.new(url: ENV['ELASTICSEARCH_URL']) do |f|
                                   f.request :aws_signers_v4,
                                     credentials: Aws::Credentials.new(
-                                      Figaro.env.aws_access_key_id,
-                                      Figaro.env.aws_secret_access_key
+                                      ENV['AWS_ACCESS_KEY_ID'],
+                                      ENV['AWS_SECRET_ACCESS_KEY']
                                     ),
                                     service_name: 'es',
-                                    region: Figaro.env.aws_region
+                                    region: ENV['AWS_REGION']
 
                                   f.adapter Faraday.default_adapter
                                 end
