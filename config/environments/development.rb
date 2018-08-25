@@ -52,8 +52,8 @@ Rails.application.configure do
   config.assets.css_compressor = :sass
 
   # Make links in emails work
-  config.action_mailer.default_url_options = { host: Figaro.env.DOMAIN! }
-  config.action_mailer.asset_host = Figaro.env.DOMAIN!
+  config.action_mailer.default_url_options = { host: ENV.fetch('DOMAIN') }
+  config.action_mailer.asset_host = ENV.fetch('DOMAIN')
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
       address: '127.0.0.1',
