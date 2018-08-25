@@ -4,7 +4,7 @@ var ukti = window.ukti || {};
 ukti.config = {
     "ckeditorPath" : "/js/ckeditor/ckeditor.js",
     "textEditorScriptPath" : "<%=image_path('ckeditor/ckeditor.js')%>",
-    "SUPPRESS_ANNOUNCEMENT" : "<%= Figaro.env.SUPPRESS_ANNOUNCEMENT %>"
+    "SUPPRESS_ANNOUNCEMENT" : "<%= ENV['SUPPRESS_ANNOUNCEMENT'] %>"
 };
 
 $('body').addClass('js-enabled');
