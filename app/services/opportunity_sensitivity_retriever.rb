@@ -2,8 +2,8 @@ require 'opps_sensitivity_connector'
 
 class OpportunitySensitivityRetriever
   def call(opportunity)
-    hostname = Figaro.env.AZ_HOSTNAME!
-    sensitivity_api_key = Figaro.env.AZ_API_KEY!
+    hostname = ENV.fetch('AZ_HOSTNAME')
+    sensitivity_api_key = ENV.fetch('AZ_API_KEY')
     submitted_text = "#{opportunity.title} #{opportunity.description}"[0..1023]
 
     response = OppsSensitivityConnector.new.call(submitted_text, hostname, sensitivity_api_key)
@@ -52,8 +52,8 @@ class OpportunitySensitivityRetriever
   end
 
   def personal_identifiable_information(submitted_text)
-    hostname = Figaro.env.AZ_HOSTNAME!
-    sensitivity_api_key = Figaro.env.AZ_API_KEY!
+    hostname = ENV.fetch('AZ_HOSTNAME')
+    sensitivity_api_key = ENV.fetch('AZ_API_KEY')
 
     response = OppsSensitivityConnector.new.call(submitted_text, hostname, sensitivity_api_key)
 

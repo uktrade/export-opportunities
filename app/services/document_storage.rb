@@ -3,9 +3,9 @@ require 'aws-sdk'
 class DocumentStorage
   def initialize
     # we need our data to be stored in London, UK
-    @s3 = Aws::S3::Resource.new(region: Figaro.env.aws_region_ptu!, credentials: Aws::Credentials.new(Figaro.env.aws_access_key_id!, Figaro.env.aws_secret_access_key!))
-    @s3_client = Aws::S3::Client.new(region: Figaro.env.aws_region_ptu!, credentials: Aws::Credentials.new(Figaro.env.aws_access_key_id!, Figaro.env.aws_secret_access_key!))
-    @bucket_name = Figaro.env.post_user_communication_s3_bucket!
+    @s3 = Aws::S3::Resource.new(region: ENV.fetch('aws_region_ptu'), credentials: Aws::Credentials.new(ENV.fetch('AWS_ACCESS_KEY_ID'), ENV.fetch('AWS_SECRET_ACCESS_KEY')))
+    @s3_client = Aws::S3::Client.new(region: ENV.fetch('aws_region_ptu'), credentials: Aws::Credentials.new(ENV.fetch('AWS_ACCESS_KEY_ID'), ENV.fetch('AWS_SECRET_ACCESS_KEY')))
+    @bucket_name = ENV.fetch('post_user_communication_s3_bucket')
   end
 
   def call(filename, file_path)
