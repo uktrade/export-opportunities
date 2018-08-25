@@ -15,7 +15,7 @@ RSpec.describe OpportunityMailer, type: :mailer do
     end
 
     it 'sends an enquiry to a PTU exempted service provider' do
-      excepted_service_provider_id = Figaro.env.PTU_EXEMPT_SERVICE_PROVIDERS
+      excepted_service_provider_id = ENV['PTU_EXEMPT_SERVICE_PROVIDERS']
       service_provider = create(:service_provider, id: excepted_service_provider_id.split(',').first)
       author = create(:editor, service_provider: service_provider)
       opportunity = create(:opportunity, author: author)
@@ -46,7 +46,7 @@ RSpec.describe OpportunityMailer, type: :mailer do
     end
 
     it 'CCs if set' do
-      allow(Figaro.env).to receive(:enquiries_cc_email).and_return('dit-cc@example.org')
+      ENV['ENQUIRIES_CC_EMAIL'] = 'dit-cc@example.org'
 
       enquiry = create(:enquiry)
       EnquiryMailer.send_enquiry(enquiry).deliver_now!
@@ -56,7 +56,7 @@ RSpec.describe OpportunityMailer, type: :mailer do
     end
 
     it 'does not CC if not set' do
-      allow(Figaro.env).to receive(:enquiries_cc_email)
+      ENV.delete('ENQUIRIES_CC_EMAIL')
 
       enquiry = create(:enquiry)
       EnquiryMailer.send_enquiry(enquiry).deliver_now!
@@ -66,7 +66,7 @@ RSpec.describe OpportunityMailer, type: :mailer do
     end
 
     it 'does not CC if nil' do
-      allow(Figaro.env).to receive(:enquiries_cc_email).and_return(nil)
+      ENV['ENQUIRIES_CC_EMAIL'] = nil
 
       enquiry = create(:enquiry)
       EnquiryMailer.send_enquiry(enquiry).deliver_now!

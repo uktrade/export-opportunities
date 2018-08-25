@@ -5,7 +5,7 @@ class ApplicationMailer < ActionMailer::Base
   after_action :subject_to_ascii!
   layout 'email'
 
-  default from: Figaro.env.mailer_from_address!
+  default from: ENV.fetch('MAILER_FROM_ADDRESS')
 
   def subject_to_ascii!
     message.subject = message.subject.to_ascii if message.subject

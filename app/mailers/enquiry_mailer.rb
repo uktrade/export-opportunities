@@ -5,7 +5,7 @@ class EnquiryMailer < ApplicationMailer
     @enquiry = enquiry
     return if @enquiry.opportunity.contacts.nil?
 
-    excepted_service_providers = Figaro.env.PTU_EXEMPT_SERVICE_PROVIDERS!
+    excepted_service_providers = ENV['PTU_EXEMPT_SERVICE_PROVIDERS']
 
     email_addresses = @enquiry.opportunity.contacts.pluck(:email)
 
@@ -25,9 +25,7 @@ class EnquiryMailer < ApplicationMailer
              }
            end
 
-    if Figaro.env.enquiries_cc_email.present?
-      args[:cc] = Figaro.env.enquiries_cc_email
-    end
+    args[:cc] = ENV['ENQUIRIES_CC_EMAIL'] if ENV['ENQUIRIES_CC_EMAIL'].present?
 
     mail(args)
   end
