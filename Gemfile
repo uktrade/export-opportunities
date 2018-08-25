@@ -45,7 +45,7 @@ gem 'neat', '1.8.0'
 gem 'autoprefixer-rails'
 gem 'normalize-scss'
 gem 'sass-rails'
-gem 'export_components', '~> 0.7', git: 'https://github.com/uktrade/export_components.git'
+gem 'export_components', '~> 0.7', git: 'https://github.com/uktrade/export_components.git', ref: '079c6571a8de892a84cda7189ca703863251c281'
 
 # Javascript
 gem 'jquery-rails'
