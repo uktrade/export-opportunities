@@ -3,11 +3,11 @@ require 'translation_connector'
 
 class VolumeOppsRetriever
   def call(editor, from_date, to_date)
-    username = Figaro.env.OO_USERNAME!
-    password = Figaro.env.OO_PASSWORD!
-    hostname = Figaro.env.OO_HOSTNAME!
-    data_endpoint = Figaro.env.OO_DATA_ENDPOINT!
-    token_endpoint = Figaro.env.OO_TOKEN_ENDPOINT!
+    username = ENV.fetch('OO_USERNAME')
+    password = ENV.fetch('OO_PASSWORD')
+    hostname = ENV.fetch('OO_HOSTNAME')
+    data_endpoint = ENV.fetch('OO_DATA_ENDPOINT')
+    token_endpoint = ENV.fetch('OO_TOKEN_ENDPOINT')
 
     token_response = jwt_volume_connector_token(username, password, hostname, token_endpoint)
 
@@ -161,7 +161,7 @@ class VolumeOppsRetriever
              else
                'NOT APPLICABLE'
              end
-      email = buyer['contactPoint']['email'] ? buyer['contactPoint']['email'] : Figaro.env.MAILER_FROM_ADDRESS
+      email = buyer['contactPoint']['email'] ? buyer['contactPoint']['email'] : ENV['MAILER_FROM_ADDRESS']
 
       return [
         {
@@ -182,7 +182,7 @@ class VolumeOppsRetriever
     JwtVolumeConnector.new.data(token, hostname, url, from_date, to_date)
   rescue JSON::ParserError
     Rails.logger.error "Can't parse JSON result. Probably an Application Error 500 on VO side"
-    redis = Redis.new(url: Figaro.env.redis_url!)
+    redis = Redis.new(url: ENV.fetch('redis_url'))
     redis.set(:application_error, Time.zone.now)
 
     raise RuntimeError
@@ -232,8 +232,6 @@ class VolumeOppsRetriever
   private def value_to_gbp(value, currency)
     @exchange_rates ||= begin
       JSON.parse(File.read('db/seed_data/exchange_rates.json'))
-      # response = Net::HTTP.get_response(URI.parse(Figaro.env.EXCHANGE_RATE_URI))
-      # JSON.parse(response.body)
     rescue
       JSON.parse(File.read('db/seed_data/exchange_rates.json'))
     end
@@ -248,16 +246,16 @@ class VolumeOppsRetriever
     end
   end
 
-  def translate(opportunity_params, fields, original_language)
-    hostname = Figaro.env.DL_HOSTNAME!
-    api_key = Figaro.env.DL_API_KEY!
-    TranslationConnector.new.call(opportunity_params, fields, original_language, hostname, api_key)
+  def translate(opportunity, fields)
+    hostname = ENV.fetch('DL_HOSTNAME')
+    api_key = ENV.fetch('DL_API_KEY')
+    TranslationConnector.new.call(opportunity, fields, hostname, api_key)
   end
 
   # language has to NOT be english
   # language has to be supported by our translation engine
   # language translation feature flag should be set to 'true'
   def should_translate?(language)
-    language != 'en' && ActiveModel::Type::Boolean.new.cast(Figaro.env.TRANSLATE_OPPORTUNITIES) && SUPPORTED_LANGUAGES.include?(language)
+    language != 'en' && ActiveModel::Type::Boolean.new.cast(ENV['TRANSLATE_OPPORTUNITIES']) && SUPPORTED_LANGUAGES.include?(language)
   end
 end
