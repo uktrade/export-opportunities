@@ -37,7 +37,7 @@
                 %span.hide-mobile
                   Sign in
             %li.float--left.soft-half--left.hide-mobile
-              %a.link--white{ href: "#{Figaro.env.SSO_ENDPOINT_BASE_URI}/accounts/signup", title: "Register"}
+              %a.link--white{ href: "#{ENV['SSO_ENDPOINT_BASE_URI']}/accounts/signup", title: "Register"}
                 %span
                   Register
     .background--great-blue

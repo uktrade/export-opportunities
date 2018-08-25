@@ -1,5 +1,5 @@
 - unless trade_profile(@enquiry.company_house_number)
   %li
     %p.medium.margin-bottom-5
-      %a{href: "#{Figaro.env.TRADE_PROFILE_CREATE_WITH_NUMBER}#{@enquiry_response.enquiry.company_house_number}"} Create a Trade Profile
+      %a{href: "#{ENV['TRADE_PROFILE_CREATE_WITH_NUMBER']}#{@enquiry_response.enquiry.company_house_number}"} Create a Trade Profile
 
