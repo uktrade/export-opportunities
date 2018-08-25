@@ -43,7 +43,7 @@ class CompanyHouseFinder
   end
 
   private def api_key
-    @api_key ||= Figaro.env.companies_house_api_token!
+    @api_key ||= ENV.fetch('COMPANIES_HOUSE_API_TOKEN')
   end
 
   private def api_uri(company = '')

@@ -2,8 +2,8 @@ require 'opps_quality_connector'
 
 class OpportunityQualityRetriever
   def call(opportunity)
-    hostname = Figaro.env.TG_HOSTNAME!
-    quality_api_key = Figaro.env.TG_API_KEY!
+    hostname = ENV.fetch('TG_HOSTNAME')
+    quality_api_key = ENV.fetch('TG_API_KEY')
     submitted_text = "#{opportunity.title} #{opportunity.description}"[0..1999]
 
     response = quality_check(hostname, quality_api_key, submitted_text)
