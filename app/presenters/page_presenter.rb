@@ -28,9 +28,9 @@ class PagePresenter < BasePresenter
 
   def create_trade_profile_url(number = '')
     if number.blank?
-      Figaro.env.TRADE_PROFILE_CREATE_WITHOUT_NUMBER
+      ENV['TRADE_PROFILE_CREATE_WITHOUT_NUMBER']
     else
-      "#{Figaro.env.TRADE_PROFILE_CREATE_WITH_NUMBER}#{number}"
+      "#{ENV['TRADE_PROFILE_CREATE_WITH_NUMBER']}#{number}"
     end
   end
 
