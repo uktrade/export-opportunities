@@ -15,7 +15,7 @@ class EncryptedParams
     private
 
     def encryption_secret
-      Figaro.env.feedback_encryption_secret!
+      ENV.fetch('FEEDBACK_ENCRYPTION_SECRET')
     end
   end
 
