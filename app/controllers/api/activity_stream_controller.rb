@@ -1,6 +1,6 @@
 require 'base64'
 require 'digest'
-require 'json'
+require 'yajl'
 require 'openssl'
 
 def to_activity_collection(activities)
@@ -152,14 +152,14 @@ module Api
         error_object = {
           message: message,
         }
-        format.json { render status: code, json: error_object.to_json }
+        format.json { render status: code, json: Yajl::Encoder.encode(error_object) }
       end
     end
 
     def respond_200(contents)
       respond_to do |format|
         response.headers['Content-Type'] = 'application/activity+json'
-        format.json { render status: 200, json: contents.to_json }
+        format.json { render status: 200, json: Yajl::Encoder.encode(contents) }
       end
     end
 
