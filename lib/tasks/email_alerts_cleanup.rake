@@ -6,7 +6,7 @@ require 'csv'
 namespace :reports do
   desc 'Unsubscribe users from database'
   task email_alerts_cleanup: :environment do
-    arr_file = CSV.parse(open(Figaro.env.UNSUBSCRIBE_EMAILS_URL))
+    arr_file = CSV.parse(open(ENV['UNSUBSCRIBE_EMAILS_URL']))
     arr_file.each_with_index do |data, line|
       next if line.zero?
 
@@ -33,7 +33,7 @@ namespace :reports do
 
   desc 'Add users to impact email blacklist'
   task impact_email_alerts_cleanup: :environment do
-    arr_file = CSV.parse(open(Figaro.env.UNSUBSCRIBE_IMPACT_EMAILS_URL))
+    arr_file = CSV.parse(open(ENV['UNSUBSCRIBE_IMPACT_EMAILS_URL']))
     arr_file.each_with_index do |data, line|
       next if line.zero?
 
