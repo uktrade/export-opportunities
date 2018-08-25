@@ -8,6 +8,6 @@ class EnquiriesReportMailer < ApplicationMailer
     else
       attachments['Enquiries.csv'] = report_csv
     end
-    mail(to: current_user, from: Figaro.env.MAILER_FROM_ADDRESS!, name: 'Export opportunities', subject: 'Your Enquiries Report')
+    mail(to: current_user, from: ENV.fetch('MAILER_FROM_ADDRESS'), name: 'Export opportunities', subject: 'Your Enquiries Report')
   end
 end
