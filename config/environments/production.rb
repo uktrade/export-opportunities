@@ -93,30 +93,29 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Make links in emails work
-  config.action_mailer.default_url_options = { host: Figaro.env.DOMAIN! }
-  config.action_mailer.asset_host = Figaro.env.DOMAIN!
+  config.action_mailer.default_url_options = { host: ENV.fetch('DOMAIN') }
+  config.action_mailer.asset_host = ENV.fetch('DOMAIN')
 
   # Where emails are sent from
   config.action_mailer.delivery_method = :smtp
 
-  config.action_mailer.smtp_settings = if Figaro.env.AMAZON_SES_USERNAME && Figaro.env.AMAZON_SES_PASSWORD
+  config.action_mailer.smtp_settings = if ENV['AMAZON_SES_USERNAME'] && ENV['AMAZON_SES_PASSWORD']
                                          {
-                                           address: Figaro.env.MAILER_HOST!,
-                                           port: Figaro.env.MAILER_PORT!,
+                                           address: ENV.fetch('MAILER_HOST'),
+                                           port: ENV.fetch('MAILER_PORT!'),
                                            authentication: :login,
-                                           user_name: Figaro.env.AMAZON_SES_USERNAME!,
-                                           password: Figaro.env.AMAZON_SES_PASSWORD!,
-                                           # domain: Figaro.env.MAILER_DOMAIN!,
+                                           user_name: ENV.fetch('AMAZON_SES_USERNAME'),
+                                           password: ENV.fetch('AMAZON_SES_PASSWORD'),
                                            enable_starttls_auto: true,
                                          }
                                        else
                                          {
-                                           address: Figaro.env.MAILER_HOST!,
-                                           port: Figaro.env.MAILER_PORT!,
+                                           address: ENV.fetch('MAILER_HOST'),
+                                           port: ENV.fetch('MAILER_PORT'),
                                            authentication: :plain,
-                                           user_name: Figaro.env.MAILTRAP_USERNAME!,
-                                           password: Figaro.env.MAILTRAP_PASSWORD!,
-                                           domain: Figaro.env.MAILER_DOMAIN!,
+                                           user_name: ENV.fetch('MAILTRAP_USERNAME'),
+                                           password: ENV.fetch('MAILTRAP_PASSWORD'),
+                                           domain: ENV.fetch('MAILER_DOMAIN'),
                                            enable_starttls_auto: true,
                                          }
                                        end
