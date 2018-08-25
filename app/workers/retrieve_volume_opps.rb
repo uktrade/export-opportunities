@@ -2,7 +2,7 @@ class RetrieveVolumeOpps
   include Sidekiq::Worker
 
   def perform
-    editor = Editor.where(email: Figaro.env.MAILER_FROM_ADDRESS!).first
+    editor = Editor.where(email: ENV.fetch('MAILER_FROM_ADDRESS')).first
 
     # we need to fetch from yesterday to tomorrow to be able to get both TED and other sources that get ingested overnight
     yesterday_date = (Time.zone.now - 1.day).strftime('%Y-%m-%d')
