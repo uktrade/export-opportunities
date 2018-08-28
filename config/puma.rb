@@ -67,19 +67,6 @@ preload_app!
 
 quiet
 
-on_worker_boot do
-  require 'active_record'
-  begin
-    ActiveRecord::Base.connection.disconnect!
-  rescue
-    ActiveRecord::ConnectionNotEstablished
-  end
-  ActiveSupport.on_load(:rails) do
-    require 'figaro'
-    Figaro.load
-
-    cwd = File.dirname(__FILE__) + '/..'
-    db = ENV['DATABASE_URL'] || YAML.load_file("#{cwd}/config/database.yml")[ENV['RAILS_ENV']]
-    ActiveRecord::Base.establish_connection(db)
-  end
+before_fork do
+  ActiveRecord::Base.connection.disconnect!
 end
