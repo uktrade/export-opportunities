@@ -132,7 +132,7 @@
           = link_to 'Go to third party website', opportunity.target_url, class: 'button', target: :_blank
 
         - elsif opportunity.source('post')
-          = link_to 'Submit your proposal', new_enquiry_path(@opportunity.slug), class: 'button abcbutton'
+          = link_to 'Register your interest', new_enquiry_path(@opportunity.slug), class: 'button abcbutton'
 
         - else
           %h2 Contact the buyer
