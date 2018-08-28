@@ -1,13 +1,12 @@
 require 'net/http'
 
 class TranslationConnector
-  def call(opportunity, configuration, hostname, translation_api_key)
-    opportunity_language = opportunity.original_language
+  def call(opportunity_params, configuration, opportunity_language, hostname, translation_api_key)
     configuration.each do |config|
       uri = URI(hostname)
       uri.query = URI.encode_www_form(
         auth_key: translation_api_key,
-        text: opportunity[config],
+        text: opportunity_params[config],
         target_lang: 'en',
         source_lang: opportunity_language
       )
@@ -21,17 +20,15 @@ class TranslationConnector
       end
 
       body = JSON.parse(response.body)
-      source_language = body['translations'][0]['detected_source_language']
       text = body['translations'][0]['text']
 
-      Rails.logger.debug ">>original text: #{opportunity[config]}"
+      Rails.logger.debug ">>original text: #{opportunity_params[config]}"
       Rails.logger.debug ">>>translated text: #{text}"
 
       # assign translated value in place
-      opportunity[config] = text
+      opportunity_params[config] = text
 
-      opportunity['original_language'] = source_language.downcase
+      opportunity_params['original_language'] = opportunity_language.downcase
     end
-    opportunity.save!
   end
 end

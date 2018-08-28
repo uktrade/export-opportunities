@@ -203,7 +203,7 @@ class VolumeOppsRetriever
       # count valid/invalid opps
       if opportunity_params
         if VolumeOppsValidator.new.validate_each(opportunity_params)
-          translate(opportunity_params, %i[description teaser title]) if should_translate?(opportunity_language)
+          translate(opportunity_params, %i[description teaser title], opportunity_language) if should_translate?(opportunity_language)
 
           CreateOpportunity.new(editor, :draft, :volume_opps).call(opportunity_params)
           valid_opp += 1
@@ -248,10 +248,10 @@ class VolumeOppsRetriever
     end
   end
 
-  def translate(opportunity, fields)
+  def translate(opportunity_params, fields, original_language)
     hostname = Figaro.env.DL_HOSTNAME!
     api_key = Figaro.env.DL_API_KEY!
-    TranslationConnector.new.call(opportunity, fields, hostname, api_key)
+    TranslationConnector.new.call(opportunity_params, fields, original_language, hostname, api_key)
   end
 
   # language has to NOT be english
