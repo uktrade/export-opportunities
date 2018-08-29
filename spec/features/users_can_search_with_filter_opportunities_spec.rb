@@ -10,7 +10,7 @@ feature 'Searching opportunities with filter', elasticsearch: true do
     visit opportunities_path
 
     # select Western Europe region
-    page.find("#regions_15").click
+    page.find("#regions_16").click
 
     # update results
     page.find('.button.submit').click

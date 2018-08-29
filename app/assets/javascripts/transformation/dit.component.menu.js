@@ -27,7 +27,7 @@ dit.components.menu = (new function() {
   // enhancement functionality is ready.
   dropdownViewInhibitor(true);
   function dropdownViewInhibitor(activate) {
-    var rule = SELECTOR_MENU + " .level-2 { display: none; }";
+    var rule = SELECTOR_MENU + " .links-list { display: none; }";
     var style;
     if (arguments.length && activate) {
       style = document.createElement("style");

@@ -29,6 +29,7 @@ destroy:
       options:
         - label: I no longer want these emails
           value: not_wanted
+          checked: true
         - label: I didn't sign up for these emails
           value: not_signed_up
         - label: These emails are spam

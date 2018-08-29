@@ -23,8 +23,8 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
   end
 
   scenario 'clicks on featured industries link, gets both OO and posts opportunities', :elasticsearch, :commit, js: true do
-    sector = create(:sector, slug: 'food-drink', id: 14, name: 'FoodDrink')
-    security_sector = create(:sector, slug: 'security', id: 12, name: 'Security')
+    sector = create(:sector, slug: 'food-drink', id: 17, name: 'FoodDrink')
+    security_sector = create(:sector, slug: 'security', id: 11, name: 'Security')
     security_opp = create(:opportunity, title: 'Italy - White hat hacker required', description: 'security food drink', sectors: [security_sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
     post_opp = create(:opportunity, title: 'France - Cow required', sectors: [sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
     oo_opp = create(:opportunity, title: 'Greece - Pimms food drink in Mykonos', description: 'food drink pimms mykonoos', source: :volume_opps, status: :publish, response_due_on: 1.week.from_now)
@@ -213,7 +213,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
 
     # select North East Asia now
     # 3 results now. 2 results from before + 1 from North Asia
-    find(:css, '#regions_9').set(true)
+    find(:css, '#regions_10').set(true)
     click_on 'Update results'
 
     # all opportunities should be visible now
@@ -232,7 +232,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to have_content('3 results found for all opportunities  in Greece or Mediterranean Europe or North East Asia')
 
     # select a region with no results (South America), nothing should change
-    find(:css, '#regions_10').set(true)
+    find(:css, '#regions_11').set(true)
     click_on 'Update results'
 
     expect(page).to_not have_content('Colombia')
@@ -279,7 +279,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to have_content('Japan')
 
     # Use region filtering to select North East Asia (Japan)
-    find(:css, '#regions_9').set(true)
+    find(:css, '#regions_10').set(true)
     click_on 'Update results'
 
     # only Japanese opportunity should be visible

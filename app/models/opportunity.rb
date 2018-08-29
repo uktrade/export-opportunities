@@ -61,6 +61,7 @@ class Opportunity < ApplicationRecord
   enum status: { pending: 1, publish: 2, draft: 3, trash: 4 }
   enum ragg: { undefined: 0, blue: 2, green: 4, amber: 6, red: 8 }
   enum source: { post: 0, volume_opps: 1, buyer: 2 }
+  enum original_language: { en: 0, de: 1, es: 2, fr: 3, it: 4, nl: 5, pl: 6 }
 
   include PgSearch
 

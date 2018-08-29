@@ -43,9 +43,8 @@ dit.page.opportunity = (new function () {
    **/
   function generateAbcButtonText() {
     return ["", // Not required.
-      "Submit your proposal", 
       "Express your interest", 
-      "Register your interest"][Math.floor((Math.random() * 3) + 1)];
+      "Register your interest"][Math.floor((Math.random() * 2) + 1)];
   }
 });
 

@@ -1,4 +1,5 @@
 require 'jwt_volume_connector'
+require 'translation_connector'
 
 class VolumeOppsRetriever
   def call(editor, from_date, to_date)
@@ -76,7 +77,7 @@ class VolumeOppsRetriever
       gbp_value = values[:gbp_value]
     else
       # value unknown
-      value_id = 2
+      value_id = 3
     end
     response_due_on = opportunity_release['tender']['tenderPeriod']['endDate'] if opportunity_release['tender']['tenderPeriod']
     description = if opportunity_release['tender']['description'].present?
@@ -193,12 +194,17 @@ class VolumeOppsRetriever
     valid_opp = 0
     invalid_opp_params = 0
     res[:data].each do |opportunity|
+      # get language of opportunity
+      opportunity_language = opportunity['language']
+
       Rails.logger.info '.....we have ' + valid_opp.to_s + ' valid opps and ' + invalid_opp.to_s + ' invalid opps and ' + invalid_opp_params.to_s + ' invalid opp params already.....'
       opportunity_params = opportunity_params(opportunity)
 
       # count valid/invalid opps
       if opportunity_params
         if VolumeOppsValidator.new.validate_each(opportunity_params)
+          translate(opportunity_params, %i[description teaser title], opportunity_language) if should_translate?(opportunity_language)
+
           CreateOpportunity.new(editor, :draft, :volume_opps).call(opportunity_params)
           valid_opp += 1
         else
@@ -240,5 +246,18 @@ class VolumeOppsRetriever
     else
       -1
     end
+  end
+
+  def translate(opportunity_params, fields, original_language)
+    hostname = Figaro.env.DL_HOSTNAME!
+    api_key = Figaro.env.DL_API_KEY!
+    TranslationConnector.new.call(opportunity_params, fields, original_language, hostname, api_key)
+  end
+
+  # language has to NOT be english
+  # language has to be supported by our translation engine
+  # language translation feature flag should be set to 'true'
+  def should_translate?(language)
+    language != 'en' && ActiveModel::Type::Boolean.new.cast(Figaro.env.TRANSLATE_OPPORTUNITIES) && SUPPORTED_LANGUAGES.include?(language)
   end
 end
