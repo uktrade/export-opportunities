@@ -88,7 +88,8 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
       expect(page).to have_link c.name
     end
 
-    expect(page).to have_link 'Submit your proposal'
+    # will be either express or register your interest b/c of AB testing
+    expect(page).to have_link ' your interest'
     expect(page).to have_content('Enquiries received 3')
   end
 

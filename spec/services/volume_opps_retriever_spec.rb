@@ -122,7 +122,7 @@ RSpec.describe VolumeOppsRetriever do
     it 'translates a sample opp' do
       opportunity = create(:opportunity, description: 'alex jest świetny, niech żyje alex', original_language: 'pl')
 
-      VolumeOppsRetriever.new.translate(opportunity, [:description, :teaser, :title])
+      VolumeOppsRetriever.new.translate(opportunity, [:description, :teaser, :title], 'pl')
 
       expect(opportunity.description).to eq('alex is great, let alex live')
       expect(opportunity.original_language).to eq('pl')
@@ -157,7 +157,7 @@ Ce système, basé sur d’anciennes technologies constitue un risque fort au ni
 Les langages utilisés et à considérer comme obsolètes sont Matrix, Matlab, Fortran, C et autres analogues à modifier. Dans ce contexte, l'objectif principal est de maintenir le niveau de savoir-faire présent dans le code du logiciel tout en modernisant le cœur du produit.",
                            tender_url: 'https://ted.europa.eu/udl?uri=TED:NOTICE:354260-2018:TEXT:EN:HTML&src=0&tabId=1')
 
-      VolumeOppsRetriever.new.translate(opportunity, [:description, :teaser, :title])
+      VolumeOppsRetriever.new.translate(opportunity, [:description, :teaser, :title], 'fr')
       expect(opportunity.original_language).to eq('fr')
       expect(opportunity.title).to include('Overhaul of the Matys business application')
       expect(opportunity.description).to include("RATP's Matys application is a business application for railway studies")
@@ -169,7 +169,7 @@ Les langages utilisés et à considérer comme obsolètes sont Matrix, Matlab, F
 
       opportunity = create(:opportunity, description: 'alex jest świetny, niech żyje alex', original_language: 'pl')
 
-      expect { VolumeOppsRetriever.new.translate(opportunity, [:description, :teaser, :title]) }.to raise_error(Net::OpenTimeout)
+      expect { VolumeOppsRetriever.new.translate(opportunity, [:description, :teaser, :title], 'pl') }.to raise_error(Net::OpenTimeout)
     end
   end
 end
