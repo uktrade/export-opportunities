@@ -11,6 +11,11 @@ submit: Submit opportunity
 search: Search
 help_title: Need help?
 help_link: Read advice on how to add a new export opportunity
+countries_unselected: No countries selected
+countries_selected_title: Selected countries
+sectors_unselected: No industries selected
+sectors_selected_title: Selected industries
+
 
 group_1_title: Type of opportunity
 group_2_title: Opportunity details
@@ -53,6 +58,7 @@ fields:
   country_ids:
     label: Country
     description: Select the relevant countries for this opportunity. Your default country has been preselected.
+    placeholder: Search the relevant countries
 
   value_ids:
     question: Order value
@@ -60,6 +66,7 @@ fields:
   sector_ids:
     label: Industry
     description: Select the relevant industries for this opportunity.
+    placeholder: Search the relevant industries
 
   organisation:
     question: Type of organisation
@@ -68,7 +75,7 @@ fields:
       - label: Public organisation
       - label: Aid funded business
       - label: NATO
-      - label: Workd Bank
+      - label: World Bank
 
   talk_to:
     question: The buyer is happy to talk to

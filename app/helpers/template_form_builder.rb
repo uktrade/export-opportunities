@@ -54,17 +54,23 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def input_select(method, props, attributes = {})
+    attrs = {
+      placeholder: props[:placeholder]
+    }.merge(attributes)
     @template.content_tag(:div,
       input_label(method, props[:label]) +
-      collection_select(method, props[:options], :id, :name, {}, attributes),
+      collection_select(method, props[:options], :id, :name, {}, attrs),
       { class: 'field select' }
     )
   end
 
   def input_text(method, props, attributes = {})
+    attrs = {
+      placeholder: props[:placeholder]
+    }.merge(attributes)
     @template.content_tag(:div,
       input_label(method, props[:label]) +
-      (@template.text_field(@object_name, method, objectify_options(attributes))),
+      (@template.text_field(@object_name, method, objectify_options(attrs))),
       { class: 'field text' }
     )
   end
