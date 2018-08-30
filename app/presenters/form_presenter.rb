@@ -88,21 +88,24 @@ class FormPresenter < BasePresenter
   end
 
   # Return formatted data for Radio input component
-  def input_radio(name)
+  def input_radio(name, options=[])
     field = field_content(name)
     input = {}
     unless field.nil?
       input[:question] = prop(field, 'question')
       input[:name] = name
-      input[:options] = options_group(prop(field, 'options'), name)
+      input[:options] = if options.present?
+                          options
+                        else
+                          options_group(prop(field, 'options'), name)
+                        end
     end
     input
   end
 
   # Return formatted data for Select input component
-  def input_select(name)
+  def input_select(name, options=[])
     field = field_content(name)
-    options = prop(field, 'options') || []
     input = {}
     opts = []
     unless field.nil?
@@ -111,6 +114,9 @@ class FormPresenter < BasePresenter
       input[:name] = name
       input[:placeholder] = prop(field, 'placeholder')
       if options.present?
+        opts = options
+      else
+        options = prop(field, 'options') || []
         options.each do |option|
           label = value_by_key(option, :label)
           opts.push({
@@ -151,34 +157,6 @@ class FormPresenter < BasePresenter
   def field_exists?(name)
     fields = @fields
     fields.key?(name) || fields.key?(name.to_sym)
-  end
-
-
-  def build_input_date_month_year(builder, name, attributes = {})
-    builder.input_date_month_year(name, input_date_month_year(name.to_s), attributes)
-  end
-
-  def build_input_radio(builder, name, collection, attributes = {})
-    input = input_radio(name.to_s)
-    builder.input_radio(name, input.merge({ options: collection }), attributes)
-  end
-
-  def build_input_select(builder, name, collection, attributes = {})
-    input = input_select(name.to_s)
-    builder.input_select(name, input.merge({ options: collection }), attributes)
-  end
-
-  def build_input_text(builder, name, attributes = {})
-    builder.input_text name, input_text(name.to_s), attributes
-  end
-
-  def build_input_textarea(builder, name, attributes = {})
-    builder.input_textarea name, input_textarea(name.to_s), attributes
-  end
-
-  def build_output_value(builder, name, value, attributes = {})
-    label = input_label(name.to_s).merge({ value: value })
-    builder.output_value name, label, attributes
   end
 
   private
