@@ -17,15 +17,15 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
 
     @template.content_tag(:fieldset,
       legend +
-      (@template.label_tag(day, nil, class:'day') do
+      (@template.label_tag(day, nil, class: 'day') do
          @template.content_tag(:span, 'Day') +
          @template.text_field_tag(day, nil, size: 2)
        end) +
-      (@template.label_tag(month, nil, class:'month') do
+      (@template.label_tag(month, nil, class: 'month') do
          @template.content_tag(:span, 'Month') +
          @template.text_field_tag(month, nil, size: 2)
        end) +
-      (@template.label(year, nil, class:'year') do
+      (@template.label(year, nil, class: 'year') do
          @template.content_tag(:span, 'Year') +
          @template.text_field_tag(year, nil, size: 4)
        end),
@@ -87,9 +87,9 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
     attributes = attributes.merge({ disabled: true, value: props[:value] })
     output = if attributes[:multiple].present?
               @template.text_area(@object_name, method, attributes)
-            else
-              @template.text_field(@object_name, method, attributes)
-            end
+             else
+               @template.text_field(@object_name, method, attributes)
+             end
     @template.content_tag(:div,
       input_label(method, props) +
       output,
