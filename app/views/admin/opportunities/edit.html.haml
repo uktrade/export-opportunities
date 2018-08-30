@@ -1,5 +1,9 @@
-%h1.heading-xlarge Edit opportunity
+.intro
+  %h1= content['title_edit']
+  %p.mandatory= content['mandatory']
 
-= render 'form', opportunity: @opportunity
+.process
+  = render  partial: 'form', locals: { opportunity: @opportunity, content: content }
+
 = render 'history'
 = render 'comment_form'

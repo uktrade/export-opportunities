@@ -78,6 +78,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def edit
+    content = get_content('admin/opportunities.yml')
     @opportunity = Opportunity.includes(comments: [:author]).find(params[:id])
     @comment_form = OpportunityCommentForm.new(opportunity: @opportunity, author: current_editor)
     @history = OpportunityHistory.new(opportunity: @opportunity)
@@ -87,6 +88,9 @@ class Admin::OpportunitiesController < Admin::BaseController
     setup_opportunity_contacts(@opportunity)
 
     authorize @opportunity
+    render layout: 'admin_transformed', locals: {
+      content: content,
+    }
   end
 
   def update

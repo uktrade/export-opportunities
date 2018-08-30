@@ -2,7 +2,8 @@
 # -------------------------------------------------
 
 
-title: Create a new export opportunity
+title_new: Create a new export opportunity
+title_edit: Edit export opportunity
 description: 
 mandatory: All fields are required unless marked as optional.
 save_continue: Save and continue
