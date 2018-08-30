@@ -1,6 +1,11 @@
 // View: admin/opportunity (new/edit)
 //
-//= require transformation/dit.js
+// required dit.js
+// required dit.utils.js
+//= require transformation/dit.class.selective_lookup.js
+//= require transformation/dit.class.data_provider.js
+//= require transformation/dit.class.filter_multiple_select.js
+
 
 dit.admin.opportunity = (new function () {
   var _cache = {}
@@ -8,6 +13,7 @@ dit.admin.opportunity = (new function () {
   this.init = function() {
     cacheComponents();
     adjustTargetUrlField();
+    bindFilterSelects();
     bindTargetUrlFieldController();
 
     delete this.init; // Run once
@@ -19,6 +25,8 @@ dit.admin.opportunity = (new function () {
   function cacheComponents() {
     _cache.$serviceProvider = $("[data-node='service-provider']");
     _cache.$targetUrlParent = $("[data-node='target-url']").parent();
+    _cache.$companyInput = $("[data-node='countries']")
+    _cache.$sectorInput = $("[data-node='sectors']")
   }
 
   /* Listen for changes to the Service Provider
@@ -38,6 +46,20 @@ dit.admin.opportunity = (new function () {
     else {
       _cache.$targetUrlParent.hide();
     }
+  }
+
+  /* Experiment... */
+  /**/
+  function bindFilterSelects() {
+    new dit.classes.FilterMultipleSelect(_cache.$companyInput, {
+      title: _cache.$companyInput.data("display"),
+      unselected: _cache.$companyInput.data("unselected")
+    });
+
+    new dit.classes.FilterMultipleSelect(_cache.$sectorInput, {
+      title: _cache.$sectorInput.data("display"),
+      unselected: _cache.$sectorInput.data("unselected")
+    });
   }
 });
 
