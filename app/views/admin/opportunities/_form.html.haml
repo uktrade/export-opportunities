@@ -1,7 +1,7 @@
 - form = FormPresenter.new(content, @process)
 - content_for :action_specific_head  do
   = stylesheet_link_tag 'transformation_admin/pages/opportunity'
-  = javascript_include_tag 'transformation/dit.admin.opportunity'
+  = javascript_include_tag 'transformation_admin/dit.page.opportunity'
 
 
 
@@ -34,8 +34,9 @@
 
     = form.build_input_textarea field, :description, { rows: '12' }
     = form.build_input_radio field, :value_ids, @values
-    = form.build_input_select field, :country_ids, @countries, { multiple: true, size: '5' }
-    = form.build_input_select field, :sector_ids, @sectors, { multiple: true, size: '5' }
+    = form.build_input_select field, :country_ids, @countries, { multiple: true, size: '5', data: { node: 'countries', unselected: content['countries_unselected'], display: content['countries_selected_title'] } }
+
+    = form.build_input_select field, :sector_ids, @sectors, { multiple: true, size: '5', data: { node: 'sectors', unselected: content['sectors_unselected'], display: content['sectors_selected_title'] } }
 
     = render partial: "forms/input_checkbox_group", locals: { group: form.input_checkbox_group('organisation') }
     = render partial: "forms/input_checkbox_group", locals: { group: form.input_checkbox_group('talk_to') }
@@ -115,11 +116,13 @@
 
 
 
-
+%hr
+%hr
+%hr
 = form_for [:admin, opportunity] do |f|
 
-  Country
-  = f.collection_select :country_ids, @countries, :id, :name, {}, { multiple: true, size: '5' }
+  %h2 Country
+  -#= f.collection_select :country_ids, @countries, :id, :name, {}, { multiple: true, size: '5' }
 
 
 
@@ -134,10 +137,10 @@
 
 
   %h2 Country
-  = f.collection_check_boxes :country_ids, @countries, :id, :name do |field|
-    %div
-      = field.check_box
-      = field.label
+  -#= f.collection_check_boxes :country_ids, @countries, :id, :name do |field|
+  -#  %div
+  -#    = field.check_box
+  -#    = field.label
 
   %h2 Sector
   = f.collection_check_boxes :sector_ids, @sectors, :id, :name do |field|

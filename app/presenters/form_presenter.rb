@@ -109,6 +109,7 @@ class FormPresenter < BasePresenter
       input[:id] = field_id(name)
       input[:label] = label(field, name)
       input[:name] = name
+      input[:placeholder] = prop(field, 'placeholder')
       if options.present?
         options.each do |option|
           label = value_by_key(option, :label)
@@ -208,7 +209,6 @@ class FormPresenter < BasePresenter
       field_id: id,
       description: prop(field, 'description')&.html_safe,
       description_id: "#{id}_description",
-      placeholder: prop(field, 'placeholder'),
       text: prop(field, 'label'),
     }
   end
