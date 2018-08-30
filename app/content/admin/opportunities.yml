@@ -6,8 +6,8 @@ title_new: Create a new export opportunity
 title_edit: Edit export opportunity
 description: 
 mandatory: All fields are required unless marked as optional.
-save_continue: Save and continue
-save_draft: Save as a draft
+submit_create: Save and continue
+submit_draft: Save as a draft
 submit: Submit opportunity
 search: Search
 help_title: Need help?
@@ -56,12 +56,12 @@ fields:
     label: Describe what the buyer is looking for
     description: Enter clear information for suppliers to easily understand what the buyer is looking for. For example, quantity, specifications, mass-market or premium.
 
-  country_ids:
+  countries:
     label: Country
     description: Select the relevant countries for this opportunity. Your default country has been preselected.
     placeholder: Search the relevant countries
 
-  value_ids:
+  values:
     question: Order value
 
   sector_ids:
@@ -112,19 +112,17 @@ fields:
   sign_off_line:
     label: Sign off line
 
-  contact_1:
-    question: "Responses should be sent to:"
-    options:
-      - label: John Smith
-      - label: Fred Smith
-      - label: Harry Smith
+  contact_1_name:
+    label: "Contact 1 name:"
 
-  contact_2:
-    question: "Contact 2 for this opportunity is:"
-    options:
-      - label: John Smith
-      - label: Fred Smith
-      - label: Harry Smith
+  contact_1_email:
+    label: "Responses should be sent to:"
+
+  contact_2_name:
+    label: "Contact 2 name:"
+
+  contact_2_email:
+    label: "Responses can also be sent to:"
 
   buyer_lookup:
     label: Find an organisation record in the Export Opportunities database
