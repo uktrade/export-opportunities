@@ -5,13 +5,19 @@
 
 
 
+.errors
+  - if opportunity.errors.any?
+    %p#errors-list-label
+      = pluralize(opportunity.errors.count, 'error')
+      prevented this opportunity from being saved:
+    %ul{'aria-labelledby': 'errors-list-label'}
+      - opportunity.errors.full_messages.each do |message|
+        %li= message
 
 
 
+= form_for [:admin, opportunity], :builder => TemplateFormBuilder do |f|
 
--# Type of opportunity
--# -------------------
-= form_for [:admin, opportunity], :builder => TemplateFormBuilder do |field|
   %fieldset
     %legend.group= content['group_1_title']
     = render partial: "forms/input_radio", locals: { input: form.input_radio('types') }
@@ -21,207 +27,47 @@
   %input{:type=>'submit', :value=>form.content['save_draft'], :class=>'button'}
 
 
--# Opportunity details
--# -------------------
-= form_for [:admin, opportunity], :builder => TemplateFormBuilder do |field|
   %fieldset
     %legend.group= content['group_2_title']
     %p= content['group_2_description']
-    = form.build_input_text field, :title, { maxlength: '80' }
-    = form.build_input_text field, :teaser, { maxlength: '150' }
+    = f.input_text :title, form.input_text('title'), { maxlength: '80' }
+    = f.input_text :teaser, form.input_text('teaser'), { maxlength: '150' }
 
     = render partial: "forms/input_radio", locals: { input: form.input_radio('usage') }
 
-    = form.build_input_textarea field, :description, { rows: '12' }
-    = form.build_input_radio field, :value_ids, @values
-    = form.build_input_select field, :country_ids, @countries, { multiple: true, size: '5', data: { node: 'countries', unselected: content['countries_unselected'], display: content['countries_selected_title'] } }
+    = f.input_textarea :description, form.input_textarea('description'), { rows: '12' }
+    = f.input_radio :value_ids, form.input_radio('values', @values)
+    = f.input_select :country_ids, form.input_select('countries', @countries), { multiple: true, size: '5', data: { node: 'countries', unselected: content['countries_unselected'], display: content['countries_selected_title'] } }
 
-    = form.build_input_select field, :sector_ids, @sectors, { multiple: true, size: '5', data: { node: 'sectors', unselected: content['sectors_unselected'], display: content['sectors_selected_title'] } }
+    = f.input_select :sector_ids, form.input_select('sector_ids', @sectors), { multiple: true, size: '5', data: { node: 'sectors', unselected: content['sectors_unselected'], display: content['sectors_selected_title'] } }
 
     = render partial: "forms/input_checkbox_group", locals: { group: form.input_checkbox_group('organisation') }
     = render partial: "forms/input_checkbox_group", locals: { group: form.input_checkbox_group('talk_to') }
     = render partial: "forms/input_text", locals: { input: form.input_text('commodity_codes') }
 
-    = form.build_input_date_month_year field, :response_due_on
+    = f.input_date_month_year :response_due_on, form.input_date_month_year('response_due_on')
 
     -#= form.build_input_select field, :service_provider_id, @service_providers, required: true
-    = form.build_output_value field, :service_provider_id, 'France - Paris', data: { node: 'service-provider' }
-    = form.build_input_text field, :target_url, data: { node: 'target-url' }
+    = f.output_value :service_provider_id, form.input_label('service_provider_id').merge({ value: 'France - Paris' }), data: { node: 'service-provider' }
+
+    = f.input_text :target_url, form.input_text('target_url'), data: { node: 'target-url' }
 
     = render partial: "forms/input_radio", locals: { input: form.input_radio('next_step_for_customers') }
-    = render partial: "forms/output_value", locals: { label: form.input_label('sign_off_line'), value: "Submit your proposal to the Department of International Trade team in France.\n\nAll submissions will be reviewed and you will be notified of any potential next steps. You can only submit a proposal if you are a UK registered company.", attributes: { multiple: true }}
-
-    = render partial: "forms/input_select", locals: { input: form.input_select('contact_1') }
-    = render partial: "forms/input_select", locals: { input: form.input_select('contact_2') }
-
-  %input{:type=>'submit', :value=>form.content['save_continue'], :class=>'button'}
-  %input{:type=>'submit', :value=>form.content['save_draft'], :class=>'button'}
 
 
+  = f.fields_for :contacts do |field|
+    = field.input_text :name, form.input_text("contact_#{field.index + 1}_name")
+    = field.input_text :email, form.input_text("contact_#{field.index + 1}_email"), required: true
 
--# Buyer details
--# -------------
-= form_for [:admin, opportunity], :builder => TemplateFormBuilder do |field|
-  %fieldset
-    %legend.group= content['group_3_title']
-    %p= content['group_3_description']
 
-    = render partial: "forms/input_text", locals: { input: form.input_text('buyer_lookup') }
-    %input{:type=>'submit', :value=>form.content['search'], :class=>'button'}
+  %input{:type=>'submit', :value=>form.content['submit_create'], :class=>'button'}
+
+  - if current_page?(action: 'new') || true
+    %input{:type=>'submit', :value=>form.content['submit_draft'], :class=>'button draft'}
 
 
 
--# Buyer details
--# -------------
-= form_for [:admin, opportunity], :builder => TemplateFormBuilder do |field|
-  %fieldset
-    %legend.group= content['group_3_title']
-    %p= content['group_3_description']
-
-    %dl.company
-      %dt.name
-        Willy Wonka Chocolate
-      %dd.address
-        Rue Grossemy, Parc Horizon 2000, Brebieres, 62117, France
-    = link_to "Change company", root_path
-
-    = render partial: "forms/input_radio", locals: { input: form.input_radio('buyer_display')  }
-
-  %input{:type=>'submit', :value=>form.content['submit'], :class=>'button'}
-  %input{:type=>'submit', :value=>form.content['save_draft'], :class=>'button'}
-
-
-%h2= content['help_title']
-= link_to content['help_link'], root_path
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%hr
-%hr
-%hr
-= form_for [:admin, opportunity] do |f|
-
-  %h2 Country
-  -#= f.collection_select :country_ids, @countries, :id, :name, {}, { multiple: true, size: '5' }
-
-
-
-  - if opportunity.errors.any?
-    .error-summary{:role => 'group', :tabindex => '-1'}
-      %h2
-        = pluralize(opportunity.errors.count, 'error')
-        prevented this opportunity from being saved:
-      %ul
-        - opportunity.errors.full_messages.each do |message|
-          %li= message
-
-
-  %h2 Country
-  -#= f.collection_check_boxes :country_ids, @countries, :id, :name do |field|
-  -#  %div
-  -#    = field.check_box
-  -#    = field.label
-
-  %h2 Sector
-  = f.collection_check_boxes :sector_ids, @sectors, :id, :name do |field|
-    %div
-      = field.check_box
-      = field.label
-
-  %h2 Type
-  = f.collection_check_boxes :type_ids, @types, :id, :name do |field|
-    %div
-      = field.check_box
-      = field.label
-
-  %fieldset.field.radio-group
-    %legend.question Value
-    = f.collection_radio_buttons :value_ids, @values, :id, :name, { checked: opportunity.values.map(&:id).join('') } do |field|
-      .radio
-        = field.radio_button
-        = field.label
-
-
-
-  - if opportunity.errors[:slug].any?
-    = f.label :slug, class: 'form-label-bold'
-    = f.text_field :slug, class: 'form-control', required: true
-
-  = f.label :title, "Enter the goods that the buyer is looking for"
-  %p.description This will appear as the title of your opportunity. For example, traffic cameras, safety equipment, biscuits.
-  = f.text_field :title, required: true, size: Opportunity::TITLE_LENGTH_LIMIT
-  = link_to 'See more guidance for this field', '/admin/help/how_to_write_an_export_opportunity/writingthetitle', class: 'text', target: 'guidance'
-
-  = f.label :teaser, t('admin.opportunity.teaser_field')
-  = f.text_field :teaser, class: 'form-control', required: true
-  %p.description
-    This will be the text that appears on email alerts and as the first line of the opportunity online.
-    It must be different to the title and be
-    = Opportunity::TEASER_LENGTH_LIMIT
-    characters or fewer.
-    = link_to 'See more guidance for this field', '/admin/help/how_to_write_an_export_opportunity/writingthesummary', class: 'text', target: 'guidance'
-
-
-  = f.label :description, t('admin.opportunity.description_field'), class: 'form-label-bold'
-  = f.text_area :description, class: 'form-control', required: true
-  %p
-    Include details relevant for UK businesses, such as product or service specifications, language
-    requirements, exact value of contract, timescales and potential barriers to trade.
-  %p
-    Also include details of the type of UK business that might be able to fulfil this opportunity.
-  %p
-    Do not post events, competitions, news or requests for investment.
-    = link_to 'See more guidance for this field', '/admin/help/how_to_write_an_export_opportunity/describeyouropportunitypart1of2', class: 'text', target: 'guidance'
-
-
-  = f.label :service_provider_id, class: 'form-label-bold'
-  = f.collection_select :service_provider_id, @service_providers, :id, :name, { prompt: '', selected: @selected_service_provider&.id }, { class: 'form-control', required: true }
-
-  %div{ 'data-node' => 'target-url' }
-    = f.label "Enter an optional external opportunity link (it must start with http:// or https://)", for: "opportunity_target_url", class: 'form-label-bold'
-    = f.text_field :target_url, class: 'form-control'
-    %noscript
-      %p.form-hint
-        (Only available for DFID service provider)
-
-
-  = f.label :response_due_on, class: 'form-label-bold'
-  = f.date_select :response_due_on, { prompt: '' }, { required: true }
-  = f.date_select(:response_due_on, prompt: { day: 'Select day', month: 'Select month', year: 'Select year' })
-
-
-
-  = f.fields_for :contacts do |form|
-    .grid-row
-      .column-one-half
-        %h4.heading-small Contact #{form.index + 1}
-        .form-group
-          = form.label :name, class: 'form-label'
-          = form.text_field :name, class: 'form-control', required: true
-        .form-group
-          = form.label :email, 'Email address', class: 'form-label'
-          = form.text_field :email, class: 'form-control', type: :email, required: true
-
+-# TODO: Do we keep this?
 
   - if policy(opportunity).show_ragg? && opportunity.id.present?
     %h2 Triage rating

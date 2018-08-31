@@ -23,7 +23,6 @@ class ChangeOpportunityValues < ActiveRecord::Migration[5.1]
     v5.save!
     v6 = Value.new(id:6, slug: '500m', name: 'more than £50m')
     v6.save!
-
   end
 
   def down
