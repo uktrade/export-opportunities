@@ -36,7 +36,6 @@
 
     = f.input_checkbox_group :type_ids, form.input_checkbox_group('types', @types)
     = f.input_checkbox_group :supplier_preference_ids, form.input_checkbox_group('supplier_preferences', @supplier_preferences)
-    = render partial: "forms/input_text", locals: { input: form.input_text('commodity_codes') }
 
     = f.input_date_month_year :response_due_on, form.input_date_month_year('response_due_on')
 
