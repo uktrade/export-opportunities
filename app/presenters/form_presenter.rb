@@ -42,7 +42,7 @@ class FormPresenter < BasePresenter
   end
 
   # Return formatted data for Checkbox group form input
-  def input_checkbox_group(name)
+  def input_checkbox_group(name, options=[])
     field = field_content(name)
     field_name = prop(field, 'name') || name
     group = {}
@@ -50,7 +50,13 @@ class FormPresenter < BasePresenter
       group[:question] = prop(field, 'question')
       group[:name] = field_name
       group[:question] = prop(field, 'question')
-      group[:checkboxes] = options_group(prop(field, 'options'), field_name)
+      group[:checkboxes] = if options.present?
+                             # Should we're getting data from BE controller
+                             options
+                           else
+                             # Should we're getting data from FE field construction
+                             options_group(prop(field, 'options'), field_name)
+                           end
     end
     group
   end
@@ -114,8 +120,10 @@ class FormPresenter < BasePresenter
       input[:name] = name
       input[:placeholder] = prop(field, 'placeholder')
       if options.present?
+        # Should we're getting data from BE controller
         opts = options
       else
+        # Should we're getting data from FE field construction
         options = prop(field, 'options') || []
         options.each do |option|
           label = value_by_key(option, :label)
@@ -154,6 +162,13 @@ class FormPresenter < BasePresenter
   def field_exists?(name)
     fields = @fields
     fields.key?(name) || fields.key?(name.to_sym)
+  end
+
+  # Turns an enum, e.g. { foo: 0 , bar: 1 } into a collection that is
+  # compatible with Rails form builders, 
+  # e.g. [{ id: 0, name: 'foo'}, { id: 1, name: 'bar' }]
+  # Return a collection hash compatible with the Rails form builders
+  def enum_to_collection
   end
 
   private

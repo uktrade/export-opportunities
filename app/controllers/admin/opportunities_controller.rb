@@ -116,6 +116,8 @@ class Admin::OpportunitiesController < Admin::BaseController
   private
 
   def load_options_for_form(opportunity)
+    @request_types = Opportunity.request_types
+    @supplier_preferences = SupplierPreference.all
     @countries = promote_elements_to_front_of_array(Country.all.order(:name), opportunity.countries.sort_by(&:name))
     @sectors = promote_elements_to_front_of_array(Sector.all.order(:name), opportunity.sectors.sort_by(&:name))
     @types = Type.all.order(:name)
@@ -140,7 +142,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def opportunity_params(contacts_attributes:)
-    params.require(:opportunity).permit(:title, :slug, { country_ids: [] }, { sector_ids: [] }, { type_ids: [] }, :value_ids, :teaser, :response_due_on, :description, { contacts_attributes: contacts_attributes }, :service_provider_id, :ragg, :buyer_name, :buyer_address, :language, :tender_value, :source, :tender_content, :tender_url, :target_url, :tender_source, :tender_value, :ocid, :industry_id, :industry_scheme)
+    params.require(:opportunity).permit(:title, :slug, { service_provider_ids: [] }, { country_ids: [] }, { sector_ids: [] }, { type_ids: [] }, :value_ids, :teaser, :response_due_on, :description, { contacts_attributes: contacts_attributes }, :service_provider_id, :ragg, :buyer_name, :buyer_address, :language, :tender_value, :source, :tender_content, :tender_url, :target_url, :tender_source, :tender_value, :ocid, :industry_id, :industry_scheme)
   end
 
   def create_contacts_attributes
