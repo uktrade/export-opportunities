@@ -116,6 +116,8 @@ class Admin::OpportunitiesController < Admin::BaseController
   private
 
   def load_options_for_form(opportunity)
+    @request_types = Opportunity.request_types
+    @supplier_preferences = SupplierPreference.all
     @countries = promote_elements_to_front_of_array(Country.all.order(:name), opportunity.countries.sort_by(&:name))
     @sectors = promote_elements_to_front_of_array(Sector.all.order(:name), opportunity.sectors.sort_by(&:name))
     @types = Type.all.order(:name)

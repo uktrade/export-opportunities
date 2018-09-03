@@ -14,25 +14,30 @@
       - opportunity.errors.full_messages.each do |message|
         %li= message
 
-
-
 = form_for [:admin, opportunity], :builder => TemplateFormBuilder do |f|
-
-  %fieldset.field.radio-group
-    .field.radio
-      = f.radio_button :request_type, :goods
-      = f.label :request_type_goods, 'Goods'
-    .field.radio
-      = f.radio_button :request_type, :services
-      = f.label :request_type_services, 'Services'
-
   %fieldset
     %legend.group= content['group_1_title']
-    = render partial: "forms/input_radio", locals: { input: form.input_radio('types') }
-    = render partial: "forms/input_radio", locals: { input: form.input_radio('tender') }
 
-  %input{:type=>'submit', :value=>form.content['save_continue'], :class=>'button'}
-  %input{:type=>'submit', :value=>form.content['save_draft'], :class=>'button'}
+    %fieldset.field.radio-group
+      %legend What is the buyer looking for?
+      .field.radio
+        = f.radio_button :request_type, :goods
+        = f.label :request_type_goods, 'Goods'
+      .field.radio
+        = f.radio_button :request_type, :services
+        = f.label :request_type_services, 'Services'
+    -#= f.input_radio :request_type, form.input_radio('request_type', @request_types)
+
+    %fieldset.field.radio-group
+      %legend Is this a tender?
+      .field.radio
+        = f.radio_button :tender, 'yes'
+        = f.label :tender_yes, 'yes'
+      .field.radio
+        = f.radio_button :tender, 'no'
+        = f.label :tender_no, 'no'
+    -#= f.input_radio :tender, form.input_radio('request_type', @tender)
+    -#= render partial: "forms/input_radio", locals: { input: form.input_radio('tender') }
 
 
   %fieldset
@@ -41,17 +46,28 @@
     = f.input_text :title, form.input_text('title'), { maxlength: '80' }
     = f.input_text :teaser, form.input_text('teaser'), { maxlength: '150' }
 
-    = render partial: "forms/input_radio", locals: { input: form.input_radio('usage') }
+
+    %fieldset.field.radio-group
+      %legend Buyer is looking for
+      .field.radio
+        = f.radio_button :request_usage, 'samples'
+        = f.label :request_usage, 'samples to test the market'
+      .field.radio
+        = f.radio_button :request_usage, 'sell_goods'
+        = f.label :request_usage, 'goods to sell'
+      .field.radio
+        = f.radio_button :request_usage, 'use_product'
+        = f.label :request_usage, 'to use the product'
+    -#= render partial: "forms/input_radio", locals: { input: form.input_radio('usage') }
 
     = f.input_textarea :description, form.input_textarea('description'), { rows: '12' }
     = f.input_radio :value_ids, form.input_radio('values', @values)
+    -#= f.input_select :country_ids, form.input_select('countries', @countries), { multiple: true, size: '5', data: { node: 'countries', unselected: content['countries_unselected'], display: content['countries_selected_title'] } }
 
-    = f.input_select :country_ids, form.input_select('countries', @countries), { multiple: true, size: '5', data: { node: 'countries', unselected: content['countries_unselected'], display: content['countries_selected_title'] } }
+    -#= f.input_select :sector_ids, form.input_select('sector_ids', @sectors), { multiple: true, size: '5', data: { node: 'sectors', unselected: content['sectors_unselected'], display: content['sectors_selected_title'] } }
 
-    = f.input_select :sector_ids, form.input_select('sector_ids', @sectors), { multiple: true, size: '5', data: { node: 'sectors', unselected: content['sectors_unselected'], display: content['sectors_selected_title'] } }
-
-    = render partial: "forms/input_checkbox_group", locals: { group: form.input_checkbox_group('organisation') }
-    = render partial: "forms/input_checkbox_group", locals: { group: form.input_checkbox_group('talk_to') }
+    = f.input_checkbox_group :types, form.input_checkbox_group('types', @types)
+    = f.input_checkbox_group :supplier_preferences, form.input_checkbox_group('supplier_preferences', @supplier_preferences)
     = render partial: "forms/input_text", locals: { input: form.input_text('commodity_codes') }
 
     = f.input_date_month_year :response_due_on, form.input_date_month_year('response_due_on')

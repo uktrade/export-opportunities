@@ -1,4 +1,11 @@
 class TemplateFormBuilder < ActionView::Helpers::FormBuilder
+  def input_checkbox_group(method, props, attributes = {})
+    @template.content_tag(:fieldset,
+      (@template.content_tag(:legend, props[:question])) + 
+      checkbox_collection(method, props[:checkboxes]), 
+      { class: 'field checkbox-group' }
+    )
+  end
 
   def input_date_month_year(method, props, attributes = {})
     legend = if props[:description].present?
@@ -48,7 +55,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
   def input_radio(method, props, attributes = {})
     @template.content_tag(:fieldset,
       (@template.content_tag(:legend, props[:question])) +
-      radio_options(method, props[:options]),
+      collection_radio(method, props[:options]),
       { class: 'field radio-group' }
     )
   end
@@ -99,7 +106,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
 
   private
 
-  def radio_options(method, collection)
+  def collection_radio(method, collection)
     collection_radio_buttons(method, collection, :id, :name) do |option|
       @template.content_tag(:div,
         option.radio_button +
@@ -109,4 +116,13 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
+  def checkbox_collection(method, collection)
+    collection_check_boxes(method, collection, :id, :name) do |option|
+      @template.content_tag(:div,
+        option.check_box + 
+        option.label,
+        { class: 'field checkbox' }
+      )
+    end
+  end
 end

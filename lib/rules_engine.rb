@@ -1,6 +1,6 @@
 class RulesEngine
   SENSITIVITY_SCORE_THRESHOLD = 0.15
-  QUALITY_SCORE_THRESHOLD = 96
+  QUALITY_SCORE_THRESHOLD = 90
 
   def call(opportunity)
     Rails.logger.info("Next check: #{opportunity.id}")
