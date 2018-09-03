@@ -120,6 +120,7 @@ class Admin::OpportunitiesController < Admin::BaseController
     @sectors = promote_elements_to_front_of_array(Sector.all.order(:name), opportunity.sectors.sort_by(&:name))
     @types = Type.all.order(:name)
     @values = Value.all.order(:name)
+    @request_types = opportunity.request_type
     @service_providers = ServiceProvider.all.order(:name)
     @selected_service_provider = opportunity.service_provider || current_editor.service_provider
     @ragg = opportunity.ragg
