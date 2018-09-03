@@ -74,7 +74,7 @@
 
     -#= form.build_input_select field, :service_provider_id, @service_providers, required: true
     -#= f.output_value :service_provider_id, form.input_label('service_provider_id').merge({ value: @editor.service_provider.name }), data: { node: 'service-provider' }
-    # TODO: remove line below when line above works fine.
+    -# TODO: remove line below when line above works fine.
     = f.hidden_field :service_provider_id, as: :hidden, value: @editor.service_provider_id
 
 

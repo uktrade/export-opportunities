@@ -18,9 +18,9 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
                @template.content_tag(:legend, props[:question])
              end
 
-    day = [@object_name, method, '1i'].join('_')
-    month = [@object_name, method, '2i'].join('_')
-    year = [@object_name, method, '3i'].join('_')
+    day = "#{@object_name}[#{method}(3i)]"
+    month = "#{@object_name}[#{method}(2i)]"
+    year = "#{@object_name}[#{method}(1i)]"
 
     @template.content_tag(:fieldset,
       legend +
