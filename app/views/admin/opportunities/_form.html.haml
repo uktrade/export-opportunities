@@ -66,18 +66,21 @@
 
     -#= f.input_select :sector_ids, form.input_select('sector_ids', @sectors), { multiple: true, size: '5', data: { node: 'sectors', unselected: content['sectors_unselected'], display: content['sectors_selected_title'] } }
 
-    = f.input_checkbox_group :types, form.input_checkbox_group('types', @types)
-    = f.input_checkbox_group :supplier_preferences, form.input_checkbox_group('supplier_preferences', @supplier_preferences)
+    = f.input_checkbox_group :type_ids, form.input_checkbox_group('types', @types)
+    = f.input_checkbox_group :supplier_preference_ids, form.input_checkbox_group('supplier_preferences', @supplier_preferences)
     = render partial: "forms/input_text", locals: { input: form.input_text('commodity_codes') }
 
     = f.input_date_month_year :response_due_on, form.input_date_month_year('response_due_on')
 
     -#= form.build_input_select field, :service_provider_id, @service_providers, required: true
-    = f.output_value :service_provider_id, form.input_label('service_provider_id').merge({ value: 'France - Paris' }), data: { node: 'service-provider' }
+    -#= f.output_value :service_provider_id, form.input_label('service_provider_id').merge({ value: @editor.service_provider.name }), data: { node: 'service-provider' }
+    # TODO: remove line below when line above works fine.
+    = f.hidden_field :service_provider_id, as: :hidden, value: @editor.service_provider_id
+
 
     = f.input_text :target_url, form.input_text('target_url'), data: { node: 'target-url' }
 
-    = render partial: "forms/input_radio", locals: { input: form.input_radio('next_step_for_customers') }
+    = render partial: "forms/input_radio", locals: { input: form.input_radio('enquiry_interaction') }
 
 
   = f.fields_for :contacts do |field|
