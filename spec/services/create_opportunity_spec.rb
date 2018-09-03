@@ -26,7 +26,7 @@ describe CreateOpportunity, type: :service do
           .to change { Opportunity.count }.by(1)
     end
 
-    it 'creates a new custom target URL opportunity with invalid URL scheme target_url' do
+    it 'does NOT create a new custom target URL opportunity with invalid URL scheme target_url' do
       service_provider = create(:service_provider, name: 'DFID')
       editor = create(:editor, service_provider_id: service_provider.id)
 
@@ -34,6 +34,17 @@ describe CreateOpportunity, type: :service do
       opportunity_params[:target_url] = 'http:// great gov uk'
       expect { CreateOpportunity.new(editor).call(opportunity_params) }
           .to change { Opportunity.count }.by(0)
+    end
+
+    it 'creates a new custom target URL opportunity with a valid URL scheme target_url' do
+      service_provider = create(:service_provider, name: 'DFID')
+      editor = create(:editor, service_provider_id: service_provider.id)
+
+      opportunity_params = opportunity_params(title: 'DFID title', service_provider_id: service_provider.id)
+      opportunity_params[:target_url] = 'https://supplierportal.dfid.gov.uk/selfservice/pages/public/viewPublicNotice.cmd?bm90aWNlSWQ9NzIzMDA%3D'
+
+      expect { CreateOpportunity.new(editor).call(opportunity_params) }
+          .to change { Opportunity.count }.by(1)
     end
 
     it 'returns an opportunity' do
