@@ -42,7 +42,7 @@ class FormPresenter < BasePresenter
   end
 
   # Return formatted data for Checkbox group form input
-  def input_checkbox_group(name, options=[])
+  def input_checkbox_group(name, options = [])
     field = field_content(name)
     field_name = prop(field, 'name') || name
     group = {}
@@ -94,7 +94,7 @@ class FormPresenter < BasePresenter
   end
 
   # Return formatted data for Radio input component
-  def input_radio(name, options=[])
+  def input_radio(name, options = [])
     field = field_content(name)
     input = {}
     unless field.nil?
@@ -106,7 +106,7 @@ class FormPresenter < BasePresenter
   end
 
   # Return formatted data for Select input component
-  def input_select(name, options=[])
+  def input_select(name, options = [])
     field = field_content(name)
     input = {}
     opts = []
@@ -160,13 +160,6 @@ class FormPresenter < BasePresenter
     fields.key?(name) || fields.key?(name.to_sym)
   end
 
-  # Turns an enum, e.g. { foo: 0 , bar: 1 } into a collection that is
-  # compatible with Rails form builders, 
-  # e.g. [{ id: 0, name: 'foo'}, { id: 1, name: 'bar' }]
-  # Return a collection hash compatible with the Rails form builders
-  def enum_to_collection
-  end
-
   private
 
   # Return lowercase string with alphanumeric+hyphen only.
@@ -199,7 +192,7 @@ class FormPresenter < BasePresenter
     }
   end
 
-  def options_group(content_options, name, data_options=[])
+  def options_group(content_options, name, data_options = [])
     options = []
     if content_options.present?
       # We going to try and make options with a combination of FE content.
@@ -210,9 +203,6 @@ class FormPresenter < BasePresenter
       content_options.each_with_index do |item, index|
         id = clean_str("#{name}_#{index}")
         option = option_item(item, id, name, (data_options[index] || index + 1))
-        #value = prop(item, 'value')
-        #if option[:value].nil? && data_options.present?
-        #option[:value] = index + 1 if value.blank?
         options.push(option)
       end
     else
@@ -223,7 +213,7 @@ class FormPresenter < BasePresenter
   end
 
   # Return radio/checkbox data
-  def option_item(field, id, name, value='0')
+  def option_item(field, id, name, value = '0')
     item = {
       id: id,
       label: label(field, name),
