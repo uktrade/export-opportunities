@@ -38,7 +38,7 @@ class FormPresenter < BasePresenter
   # Return formatted data for Checkbox input component
   def input_checkbox(name)
     field = field_content(name)
-    option_item(field, name)
+    option_item(field, field_id(name), name)
   end
 
   # Return formatted data for Checkbox group form input
@@ -51,10 +51,10 @@ class FormPresenter < BasePresenter
       group[:name] = field_name
       group[:question] = prop(field, 'question')
       group[:checkboxes] = if options.present?
-                             # Should we're getting data from BE controller
+                             # Should be we're getting data from BE controller
                              options
                            else
-                             # Should we're getting data from FE field construction
+                             # Should be we're getting data from FE field construction
                              options_group(prop(field, 'options'), field_name)
                            end
     end
@@ -100,11 +100,7 @@ class FormPresenter < BasePresenter
     unless field.nil?
       input[:question] = prop(field, 'question')
       input[:name] = name
-      input[:options] = if options.present?
-                          options
-                        else
-                          options_group(prop(field, 'options'), name)
-                        end
+      input[:options] = options_group(prop(field, 'options'), name, options)
     end
     input
   end
@@ -120,10 +116,10 @@ class FormPresenter < BasePresenter
       input[:name] = name
       input[:placeholder] = prop(field, 'placeholder')
       if options.present?
-        # Should we're getting data from BE controller
+        # Should be we're getting data from BE controller
         opts = options
       else
-        # Should we're getting data from FE field construction
+        # Should be we're getting data from FE field construction
         options = prop(field, 'options') || []
         options.each do |option|
           label = value_by_key(option, :label)
@@ -203,30 +199,37 @@ class FormPresenter < BasePresenter
     }
   end
 
-  def options_group(group, name)
+  def options_group(content_options, name, data_options=[])
     options = []
-    if group.present?
-      group.each_with_index do |item, index|
+    if content_options.present?
+      # We going to try and make options with a combination of FE content.
+      # Three possible options:
+      # 1. Use content label + value from data_options (if available, likely to be enum on model)
+      # 2. Use content label + content value
+      # 3. Use content label + loop index as value
+      content_options.each_with_index do |item, index|
         id = clean_str("#{name}_#{index}")
-        option = option_item(item, id, name)
-        value = prop(item, 'value')
-        option[:value] = index + 1 if value.blank?
-
+        option = option_item(item, id, name, (data_options[index] || index + 1))
+        #value = prop(item, 'value')
+        #if option[:value].nil? && data_options.present?
+        #option[:value] = index + 1 if value.blank?
         options.push(option)
       end
+    else
+      # Should be getting everyting from BE and expectig to pass off to form builders
+      options = data_options
     end
     options
   end
 
   # Return radio/checkbox data
-  def option_item(field, id, name)
+  def option_item(field, id, name, value='0')
     item = {
       id: id,
       label: label(field, name),
       name: name,
-      value: prop(field, 'value'),
+      value: prop(field, 'value') || value,
     }
-
     item[:checked] = true if prop(field, 'checked')
     item[:label][:field_id] = id # Needs to be different in a group
     item
@@ -241,7 +244,6 @@ class FormPresenter < BasePresenter
       elsif field.key?(name.to_sym)
         value = field[name.to_sym]
       end
-
       value = value&.html_safe if value.is_a?(String)
     end
     value

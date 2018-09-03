@@ -118,15 +118,17 @@ class Admin::OpportunitiesController < Admin::BaseController
   private
 
   def load_options_for_form(opportunity)
-    @request_types = Opportunity.request_types
+    @request_types = Opportunity.request_types.keys
+    @tender_bool = ['yes', 'no'] # Should the values actually be true/false?
+    @request_usages = Opportunity.request_usages.keys
     @supplier_preferences = SupplierPreference.all
     @countries = promote_elements_to_front_of_array(Country.all.order(:name), opportunity.countries.sort_by(&:name))
     @sectors = promote_elements_to_front_of_array(Sector.all.order(:name), opportunity.sectors.sort_by(&:name))
     @types = Type.all.order(:name)
     @values = Value.all.order(:name)
-    @request_types = opportunity.request_type
     @service_providers = ServiceProvider.all.order(:name)
     @selected_service_provider = opportunity.service_provider || current_editor.service_provider
+    @enquiry_interactions = Opportunity.enquiry_interactions.keys
     @ragg = opportunity.ragg
   end
 

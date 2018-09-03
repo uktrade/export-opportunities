@@ -93,7 +93,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
   def output_value(method, props, attributes = {})
     attributes = attributes.merge({ disabled: true, value: props[:value] })
     output = if attributes[:multiple].present?
-              @template.text_area(@object_name, method, attributes)
+               @template.text_area(@object_name, method, attributes)
              else
                @template.text_field(@object_name, method, attributes)
              end
@@ -107,13 +107,29 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
   private
 
   def collection_radio(method, collection)
-    collection_radio_buttons(method, collection, :id, :name) do |option|
-      @template.content_tag(:div,
-        option.radio_button +
-        option.label,
-        { class: 'field radio' }
-      )
+    inputs = ''
+    # Is there a better way to detect difference?
+    if collection.class.to_s == 'Array'
+      # collection is Array data constructed with content .yml file
+      collection.each do |option|
+        label = option[:label]
+        inputs += @template.content_tag(:div,
+                    @template.radio_button(@object_name, method, option[:value]) +
+                    @template.label(@object_name, method, label[:text], value: option[:value]),
+                    { class: 'field radio' }
+                  )
+      end
+    else
+      # collection is Value::ActiveRecord_Relation 
+      inputs = collection_radio_buttons(method, collection, :id, :name) do |option|
+                 @template.content_tag(:div,
+                   option.radio_button +
+                   option.label,
+                   { class: 'field radio' }
+                 )
+      end
     end
+    inputs.html_safe
   end
 
   def checkbox_collection(method, collection)
