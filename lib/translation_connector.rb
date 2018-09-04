@@ -11,7 +11,6 @@ class TranslationConnector
         source_lang: opportunity_language
       )
 
-
       request = Net::HTTP::Post.new(uri.request_uri)
       # Request headers
       request['Content-Type'] = 'application/x-www-form-urlencoded'
@@ -21,9 +20,9 @@ class TranslationConnector
       end
 
       # raise an Error if we reach our monthly quota
-      raise RuntimeError.new('Translation Quota Exceeded') if response.code == "456"
+      raise 'Translation Quota Exceeded' if response.code == '456'
       # also raise any other errors from translation API if it's not HTTP OK 200
-      raise RuntimeError.new("Error code:#{response.code}") if response.code != "200"
+      raise "Error code:#{response.code}" if response.code != '200'
 
       body = JSON.parse(response.body)
       text = body['translations'][0]['text']

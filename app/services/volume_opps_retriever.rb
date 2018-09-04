@@ -259,6 +259,6 @@ class VolumeOppsRetriever
   # language has to be supported by our translation engine
   # language translation feature flag should be set to 'true'
   def should_translate?(language)
-    (language != 'en' || language != 'en-GB') && ActiveModel::Type::Boolean.new.cast(Figaro.env.TRANSLATE_OPPORTUNITIES) && SUPPORTED_LANGUAGES.include?(language)
+    !((language != 'en') ^ (language != 'en-GB')) && ActiveModel::Type::Boolean.new.cast(Figaro.env.TRANSLATE_OPPORTUNITIES) && SUPPORTED_LANGUAGES.include?(language)
   end
 end

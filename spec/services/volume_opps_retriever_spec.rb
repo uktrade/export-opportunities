@@ -171,5 +171,17 @@ Les langages utilisés et à considérer comme obsolètes sont Matrix, Matlab, F
 
       expect { VolumeOppsRetriever.new.translate(opportunity, [:description, :teaser, :title], 'pl') }.to raise_error(Net::OpenTimeout)
     end
+
+    it 'will try to translate non english text' do
+      expect(VolumeOppsRetriever.new.should_translate?('pl')).to eq true
+    end
+
+    it 'will try to translate english en text' do
+      expect(VolumeOppsRetriever.new.should_translate?('en')).to eq false
+    end
+
+    it 'will try to translate english en-GB text' do
+      expect(VolumeOppsRetriever.new.should_translate?('en-GB')).to eq false
+    end
   end
 end
