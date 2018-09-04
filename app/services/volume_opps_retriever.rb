@@ -180,12 +180,12 @@ class VolumeOppsRetriever
 
   def jwt_volume_connector_data(token, hostname, url, from_date, to_date)
     JwtVolumeConnector.new.data(token, hostname, url, from_date, to_date)
-  rescue JSON::ParserError
+  rescue JSON::ParserError => e
     Rails.logger.error "Can't parse JSON result. Probably an Application Error 500 on VO side"
     redis = Redis.new(url: Figaro.env.redis_url!)
     redis.set(:application_error, Time.zone.now)
 
-    raise RuntimeError
+    raise e
   end
 
   def process_result_page(res, editor)
@@ -193,6 +193,7 @@ class VolumeOppsRetriever
     invalid_opp = 0
     valid_opp = 0
     invalid_opp_params = 0
+
     res[:data].each do |opportunity|
       # get language of opportunity
       opportunity_language = opportunity['language']
@@ -258,6 +259,6 @@ class VolumeOppsRetriever
   # language has to be supported by our translation engine
   # language translation feature flag should be set to 'true'
   def should_translate?(language)
-    language != 'en' && ActiveModel::Type::Boolean.new.cast(Figaro.env.TRANSLATE_OPPORTUNITIES) && SUPPORTED_LANGUAGES.include?(language)
+    (language != 'en' || language != 'en-GB') && ActiveModel::Type::Boolean.new.cast(Figaro.env.TRANSLATE_OPPORTUNITIES) && SUPPORTED_LANGUAGES.include?(language)
   end
 end
