@@ -159,6 +159,15 @@ textarea {
     color: inherit;
     padding: 0;
   }
+
+  &.textarea {
+    max-width: 800px;
+
+    label,
+    .description {
+      max-width: 650px;
+    }
+  }
 }
 
 .intro {
