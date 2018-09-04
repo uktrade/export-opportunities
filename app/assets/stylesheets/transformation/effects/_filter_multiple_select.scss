@@ -65,7 +65,7 @@
 }
 
 .FilterMultipleSelectOptionsArea {
-  @include items(2, $spacing-4);
+  @include columns(7);
   background-color: $stone-40;
   height: 400px;
   max-height: 400px;
@@ -83,10 +83,12 @@
 }
 
 .FilterMultipleSelectDisplayArea {
-  @include items(2, $spacing-4);
   border-left: $stone-40 solid 5px;
+  float: left; 
   height: 400px;
+  margin-left: $spacing-4;
   padding: 0 $spacing-4;
+  width: calc(#{$cols-5} - #{$spacing-4});
 
   li {
     margin-bottom: 0;
