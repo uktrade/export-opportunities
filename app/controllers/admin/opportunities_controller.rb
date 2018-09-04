@@ -72,9 +72,14 @@ class Admin::OpportunitiesController < Admin::BaseController
         redirect_to admin_opportunities_path, notice: %(Saved to draft: "#{@opportunity.title}")
       end
     else
+      content = get_content('admin/opportunities.yml')
+      @editor = current_editor
+
       load_options_for_form(@opportunity)
       setup_opportunity_contacts(@opportunity)
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_entity, locals: {
+        content: content,
+      }
     end
   end
 
@@ -145,7 +150,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def opportunity_params(contacts_attributes:)
-    params.require(:opportunity).permit(:title, :slug, { country_ids: [] }, { sector_ids: [] }, { type_ids: [] }, {supplier_preference_ids: []}, :response_due_on, :request_type, :tender, :request_usage, :enquiry_interaction, :value_ids, :teaser, :description, { contacts_attributes: contacts_attributes }, :service_provider_id, :ragg, :buyer_name, :buyer_address, :language, :tender_value, :source, :tender_content, :tender_url, :target_url, :tender_source, :tender_value, :ocid, :industry_id, :industry_scheme)
+    params.require(:opportunity).permit(:title, :slug, { country_ids: [] }, { sector_ids: [] }, { type_ids: [] }, { supplier_preference_ids: [] }, :response_due_on, :request_type, :tender, :request_usage, :enquiry_interaction, :value_ids, :teaser, :description, { contacts_attributes: contacts_attributes }, :service_provider_id, :ragg, :buyer_name, :buyer_address, :language, :tender_value, :source, :tender_content, :tender_url, :target_url, :tender_source, :tender_value, :ocid, :industry_id, :industry_scheme)
   end
 
   def create_contacts_attributes

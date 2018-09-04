@@ -42,7 +42,7 @@ class FormPresenter < BasePresenter
   end
 
   # Return formatted data for Checkbox group form input
-  def input_checkbox_group(name, options=[])
+  def input_checkbox_group(name, options = [])
     field = field_content(name)
     field_name = prop(field, 'name') || name
     group = {}
@@ -94,7 +94,7 @@ class FormPresenter < BasePresenter
   end
 
   # Return formatted data for Radio input component
-  def input_radio(name, options=[])
+  def input_radio(name, options = [])
     field = field_content(name)
     input = {}
     unless field.nil?
@@ -110,7 +110,7 @@ class FormPresenter < BasePresenter
   end
 
   # Return formatted data for Select input component
-  def input_select(name, options=[])
+  def input_select(name, options = [])
     field = field_content(name)
     input = {}
     opts = []
@@ -165,11 +165,10 @@ class FormPresenter < BasePresenter
   end
 
   # Turns an enum, e.g. { foo: 0 , bar: 1 } into a collection that is
-  # compatible with Rails form builders, 
+  # compatible with Rails form builders,
   # e.g. [{ id: 0, name: 'foo'}, { id: 1, name: 'bar' }]
   # Return a collection hash compatible with the Rails form builders
-  def enum_to_collection
-  end
+  def enum_to_collection; end
 
   private
 

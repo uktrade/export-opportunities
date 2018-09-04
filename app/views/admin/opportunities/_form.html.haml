@@ -31,10 +31,10 @@
     %fieldset.field.radio-group
       %legend Is this a tender?
       .field.radio
-        = f.radio_button :tender, 'yes'
+        = f.radio_button :tender, true
         = f.label :tender_yes, 'yes'
       .field.radio
-        = f.radio_button :tender, 'no'
+        = f.radio_button :tender, false
         = f.label :tender_no, 'no'
     -#= f.input_radio :tender, form.input_radio('request_type', @tender)
     -#= render partial: "forms/input_radio", locals: { input: form.input_radio('tender') }

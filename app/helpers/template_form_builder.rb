@@ -1,19 +1,18 @@
 class TemplateFormBuilder < ActionView::Helpers::FormBuilder
-  def input_checkbox_group(method, props, attributes = {})
-    @template.content_tag(:fieldset,
-      (@template.content_tag(:legend, props[:question])) + 
-      checkbox_collection(method, props[:checkboxes]), 
-      { class: 'field checkbox-group' }
+  def input_checkbox_group(method, props)
+    @template.content_tag(
+      :fieldset,
+      @template.content_tag(:legend, props[:question]) + checkbox_collection(method, props[:checkboxes]),
+      class: 'field checkbox-group'
     )
   end
 
-  def input_date_month_year(method, props, attributes = {})
+  def input_date_month_year(method, props)
     legend = if props[:description].present?
                (@template.content_tag(:legend, props[:label], 'aria-describedby': props[:description_id]) +
-                @template.content_tag(:p, props[:description], {
+                @template.content_tag(:p, props[:description],
                   class: 'description',
-                  id: props[:description_id]
-                }))
+                  id: props[:description_id]))
              else
                @template.content_tag(:legend, props[:question])
              end
@@ -36,72 +35,65 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
          @template.content_tag(:span, 'Year') +
          @template.text_field_tag(year, nil, size: 4)
        end),
-      { class: 'field date-month-year' }
-    )
+      class: 'field date-month-year')
   end
 
   def input_label(method, props)
     if props[:description].present?
       @template.label(@object_name, method, props[:text], 'aria-describedby': props[:description_id]) +
-      (@template.content_tag(:p, props[:description], {
-        class: 'description',
-        id: props[:description_id]
-       }))
+        @template.content_tag(:p, props[:description],
+          class: 'description',
+          id: props[:description_id])
     else
       @template.label(@object_name, method, props[:text])
     end
   end
 
-  def input_radio(method, props, attributes = {})
+  def input_radio(method, props)
     @template.content_tag(:fieldset,
-      (@template.content_tag(:legend, props[:question])) +
+      @template.content_tag(:legend, props[:question]) +
       collection_radio(method, props[:options]),
-      { class: 'field radio-group' }
-    )
+      class: 'field radio-group')
   end
 
   def input_select(method, props, attributes = {})
     attrs = {
-      placeholder: props[:placeholder]
+      placeholder: props[:placeholder],
     }.merge(attributes)
     @template.content_tag(:div,
       input_label(method, props[:label]) +
       collection_select(method, props[:options], :id, :name, {}, attrs),
-      { class: 'field select' }
-    )
+      class: 'field select')
   end
 
   def input_text(method, props, attributes = {})
     attrs = {
-      placeholder: props[:placeholder]
+      placeholder: props[:placeholder],
     }.merge(attributes)
     @template.content_tag(:div,
       input_label(method, props[:label]) +
-      (@template.text_field(@object_name, method, objectify_options(attrs))),
-      { class: 'field text' }
-    )
+      @template.text_field(@object_name, method, objectify_options(attrs)),
+      class: 'field text')
   end
 
   def input_textarea(method, props, attributes = {})
     @template.content_tag(:div,
       input_label(method, props[:label]) +
       @template.text_area(@object_name, method, objectify_options(attributes)),
-      { class: 'field textarea' }
-    )
+      class: 'field textarea')
   end
 
   def output_value(method, props, attributes = {})
-    attributes = attributes.merge({ disabled: true, value: props[:value] })
+    attributes = attributes.merge(disabled: true, value: props[:value])
     output = if attributes[:multiple].present?
-              @template.text_area(@object_name, method, attributes)
+               @template.text_area(@object_name, method, attributes)
              else
                @template.text_field(@object_name, method, attributes)
              end
     @template.content_tag(:div,
       input_label(method, props) +
       output,
-      { class: 'field output' }
-    )
+      class: 'field output')
   end
 
   private
@@ -111,18 +103,16 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
       @template.content_tag(:div,
         option.radio_button +
         option.label,
-        { class: 'field radio' }
-      )
+        class: 'field radio')
     end
   end
 
   def checkbox_collection(method, collection)
     collection_check_boxes(method, collection, :id, :name) do |option|
       @template.content_tag(:div,
-        option.check_box + 
+        option.check_box +
         option.label,
-        { class: 'field checkbox' }
-      )
+        class: 'field checkbox')
     end
   end
 end
