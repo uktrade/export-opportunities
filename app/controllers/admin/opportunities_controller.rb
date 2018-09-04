@@ -77,7 +77,7 @@ class Admin::OpportunitiesController < Admin::BaseController
 
       load_options_for_form(@opportunity)
       setup_opportunity_contacts(@opportunity)
-      render :new, status: :unprocessable_entity, locals: {
+      render :new, status: :unprocessable_entity, layout: 'admin_transformed', locals: {
         content: content,
       }
     end
