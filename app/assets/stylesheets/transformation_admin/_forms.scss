@@ -106,13 +106,14 @@ textarea {
 
 .errors {
   @include container;
-  border: 2px solid $great-red;
-  margin-bottom: $spacing-3;
+  border: 4px solid $great-red;
+  margin-bottom: $spacing-4;
   padding: $spacing-3;
 
   p {
     color: $great-red;
     font-weight: bold;
+    margin-bottom: 1em;
   }
 }
 
