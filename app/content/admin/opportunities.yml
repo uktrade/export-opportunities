@@ -45,7 +45,7 @@ fields:
     label: Summarise the export opportunity in a sentence
     description: This will show as the first line of the opportunity and will also show in email alerts. It must be different to the title.
 
-  usage:
+  request_usage:
     question: Buyer is looking for
     options:
       - label: samples to test the market
@@ -103,7 +103,7 @@ fields:
     label: Enter an optional external opportunity link (it must start with http:// or https://)
     description: Only available for DFID service provider
 
-  next_step_for_customers:
+  enquiry_interaction:
     question: The next step for customers is
     options:
       - label: I will respond to customers

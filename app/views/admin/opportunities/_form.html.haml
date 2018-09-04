@@ -17,27 +17,8 @@
 = form_for [:admin, opportunity], :builder => TemplateFormBuilder do |f|
   %fieldset
     %legend.group= content['group_1_title']
-
-    %fieldset.field.radio-group
-      %legend What is the buyer looking for?
-      .field.radio
-        = f.radio_button :request_type, :goods
-        = f.label :request_type_goods, 'Goods'
-      .field.radio
-        = f.radio_button :request_type, :services
-        = f.label :request_type_services, 'Services'
-    -#= f.input_radio :request_type, form.input_radio('request_type', @request_types)
-
-    %fieldset.field.radio-group
-      %legend Is this a tender?
-      .field.radio
-        = f.radio_button :tender, true
-        = f.label :tender_yes, 'yes'
-      .field.radio
-        = f.radio_button :tender, false
-        = f.label :tender_no, 'no'
-    -#= f.input_radio :tender, form.input_radio('request_type', @tender)
-    -#= render partial: "forms/input_radio", locals: { input: form.input_radio('tender') }
+    = f.input_radio :request_type, form.input_radio('request_type', @request_types)
+    = f.input_radio :tender, form.input_radio('tender', @tender_bool)
 
 
   %fieldset
@@ -45,30 +26,16 @@
     %p= content['group_2_description']
     = f.input_text :title, form.input_text('title'), { maxlength: '80' }
     = f.input_text :teaser, form.input_text('teaser'), { maxlength: '150' }
-
-
-    %fieldset.field.radio-group
-      %legend Buyer is looking for
-      .field.radio
-        = f.radio_button :request_usage, 'samples'
-        = f.label :request_usage, 'samples to test the market'
-      .field.radio
-        = f.radio_button :request_usage, 'sell_goods'
-        = f.label :request_usage, 'goods to sell'
-      .field.radio
-        = f.radio_button :request_usage, 'use_product'
-        = f.label :request_usage, 'to use the product'
-    -#= render partial: "forms/input_radio", locals: { input: form.input_radio('usage') }
-
+    = f.input_radio :request_usage, form.input_radio('request_usage', @request_usages)
     = f.input_textarea :description, form.input_textarea('description'), { rows: '12' }
     = f.input_radio :value_ids, form.input_radio('values', @values)
-    -#= f.input_select :country_ids, form.input_select('countries', @countries), { multiple: true, size: '5', data: { node: 'countries', unselected: content['countries_unselected'], display: content['countries_selected_title'] } }
 
-    -#= f.input_select :sector_ids, form.input_select('sector_ids', @sectors), { multiple: true, size: '5', data: { node: 'sectors', unselected: content['sectors_unselected'], display: content['sectors_selected_title'] } }
+    = f.input_select :country_ids, form.input_select('countries', @countries), { multiple: true, size: '5', data: { node: 'countries', unselected: content['countries_unselected'], display: content['countries_selected_title'] } }
+
+    = f.input_select :sector_ids, form.input_select('sector_ids', @sectors), { multiple: true, size: '5', data: { node: 'sectors', unselected: content['sectors_unselected'], display: content['sectors_selected_title'] } }
 
     = f.input_checkbox_group :type_ids, form.input_checkbox_group('types', @types)
     = f.input_checkbox_group :supplier_preference_ids, form.input_checkbox_group('supplier_preferences', @supplier_preferences)
-    = render partial: "forms/input_text", locals: { input: form.input_text('commodity_codes') }
 
     = f.input_date_month_year :response_due_on, form.input_date_month_year('response_due_on')
 
@@ -77,11 +44,8 @@
     -# TODO: remove line below when line above works fine.
     = f.hidden_field :service_provider_id, as: :hidden, value: @editor.service_provider_id
 
-
     = f.input_text :target_url, form.input_text('target_url'), data: { node: 'target-url' }
-
-    = render partial: "forms/input_radio", locals: { input: form.input_radio('enquiry_interaction') }
-
+    = f.input_radio :enquiry_interaction, form.input_radio('enquiry_interaction', @enquiry_interactions)
 
   = f.fields_for :contacts do |field|
     = field.input_text :name, form.input_text("contact_#{field.index + 1}_name")

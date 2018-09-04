@@ -21,7 +21,8 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
     month = "#{@object_name}[#{method}(2i)]"
     year = "#{@object_name}[#{method}(1i)]"
 
-    @template.content_tag(:fieldset,
+    @template.content_tag(
+      :fieldset,
       legend +
       (@template.label_tag(day, nil, class: 'day') do
          @template.content_tag(:span, 'Day') +
@@ -52,7 +53,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
   def input_radio(method, props)
     @template.content_tag(:fieldset,
       @template.content_tag(:legend, props[:question]) +
-      collection_radio(method, props[:options]),
+      radio_collection(method, props[:options]),
       class: 'field radio-group')
   end
 
@@ -60,7 +61,8 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
     attrs = {
       placeholder: props[:placeholder],
     }.merge(attributes)
-    @template.content_tag(:div,
+    @template.content_tag(
+      :div,
       input_label(method, props[:label]) +
       collection_select(method, props[:options], :id, :name, {}, attrs),
       class: 'field select')
@@ -70,14 +72,16 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
     attrs = {
       placeholder: props[:placeholder],
     }.merge(attributes)
-    @template.content_tag(:div,
+    @template.content_tag(
+      :div,
       input_label(method, props[:label]) +
       @template.text_field(@object_name, method, objectify_options(attrs)),
       class: 'field text')
   end
 
   def input_textarea(method, props, attributes = {})
-    @template.content_tag(:div,
+    @template.content_tag(
+      :div,
       input_label(method, props[:label]) +
       @template.text_area(@object_name, method, objectify_options(attributes)),
       class: 'field textarea')
@@ -90,7 +94,8 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
              else
                @template.text_field(@object_name, method, attributes)
              end
-    @template.content_tag(:div,
+    @template.content_tag(
+      :div,
       input_label(method, props) +
       output,
       class: 'field output')
@@ -98,13 +103,32 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
 
   private
 
-  def collection_radio(method, collection)
-    collection_radio_buttons(method, collection, :id, :name) do |option|
-      @template.content_tag(:div,
-        option.radio_button +
-        option.label,
-        class: 'field radio')
+  def radio_collection(method, collection)
+    inputs = ''
+    # Is there a better way to detect difference?
+    if collection.class.to_s == 'Array'
+      # collection is Array data constructed with content .yml file
+      collection.each do |option|
+        label = option[:label]
+        inputs += @template.content_tag(
+          :div,
+          @template.radio_button(@object_name, method, option[:value]) +
+            @template.label(@object_name, method, label[:text], value: option[:value]),
+          class: 'field radio'
+        )
+      end
+    else
+      # collection is Value::ActiveRecord_Relation
+      inputs = collection_radio_buttons(method, collection, :id, :name) do |option|
+        @template.content_tag(
+          :div,
+          option.radio_button +
+            option.label,
+          class: 'field radio'
+        )
+      end
     end
+    inputs.html_safe
   end
 
   def checkbox_collection(method, collection)
