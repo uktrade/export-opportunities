@@ -314,6 +314,14 @@ textarea {
   }
 }
 
+.checkbox-group {
+  legend {
+    @include body-m;
+    color: $grey-1;
+    font-weight: bold;
+  }
+}
+
 .radio {
   input:checked + label {
     &::after {
