@@ -5,9 +5,9 @@
 @import 'transformation/components/steps_indicator';
 @import 'transformation/components/quote';
 @import 'transformation/components/opportunity_summary_list';
+@import 'transformation/components/filter_select';
 @import 'transformation/effects/carousel';
 @import 'transformation/effects/tabbed_area';
-@import 'transformation/effects/filter_select';
 
 section {
   padding: $spacing-1 0;
