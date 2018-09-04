@@ -2,40 +2,51 @@ require 'rails_helper'
 
 feature 'Administering opportunities' do
   scenario 'Creating a new opportunity', js: true do
-    uploader = create(:uploader)
     country = create(:country, name: 'America')
     sector = create(:sector, name: 'Aerospace')
     type = create(:type, name: 'Public Sector')
-    value = create(:type, name: 'More than £100k')
+    value = create(:value, name: 'More than £100k')
+    supplier_preference = create(:supplier_preference)
     service_provider = create(:service_provider, name: 'Italy Rome')
+    uploader = create(:uploader, service_provider: service_provider)
 
     login_as(uploader)
+
     visit admin_opportunities_path
     click_on 'New opportunity'
+    fill_in 'opportunity_title', with: 'A chance to begin again in a golden land of opportunity and adventure'
+    
+    # check country.name
+    # check sector.name
+    select_all_buttons = find_all(:button, 'Select all')
+    select_all_buttons[0].click
+    select_all_buttons[1].click
 
-    fill_in 'Title', with: 'A chance to begin again in a golden land of opportunity and adventure'
-    check country.name
-    check sector.name
-    check type.name
-    check value.name
-    fill_in t('admin.opportunity.teaser_field'), with: 'A new life awaits you in the off-world colonies!'
-    select '2020', from: 'opportunity_response_due_on_1i'
-    select 'December', from: 'opportunity_response_due_on_2i'
-    select '4', from: 'opportunity_response_due_on_3i'
-    fill_in t('admin.opportunity.description_field'), with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
-    select service_provider.name, from: 'Service provider'
 
-    name_fields = find_all(:fillable_field, 'Name')
-    email_fields = find_all(:fillable_field, 'Email')
 
-    name_fields[0].set 'Jane Doe'
-    email_fields[0].set 'jane.doe@example.com'
-    name_fields[1].set 'Joe Bloggs'
-    email_fields[1].set 'joe.bloggs@example.com'
+    # click on type
+    find('label[for="opportunity_type_ids_1"]').click
 
-    expect(page).to have_text('181 characters remaining')
+    # click on value
+    find('label[for="opportunity_value_ids_1"]').click
 
-    click_on 'Create Opportunity'
+    # check type.name
+    # check value.name
+    fill_in 'opportunity_teaser', with: 'A new life awaits you in the off-world colonies!'
+
+    find('label[for="opportunity_response_due_on_1i__"]').fill_in(with: '2020')
+    find('label[for="opportunity_response_due_on_2i_"]').fill_in(with: '12')
+    find('label[for="opportunity_response_due_on_3i_"]').fill_in(with: '15')
+
+    fill_in 'opportunity_description', with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
+
+    fill_in 'opportunity_contacts_attributes_0_name', with: 'Jane Doe'
+    fill_in 'opportunity_contacts_attributes_0_email', with: 'jane.doe@example.com'
+    fill_in 'opportunity_contacts_attributes_1_name', with: 'Joe Bloggs'
+    fill_in 'opportunity_contacts_attributes_1_email', with: 'joe.bloggs@example.com'
+
+
+    click_on 'Save and continue'
 
     expect(page.status_code).to eq 200
     expect(page).to have_text('Created opportunity "A chance to begin again in a golden land of opportunity and adventure"')
@@ -44,12 +55,13 @@ feature 'Administering opportunities' do
 
     expect(page).to have_text('A chance to begin again in a golden land of opportunity and adventure')
     expect(page).to have_text('Pending')
+
     expect(page).to have_text(country.name)
     expect(page).to have_text(sector.name)
     expect(page).to have_text(type.name)
     expect(page).to have_text(value.name)
     expect(page).to have_text('A new life awaits you in the off-world colonies!')
-    expect(page).to have_text('4 Dec 2020')
+    expect(page).to have_text('15 Dec 2020')
     expect(page).to have_text('Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.')
     expect(page).to have_text(service_provider.name)
     expect(page).to have_text('Jane Doe <jane.doe@example.com>')
