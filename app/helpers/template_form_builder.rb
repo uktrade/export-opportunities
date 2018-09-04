@@ -36,7 +36,8 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
          @template.content_tag(:span, 'Year') +
          @template.text_field_tag(year, nil, size: 4)
        end),
-      class: 'field date-month-year')
+      class: 'field date-month-year'
+    )
   end
 
   def input_label(method, props)
@@ -65,7 +66,8 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
       :div,
       input_label(method, props[:label]) +
       collection_select(method, props[:options], :id, :name, {}, attrs),
-      class: 'field select')
+      class: 'field select'
+    )
   end
 
   def input_text(method, props, attributes = {})
@@ -76,7 +78,8 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
       :div,
       input_label(method, props[:label]) +
       @template.text_field(@object_name, method, objectify_options(attrs)),
-      class: 'field text')
+      class: 'field text'
+    )
   end
 
   def input_textarea(method, props, attributes = {})
@@ -84,7 +87,8 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
       :div,
       input_label(method, props[:label]) +
       @template.text_area(@object_name, method, objectify_options(attributes)),
-      class: 'field textarea')
+      class: 'field textarea'
+    )
   end
 
   def output_value(method, props, attributes = {})
@@ -98,7 +102,8 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
       :div,
       input_label(method, props) +
       output,
-      class: 'field output')
+      class: 'field output'
+    )
   end
 
   private
