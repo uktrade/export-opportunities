@@ -6,7 +6,7 @@ feature 'Administering opportunities' do
     sector = create(:sector, name: 'Aerospace')
     type = create(:type, name: 'Public Sector')
     value = create(:value, name: 'More than £100k')
-    supplier_preference = create(:supplier_preference)
+    create(:supplier_preference)
     service_provider = create(:service_provider, name: 'Italy Rome')
     uploader = create(:uploader, service_provider: service_provider)
 
@@ -15,14 +15,12 @@ feature 'Administering opportunities' do
     visit admin_opportunities_path
     click_on 'New opportunity'
     fill_in 'opportunity_title', with: 'A chance to begin again in a golden land of opportunity and adventure'
-    
-    # check country.name
-    # check sector.name
+
+    # click country.name
+    # click sector.name
     select_all_buttons = find_all(:button, 'Select all')
     select_all_buttons[0].click
     select_all_buttons[1].click
-
-
 
     # click on type
     find('label[for="opportunity_type_ids_1"]').click
@@ -30,8 +28,6 @@ feature 'Administering opportunities' do
     # click on value
     find('label[for="opportunity_value_ids_1"]').click
 
-    # check type.name
-    # check value.name
     fill_in 'opportunity_teaser', with: 'A new life awaits you in the off-world colonies!'
 
     find('label[for="opportunity_response_due_on_1i__"]').fill_in(with: '2020')
