@@ -39,6 +39,23 @@ main {
   }
 }
 
+.comment-form {
+  span {
+    display: inline-block;
+    padding: 10px;
+  }
+}
+
+.history {
+  @include container;
+
+  h2 {
+    @include heading-s;
+    color: $blue-1;
+    margin-bottom: $spacing-4;
+  }
+}
+
 .process {
   background-color: $white;
 

@@ -17,7 +17,12 @@ fieldset {
 form {
   margin-bottom: $spacing-3;
 
-  .description,
+  .description {
+    color: $grey-4;
+    display: block;
+    margin-bottom: $spacing-4;
+  }
+
   .helptext,
   .RestrictedInputCount {
     color: $grey-4;
@@ -34,7 +39,6 @@ input {
   border: 2px solid $grey-1;
   height: 50px;
   display: block;
-  max-width: 570px;
   padding: 0 10px;
   text-transform: none;
   width: 100%;
@@ -47,16 +51,11 @@ input {
   }
 }
 
-label,
-.date legend,
-.date-month-year legend,
-.multi-currency-amount legend,
-.radio-group legend {
+label {
   @include body-m;
   color: $grey-1;
   display: inline-block;
   font-weight: bold;
-  margin-bottom: $spacing-4;
 }
 
 legend {
@@ -95,7 +94,6 @@ textarea {
   border: 2px solid $grey-1;
   display: block;
   margin-bottom: $spacing-3;
-  max-width: 570px;
   padding: 5px;
   width: 100%;
 }
@@ -138,9 +136,21 @@ textarea {
   }
 }
 
+.date legend,
+.date-month-year legend,
+.multi-currency-amount legend,
+.radio-group legend {
+  @include body-m;
+  color: $grey-1;
+  display: inline-block;
+  font-weight: bold;
+  margin-bottom: $spacing-4;
+}
+
 .field {
   clear: both;
   margin-bottom: $spacing-3;
+  max-width: 650px;
 
   &.output input,
   &.output textarea {
@@ -324,8 +334,7 @@ textarea {
 
 // RESPONSIVE
 @media (max-width: 767px) {
-  input[type=text],
-  textarea {
+  .field {
     max-width: none;
   }
 }

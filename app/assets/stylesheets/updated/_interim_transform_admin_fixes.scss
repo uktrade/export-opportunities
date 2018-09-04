@@ -1,0 +1,34 @@
+/*
+ * Interim Transform Admin Fixes.
+ * ------------------------------
+ * 
+ * Older CSS in found in app/assets/stylesheets/updated/ folder has been superseded
+ * by styles in app/assets/stylesheets/transform_admin/ folder.
+ *
+ * This file is a holding place for CSS required to support existing/legacy design
+ * until all views have been updated to work with transform_admin/ CSS.
+ *
+ */
+
+
+#new_opportunity_comment_form {
+  label {
+    font-weight: bold;
+  }
+
+  span {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  textarea {
+    border: 2px solid #6f777b;
+    margin-bottom: 30px;
+    width: 100%;
+  }
+
+  .description {
+    color: #6f777b;
+    margin-bottom: 0;
+  }
+}
