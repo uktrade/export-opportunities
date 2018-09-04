@@ -5,8 +5,8 @@
 
 
 
-.errors
-  - if opportunity.errors.any?
+- if opportunity.errors.any?
+  .errors
     %p#errors-list-label
       = pluralize(opportunity.errors.count, 'error')
       prevented this opportunity from being saved:

@@ -77,7 +77,7 @@ class Admin::OpportunitiesController < Admin::BaseController
 
       load_options_for_form(@opportunity)
       setup_opportunity_contacts(@opportunity)
-      render :new, status: :unprocessable_entity, locals: {
+      render :new, status: :unprocessable_entity, layout: 'admin_transformed', locals: {
         content: content,
       }
     end
@@ -124,7 +124,7 @@ class Admin::OpportunitiesController < Admin::BaseController
 
   def load_options_for_form(opportunity)
     @request_types = Opportunity.request_types.keys
-    @tender_bool = %w[yes no] # Should the values actually be true/false?
+    @tender_bool = %w[true false]
     @request_usages = Opportunity.request_usages.keys
     @supplier_preferences = SupplierPreference.all
     @countries = promote_elements_to_front_of_array(Country.all.order(:name), opportunity.countries.sort_by(&:name))
