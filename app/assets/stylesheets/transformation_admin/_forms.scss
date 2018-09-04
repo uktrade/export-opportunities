@@ -104,6 +104,18 @@ textarea {
   color: $great-red;
 }
 
+.errors {
+  @include container;
+  border: 2px solid $great-red;
+  margin-bottom: $spacing-3;
+  padding: $spacing-3;
+
+  p {
+    color: $great-red;
+    font-weight: bold;
+  }
+}
+
 .date,
 .date-month-year {
   label {
