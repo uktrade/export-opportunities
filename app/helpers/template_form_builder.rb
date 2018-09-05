@@ -17,24 +17,36 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
                @template.content_tag(:legend, props[:question])
              end
 
-    day = "#{@object_name}[#{method}(3i)]"
-    month = "#{@object_name}[#{method}(2i)]"
-    year = "#{@object_name}[#{method}(1i)]"
+    day_name = "#{@object_name}[#{method}(3i)]"
+    day_value = nil
 
+    month_name = "#{@object_name}[#{method}(2i)]"
+    month_value = nil
+
+    year_name = "#{@object_name}[#{method}(1i)]"
+    year_value = nil
+
+    date = @object[method]
+    if date.present?
+      day_value = date.day
+      month_value = date.month
+      year_value = date.year
+    end
+    
     @template.content_tag(
       :fieldset,
       legend +
-      (@template.label_tag(day, nil, class: 'day') do
+      (@template.label_tag(day_name, nil, class: 'day') do
          @template.content_tag(:span, 'Day') +
-         @template.text_field_tag(day, nil, size: 2)
+         @template.text_field_tag(day_name, day_value, size: 2)
        end) +
-      (@template.label_tag(month, nil, class: 'month') do
+      (@template.label_tag(month_name, nil, class: 'month') do
          @template.content_tag(:span, 'Month') +
-         @template.text_field_tag(month, nil, size: 2)
+         @template.text_field_tag(month_name, month_value, size: 2)
        end) +
-      (@template.label(year, nil, class: 'year') do
+      (@template.label(year_name, nil, class: 'year') do
          @template.content_tag(:span, 'Year') +
-         @template.text_field_tag(year, nil, size: 4)
+         @template.text_field_tag(year_name, year_value, size: 4)
        end),
       class: 'field date-month-year'
     )
