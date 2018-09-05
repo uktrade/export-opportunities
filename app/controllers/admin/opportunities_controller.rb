@@ -101,6 +101,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def update
+    content = get_content('admin/opportunities.yml')
     @opportunity = Opportunity.find(params[:id])
     authorize @opportunity
 
@@ -114,7 +115,9 @@ class Admin::OpportunitiesController < Admin::BaseController
 
       load_options_for_form(@opportunity)
       setup_opportunity_contacts(@opportunity)
-      render :edit
+      render :edit, locals: {
+          content: content,
+      }
     end
   end
 

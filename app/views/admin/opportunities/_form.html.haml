@@ -43,7 +43,7 @@
     -#= f.output_value :service_provider_id, form.input_label('service_provider_id').merge({ value: @editor.service_provider.name }), data: { node: 'service-provider' }
     -# TODO: remove line below when line above works fine.
     = f.hidden_field :service_provider_id, as: :hidden, value: @editor.service_provider_id
-
+    
     = f.input_text :target_url, form.input_text('target_url'), data: { node: 'target-url' }
     = f.input_radio :enquiry_interaction, form.input_radio('enquiry_interaction', @enquiry_interactions)
 
