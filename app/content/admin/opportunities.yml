@@ -114,16 +114,16 @@ fields:
     label: Sign off line
 
   contact_1_name:
-    label: "Contact 1 name:"
+    label: Contact 1 name
 
   contact_1_email:
-    label: "Responses should be sent to:"
+    label: Contact 1 email
 
   contact_2_name:
-    label: "Contact 2 name:"
+    label: Contact 2 name
 
   contact_2_email:
-    label: "Responses can also be sent to:"
+    label: Contact 2 email
 
   buyer_lookup:
     label: Find an organisation record in the Export Opportunities database
