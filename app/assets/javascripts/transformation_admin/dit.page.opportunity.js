@@ -7,7 +7,7 @@
 //= require transformation/dit.class.filter_multiple_select.js
 
 
-dit.admin.opportunity = (new function () {
+dit.page.opportunity = (new function () {
   var _cache = {}
 
   this.init = function() {
@@ -64,5 +64,5 @@ dit.admin.opportunity = (new function () {
 });
 
 $(document).ready(function() {
-  dit.admin.opportunity.init();
+  dit.page.opportunity.init();
 });

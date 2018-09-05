@@ -6,7 +6,7 @@
 //= require transformation/dit.responsive
 
 
-dit.admin.all = (new function () {
+dit.page.all = (new function () {
   var _cache = {}
 
   // Page init
@@ -63,5 +63,5 @@ dit.admin.all = (new function () {
 
 
 $(document).ready(function() {
-  dit.admin.all.init();
+  dit.page.all.init();
 });
