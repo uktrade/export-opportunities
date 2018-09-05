@@ -119,6 +119,7 @@ RSpec.describe VolumeOppsRetriever do
   end
 
   describe '#translates opportunity' do
+    skip('TODO: add the tests here in a periodically running suite')
     it 'translates a sample opp' do
       opportunity = create(:opportunity, description: 'alex jest świetny, niech żyje alex', original_language: 'pl')
 
@@ -128,6 +129,7 @@ RSpec.describe VolumeOppsRetriever do
       expect(opportunity.original_language).to eq('pl')
     end
 
+    skip('TODO: add the tests here in a periodically running suite')
     it 'queries translate API to translate the opportunity' do
       opportunity = create(:opportunity,
                            source: :volume_opps,
@@ -164,6 +166,7 @@ Les langages utilisés et à considérer comme obsolètes sont Matrix, Matlab, F
       expect(opportunity.teaser).to include('The services included in the market scope are described below')
     end
 
+    skip('TODO: add the tests here in a periodically running suite')
     it 'fails gracefully when translate API fails' do
       stub_request(:any, "#{Figaro.env.DL_HOSTNAME}?auth_key=#{Figaro.env.DL_API_KEY}&text=alex+jest+%C5%9Bwietny%2C+niech+%C5%BCyje+alex&target_lang=en&source_lang=pl").to_timeout
 
@@ -172,15 +175,22 @@ Les langages utilisés et à considérer comme obsolètes sont Matrix, Matlab, F
       expect { VolumeOppsRetriever.new.translate(opportunity, [:description, :teaser, :title], 'pl') }.to raise_error(Net::OpenTimeout)
     end
 
+    skip('TODO: add the tests here in a periodically running suite')
+    it 'should not return 414 when the request-uri is too long' do
+      opportunity = create(:opportunity, description: Faker::Lorem::characters(8100), original_language: 'pl')
+
+      expect { VolumeOppsRetriever.new.translate(opportunity, [:description], 'pl') }.to_not raise_error
+    end
+
     it 'will try to translate non english text' do
       expect(VolumeOppsRetriever.new.should_translate?('pl')).to eq true
     end
 
-    it 'will try to translate english en text' do
+    it 'will not try to translate english en text' do
       expect(VolumeOppsRetriever.new.should_translate?('en')).to eq false
     end
 
-    it 'will try to translate english en-GB text' do
+    it 'will not try to translate english en-GB text' do
       expect(VolumeOppsRetriever.new.should_translate?('en-GB')).to eq false
     end
   end
