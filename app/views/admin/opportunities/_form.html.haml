@@ -49,10 +49,12 @@
     = field.input_text :email, form.input_text("contact_#{field.index + 1}_email"), required: true
 
 
-  %input{:type=>'submit', :value=>form.content['submit_create'], :class=>'button'}
+  .controls
+    %input{:type=>'submit', :value=>form.content['submit_create'], :class=>'button'}
 
-  - if current_page?(action: 'new') || true
-    %input{:type=>'submit', :value=>form.content['submit_draft'], :class=>'button draft'}
+    - if current_page?(action: 'new') || true
+      %span or
+      %input{:type=>'submit', :value=>form.content['submit_draft'], :class=>'button draft'}
 
 
 
@@ -61,7 +63,7 @@
   - if policy(opportunity).show_ragg? && opportunity.id.present?
     %h2 Triage rating
     %fieldset
-      %legend Set the rating: Red to indicate rejection, Amber to indicate editing required, Blue to indicate special consideration required.
+       %legend Set the rating: Red to indicate rejection, Amber to indicate editing required, Blue to indicate special consideration required.
       .multiple-choice.ragg_choice-red
         = f.radio_button :ragg, :red, id: 'radio-inline-1', 'autocomplete': 'off'
         %label{:for => "radio-inline-1"} Red
