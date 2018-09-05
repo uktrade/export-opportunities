@@ -12,9 +12,8 @@ dit.page.opportunity = (new function () {
 
   this.init = function() {
     cacheComponents();
-    adjustTargetUrlField();
-    bindFilterSelects();
-    bindTargetUrlFieldController();
+    setupTargetUrlField();
+    setupFilterMultipleSelectFields();
 
     delete this.init; // Run once
   }
@@ -29,28 +28,32 @@ dit.page.opportunity = (new function () {
     _cache.$sectorInput = $("[data-node='sectors']")
   }
 
-  /* Listen for changes to the Service Provider
-   * and adjust Opportunity Target URL field. 
+  /* Add visual toggle to show/hide Target URL field, 
+   * based on Service Provider field changes. 
    **/
-  function bindTargetUrlFieldController() {
-    _cache.$serviceProvider.on("change", adjustTargetUrlField);
+  function setupTargetUrlField() {
+    var $serviceProviderField = _cache.$serviceProvider;
+    var $targetUrlField = _cache.$targetUrlParent;
+
+    // Bind the event handling.
+    $serviceProviderField.on("change", function() {
+      // 252 == DFID
+      if ($serviceProviderField.val() == 252) {
+        $targetUrlField.show();
+      }
+      else {
+        $targetUrlField.hide();
+      }
+    });
+
+    // Trigger the event for initial view adjustment
+    $serviceProviderField.trigger("change");
   }
 
-  /* Control visibility of Opportunity Target URL field
-   **/
-  function adjustTargetUrlField() {
-    var serviceProviderName = _cache.$serviceProvider.val();
-    if (serviceProviderName == "DFID") {
-      _cache.$targetUrlParent.show();
-    }
-    else {
-      _cache.$targetUrlParent.hide();
-    }
-  }
-
-  /* Experiment... */
+  /* Turn regular <select> fields into enhanced FilterMultipleSelect
+   * components.
   /**/
-  function bindFilterSelects() {
+  function setupFilterMultipleSelectFields() {
     new dit.classes.FilterMultipleSelect(_cache.$companyInput, {
       title: _cache.$companyInput.data("display"),
       unselected: _cache.$companyInput.data("unselected")

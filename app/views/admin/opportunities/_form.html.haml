@@ -42,7 +42,7 @@
     -# Set default service provider if nothing stored on opportunity
     - if opportunity.service_provider_id.nil?
       - @opportunity[:service_provider_id] = @editor.service_provider_id
-    = f.input_select :service_provider_id, form.input_select('service_provider_id', @service_providers), required: true
+    = f.input_select :service_provider_id, form.input_select('service_provider_id', @service_providers), required: true, data: { node: 'service-provider' }
 
     = f.input_text :target_url, form.input_text('target_url'), data: { node: 'target-url' }
     = f.input_radio :enquiry_interaction, form.input_radio('enquiry_interaction', @enquiry_interactions)
