@@ -201,8 +201,10 @@ class VolumeOppsRetriever
       Rails.logger.info '.....we have ' + valid_opp.to_s + ' valid opps and ' + invalid_opp.to_s + ' invalid opps and ' + invalid_opp_params.to_s + ' invalid opp params already.....'
       opportunity_params = opportunity_params(opportunity)
 
+      opportunity_doesnt_exist = opportunity_doesnt_exist?(opportunity_params[:ocid]) if opportunity_params
+
       # count valid/invalid opps
-      if opportunity_params
+      if opportunity_params && opportunity_doesnt_exist
         if VolumeOppsValidator.new.validate_each(opportunity_params)
           translate(opportunity_params, %i[description teaser title], opportunity_language) if should_translate?(opportunity_language)
 
@@ -214,6 +216,7 @@ class VolumeOppsRetriever
 
       else
         invalid_opp_params += 1
+        Rails.logger.info "duplicate opportunity fetch #{opportunity_doesnt_exist} for ocid: #{opportunity_params&[:ocid]}" unless opportunity_params
       end
     end
   end
@@ -260,5 +263,16 @@ class VolumeOppsRetriever
   # language translation feature flag should be set to 'true'
   def should_translate?(language)
     !((language != 'en') ^ (language != 'en-GB')) && ActiveModel::Type::Boolean.new.cast(Figaro.env.TRANSLATE_OPPORTUNITIES) && SUPPORTED_LANGUAGES.include?(language)
+  end
+
+  def opportunity_doesnt_exist?(ocid)
+    return true unless ocid
+
+    count = Opportunity.where(ocid: ocid).count
+    if count.zero?
+      true
+    else
+      false
+    end
   end
 end
