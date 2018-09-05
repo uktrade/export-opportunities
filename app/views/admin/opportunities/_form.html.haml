@@ -42,7 +42,6 @@
     = f.input_select :service_provider_id, form.input_select('service_provider_id', @service_providers), { default: @selected_service_provider.id, required: true }
 
     = f.input_text :target_url, form.input_text('target_url'), data: { node: 'target-url' }
-    = f.input_radio :enquiry_interaction, form.input_radio('enquiry_interaction', @enquiry_interactions)
 
   = f.fields_for :contacts do |field|
     = field.input_text :name, form.input_text("contact_#{field.index + 1}_name")
