@@ -59,15 +59,24 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def input_select(method, props, attributes = {})
-    attrs = {
+    config = {}
+
+    # Set a default selected option from passed attribute
+    if @object[method].nil? && attributes[:default].present?
+      config.merge!(selected: attributes[:default])
+    end
+
+    # Merge remaining attributes with anything we want to take from props
+    attributes.merge!({
       placeholder: props[:placeholder],
-    }.merge(attributes)
+    })
+
+    # Construct the field
     @template.content_tag(
       :div,
       input_label(method, props[:label]) +
-      collection_select(method, props[:options], :id, :name, {}, attrs),
-      class: 'field select'
-    )
+      collection_select(method, props[:options], :id, :name, config, attributes),
+      class: 'field select')
   end
 
   def input_text(method, props, attributes = {})
