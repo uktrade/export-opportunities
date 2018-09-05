@@ -20,7 +20,7 @@ form {
   .description {
     color: $grey-4;
     display: block;
-    margin-bottom: $spacing-4;
+    margin-bottom: 10px;
   }
 
   .helptext,
@@ -50,6 +50,11 @@ input {
     z-index: -1;
   }
 }
+
+input::-moz-placeholder { color: $grey-5; }
+input::-webkit-input-placeholder { color: $grey-5; }
+input::-ms-input-placeholder { color: $grey-5; }
+input::placeholder { color: $grey-5; }
 
 label {
   @include body-m;
@@ -138,13 +143,12 @@ textarea {
 
 .date legend,
 .date-month-year legend,
-.multi-currency-amount legend,
-.radio-group legend {
+.multi-currency-amount legend {
   @include body-m;
   color: $grey-1;
   display: inline-block;
   font-weight: bold;
-  margin-bottom: $spacing-4;
+  margin-bottom: 0;
 }
 
 .field {
@@ -346,6 +350,14 @@ textarea {
     -moz-box-shadow: 0 0 0 3px $focus-yellow;
     box-shadow: 0 0 0 3px $focus-yellow;
   }
+}
+
+.radio-group legend {
+  @include body-m;
+  color: $grey-1;
+  display: inline-block;
+  font-weight: bold;
+  margin-bottom: $spacing-4;
 }
 
 
