@@ -25,6 +25,10 @@
     %legend.group= content['group_2_title']
     %p= content['group_2_description']
     = f.input_text :title, form.input_text('title'), { maxlength: '80', required: true }
+
+    - if opportunity.errors[:slug].any?
+      = f.input_text :slug, form.input_text('slug'), required: true
+
     = f.input_text :teaser, form.input_text('teaser'), { maxlength: '150', required: true }
     = f.input_radio :request_usage, form.input_radio('request_usage', @request_usages)
     = f.input_textarea :description, form.input_textarea('description'), { rows: '12', required: true }

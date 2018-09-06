@@ -134,3 +134,7 @@ fields:
       - label: Display buyer's details on the opportunity page
       - label: Keep buyer's details hidden, and only display them to UK business when they are right for the opportunity
 
+  slug:
+    label: Resolve duplicate slug (url) value
+    description: Cannot automatically generate a unique URL from the title. Please add a unique value here. 
+
