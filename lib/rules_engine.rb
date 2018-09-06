@@ -1,6 +1,6 @@
 class RulesEngine
-  SENSITIVITY_SCORE_THRESHOLD = 0.15
-  QUALITY_SCORE_THRESHOLD = 90
+  SENSITIVITY_SCORE_THRESHOLD = Figaro.env.SENSITIVITY_SCORE_THRESHOLD.present? ? Figaro.env.SENSITIVITY_SCORE_THRESHOLD.to_i : 0.15
+  QUALITY_SCORE_THRESHOLD = Figaro.env.QUALITY_SCORE_THRESHOLD.present? ? Figaro.env.QUALITY_SCORE_THRESHOLD.to_i : 90
 
   def call(opportunity)
     Rails.logger.info("Next check: #{opportunity.id}")
