@@ -7,7 +7,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
     )
   end
 
-  def input_date_month_year(method, props)
+  def input_date_month_year(method, props, attributes = {})
     legend = if props[:description].present?
                (@template.content_tag(:legend, props[:label], 'aria-describedby': props[:description_id]) +
                 @template.content_tag(:p, props[:description],
@@ -38,15 +38,15 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
       legend +
       (@template.label_tag(day_name, nil, class: 'day') do
          @template.content_tag(:span, 'Day') +
-         @template.text_field_tag(day_name, day_value, size: 2)
+         @template.text_field_tag(day_name, day_value, { size: 2 }.merge(attributes))
        end) +
       (@template.label_tag(month_name, nil, class: 'month') do
          @template.content_tag(:span, 'Month') +
-         @template.text_field_tag(month_name, month_value, size: 2)
+         @template.text_field_tag(month_name, month_value, { size: 2 }.merge(attributes))
        end) +
       (@template.label(year_name, nil, class: 'year') do
          @template.content_tag(:span, 'Year') +
-         @template.text_field_tag(year_name, year_value, size: 4)
+         @template.text_field_tag(year_name, year_value, { size: 4 }.merge(attributes))
        end),
       class: 'field date-month-year'
     )
