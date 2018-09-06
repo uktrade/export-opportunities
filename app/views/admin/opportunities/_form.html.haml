@@ -32,7 +32,14 @@
     = f.input_text :teaser, form.input_text('teaser'), { maxlength: '150', required: true }
     = f.input_radio :request_usage, form.input_radio('request_usage', @request_usages)
     = f.input_textarea :description, form.input_textarea('description'), { rows: '12', required: true }
-    = f.input_radio :value_ids, form.input_radio('values', @values)
+
+    -# Workaround because value_ids should be a single value rather than an Array.
+    - attrs = {}
+    - if @opportunity.value_ids.present?
+      - attrs = { default: @opportunity.value_ids[0] }
+    = attrs
+    = f.input_radio :value_ids, form.input_radio('values', @values), attrs
+
     = f.input_select :country_ids, form.input_select('countries', @countries), { multiple: true, size: '5', data: { node: 'countries', unselected: content['countries_unselected'], display: content['countries_selected_title'] } }
     = f.input_select :sector_ids, form.input_select('sector_ids', @sectors), { multiple: true, size: '5', data: { node: 'sectors', unselected: content['sectors_unselected'], display: content['sectors_selected_title'] } }
     = f.input_checkbox_group :type_ids, form.input_checkbox_group('types', @types)

@@ -63,10 +63,17 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  def input_radio(method, props)
+  def input_radio(method, props, attributes = {})
+    config = {}
+
+    # Set a default selected option from passed attribute
+    if attributes[:default].present?
+      config.merge!(checked: attributes[:default])
+    end
+
     @template.content_tag(:fieldset,
       @template.content_tag(:legend, props[:question]) +
-      radio_collection(method, props[:options]),
+      radio_collection(method, props[:options], config),
       class: 'field radio-group')
   end
 
@@ -129,7 +136,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
 
   private
 
-  def radio_collection(method, collection)
+  def radio_collection(method, collection, config = {})
     inputs = ''
     # Is there a better way to detect difference?
     if collection.class.to_s == 'Array'
@@ -145,7 +152,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
       end
     else
       # collection is Value::ActiveRecord_Relation
-      inputs = collection_radio_buttons(method, collection, :id, :name) do |option|
+      inputs = collection_radio_buttons(method, collection, :id, :name, config) do |option|
         @template.content_tag(
           :div,
           option.radio_button +
