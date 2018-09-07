@@ -266,7 +266,8 @@ class VolumeOppsRetriever
   end
 
   def opportunity_doesnt_exist?(ocid)
-    return true unless ocid
+    # if we dont have an ocid, assume the opp exists, dont process it further
+    return false unless ocid
 
     count = Opportunity.where(ocid: ocid).count
     if count.zero?
