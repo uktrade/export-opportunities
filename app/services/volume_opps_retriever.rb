@@ -201,10 +201,16 @@ class VolumeOppsRetriever
       Rails.logger.info '.....we have ' + valid_opp.to_s + ' valid opps and ' + invalid_opp.to_s + ' invalid opps and ' + invalid_opp_params.to_s + ' invalid opp params already.....'
       opportunity_params = opportunity_params(opportunity)
 
-      opportunity_doesnt_exist = opportunity_doesnt_exist?(opportunity_params[:ocid]) if opportunity_params
+      process_opportunity = if (opportunity_params && opportunity_params[:ocid])
+                              opportunity_doesnt_exist?(opportunity_params[:ocid])
+                            elsif opportunity_params.nil?
+                              false
+                            elsif opportunity_params[:ocid].nil?
+                              false
+                            end
 
       # count valid/invalid opps
-      if opportunity_params && opportunity_doesnt_exist
+      if opportunity_params && process_opportunity
         if VolumeOppsValidator.new.validate_each(opportunity_params)
           translate(opportunity_params, %i[description teaser title], opportunity_language) if should_translate?(opportunity_language)
 
@@ -216,7 +222,7 @@ class VolumeOppsRetriever
 
       else
         invalid_opp_params += 1
-        Rails.logger.info "duplicate opportunity fetch #{opportunity_doesnt_exist} for ocid: #{opportunity_params[:ocid]}" unless opportunity_params
+        Rails.logger.info "duplicate opportunity fetch #{process_opportunity} for ocid: #{opportunity_params[:ocid]}" unless opportunity_params
       end
     end
   end
@@ -266,9 +272,6 @@ class VolumeOppsRetriever
   end
 
   def opportunity_doesnt_exist?(ocid)
-    # if we dont have an ocid, assume the opp exists, dont process it further
-    return false unless ocid
-
     count = Opportunity.where(ocid: ocid).count
     if count.zero?
       true
