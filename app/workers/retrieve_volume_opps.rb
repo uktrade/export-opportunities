@@ -7,10 +7,12 @@ class RetrieveVolumeOpps
     editor = Editor.where(email: Figaro.env.MAILER_FROM_ADDRESS!).first
 
     # we need to fetch from yesterday to tomorrow to be able to get both TED and other sources that get ingested overnight
-    today_date = Time.zone.now.strftime('%Y-%m-%d')
-    yesterday_date = today_date - 1.day
+    now = Time.zone.now
+    today_date = now.strftime('%Y-%m-%d')
+    yesterday_date = (now - 1.day).strftime('%Y-%m-%d')
+
     from_date = yesterday_date
-    to_date = (Time.zone.now + 1.day).strftime('%Y-%m-%d')
+    to_date = (now + 1.day).strftime('%Y-%m-%d')
 
     # fetch opportunities
     VolumeOppsRetriever.new.call(editor, from_date, to_date)
