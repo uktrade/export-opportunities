@@ -115,8 +115,8 @@ class Admin::OpportunitiesController < Admin::BaseController
 
       load_options_for_form(@opportunity)
       setup_opportunity_contacts(@opportunity)
-      render :edit, locals: {
-          content: content,
+      render :edit, layout: 'admin_transformed', locals: {
+        content: content,
       }
     end
   end
