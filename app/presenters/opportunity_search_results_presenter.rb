@@ -199,6 +199,13 @@ class OpportunitySearchResultsPresenter < FormPresenter
     }
   end
 
+  # Control whether subscription link should be shown
+  def offer_subscription
+    subscription = @search[:subscription]
+    byebug
+    subscription.search_term.present? && subscription.sectors.blank? && subscription.types.blank? && subscription.values.blank?
+  end
+
   private
 
   def format_filter_options(field = {})

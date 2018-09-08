@@ -9,7 +9,8 @@
     %h1.verbose= @content['title']
     .information
       %p= results.information
-      = render partial: "components/subscription_link", locals: { subscription: results.subscription }
+      - if results.offer_subscription
+        = render partial: "components/subscription_link", locals: { subscription: results.subscription }
 
     %form.search{:action=>results.form_path, :method=>"get"}
       %label
