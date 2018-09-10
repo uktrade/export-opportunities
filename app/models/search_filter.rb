@@ -1,5 +1,5 @@
 class SearchFilter
-  attr_reader :sectors, :regions, :countries, :types, :values
+  attr_reader :sectors, :regions, :countries, :types, :values, :publish_date
 
   def initialize(params = {})
     @params = params
@@ -24,6 +24,10 @@ class SearchFilter
 
   def values
     @values ||= whitelisted_filters_for(:values, Value)
+  end
+
+  def publish_date
+    @publish_date ||= true
   end
 
   private def whitelisted_filters_for(name, klass)
