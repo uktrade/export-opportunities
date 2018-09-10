@@ -222,7 +222,7 @@ class VolumeOppsRetriever
 
       else
         invalid_opp_params += 1
-        Rails.logger.info "duplicate opportunity fetch #{process_opportunity} for ocid: #{opportunity_params[:ocid]}" unless opportunity_params
+        Rails.logger.info "duplicate opportunity fetch #{process_opportunity} for ocid: #{opportunity_params & [:ocid]}" unless opportunity_params
       end
     end
   end
