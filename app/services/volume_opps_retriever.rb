@@ -201,7 +201,7 @@ class VolumeOppsRetriever
       Rails.logger.info '.....we have ' + valid_opp.to_s + ' valid opps and ' + invalid_opp.to_s + ' invalid opps and ' + invalid_opp_params.to_s + ' invalid opp params already.....'
       opportunity_params = opportunity_params(opportunity)
 
-      process_opportunity = if (opportunity_params && opportunity_params[:ocid])
+      process_opportunity = if opportunity_params && opportunity_params[:ocid]
                               opportunity_doesnt_exist?(opportunity_params[:ocid])
                             elsif opportunity_params.nil?
                               false

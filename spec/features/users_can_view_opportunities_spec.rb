@@ -308,4 +308,26 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to_not have_content('Italy')
     expect(page).to have_content('Japan')
   end
+
+  scenario 'counters for landing page, all counters set' do
+    expect_any_instance_of(ApplicationController).to receive(:opps_counter_stats).and_return({total: '1000', published_recently: '100', expiring_soon: '200'})
+
+    visit '/'
+    expect(page).to have_content('Find over 1000 export opportunities.200 expiring soon!100 published recently!')
+  end
+
+  scenario 'counters for landing page, total counter missing' do
+    expect_any_instance_of(ApplicationController).to receive(:opps_counter_stats).and_return({total: '', published_recently: '100', expiring_soon: '200'})
+
+    visit '/'
+    expect(page).to have_content('Find export opportunities.200 expiring soon!100 published recently!')
+  end
+
+  scenario 'counters for landing page, all counters missing' do
+    expect_any_instance_of(ApplicationController).to receive(:opps_counter_stats).and_return({total: '', published_recently: '100', expiring_soon: '200'})
+
+    visit '/'
+    expect(page).to have_content('Find export opportunities.')
+  end
+
 end
