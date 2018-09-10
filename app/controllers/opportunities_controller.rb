@@ -459,9 +459,7 @@ class OpportunitiesController < ApplicationController
 
   def title_content
     stats = opps_counter_stats
-    counter_opps_expiring_soon = stats[:expiring_soon]
     counter_opps_total = stats[:total]
-    counter_opps_published_recently = stats[:published_recently]
 
     str = 'Find '
     str += if counter_opps_total.present?
@@ -469,8 +467,6 @@ class OpportunitiesController < ApplicationController
            else
              'export opportunities.'
            end
-    str += "#{counter_opps_expiring_soon} expiring soon!" if counter_opps_expiring_soon.present?
-    str += "#{counter_opps_published_recently} published recently!" if counter_opps_published_recently.present?
     str
   end
 end

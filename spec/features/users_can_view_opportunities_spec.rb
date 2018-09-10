@@ -310,21 +310,21 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
   end
 
   scenario 'counters for landing page, all counters set' do
-    expect_any_instance_of(ApplicationController).to receive(:opps_counter_stats).and_return({total: '1000', published_recently: '100', expiring_soon: '200'})
+    expect_any_instance_of(ApplicationController).to receive(:opps_counter_stats).and_return({total: '1000'})
 
     visit '/'
-    expect(page).to have_content('Find over 1000 export opportunities.200 expiring soon!100 published recently!')
+    expect(page).to have_content('Find over 1000 export opportunities.')
   end
 
   scenario 'counters for landing page, total counter missing' do
-    expect_any_instance_of(ApplicationController).to receive(:opps_counter_stats).and_return({total: '', published_recently: '100', expiring_soon: '200'})
+    expect_any_instance_of(ApplicationController).to receive(:opps_counter_stats).and_return({total: ''})
 
     visit '/'
-    expect(page).to have_content('Find export opportunities.200 expiring soon!100 published recently!')
+    expect(page).to have_content('Find export opportunities.')
   end
 
-  scenario 'counters for landing page, all counters missing' do
-    expect_any_instance_of(ApplicationController).to receive(:opps_counter_stats).and_return({total: '', published_recently: '100', expiring_soon: '200'})
+  scenario 'counters for landing page, total counter nil' do
+    expect_any_instance_of(ApplicationController).to receive(:opps_counter_stats).and_return({total: nil})
 
     visit '/'
     expect(page).to have_content('Find export opportunities.')
