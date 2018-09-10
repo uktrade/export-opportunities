@@ -23,15 +23,14 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
   end
 
   scenario 'clicks on featured industries link, gets both OO and posts opportunities', :elasticsearch, :commit, js: true do
-    sector = create(:sector, slug: 'food-drink', id: 17, name: 'FoodDrink')
-    security_sector = create(:sector, slug: 'security', id: 11, name: 'Security')
+    sector = create(:sector, slug: 'food-drink', id: 9, name: 'FoodDrink')
+    security_sector = create(:sector, slug: 'security', id: 31, name: 'Security')
     security_opp = create(:opportunity, title: 'Italy - White hat hacker required', description: 'security food drink', sectors: [security_sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
     post_opp = create(:opportunity, title: 'France - Cow required', sectors: [sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
     oo_opp = create(:opportunity, title: 'Greece - Pimms food drink in Mykonos', description: 'food drink pimms mykonoos', source: :volume_opps, status: :publish, response_due_on: 1.week.from_now)
 
-    visit root_path
+    visit '/'
 
-    sleep 1
     click_on 'FoodDrink'
 
     expect(page).to have_content('Cow required')
@@ -310,24 +309,24 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
   end
 
   scenario 'counters for landing page, all counters set' do
-    expect_any_instance_of(ApplicationController).to receive(:opps_counter_stats).and_return({total: '1000'})
+    expect_any_instance_of(ApplicationController).to receive(:opps_counter_stats).and_return({total: 1000})
 
     visit '/'
-    expect(page).to have_content('Find over 1000 export opportunities.')
+    expect(page).to have_content('Find over 1000 export opportunities')
   end
 
   scenario 'counters for landing page, total counter missing' do
-    expect_any_instance_of(ApplicationController).to receive(:opps_counter_stats).and_return({total: ''})
+    expect_any_instance_of(ApplicationController).to receive(:opps_counter_stats).and_return({total: 0})
 
     visit '/'
-    expect(page).to have_content('Find export opportunities.')
+    expect(page).to have_content('Find export opportunities')
   end
 
   scenario 'counters for landing page, total counter nil' do
     expect_any_instance_of(ApplicationController).to receive(:opps_counter_stats).and_return({total: nil})
 
     visit '/'
-    expect(page).to have_content('Find export opportunities.')
+    expect(page).to have_content('Find export opportunities')
   end
 
 end
