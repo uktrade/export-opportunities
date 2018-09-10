@@ -5,8 +5,8 @@
 %section.hero-section.search-section
   .container
     = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
-
-    %h1= @title_content
+    
+    %h1= page.title @opportunities_stats[:total]
     %p= @content["description"]
     = render "opportunities/search_form"
 

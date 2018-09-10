@@ -12,7 +12,7 @@ class OpportunitiesController < ApplicationController
     @recent_opportunities = recent_opportunities
     @countries = all_countries
     @regions = regions_list
-    @title_content = title_content
+    @opportunities_stats = opportunities_stats
     if atom_request?
       query = Opportunity.public_search(
         search_term: @search_term,
@@ -457,16 +457,12 @@ class OpportunitiesController < ApplicationController
     @total = query.records.size
   end
 
-  def title_content
+  def opportunities_stats
     stats = opps_counter_stats
-    counter_opps_total = stats[:total]
-
-    str = 'Find '
-    str += if counter_opps_total.present?
-             "over #{counter_opps_total} export opportunities."
-           else
-             'export opportunities.'
-           end
-    str
+    {
+      total: stats[:total],
+      expiring_soon: stats[:expiring_soon],
+      published_recently: stats[:published_recently],
+    }
   end
 end

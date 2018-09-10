@@ -4,6 +4,14 @@ class LandingPresenter < PagePresenter
     @sector_list = sector_list
   end
 
+  def title(count = 0)
+    if count.present? && count.positive?
+      content_with_inclusion 'title', ["over #{count}"]
+    else
+      content_with_inclusion 'title', ['']
+    end
+  end
+
   def featured_industries
     industries = []
     @sector_list.each do |sector|
