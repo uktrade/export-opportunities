@@ -156,11 +156,11 @@ class ApplicationController < ActionController::Base
   end
 
   def opps_counter_stats
-    redis ||= Redis.new(url: Figaro.env.redis_url!)
+    @@redis ||= Redis.new(url: Figaro.env.redis_url)
 
-    counter_opps_expiring_soon = redis.get(:opps_counters_expiring_soon)
-    counter_opps_total = redis.get(:opps_counters_total)
-    counter_opps_published_recently = redis.get(:opps_counters_published_recently)
+    counter_opps_expiring_soon = @@redis.get(:opps_counters_expiring_soon)
+    counter_opps_total = @@redis.get(:opps_counters_total)
+    counter_opps_published_recently = @@redis.get(:opps_counters_published_recently)
 
     { total: counter_opps_total, expiring_soon: counter_opps_expiring_soon, published_recently: counter_opps_published_recently }
   end
