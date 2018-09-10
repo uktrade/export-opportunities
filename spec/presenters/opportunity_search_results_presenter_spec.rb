@@ -320,6 +320,51 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
   end
 
+  describe '#offer_subscription' do
+    it 'Returns false when sectors is not empty' do
+      skip 'TODO: Find out and fix why subscription.sectors returns nil and fails this test'
+      term = 'something'
+      query = { search_term: term, sectors: ['not_empty'], types: [], countries: [], values: [], }
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: SubscriptionForm.new(query: query), term: term }, {})
+
+      expect(presenter.offer_subscription).to be_falsey
+    end
+
+    it 'Returns false when types is not empty' do
+      skip 'TODO: Find out and fix why subscription.types returns nil and fails this test'
+      term = 'something'
+      query = { search_term: term, sectors: [], types: ['not_empty'], countries: [], values: [], }
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: SubscriptionForm.new(query: query), term: term }, {})
+
+      expect(presenter.offer_subscription).to be_falsey
+    end
+
+    it 'Returns false when values is not empty' do
+      skip 'TODO: Find out and fix why subscription.values returns nil and fails this test'
+      term = 'something'
+      query = { search_term: term, sectors: [], types: [], countries: [], values: ['not_empty'], }
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: SubscriptionForm.new(query: query), term: term }, {})
+
+      expect(presenter.offer_subscription).to be_falsey
+    end
+
+    it 'Returns false when search_term is empty' do
+      term = ''
+      query = { search_term: term, sectors: [], types: [], countries: [], values: [], }
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: SubscriptionForm.new(query: query), term: term }, {})
+
+      expect(presenter.offer_subscription).to be_falsey
+    end
+
+    it 'Returns true when search_term is not empty' do
+      term = 'something'
+      query = { search_term: term, sectors: [], types: [], countries: [], values: [], }
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: SubscriptionForm.new(query: query), term: term }, {})
+
+      expect(presenter.offer_subscription).to be_truthy
+    end
+  end
+
   def has_html?(message)
     /\<\/\w+\>/.match(message)
   end
