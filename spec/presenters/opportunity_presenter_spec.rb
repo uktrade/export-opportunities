@@ -174,6 +174,58 @@ RSpec.describe OpportunityPresenter do
     end
   end
 
+  describe '#supplier_preference?' do
+    it 'returns true when opportunity has supplier preference ids' do
+      create(:supplier_preference, id: 1, slug: 'foo', name: 'foo')
+      create(:supplier_preference, id: 2, slug: 'bar', name: 'bar')
+      create(:supplier_preference, id: 3, slug: 'diddle', name: 'diddle')
+      opportunity = create(:opportunity, supplier_preference_ids: [1, 2])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(opportunity.supplier_preference_ids).to_not be_nil
+      expect(opportunity.supplier_preference_ids).to_not be_empty
+      expect(presenter.supplier_preference?).to be_truthy
+    end
+
+    it 'returns false when opportunity does not have supplier preference ids' do
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(opportunity.supplier_preference_ids).to_not be_nil
+      expect(opportunity.supplier_preference_ids).to be_empty
+      expect(presenter.supplier_preference?).to be_falsey
+    end
+  end
+
+  describe '#supplier_preferences' do
+    it 'returns an empty string when has no supplier ids' do
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(opportunity.supplier_preference_ids.length).to eql(0)
+      expect(presenter.supplier_preferences).to be_empty
+    end
+
+    it 'returns a single supplier type as string when has one supplier id' do
+      create(:supplier_preference, id: 1, slug: 'foo', name: 'foo')
+      opportunity = create(:opportunity, supplier_preference_ids: [1])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(opportunity.supplier_preference_ids.length).to eql(1)
+      expect(presenter.supplier_preferences).to eql('foo')
+    end
+
+    it 'returns comma-separated supplier types as a string when has more than one supplier id' do
+      create(:supplier_preference, id: 1, slug: 'foo', name: 'foo')
+      create(:supplier_preference, id: 2, slug: 'bar', name: 'bar')
+      opportunity = create(:opportunity, supplier_preference_ids: [1, 2])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(opportunity.supplier_preference_ids.length).to eql(2)
+      expect(presenter.supplier_preferences).to eql('foo, bar')
+    end
+  end
+
   describe '#contact' do
     it 'return contact email when has one' do
       contact = create(:contact, email: 'foo@bar.com')
