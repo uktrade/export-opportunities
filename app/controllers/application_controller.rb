@@ -109,12 +109,18 @@ class ApplicationController < ActionController::Base
     azure_list_id = Figaro.env.AZ_CUSTOM_LIST_ID
     azure_az_api_key = "...#{Figaro.env.AZ_API_KEY[-4..-1]}"
 
+    @redis ||= Redis.new(url: Figaro.env.redis_url)
+
+    counter_opps_expiring_soon = @redis.get(:opps_counters_expiring_soon)
+    counter_opps_total = @redis.get(:opps_counters_total)
+    counter_opps_published_recently = @redis.get(:opps_counters_published_recently)
+
     volume_opps_failed_timestamp = redis.get(:application_error)&.strip
 
     if (sidekiq_retry_jobs_count - retry_count).positive? && days_since_last_failure(latest_sidekiq_failure) < PUBLISH_SIDEKIQ_ERROR_DAYS
       render json: { status: 'error', retry_error_count: sidekiq_retry_jobs_count }
     else
-      render json: { status: 'OK', fetched: { daily: daily_count, weekly: weekly_count, thirty_days: monthly_count }, trashed: { daily: trashed_daily_count, weekly: trashed_weekly_count, thirty_days: trashed_monthly_count }, pending: { daily: pending_daily_count, weekly: pending_weekly_count, thirty_days: pending_monthly_count }, api_config: { list_id: azure_list_id, api_key: azure_az_api_key }, latest_application_error: volume_opps_failed_timestamp }
+      render json: { status: 'OK', fetched: { daily: daily_count, weekly: weekly_count, thirty_days: monthly_count }, trashed: { daily: trashed_daily_count, weekly: trashed_weekly_count, thirty_days: trashed_monthly_count }, pending: { daily: pending_daily_count, weekly: pending_weekly_count, thirty_days: pending_monthly_count }, api_config: { list_id: azure_list_id, api_key: azure_az_api_key }, opportunities_counters: { total: counter_opps_total, expiring_soon: counter_opps_expiring_soon, published_recently: counter_opps_published_recently }, latest_application_error: volume_opps_failed_timestamp }
     end
   end
 
@@ -156,11 +162,11 @@ class ApplicationController < ActionController::Base
   end
 
   def opps_counter_stats
-    @@redis ||= Redis.new(url: Figaro.env.redis_url)
+    @redis ||= Redis.new(url: Figaro.env.redis_url)
 
-    counter_opps_expiring_soon = @@redis.get(:opps_counters_expiring_soon)
-    counter_opps_total = @@redis.get(:opps_counters_total)
-    counter_opps_published_recently = @@redis.get(:opps_counters_published_recently)
+    counter_opps_expiring_soon = @redis.get(:opps_counters_expiring_soon)
+    counter_opps_total = @redis.get(:opps_counters_total)
+    counter_opps_published_recently = @redis.get(:opps_counters_published_recently)
 
     { total: counter_opps_total, expiring_soon: counter_opps_expiring_soon, published_recently: counter_opps_published_recently }
   end
