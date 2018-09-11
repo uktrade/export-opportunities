@@ -168,7 +168,7 @@ class ApplicationController < ActionController::Base
     counter_opps_total = @redis.get(:opps_counters_total)
     counter_opps_published_recently = @redis.get(:opps_counters_published_recently)
 
-    { total: counter_opps_total, expiring_soon: counter_opps_expiring_soon, published_recently: counter_opps_published_recently }
+    { total: counter_opps_total.to_i, expiring_soon: counter_opps_expiring_soon.to_i, published_recently: counter_opps_published_recently.to_i }
   end
 
   private
