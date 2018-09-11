@@ -10,9 +10,9 @@ class OpportunitiesCounters
     today = Time.zone.now
     tomorrow = today + 3.days
     yesterday = today - 1.day
-    all_opps = Opportunity.where(status: :publish).where('response_due_on > ?', today).count
-    expiring_soon_opps = Opportunity.where(status: :publish).where('response_due_on > ?', today).where('response_due_on < ?', tomorrow.strftime('%Y-%m-%d')).count
-    published_recently_opps = Opportunity.where(status: :publish).where('created_at > ?', yesterday).count
+    all_opps = Opportunity.where(status: :publish).where('response_due_on >= ?', today.strftime('%Y-%m-%d')).count
+    expiring_soon_opps = Opportunity.where(status: :publish).where('response_due_on >= ?', today.strftime('%Y-%m-%d')).where('response_due_on <= ?', tomorrow.strftime('%Y-%m-%d')).count
+    published_recently_opps = Opportunity.where(status: :publish).where('created_at >= ?', yesterday.strftime('%Y-%m-%d')).count
 
     redis.set(:opps_counters_last_modified, today)
     redis.set(:opps_counters_total, all_opps.to_i)

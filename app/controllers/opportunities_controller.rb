@@ -185,7 +185,7 @@ class OpportunitiesController < ApplicationController
     country_list = []
     per_page = Opportunity.default_per_page
 
-    query = if @recent_opportunity_search then
+    query = if @recent_opportunity_search
               Opportunity.public_search(
                 search_term: @search_term,
                 filters: filters_with_mapped_regions,
@@ -200,7 +200,7 @@ class OpportunitiesController < ApplicationController
               )
             end
 
-  if atom_request?
+    if atom_request?
       atom_request_query(query)
     else
       results = query.records
