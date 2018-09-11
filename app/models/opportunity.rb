@@ -145,10 +145,10 @@ class Opportunity < ApplicationRecord
     results
   end
 
-  def self.public_search(search_term: nil, filters: NullFilter.new, sort:)
+  def self.public_search(search_term: nil, filters: NullFilter.new, limit: 0, sort:)
     query = OpportunitySearchBuilder.new(search_term: search_term, sectors: filters.sectors, countries: filters.countries, opportunity_types: filters.types, values: filters.values, sort: sort).call
 
-    ElasticSearchFinder.new.call(query[:search_query], query[:search_sort])
+    ElasticSearchFinder.new.call(query[:search_query], query[:search_sort], limit)
   end
 
   def self.public_featured_industries_search(sector, search_term)
@@ -216,7 +216,7 @@ class Opportunity < ApplicationRecord
 
     search_sort = [{ "response_due_on": { "order": 'asc' } }]
 
-    ElasticSearchFinder.new.call(search_query, search_sort)
+    ElasticSearchFinder.new.call(search_query, search_sort, 100)
   end
 
   def as_indexed_json(_ = {})

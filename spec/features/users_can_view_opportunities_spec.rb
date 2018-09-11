@@ -22,6 +22,24 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page.body).to have_content('6 results found')
   end
 
+  scenario 'clicks on view more opportunities from root, should only view opportunities up to the specified limit (*5 for ES shards)', :elasticsearch, :commit do
+    skip('TODO: fix to get to less opps')
+    country1 = create(:country, name: 'Selected 1')
+    create_list(:opportunity, 500, status: 'publish', countries: [country1], first_published_at: Time.zone.now)
+    visible_opportunity = create(:opportunity, status: 'publish', countries: [country1], title: 'need flags', first_published_at: Time.zone.now - 1.day)
+
+    visit '/'
+
+    expect(page).to have_content('Latest export opportunities')
+    expect(page).to have_content('View more')
+
+    sleep 10
+    click_on 'View more'
+
+    expect(page.body).to have_content('500 results found')
+    expect(page.body).to_not have_content(visible_opportunity.title)
+  end
+
   scenario 'clicks on featured industries link, gets both OO and posts opportunities', :elasticsearch, :commit, js: true do
     sector = create(:sector, slug: 'food-drink', id: 17, name: 'FoodDrink')
     security_sector = create(:sector, slug: 'security', id: 11, name: 'Security')
