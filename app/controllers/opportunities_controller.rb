@@ -40,7 +40,7 @@ class OpportunitiesController < ApplicationController
     @filters = SearchFilter.new(params)
 
     @search_term = params['s']
-    @recent_opps = params['s'].blank? && params[:sectors].blank? && params[:countries].blank? && params[:regions].blank?
+    @recent_opportunity_search = params['s'].blank? && params[:sectors].blank? && params[:countries].blank? && params[:regions].blank?
     @sort_column_name = sort_column
     @search_results = if params[:sectors]
                         sector = params[:sectors].first
@@ -185,7 +185,7 @@ class OpportunitiesController < ApplicationController
     country_list = []
     per_page = Opportunity.default_per_page
 
-    query = if @recent_opps then
+    query = if @recent_opportunity_search then
               Opportunity.public_search(
                 search_term: @search_term,
                 filters: filters_with_mapped_regions,
