@@ -129,6 +129,9 @@ class VolumeOppsRetriever
         opportunity_cpvs: opportunity_cpvs,
       }
     else
+      Rails.logger.error "description: #{description} opp release tender: #{opportunity_release['tender']}"
+      Rails.logger.error "country: #{country} opp[countryname]: #{opportunity['countryname']}"
+      Rails.logger.error "tender_url: #{tender_url} tender url docs: #{opportunity_release['tender']['documents']}"
       return nil
     end
   end

@@ -15,3 +15,9 @@ schedule_digest_email_notifications_job:
   class: "SendOpportunitiesDigest"
   queue: default
   active_job: true
+
+live_counter_job:
+  cron: "0 * * * *"
+  class: "OpportunitiesCounters"
+  queue: default
+  active_job: true

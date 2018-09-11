@@ -12,7 +12,7 @@ class OpportunitiesController < ApplicationController
     @recent_opportunities = recent_opportunities
     @countries = all_countries
     @regions = regions_list
-
+    @opportunities_stats = opportunities_stats
     if atom_request?
       query = Opportunity.public_search(
         search_term: @search_term,
@@ -467,5 +467,14 @@ class OpportunitiesController < ApplicationController
     @query = query
     @opportunities = query.records
     @total = query.records.size
+  end
+
+  def opportunities_stats
+    stats = opps_counter_stats
+    {
+      total: stats[:total],
+      expiring_soon: stats[:expiring_soon],
+      published_recently: stats[:published_recently],
+    }
   end
 end

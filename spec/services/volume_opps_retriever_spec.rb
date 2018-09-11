@@ -168,8 +168,7 @@ Les langages utilisés et à considérer comme obsolètes sont Matrix, Matlab, F
 
     skip('TODO: add the tests here in a periodically running suite')
     it 'fails gracefully when translate API fails' do
-      stub_request(:any, "#{Figaro.env.DL_HOSTNAME}?auth_key=#{Figaro.env.DL_API_KEY}&text=alex+jest+%C5%9Bwietny%2C+niech+%C5%BCyje+alex&target_lang=en&source_lang=pl").to_timeout
-
+      stub_request(:post, Figaro.env.DL_HOSTNAME).to_timeout
       opportunity = create(:opportunity, description: 'alex jest świetny, niech żyje alex', original_language: 'pl')
 
       expect { VolumeOppsRetriever.new.translate(opportunity, [:description, :teaser, :title], 'pl') }.to raise_error(Net::OpenTimeout)
