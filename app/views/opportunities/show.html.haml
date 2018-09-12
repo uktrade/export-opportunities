@@ -84,7 +84,7 @@
 
 
     .description
-      - if opportunity.description.present?
+      - if @opportunity.description.present? && (@opportunity.description != @opportunity.title)
         %h2 Description
         = opportunity.description
 
