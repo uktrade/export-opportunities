@@ -121,18 +121,12 @@ section {
 }
 
 #recent-opportunities {
+  padding-bottom: $spacing-3;
+
   form,
   .information,
   .pagination {
     display: none;
-  }
-
-  .opportunities-list {
-    margin-bottom: $spacing-1;
-  }
-
-  .more {
-    min-width: 250px;
   }
 }
 
@@ -181,7 +175,7 @@ section {
   background-position: top center;
   background-repeat: no-repeat;
   background-size: cover;
-  padding-bottom: $spacing-4;
+  padding-bottom: 0;
   position: relative;
 
   .Carousel {
@@ -262,13 +256,6 @@ section {
 
   .quote {
     width: auto;
-  }
-
-  #recent-opportunities {
-    .more {
-      min-width: 100px;
-      width: 100%;
-    }
   }
 }
 
