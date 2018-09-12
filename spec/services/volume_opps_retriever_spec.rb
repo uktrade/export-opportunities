@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe VolumeOppsRetriever do
   describe '#call' do
     it 'retrieves opps in volume' do
-      skip('TODO: fix')
       editor = create(:editor)
       country = create(:country, id: '11')
       create(:sector, id: '2')
@@ -52,6 +51,83 @@ RSpec.describe VolumeOppsRetriever do
     end
   end
 
+  describe '#opportunity_params' do
+    it 'validates and saves a valid opp' do
+      create(:country, name: 'eSwatini')
+      service_provider = create(:service_provider, id: 27, name: 'DIT HQ')
+      editor = create(:editor, service_provider: service_provider)
+      create(:sector, id: 2)
+      create(:type, id: 2)
+      create(:value, id: 2)
+
+      opp = build_opportunity_hash
+
+      params = VolumeOppsRetriever.new.opportunity_params(opp)
+
+      res = VolumeOppsValidator.new.validate_each(params)
+
+      expect(res).to eq(true)
+
+      CreateOpportunity.new(editor, :draft, :volume_opps).call(params)
+
+      saved_opp = Opportunity.first
+
+      expect(Opportunity.count).to eq(1)
+      expect(saved_opp.title).to eq(opp['json']['releases'][0]['tender']['title'])
+      expect(saved_opp.description).to eq(opp['json']['releases'][0]['tender']['description'])
+      expect(saved_opp.description).to_not eq(nil)
+    end
+
+    it 'saves an opportunity without description' do
+      create(:country, name: 'eSwatini')
+      service_provider = create(:service_provider, id: 27, name: 'DIT HQ')
+      editor = create(:editor, service_provider: service_provider)
+      create(:sector, id: 2)
+      create(:type, id: 2)
+      create(:value, id: 2)
+
+      opp = build_opportunity_hash
+
+      opp['json']['releases'][0]['tender']['description'] = nil
+
+      params = VolumeOppsRetriever.new.opportunity_params(opp)
+      res = VolumeOppsValidator.new.validate_each(params)
+
+      expect(res).to eq(true)
+
+      CreateOpportunity.new(editor, :draft, :volume_opps).call(params)
+
+      saved_opp = Opportunity.first
+
+      expect(Opportunity.count).to eq(1)
+      expect(saved_opp.title).to eq(opp['json']['releases'][0]['tender']['title'])
+      expect(saved_opp.description).to eq(opp['json']['releases'][0]['tender']['description'])
+      expect(saved_opp.description).to eq(nil)
+    end
+
+    it 'rejects an opportunity without country' do
+      opp = build_opportunity_hash
+
+      opp['json']['releases'][0]['tender']['description'] = nil
+
+      params = VolumeOppsRetriever.new.opportunity_params(opp)
+
+      expect(params).to eq(nil)
+    end
+
+    it 'rejects an opportunity without a valid tender URL' do
+      create(:country, name: 'eSwatini')
+
+      opp = build_opportunity_hash
+
+      opp['json']['releases'][0]['tender']['documents'][0]['url'] = nil
+
+      params = VolumeOppsRetriever.new.opportunity_params(opp)
+
+      expect(params).to eq(nil)
+    end
+  end
+
   describe '#contact_attributes' do
     it 'returns nil if no contactpoint present' do
       res = VolumeOppsRetriever.new.contact_attributes({})
@@ -83,8 +159,8 @@ RSpec.describe VolumeOppsRetriever do
     it 'converts values to GBP in opps, from a known currency, using seed exchange data, over 100,000GBP' do
       gbp_value = VolumeOppsRetriever.new.calculate_value(OpenStruct.new({amount: 141487.75, currency: 'USD'}))
 
-      expect(gbp_value[:id]).to eq 3
-      expect(gbp_value[:gbp_value]).to eq 100000.0
+      expect(gbp_value[:id]).to eq 2
+      expect(gbp_value[:gbp_value]).to eq 99999.47
     end
 
     it 'converts values to GBP in opps, from an unknown currency' do
@@ -94,6 +170,7 @@ RSpec.describe VolumeOppsRetriever do
       expect(gbp_value[:gbp_value]).to eq -1
     end
   end
+
 
   describe '#fixes title' do
     it 'do nothing if there is not a dot in the end and length is less or equal to 250 chars' do
@@ -192,5 +269,48 @@ Les langages utilisés et à considérer comme obsolètes sont Matrix, Matlab, F
     it 'will not try to translate english en-GB text' do
       expect(VolumeOppsRetriever.new.should_translate?('en-GB')).to eq false
     end
+  end
+
+  private def build_opportunity_hash
+    return {
+        countryname: 'eSwatini',
+        source: 'test source',
+        ocid: '2018-09-22-vlsgrc',
+        language: 'en',
+        json: {
+            releases: [
+                language: 'en',
+                tender: {
+                    tenderPeriod: {
+                        endDate: '2018-09-13'
+                    },
+                    title: 'test title',
+                    description: 'an optional description..',
+                    documents: [
+                        id: 'tender_url',
+                        url: 'http://great.gov.uk/fantastic_opportunities'
+                    ],
+                    items: [
+                        classification: {
+                            id: '1234',
+                            scheme: 'cpv'
+                        }
+                    ]
+                },
+                planning: {
+                    budget: {
+                        amount: {
+                          amount: 1000,
+                          currency: 'EUR'
+                        }
+                    }
+                },
+                buyer: {
+                    name: 'alex',
+                    address: '50 victoria street'
+                }
+            ]
+        }
+    }.with_indifferent_access
   end
 end

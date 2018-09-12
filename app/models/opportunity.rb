@@ -96,7 +96,7 @@ class Opportunity < ApplicationRecord
 
   validates :title, presence: true, length: { maximum: TITLE_LENGTH_LIMIT }
   validate :teaser, :teaser_validations
-  validates :response_due_on, :description, presence: true
+  validates :response_due_on, presence: true
   validate :contacts, :contact_validations
   validate :target_url, :enquiry_url_validations
 

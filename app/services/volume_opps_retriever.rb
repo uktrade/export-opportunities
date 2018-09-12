@@ -24,7 +24,7 @@ class VolumeOppsRetriever
   end
 
   def calculate_value(local_currency_value_hash)
-    value = local_currency_value_hash['amount']
+    value = local_currency_value_hash['amount'].to_i
     currency_name = local_currency_value_hash['currency']
 
     return { id: 3 } if value.nil? || currency_name.nil?
@@ -39,11 +39,11 @@ class VolumeOppsRetriever
     # 6, more than GBP50m,
     id = if gbp_value < 100_000 && gbp_value >= 0
            2
-         elsif gbp_value > 100_000 && gbp_value < 1_000_000
+         elsif gbp_value >= 100_000 && gbp_value < 1_000_000
            1
-         elsif gbp_value > 1_000_000 && gbp_value < 5_000_000
+         elsif gbp_value >= 1_000_000 && gbp_value < 5_000_000
            4
-         elsif gbp_value > 5_000_000 && gbp_value < 50_000_000
+         elsif gbp_value >= 5_000_000 && gbp_value < 50_000_000
            5
          elsif gbp_value > 50_000_000
            6
@@ -82,8 +82,6 @@ class VolumeOppsRetriever
     response_due_on = opportunity_release['tender']['tenderPeriod']['endDate'] if opportunity_release['tender']['tenderPeriod']
     description = if opportunity_release['tender']['description'].present?
                     opportunity_release['tender']['description']
-                  elsif opportunity_release['tender']['title'].present?
-                    opportunity_release['tender']['title']
                   end
 
     title = if opportunity_release['tender']['title'].present?
@@ -104,7 +102,7 @@ class VolumeOppsRetriever
     #                    opportunity['pubdate']
     #                  end
 
-    if description && country && tender_url
+    if country && tender_url.present?
       {
         title: title,
         country_ids: country.id,
@@ -129,7 +127,6 @@ class VolumeOppsRetriever
         opportunity_cpvs: opportunity_cpvs,
       }
     else
-      Rails.logger.error "description: #{description} opp release tender: #{opportunity_release['tender']}"
       Rails.logger.error "country: #{country} opp[countryname]: #{opportunity['countryname']}"
       Rails.logger.error "tender_url: #{tender_url} tender url docs: #{opportunity_release['tender']['documents']}"
       return nil
