@@ -2,10 +2,12 @@
 require 'rails_helper'
 
 RSpec.describe OpportunitySearchResultsPresenter do
-  CONTENT = { some: 'content', 
-              fields: {
-                countries: {
-                  question: 'Countries'
+  # Using '=>' syntax to mimic what we get from .yml files.
+  # Due to Ruby annoyance doesn't work with nicer syntax.
+  CONTENT = { 'some' => 'content',
+              'fields' => {
+                  'countries' => {
+                  'question' => 'Countries'
                 }
               }
             }.freeze
@@ -50,7 +52,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#displayed' do
-    it 'Returns a HTML containing information about results displayed' do
+    it 'Returns HTML containing information about results displayed' do
       create(:opportunity, :published, { title: 'food' })
       query = Opportunity.public_search(
         search_term: 'food',
@@ -100,14 +102,6 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#information' do
-    it 'Returns result found information message' do
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { total: 1 }, {})
-      message = presenter.information
-
-      expect(message).to eql('1 result found for all opportunities ')
-      expect(has_html?(message)).to be_falsey
-    end
-
     it 'Returns result found information message with search term' do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, { term: 'food', total: 1 }, {})
       message = presenter.information
@@ -135,6 +129,12 @@ RSpec.describe OpportunitySearchResultsPresenter do
       expect(message).to include(' in ')
       expect(has_html?(message)).to be_truthy
     end
+
+    it 'Returns blank message when empty search is performed' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { total: 10 }, {})
+
+      expect(presenter.information).to eql('')
+    end
   end
 
   describe '#searched_for' do
@@ -157,7 +157,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
     it 'Returns an empty string when searching without a specified term' do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
 
-      expect(presenter.searched_for).to eql(' for all opportunities ')
+      expect(presenter.searched_for).to eql('')
     end
   end
 
@@ -174,7 +174,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
     it 'Returns an empty string when searching without a specified term' do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
 
-      expect(presenter.searched_for_with_html).to eql(' for all opportunities ')
+      expect(presenter.searched_for_with_html).to eql('')
     end
   end
 
