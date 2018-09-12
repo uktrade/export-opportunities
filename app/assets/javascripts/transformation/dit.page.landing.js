@@ -4,6 +4,7 @@
 //= require transformation/dit.class.tabbed_area
 //= require transformation/dit.class.selective_lookup
 //= require transformation/dit.class.filter_select
+//= require transformation/dit.class.simple_form_restrictor
 
 dit.page.landing = (new function () {
   var _landing = this;
@@ -17,6 +18,7 @@ dit.page.landing = (new function () {
     cacheComponents();
     viewAdjustments(dit.responsive.mode());
     bindResponsiveListener();
+    addSearchFormRestriction();
     
     delete this.init; // Run once
   }
@@ -63,6 +65,17 @@ dit.page.landing = (new function () {
       clearAdjustments();
       destroyEffects();
       viewAdjustments(mode);
+    });
+  }
+
+  /* Prevent user trying to submit an empty opportunity search.
+   **/
+  function addSearchFormRestriction() {
+    $(".search-form").each(function() {
+      var $this = $(this);
+      new dit.classes.SimpleFormRestrictor($this, {
+        errorMessage: $this.data("error-empty")
+      });
     });
   }
 
