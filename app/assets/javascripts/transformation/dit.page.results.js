@@ -2,6 +2,7 @@
 //
 //= require transformation/dit.class.selective_lookup
 //= require transformation/dit.class.filter_select
+//= require transformation/dit.class.simple_form_restrictor
 
 dit.page.results = (new function () {
   var RESULTS = this;
@@ -10,6 +11,7 @@ dit.page.results = (new function () {
   this.init = function() {
     enhanceResultFilters();
     bindAutoUpdateListener();
+    addSearchFormRestriction();
 
     delete this.init; // Run once
   }
@@ -37,6 +39,12 @@ dit.page.results = (new function () {
     $("#search-sort").on("change", function() {
       this.form.submit();
     });
+  }
+
+  /* Prevent user trying to submit an empty opportunity search.
+   **/
+  function addSearchFormRestriction() {
+    new dit.classes.SimpleFormRestrictor($(".search"));
   }
 
 });
