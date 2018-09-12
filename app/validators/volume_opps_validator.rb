@@ -12,8 +12,6 @@ class VolumeOppsValidator
     # also:
     # language
 
-    # return false if opportunity[:description].blank?
-
     if opportunity[:title].blank?
       opportunity[:title] = opportunity[:description][0, 80]
     end
