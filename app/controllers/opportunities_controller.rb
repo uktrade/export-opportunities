@@ -40,7 +40,7 @@ class OpportunitiesController < ApplicationController
     @filters = SearchFilter.new(params)
 
     @search_term = params['s']
-    @recent_opportunity_search = params['s'].blank? && params[:sectors].blank? && params[:countries].blank? && params[:regions].blank?
+    @recent_opportunity_search = params['s'].blank? && params[:sectors].blank? && (params[:countries].blank? || params[:countries].all?(&:blank?)) && (params[:regions].blank? || params[:regions].all?(&:blank?))
     @sort_column_name = sort_column
     @search_results = if params[:sectors]
                         sector = params[:sectors].first

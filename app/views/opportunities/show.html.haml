@@ -84,8 +84,9 @@
 
 
     .description
-      %h2 Description
-      = opportunity.description
+      - if opportunity.description.present?
+        %h2 Description
+        = opportunity.description
 
       %dl
         %dt.expiry
