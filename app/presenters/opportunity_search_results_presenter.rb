@@ -1,7 +1,6 @@
 class OpportunitySearchResultsPresenter < FormPresenter
   attr_reader :found, :form_path, :term, :selected_list, :unfiltered_search_url
 
-
   def initialize(content, search, filters)
     super(content, {})
     @search = search
