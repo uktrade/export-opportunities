@@ -6,7 +6,7 @@ class LandingPresenter < PagePresenter
 
   def title(count = 0)
     if count.present? && count.positive?
-      content_with_inclusion 'title', ["over #{count}"]
+      content_with_inclusion 'title', ["over #{number_with_delimiter(count, delimiter: ',')}"]
     else
       content_with_inclusion 'title', ['']
     end
