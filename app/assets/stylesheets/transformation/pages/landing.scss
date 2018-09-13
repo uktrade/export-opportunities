@@ -96,6 +96,39 @@ section {
   p {
     width: $cols-6;
   }
+
+  .error {
+    position: relative;
+
+    select,
+    [type='search'] {
+      border-color: $flag-red;
+      outline: $flag-red solid 1px;
+    }
+
+    .SimpleFormRestrictorError {
+      color: $flag-red;
+      font-weight: bold;
+      margin-bottom: 5px;
+      padding-left: $spacing-4;
+      width: 100%;
+
+      &:before {
+        background-color: $flag-red;
+        content: "";
+        height: calc(100% - (#{$spacing-3} * 2));
+        left: $spacing-3;
+        position: absolute;
+        top: $spacing-3;
+        width: 3px;
+      }
+    }
+
+    .term {
+      margin-left: $spacing-4;
+      width: calc(50% - #{$spacing-4});
+    }
+  }
 }
 
 .Carousel {
@@ -121,18 +154,12 @@ section {
 }
 
 #recent-opportunities {
+  padding-bottom: $spacing-3;
+
   form,
   .information,
   .pagination {
     display: none;
-  }
-
-  .opportunities-list {
-    margin-bottom: $spacing-1;
-  }
-
-  .more {
-    min-width: 250px;
   }
 }
 
@@ -181,7 +208,7 @@ section {
   background-position: top center;
   background-repeat: no-repeat;
   background-size: cover;
-  padding-bottom: $spacing-4;
+  padding-bottom: 0;
   position: relative;
 
   .Carousel {
@@ -262,13 +289,6 @@ section {
 
   .quote {
     width: auto;
-  }
-
-  #recent-opportunities {
-    .more {
-      min-width: 100px;
-      width: 100%;
-    }
   }
 }
 

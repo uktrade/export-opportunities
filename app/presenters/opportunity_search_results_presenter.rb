@@ -1,6 +1,7 @@
 class OpportunitySearchResultsPresenter < FormPresenter
   attr_reader :found, :form_path, :term, :selected_list, :unfiltered_search_url
 
+
   def initialize(content, search, filters)
     super(content, {})
     @search = search
@@ -59,13 +60,17 @@ class OpportunitySearchResultsPresenter < FormPresenter
   end
 
   # Returns results information message (with HTML)
+  # We're not returning a message for empty searches or /opportunities location.
   # e.g. "X results found for [term] in [country] or [country]"
   def information
+    message = ''
     for_message = searched_for_with_html
     in_message = searched_in_with_html
-    message = found_message(@total)
-    message += for_message unless for_message.empty?
-    message += in_message unless in_message.empty?
+    if for_message.present? || in_message.present?
+      message = found_message(@total)
+      message += for_message
+      message += in_message
+    end
     message.html_safe
   end
 
@@ -80,8 +85,6 @@ class OpportunitySearchResultsPresenter < FormPresenter
                  else
                    @term.to_s
                  end
-    else
-      message += ' for all opportunities '
     end
     message.html_safe
   end
