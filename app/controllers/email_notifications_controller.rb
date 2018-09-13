@@ -17,7 +17,8 @@ class EmailNotificationsController < ApplicationController
       query = Opportunity.public_search(
         search_term: nil,
         filters: SearchFilter.new,
-        sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
+        sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc'),
+        limit: 100
       )
       @results = query.records.includes(:countries).includes(:opportunities_countries).to_a
     else

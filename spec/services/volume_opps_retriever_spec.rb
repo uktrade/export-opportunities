@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe VolumeOppsRetriever do
   describe '#call' do
     it 'retrieves opps in volume' do
-      skip('TODO: fix')
       editor = create(:editor)
       country = create(:country, id: '11')
       create(:sector, id: '2')
@@ -52,6 +51,83 @@ RSpec.describe VolumeOppsRetriever do
     end
   end
 
+  describe '#opportunity_params' do
+    it 'validates and saves a valid opp' do
+      create(:country, name: 'eSwatini')
+      service_provider = create(:service_provider, id: 27, name: 'DIT HQ')
+      editor = create(:editor, service_provider: service_provider)
+      create(:sector, id: 2)
+      create(:type, id: 2)
+      create(:value, id: 2)
+
+      opp = build_opportunity_hash
+
+      params = VolumeOppsRetriever.new.opportunity_params(opp)
+
+      res = VolumeOppsValidator.new.validate_each(params)
+
+      expect(res).to eq(true)
+
+      CreateOpportunity.new(editor, :draft, :volume_opps).call(params)
+
+      saved_opp = Opportunity.first
+
+      expect(Opportunity.count).to eq(1)
+      expect(saved_opp.title).to eq(opp['json']['releases'][0]['tender']['title'])
+      expect(saved_opp.description).to eq(opp['json']['releases'][0]['tender']['description'])
+      expect(saved_opp.description).to_not eq(nil)
+    end
+
+    it 'saves an opportunity without description' do
+      create(:country, name: 'eSwatini')
+      service_provider = create(:service_provider, id: 27, name: 'DIT HQ')
+      editor = create(:editor, service_provider: service_provider)
+      create(:sector, id: 2)
+      create(:type, id: 2)
+      create(:value, id: 2)
+
+      opp = build_opportunity_hash
+
+      opp['json']['releases'][0]['tender']['description'] = nil
+
+      params = VolumeOppsRetriever.new.opportunity_params(opp)
+      res = VolumeOppsValidator.new.validate_each(params)
+
+      expect(res).to eq(true)
+
+      CreateOpportunity.new(editor, :draft, :volume_opps).call(params)
+
+      saved_opp = Opportunity.first
+
+      expect(Opportunity.count).to eq(1)
+      expect(saved_opp.title).to eq(opp['json']['releases'][0]['tender']['title'])
+      expect(saved_opp.description).to eq(opp['json']['releases'][0]['tender']['description'])
+      expect(saved_opp.description).to eq(nil)
+    end
+
+    it 'rejects an opportunity without country' do
+      opp = build_opportunity_hash
+
+      opp['json']['releases'][0]['tender']['description'] = nil
+
+      params = VolumeOppsRetriever.new.opportunity_params(opp)
+
+      expect(params).to eq(nil)
+    end
+
+    it 'rejects an opportunity without a valid tender URL' do
+      create(:country, name: 'eSwatini')
+
+      opp = build_opportunity_hash
+
+      opp['json']['releases'][0]['tender']['documents'][0]['url'] = nil
+
+      params = VolumeOppsRetriever.new.opportunity_params(opp)
+
+      expect(params).to eq(nil)
+    end
+  end
+
   describe '#contact_attributes' do
     it 'returns nil if no contactpoint present' do
       res = VolumeOppsRetriever.new.contact_attributes({})
@@ -83,8 +159,8 @@ RSpec.describe VolumeOppsRetriever do
     it 'converts values to GBP in opps, from a known currency, using seed exchange data, over 100,000GBP' do
       gbp_value = VolumeOppsRetriever.new.calculate_value(OpenStruct.new({amount: 141487.75, currency: 'USD'}))
 
-      expect(gbp_value[:id]).to eq 3
-      expect(gbp_value[:gbp_value]).to eq 100000.0
+      expect(gbp_value[:id]).to eq 2
+      expect(gbp_value[:gbp_value]).to eq 99999.47
     end
 
     it 'converts values to GBP in opps, from an unknown currency' do
@@ -94,6 +170,7 @@ RSpec.describe VolumeOppsRetriever do
       expect(gbp_value[:gbp_value]).to eq -1
     end
   end
+
 
   describe '#fixes title' do
     it 'do nothing if there is not a dot in the end and length is less or equal to 250 chars' do
@@ -119,6 +196,7 @@ RSpec.describe VolumeOppsRetriever do
   end
 
   describe '#translates opportunity' do
+    skip('TODO: add the tests here in a periodically running suite')
     it 'translates a sample opp' do
       opportunity = create(:opportunity, description: 'alex jest świetny, niech żyje alex', original_language: 'pl')
 
@@ -128,6 +206,7 @@ RSpec.describe VolumeOppsRetriever do
       expect(opportunity.original_language).to eq('pl')
     end
 
+    skip('TODO: add the tests here in a periodically running suite')
     it 'queries translate API to translate the opportunity' do
       opportunity = create(:opportunity,
                            source: :volume_opps,
@@ -164,12 +243,74 @@ Les langages utilisés et à considérer comme obsolètes sont Matrix, Matlab, F
       expect(opportunity.teaser).to include('The services included in the market scope are described below')
     end
 
+    skip('TODO: add the tests here in a periodically running suite')
     it 'fails gracefully when translate API fails' do
-      stub_request(:any, "#{Figaro.env.DL_HOSTNAME}?auth_key=#{Figaro.env.DL_API_KEY}&text=alex+jest+%C5%9Bwietny%2C+niech+%C5%BCyje+alex&target_lang=en&source_lang=pl").to_timeout
-
+      stub_request(:post, Figaro.env.DL_HOSTNAME).to_timeout
       opportunity = create(:opportunity, description: 'alex jest świetny, niech żyje alex', original_language: 'pl')
 
       expect { VolumeOppsRetriever.new.translate(opportunity, [:description, :teaser, :title], 'pl') }.to raise_error(Net::OpenTimeout)
     end
+
+    skip('TODO: add the tests here in a periodically running suite')
+    it 'should not return 414 when the request-uri is too long' do
+      opportunity = create(:opportunity, description: Faker::Lorem::characters(8100), original_language: 'pl')
+
+      expect { VolumeOppsRetriever.new.translate(opportunity, [:description], 'pl') }.to_not raise_error
+    end
+
+    it 'will try to translate non english text' do
+      expect(VolumeOppsRetriever.new.should_translate?('pl')).to eq true
+    end
+
+    it 'will not try to translate english en text' do
+      expect(VolumeOppsRetriever.new.should_translate?('en')).to eq false
+    end
+
+    it 'will not try to translate english en-GB text' do
+      expect(VolumeOppsRetriever.new.should_translate?('en-GB')).to eq false
+    end
+  end
+
+  private def build_opportunity_hash
+    return {
+        countryname: 'eSwatini',
+        source: 'test source',
+        ocid: '2018-09-22-vlsgrc',
+        language: 'en',
+        json: {
+            releases: [
+                language: 'en',
+                tender: {
+                    tenderPeriod: {
+                        endDate: '2018-09-13'
+                    },
+                    title: 'test title',
+                    description: 'an optional description..',
+                    documents: [
+                        id: 'tender_url',
+                        url: 'http://great.gov.uk/fantastic_opportunities'
+                    ],
+                    items: [
+                        classification: {
+                            id: '1234',
+                            scheme: 'cpv'
+                        }
+                    ]
+                },
+                planning: {
+                    budget: {
+                        amount: {
+                          amount: 1000,
+                          currency: 'EUR'
+                        }
+                    }
+                },
+                buyer: {
+                    name: 'alex',
+                    address: '50 victoria street'
+                }
+            ]
+        }
+    }.with_indifferent_access
   end
 end

@@ -12,7 +12,7 @@ class OpportunitiesController < ApplicationController
     @recent_opportunities = recent_opportunities
     @countries = all_countries
     @regions = regions_list
-
+    @opportunities_stats = opportunities_stats
     if atom_request?
       query = Opportunity.public_search(
         search_term: @search_term,
@@ -38,7 +38,9 @@ class OpportunitiesController < ApplicationController
     convert_areas_params_into_regions_and_countries
     @content = get_content('opportunities/results.yml')
     @filters = SearchFilter.new(params)
+
     @search_term = params['s']
+    @recent_opportunity_search = params['s'].blank? && params[:sectors].blank? && (params[:countries].blank? || params[:countries].all?(&:blank?)) && (params[:regions].blank? || params[:regions].all?(&:blank?))
     @sort_column_name = sort_column
     @search_results = if params[:sectors]
                         sector = params[:sectors].first
@@ -182,11 +184,21 @@ class OpportunitiesController < ApplicationController
   private def opportunity_search
     country_list = []
     per_page = Opportunity.default_per_page
-    query = Opportunity.public_search(
-      search_term: @search_term,
-      filters: filters_with_mapped_regions,
-      sort: sort
-    )
+
+    query = if @recent_opportunity_search
+              Opportunity.public_search(
+                search_term: @search_term,
+                filters: filters_with_mapped_regions,
+                sort: sort,
+                limit: 100
+              )
+            else
+              Opportunity.public_search(
+                search_term: @search_term,
+                filters: filters_with_mapped_regions,
+                sort: sort
+              )
+            end
 
     if atom_request?
       atom_request_query(query)
@@ -455,5 +467,14 @@ class OpportunitiesController < ApplicationController
     @query = query
     @opportunities = query.records
     @total = query.records.size
+  end
+
+  def opportunities_stats
+    stats = opps_counter_stats
+    {
+      total: stats[:total],
+      expiring_soon: stats[:expiring_soon],
+      published_recently: stats[:published_recently],
+    }
   end
 end

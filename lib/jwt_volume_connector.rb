@@ -22,11 +22,12 @@ class JwtVolumeConnector
     raise Exception, 'invalid input' unless token && hostname && url
     connection = Faraday.new(url: hostname) do |f|
       f.response :logger
-      f.adapter  Faraday.default_adapter
+      f.options[:timeout] = 15
+      f.adapter Faraday.default_adapter
     end
 
     response = connection.get do |req|
-      req.url hostname + url + "&min_releasedate=#{from_date}&max_releasedate=#{to_date}"
+      req.url hostname + url + "&releasedate__gte=#{from_date}&releasedate__lt=#{to_date}"
       req.headers['Authorization'] = 'JWT ' + token
     end
 
@@ -34,5 +35,11 @@ class JwtVolumeConnector
     has_next ||= response_body['next']
 
     { data: response_body['results'], has_next: has_next, next_url: response_body['next'], status: response.status, count: response_body['count'] }
+  rescue JSON::ParserError => e
+    Rails.logger.error "Can't parse JSON result. Probably an Application Error 500 on VO side"
+    redis = Redis.new(url: Figaro.env.redis_url!)
+    redis.set(:application_error, Time.zone.now)
+
+    raise e
   end
 end

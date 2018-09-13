@@ -24,7 +24,7 @@ class VolumeOppsRetriever
   end
 
   def calculate_value(local_currency_value_hash)
-    value = local_currency_value_hash['amount']
+    value = local_currency_value_hash['amount'].to_i
     currency_name = local_currency_value_hash['currency']
 
     return { id: 3 } if value.nil? || currency_name.nil?
@@ -39,11 +39,11 @@ class VolumeOppsRetriever
     # 6, more than GBP50m,
     id = if gbp_value < 100_000 && gbp_value >= 0
            2
-         elsif gbp_value > 100_000 && gbp_value < 1_000_000
+         elsif gbp_value >= 100_000 && gbp_value < 1_000_000
            1
-         elsif gbp_value > 1_000_000 && gbp_value < 5_000_000
+         elsif gbp_value >= 1_000_000 && gbp_value < 5_000_000
            4
-         elsif gbp_value > 5_000_000 && gbp_value < 50_000_000
+         elsif gbp_value >= 5_000_000 && gbp_value < 50_000_000
            5
          elsif gbp_value > 50_000_000
            6
@@ -82,8 +82,6 @@ class VolumeOppsRetriever
     response_due_on = opportunity_release['tender']['tenderPeriod']['endDate'] if opportunity_release['tender']['tenderPeriod']
     description = if opportunity_release['tender']['description'].present?
                     opportunity_release['tender']['description']
-                  elsif opportunity_release['tender']['title'].present?
-                    opportunity_release['tender']['title']
                   end
 
     title = if opportunity_release['tender']['title'].present?
@@ -104,7 +102,7 @@ class VolumeOppsRetriever
     #                    opportunity['pubdate']
     #                  end
 
-    if description && country && tender_url
+    if country && tender_url.present?
       {
         title: title,
         country_ids: country.id,
@@ -129,6 +127,8 @@ class VolumeOppsRetriever
         opportunity_cpvs: opportunity_cpvs,
       }
     else
+      Rails.logger.error "country: #{country} opp[countryname]: #{opportunity['countryname']}"
+      Rails.logger.error "tender_url: #{tender_url} tender url docs: #{opportunity_release['tender']['documents']}"
       return nil
     end
   end
@@ -180,12 +180,12 @@ class VolumeOppsRetriever
 
   def jwt_volume_connector_data(token, hostname, url, from_date, to_date)
     JwtVolumeConnector.new.data(token, hostname, url, from_date, to_date)
-  rescue JSON::ParserError
+  rescue JSON::ParserError => e
     Rails.logger.error "Can't parse JSON result. Probably an Application Error 500 on VO side"
     redis = Redis.new(url: Figaro.env.redis_url!)
     redis.set(:application_error, Time.zone.now)
 
-    raise RuntimeError
+    raise e
   end
 
   def process_result_page(res, editor)
@@ -193,6 +193,7 @@ class VolumeOppsRetriever
     invalid_opp = 0
     valid_opp = 0
     invalid_opp_params = 0
+
     res[:data].each do |opportunity|
       # get language of opportunity
       opportunity_language = opportunity['language']
@@ -200,8 +201,16 @@ class VolumeOppsRetriever
       Rails.logger.info '.....we have ' + valid_opp.to_s + ' valid opps and ' + invalid_opp.to_s + ' invalid opps and ' + invalid_opp_params.to_s + ' invalid opp params already.....'
       opportunity_params = opportunity_params(opportunity)
 
+      process_opportunity = if opportunity_params && opportunity_params[:ocid]
+                              opportunity_doesnt_exist?(opportunity_params[:ocid])
+                            elsif opportunity_params.nil?
+                              false
+                            elsif opportunity_params[:ocid].nil?
+                              false
+                            end
+
       # count valid/invalid opps
-      if opportunity_params
+      if opportunity_params && process_opportunity
         if VolumeOppsValidator.new.validate_each(opportunity_params)
           translate(opportunity_params, %i[description teaser title], opportunity_language) if should_translate?(opportunity_language)
 
@@ -213,6 +222,8 @@ class VolumeOppsRetriever
 
       else
         invalid_opp_params += 1
+        Rails.logger.error "opportunity_params: #{opportunity_params}"
+        Rails.logger.info "duplicate opportunity fetch #{process_opportunity} for ocid: #{opportunity_params & [:ocid]}" unless opportunity_params
       end
     end
   end
@@ -258,6 +269,16 @@ class VolumeOppsRetriever
   # language has to be supported by our translation engine
   # language translation feature flag should be set to 'true'
   def should_translate?(language)
-    language != 'en' && ActiveModel::Type::Boolean.new.cast(Figaro.env.TRANSLATE_OPPORTUNITIES) && SUPPORTED_LANGUAGES.include?(language)
+    !((language != 'en') ^ (language != 'en-GB')) && ActiveModel::Type::Boolean.new.cast(Figaro.env.TRANSLATE_OPPORTUNITIES) && SUPPORTED_LANGUAGES.include?(language)
+  end
+
+  def opportunity_doesnt_exist?(ocid)
+    raise unless ocid
+    count = Opportunity.where(ocid: ocid).count
+    if count.zero?
+      true
+    else
+      false
+    end
   end
 end

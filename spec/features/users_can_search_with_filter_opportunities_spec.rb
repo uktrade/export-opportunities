@@ -6,7 +6,7 @@ feature 'Searching opportunities with filter', elasticsearch: true do
     opportunity = create(:opportunity, :published)
     opportunity_with_market = create(:opportunity, :published, countries: [country])
 
-    sleep 1
+    sleep 3
     visit opportunities_path
 
     # select Western Europe region

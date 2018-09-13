@@ -1,7 +1,8 @@
 # Export Opportunities Home
 # -------------------------
-title: Find export opportunities
-description: Search for opportunities and pitch your company to overseas buyers who are looking for products and services like yours.
+title_with_count: Search over [$include_opportunity_count] export opportunities
+title_without_count: Search export opportunities
+description: Find export sales leads and pitch your company to overseas buyers who are looking for products and services like yours.
 
 testimonials:
   - name: Adam Sopher

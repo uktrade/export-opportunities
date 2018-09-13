@@ -1,4 +1,4 @@
-%form.search-form{:action=>opportunities_path, :method=>"get"}
+%form.search-form{:action=>opportunities_path, :method=>"get", :data=>{"error-empty": "Please type in a product or service and/or select a region or country"}}
   %label.term
     %span.verbose Product or service keyword
     %input{:name=>"s", :placeholder=>"What product or service are you selling?", :autocomplete=>"off", :type=>"search"}
