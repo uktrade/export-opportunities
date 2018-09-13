@@ -159,7 +159,6 @@ feature 'admins can download opportunities' do
     click_on 'Download as CSV'
 
     expect(page).to have_button('Download as CSV', disabled: false)
-    # find_button('Download as CSV')['disabled'].should_not eq 'disabled'
   end
 
   scenario 'downloading opportunities - submit button is re-enabled when form changes: JavaScript On', js: true do
