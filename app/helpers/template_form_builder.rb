@@ -17,36 +17,54 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
                @template.content_tag(:legend, props[:question])
              end
 
+    # Create naming to match (legacy usage of) Rails date_select field
     day_name = "#{@object_name}[#{method}(3i)]"
+    day_id = "#{@object_name}_#{method}_3i"
     day_value = nil
 
     month_name = "#{@object_name}[#{method}(2i)]"
+    month_id = "#{@object_name}_#{method}_2i"
     month_value = nil
 
     year_name = "#{@object_name}[#{method}(1i)]"
+    year_id = "#{@object_name}_#{method}_1i"
     year_value = nil
 
-    date = @object[method]
-    if date.present?
-      day_value = date.day
-      month_value = date.month
-      year_value = date.year
+    # Set the date value if we have one
+    date_value = @object[method]
+    if date_value.present?
+      day_value = date_value.day
+      month_value = date_value.month
+      year_value = date_value.year
     end
-    
+
+    # Creates a DateTimeSelector instance which consists of three select fields
+    # We can then split them up and arrange appropriate markup, unlike when 
+    # trying to directly use date_select method (which uses this Class as well).
+    date_fields = ActionView::Helpers::DateTimeSelector.new(date_value, { use_two_digit_numbers: true }, attributes)
+    day_field = date_fields.select_day.gsub(/date\[day\]/, day_name)
+    day_field = day_field.gsub(/date_day/, day_id)
+
+    month_field = date_fields.select_month.gsub(/date\[month\]/, month_name)
+    month_field = month_field.gsub(/date_month/, month_id)
+
+    year_field = date_fields.select_year.gsub(/date\[year\]/, year_name)
+    year_field = year_field.gsub(/date_year/, year_id)
+
     @template.content_tag(
       :fieldset,
       legend +
       (@template.label_tag(day_name, nil, class: 'day') do
          @template.content_tag(:span, 'Day') +
-         @template.text_field_tag(day_name, day_value, { size: 2 }.merge(attributes))
+         day_field.html_safe
        end) +
       (@template.label_tag(month_name, nil, class: 'month') do
          @template.content_tag(:span, 'Month') +
-         @template.text_field_tag(month_name, month_value, { size: 2 }.merge(attributes))
+         month_field.html_safe
        end) +
       (@template.label(year_name, nil, class: 'year') do
          @template.content_tag(:span, 'Year') +
-         @template.text_field_tag(year_name, year_value, { size: 4 }.merge(attributes))
+         year_field.html_safe
        end),
       class: 'field date-month-year'
     )

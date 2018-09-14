@@ -128,10 +128,11 @@ textarea {
     margin: 0 $spacing-4 0 0;
     padding-top: 55px;
     position: relative;
-    width: 50px;
+    width: 65px;
   }
 
-  input {
+  select {
+    margin-bottom: 0;
     position: absolute;
     top: 0;
   }
