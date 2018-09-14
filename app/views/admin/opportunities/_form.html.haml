@@ -37,7 +37,6 @@
     - attrs = {}
     - if @opportunity.value_ids.present?
       - attrs = { default: @opportunity.value_ids[0] }
-    = attrs
     = f.input_radio :value_ids, form.input_radio('values', @values), attrs
 
     = f.input_select :country_ids, form.input_select('countries', @countries), { multiple: true, size: '5', data: { node: 'countries', unselected: content['countries_unselected'], display: content['countries_selected_title'] } }
