@@ -77,6 +77,10 @@
   %tr
     %th{:scope => 'row'} Service provider
     %td= @opportunity.service_provider.try(:name)
+  -if @opportunity.tender_url.present?
+    %tr
+      %th{:scope => 'row'} Third-party (original) link
+      %td= link_to @opportunity.tender_url, @opportunity.tender_url.html_safe, target: "_blank"
   %tr
     %th{:scope => 'row'} RAGG
     %td{:class => 'ragg-cell'}=@opportunity.ragg
