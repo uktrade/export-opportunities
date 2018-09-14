@@ -72,6 +72,10 @@ class OpportunityPresenter < BasePresenter
     end
   end
 
+  def supplier_preferences
+    opportunity.supplier_preferences.map(&:name).join(', ')
+  end
+
   def contact
     contact = ''
     if opportunity.contacts.length.positive?
@@ -139,6 +143,12 @@ class OpportunityPresenter < BasePresenter
 
   def buyer_details_empty?
     buyer_name.blank? && buyer_address.blank? && opportunity.contacts.empty?
+  end
+
+  def supplier_preference?
+    if opportunity.respond_to? :supplier_preference_ids
+      opportunity.supplier_preference_ids.present?
+    end
   end
 
   private
