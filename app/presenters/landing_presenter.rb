@@ -8,6 +8,7 @@ class LandingPresenter < PagePresenter
     if count.present? && count.positive?
       number = content_tag('span', number_with_delimiter(count, delimiter: ','), class: 'number')
       content_with_inclusion 'description', [number]
+
     else
       content_without_inclusion 'description'
     end
