@@ -10,65 +10,78 @@
 -# =@encrypted_user_id.to_s
 
 - if @count > 1
-  %h1{:style=>"font-size:30px"} 
-    = @count
-    matching opportunities
+  %h1{ style: "font-size:30px" }
+    New matching opportunities
 
   %br
   %p
     You have
-    %b{:style=>"font-size:30px"}
+    %b{ style: "font-size:30px" }
       = @count
     opportunities that match your criteria
 - else
-  %h1{:style=>"font-size:30px"} 
+  %h1{ style: "font-size:30px" }
     = @count
     matching opportunity
 
   %br
   %p
     You have
-    %b{:style=>"font-size:30px"}
+    %b{ style: "font-size:30px" }
       = @count
     opportunity that matches your criteria
 
-%br
+%hr{ style: "background-color:#f2eee8;  border:none; height:1px; margin-bottom:30px;" }
 
 - @opportunities.each do |opp|
   - opportunity = OpportunityPresenter.new(self, opp)
-  %table.opportunity{ :border=>"0", :cellpadding=>"30", :cellspacing=>"0", :bgcolor=>"#f2eee8", :width=>"540", :style=> "table-layout: fixed;" }
+  %table.opportunity{ border: "0", cellpadding: "30", cellspacing: "0", bgcolor: "#f2eee8", width: "540", style: "table-layout: fixed;" }
     %tr
       %td
         - if opportunity.source('volume_opps')
-          %p{:style=>"font-size:16px"}
+          %p{ style: "font-size:16px" }
             Provided by
             %br
-            = image_tag "logos/openopps_logo.png", :alt=>"Open Opps", :width=>"150"
+            = image_tag "logos/openopps_logo.png", alt: "Open Opps", width: "150"
 
         %b
-          = link_to opportunity.title_with_country, opportunity_url(opp), { :style=>"white-space:inherit;" }
+          = link_to opportunity.title_with_country, opportunity_url(opp), { style: "white-space:inherit;" }
         %br
         %br
         = opportunity.teaser
         %br
         %br
-        %p{:style=>"font-size:16px; margin-bottom:0;"}
+        %p{ style: "font-size:16px; margin-bottom:0;" }
           Opportunity expires:
           = opportunity.expires
 
-  %hr{ :style=>"background-color: #B00D23; height: 2px; margin: 0px; border: 2px solid #b00d23;" }
+  %hr{ style: "background-color: #B00D23; height: 2px; margin: 0px; border: 2px solid #b00d23;" }
+  %br
+  %p
+    = link_to "View all opportunities", "#{Figaro.env.DOMAIN}/email_notifications/#{@encrypted_user_id}", { style: "font-weight:bold;" }
   %br
 
-%p.action
-  = link_to "View all matching opportunities", "#{Figaro.env.DOMAIN}/email_notifications/#{@encrypted_user_id}", { :style=>"padding:10px 0px 10px 0px; text-align:center; width:100%" }
+%p
+  = link_to "Search for other opportunities", root_url, { style: "font-weight:bold;" }
 
 %br
-%p
-  You can also
-  = link_to "search for other export opportunities", root_url
+
+%p{ style: "font-weight:bold;" }
+  To get daily email alerts for specific opportunities:
+%ol
+  %li{ style: "margin-bottom:15px;" }
+    Go to
+    =link_to "your account", Figaro.env.SUD_PROFILE_PAGE_EMAIL_ALERTS.to_s
+    and unsubscribe from any alerts for "all opportunities".
+  %li{ style: "margin-bottom:15px;" }
+    Go to
+    =link_to "export opportunities", root_url
+    and enter the products, services, or countries you want to get notifications for.
+  %li{ style: "margin-bottom:15px;" }
+    You will then be prompted to subscribe to email alerts for the search terms you have entered.
 
 - content_for :email_sub_footer do
-  %table{ :border=>"0", :cellpadding=>"30", :cellspacing=>"0", :width=>"600" }
+  %table{ border: "0", cellpadding: "30", cellspacing: "0", width: "600" }
     %tr
       %td
         %center
