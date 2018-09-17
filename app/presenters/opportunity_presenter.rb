@@ -141,6 +141,10 @@ class OpportunityPresenter < BasePresenter
     buyer_name.blank? && buyer_address.blank? && opportunity.contacts.empty?
   end
 
+  def translated?
+    opportunity.original_language.casecmp('en') != 0
+  end
+
   private
 
   attr_reader :h, :opportunity

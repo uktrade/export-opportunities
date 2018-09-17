@@ -100,6 +100,16 @@
           = opportunity.value
 
 
+    .disclaimer
+      %p
+        This website contains links to other websites that we do not control or maintain. We are not responsible for the content of these sites. We provide these links for your convenience only, and do not necessarily endorse their content.
+      %p
+        Before entering into a contract, you should make your own enquiries and be satisfied by the accuracy of any information supplied to you.
+      -if opportunity.translated?
+        %p
+          This opportunity has been translated from its original language. You should check if you need to apply in the original language.
+
+
     - unless opportunity.source('post') || opportunity.buyer_details_empty?
       .buyer
         %h2 About the buyer
@@ -142,4 +152,3 @@
           = link_to 'Contact buyer', new_enquiry_path(@opportunity.slug), class: 'button abcbutton'
 
     = render partial: 'components/sharing_links', locals: { title: opportunity.title_with_country, path: opportunity_url(@opportunity) }
-
