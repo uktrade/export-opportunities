@@ -67,7 +67,6 @@ h1 {
 
 .disclaimer {
   @include content;
-  clear: both;
   margin-bottom: $spacing-1;
 
   p {
