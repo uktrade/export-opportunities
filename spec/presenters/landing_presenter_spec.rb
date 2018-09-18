@@ -4,11 +4,12 @@ require 'rails_helper'
 RSpec.describe LandingPresenter do
   describe '#initialize' do
     it 'initializes a presenter' do
-      content = { 'some': "content" }
-      industries = Sector.where(id: [9, 31])
-      presenter = LandingPresenter.new(content, industries)
+      create(:sector, { slug: 'sector-1', name: 'sector one', id: 9 })
+      create(:sector, { slug: 'sector-2', name: 'sector two', id: 31 })
+      presenter = LandingPresenter.new({}, Sector.where(id: [9, 31]))
+      sector_list = presenter.instance_variable_get(:@sector_list)
 
-      expect(presenter.breadcrumbs).to_not be_nil
+      expect(sector_list.length).to eql(2)
     end
   end
 
@@ -56,15 +57,16 @@ RSpec.describe LandingPresenter do
     end
   end
 
-  # TODO:fix - more tests required
   describe '#featured_industries' do
-    it 'should return a list' do
-      skip('Need to add some proper tests to keep presenter on track')
-      content = { 'some': "content" }
-      industries = Sector.where(id: [9, 31])
-      presenter = LandingPresenter.new(content, industries)
+    it 'should return a list of featured industries' do
+      create(:sector, { slug: 'sector-1', name: 'sector one', id: 9 })
+      create(:sector, { slug: 'sector-2', name: 'sector two', id: 31 })
+      presenter = LandingPresenter.new({}, Sector.where(id: [9, 31]))
+      sector_list = presenter.instance_variable_get(:@sector_list)
 
-      expect(presenter.featured_industries.length).to eq(2)
+      expect(presenter.featured_industries.length).to eql(2)
+      expect(presenter.featured_industries[0][:title]).to eql('sector one')
+      expect(presenter.featured_industries[0][:url]).to eql('/opportunities?sectors[]=sector-1')
     end
   end
 end
