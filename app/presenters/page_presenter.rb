@@ -4,8 +4,7 @@ class PagePresenter < BasePresenter
   def initialize(content)
     @content = content
     @breadcrumbs = create_breadcrumbs
-
-    add_breadcrumb_current(content['breadcrumb_current']) unless content.blank?
+    add_breadcrumb_current(content['breadcrumb_current']) if content.present?
   end
 
   # Injects values into a formatted string
