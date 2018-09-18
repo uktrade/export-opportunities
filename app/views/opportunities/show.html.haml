@@ -101,13 +101,10 @@
 
 
     .disclaimer
-      %p
-        This website contains links to other websites that we do not control or maintain. We are not responsible for the content of these sites. We provide these links for your convenience only, and do not necessarily endorse their content.
-      %p
-        Before entering into a contract, you should make your own enquiries and be satisfied by the accuracy of any information supplied to you.
+      %p= @content["disclaimer_1"]
+      %p= @content["disclaimer_2"]
       -if opportunity.translated?
-        %p
-          This opportunity has been translated from its original language. You should check if you need to apply in the original language.
+        %p= @content["disclaimer_3"]
 
 
     - unless opportunity.source('post') || opportunity.buyer_details_empty?
