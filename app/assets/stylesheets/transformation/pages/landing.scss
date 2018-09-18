@@ -66,12 +66,8 @@ section {
     width: $cols-6;
   }
 
-  &.international {
-    padding-top: $spacing-2;
-
-    h1 {
-      max-width: 500px;
-    }
+  .number {
+    @include heading-m;
   }
 }
 

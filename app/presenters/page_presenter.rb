@@ -7,23 +7,58 @@ class PagePresenter < BasePresenter
     add_breadcrumb_current(content['breadcrumb_current']) if content.present?
   end
 
-  # Injects values into a formatted string
+  # Injects values into a formatted string.
+  # Unmatched markers (not enough arguments) leave the
+  # inclusion markers in place.
   #
-  # e.g. Returns string "something goes here and there"
+  # e.g. Returns string "Hello Darth Vader"
   # when
-  # str = "something [$any_name] here and [$another_string]"
+  # content = "Hello [$first_name] [$last_name]"
   # and
-  # includes = ["goes", "there"]
+  # includes = ["Darth", "Vader"]
   #
-  # The identifiers any_name and another_string are irrelevant
+  # e.g. Returns string "Hello Darth [$last_name]"
+  # when
+  # content = "Hello [$first_name] [$last_name]"
+  # and
+  # includes = ["Darth"]
+  #
+  # e.g. Returns string "Hello  Vader"
+  # when
+  # content = "Hello [$first_name] [$last_name]"
+  # and
+  # includes = ["", "Vader"]
+  #
+  # The inclusion markers first_name and last_name are irrelevant
   # and only need be used to help understand what content will
   # be injected.
+  #
+  # e.g. Returns string "Hello Darth Vader"
+  # when
+  # content = "Hello [$first_name] [$last_name]"
+  # or
+  # content = "Hello [$anything_here] [$whatever]"
+  # and
+  # includes = ["Darth", "Vader"]
+  #
   def content_with_inclusion(key, includes)
     str = @content[key] || ''
     includes.each do |include|
       str = str.sub(/\[\$.+?\]/, include)
     end
-    str
+    str.gsub(/\s+/, ' ').html_safe
+  end
+
+  # Similar to content_with_inclusion but replaces all
+  # inclusion markers with blank '' string.
+  #
+  # e.g. Returns string "Hello  "
+  # when
+  # str = "Hello [$first_name] [$second_name]"
+  #
+  def content_without_inclusion(key)
+    str = @content[key] || ''
+    str.gsub(/\[\$.+?\]/, '').gsub(/\s+/, ' ').html_safe
   end
 
   def create_trade_profile_url(number = '')
