@@ -50,14 +50,15 @@
     - if policy(@opportunities).show_ragg?
       %th{:scope => 'col'} Triage
     %th{:scope => 'col'}= sortable(:opportunity_filters, 'title', 'Title', 'asc', @filters.sort)
-    %th{:scope => 'col', :width => '7%'}= sortable(:opportunity_filters, 'status', 'Status', 'asc', @filters.sort)
-    %th{:scope => 'col', :width => '12%'}= sortable(:opportunity_filters, 'service_provider_name', 'Service provider', 'asc', @filters.sort)
-    %th.numeric{:scope => 'col', :width => '3%'}= sortable(:opportunity_filters, 'enquiries_count', 'Enquiries received', 'desc', @filters.sort)
-    %th.numeric{:scope => 'col', :width => '12%'}= sortable(:opportunity_filters, 'created_at', 'Created date', 'desc', @filters.sort)
-    %th.numeric{:scope => 'col', :width => '12%'}= sortable(:opportunity_filters, 'first_published_at', 'First published', 'desc', @filters.sort)
-    %th.numeric{:scope => 'col', :width => '8%'} Source
-    %th.numeric{:scope => 'col', :width => '8%'} Feed
-    %th.numeric{:scope => 'col', :width => '7%'}= sortable(:opportunity_filters, 'response_due_on', 'Expiry date', 'asc', @filters.sort)
+    %th{:scope => 'col'}= sortable(:opportunity_filters, 'status', 'Status', 'asc', @filters.sort)
+    %th{:scope => 'col'}= sortable(:opportunity_filters, 'service_provider_name', 'Service provider', 'asc', @filters.sort)
+    %th.numeric{:scope => 'col'}= sortable(:opportunity_filters, 'enquiries_count', 'Enquiries received', 'desc', @filters.sort)
+    %th.numeric{:scope => 'col'}= sortable(:opportunity_filters, 'created_at', 'Created date', 'desc', @filters.sort)
+    %th.numeric{:scope => 'col'}= sortable(:opportunity_filters, 'first_published_at', 'First published', 'desc', @filters.sort)
+    %th.numeric{:scope => 'col'}=sortable(:opportunity_filters, 'original_language', 'Original language', 'desc', @filters.sort)
+    %th.numeric{:scope => 'col'} Source
+    %th.numeric{:scope => 'col'} Feed
+    %th.numeric{:scope => 'col'}= sortable(:opportunity_filters, 'response_due_on', 'Expiry date', 'asc', @filters.sort)
   %tbody
     - @opportunities.each do |opportunity|
     - opportunity_ragg_abbreviated = opportunity.ragg !='undefined' ? opportunity.ragg.chars.first.upcase : '-'
@@ -77,6 +78,7 @@
         %td.numeric= opportunity.enquiries.size
         %td.numeric= opportunity.created_at.to_s(:admin_datetime)
         %td.numeric.first-published= opportunity.first_published_at&.to_s(:admin_datetime)
+        %td.numeric= opportunity.original_language
         %td.numeric.source= opportunity.source
         %td= opportunity.tender_source
         %td.numeric= opportunity.response_due_on.to_s(:admin_date)
