@@ -65,6 +65,15 @@ h1 {
   }
 }
 
+.disclaimer {
+  @include content;
+  margin-bottom: $spacing-1;
+
+  p {
+    @include body-s;
+  }
+}
+
 .opportunity {
   margin-bottom: $spacing-1;
   padding-left: $cols-2;

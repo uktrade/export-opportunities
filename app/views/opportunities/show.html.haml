@@ -100,6 +100,13 @@
           = opportunity.value
 
 
+    .disclaimer
+      %p= @content["disclaimer_1"]
+      %p= @content["disclaimer_2"]
+      -if opportunity.translated?
+        %p= @content["disclaimer_3"]
+
+
     - unless opportunity.source('post') || opportunity.buyer_details_empty?
       .buyer
         %h2 About the buyer
@@ -142,4 +149,3 @@
           = link_to 'Contact buyer', new_enquiry_path(@opportunity.slug), class: 'button abcbutton'
 
     = render partial: 'components/sharing_links', locals: { title: opportunity.title_with_country, path: opportunity_url(@opportunity) }
-

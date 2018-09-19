@@ -344,4 +344,20 @@ RSpec.describe OpportunityPresenter do
       expect(presenter.buyer_details_empty?).to eq false
     end
   end
+
+  describe '#translated?' do
+    it 'returns false when opportunity has been translated' do
+      opportunity = create(:opportunity, original_language: 'en')
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.translated?).to be_falsey
+    end
+
+    it 'returns true when opportunity has been translated' do
+      opportunity = create(:opportunity, original_language: 'pl')
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.translated?).to be_truthy
+    end
+  end
 end
