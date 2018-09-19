@@ -3,23 +3,31 @@
 
   li {
     border: $stone-50 solid 2px;
-    margin-bottom: $spacing-3;
+    margin-bottom: $spacing-4;
+    overflow: hidden;
     padding: $spacing-3 0 0 0;
   }
 
   .expires {
     @include body-s;
-    border-top: 1px solid $light-grey;
-    clear: both;
-    display: block;
-    margin-top: $spacing-4;
+    box-sizing: border-box;
+    float: left;
     padding: $spacing-4 $spacing-3;
   }
 
+  .published {
+    @include body-s;
+    box-sizing: border-box;
+    float: right;
+    padding: $spacing-4 $spacing-3;
+    text-align: right;
+  }
+
   .text {
+    border-bottom: $stone-50 solid 1px;
     clear: both;
     display: block;
-    padding: 0 $spacing-3 $spacing-4 $spacing-3;
+    padding: 0 $spacing-3 $spacing-3 $spacing-3;
   }
 
   .title {
@@ -27,7 +35,8 @@
     display: block;
     float: left;
     font-weight: bold;
-    padding: 0 $spacing-3 $spacing-4 $spacing-3;
+    margin-bottom: $spacing-4;
+    padding: 0 $spacing-3;
   }
 }
 
@@ -68,12 +77,24 @@
     }
 
     .expires {
-      padding: $spacing-4 $spacing-3-m;
+      display: block;
+      float: none;
+      padding: $spacing-3-m $spacing-3-m 0 $spacing-3-m;
     }
 
-    .text,
+    .published {
+      display: block;
+      float: none;
+      padding: 0 $spacing-3-m $spacing-3-m $spacing-3-m;
+      text-align: left;
+    }
+
+    .text  {
+      padding: 0 $spacing-3-m $spacing-3-m $spacing-3-m;
+    }
+
     .title {
-      padding: 0 $spacing-3-m $spacing-4 $spacing-3-m;
+      padding: 0 $spacing-3-m;
     }
   }
 
