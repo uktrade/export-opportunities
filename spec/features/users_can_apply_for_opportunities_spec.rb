@@ -213,7 +213,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
   private
 
   def be_an_enquiry_form
-    have_selector('h1', text: 'You are submitting a proposal for')
+    have_selector('h1', text: 'You are expressing an interest in')
   end
 
   def fill_in_form
