@@ -56,7 +56,7 @@
     %th.numeric{:scope => 'col'}= sortable(:opportunity_filters, 'created_at', 'Created date', 'desc', @filters.sort)
     %th.numeric{:scope => 'col'}= sortable(:opportunity_filters, 'first_published_at', 'First published', 'desc', @filters.sort)
     %th.numeric{:scope => 'col'}=sortable(:opportunity_filters, 'original_language', 'Original language', 'desc', @filters.sort)
-    %th.numeric{:scope => 'col'} Source
+    %th.numeric{:scope => 'col'}=sortable(:opportunity_filters, 'source', 'Source', 'asc', @filters.sort)
     %th.numeric{:scope => 'col'} Feed
     %th.numeric{:scope => 'col'}= sortable(:opportunity_filters, 'response_due_on', 'Expiry date', 'asc', @filters.sort)
   %tbody

@@ -1,6 +1,6 @@
 class OpportunitySort
   attr_reader :column, :order
-  VALID_SORT_COLUMNS = %w[title status service_provider_name enquiries_count created_at original_language first_published_at response_due_on ragg].freeze
+  VALID_SORT_COLUMNS = %w[title status service_provider_name enquiries_count created_at original_language source first_published_at response_due_on ragg].freeze
   VALID_SORT_ORDERS = %w[desc asc].freeze
 
   def initialize(default_column:, default_order:)
