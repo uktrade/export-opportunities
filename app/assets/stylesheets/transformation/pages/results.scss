@@ -207,15 +207,18 @@ form {
   .opportunities-list {
     .expires {
       display: block;
-      float: none;
-      padding-bottom: 0;
+      padding-left: $spacing-3-m;
+      padding-top: 0;
     }
 
     .published {
       display: block;
-      float: none;
-      padding-top: 0;
-      text-align: left;
+      padding-bottom: 0;
+      padding-left: $spacing-3-m;
+    }
+
+    .separator {
+      @include access-hidden;
     }
   }
 }

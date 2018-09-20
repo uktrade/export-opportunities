@@ -11,11 +11,12 @@
         - if opportunity.source('volume_opps')
           = render partial: "partials/open_opps_link"
 
+        %span.published>
+          Published:
+          = opportunity.published_date
+        %span.separator ,
         %span.expires
           Closing date:
           = opportunity.expires
 
-        %span.published
-          Published on:
-          = opportunity.published_date
 
