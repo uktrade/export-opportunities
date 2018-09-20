@@ -150,8 +150,6 @@ section {
 }
 
 #recent-opportunities {
-  padding-bottom: $spacing-3;
-
   form,
   .information,
   .pagination {
@@ -267,8 +265,16 @@ section {
 }
 
 @media screen and (max-width:768px) {
+  section {
+    padding-top: $spacing-2;
+  }
+
   .quote {
     width: 75%;
+  }
+
+  #recent-opportunities {
+    padding-bottom: $spacing-2;
   }
 }
 

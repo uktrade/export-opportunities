@@ -145,6 +145,10 @@ class OpportunityPresenter < BasePresenter
     opportunity.original_language.casecmp('en') != 0
   end
 
+  def published_date
+    opportunity.first_published_at.strftime('%d %B %Y')
+  end
+
   private
 
   attr_reader :h, :opportunity
