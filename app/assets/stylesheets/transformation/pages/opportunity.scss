@@ -66,8 +66,8 @@ h1 {
 }
 
 .disclaimer {
-  @include content;
-  margin-bottom: $spacing-1;
+  margin-bottom: $spacing-2;
+  padding-top: $spacing-3;
 
   p {
     @include body-s;
