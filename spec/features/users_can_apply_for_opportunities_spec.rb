@@ -33,7 +33,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
       click_on 'Submit'
 
       expect(page).to have_content 'Your expression of interest has been submitted and will be reviewed'
-      expect(page).to have_link 'View your expression of interests to date'
+      expect(page).to have_link 'View your expressions of interest to date'
 
       visit 'enquiries/great-opportunity'
     end
@@ -69,7 +69,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
       click_on 'Submit'
 
       expect(page).to have_content 'Your expression of interest has been submitted and will be reviewed'
-      expect(page).to have_link 'View your expression of interests to date'
+      expect(page).to have_link 'View your expressions of interest to date'
 
       visit 'enquiries/great-opportunity'
 
