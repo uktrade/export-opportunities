@@ -127,10 +127,10 @@ class OpportunitySearchResultsPresenter < FormPresenter
 
   def sort_input_select
     field = content['fields']['sort']
-    values = ['response_due_on', 'first_published_at', 'relevance']
+    values = %w[response_due_on first_published_at relevance]
     options = []
     field['options'].each_with_index do |f, index|
-      options.push({ text: f.to_s, value: values[index] })
+      options.push(text: f.to_s, value: values[index])
     end
     input = {
       name: 'sort_column_name',
