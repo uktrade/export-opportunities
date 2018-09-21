@@ -10,17 +10,14 @@
 
   .expires {
     @include body-s;
-    box-sizing: border-box;
-    float: left;
-    padding: $spacing-4 $spacing-3;
+    display: inline-block;
+    padding: $spacing-4 $spacing-3 $spacing-4 0;
   }
 
   .published {
     @include body-s;
-    box-sizing: border-box;
-    float: right;
-    padding: $spacing-4 $spacing-3;
-    text-align: right;
+    display: inline-block;
+    padding: $spacing-4 0 $spacing-4 $spacing-3;
   }
 
   .text {
@@ -78,15 +75,18 @@
 
     .expires {
       display: block;
-      float: none;
-      padding: $spacing-3-m $spacing-3-m 0 $spacing-3-m;
+      padding-left: $spacing-3-m;
+      padding-top: 0;
     }
 
     .published {
       display: block;
-      float: none;
-      padding: 0 $spacing-3-m $spacing-3-m $spacing-3-m;
-      text-align: left;
+      padding-bottom: 0;
+      padding-left: $spacing-3-m;
+    }
+
+    .separator {
+      @include access-hidden;
     }
 
     .text  {
@@ -104,8 +104,8 @@
     }
 
     .source {
-      float: left;
-      margin: 0 0 $spacing-3-m $spacing-3-m;
+      float: right;
+      margin: 10px $spacing-3-m;
       position: static;
     }
   }
