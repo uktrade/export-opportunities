@@ -10,16 +10,6 @@
   <%= stylesheet_link_tag 'transformation/pages/opportunity' %>
   <%= javascript_include_tag 'transformation/dit.page.opportunity' %>
   <%= yield :action_specific_head %>
-
-  <script>
-    // This needs to run immediately.
-    // Let GA know what is being delivered on page.
-    dataLayer = [{
-     'pageCategory': 'opportunity',
-     'buttonText': dit.page.opportunity.abcButtonText,
-     'opptype': '<%= @opportunity.source %>'
-    }];
-  </script>
 </head>
 <body>
   <%= render partial: 'google_analytics' %>

@@ -149,7 +149,7 @@
             %p= @content["disclaimer_2"]
             -if opportunity.translated?
               %p= @content["disclaimer_3"]
-          = link_to 'Register your interest', new_enquiry_path(@opportunity.slug), class: 'button abcbutton'
+          = link_to 'Express your interest', new_enquiry_path(@opportunity.slug), class: 'button abcbutton'
 
         - else
           %h2 Contact the buyer
