@@ -8,8 +8,8 @@
     .confirmation-notice
       %h1.notice Thank you
       %p.message
-        Your expression of interest has been submitted and will be reviewed. You will be notified of any potential next steps in 5 working days.'
-        = link_to 'View your expression of interests to date', dashboard_path, class: 'button'
+        Your expression of interest has been submitted and will be reviewed. You will be notified of any potential next steps in 5 working days.
+        = link_to 'View your expressions of interest to date', dashboard_path, class: 'button'
 
     - unless trade_profile(@enquiry.company_house_number)
       = render partial: "no_trade_profile", locals: { url: page.create_trade_profile_url(@enquiry.company_house_number) }
