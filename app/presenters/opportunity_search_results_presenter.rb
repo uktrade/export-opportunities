@@ -126,20 +126,21 @@ class OpportunitySearchResultsPresenter < FormPresenter
   end
 
   def sort_input_select
+    field = content['fields']['sort']
+    values = ['response_due_on', 'first_published_at', 'relevance']
+    options = []
+    field['options'].each_with_index do |f, index|
+      options.push({ text: f.to_s, value: values[index] })
+    end
     input = {
       name: 'sort_column_name',
       id: 'search-sort',
       label: {
         id: 'search-sort',
-        text: 'Sort by',
+        text: field['label'],
       },
-      options: [
-        { text: 'Expiry date', value: 'response_due_on' },
-        { text: 'Published date', value: 'first_published_at' },
-        { text: 'Relevance', value: 'relevance' },
-      ],
+      options: options,
     }
-
     input[:options].each do |option|
       option[:selected] = true if option[:value].eql? @sort_by
     end
