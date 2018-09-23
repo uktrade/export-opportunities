@@ -1,5 +1,5 @@
 - page = PagePresenter.new(@content)
-- results = OpportunitySearchResultsPresenter.new(@content['search_results'], @search_results, @search_filters)
+- results = OpportunitySearchResultsPresenter.new(@content, @search_results, @search_filters)
 
 .container
   = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
