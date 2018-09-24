@@ -80,19 +80,21 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
 
   scenario 'users cannot perform an empty search from home page', js: true do
     visit root_path
-    sleep 2
+    sleep 1
+
 
     # Check we're on home and have no error showing.
     expect(page).to have_content('Find export opportunities')
     expect(page).to have_no_content('Please type in a product or service and/or select a region or country')
 
-    within '.hero-section .search-form' do
-      page.find('.submit').click
-    end
-    sleep 2
+    # Form each search form...
+    page.all('.search-form').each do |form|
+      form.find('.submit').click
+      sleep 1
 
-    # Check we're still on home but now have the error.
-    expect(page).to have_content('Find export opportunities')
-    expect(page).to have_content('Please type in a product or service and/or select a region or country')
+      # Check we stay on home and have the error in content.
+      expect(page).to have_content('Find export opportunities')
+      expect(page).to have_content('Please type in a product or service and/or select a region or country')
+    end
   end
 end
