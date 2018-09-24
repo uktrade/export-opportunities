@@ -97,4 +97,25 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
       expect(page).to have_content('Please type in a product or service and/or select a region or country')
     end
   end
+
+  scenario 'users cannot perform an empty search from search results page', js: true do
+    visit opportunities_path
+    sleep 1
+
+    # Check we're on search results page.
+    expect(current_page).to eql('Search results')
+
+    within '.search' do
+      find('.submit').click
+    end
+    sleep 1
+
+    # Check we are still on search results page but error does not show.
+    expect(current_page).to eql('Search results')
+    expect(page).to have_no_content('Please type in a product or service and/or select a region or country')
+  end
+
+  def current_page
+    page.find('.breadcrumbs').find('.current').text
+  end
 end
