@@ -18,20 +18,19 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     expect(page).to have_no_content('Boring opportunity')
   end
 
-  scenario 'users can find an opportunity including apostroph\'s ' do
+  scenario 'users can find an opportunity including apostrophe' do
     create(:opportunity, status: 'publish', title: 'Children\'s opportunity')
     create(:opportunity, status: 'publish', title: 'Childrens opportunity')
 
     sleep 1
     visit opportunities_path
 
-    expect(page).to have_content('2 results found')
-
     within '.search' do
       fill_in 's', with: "Children\'s"
       page.find('.submit').click
     end
 
+    expect(page).to have_content('2 results found')
     expect(page).to have_content("Children's opportunity")
     expect(page).to have_content('Childrens opportunity')
   end
