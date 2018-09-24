@@ -84,7 +84,7 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
 
 
     # Check we're on home and have no error showing.
-    expect(page).to have_content('Find export opportunities')
+    expect(current_breadcrumb).to eql('Export Opportunities')
     expect(page).to have_no_content('Please type in a product or service and/or select a region or country')
 
     # Form each search form...
@@ -93,7 +93,7 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
       sleep 1
 
       # Check we stay on home and have the error in content.
-      expect(page).to have_content('Find export opportunities')
+      expect(current_breadcrumb).to eql('Export Opportunities')
       expect(page).to have_content('Please type in a product or service and/or select a region or country')
     end
   end
@@ -103,7 +103,7 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     sleep 1
 
     # Check we're on search results page.
-    expect(current_page).to eql('Search results')
+    expect(current_breadcrumb).to eql('Search results')
 
     within '.search' do
       find('.submit').click
@@ -111,11 +111,11 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     sleep 1
 
     # Check we are still on search results page but error does not show.
-    expect(current_page).to eql('Search results')
+    expect(current_breadcrumb).to eql('Search results')
     expect(page).to have_no_content('Please type in a product or service and/or select a region or country')
   end
 
-  def current_page
+  def current_breadcrumb
     page.find('.breadcrumbs').find('.current').text
   end
 end
