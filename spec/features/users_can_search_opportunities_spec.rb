@@ -8,13 +8,12 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     sleep 1
     visit opportunities_path
 
-    expect(page).to have_content('2 results found')
-
     within '.search' do
       fill_in 's', with: 'Super'
       page.find('.submit').click
     end
 
+    expect(page).to have_content('1 result found for Super')
     expect(page).to have_content('Super opportunity')
     expect(page).to have_no_content('Boring opportunity')
   end
