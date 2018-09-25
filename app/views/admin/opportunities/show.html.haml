@@ -80,11 +80,6 @@
     %th{:scope => 'row'} Expiry date
     %td= @opportunity.response_due_on.to_s(:admin_date) if @opportunity.response_due_on
 
-  - if @opportunity.request_usage
-    %tr
-      %th{:scope => 'row'} Buyer wants
-      %td= @opportunity.request_usage
-
   %tr
     %th{:scope => 'row'} Description
     %td= present_html_or_formatted_text(@opportunity.description).html_safe
@@ -100,6 +95,12 @@
   %tr
     %th{:scope => 'row'} Service provider
     %td= @opportunity.service_provider.try(:name)
+
+  -if @opportunity.tender_url.present?
+    %tr
+      %th{:scope => 'row'} Third-party (original) link
+      %td= link_to @opportunity.tender_url, @opportunity.tender_url.html_safe, target: "_blank"
+
   %tr
     %th{:scope => 'row'} RAGG
     %td{:class => 'ragg-cell'}=@opportunity.ragg
