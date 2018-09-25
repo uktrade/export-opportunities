@@ -133,7 +133,7 @@ class Admin::OpportunitiesController < Admin::BaseController
     @countries = promote_elements_to_front_of_array(Country.all.order(:name), opportunity.countries.sort_by(&:name))
     @sectors = promote_elements_to_front_of_array(Sector.all.order(:name), opportunity.sectors.sort_by(&:name))
     @types = Type.all.order(:name)
-    @values = Value.all.order(:name)
+    @values = Value.all.order(:id).where("name != 'unknown'")
     @service_providers = ServiceProvider.all.order(:name)
     @selected_service_provider = opportunity.service_provider || current_editor.service_provider
     @enquiry_interactions = Opportunity.enquiry_interactions.keys
