@@ -15,11 +15,6 @@
         %li= message
 
 = form_for [:admin, opportunity], :builder => TemplateFormBuilder do |f|
-  %fieldset
-    %legend.group= content['group_1_title']
-    = f.input_radio :request_type, form.input_radio('request_type', @request_types)
-    = f.input_radio :tender, form.input_radio('tender', @tender_bool)
-
 
   %fieldset
     %legend.group= content['group_2_title']
@@ -30,7 +25,6 @@
       = f.input_text :slug, form.input_text('slug'), required: true
 
     = f.input_text :teaser, form.input_text('teaser'), { maxlength: '150', required: true }
-    = f.input_radio :request_usage, form.input_radio('request_usage', @request_usages)
     = f.input_textarea :description, form.input_textarea('description'), { rows: '12', required: true }
 
     -# Workaround because value_ids should be a single value rather than an Array.

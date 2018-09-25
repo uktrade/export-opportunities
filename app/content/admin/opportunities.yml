@@ -25,32 +25,13 @@ group_3_title: Buyer details
 group_3_description: Select or add a new buyer. You'll be able to keep the buyer anonymous and reveal only to customers who are right for the opportunity.
 
 fields:
-  request_type:
-    question: What is the buyer looking for?
-    options:
-      - label: goods
-      - label: services
-
-  tender:
-    question: Is this a tender?
-    options:
-      - label: !!str yes
-      - label: !!str no
-
   title:
-    label: Enter the goods that the buyer is looking for
+    label: Enter the goods or services that the buyer is looking for
     description: This will appear as the title of your opportunity. For example, traffic cameras, safety equipment, biscuits.
 
   teaser:
     label: Summarise the export opportunity in a sentence
     description: This will show as the first line of the opportunity and will also show in email alerts. It must be different to the title.
-
-  request_usage:
-    question: Buyer is looking for
-    options:
-      - label: samples to test the market
-      - label: goods to sell
-      - label: to use the product
 
   description:
     label: Describe what the buyer is looking for
