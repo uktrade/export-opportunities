@@ -19,23 +19,6 @@
   }
 }
 
-@mixin clear-floats {
-  &:after {
-    clear: both;
-    content: "";
-    display: block;
-  }
-}
-
-@mixin flip-vertical {
-  -moz-transform: scaleY(-1);
-  -o-transform: scaleY(-1);
-  -webkit-transform: scaleY(-1);
-  transform: scaleY(-1);
-  filter: FlipV;
-  -ms-filter: "FlipV";
-}
-
 @mixin focus {
   &::-moz-focus-inner { border: 0; }
   &:focus { outline: $focus-yellow solid 3px; }
