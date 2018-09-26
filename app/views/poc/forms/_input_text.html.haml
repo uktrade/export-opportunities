@@ -1,3 +1,5 @@
 .field.text
+  - attributes = {} if local_assigns[:attributes].nil?
   = render partial: "forms/input_label", locals: { label: input[:label] }
-  %input{:type=>'text', :id=>input[:id], :name=>input[:name]}
+  -# %input{attributes, type: "text", id: input[:id], name: input[:name] }
+  %input{{type: "text", id: input[:id], name: input[:name]}.merge(attributes) }

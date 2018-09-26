@@ -1,0 +1,376 @@
+h1 {
+  margin-bottom: $spacing-2;
+}
+
+fieldset {
+  border: none;
+  margin-bottom: $spacing-3;
+  padding: 0;
+
+  &:after {
+    clear: both;
+    content: "";
+    display: block;
+  }
+}
+
+form {
+  margin-bottom: $spacing-3;
+
+  .description {
+    color: $grey-4;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .helptext,
+  .RestrictedInputCount {
+    color: $grey-4;
+    display: block;
+  }
+
+  .edit {
+    float: right;
+  }
+}
+
+input {
+  @include focus;
+  border: 2px solid $grey-1;
+  height: 50px;
+  display: block;
+  padding: 0 10px;
+  text-transform: none;
+  width: 100%;
+  -webkit-appearance: none; /* Fix: Safari being awkward with input[type=search] (alternative remove type=search) */
+
+  &[type='hidden'] {
+    visibility: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+}
+
+input::-moz-placeholder { color: $grey-5; }
+input::-webkit-input-placeholder { color: $grey-5; }
+input::-ms-input-placeholder { color: $grey-5; }
+input::placeholder { color: $grey-5; }
+
+label {
+  @include body-m;
+  color: $grey-1;
+  display: inline-block;
+  font-weight: bold;
+}
+
+legend {
+  @include heading-s;
+  color: $blue-1;
+  margin-bottom: $spacing-4;
+}
+
+option { 
+  background-color: $white;
+}
+
+select {
+  @include focus;
+  @include body-m;
+  background: $white image_url('icons/DropdownIcon.svg') no-repeat 95%;
+  border: 2px solid $grey-1;
+  border-radius: 0;
+  display: block;
+  height: 50px;
+  margin-bottom: $spacing-3;
+  padding: 10px 20px 10px 10px;
+  -ms-background-position-x: -10px;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-padding-start: 10px;
+
+  &[multiple] {
+    background-image: none;
+    height: auto;
+  }
+}
+
+textarea {
+  @include body-m;
+  border: 2px solid $grey-1;
+  display: block;
+  margin-bottom: $spacing-3;
+  padding: 5px;
+  width: 100%;
+}
+
+.error {
+  color: $great-red;
+}
+
+.errors {
+  @include container;
+  border: 4px solid $great-red;
+  margin-bottom: $spacing-4;
+  padding: $spacing-3;
+
+  p {
+    color: $great-red;
+    font-weight: bold;
+    margin-bottom: 1em;
+  }
+}
+
+.date,
+.date-month-year {
+  label {
+    @include body-s;
+    display: inline-block;
+    margin: 0 $spacing-4 0 0;
+    padding-top: 55px;
+    position: relative;
+    width: 65px;
+  }
+
+  select {
+    margin-bottom: 0;
+    position: absolute;
+    top: 0;
+  }
+
+  .year {
+    width: 100px;
+  }
+}
+
+.date legend,
+.date-month-year legend,
+.multi-currency-amount legend {
+  @include body-m;
+  color: $grey-1;
+  display: inline-block;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.field {
+  clear: both;
+  margin-bottom: $spacing-3;
+  max-width: 650px;
+
+  &.output input,
+  &.output textarea {
+    background-color: inherit;
+    border: none;
+    color: inherit;
+    padding: 0;
+  }
+
+  &.textarea {
+    max-width: 800px;
+
+    label,
+    .description {
+      max-width: 650px;
+    }
+  }
+}
+
+.intro {
+  margin-bottom: $spacing-1;
+}
+
+.multi-currency-amount {
+  overflow: hidden;
+
+  input {
+    &:checked + label {
+      background-color: $grey-1;
+      color: $white;
+    }
+  }
+
+  input[type='text'],
+  select {
+    float: left;
+    margin-bottom: 0;
+    margin-right: $spacing-4;
+    width: auto;
+  }
+
+  label {
+    @include button-ghost($grey-1, $white);
+    border-left-width: 0;
+    margin-bottom: 0;
+    padding-left: $spacing-4;
+    padding-right: $spacing-4;
+
+    &:after,
+    &:before {
+      opacity: 0;
+    }
+  }
+
+  .radio {
+    float: left;
+    margin-bottom: 0;
+    padding: 0;
+
+    &:first-of-type label {
+      border-left-width: 2px;
+    }
+  }
+}
+
+.process {
+  padding: 0 0 $spacing-3 0;
+
+  dd {
+    margin: 0 0 $spacing-3 0;
+  }
+
+  dl {
+    margin: 0 0 $spacing-1 0;
+  }
+
+  dt {
+    font-weight: bold;
+  }
+
+  form {
+    margin: 0 0 $spacing-1 0;
+    padding-bottom: $spacing-3;
+  }
+
+  .progress {
+    @include body-l;
+    display: block;
+    margin-bottom: $spacing-4;
+  }
+
+  .requirement {
+    @include heading-m;
+  }
+}
+
+
+// Checkboxes + Radio buttons
+.checkbox,
+.radio {
+  @include body-m;
+  margin-bottom: $spacing-4;
+  position: relative;
+  padding: 4px 0 0 45px;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  
+  input {
+    cursor: pointer;
+    left: 0;
+    height: 36px;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 36px;
+  }
+  
+  label {
+    cursor: pointer;
+    font-weight: normal;
+    margin-bottom: 0;
+    
+    &:before {
+      background: $white;
+      border: 2px solid $black;
+      content: "";
+      height: 32px;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 32px;
+      z-index: 0;
+    }
+  }
+}
+
+.checkbox {
+  input:checked + label {
+    &::after {
+      background: transparent;
+      border: solid $blue-1;
+      border-width: 0 0 5px 5px;
+      content: "";
+      height: 7px;
+      left: 7px;
+      position: absolute;
+      top: 10px;
+      -ms-transform: rotate(-45deg);
+      -webkit-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+      width: 17px;
+      z-index: 0;
+    }
+  }
+
+  [type=checkbox]:focus + label::before {
+    -webkit-box-shadow: 0 0 0 3px $focus-yellow;
+    -moz-box-shadow: 0 0 0 3px $focus-yellow;
+    box-shadow: 0 0 0 3px $focus-yellow;
+  }
+}
+
+.checkbox-group {
+  legend {
+    @include body-m;
+    color: $grey-1;
+    font-weight: bold;
+  }
+}
+
+.radio {
+  input:checked + label {
+    &::after {
+      background-color: $blue-1;
+      border-radius: 50%;
+      content: "";
+      height: 20px;
+      left: 8px;
+      position: absolute;
+      top: 8px;
+      width: 20px;
+      z-index: 0;
+    }
+  }
+  
+  label::before {
+    border-radius: 50%;
+  }
+
+  [type=radio]:focus + label::before {
+    -webkit-box-shadow: 0 0 0 3px $focus-yellow;
+    -moz-box-shadow: 0 0 0 3px $focus-yellow;
+    box-shadow: 0 0 0 3px $focus-yellow;
+  }
+}
+
+.radio-group legend {
+  @include body-m;
+  color: $grey-1;
+  display: inline-block;
+  font-weight: bold;
+  margin-bottom: $spacing-4;
+}
+
+
+// RESPONSIVE
+@media (max-width: 767px) {
+  .field {
+    max-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  select {
+    width: 100%;
+  }
+}

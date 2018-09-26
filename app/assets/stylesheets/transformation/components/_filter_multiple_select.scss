@@ -1,0 +1,107 @@
+@import 'transformation/config';
+
+
+.FilterMultipleSelectComponent {
+  margin-bottom: $spacing-3;
+  overflow: hidden;
+}
+
+.FilterMultipleSelectInput {
+  margin: $spacing-4;
+  width: -moz-available;
+  width: -webkit-fill-available;
+}
+
+.FilterMultipleSelectOptions {
+  background-color: $white;
+  height: 250px;
+  margin-bottom: $spacing-4;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding: $spacing-4;
+
+  li {
+    border: none;
+    cursor: pointer;
+    list-style: none;
+    margin: 0;
+    padding-left: $spacing-3;
+    position: relative;
+
+    &:before {
+      border: 2px solid $grey;
+      content: '';
+      display: block;
+      height: $spacing-4;
+      left: 0;
+      position: absolute;
+      top: 5px;
+      width: $spacing-4;
+    }
+
+    &.none {
+      padding-left: 0;
+      &:before {
+        display: none;
+      }
+    }
+
+    &.selected::after {
+      background: transparent;
+      border: solid $mid-blue;
+      border-width: 0 0 3px 3px;
+      content: "";
+      height: 3px;
+      left: 3px;
+      position: absolute;
+      top: 10px;
+      -ms-transform: rotate(-45deg);
+      -webkit-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+      width: 10px;
+      z-index: 0;
+    }
+  }
+}
+
+.FilterMultipleSelectOptionsArea {
+  @include columns(7);
+  background-color: $stone-40;
+  height: 400px;
+  max-height: 400px;
+  max-width: 570px;
+  padding: 5px;
+
+  button {
+    @include link;
+    margin: 0 0 $spacing-4 $spacing-4;
+  }
+
+  select {
+    @include access-hidden;
+  }
+}
+
+.FilterMultipleSelectDisplayArea {
+  border-left: $stone-40 solid 5px;
+  float: left; 
+  height: 400px;
+  margin-left: $spacing-4;
+  padding: 0 $spacing-4;
+  width: calc(#{$cols-5} - #{$spacing-4});
+
+  li {
+    margin-bottom: 0;
+  }
+
+  p {
+    margin-bottom: $spacing-4;
+  }
+
+  ul {
+    max-height: 355px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+

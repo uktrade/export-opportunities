@@ -63,6 +63,10 @@ class Opportunity < ApplicationRecord
   enum source: { post: 0, volume_opps: 1, buyer: 2 }
   enum original_language: { en: 0, de: 1, es: 2, fr: 3, it: 4, nl: 5, pl: 6 }
 
+  enum request_type: { goods: 0, services: 2 }
+  enum request_usage: { samples: 0, sell_goods: 2, use_product: 4 }
+  enum enquiry_interaction: { post_response: 0, third_party: 2 }
+
   include PgSearch
 
   pg_search_scope :fuzzy_match,
@@ -84,6 +88,7 @@ class Opportunity < ApplicationRecord
   has_and_belongs_to_many :sectors
   has_and_belongs_to_many :types
   has_and_belongs_to_many :values
+  has_and_belongs_to_many :supplier_preferences
   has_many :contacts, dependent: :destroy
   has_many :comments, -> { order(:created_at) }, class_name: 'OpportunityComment'
   has_many :enquiries
@@ -91,6 +96,7 @@ class Opportunity < ApplicationRecord
   has_many :opportunity_checks
   has_many :opportunity_sensitivity_checks
   has_many :opportunity_cpvs
+  has_one :opportunity_buyer
 
   accepts_nested_attributes_for :contacts, reject_if: :all_blank
 
@@ -250,5 +256,9 @@ class Opportunity < ApplicationRecord
   def not_a_url?(target_url)
     return false if target_url.blank?
     target_url.downcase.match(%r{^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$}).blank?
+  end
+
+  def tender?
+    false
   end
 end

@@ -3,9 +3,5 @@
     %a{:href => '/', :title => 'Go to the Opportunities homepage', :id => 'logo', :class => 'content'}
       = image_tag 'logo_dit.png', :height => '56', :alt => 'Department for International Trade'
 
-    - if current_editor
-      = button_to('Log out', destroy_editor_session_path, :class => 'button', :id => 'logout', :method => :delete)
-    - else
-      = link_to('Log in', new_editor_session_path, :class => 'button', :id => 'login')
-
+    = render partial: 'admin/includes/authenticator'
     = render partial: 'admin/includes/menu'

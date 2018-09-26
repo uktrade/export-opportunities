@@ -1,0 +1,70 @@
+// GENERAL CONTENT STYLES
+//---------------------------
+
+
+a,
+.link {
+  background-color: transparent;
+  border: none;
+  color: $blue-1;
+  cursor: pointer;
+  font-family: $brand-font-standard;
+  font-size: $font-size-body-s;
+  padding: 0;
+  text-decoration: underline;
+
+  &:active,
+  &:hover {
+    color: $blue-2;
+  }
+  
+  &:focus {
+    @include focus;
+  }
+
+  .icon {
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+}
+
+h1 {
+  font-size: $font-size-heading-xl;
+  font-weight: bold;
+  line-height: 1.1em;
+  margin: 0 0 $spacing-2 0;
+}
+
+h2 {
+  font-size: $font-size-heading-l;
+  font-weight: bold;
+  margin: 0 0 $spacing-3 0;
+}
+
+h3 {
+  font-size: $font-size-heading-m;
+  font-weight: bold;
+  margin: 0 0 $spacing-4 0;
+}
+
+li {
+  margin-bottom: $spacing-4;
+}
+
+p {
+  margin: 0 0 $spacing-3 0;
+  line-height: inherit;
+}
+
+ul {
+  margin: 0 0 $spacing-3 0;
+  padding-left: 1em;
+}
+
+.button {
+  @include button($green-1, $green-2);
+
+  &[disabled="disabled"] {
+    @include button-disabled;
+  }
+}
