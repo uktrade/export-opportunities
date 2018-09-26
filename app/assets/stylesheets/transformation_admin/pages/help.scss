@@ -3,13 +3,7 @@
  * Individual layout-specific stylesheet only. 
  *
  */
-
-@import "updated/_vars";
-@import "updated/_colours";
-@import "updated/_fonts";
-@import "updated/_mixins";
-@import "updated/_layout";
-
+@import "transformation_admin/config";
 
 .help {
   article {
