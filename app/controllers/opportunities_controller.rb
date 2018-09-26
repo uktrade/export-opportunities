@@ -70,7 +70,7 @@ class OpportunitiesController < ApplicationController
   end
 
   def show
-    @content = get_content('opportunities/new.yml')
+    @content = get_content('opportunities/show.yml')
     @opportunity = Opportunity.published.find(params[:id])
 
     respond_to do |format|

@@ -127,19 +127,39 @@
         - if opportunity.source('volume_opps')
           %h2 Bid for tender
           %p If your company meets the requirements of the tender, go to the website where the tender is hosted and submit your bid.
+
+          .disclaimer
+            %p= @content["disclaimer_1"]
+            %p= @content["disclaimer_2"]
+            -if opportunity.translated?
+              %p= @content["disclaimer_3"]
           = link_to 'Go to third party website', opportunity.tender_url, class: 'button', target: :_blank
 
         - elsif opportunity.target_url.present?
+          .disclaimer
+            %p= @content["disclaimer_1"]
+            %p= @content["disclaimer_2"]
+            -if opportunity.translated?
+              %p= @content["disclaimer_3"]
           = link_to 'Go to third party website', opportunity.target_url, class: 'button', target: :_blank
 
         - elsif opportunity.source('post')
-          = link_to 'Register your interest', new_enquiry_path(@opportunity.slug), class: 'button abcbutton'
+          .disclaimer
+            %p= @content["disclaimer_1"]
+            %p= @content["disclaimer_2"]
+            -if opportunity.translated?
+              %p= @content["disclaimer_3"]
+          = link_to 'Express your interest', new_enquiry_path(@opportunity.slug), class: 'button abcbutton'
 
         - else
           %h2 Contact the buyer
           %p If you meet the requirements contact the buyer.
           %p You will be notified if you are right for this opportunity. You can only apply if you are a UK registered companny.
+          .disclaimer
+            %p= @content["disclaimer_1"]
+            %p= @content["disclaimer_2"]
+            -if opportunity.translated?
+              %p= @content["disclaimer_3"]
           = link_to 'Contact buyer', new_enquiry_path(@opportunity.slug), class: 'button abcbutton'
 
     = render partial: 'components/sharing_links', locals: { title: opportunity.title_with_country, path: opportunity_url(@opportunity) }
-

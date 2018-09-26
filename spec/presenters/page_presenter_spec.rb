@@ -12,13 +12,23 @@ RSpec.describe PagePresenter do
   end
 
   describe '#content_with_inclusion' do
-    it 'injects values within a retrieved content string' do
-      content = { some: 'something [$value1] here and [$value2]' }.with_indifferent_access
+    it 'returns content string with injected values' do
+      content = { hello: 'Hello [$first_name] [$last_name]' }.with_indifferent_access
       presenter = PagePresenter.new(content)
 
-      expect(presenter.content_with_inclusion('some', ['goes'])).to eql('something goes here and [$value2]')
-      expect(presenter.content_with_inclusion('some', ['goes', 'there'])).to eql('something goes here and there')
-      expect(presenter.content_with_inclusion('some', ['goes', 'there', 'not required'])).to eql('something goes here and there')
+      expect(presenter.content_with_inclusion('hello', ['Darth', 'Vader'])).to eql('Hello Darth Vader')
+      expect(presenter.content_with_inclusion('hello', ['Darth'])).to eql('Hello Darth [$last_name]')
+      expect(presenter.content_with_inclusion('hello', ['', 'Vader'])).to eql('Hello Vader')
+      expect(presenter.content_with_inclusion('hello', ['Darth', 'Vader', ' or shall we say, Anakin'])).to eql('Hello Darth Vader')
+    end
+  end
+
+  describe '#content_without_inclusion' do
+    it 'returns content string without injection markers' do
+      content = { hello: 'Hello [$first_name] [$last_name]' }.with_indifferent_access
+      presenter = PagePresenter.new(content)
+
+      expect(presenter.content_without_inclusion('hello')).to eql('Hello ')
     end
   end
 

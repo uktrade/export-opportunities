@@ -344,4 +344,29 @@ RSpec.describe OpportunityPresenter do
       expect(presenter.buyer_details_empty?).to eq false
     end
   end
+
+  describe '#translated?' do
+    it 'returns false when opportunity has been translated' do
+      opportunity = create(:opportunity, original_language: 'en')
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.translated?).to be_falsey
+    end
+
+    it 'returns true when opportunity has been translated' do
+      opportunity = create(:opportunity, original_language: 'pl')
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.translated?).to be_truthy
+    end
+  end
+
+  describe '#published_date' do
+    it 'returns correctly formatted published date as string' do
+      opportunity = create(:opportunity, :published, first_published_at: Date.new(2015, 9, 15))
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.published_date).to eql('15 September 2015')
+    end
+  end
 end

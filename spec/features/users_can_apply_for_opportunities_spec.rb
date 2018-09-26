@@ -32,8 +32,8 @@ RSpec.feature 'users can apply for opportunities', js: true do
       fill_in_form
       click_on 'Submit'
 
-      expect(page).to have_content 'Your details have been submitted and will be reviewed by our team'
-      expect(page).to have_link 'View your proposals to date'
+      expect(page).to have_content 'Your expression of interest has been submitted and will be reviewed'
+      expect(page).to have_link 'View your expressions of interest to date'
 
       visit 'enquiries/great-opportunity'
     end
@@ -68,8 +68,8 @@ RSpec.feature 'users can apply for opportunities', js: true do
 
       click_on 'Submit'
 
-      expect(page).to have_content 'Your details have been submitted and will be reviewed by our team'
-      expect(page).to have_link 'View your proposals to date'
+      expect(page).to have_content 'Your expression of interest has been submitted and will be reviewed'
+      expect(page).to have_link 'View your expressions of interest to date'
 
       visit 'enquiries/great-opportunity'
 
@@ -213,7 +213,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
   private
 
   def be_an_enquiry_form
-    have_selector('h1', text: 'You are submitting a proposal for')
+    have_selector('h1', text: 'You are expressing an interest in')
   end
 
   def fill_in_form

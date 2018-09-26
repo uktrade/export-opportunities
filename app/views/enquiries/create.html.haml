@@ -1,5 +1,5 @@
 - page = PagePresenter.new(@content)
-- page.add_breadcrumb_current('Proposal submitted')
+- page.add_breadcrumb_current('Expression of interest submitted')
 
 .container
   = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
@@ -7,9 +7,9 @@
   %section
     .confirmation-notice
       %h1.notice Thank you
-      %p.message 
-        Your details have been submitted and will be reviewed by our team. You will be notified of any potential next steps in 5 working days.
-        = link_to 'View your proposals to date', dashboard_path, class: 'button'
+      %p.message
+        Your expression of interest has been submitted and will be reviewed. You will be notified of any potential next steps in 5 working days.
+        = link_to 'View your expressions of interest to date', dashboard_path, class: 'button'
 
     - unless trade_profile(@enquiry.company_house_number)
       = render partial: "no_trade_profile", locals: { url: page.create_trade_profile_url(@enquiry.company_house_number) }

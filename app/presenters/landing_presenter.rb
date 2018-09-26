@@ -4,11 +4,12 @@ class LandingPresenter < PagePresenter
     @sector_list = sector_list
   end
 
-  def title(count = 0)
+  def description(count = 0)
     if count.present? && count.positive?
-      content_with_inclusion 'title_with_count', ["#{number_with_delimiter(count, delimiter: ',')}"]
+      number = content_tag('span', number_with_delimiter(count, delimiter: ','), class: 'number')
+      content_with_inclusion 'description', [number]
     else
-      content['title_without_count']
+      content_without_inclusion 'description'
     end
   end
 

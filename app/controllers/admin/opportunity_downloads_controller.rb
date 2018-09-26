@@ -10,7 +10,7 @@ class Admin::OpportunityDownloadsController < Admin::BaseController
   def new; end
 
   def create
-    @opportunities = policy_scope(Opportunity).where(created_at: from..to)
+    @opportunities = policy_scope(Opportunity).where(created_at: from..to).where(source: :post)
     authorize @opportunities
 
     response.set_header('Content-Disposition', "attachment; filename=\"#{download_filename}\"")

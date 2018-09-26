@@ -66,12 +66,8 @@ section {
     width: $cols-6;
   }
 
-  &.international {
-    padding-top: $spacing-2;
-
-    h1 {
-      max-width: 500px;
-    }
+  .number {
+    @include heading-m;
   }
 }
 
@@ -154,8 +150,6 @@ section {
 }
 
 #recent-opportunities {
-  padding-bottom: $spacing-3;
-
   form,
   .information,
   .pagination {
@@ -271,8 +265,16 @@ section {
 }
 
 @media screen and (max-width:768px) {
+  section {
+    padding-top: $spacing-2;
+  }
+
   .quote {
     width: 75%;
+  }
+
+  #recent-opportunities {
+    padding-bottom: $spacing-2;
   }
 }
 

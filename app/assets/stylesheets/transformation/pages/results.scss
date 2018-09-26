@@ -203,6 +203,26 @@ form {
   }
 }
 
+@media (max-width: 980px) {
+  .opportunities-list {
+    .expires {
+      display: block;
+      padding-left: $spacing-3-m;
+      padding-top: 0;
+    }
+
+    .published {
+      display: block;
+      padding-bottom: 0;
+      padding-left: $spacing-3-m;
+    }
+
+    .separator {
+      @include access-hidden;
+    }
+  }
+}
+
 @media (max-width: 767px) {
   .information {
     display: block;
