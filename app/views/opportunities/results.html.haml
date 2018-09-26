@@ -14,7 +14,7 @@
 
     %form.search{:action=>results.form_path, :method=>"get"}
       %label
-        %span New search
+        %span= results.content['title_new_search']
         %input{:name=>"s", :autocomplete=>"off", :class=>"text", :type=>"search", :value=>"", :placeholder=>"What are you selling?"}
       %input.submit{:value=>results.content['search_again_button'], :type=>"submit"}
 
@@ -29,7 +29,7 @@
     - if results.found.length > 0
 
       .search-results
-        %h2.verbose= results.content['title']
+        %h2.verbose= results.content['title_results_list']
         = results.displayed "information"
         .sort
           = render partial: "forms/input_select", locals: { input: results.sort_input_select }

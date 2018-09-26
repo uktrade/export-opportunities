@@ -146,7 +146,11 @@ class OpportunityPresenter < BasePresenter
   end
 
   def published_date
-    opportunity.first_published_at.strftime('%d %B %Y')
+    if opportunity.first_published_at.present?
+      opportunity.first_published_at.strftime('%d %B %Y')
+    else
+      ''
+    end
   end
 
   private
