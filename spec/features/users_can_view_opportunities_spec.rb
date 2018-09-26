@@ -7,21 +7,6 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to have_content('Latest export opportunities')
   end
 
-  scenario 'clicks on view more opportunities from root', :elasticsearch, :commit do
-    country1 = create(:country, name: 'Selected 1')
-    create_list(:opportunity, 6, status: 'publish', countries: [country1])
-
-    visit '/'
-
-    expect(page).to have_content('Latest export opportunities')
-    expect(page).to have_content('View more')
-
-    sleep 1
-    click_on 'View more'
-
-    expect(page.body).to have_content('6 results found')
-  end
-
   scenario 'clicks on view more opportunities from root, should only view opportunities up to the specified limit (*5 for ES shards)', :elasticsearch, :commit do
     skip('TODO: fix to get to less opps')
     country1 = create(:country, name: 'Selected 1')
