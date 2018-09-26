@@ -27,10 +27,7 @@ class JwtVolumeConnector
     end
 
     response = connection.get do |req|
-      # prod
       req.url hostname + url + "&min_releasedate=#{from_date}&max_releasedate=#{to_date}"
-      # staging
-      # req.url hostname + url + "&releasedate__gte=#{from_date}&releasedate__lt=#{to_date}"
       req.headers['Authorization'] = 'JWT ' + token
     end
 

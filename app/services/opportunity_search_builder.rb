@@ -46,7 +46,21 @@ class OpportunitySearchBuilder
     else
       {
         multi_match: {
-          query: @search_term,
+          query: {
+              "boosting": {
+              "positive": {
+              "term": {
+              "source": "post"
+          }
+        },
+        "negative": {
+            "term": {
+            "source": "volume_opps"
+      }
+      },
+          "negative_boost": 0.2
+      }
+      },
           fields: ['title^5', 'teaser^2', 'description'],
           operator: 'and',
         },
