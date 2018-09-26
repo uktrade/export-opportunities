@@ -308,7 +308,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect_any_instance_of(ApplicationController).to receive(:opps_counter_stats).and_return({total: 1000})
 
     visit '/'
-    expect(page).to have_content('Find over 1000 export opportunities')
+    expect(page).to have_content('Search 1,000 export sales leads')
   end
 
   scenario 'counters for landing page, total counter missing' do
