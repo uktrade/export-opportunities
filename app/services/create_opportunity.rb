@@ -27,9 +27,10 @@ class CreateOpportunity
     rescue ActiveRecord::RecordNotUnique
       Rails.logger.error 'Record not unique >>>>> attempting to insert opportunity:' + params.to_s + ' with ocid:' + opportunity.ocid
       # TODO: continue importing opps if there is an opp being invalid.
-    rescue ActiveRecord::RecordInvalid
+    rescue ActiveRecord::RecordInvalid => e
       Rails.logger.error 'error validating opportunity'
       Rails.logger.error opportunity.inspect
+      raise e if opportunity.source == :post
     end
     opportunity
   end

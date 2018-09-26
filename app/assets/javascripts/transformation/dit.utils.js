@@ -11,12 +11,22 @@ dit.utils = (new function () {
    * e.g. For HTML ID attribute.
    * @str = (String) Allow prefix string.
    **/
-  this.generateUniqueStr = function (str) {
+  this.generateUniqueStr = function(str) {
     var time = new Date().getTime();
-    var random = Math.random() * time - (Math.random() *3);
+    var random = this.randomNumberBetween(1, time) * time;
     return (str ? str : "") + (time + "_" + random.toString()).replace(/[^\w]*/mig, "");
   }
   
+  /* Returns a random number between the specified values. 
+   * The value is no lower than (and may possibly equal) min, 
+   * and is less than (and not equal) max.
+   * @min = (Number) Minimum number of range.
+   * @max = (Number) Maximum number of range.
+   **/
+   this.randomNumberBetween = function(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
   /* Attempt to run a namespaced function from passed string.
    * e.g. dit.utils.executeNamespacedFunction("dit.utils.generateUniqueStr");
    * @namespace (String) Namespaced function like above example.

@@ -1,6 +1,7 @@
+-# TODO: Update this to use individual %select elements instead of %input
 %fieldset.field.date
   %legend
-    = input[:text]
+    = input[:label]
 
   - unless input[:description].nil? or input[:description].empty?
     %p.description{ :id=> input[:description_id] }

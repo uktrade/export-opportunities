@@ -42,8 +42,8 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 Rails.application.config.assets.precompile += %w[updated/admin.css]
 Rails.application.config.assets.precompile += %w[updated/layouts/help.css]
 
-# Transformation project (built from POC on develop_zeus)
-# -------------------------------------------------------
+# Transformation
+# ---------------------------------
 # CSS...
 Rails.application.config.assets.precompile += %w[transformation/main.scss]
 Rails.application.config.assets.precompile += %w[transformation/main_ie8_fixes.scss]
@@ -63,13 +63,27 @@ Rails.application.config.assets.precompile += %w[transformation/dit.page.landing
 Rails.application.config.assets.precompile += %w[transformation/dit.page.results.js]
 Rails.application.config.assets.precompile += %w[transformation/dit.page.opportunity.js]
 Rails.application.config.assets.precompile += %w[transformation/dit.page.enquiries.js]
-Rails.application.config.assets.precompile += %w['transformation/third_party/*.js']
-Rails.application.config.assets.precompile += %w[transformation/dit.admin.opportunity.js]
+Rails.application.config.assets.precompile += %w[transformation/third_party/*.js]
 
-# POC files (originally on develop_zeus)
-Rails.application.config.assets.precompile += %w[poc/main.scss]
-Rails.application.config.assets.precompile += %w[poc/pages/international.scss]
-Rails.application.config.assets.precompile += %w[poc/dit.page.international.js]
+# Transformation Admin
+# ---------------------------------
+# CSS...
+Rails.application.config.assets.precompile += %w[transformation_admin/main.scss]
+Rails.application.config.assets.precompile += %w[transformation_admin/pages/opportunity.scss]
+Rails.application.config.assets.precompile += %w[transformation_admin/pages/help.scss]
+
+# JS...
+Rails.application.config.assets.precompile += %w[transformation_admin/dit.page.all.js]
+Rails.application.config.assets.precompile += %w[transformation_admin/dit.page.opportunity.js]
+
+
+# POC - originally on develop_zeus.
+# Not used as part of the Transformation project
+# ---------------------------------
+
+#Rails.application.config.assets.precompile += %w[poc/main.scss]
+#Rails.application.config.assets.precompile += %w[poc/pages/international.scss]
+#Rails.application.config.assets.precompile += %w[poc/dit.page.international.js]
 
 #Rails.application.config.assets.precompile += %w['poc/*.js']
 #Rails.application.config.assets.precompile += %w['poc/layouts/*.js']

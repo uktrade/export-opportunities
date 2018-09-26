@@ -17,6 +17,17 @@
   %tr
     %th{:scope => 'row'} Teaser
     %td= @opportunity.teaser
+
+  - if @opportunity.request_type
+    %tr
+      %th{:scope => 'row'} Buyer is looking for
+      %td= @opportunity.request_type
+
+  - if @opportunity.tender
+    %tr
+      %th{:scope => 'row'} Is a tender
+      %td= @opportunity.tender
+
   %tr
     %th{:scope => 'row'} Slug
     %td= @opportunity.slug
@@ -56,17 +67,24 @@
   %tr
     %th{:scope => 'row'} Types
     %td= @opportunity.types.map(&:name).join(', ')
+
+  - if @opportunity.supplier_preferences
+    %tr
+      %th{:scope => 'row'} Buyer is happy to talk to
+      %td= @opportunity.supplier_preferences.map(&:name).join(', ')
+
   %tr
     %th{:scope => 'row'} Values
     %td= @opportunity.values.map(&:name).join(', ')
   %tr
     %th{:scope => 'row'} Expiry date
     %td= @opportunity.response_due_on.to_s(:admin_date) if @opportunity.response_due_on
+
   %tr
     %th{:scope => 'row'} Description
     %td= present_html_or_formatted_text(@opportunity.description).html_safe
 
-  - if true
+  - if @opportunity.target_url.present?
     %tr
       %th{:scope => 'row'} External opportunity link
       %td= present_html_or_formatted_text(@opportunity.target_url).html_safe
@@ -77,6 +95,12 @@
   %tr
     %th{:scope => 'row'} Service provider
     %td= @opportunity.service_provider.try(:name)
+
+  -if @opportunity.tender_url.present?
+    %tr
+      %th{:scope => 'row'} Third-party (original) link
+      %td= link_to @opportunity.tender_url, @opportunity.tender_url.html_safe, target: "_blank"
+
   %tr
     %th{:scope => 'row'} RAGG
     %td{:class => 'ragg-cell'}=@opportunity.ragg
@@ -86,7 +110,6 @@
 
 %br
 = render 'history'
-= render 'comment_form'
 %br
 
 %h2 Opportunity Checks

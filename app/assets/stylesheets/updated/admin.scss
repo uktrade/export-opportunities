@@ -1,8 +1,16 @@
 /*
  * Main stylesheet to support the admin section of site.
- * Only add global admin styles to this file. 
+ * Only add global admin styles to this file.
  *
  * Individual layout-specific styles should be added to relevant layout files.
+ *
+ * -----------------------------------------------
+ * 
+ * Superseded by styles in transform_admin/ folder
+ *
+ * Delete when no longer in use. 
+ * -----------------------------------------------
+ *
  */
 
 @import "updated/_vars";
@@ -10,7 +18,7 @@
 @import "updated/_fonts";
 @import "updated/_mixins";
 @import "updated/_layout";
-
+@import "updated/_interim_transform_admin_fixes";
 
 /* Hidden or disabled
  *********************/

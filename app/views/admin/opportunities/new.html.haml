@@ -1,4 +1,10 @@
-%h1.heading-large= t('admin.opportunity.create_new')
-%p.lede Use this form to tell UK companies about an opportunity to do business in your market
+.intro
+  %h1= content['title_new']
+  %p.mandatory= content['mandatory']
 
-= render 'form', opportunity: @opportunity
+.process
+  = render  partial: 'form', locals: { opportunity: @opportunity, content: content }
+ 
+.container
+  %h2= content['help_title']
+  = link_to content['help_link'], '/admin/help/how-to-write-an-export-opportunity/overview'

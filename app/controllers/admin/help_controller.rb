@@ -25,6 +25,14 @@ class Admin::HelpController < Admin::BaseController
     render file_path, layout: 'help_article'
   end
 
+  def article_print
+    file_path = 'admin/help/' + id_to_file(params[:article_id])
+    @article = HelpArticlePresenter.new(params[:article_id], params[:section_id])
+    render file_path, layout: 'help_article_print'
+  end
+
+  private
+
   def render_error_not_found
     render 'errors/not_found'
   end
@@ -32,12 +40,6 @@ class Admin::HelpController < Admin::BaseController
   def id_to_file(str = '')
     str = str.tr '-', '_'
     str.gsub(/[^0-9a-z] /i, '')
-  end
-
-  def article_print
-    file_path = 'admin/help/' + id_to_file(params[:article_id])
-    @article = HelpArticlePresenter.new(params[:article_id], params[:section_id])
-    render file_path, layout: 'help_article_print'
   end
 
   def article_list

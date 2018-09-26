@@ -129,6 +129,16 @@ class OpportunityPresenter < BasePresenter
     opportunity.source.eql? value
   end
 
+  def supplier_preferences
+    opportunity.supplier_preferences.map(&:name).join(', ')
+  end
+
+  def supplier_preference?
+    if opportunity.respond_to? :supplier_preference_ids
+      opportunity.supplier_preference_ids.present?
+    end
+  end
+
   def css_class_name
     if source('volume_opps')
       'opportunity-external'
