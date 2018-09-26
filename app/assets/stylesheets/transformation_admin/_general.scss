@@ -133,8 +133,8 @@ main {
 }
 
 .content-meta {
-  @include clear_floats;
   margin-bottom: $spacing-3;
+  overflow: hidden;
   position: relative;
   top: -$spacing-3;
 
