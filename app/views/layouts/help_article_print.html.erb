@@ -5,18 +5,11 @@
   <title><%= t('organisation.name') %> - <%= @article.title %></title>
   <%= csrf_meta_tags %>
 
-  <% if request['css'] == 'transform' %>
-    <%= render partial: 'admin/includes/transformation_head' %>
-    <%= render partial: 'admin/includes/transformation_styles' %>
-    <%= render partial: 'admin/includes/transformation_scripts' %>
-    <%= stylesheet_link_tag 'transformation_admin/pages/help' %>
-
-    <%= yield :action_specific_head %>
-  <% else %>
-    <%= stylesheet_link_tag 'updated/admin', media: 'all' %>
-    <%= stylesheet_link_tag 'updated/layouts/help', media: 'all' %>
-    <%= render partial: 'admin/includes/global_script_tags' %>
-  <% end %>
+  <%= render partial: 'admin/includes/transformation_head' %>
+  <%= render partial: 'admin/includes/transformation_styles' %>
+  <%= render partial: 'admin/includes/transformation_scripts' %>
+  <%= stylesheet_link_tag 'transformation_admin/pages/help' %>
+  <%= yield :action_specific_head %>
 </head>
 <body class="help-article-print">
   <%= render partial: 'admin/includes/header' %>

@@ -38,10 +38,6 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 # 2018 New design beyond this point
 ###################################
 
-# Updated admin designs on develop (needs to be merged with Transformation project files).
-Rails.application.config.assets.precompile += %w[updated/admin.css]
-Rails.application.config.assets.precompile += %w[updated/layouts/help.css]
-
 # Transformation
 # ---------------------------------
 # CSS...
@@ -54,6 +50,9 @@ Rails.application.config.assets.precompile += %w[transformation/pages/form.scss]
 Rails.application.config.assets.precompile += %w[transformation/pages/opportunity.scss]
 Rails.application.config.assets.precompile += %w[transformation/pages/enquiries.scss]
 Rails.application.config.assets.precompile += %w[transformation/pages/notification.scss]
+
+# Remove this when no longer need to support legacy template/design (not updated to transformation)
+Rails.application.config.assets.precompile += %w[transformation_admin/temporary.css]
 
 # JS...
 Rails.application.config.assets.precompile += %w[transformation/dit.page.all.js]

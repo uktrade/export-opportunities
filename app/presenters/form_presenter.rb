@@ -139,7 +139,7 @@ class FormPresenter < PagePresenter
       id: id,
       name: name,
       label: label(field, name),
-      placeholder: prop(field, 'placeholder'), 
+      placeholder: prop(field, 'placeholder'),
     }
   end
 
