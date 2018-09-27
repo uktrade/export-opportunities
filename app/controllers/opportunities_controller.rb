@@ -318,9 +318,12 @@ class OpportunitiesController < ApplicationController
 
   # Get 5 most recent only
   private def recent_opportunities
-    post_opps = Opportunity.__elasticsearch__.where(status: :publish).where(source: :post).order(first_published_at: :desc).limit(4).to_a
-    volume_opps = Opportunity.__elasticsearch__.where(status: :publish).where(source: :volume_opps).order(first_published_at: :desc).limit(1).to_a
+    today = Time.zone.today
+    post_opps = Opportunity.__elasticsearch__.where(status: :publish).where('response_due_on>?',today).where(source: :post).order(first_published_at: :desc).limit(4).to_a
+    volume_opps = Opportunity.__elasticsearch__.where(status: :publish).where('response_due_on>?',today).where(source: :volume_opps).order(first_published_at: :desc).limit(1).to_a
+
     opps = [post_opps, volume_opps].flatten
+
     {results: opps, limit: 5, total: 5}
   end
 
