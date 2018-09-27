@@ -318,20 +318,10 @@ class OpportunitiesController < ApplicationController
 
   # Get 5 most recent only
   private def recent_opportunities
-    per_page = 5
-    query = Opportunity.public_search(
-      search_term: nil,
-      filters: SearchFilter.new,
-      sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
-    )
-    total = query.results.total
-    records = query.records.page(params[:paged]).per(per_page)
-    {
-      results: records,
-      total: total,
-      limit: per_page,
-      sort_by: @sort_column_name,
-    }
+    post_opps = Opportunity.__elasticsearch__.where(status: :publish).where(source: :post).order(first_published_at: :desc).limit(4).to_a
+    volume_opps = Opportunity.__elasticsearch__.where(status: :publish).where(source: :volume_opps).order(first_published_at: :desc).limit(1).to_a
+    opps = [post_opps, volume_opps].flatten
+    {results: opps, limit: 5, total: 5}
   end
 
   # TODO: How are the featured industries chosen?
