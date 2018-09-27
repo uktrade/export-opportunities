@@ -20,28 +20,17 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
     # Create naming to match (legacy usage of) Rails date_select field
     day_name = "#{@object_name}[#{method}(3i)]"
     day_id = "#{@object_name}_#{method}_3i"
-    day_value = nil
 
     month_name = "#{@object_name}[#{method}(2i)]"
     month_id = "#{@object_name}_#{method}_2i"
-    month_value = nil
 
     year_name = "#{@object_name}[#{method}(1i)]"
     year_id = "#{@object_name}_#{method}_1i"
-    year_value = nil
-
-    # Set the date value if we have one
-    date_value = @object[method]
-    if date_value.present?
-      day_value = date_value.day
-      month_value = date_value.month
-      year_value = date_value.year
-    end
 
     # Creates a DateTimeSelector instance which consists of three select fields
-    # We can then split them up and arrange appropriate markup, unlike when 
+    # We can then split them up and arrange appropriate markup, unlike when
     # trying to directly use date_select method (which uses this Class as well).
-    date_fields = ActionView::Helpers::DateTimeSelector.new(date_value, { use_two_digit_numbers: true }, attributes)
+    date_fields = ActionView::Helpers::DateTimeSelector.new(@object[method], { use_two_digit_numbers: true }, attributes)
     day_field = date_fields.select_day.gsub(/date\[day\]/, day_name)
     day_field = day_field.gsub(/date_day/, day_id)
 
@@ -85,14 +74,14 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
     config = {}
 
     # Set a default selected option from passed attribute
-    if attributes[:default].present?
-      config.merge!(checked: attributes[:default])
-    end
+    config[:checked] = attributes[:default] if attributes[:default].present?
 
-    @template.content_tag(:fieldset,
+    @template.content_tag(
+      :fieldset,
       @template.content_tag(:legend, props[:question]) +
       radio_collection(method, props[:options], config),
-      class: 'field radio-group')
+      class: 'field radio-group'
+    )
   end
 
   def input_select(method, props, attributes = {})
@@ -100,20 +89,19 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
 
     # Set a default selected option from passed attribute
     if @object[method].nil? && attributes[:default].present?
-      config.merge!(selected: attributes[:default])
+      config[:selected] = attributes[:default]
     end
 
-    # Merge remaining attributes with anything we want to take from props
-    attributes.merge!({
-      placeholder: props[:placeholder],
-    })
+    # Anything else we want to take from props
+    attributes[:placeholder] = props[:placeholder]
 
     # Construct the field
     @template.content_tag(
       :div,
       input_label(method, props[:label]) +
       collection_select(method, props[:options], :id, :name, config, attributes),
-      class: 'field select')
+      class: 'field select'
+    )
   end
 
   def input_text(method, props, attributes = {})
