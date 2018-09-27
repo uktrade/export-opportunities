@@ -230,8 +230,12 @@ class ApplicationController < ActionController::Base
     render 'errors/invalid_authenticity_token', status: 422
   end
 
-  # (POC experiment) Gets keeps content separated from the view
-  # and makes easy to switch later to CMS-style content editing.
+  # Returns content provided by .yml files in app/content folder.
+  # Intended use is to keep content separated from the view code.
+  # Should make it easier to switch later to CMS-style content editing.
+  # Note: Rails may already provide a similar service for multiple
+  # language support, so this mechanism might be replaced by that
+  # at some point in the furture.
   def get_content(file)
     YAML.load_file('app/content/' + file)
   end
