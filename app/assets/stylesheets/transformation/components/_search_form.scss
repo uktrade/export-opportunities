@@ -1,7 +1,11 @@
 .search-form {
   background-color: $grey-special;
   max-width: none;
-  padding: $spacing-3 $spacing-3 0 $spacing-3;
+  padding: $spacing-3;
+
+  label {
+    margin-bottom: 0;
+  }
 
   input {
     height: 54px;
