@@ -45,11 +45,11 @@ class OpportunitySearchBuilder
       }
     else
       {
-          multi_match: {
-              query: @search_term,
-              fields: ['title^5', 'teaser^2', 'description'],
-              operator: 'and',
-          },
+        multi_match: {
+          query: @search_term,
+          fields: ['title^5', 'teaser^2', 'description'],
+          operator: 'and',
+        },
       }
       # {
       #     multi_match: {

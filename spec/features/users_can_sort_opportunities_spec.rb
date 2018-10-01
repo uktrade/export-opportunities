@@ -5,6 +5,8 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
     create(:opportunity, :published, title: 'First Opp', first_published_at: 2.days.ago, response_due_on: 3.days.from_now)
     create(:opportunity, :published, title: 'Second Opp', first_published_at: 1.day.ago, response_due_on: 2.days.from_now)
     create(:opportunity, :published, title: 'Third Opp', first_published_at: 3.days.ago, response_due_on: 1.day.from_now)
+    content = get_content('opportunities/results')
+    sort_options = content['fields']['sort']['options']
 
     sleep 1
     visit opportunities_path
@@ -15,14 +17,14 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
     end
 
     # sort by published date
-    page.find('#search-sort').select('Published date')
+    page.find('#search-sort').select(sort_options[1])
     sleep 2
 
     expect('Second').to appear_before('First')
     expect('First').to appear_before('Third')
 
     # sort by expiry date
-    page.find('#search-sort').select('Expiry date')
+    page.find('#search-sort').select(sort_options[0])
     sleep 2
 
     expect('Third').to appear_before('Second')
@@ -35,6 +37,8 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       create(:opportunity, :published, title: 'Small Sardines', first_published_at: 1.day.ago, response_due_on: 4.days.from_now)
       create(:opportunity, :published, title: 'Really Old Sardines, Expiring Soon', first_published_at: 4.days.ago, response_due_on: 2.days.from_now)
       create(:opportunity, :published, title: 'Cod', first_published_at: 3.days.ago, response_due_on: 1.day.from_now)
+      content = get_content('opportunities/results')
+      sort_options = content['fields']['sort']['options']
 
       sleep 1
       visit opportunities_path
@@ -46,7 +50,7 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       
       expect(page).to have_no_content('Cod')
 
-      page.find('#search-sort').select('Published date')
+      page.find('#search-sort').select(sort_options[1])
       page.find('.button.submit').click
 
       sleep 2
@@ -54,7 +58,7 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       expect(page).to have_no_content('Cod')
       expect('Sardines, Big Sardines').to appear_before('Really Old Sardines, Expiring Soon')
 
-      page.find('#search-sort').select('Expiry date')
+      page.find('#search-sort').select(sort_options[0])
       page.find('.button.submit').click
 
       sleep 2

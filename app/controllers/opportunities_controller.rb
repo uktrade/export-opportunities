@@ -323,8 +323,7 @@ class OpportunitiesController < ApplicationController
     volume_opps = Opportunity.__elasticsearch__.where(status: :publish).where('response_due_on>?',today).where(source: :volume_opps).order(first_published_at: :desc).limit(1).to_a
 
     opps = [post_opps, volume_opps].flatten
-
-    {results: opps, limit: 5, total: 5}
+    { results: opps, limit: 5, total: 5 }
   end
 
   # TODO: How are the featured industries chosen?
