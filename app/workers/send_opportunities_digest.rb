@@ -23,22 +23,22 @@ class SendOpportunitiesDigest
 
       subscriptions.each do |subscription_id, subscription_count|
         # the one random opportunity that we are going to use for this subscription
-        sample_opportunity = SubscriptionNotification.where(subscription_id: subscription_id).where(sent:false).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at < ?', yesterday_date, today_date).select(:opportunity_id).sample(1).first.opportunity
+        sample_opportunity = SubscriptionNotification.where(subscription_id: subscription_id).where(sent: false).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at < ?', yesterday_date, today_date).select(:opportunity_id).sample(1).first.opportunity
         subscription = Subscription.find(subscription_id)
 
         struct[:subscriptions][subscription_id] = {
-            title: subscription.title,
-            target_url: url_from_subscription(subscription),
-            count: subscription_count,
-            opportunity: sample_opportunity
+          title: subscription.title,
+          target_url: url_from_subscription(subscription),
+          count: subscription_count,
+          opportunity: sample_opportunity,
         }
       end
       OpportunityMailer.send_opportunity(User.find(user_id), struct).deliver_later!
 
       # update subscription notifications to sent=true
-      subscriptions.each do |sub, count|
+      subscriptions.each do |sub, _count|
         subscription = Subscription.find(sub)
-        sub_nots = SubscriptionNotification.where(subscription_id: subscription).where(sent:false).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at < ?', yesterday_date, today_date)
+        sub_nots = SubscriptionNotification.where(subscription_id: subscription).where(sent: false).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at < ?', yesterday_date, today_date)
         sub_nots.update_all(sent: true) unless Rails.env.development?
       end
     end
@@ -53,13 +53,13 @@ class SendOpportunitiesDigest
     elsif subscription.search_term
       target_url = "/opportunities?s=#{subscription.search_term}"
     elsif subscription.countries
-      target_url = "/opportunities?s=&sort_column_name=response_due_on"
+      target_url = '/opportunities?s=&sort_column_name=response_due_on'
       subscription.countries.each do |country|
         target_url += "&countries%5B%5D=#{country.slug}"
       end
     else
-      target_url = "/opportunities"
+      target_url = '/opportunities'
     end
-    return target_url
+    target_url
   end
 end
