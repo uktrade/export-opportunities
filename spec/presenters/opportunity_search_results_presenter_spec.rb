@@ -246,7 +246,8 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
   describe '#sort_input_select' do
     it 'Returns object to construct the chosen sort order' do
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { sort_by: 'first_published_at' }, search_filters)
+      content = get_content('opportunities/results')
+      presenter = OpportunitySearchResultsPresenter.new(content, { sort_by: 'first_published_at' }, search_filters)
       input = presenter.sort_input_select
 
       expect(input[:name]).to eql('sort_column_name')
