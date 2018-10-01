@@ -25,7 +25,7 @@ class SendOpportunitiesDigest
         # the one random opportunity that we are going to use for this subscription
         sample_opportunity = SubscriptionNotification.where(subscription_id: subscription_id).where(sent:false).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at < ?', yesterday_date, today_date).select(:opportunity_id).sample(1).first.opportunity
         subscription = Subscription.find(subscription_id)
-byebug
+
         struct[:subscriptions][subscription_id] = {
             title: subscription.title,
             target_url: url_from_subscription(subscription),
