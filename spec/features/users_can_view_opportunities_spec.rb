@@ -174,7 +174,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to have_content('Italy')
     expect(page).to_not have_content('Japan')
 
-    expect(page).to have_content('2 results found for all opportunities  in Greece or Italy')
+    expect(page).to have_content('2 results found in Greece or Italy')
 
     # only select Greece from countries
     find(:css, '#countries_1').set(false)
@@ -189,7 +189,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to_not have_content('Italy')
     expect(page).to_not have_content('Japan')
 
-    expect(page).to have_content('1 result found for all opportunities  in Greece')
+    expect(page).to have_content('1 result found in Greece')
 
     # select mediterranean region now
     find(:css, '#regions_4').set(true)
@@ -204,7 +204,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to have_content('Italy')
     expect(page).to_not have_content('Japan')
 
-    expect(page).to have_content('2 results found for all opportunities  in Greece or Mediterranean Europe')
+    expect(page).to have_content('2 results found in Greece or Mediterranean Europe')
 
     # select North East Asia now
     # 3 results now. 2 results from before + 1 from North Asia
@@ -224,14 +224,14 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to_not have_content('Spain')
     expect(page).to_not have_content('Canada')
 
-    expect(page).to have_content('3 results found for all opportunities  in Greece or Mediterranean Europe or North East Asia')
+    expect(page).to have_content('3 results found in Greece or Mediterranean Europe or North East Asia')
 
     # select a region with no results (South America), nothing should change
     find(:css, '#regions_11').set(true)
     click_on 'Update results'
 
     expect(page).to_not have_content('Colombia')
-    expect(page).to have_content('3 results found for all opportunities  in Greece or Mediterranean Europe or North East Asia or South America')
+    expect(page).to have_content('3 results found in Greece or Mediterranean Europe or North East Asia or South America')
 
     # start a new search by searching for oil on the top right hand corner
     within '.search' do
