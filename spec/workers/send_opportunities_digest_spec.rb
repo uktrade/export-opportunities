@@ -10,16 +10,34 @@ RSpec.describe SendOpportunitiesDigest, :elasticsearch, :commit, sidekiq: :inlin
     opportunity = create(:opportunity, :published)
     subscription_notification = create(:subscription_notification, subscription: subscription, opportunity: opportunity, created_at: notification_creation_timestamp)
     SendOpportunitiesDigest.new.perform
-
-    # enquiry = create(:enquiry, created_at: DateTime.new(2017, 12, 12, 13).in_time_zone(Time.zone))
-    # from_date = '13/1/2017'#DateTime.new(2017, 1, 1, 13).in_time_zone(Time.zone).to_s
-    # to_date = '1/1/2018'#DateTime.new(2018, 1, 1, 13).in_time_zone(Time.zone).to_s
-    # SendEnquiriesReportToMatchingAdminUser.new.perform('an@email.com', enquiry, from_date, to_date, 6000)
-    #
-    # last_delivery = ActionMailer::Base.deliveries.last
-    #
-    # expect(last_delivery.text_part.to_s).to include('Please find the Enquiries report')
-    # expect(last_delivery.attachments[0].filename).to eq('Enquiries.csv')
   end
 
+  it 'creates the correct target_url for a subscription with search term only' do
+    user = create(:user)
+    subscription = create(:subscription, user: user, search_term: 'feta')
+    target_url = SendOpportunitiesDigest.new.url_from_subscription(subscription)
+    expect(target_url).to eq('/opportunities?s=feta')
+  end
+
+  it 'creates the correct target_url for a subscription with countries only' do
+    user = create(:user)
+    country = create(:country, slug: 'Greece')
+    another_country = create(:country, slug: 'Macedonia')
+    subscription = create(:subscription, user: user, countries: [country, another_country], search_term: '')
+
+    target_url = SendOpportunitiesDigest.new.url_from_subscription(subscription)
+
+    expect(target_url).to eq('/opportunities?s=&countries%5B%5D=Greece&countries%5B%5D=Macedonia')
+  end
+
+  it 'creates the correct target_url for a subscription with search term and countries' do
+    user = create(:user)
+    country = create(:country, slug: 'Greece')
+    another_country = create(:country, slug: 'Macedonia')
+    subscription = create(:subscription, user: user, search_term: 'halva', countries: [country, another_country])
+
+    target_url = SendOpportunitiesDigest.new.url_from_subscription(subscription)
+
+    expect(target_url).to eq('/opportunities?s=halva&countries%5B%5D=Greece&countries%5B%5D=Macedonia')
+  end
 end
