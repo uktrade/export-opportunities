@@ -3,8 +3,7 @@ class OpportunityMailer < ApplicationMailer
 
   def send_opportunity(user, struct)
     @count = struct[:count]
-    # TODO: don't use sample if the number of opps can be too large
-    # @opportunities = opportunities.sample(5)
+
     @subscriptions = struct[:subscriptions]
     @user = user
 
