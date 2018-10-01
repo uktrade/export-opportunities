@@ -45,40 +45,30 @@ class OpportunitySearchBuilder
       }
     else
       {
-        multi_match: {
-          query: @search_term,
-          fields: ['title^5', 'teaser^2', 'description'],
-          operator: 'and',
-        },
+        bool: {
+          should: [
+            {match: {title: { "boost": 5, "query": @search_term}}},
+            {match: {teaser: {"boost": 2, "query": @search_term}}},
+            {match: {description: @search_term}},
+            {
+              "boosting": {
+                "positive": {
+                  "term": {
+                    "source": "post"
+                  }
+                },
+                "negative": {
+                  "term": {
+                    "source": "volume_opps"
+                  }
+                },
+                "negative_boost": 0.1
+              }
+              },
+            ],
+        minimum_should_match: 2,
+          }
       }
-      # {
-      #     multi_match: {
-      #         bool: {
-      #             must: [
-      #         query: @search_term,
-      #         fields: ['title^5', 'teaser^2', 'description'],
-      #         operator: 'and',
-      #             ],
-      #             should: [
-      #                 {
-      #                     "boosting": {
-      #                         "positive": {
-      #                             "term": {
-      #                                 "source": "post"
-      #                             }
-      #                         },
-      #                         "negative": {
-      #                             "term": {
-      #                                 "source": "volume_opps"
-      #                             }
-      #                         },
-      #                         "negative_boost": 0.2
-      #                     }
-      #                 }
-      #             ]
-      #         }
-      #     },
-      # }
     end
   end
 
