@@ -32,6 +32,7 @@ class SendOpportunitiesDigest
           opportunity: sample_opportunity,
         }
       end
+
       OpportunityMailer.send_opportunity(User.find(user_id), struct).deliver_later!
 
       # update subscription notifications to sent=true
