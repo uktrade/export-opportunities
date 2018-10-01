@@ -25,7 +25,7 @@ class SendOpportunitiesDigest
         # the one random opportunity that we are going to use for this subscription
         sample_opportunity = SubscriptionNotification.where(subscription_id: subscription_id).where(sent: false).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at < ?', yesterday_date, today_date).select(:opportunity_id).sample(1).first.opportunity
         subscription = Subscription.find(subscription_id)
-
+byebug
         struct[:subscriptions][subscription_id] = {
           title: subscription.title,
           target_url: url_from_subscription(subscription),
@@ -44,11 +44,11 @@ class SendOpportunitiesDigest
     end
   end
 
-  def url_from_subscription(subscription)
+  private def url_from_subscription(subscription)
     if subscription.search_term && subscription.countries
       target_url = "/opportunities?s=#{subscription.search_term}"
       subscription.countries.each do |country|
-        target_url += "&countries%5B%5D=#{country.slug}"
+        target_url += "&countries%5B%5D=#{country.name}"
       end
     elsif subscription.search_term
       target_url = "/opportunities?s=#{subscription.search_term}"
