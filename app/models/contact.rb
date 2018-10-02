@@ -1,5 +1,5 @@
 class Contact < ApplicationRecord
-  validates :name, :email, presence: true
+  validates :name, presence: true
   validates :email, email: { allow_blank: true }
 
   def email=(value)

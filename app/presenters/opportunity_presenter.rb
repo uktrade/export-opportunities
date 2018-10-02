@@ -73,17 +73,7 @@ class OpportunityPresenter < BasePresenter
   end
 
   def contact
-    contact = ''
-    if opportunity.contacts.length.positive?
-      contact = if contact_email.blank?
-                  contact_name
-                else
-                  contact_email
-                end
-    end
-
-    # Final check to make sure it is not still blank.
-    contact.blank? ? 'Contact unknown' : contact
+    contact_email if opportunity.contacts.length.positive?
   end
 
   def guides_available
@@ -166,10 +156,6 @@ class OpportunityPresenter < BasePresenter
   private
 
   attr_reader :h, :opportunity
-
-  def contact_name
-    opportunity.contacts.first.name
-  end
 
   def contact_email
     opportunity.contacts.first.email
