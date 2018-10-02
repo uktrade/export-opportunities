@@ -83,13 +83,14 @@ class ApplicationController < ActionController::Base
   end
 
   def api_check
-    # redis = Redis.new(url: Figaro.env.redis_url!)
-    latest_sidekiq_failure = redis.get(:sidekiq_retry_jobs_last_failure)
+    @redis ||= Redis.new(url: Figaro.env.redis_url)
+
+    latest_sidekiq_failure = @redis.get(:sidekiq_retry_jobs_last_failure)
 
     sidekiq_retry_jobs_count = sidekiq_retry_count
-    retry_count = redis_oo_retry_count(redis)
+    retry_count = redis_oo_retry_count(@redis)
 
-    update_redis_counter(redis, sidekiq_retry_jobs_count, latest_sidekiq_failure)
+    update_redis_counter(@redis, sidekiq_retry_jobs_count, latest_sidekiq_failure)
 
     # calculate counters
     today_date = Time.zone.now
@@ -108,8 +109,6 @@ class ApplicationController < ActionController::Base
 
     azure_list_id = Figaro.env.AZ_CUSTOM_LIST_ID
     azure_az_api_key = "...#{Figaro.env.AZ_API_KEY[-4..-1]}"
-
-    @redis ||= Redis.new(url: Figaro.env.redis_url)
 
     counter_opps_expiring_soon = @redis.get(:opps_counters_expiring_soon)
     counter_opps_total = @redis.get(:opps_counters_total)
