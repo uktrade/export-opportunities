@@ -115,10 +115,11 @@
             = opportunity.buyer_name
             = opportunity.buyer_address
 
-          %dt.contact
-            Contact
-          %dd.contact
-            = opportunity.contact
+          - unless opportunity.contact.empty?
+            %dt.contact
+              Contact
+            %dd.contact
+              = opportunity.contact
 
 
     .bid

@@ -83,7 +83,7 @@ class ApplicationController < ActionController::Base
   end
 
   def api_check
-    redis = Redis.new(url: Figaro.env.redis_url!)
+    # redis = Redis.new(url: Figaro.env.redis_url!)
     latest_sidekiq_failure = redis.get(:sidekiq_retry_jobs_last_failure)
 
     sidekiq_retry_jobs_count = sidekiq_retry_count
@@ -115,7 +115,7 @@ class ApplicationController < ActionController::Base
     counter_opps_total = @redis.get(:opps_counters_total)
     counter_opps_published_recently = @redis.get(:opps_counters_published_recently)
 
-    volume_opps_failed_timestamp = redis.get(:application_error)&.strip
+    volume_opps_failed_timestamp = @redis.get(:application_error)&.strip
 
     if (sidekiq_retry_jobs_count - retry_count).positive? && days_since_last_failure(latest_sidekiq_failure) < PUBLISH_SIDEKIQ_ERROR_DAYS
       render json: { status: 'error', retry_error_count: sidekiq_retry_jobs_count }
