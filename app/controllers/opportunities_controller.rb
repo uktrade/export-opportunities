@@ -35,6 +35,8 @@ class OpportunitiesController < ApplicationController
   end
 
   def results
+    @dit_boost_search = params['boost_search'].present?
+
     convert_areas_params_into_regions_and_countries
     @content = get_content('opportunities/results.yml')
     @filters = SearchFilter.new(params)
@@ -190,13 +192,15 @@ class OpportunitiesController < ApplicationController
                 search_term: @search_term,
                 filters: filters_with_mapped_regions,
                 sort: sort,
-                limit: 100
+                limit: 100,
+                dit_boost_search: @dit_boost_search
               )
             else
               Opportunity.public_search(
                 search_term: @search_term,
                 filters: filters_with_mapped_regions,
-                sort: sort
+                sort: sort,
+                dit_boost_search: @dit_boost_search
               )
             end
 
