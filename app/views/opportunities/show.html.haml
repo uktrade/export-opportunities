@@ -115,7 +115,7 @@
             = opportunity.buyer_name
             = opportunity.buyer_address
 
-          - unless opportunity.contact.empty?
+          - unless opportunity.contact.blank?
             %dt.contact
               Contact
             %dd.contact
