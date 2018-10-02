@@ -1,5 +1,5 @@
 class OpportunitySearchBuilder
-  def initialize(search_term: '', sectors: [], countries: [], opportunity_types: [], values: [], expired: false, status: :published, sort:)
+  def initialize(search_term: '', sectors: [], countries: [], opportunity_types: [], values: [], expired: false, status: :published, sort:, dit_boost_search:)
     @search_term = search_term.to_s.strip
     @sectors = Array(sectors)
     @countries = Array(countries)
@@ -8,6 +8,7 @@ class OpportunitySearchBuilder
     @not_expired = !expired
     @status = status
     @sort = sort
+    @dit_boost_search = dit_boost_search
   end
 
   def call
@@ -44,31 +45,41 @@ class OpportunitySearchBuilder
         match_all: {},
       }
     else
-      {
-        bool: {
-          should: [
-            {match: {title: { "boost": 5, "query": @search_term}}},
-            {match: {teaser: {"boost": 2, "query": @search_term}}},
-            {match: {description: @search_term}},
-            {
-              "boosting": {
-                "positive": {
-                  "term": {
-                    "source": "post"
-                  }
+      if @dit_boost_search
+        {
+          bool: {
+            should: [
+              {match: {title: { "boost": 5, "query": @search_term}}},
+              {match: {teaser: {"boost": 2, "query": @search_term}}},
+              {match: {description: @search_term}},
+              {
+                "boosting": {
+                  "positive": {
+                    "term": {
+                      "source": "post"
+                    }
+                  },
+                  "negative": {
+                    "term": {
+                      "source": "volume_opps"
+                    }
+                  },
+                  "negative_boost": 0.1
+                }
                 },
-                "negative": {
-                  "term": {
-                    "source": "volume_opps"
-                  }
-                },
-                "negative_boost": 0.1
-              }
-              },
-            ],
-        minimum_should_match: 2,
+              ],
+          minimum_should_match: 2,
+            }
+        }
+      else
+        {
+          multi_match: {
+            query: @search_term,
+            fields: ['title^5', 'teaser^2', 'description'],
+            operator: 'and',
           }
-      }
+        }
+      end
     end
   end
 
