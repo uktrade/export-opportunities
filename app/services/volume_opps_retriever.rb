@@ -161,7 +161,7 @@ class VolumeOppsRetriever
              else
                'NOT APPLICABLE'
              end
-      email = buyer['contactPoint']['email'] ? buyer['contactPoint']['email'] : Figaro.env.MAILER_FROM_ADDRESS
+      email = buyer['contactPoint']['email'] ? buyer['contactPoint']['email'] : ''
 
       return [
         {
