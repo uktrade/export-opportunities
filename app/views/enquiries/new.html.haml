@@ -50,10 +50,10 @@
 
         - if trade_profile(@enquiry.company_house_number)
           %p
-            = 'We have identified that you have a trade profile.'
+            = 'We have identified that you have a business profile.'
           %p
             = 'Your'
-            = link_to 'Trade Profile', trade_profile(@enquiry.company_house_number), target: :blank
+            = link_to 'Business Profile', trade_profile(@enquiry.company_house_number), target: :blank
             = 'will be added to your application.'
         - else
           = render partial: "no_trade_profile", locals: { url: page.create_trade_profile_url(@enquiry.company_house_number) }
