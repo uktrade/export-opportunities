@@ -1,5 +1,5 @@
 class OpportunitySearchBuilder
-  def initialize(search_term: '', sectors: [], countries: [], opportunity_types: [], values: [], expired: false, status: :published, sort:, dit_boost_search:)
+  def initialize(search_term: '', sectors: [], countries: [], opportunity_types: [], values: [], expired: false, status: :published, sort:, sources: [], dit_boost_search:)
     @search_term = search_term.to_s.strip
     @sectors = Array(sectors)
     @countries = Array(countries)
@@ -8,6 +8,7 @@ class OpportunitySearchBuilder
     @not_expired = !expired
     @status = status
     @sort = sort
+    @sources = Array(sources)
     @dit_boost_search = dit_boost_search
   end
 
@@ -20,8 +21,9 @@ class OpportunitySearchBuilder
     expired_query = expired_build
     status_query = status_build
     sort_query = sort_build
+    source_query = source_build
 
-    joined_query = [keyword_query, sector_query, country_query, opportunity_type_query, value_query, expired_query, status_query].compact
+    joined_query = [keyword_query, sector_query, country_query, opportunity_type_query, value_query, expired_query, status_query, source_query].compact
 
     query = {
       bool: {
@@ -132,6 +134,20 @@ class OpportunitySearchBuilder
           should: {
             terms: {
               'values.slug': @values,
+            },
+          },
+        },
+      }
+    end
+  end
+
+  def source_build
+    if @sources.present?
+      {
+        bool: {
+          should: {
+            terms: {
+              'source': @sources,
             },
           },
         },

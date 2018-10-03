@@ -1,5 +1,7 @@
+# coding: utf-8
+
 class OpportunitySearchResultsPresenter < FormPresenter
-  attr_reader :found, :form_path, :term, :selected_list, :unfiltered_search_url
+  attr_reader :found, :form_path, :term, :unfiltered_search_url
 
   def initialize(content, search, filters)
     super(content, {})
@@ -10,24 +12,22 @@ class OpportunitySearchResultsPresenter < FormPresenter
     @total = search[:total]
     @sort_by = search[:sort_by]
     @term = search[:term]
-    @selected_list = selected_filter_list(filters)
     @form_path = opportunities_path
   end
 
-  # Overwriting FormPresenter.field_content to allocate for getting
-  # fields and values from an unexpected location or the controller.
+  # Overwriting FormPresenter.field_content to allocate when we need
+  # to mix filter field content with values from the controller.
   def field_content(name)
     field = super(name)
-    case name
+    case name.to_s
     when 'industries'
-      field['options'] = format_filter_options(@filters[:sectors])
-      field['name'] = @filters[:sectors][:name]
+      field = format_filter_checkboxes(field, :sectors)
     when 'regions'
-      field['options'] = format_filter_options(@filters[:regions])
-      field['name'] = @filters[:regions][:name]
+      field = format_filter_checkboxes(field, :regions)
     when 'countries'
-      field['options'] = format_filter_options(@filters[:countries])
-      field['name'] = @filters[:countries][:name]
+      field = format_filter_checkboxes(field, :countries)
+    when 'sources'
+      field = format_filter_checkboxes(field, :sources)
     else
       {}
     end
@@ -91,21 +91,22 @@ class OpportunitySearchResultsPresenter < FormPresenter
   # Add to 'X results found' message
   # Returns ' in [a country name here]' or ''
   def searched_in(with_html = false)
+    selected = selected_filters_without(@filters, [:sources])
     message = ''
     separator_in = ' in '
     list = []
-    if @selected_list.length.positive?
+    if selected.length.positive?
       separator_or = ' or '
 
       # If HTML is required, wrap things in tags.
       if with_html
         separator_in = content_tag('span', separator_in, 'class': 'separator')
         separator_or = content_tag('span', separator_or, 'class': 'separator')
-        @selected_list.each_index do |i|
-          list.push(content_tag('span', @selected_list[i], 'class': 'param'))
+        selected.each_index do |i|
+          list.push(content_tag('span', selected[i], 'class': 'param'))
         end
       else
-        list = @selected_list
+        list = selected
       end
 
       # Make it a string and remove any trailing separator_or
@@ -148,21 +149,21 @@ class OpportunitySearchResultsPresenter < FormPresenter
     input
   end
 
-  # Note: Existing filter structure is complex.
-  # Actual data for each filter is an array, with
-  # the first element being a symbol and the second
-  # (e.g. filter[1]) being the object we want.
-  def selected_filter_list(filters = [])
-    selected = []
-    filters.each do |filter|
-      next unless filter[1].key?(:selected) && filter[1][:selected].length.positive?
-      filter[1][:options].each do |option|
-        if filter[1][:selected].include? option[:slug]
-          selected.push option[:name]
-        end
+  def selected_filter_list(title)
+    id = "selected-filter-title_#{Time.now.to_i}"
+    html = content_tag(:p, title, id: id)
+    html += content_tag(:ul, 'aria-labelledby': id) do
+      list_items = ''
+      selected_filters(@filters).each do |filter|
+        list_items += content_tag('span', filter, 'class': 'param')
       end
+      list_items.html_safe
     end
-    selected.uniq
+    html.html_safe
+  end
+
+  def applied_filters?
+    @search[:filters].countries.present? || @search[:filters] .regions.present? || @search[:filters] .sources.present?
   end
 
   # Pass in the query params (request.query_parameters)
@@ -210,25 +211,72 @@ class OpportunitySearchResultsPresenter < FormPresenter
 
   private
 
-  def format_filter_options(field = {})
+  # We have content from .yml file but want to mix data
+  # from filter(s) supplied by the controller, to create
+  # individual fields for use in view code.
+  def format_filter_checkboxes(field, filter_name)
+    filter = @filters[filter_name]
+    field_options = prop(field, 'options')
     options = []
-    field[:options].each do |option|
+    filter[:options].each_with_index do |option, index|
+      # Get field label content if available
+      name = if field_options.present? && field_options.length > index
+               prop(field_options[index], 'label')
+             else
+               option[:name]
+             end
+
+      # Some filters have a count added to the label
       label = if option[:opportunity_count].blank?
-                option[:name]
+                name
               else
-                "#{option[:name]} (#{option[:opportunity_count]})"
+                "#{name} (#{option[:opportunity_count]})"
               end
+
+      # Update initial field
       formatted_option = {
         label: label,
+        name: name,
         value: option[:slug],
       }
 
-      if field[:selected].include? option[:slug]
+      if filter[:selected].include? option[:slug]
         formatted_option[:checked] = 'true'
       end
 
       options.push(formatted_option)
     end
-    options
+    {
+      name: filter[:name],
+      options: options,
+    }
+  end
+
+  # Returns list of labels for selected filters.
+  # Note: Existing filter structure is complex.
+  # Actual data for each filter is an array, with
+  # the first element being a symbol and the second
+  # (e.g. filter[1]) being the object we want.
+  def selected_filters(filters)
+    selected = []
+    filters.each do |filter|
+      next unless filter[1].key?(:selected) && filter[1][:selected].length.positive?
+      field = field_content(filter[0])
+      prop(field, 'options').each do |option|
+        next unless option[:checked]
+        selected.push option[:name]
+      end
+    end
+    selected.uniq
+  end
+
+  # Returns list of labels for selected filters after excluding some filters.
+  def selected_filters_without(filters, exclusions)
+    filter_list = []
+    filters.each do |filter|
+      next if exclusions.include? filter[0]
+      filter_list.push filter
+    end
+    selected_filters(filter_list)
   end
 end

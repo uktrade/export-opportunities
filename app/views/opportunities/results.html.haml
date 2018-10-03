@@ -39,11 +39,11 @@
 
       .search-results-filters
         %h3= results.content['title_filters']
-        - if results.selected_list.length > 0
+        - if results.applied_filters?
           .selected-filters
-            %h4= results.content['title_filters_selected']
-            %p= results.searched_in_with_html
+            = results.selected_filter_list(results.content['title_filters_selected'])
             = link_to "Clear all filters", results.reset_url(request), { :class=>"reset" }
+        = render partial: "forms/input_checkbox_group", locals: { group: results.input_checkbox_group('sources') }
         = render partial: "forms/input_checkbox_group", locals: { group: results.input_checkbox_group('regions') }
         = render partial: "forms/input_checkbox_group", locals: { group: results.input_checkbox_group('countries') }
         %input.submit.button{:type=>"submit", :value=>"Update results"}

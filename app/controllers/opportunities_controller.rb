@@ -58,6 +58,7 @@ class OpportunitiesController < ApplicationController
       'sectors': search_filter_sectors,
       'countries': search_filter_countries,
       'regions': search_filter_regions,
+      'sources': search_filter_sources,
     }
 
     respond_to do |format|
@@ -327,6 +328,7 @@ class OpportunitiesController < ApplicationController
     volume_opps = Opportunity.__elasticsearch__.where(status: :publish).where('response_due_on>?', today).where(source: :volume_opps).order(first_published_at: :desc).limit(1).to_a
 
     opps = [post_opps, volume_opps].flatten
+
     { results: opps, limit: 5, total: 5 }
   end
 
@@ -374,6 +376,16 @@ class OpportunitiesController < ApplicationController
     }
   end
 
+  private def search_filter_sources
+    # @filters.sources ... lists all selected sources
+    # lists all sources from Opportunity model
+    {
+      'name': 'sources[]',
+      'options': sources_list,
+      'selected': @filters.sources,
+    }
+  end
+
   private def search_filter_regions
     # @filters.regions ... lists all selected regions
     # regions_list ... lists all regions (not stored in DB)
@@ -392,6 +404,17 @@ class OpportunitiesController < ApplicationController
       'options': areas_list,
       'selected': @filters.areas,
     }
+  end
+
+  # TODO: Disable the 'buyer' option coming form model
+  private def sources_list
+    sources = []
+    disabled_sources = ['buyer']
+    Opportunity.sources.keys.each do |key|
+      next if disabled_sources.include? key
+      sources.push(slug: key)
+    end
+    sources
   end
 
   # TODO: Could be stored in DB but writing here.
