@@ -7,7 +7,7 @@ class OpportunityMailerPreview < ActionMailer::Preview
     @opportunities = [Opportunity.first, Opportunity.find_by_sql('select * from opportunities where source=1').first, Opportunity.last]
     OpportunityMailer.send_opportunity(
       @user,
-      {count: 1, subscription: {subscription_id: {title: subscription.title, target_url: '/opportunities?s=test', count: 1, opportunity: @opportunities}}}
+      {count: 1, subscriptions: {subscription_id: {title: subscription.title, target_url: '/opportunities?s=test', count: 1, opportunity: @opportunities.first}}}
     )
   end
 end
