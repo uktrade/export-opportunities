@@ -43,9 +43,10 @@
           .selected-filters
             = results.selected_filter_list(results.content['title_filters_selected'])
             = link_to "Clear all filters", results.reset_url(request), { :class=>"reset" }
-        = render partial: "forms/input_checkbox_group", locals: { group: results.input_checkbox_group('sources') }
         = render partial: "forms/input_checkbox_group", locals: { group: results.input_checkbox_group('regions') }
         = render partial: "forms/input_checkbox_group", locals: { group: results.input_checkbox_group('countries') }
+        = render partial: "forms/input_checkbox_group", locals: { group: results.input_checkbox_group('sources') }
+
         %input.submit.button{:type=>"submit", :value=>"Update results"}
         %input.reset.link{:type=>"reset", :value=>"Reset"}
 
