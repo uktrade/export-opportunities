@@ -46,6 +46,32 @@ class OpportunitySearchBuilder
       {
         match_all: {},
       }
+    elsif @dit_boost_search
+      {
+        bool: {
+          should: [
+            { match: { title: { "boost": 5, "query": @search_term } } },
+            { match: { teaser: { "boost": 2, "query": @search_term } } },
+            { match: { description: @search_term } },
+            {
+              "boosting": {
+                "positive": {
+                  "term": {
+                    "source": 'post',
+                  },
+                },
+                "negative": {
+                  "term": {
+                    "source": 'volume_opps',
+                  },
+                },
+                "negative_boost": 0.1,
+              },
+            },
+          ],
+          minimum_should_match: 2,
+        },
+      }
     else
       if @dit_boost_search
         {

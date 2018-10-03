@@ -1,35 +1,50 @@
-<% if @count > 1 %>
-<%= @count %> matching opportunities
+New matching opportunities
 
+<% if @count > 1 %>
 You have <%= @count %> opportunities that match your criteria
 <% else %>
-<%= @count %> matching opportunity
-
 You have <%= @count %> opportunity that matches your criteria
 <% end %>
 
+-------------------------
 
-<% @opportunities.each do |opp| %>
-<% opportunity = OpportunityPresenter.new(self, opp) %>
+<% @subscriptions.each do |name, subscription| %>
+<% opportunity = OpportunityPresenter.new(self, subscription[:opportunity]) %>
 
 <%= opportunity.title_with_country %>
 
 <%= opportunity.teaser %>
 
 Opportunity expires: <%= opportunity.expires %>
-<%= opportunity_url(opp) %>
+<%= opportunity_url(subscription[:opportunity]) %>
+
+View all opportunities <%= subscription[:title] %>
+<%= "#{Figaro.env.DOMAIN}#{subscription[:target_url] || 'matching this subscription'}" %>
 
 -------------------------
 
 <% end %>
 
 
-View all matching opportunities at: 
-<%= "#{Figaro.env.DOMAIN}/email_notifications/#{@encrypted_user_id}" %>
 
-You can also search for other export opportunities at: 
+Search for other opportunities:
 <%= root_url %>
 
+
+
+To get daily email alerts for specific opportunities:
+
+1. Go to your account and unsubscribe from any alerts for "all opportunities".
+   <%= Figaro.env.SUD_PROFILE_PAGE_EMAIL_ALERTS.to_s %>
+
+2. Go to export opportunities and enter the products, services, or countries you want to get notifications for.
+   <%= root_url %>
+
+3. You will then be prompted to subscribe to email alerts for the search terms you have entered.
+
+
+
+-------------------------
 
 You are receiving this email because you signed up for Export Opportunities email alerts.
 
