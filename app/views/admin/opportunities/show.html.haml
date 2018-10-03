@@ -208,7 +208,7 @@
           %th{:scope => 'row'} URL
           %td= enquiry.company_url
         %tr
-          %th{:scope => 'row'} Trade Profile
+          %th{:scope => 'row'} Business Profile
           - if enquiries_count <= @enquiries_cutoff
             - @trade_profile_url = trade_profile(enquiry.company_house_number)
             - if @trade_profile_url then
