@@ -1,27 +1,25 @@
-<% if @count > 1 %>
 New matching opportunities
 
+<% if @count > 1 %>
 You have <%= @count %> opportunities that match your criteria
 <% else %>
-<%= @count %> matching opportunity
-
 You have <%= @count %> opportunity that matches your criteria
 <% end %>
 
 -------------------------
 
-<% @opportunities.each do |opp| %>
-<% opportunity = OpportunityPresenter.new(self, opp) %>
+<% @subscriptions.each do |name, subscription| %>
+<% opportunity = OpportunityPresenter.new(self, subscription[:opportunity]) %>
 
 <%= opportunity.title_with_country %>
 
 <%= opportunity.teaser %>
 
 Opportunity expires: <%= opportunity.expires %>
-<%= opportunity_url(opp) %>
+<%= opportunity_url(subscription[:opportunity]) %>
 
-View all opportunities: 
-<%= "#{Figaro.env.DOMAIN}/email_notifications/#{@encrypted_user_id}" %>
+View all opportunities <%= subscription[:title] %>
+<%= "#{Figaro.env.DOMAIN}#{subscription[:target_url] || 'matching this subscription'}" %>
 
 -------------------------
 
