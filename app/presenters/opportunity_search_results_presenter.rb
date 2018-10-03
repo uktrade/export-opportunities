@@ -248,6 +248,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
     end
     {
       name: filter[:name],
+      question: prop(field, 'question'),
       options: options,
     }
   end
