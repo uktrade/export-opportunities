@@ -22,6 +22,13 @@ fields:
       - Published date
       - Relevance
 
+  sources:
+    question: Opportunities provided by
+    options:
+      - label: DIT
+        description: (Department for International Trade)
+      - label: Third party
+
   industries:
     question: Industries
 

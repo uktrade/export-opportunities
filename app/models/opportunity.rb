@@ -152,7 +152,7 @@ class Opportunity < ApplicationRecord
   end
 
   def self.public_search(dit_boost_search: false, search_term: nil, filters: NullFilter.new, limit: 0, sort:)
-    query = OpportunitySearchBuilder.new(dit_boost_search: dit_boost_search, search_term: search_term, sectors: filters.sectors, countries: filters.countries, opportunity_types: filters.types, values: filters.values, sort: sort).call
+    query = OpportunitySearchBuilder.new(dit_boost_search: dit_boost_search, search_term: search_term, sectors: filters.sectors, countries: filters.countries, opportunity_types: filters.types, values: filters.values, sort: sort, sources: filters.sources).call
 
     ElasticSearchFinder.new.call(query[:search_query], query[:search_sort], limit)
   end

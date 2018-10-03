@@ -157,8 +157,7 @@ class FormPresenter < PagePresenter
 
   # Return existence of form field
   def field_exists?(name)
-    fields = @fields
-    fields.key?(name) || fields.key?(name.to_sym)
+    @fields.key?(name.to_s) || @fields.key?(name.to_sym)
   end
 
   private
@@ -230,11 +229,7 @@ class FormPresenter < PagePresenter
   def prop(field, name)
     value = nil
     unless field.nil?
-      if field.key?(name)
-        value = field[name]
-      elsif field.key?(name.to_sym)
-        value = field[name.to_sym]
-      end
+      value = value_by_key(field, name)
       value = value&.html_safe if value.is_a?(String)
     end
     value
@@ -242,11 +237,11 @@ class FormPresenter < PagePresenter
 
   # Returns form field content or empty hash
   def field_content(name)
-    field = {}
-    if @fields.key?(name) || @fields.key?(name.to_sym)
-      field = @fields[name] || field
+    if field_exists?(name)
+      value_by_key(@fields, name)
+    else
+      {}
     end
-    field
   end
 
   # Fix stupid Ruby handling of keys in a hash
