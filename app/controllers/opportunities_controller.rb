@@ -328,6 +328,7 @@ class OpportunitiesController < ApplicationController
     volume_opps = Opportunity.__elasticsearch__.where(status: :publish).where('response_due_on>?', today).where(source: :volume_opps).order(first_published_at: :desc).limit(1).to_a
 
     opps = [post_opps, volume_opps].flatten
+
     { results: opps, limit: 5, total: 5 }
   end
 
@@ -410,9 +411,8 @@ class OpportunitiesController < ApplicationController
     sources = []
     disabled_sources = ['buyer']
     Opportunity.sources.keys.each do |key|
-      unless disabled_sources.include? key
-        sources.push({ slug: key })
-      end
+      next if disabled_sources.include? key
+      sources.push(slug: key)
     end
     sources
   end

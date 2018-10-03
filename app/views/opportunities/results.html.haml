@@ -39,7 +39,7 @@
 
       .search-results-filters
         %h3= results.content['title_filters']
-        - if results.has_applied_filters
+        - if results.applied_filters?
           .selected-filters
             = results.selected_filter_list(results.content['title_filters_selected'])
             = link_to "Clear all filters", results.reset_url(request), { :class=>"reset" }

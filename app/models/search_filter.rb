@@ -31,7 +31,7 @@ class SearchFilter
     sources = []
     # make sure we only allow valid entries.
     param_sources.each do |source|
-      next unless Opportunity.sources.has_key? source
+      next unless Opportunity.sources.key? source
       sources.push source
     end
     @sources = sources

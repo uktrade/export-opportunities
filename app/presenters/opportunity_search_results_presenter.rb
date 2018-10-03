@@ -1,4 +1,5 @@
 # coding: utf-8
+
 class OpportunitySearchResultsPresenter < FormPresenter
   attr_reader :found, :form_path, :term, :unfiltered_search_url
 
@@ -19,16 +20,16 @@ class OpportunitySearchResultsPresenter < FormPresenter
   def field_content(name)
     field = super(name)
     case name.to_s
-      when 'industries'
-        field = format_filter_checkboxes(field, :sectors)
-      when 'regions'
-        field = format_filter_checkboxes(field, :regions)
-      when 'countries'
-        field = format_filter_checkboxes(field, :countries)
-      when 'sources'
-        field = format_filter_checkboxes(field, :sources)
-      else
-        {}
+    when 'industries'
+      field = format_filter_checkboxes(field, :sectors)
+    when 'regions'
+      field = format_filter_checkboxes(field, :regions)
+    when 'countries'
+      field = format_filter_checkboxes(field, :countries)
+    when 'sources'
+      field = format_filter_checkboxes(field, :sources)
+    else
+      {}
     end
     field
   end
@@ -152,7 +153,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
     id = "selected-filter-title_#{Time.now.to_i}"
     html = content_tag(:p, title, id: id)
     html += content_tag(:ul, 'aria-labelledby': id) do
-      list_items = ""
+      list_items = ''
       selected_filters(@filters).each do |filter|
         list_items += content_tag('span', filter, 'class': 'param')
       end
@@ -161,7 +162,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
     html.html_safe
   end
 
-  def has_applied_filters
+  def applied_filters?
     @search[:filters].countries.present? || @search[:filters] .regions.present? || @search[:filters] .sources.present?
   end
 
@@ -238,7 +239,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
         name: name,
         value: option[:slug],
       }
-      
+
       if filter[:selected].include? option[:slug]
         formatted_option[:checked] = 'true'
       end
@@ -247,9 +248,9 @@ class OpportunitySearchResultsPresenter < FormPresenter
     end
     {
       name: filter[:name],
-      options: options
+      options: options,
     }
-  end 
+  end
 
   # Returns list of labels for selected filters.
   # Note: Existing filter structure is complex.
@@ -262,9 +263,8 @@ class OpportunitySearchResultsPresenter < FormPresenter
       next unless filter[1].key?(:selected) && filter[1][:selected].length.positive?
       field = field_content(filter[0])
       prop(field, 'options').each do |option|
-        if option[:checked]
-          selected.push option[:name]
-        end
+        next unless option[:checked]
+        selected.push option[:name]
       end
     end
     selected.uniq
