@@ -22,10 +22,10 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
   describe '#field_content' do
     it 'returns the correct content' do
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters(true))
       field = presenter.field_content('countries')
-      
-      expect(field['options']).to include({:label => "Mexico (0)", :value => "mexico", :checked => "true"})
+
+      expect(field[:options]).to eq([{:label => "Spain (0)", :name => "Spain", :value => "spain", :checked => "true"}])
     end
   end
 
