@@ -282,7 +282,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
       expect(selected_filters).to include('Mexico')
       expect(selected_filters).to include('Spain')
-      expect(selected_filters.length).to be(2)
+      expect(has_html?(selected_filters)).to be_truthy
     end
   end
 
