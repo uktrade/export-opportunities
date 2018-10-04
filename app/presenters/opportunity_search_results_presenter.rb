@@ -3,6 +3,8 @@
 class OpportunitySearchResultsPresenter < FormPresenter
   attr_reader :found, :form_path, :term, :unfiltered_search_url
 
+  # Arguments passed come from the opportunities_controller.rb
+  # @content, @search_results, @search_filters
   def initialize(content, search, filters)
     super(content, {})
     @search = search
@@ -205,8 +207,10 @@ class OpportunitySearchResultsPresenter < FormPresenter
 
   # Control whether subscription link should be shown
   def offer_subscription
-    subscription = @search[:subscription]
-    subscription.search_term.present? && subscription.sectors.blank? && subscription.types.blank? && subscription.values.blank?
+    f = @search[:filters]
+    allowed_filters_present = (@search_term.present? || f.countries.present? || f.regions.present?)
+    disallowed_filters_empty = (f.sectors.blank? && f.types.blank? && f.values.blank?)
+    allowed_filters_present && disallowed_filters_empty
   end
 
   private
