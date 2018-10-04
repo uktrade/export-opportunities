@@ -267,6 +267,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
     filters.each do |filter|
       next unless filter[1].key?(:selected) && filter[1][:selected].length.positive?
       field = field_content(filter[0])
+      next if field.blank?
       prop(field, 'options').each do |option|
         next unless option[:checked]
         selected.push option[:name]
