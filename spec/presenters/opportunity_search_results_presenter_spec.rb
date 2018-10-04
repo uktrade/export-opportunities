@@ -282,7 +282,6 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
       expect(selected_filters).to include('Mexico')
       expect(selected_filters).to include('Spain')
-      byebug
       expect(selected_filters.length).to be(2)
     end
   end
@@ -352,8 +351,8 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
     it 'Returns false when search_term is empty' do
       term = ''
-      query = { search_term: term, sectors: [], types: [], countries: [], values: [], }
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: SubscriptionForm.new(query: query), term: term }, {})
+      params = { search_term: term, sectors: [], types: [], countries: [], values: [], }
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: SubscriptionForm.new(query: params), term: term, filters: SearchFilter.new(params) }, {})
 
       expect(presenter.offer_subscription).to be_falsey
     end
