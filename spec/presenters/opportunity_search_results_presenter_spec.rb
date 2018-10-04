@@ -161,23 +161,6 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
   end
 
-  describe '#searched_for_with_html' do
-    it 'Returns HTML markup for message " for [search term]"' do
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { term: 'food' }, search_filters(true))
-      message = presenter.searched_for_with_html
-
-      expect(message).to include(' for ')
-      expect(message).to include('food')
-      expect(has_html?(message)).to be_truthy
-    end
-
-    it 'Returns an empty string when searching without a specified term' do
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
-
-      expect(presenter.searched_for_with_html).to eql('')
-    end
-  end
-
   describe '#searched_in' do
     it 'Returns plain text message " in [country]"' do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters(true))
@@ -244,6 +227,23 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
   end
 
+  describe '#searched_for_with_html' do
+    it 'Returns HTML markup for message " for [search term]"' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { term: 'food' }, search_filters(true))
+      message = presenter.searched_for_with_html
+
+      expect(message).to include(' for ')
+      expect(message).to include('food')
+      expect(has_html?(message)).to be_truthy
+    end
+
+    it 'Returns an empty string when searching without a specified term' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
+
+      expect(presenter.searched_for_with_html).to eql('')
+    end
+  end
+
   describe '#sort_input_select' do
     it 'Returns object to construct the chosen sort order' do
       content = get_content('opportunities/results')
@@ -282,6 +282,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
       expect(selected_filters).to include('Mexico')
       expect(selected_filters).to include('Spain')
+      byebug
       expect(selected_filters.length).to be(2)
     end
   end
@@ -365,6 +366,20 @@ RSpec.describe OpportunitySearchResultsPresenter do
       expect(presenter.offer_subscription).to be_truthy
     end
   end
+
+  describe '#format_filter_checkboxes' do
+    skip("TODO: ...")
+  end
+
+  describe '#selected_filters' do
+    skip("TODO: ...")
+  end
+
+  describe '#selected_filters_without' do
+    skip("TODO: ...")
+  end
+
+  # Helper functions follow...
 
   def has_html?(message)
     /\<\/\w+\>/.match(message)
