@@ -54,13 +54,8 @@ RSpec.describe OpportunitySearchResultsPresenter do
   describe '#displayed' do
     it 'Returns HTML containing information about results displayed' do
       create(:opportunity, :published, { title: 'food' })
-      query = Opportunity.public_search(
-        search_term: 'food',
-        filters: SearchFilter.new({s: 'food'}),
-        sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
-      )
-
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { results: query.results }, {})
+      search = public_search({ search_term: 'food' })
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
       message = presenter.displayed
 
       expect(presenter.displayed).to include('Displaying ')
@@ -69,13 +64,8 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
     it 'Adds a class name when passed' do
       create(:opportunity, :published, { title: 'food' })
-      query = Opportunity.public_search(
-        search_term: 'food',
-        filters: SearchFilter.new({s: 'food'}),
-        sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
-      )
-
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { results: query.results }, {})
+      search = public_search({ search_term: 'food' })
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
 
       expect(presenter.displayed('class-name')).to include('class-name')
     end
@@ -112,7 +102,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
 
     it 'Returns result found information message with countries' do
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { total: 1 }, search_filters)
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { term: 'food', total: 1 }, search_filters)
       message = presenter.information
 
       expect(message).to include('1 result found')
@@ -139,14 +129,12 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
   describe '#searched_for' do
     it 'Returns plain text message " for [search term]"' do
-      create(:opportunity, :published, { title: 'food' })
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, { term: 'food' }, {})
 
       expect(presenter.searched_for).to eql(' for food')
     end
 
     it 'Returns HTML markup for message " for [search term]"' do
-      create(:opportunity, :published, { title: 'food' })
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, { term: 'food' }, {})
       message = presenter.searched_for(true)
 
@@ -300,19 +288,9 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
   describe '#subscription' do
     it 'Returns subscription data object' do
-      filters = search_filters
-      term = 'food'
-      form = SubscriptionForm.new(
-        query: {
-          search_term: term,
-          sectors: [],
-          types: [],
-          countries: [],
-          values: [],
-        }
-      )
+      search = public_search({ search_term: 'food' })
 
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: form, term: term }, filters)
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, search_filters)
       subscription = presenter.subscription
       expect(subscription[:title]).to eql('food in Spain or Mexico')
       expect(subscription[:keywords]).to eql('food')
@@ -350,17 +328,13 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
 
     it 'Returns false when search_term is empty' do
-      term = ''
-      params = { search_term: term, sectors: [], types: [], countries: [], values: [], }
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: SubscriptionForm.new(query: params), term: term, filters: SearchFilter.new(params) }, {})
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, public_search, {})
 
       expect(presenter.offer_subscription).to be_falsey
     end
 
     it 'Returns true when search_term is not empty' do
-      term = 'something'
-      params = { search_term: term, sectors: [], types: [], countries: [], values: [], }
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: SubscriptionForm.new(query: params), term: term, filters: SearchFilter.new(params) }, {})
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, public_search({ search_term: 'something' }), {})
 
       expect(presenter.offer_subscription).to be_truthy
     end
@@ -379,6 +353,25 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   # Helper functions follow...
+
+  def public_search(params = {}, total = nil)
+    filters = SearchFilter.new(params)
+    query = Opportunity.public_search(
+      search_term: params[:search_term],
+      filters: filters,
+      sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
+    )
+
+    {
+      filters: filters,
+      results: query.records,
+      total: total || query.results.total, # passing an integer for total allows rigging the test result.
+      limit: Opportunity.default_per_page,
+      term: params[:search_term],
+      sort_by: 'relevance',
+      subscription: SubscriptionForm.new(query: params), term: params[:search_term], filters: filters,
+    }
+  end
 
   def has_html?(message)
     /\<\/\w+\>/.match(message)
