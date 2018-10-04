@@ -208,7 +208,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
   # Control whether subscription link should be shown
   def offer_subscription
     f = @search[:filters]
-    allowed_filters_present = (@search_term.present? || f.countries.present? || f.regions.present?)
+    allowed_filters_present = (@search[:term].present? || f.countries.present? || f.regions.present?)
     disallowed_filters_empty = (f.sectors.blank? && f.types.blank? && f.values.blank?)
     allowed_filters_present && disallowed_filters_empty
   end

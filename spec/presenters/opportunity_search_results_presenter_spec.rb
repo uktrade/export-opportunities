@@ -359,8 +359,8 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
     it 'Returns true when search_term is not empty' do
       term = 'something'
-      query = { search_term: term, sectors: [], types: [], countries: [], values: [], }
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: SubscriptionForm.new(query: query), term: term }, {})
+      params = { search_term: term, sectors: [], types: [], countries: [], values: [], }
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: SubscriptionForm.new(query: params), term: term, filters: SearchFilter.new(params) }, {})
 
       expect(presenter.offer_subscription).to be_truthy
     end
