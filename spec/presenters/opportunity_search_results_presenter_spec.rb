@@ -244,33 +244,16 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#selected_filter_list' do
-    it 'returns the selected filter names' do
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
-      selected_filters = presenter.selected_filter_list(search_filters)
+    it 'Returns HTML markup for the selected filters' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
+      title = 'this is a title'
+      selected_filters = presenter.selected_filter_list(title)
 
+      expect(has_html?(selected_filters)).to be_truthy
+      expect(selected_filters).to include(title)
       expect(selected_filters).to include('Mexico')
       expect(selected_filters).to include('Spain')
       expect(selected_filters).to_not include('Dominica')
-    end
-
-    it 'returns the list of unique values' do
-      country_1 = country('Spain', 'spain')
-      country_2 = country('Mexico', 'mexico')
-      country_3 = country('Spain', 'spain')
-      options = [ country_1, country_2, country_3 ]
-      selected = [ country_1.slug, country_2.slug, country_3.slug ]
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
-      selected_filters = presenter.selected_filter_list({
-        countries: {
-          name: 'countries[]',
-          options: options,
-          selected: selected
-        }
-      })
-
-      expect(selected_filters).to include('Mexico')
-      expect(selected_filters).to include('Spain')
-      expect(has_html?(selected_filters)).to be_truthy
     end
   end
 
