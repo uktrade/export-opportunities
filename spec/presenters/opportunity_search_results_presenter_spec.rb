@@ -370,7 +370,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
                         'description'=>'question help' }
       field_data = { :name=>'info', :options=>[{:slug=>'boo'}], :selected=>[] }
       presenter = OpportunitySearchResultsPresenter.new({}, {}, { field_name: field_data })
-      checkboxes = presenter.send(:format_filter_checkboxes, field_content, :field_name )
+      checkboxes = presenter.send(:format_filter_checkboxes, field_content, :field_name)
 
       expect(checkboxes[:name]).to eq('info')
       expect(checkboxes[:options][0][:label]).to eq('foo')
@@ -383,7 +383,21 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#selected_filters' do
-    skip("TODO: ...")
+    it 'Return a string array of selected filter labels' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
+      selected = presenter.send(:selected_filters, search_filters)
+
+      expect(selected).to eql(['Spain', 'Mexico'])
+    end
+
+    it 'Return an empty array when no filters selected' do
+      filters = search_filters
+      filters[:countries][:selected] = []
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, filters)
+      selected = presenter.send(:selected_filters, filters)
+
+      expect(selected).to eql([])
+    end
   end
 
   describe '#selected_filters_without' do
