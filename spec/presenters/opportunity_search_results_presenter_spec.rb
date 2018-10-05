@@ -401,7 +401,19 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#selected_filters_without' do
-    skip("TODO: ...")
+    it 'Return a string array of selected filter labels' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
+      selected = presenter.send(:selected_filters_without, search_filters, [:sectors])
+
+      expect(selected).to eql(['Spain', 'Mexico'])
+    end
+
+    it 'Return an empty array when no filters selected' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
+      selected = presenter.send(:selected_filters_without, search_filters, [:countries])
+
+      expect(selected).to eql([])
+    end
   end
 
   # Helper functions follow...
