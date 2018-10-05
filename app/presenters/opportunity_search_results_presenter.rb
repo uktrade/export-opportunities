@@ -224,11 +224,13 @@ class OpportunitySearchResultsPresenter < FormPresenter
     options = []
     filter[:options].each_with_index do |option, index|
       # Get field label content if available
-      name = if field_options.present? && field_options.length > index
-               prop(field_options[index], 'label')
-             else
-               option[:name]
-             end
+      if field_options.present? && field_options.length > index
+        name = prop(field_options[index], 'label')
+        description = prop(field_options[index], 'description')
+      else
+        name = option[:name]
+        description = nil
+      end
 
       # Some filters have a count added to the label
       label = if option[:opportunity_count].blank?
@@ -241,6 +243,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
       formatted_option = {
         label: label,
         name: name,
+        description: description,
         value: option[:slug],
       }
 
@@ -253,6 +256,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
     {
       name: filter[:name],
       question: prop(field, 'question'),
+      description: prop(field, 'description'),
       options: options,
     }
   end

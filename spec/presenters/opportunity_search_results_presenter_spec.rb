@@ -364,7 +364,22 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#format_filter_checkboxes' do
-    skip("TODO: ...")
+    it 'Returns a field hash created from a mix of content and data' do
+      field_content = { 'question'=>'something',
+                        'options'=>[{ 'label'=>'foo', 'description'=>'label help' }], 
+                        'description'=>'question help' }
+      field_data = { :name=>'info', :options=>[{:slug=>'boo'}], :selected=>[] }
+      presenter = OpportunitySearchResultsPresenter.new({}, {}, { field_name: field_data })
+      checkboxes = presenter.send(:format_filter_checkboxes, field_content, :field_name )
+
+      expect(checkboxes[:name]).to eq('info')
+      expect(checkboxes[:options][0][:label]).to eq('foo')
+      expect(checkboxes[:options][0][:name]).to eq('foo')
+      expect(checkboxes[:options][0][:description]).to eq('label help')
+      expect(checkboxes[:options][0][:value]).to eq('boo')
+      expect(checkboxes[:question]).to eq('something')
+      expect(checkboxes[:description]).to eq('question help')
+    end
   end
 
   describe '#selected_filters' do
@@ -386,7 +401,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
       sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
     )
 
-    foo = {
+    {
       filters: filters,
       results: query.records,
       total: total || query.results.total, # passing an integer for total allows rigging the test result.
@@ -395,7 +410,6 @@ RSpec.describe OpportunitySearchResultsPresenter do
       sort_by: 'relevance',
       subscription: SubscriptionForm.new(query: params),
     }
-    foo
   end
 
   # Fake the opportunity_controller workaround to convert areas into countries and regions
@@ -458,6 +472,5 @@ RSpec.describe OpportunitySearchResultsPresenter do
       }
     }
   end
-
 end
 
