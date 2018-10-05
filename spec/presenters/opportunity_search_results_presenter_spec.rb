@@ -25,7 +25,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters(true))
       field = presenter.field_content('countries')
 
-      expect(field[:options]).to eq([{:label => "Spain (0)", :name => "Spain", :value => "spain", :checked => "true"}])
+      expect(field[:options]).to eq([{:label => "Spain (0)", :name => "Spain", :description=>nil, :value => "spain", :checked => "true"}])
     end
   end
 
