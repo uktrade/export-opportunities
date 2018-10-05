@@ -289,9 +289,9 @@ RSpec.describe OpportunitySearchResultsPresenter do
   describe '#subscription' do
     it 'Returns subscription data object' do
       search = public_search({ search_term: 'food' })
-
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, search_filters)
       subscription = presenter.subscription
+
       expect(subscription[:title]).to eql('food in Spain or Mexico')
       expect(subscription[:keywords]).to eql('food')
       expect(subscription[:what]).to eql(' for food')
@@ -301,28 +301,25 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
   describe '#offer_subscription' do
     it 'Returns false when sectors is not empty' do
-      skip 'TODO: Find out and fix why subscription.sectors returns nil and fails this test'
-      term = 'something'
-      query = { search_term: term, sectors: ['not_empty'], types: [], countries: [], values: [], }
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: SubscriptionForm.new(query: query), term: term }, {})
+      create(:sector, { name: 'food and stuff', slug: 'food-and-stuff' })
+      search = public_search({ search_term: 'munchies', sectors: ['food-and-stuff'] })
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, search[:filters])
 
       expect(presenter.offer_subscription).to be_falsey
     end
 
     it 'Returns false when types is not empty' do
-      skip 'TODO: Find out and fix why subscription.types returns nil and fails this test'
-      term = 'something'
-      query = { search_term: term, sectors: [], types: ['not_empty'], countries: [], values: [], }
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: SubscriptionForm.new(query: query), term: term }, {})
+      create(:type, { name: 'Strange Thing', slug: 'strange-thing' })
+      search = public_search({ search_term: 'flubber',  types: ['strange-thing'] })
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
 
       expect(presenter.offer_subscription).to be_falsey
     end
 
     it 'Returns false when values is not empty' do
-      skip 'TODO: Find out and fix why subscription.values returns nil and fails this test'
-      term = 'something'
-      query = { search_term: term, sectors: [], types: [], countries: [], values: ['not_empty'], }
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: SubscriptionForm.new(query: query), term: term }, {})
+      create(:value, { name: 'Half a penny', slug: 'halfapenny' })
+      search = public_search({ search_term: 'Loads of money', values: ['halfapenny'] })
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
 
       expect(presenter.offer_subscription).to be_falsey
     end
@@ -334,7 +331,33 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
 
     it 'Returns true when search_term is not empty' do
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, public_search({ search_term: 'something' }), {})
+      search = public_search({ search_term: 'cheap and easy money makers' })
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
+
+      expect(presenter.offer_subscription).to be_truthy
+    end
+
+    it 'Returns true when countries is not empty' do
+      create(:country, { name: 'Spain', slug: 'spain' })
+      search = public_search({ countries: ['spain', 'mexico'] })
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
+
+      expect(presenter.offer_subscription).to be_truthy
+    end
+
+    it 'Returns true when regions is not empty' do
+      create(:country, { name: 'Mexico', slug: 'mexico' })
+      search = public_search({ regions: ['south-america'] })
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
+
+      expect(presenter.offer_subscription).to be_truthy
+    end
+
+    # Home page passes regions and countries as 'areas[]' param so need to also check this.
+    it 'Returns true when areas are passed' do
+      create(:country, { name: 'Mexico', slug: 'mexico' })
+      search = public_search({ areas: ['south-america'] })
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
 
       expect(presenter.offer_subscription).to be_truthy
     end
@@ -355,6 +378,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
   # Helper functions follow...
 
   def public_search(params = {}, total = nil)
+    params = ActionController::Parameters.new(convert_areas_params_into_regions_and_countries(params))
     filters = SearchFilter.new(params)
     query = Opportunity.public_search(
       search_term: params[:search_term],
@@ -362,15 +386,31 @@ RSpec.describe OpportunitySearchResultsPresenter do
       sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
     )
 
-    {
+    foo = {
       filters: filters,
       results: query.records,
       total: total || query.results.total, # passing an integer for total allows rigging the test result.
       limit: Opportunity.default_per_page,
       term: params[:search_term],
       sort_by: 'relevance',
-      subscription: SubscriptionForm.new(query: params), term: params[:search_term], filters: filters,
+      subscription: SubscriptionForm.new(query: params),
     }
+    foo
+  end
+
+  # Fake the opportunity_controller workaround to convert areas into countries and regions
+  def convert_areas_params_into_regions_and_countries(params)
+    if params[:areas].present?
+      params[:countries] = [] if params[:countries].blank?
+      params[:areas].each do |area|
+        if area == 'south-america'
+          params[:countries].push 'mexico'
+        else
+          params[:countries].push area
+        end
+      end
+    end
+    params
   end
 
   def has_html?(message)
