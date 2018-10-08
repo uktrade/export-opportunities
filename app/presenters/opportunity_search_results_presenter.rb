@@ -3,6 +3,8 @@
 class OpportunitySearchResultsPresenter < FormPresenter
   attr_reader :found, :form_path, :term, :unfiltered_search_url
 
+  # Arguments passed come from the opportunities_controller.rb
+  # @content, @search_results, @search_filters
   def initialize(content, search, filters)
     super(content, {})
     @search = search
@@ -205,8 +207,10 @@ class OpportunitySearchResultsPresenter < FormPresenter
 
   # Control whether subscription link should be shown
   def offer_subscription
-    subscription = @search[:subscription]
-    subscription.search_term.present? && subscription.sectors.blank? && subscription.types.blank? && subscription.values.blank?
+    f = @search[:filters]
+    allowed_filters_present = (@search[:term].present? || f.countries.present? || f.regions.present?)
+    disallowed_filters_empty = (f.sectors.blank? && f.types.blank? && f.values.blank?)
+    allowed_filters_present && disallowed_filters_empty
   end
 
   private
@@ -220,11 +224,13 @@ class OpportunitySearchResultsPresenter < FormPresenter
     options = []
     filter[:options].each_with_index do |option, index|
       # Get field label content if available
-      name = if field_options.present? && field_options.length > index
-               prop(field_options[index], 'label')
-             else
-               option[:name]
-             end
+      if field_options.present? && field_options.length > index
+        name = prop(field_options[index], 'label')
+        description = prop(field_options[index], 'description')
+      else
+        name = option[:name]
+        description = nil
+      end
 
       # Some filters have a count added to the label
       label = if option[:opportunity_count].blank?
@@ -237,6 +243,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
       formatted_option = {
         label: label,
         name: name,
+        description: description,
         value: option[:slug],
       }
 
@@ -249,6 +256,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
     {
       name: filter[:name],
       question: prop(field, 'question'),
+      description: prop(field, 'description'),
       options: options,
     }
   end
@@ -263,6 +271,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
     filters.each do |filter|
       next unless filter[1].key?(:selected) && filter[1][:selected].length.positive?
       field = field_content(filter[0])
+      next if field.blank?
       prop(field, 'options').each do |option|
         next unless option[:checked]
         selected.push option[:name]
