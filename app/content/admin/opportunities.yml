@@ -82,7 +82,6 @@ fields:
 
   target_url:
     label: Enter an optional external opportunity link
-    description: Only available for DFID service provider
     placeholder: Must start with http:// or https://
 
   enquiry_interaction:
