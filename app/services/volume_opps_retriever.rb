@@ -54,7 +54,22 @@ class VolumeOppsRetriever
   end
 
   def opportunity_params(opportunity)
-    country = Country.where('name like ?', opportunity['countryname']).first
+    vo_countryname = opportunity['countryname']
+    # in these four corner cases we store country name in a significantly different way than the ISO name, so we need to transform ISO name -> ExOpps name
+    countryname = case vo_countryname
+                  when 'United States'
+                    'USA'
+                  when 'China, People\'s Republic of'
+                    'China'
+                  when 'China, Republic of (Taiwan)'
+                    'Taiwan'
+                  when 'United Arab Emirates'
+                    'UAE'
+                  else
+                    vo_countryname
+                  end
+    country = Country.where('name like ?', countryname).first
+
     opportunity_release = opportunity['json']['releases'][0]
     opportunity_source = opportunity['source']
 
