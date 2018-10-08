@@ -9,6 +9,7 @@ class ChangeOpportunityValueSlugs < ActiveRecord::Migration[5.2]
     v2.save!
 
     v3 = Value.where(slug: 'unknown').first
+    v3.name ='to be confirmed'
     v3.slug = '0'
     v3.save!
 
