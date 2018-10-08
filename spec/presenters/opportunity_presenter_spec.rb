@@ -12,12 +12,13 @@ RSpec.describe OpportunityPresenter do
   end
 
   describe '#title_with_country' do
-    it 'does not change title if source is post' do
-      opportunity = create(:opportunity, title: 'foo', source: 0)
+    it 'does not change title if source is post and created before special date' do
+      opportunity = create(:opportunity, title: 'foo', source: 0, created_at: Date.new(2018,10,7))
       opportunity.countries = create_list(:country, 2)
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
 
       expect(opportunity.source).to eq('post')
+      expect(opportunity.created_at).to eq(Date.new(2018,10,7))
       expect(presenter.title_with_country).to eq('foo')
     end
 
@@ -32,9 +33,11 @@ RSpec.describe OpportunityPresenter do
 
     it 'adds country to opportunity title' do
       country = create(:country, name: 'Iran')
-      opportunity = create(:opportunity, title: 'foo', source: 1, countries: [country])
+      opportunity = create(:opportunity, title: 'foo', source: 1, countries: [country], created_at: Date.new(2018,10,7))
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
       expect(opportunity.source).to_not eq('post')
+      expect(opportunity.created_at).to eq(Date.new(2018,10,7))
       expect(presenter.title_with_country).to eq('Iran - foo')
     end
   end
