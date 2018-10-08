@@ -201,6 +201,7 @@ class OpportunitiesController < ApplicationController
                 search_term: @search_term,
                 filters: filters_with_mapped_regions,
                 sort: sort,
+                limit: 100,
                 dit_boost_search: @dit_boost_search
               )
             end
