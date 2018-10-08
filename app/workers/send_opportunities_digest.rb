@@ -7,7 +7,7 @@ class SendOpportunitiesDigest
     yesterday_date = (Time.zone.now - 1.day).strftime('%Y-%m-%d')
     today_date = Time.zone.now.strftime('%Y-%m-%d')
 
-    results = SubscriptionNotification.joins(:subscription).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at <= ? and sent=false', yesterday_date, '2018-10-02').group(:user_id).count(:opportunity_id)
+    results = SubscriptionNotification.joins(:subscription).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at <= ? and sent=false', yesterday_date, today_date).group(:user_id).count(:opportunity_id)
     # user_id -> count_opportunity_ids
     # => {"1feb333d-ff17-49f8-9caa-2053bb0b25fa"=>4, "6083766f-e113-46e7-b4df-7c63c50d5b89"=>2}
 
