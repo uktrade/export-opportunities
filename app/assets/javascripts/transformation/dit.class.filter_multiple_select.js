@@ -313,7 +313,7 @@
    * to avoid the default/expected key names.
    **/
   FilterMultipleSelect.prototype.setContent = function() {
-    var selected = this._private.$select.get(0).selectedOptions;
+    var $selected = this._private.$select.find(":selected");
     var $list = this._private.$list;
     var data = this._private.service.data;
     $list.empty();
@@ -330,9 +330,9 @@
 
     // Update state of list choices
     $list.find("li").removeClass("selected");
-    for(var i=0; i<selected.length; ++i) {
-      $list.find("[data-value='" + selected[i].value + "']").addClass("selected");
-    }
+    $selected.each(function(i) {
+      $list.find("[data-value='" + $(this).val() + "']").addClass("selected");
+    });
   }
 
   /* Sets options and input view back to initial state.
@@ -407,15 +407,15 @@
   }
 
 
-  /* Asses what is selected and output text values to the display.
+  /* Assess what is selected and output text values to the display.
    **/
   FilterMultipleSelect.prototype.updateDisplay = function() {
     var $display = this._private.$display;
-    var selected = this._private.$select.get(0).selectedOptions;
+    var $selected = this._private.$select.find(":selected");
     $display.empty();
-    for(var i=0; i<selected.length; ++i) {
-      $display.append('<li>' + selected[i].firstChild.nodeValue + '</li>');
-    }
+    $selected.each(function() {
+      $display.append('<li>' + $(this).text() + '</li>');
+    });
   }
 
 })(jQuery, dit.utils, dit.classes);
