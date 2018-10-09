@@ -17,7 +17,7 @@ class OpportunityMailerPreview < ActionMailer::Preview
     subscription_struct[@subscription_id] = {subscription: @subscription, target_url: url_from_subscription, count: 1, opportunity: @opportunities.first}
 
     subscription_struct[@another_subscription_id] = {subscription: @another_subscription, target_url: another_url_from_subscription, count: 1, opportunity: @opportunities.last}
-byebug
+
     OpportunityMailer.send_opportunity(
       @user,
       {count: 1, subscriptions: subscription_struct}
