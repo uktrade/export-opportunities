@@ -24,7 +24,7 @@ class OpportunityPresenter < BasePresenter
   # 'Multi Country - [opportunity.title]' when has multiple countries.
   # '[country] - [opportunity.title]' when has single country.
   def title_with_country
-    if source('post') && ( opportunity.created_at < Date.parse(Figaro.env.POST_FORM_DEPLOYMENT_DATE) || ( opportunity.countries.size > 0 && opportunity.countries.map(&:region_id).include? 18 ))
+    if source('post') && ( opportunity.created_at < Date.parse(Figaro.env.POST_FORM_DEPLOYMENT_DATE) || ( opportunity.countries.size > 0 && opportunity.countries.map(&:region_id).include?(18) ))
       opportunity.title
     else
       country = if opportunity.countries.size > 1
