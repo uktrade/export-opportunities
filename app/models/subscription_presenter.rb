@@ -1,7 +1,7 @@
 class SubscriptionPresenter < SimpleDelegator
   include Rails.application.routes.url_helpers
 
-  def base_description(default = '')
+  def description
     out = []
     out << search_term if search_term?
     out << country_names_array
@@ -12,12 +12,18 @@ class SubscriptionPresenter < SimpleDelegator
     if out.any?
       out.join(', ')
     else
-      default
+      'all opportunities'
     end
   end
 
-  def description
-    base_description('all_opportunities')
+  def description_for_email
+    default = 'all opportunities'
+    desc = description
+    if desc == default
+      desc.sub(default, '')
+    else
+      "for #{desc}"
+    end
   end
 
   def country_names
