@@ -44,11 +44,11 @@ class SendOpportunitiesDigest
     end
   end
 
-  private def url_from_subscription(subscription)
+  def url_from_subscription(subscription)
     if subscription.search_term && subscription.countries
       target_url = "/opportunities?s=#{subscription.search_term}"
       subscription.countries.each do |country|
-        target_url += "&countries%5B%5D=#{country.name}"
+        target_url += "&countries%5B%5D=#{country.slug}"
       end
     elsif subscription.search_term
       target_url = "/opportunities?s=#{subscription.search_term}"

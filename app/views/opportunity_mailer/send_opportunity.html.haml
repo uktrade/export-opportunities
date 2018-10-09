@@ -25,8 +25,9 @@
 
 %hr{ style: "background-color:#f2eee8;  border:none; height:1px; margin-bottom:30px;" }
 
-- @subscriptions.each do |name, subscription|
-  - opportunity = OpportunityPresenter.new(self, subscription[:opportunity])
+- @subscriptions.each do |name, _subscription|
+  - opportunity = OpportunityPresenter.new(self, _subscription[:opportunity])
+  - subscription = SubscriptionPresenter.new(_subscription[:subscription])
   %table.opportunity{ border: "0", cellpadding: "30", cellspacing: "0", bgcolor: "#f2eee8", width: "540", style: "table-layout: fixed;" }
     %tr
       %td
@@ -37,7 +38,7 @@
             = image_tag "logos/openopps_logo.png", alt: "Open Opps", width: "150"
 
         %b
-          = link_to opportunity.title_with_country, opportunity_url(subscription[:opportunity]), { style: "white-space:inherit;" }
+          = link_to opportunity.title_with_country, opportunity_url(_subscription[:opportunity]), { style: "white-space:inherit;" }
         %br
         %br
         = opportunity.teaser
@@ -50,7 +51,7 @@
   %hr{ style: "background-color: #B00D23; height: 2px; margin: 0px; border: 2px solid #b00d23;" }
   %br
   %p
-    = link_to "View all opportunities #{subscription[:title] || 'matching this subscription'}", "#{Figaro.env.DOMAIN}#{subscription[:target_url]}", { style: "font-weight:bold;" }
+    = link_to "View all opportunities #{subscription.description}", "#{Figaro.env.DOMAIN}#{_subscription[:target_url]}", { style: "font-weight:bold;" }
   %br
 
 %p

@@ -3,7 +3,6 @@ class OpportunityMailer < ApplicationMailer
 
   def send_opportunity(user, struct)
     @count = struct[:count]
-
     @subscriptions = struct[:subscriptions]
     @user = user
 
