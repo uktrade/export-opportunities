@@ -27,7 +27,7 @@ class SendOpportunitiesDigest
         subscription = Subscription.find(subscription_id)
 
         struct[:subscriptions][subscription_id] = {
-          title: subscription.title,
+          subscription: subscription,
           target_url: url_from_subscription(subscription),
           count: subscription_count,
           opportunity: sample_opportunity,
