@@ -51,7 +51,7 @@
   %hr{ style: "background-color: #B00D23; height: 2px; margin: 0px; border: 2px solid #b00d23;" }
   %br
   %p
-    = link_to "View all opportunities #{subscription.description_for_email}", "#{Figaro.env.DOMAIN}#{item[:target_url]}", { style: "font-weight:bold;" }
+    = link_to "View all opportunities #{subscription.description_for_email}", "#{Figaro.env.DOMAIN}#{item[:target_url]}", { style: "font-weight:bold; white-space:inherit;" }
   %br
 
 %p
