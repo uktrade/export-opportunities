@@ -123,7 +123,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
       fill_in_form
       click_on 'Submit'
 
-      expect(page).to have_content 'We notice that you don\'t have a trade profile.'
+      expect(page).to have_content 'We notice that you don\'t have a business profile.'
     end
   end
 
