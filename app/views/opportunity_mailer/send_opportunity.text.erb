@@ -8,19 +8,19 @@ You have <%= @count %> opportunity that matches your criteria
 
 -------------------------
 
-<% @subscriptions.each do |name, subscription| %>
-<% opportunity = OpportunityPresenter.new(self, subscription[:opportunity]) %>
+<% @subscriptions.each do |name, item| %>
+<% opportunity = OpportunityPresenter.new(self, item[:opportunity]) %>
+<% subscription = SubscriptionPresenter.new(item[:subscription]) %>
 
 <%= opportunity.title_with_country %>
 
 <%= opportunity.teaser %>
 
 Opportunity expires: <%= opportunity.expires %>
-<%= opportunity_url(subscription[:opportunity]) %>
+<%= opportunity_url(item[:opportunity]) %>
 
-View all opportunities <%= subscription[:title] %>
-<%= "#{Figaro.env.DOMAIN}#{subscription[:target_url] || 'matching this subscription'}" %>
-
+View all opportunities <%= subscription.description_for_email %>
+<%= "#{Figaro.env.DOMAIN}#{item[:target_url]}" %>
 -------------------------
 
 <% end %>
