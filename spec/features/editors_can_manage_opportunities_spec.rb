@@ -30,9 +30,9 @@ feature 'Administering opportunities' do
 
     fill_in 'opportunity_teaser', with: 'A new life awaits you in the off-world colonies!'
 
-    find('label[for="opportunity_response_due_on_1i__"]').fill_in(with: '2020')
-    find('label[for="opportunity_response_due_on_2i_"]').fill_in(with: '12')
-    find('label[for="opportunity_response_due_on_3i_"]').fill_in(with: '15')
+    find('#opportunity_response_due_on_1i').select('2020')
+    find('#opportunity_response_due_on_2i').select('12')
+    find('#opportunity_response_due_on_3i').select('15')
 
     fill_in 'opportunity_description', with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
 
@@ -71,21 +71,26 @@ feature 'Administering opportunities' do
       country = create(:country, name: 'America')
       sector = create(:sector, name: 'Aerospace')
       type = create(:type, name: 'Public Sector')
-      value = create(:type, name: 'More than £100k')
+      value = create(:value, name: 'More than £100k')
       service_provider = create(:service_provider, name: 'Italy Rome')
+      create(:supplier_preference)
 
       login_as(uploader)
+
       visit admin_opportunities_path
       click_on 'New opportunity'
 
-      check country.name
-      check sector.name
-      check type.name
-      check value.name
+      find('#opportunity_country_ids').select(country.name)
+      find('#opportunity_sector_ids').select(sector.name)
+      find('label[for="opportunity_type_ids_1"]').click
+      find('label[for="opportunity_value_ids_1"]').click
+
       select '2016', from: 'opportunity_response_due_on_1i'
-      select 'June', from: 'opportunity_response_due_on_2i'
-      select '4', from: 'opportunity_response_due_on_3i'
-      fill_in t('admin.opportunity.description_field'), with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
+      select '06', from: 'opportunity_response_due_on_2i'
+      select '04', from: 'opportunity_response_due_on_3i'
+      
+      # fill_in t('admin.opportunity.description_field'), with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
+      find('#opportunity_description').fill_in(with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.')
       select service_provider.name, from: 'Service provider'
     end
 
