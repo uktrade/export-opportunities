@@ -78,7 +78,7 @@ class OpportunitySearchBuilder
           query: @search_term,
           fields: ['title^5', 'teaser^2', 'description'],
           operator: 'and',
-        }
+        },
       }
     end
   end

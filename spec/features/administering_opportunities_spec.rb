@@ -55,39 +55,40 @@ feature 'Administering opportunities' do
     country = create_country('America')
     sector = create_sector('Aerospace')
     type = create_type('Public Sector')
-    value = create_type('More than £100k')
+    value = create_value(1, 'More than £100k')
     service_provider = create_service_provider('Italy Rome')
+    create(:supplier_preference)
 
     login_as(uploader)
     visit admin_opportunities_path
     click_on 'New opportunity'
 
-    fill_in 'Title', with: 'Panama - Basic sanitation infrastructure'
-    check country.name
-    check sector.name
-    check type.name
-    check value.name
-    fill_in t('admin.opportunity.teaser_field'), with: 'A new life awaits you in the off-world colonies!'
-    select '2016', from: 'opportunity_response_due_on_1i'
-    select 'June', from: 'opportunity_response_due_on_2i'
-    select '4', from: 'opportunity_response_due_on_3i'
-    fill_in t('admin.opportunity.description_field'), with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
+    fill_in 'opportunity_title', with: 'Panama - Basic sanitation infrastructure'
+
+    find('#opportunity_country_ids').select(country.name)
+    find('#opportunity_sector_ids').select(sector.name)
+    find('label[for="opportunity_type_ids_1"]').click
+    find('label[for="opportunity_value_ids_1"]').click
+
+    fill_in 'opportunity_teaser', with: 'A new life awaits you in the off-world colonies!'
+    find('#opportunity_response_due_on_1i').select('2016')
+    find('#opportunity_response_due_on_2i').select('06')
+    find('#opportunity_response_due_on_3i').select('04')
+
+    fill_in 'opportunity_description', with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
     select service_provider.name, from: 'Service provider'
 
-    name_fields = find_all(:fillable_field, 'Name')
-    email_fields = find_all(:fillable_field, 'Email')
+    fill_in 'opportunity_contacts_attributes_0_name', with: 'Jane Doe'
+    fill_in 'opportunity_contacts_attributes_0_email', with: 'jane.doe@example.com'
+    fill_in 'opportunity_contacts_attributes_1_name', with: 'Joe Bloggs'
+    fill_in 'opportunity_contacts_attributes_1_email', with: 'joe.bloggs@example.com'
 
-    name_fields[0].set 'Jane Doe'
-    email_fields[0].set 'jane.doe@example.com'
-    name_fields[1].set 'Joe Bloggs'
-    email_fields[1].set 'joe.bloggs@example.com'
-
-    click_on 'Create Opportunity'
+    click_on 'Save and continue'
 
     expect(page).to have_text('Slug has already been taken')
 
-    fill_in 'Slug', with: 'new-slug'
-    click_on 'Create Opportunity'
+    fill_in 'opportunity_slug', with: 'new-slug'
+    click_on 'Save and continue'
 
     expect(page.status_code).to eq 200
     expect(page).to have_text('Created opportunity "Panama - Basic sanitation infrastructure"')
@@ -96,38 +97,37 @@ feature 'Administering opportunities' do
   scenario 'Providing mandatory opportunity fields' do
     uploader = create(:uploader)
     service_provider = create_service_provider('Italy Rome')
+    create(:type, name: 'Public Sector')
+    create(:value, name: 'More than £100k')
+    create(:supplier_preference)
+
 
     login_as(uploader)
     visit admin_opportunities_path
     click_on 'New opportunity'
 
-    click_on 'Create Opportunity'
+    click_on 'Save and continue'
 
     expect(page.status_code).to eq 422
-    expect(page).to have_text('5 errors prevented this opportunity from being saved')
+    expect(page).to have_text('3 errors prevented this opportunity from being saved')
     expect(page).to have_text('Title is missing')
     expect(page).to have_text("#{t('activerecord.attributes.opportunity.teaser')} is missing")
-    expect(page).to have_text("#{t('activerecord.attributes.opportunity.response_due_on')} is missing")
-    expect(page).to have_text('Description is missing')
     expect(page).to have_text('Contacts are missing (2 are required)')
 
-    fill_in 'Title', with: 'A chance to begin again in a golden land of opportunity and adventure'
-    fill_in t('admin.opportunity.teaser_field'), with: 'A new life awaits you in the off-world colonies!'
-    select '2016', from: 'opportunity_response_due_on_1i'
-    select 'July', from: 'opportunity_response_due_on_2i'
-    select '4', from: 'opportunity_response_due_on_3i'
-    fill_in t('admin.opportunity.description_field'), with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
+    fill_in 'opportunity_title', with: 'A chance to begin again in a golden land of opportunity and adventure'
+    fill_in 'opportunity_teaser', with: 'A new life awaits you in the off-world colonies!'
+    find('#opportunity_response_due_on_1i').select('2016')
+    find('#opportunity_response_due_on_2i').select('07')
+    find('#opportunity_response_due_on_3i').select('04')
+    fill_in 'opportunity_description', with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
     select service_provider.name, from: 'Service provider'
 
-    name_fields = find_all(:fillable_field, 'Name')
-    email_fields = find_all(:fillable_field, 'Email')
+    fill_in 'opportunity_contacts_attributes_0_name', with: 'Jane Doe'
+    fill_in 'opportunity_contacts_attributes_0_email', with: 'jane.doe@example.com'
+    fill_in 'opportunity_contacts_attributes_1_name', with: 'Joe Bloggs'
+    fill_in 'opportunity_contacts_attributes_1_email', with: 'joe.bloggs@example.com'
 
-    name_fields[0].set 'Jane Doe'
-    email_fields[0].set 'jane.doe@example.com'
-    name_fields[1].set 'Joe Bloggs'
-    email_fields[1].set 'joe.bloggs@example.com'
-
-    click_on 'Create Opportunity'
+    click_on 'Save and continue'
 
     expect(page.status_code).to eq 200
     expect(page).to have_text('Created opportunity "A chance to begin again in a golden land of opportunity and adventure"')
@@ -141,35 +141,34 @@ feature 'Administering opportunities' do
     visit admin_opportunities_path
     click_on 'New opportunity'
 
-    fill_in 'Title', with: 'A chance to begin again in a golden land of opportunity and adventure'
-    fill_in t('admin.opportunity.teaser_field'), with: 'A new life awaits you in the off-world colonies!'
-    select '2016', from: 'opportunity_response_due_on_1i'
-    select 'July', from: 'opportunity_response_due_on_2i'
-    select '4', from: 'opportunity_response_due_on_3i'
-    fill_in t('admin.opportunity.description_field'), with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
+    fill_in 'opportunity_title', with: 'A chance to begin again in a golden land of opportunity and adventure'
+    fill_in 'opportunity_teaser', with: 'A new life awaits you in the off-world colonies!'
+    find('#opportunity_response_due_on_1i').select('2016')
+    find('#opportunity_response_due_on_2i').select('07')
+    find('#opportunity_response_due_on_3i').select('04')
+    fill_in 'opportunity_description', with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
     select service_provider.name, from: 'Service provider'
 
-    name_fields = find_all(:fillable_field, 'Name')
-    email_fields = find_all(:fillable_field, 'Email')
+    fill_in 'opportunity_contacts_attributes_0_name', with: 'Jane Doe'
+    fill_in 'opportunity_contacts_attributes_0_email', with: 'jane.doe@example.com'
+    fill_in 'opportunity_contacts_attributes_1_name', with: 'Joe Bloggs'
+    fill_in 'opportunity_contacts_attributes_1_email', with: 'joe.bloggs@example.com'
 
-    name_fields[0].set 'Jane Doe'
-    email_fields[0].set 'jane.doe@example.com'
-    name_fields[1].set 'Joe Bloggs'
-    email_fields[1].set 'joe.bloggs@example.com'
-
-    click_on 'Save to Draft'
+    click_on 'Save as a draft'
 
     expect(page.status_code).to eq 200
     expect(page).to have_text('Saved to draft: "A chance to begin again in a golden land of opportunity and adventure"')
   end
 
   scenario 'Editing an opportunity' do
-    val_1 = create_value(1, '£100k-1m')
     val_2 = create_value(2, '£0-100k')
-    val_3 = create_value(3, 'unknown')
+    type = create(:type, name: 'Public Sector')
+    create(:value, name: 'More than £100k')
     admin = create(:admin)
     opportunity = create_opportunity(admin, status: 'pending')
+    create(:supplier_preference)
     opportunity.values = [val_2]
+    opportunity.types = [type]
 
     login_as(admin)
     visit admin_opportunities_path
@@ -182,13 +181,12 @@ feature 'Administering opportunities' do
 
     sleep 1
     value_field = find_by_id('opportunity_value_ids_2')
-    fill_in 'Title', with: 'France desperately needs injection moulded widgets'
-    fill_in t('admin.opportunity.description_field'), with: 'They can’t get enough of them.'
+    fill_in 'opportunity_title', with: 'France desperately needs injection moulded widgets'
+    fill_in 'opportunity_description', with: 'They can’t get enough of them.'
 
     expect(value_field).to_not be_nil
     expect(value_field.value).to eql('2')
-    expect(value_field.checked?).to be_truthy
-    click_on 'Update Opportunity'
+    click_on 'Save and continue'
 
     expect(page.status_code).to eq 200
     expect(page).to have_text('Updated opportunity "France desperately needs injection moulded widgets"')
@@ -215,6 +213,12 @@ feature 'Administering opportunities' do
         existing_opportunity = create_opportunity(@admin_user)
         existing_opportunity.countries = [Country.find_by(name: 'Zambia')]
         existing_opportunity.sectors = [Sector.find_by(name: 'Zookeeping')]
+        type = create(:type)
+        value = create(:value)
+        supplier_preference = create(:supplier_preference)
+        existing_opportunity.types = [type]
+        existing_opportunity.values = [value]
+        existing_opportunity.supplier_preferences = [supplier_preference]
         existing_opportunity.save
 
         visit '/admin/opportunities'
@@ -222,7 +226,7 @@ feature 'Administering opportunities' do
         click_on existing_opportunity.title
         click_on 'Edit opportunity'
 
-        within(page.find('.filters-panel', text: 'Country')) do
+        within(page.find('#opportunity_country_ids')) do
           expect(page.first('label').text).to eq 'Zambia'
           expect(page.first('input[type=checkbox]')).to be_checked
         end
@@ -238,7 +242,7 @@ feature 'Administering opportunities' do
         uncheck 'Zookeeping'
         check 'Advertising'
 
-        click_on 'Update Opportunity'
+        click_on 'Save and continue'
         click_on 'Edit opportunity'
 
         within(page.find('.filters-panel', text: 'Country')) do
@@ -258,7 +262,7 @@ feature 'Administering opportunities' do
         visit '/admin/opportunities'
 
         click_on 'New opportunity'
-        click_on 'Create Opportunity'
+        click_on 'Save and continue'
 
         within(page.find('.filters-panel', text: 'Sector')) do
           expect(page.first('label').text).to eq 'Advertising'
@@ -273,7 +277,7 @@ feature 'Administering opportunities' do
         check 'Zambia'
         check 'Zookeeping'
 
-        click_on 'Create Opportunity'
+        click_on 'Save and continue'
 
         within(page.find('.filters-panel', text: 'Country')) do
           expect(page.first('label').text).to eq 'Zambia'
@@ -325,6 +329,9 @@ feature 'Administering opportunities' do
 
     scenario 'automatically selects the editor’s service provider if available' do
       uploader = create(:editor, role: :uploader, service_provider: create(:service_provider, name: 'Zanzibar'))
+      create(:type, name: 'Public Sector')
+      create(:value, name: 'More than £100k')
+      create(:supplier_preference)
 
       login_as(uploader)
 
@@ -338,6 +345,9 @@ feature 'Administering opportunities' do
   scenario "publishers can edit other editor's content" do
     uploader = create(:uploader)
     opportunity = create_opportunity(uploader)
+    create(:type, name: 'Public Sector')
+    create(:value, name: 'More than £100k')
+    create(:supplier_preference)
 
     publisher = create(:publisher)
     login_as(publisher)
@@ -348,8 +358,8 @@ feature 'Administering opportunities' do
 
     expect(page.status_code).to eq 200
 
-    fill_in 'Title', with: 'A revised opportunity'
-    click_on 'Update Opportunity'
+    fill_in 'opportunity_title', with: 'A revised opportunity'
+    click_on 'Save and continue'
 
     expect(page.status_code).to eq 200
     expect(page).to have_text('Updated opportunity "A revised opportunity"')
@@ -358,6 +368,9 @@ feature 'Administering opportunities' do
   scenario "administrators can edit other editor's content" do
     uploader = create(:uploader)
     opportunity = create_opportunity(uploader)
+    create(:type, name: 'Public Sector')
+    create(:value, name: 'More than £100k')
+    create(:supplier_preference)
 
     adminitrator = create(:admin)
     login_as(adminitrator)
@@ -368,8 +381,8 @@ feature 'Administering opportunities' do
 
     expect(page.status_code).to eq 200
 
-    fill_in 'Title', with: 'A revised opportunity'
-    click_on 'Update Opportunity'
+    fill_in 'opportunity_title', with: 'A revised opportunity'
+    click_on 'Save and continue'
 
     expect(page.status_code).to eq 200
     expect(page).to have_text('Updated opportunity "A revised opportunity"')
@@ -378,18 +391,21 @@ feature 'Administering opportunities' do
   scenario 'Providing mandatory opportunity fields when editing' do
     admin = create(:admin)
     opportunity = create_opportunity(admin)
+    create(:type, name: 'Public Sector')
+    create(:value, name: 'More than £100k')
+    create(:supplier_preference)
 
     login_as(admin)
     visit admin_opportunities_path
     click_on opportunity.title
     click_on 'Edit opportunity'
 
-    fill_in 'Title', with: ''
-    fill_in t('admin.opportunity.teaser_field'), with: ''
+    fill_in 'opportunity_title', with: ''
+    fill_in 'opportunity_teaser', with: ''
     select '', from: 'opportunity_response_due_on_1i'
     select '', from: 'opportunity_response_due_on_2i'
     select '', from: 'opportunity_response_due_on_3i'
-    fill_in t('admin.opportunity.description_field'), with: ''
+    fill_in 'opportunity_description', with: ''
 
     name_fields = find_all(:fillable_field, 'Name')
     email_fields = find_all(:fillable_field, 'Email')
@@ -397,7 +413,7 @@ feature 'Administering opportunities' do
     name_fields[1].set ''
     email_fields[1].set ''
 
-    click_on 'Update Opportunity'
+    click_on 'Save and continue'
 
     expect(page.status_code).to eq 200
     expect(page).to have_text('6 errors prevented this opportunity from being saved')
@@ -408,12 +424,12 @@ feature 'Administering opportunities' do
     expect(page).to have_text('Contacts name is missing')
     expect(page).to have_text('Contacts email is missing')
 
-    fill_in 'Title', with: 'Join Up now'
-    fill_in t('admin.opportunity.teaser_field'), with: 'Service guarantees citizenship'
-    select '2021', from: 'opportunity_response_due_on_1i'
-    select 'June', from: 'opportunity_response_due_on_2i'
-    select '23', from: 'opportunity_response_due_on_3i'
-    fill_in t('admin.opportunity.description_field'), with: 'Young people all over the world are joining up to fight for the future'
+    fill_in 'opportunity_title', with: 'Join Up now'
+    fill_in 'opportunity_teaser', with: 'Service guarantees citizenship'
+    find('#opportunity_response_due_on_1i').select('2021')
+    find('#opportunity_response_due_on_2i').select('06')
+    find('#opportunity_response_due_on_3i').select('23')
+    fill_in 'opportunity_description', with: 'Young people all over the world are joining up to fight for the future'
 
     name_fields = find_all(:fillable_field, 'Name')
     email_fields = find_all(:fillable_field, 'Email')
@@ -421,7 +437,7 @@ feature 'Administering opportunities' do
     name_fields[1].set 'Juan Rico'
     email_fields[1].set 'juan@youwantoliveforever.com'
 
-    click_on 'Update Opportunity'
+    click_on 'Save and continue'
 
     expect(page.status_code).to eq 200
     expect(page).to have_text('Updated opportunity "Join Up now"')
@@ -432,6 +448,9 @@ feature 'Administering opportunities' do
     invalid_opportunity = create(:opportunity, status: 'trash')
     invalid_opportunity.contacts.destroy_all
     invalid_opportunity.save(validate: false)
+    create(:type, name: 'Public Sector')
+    create(:value, name: 'More than £100k')
+    create(:supplier_preference)
 
     login_as(publisher)
     visit edit_admin_opportunity_path(invalid_opportunity)
@@ -441,7 +460,7 @@ feature 'Administering opportunities' do
     fill_in('opportunity[contacts_attributes][0][email]', with: Faker::Internet.email)
     fill_in('opportunity[contacts_attributes][1][name]', with: Faker::Name.name)
     fill_in('opportunity[contacts_attributes][1][email]', with: Faker::Internet.email)
-    click_on 'Update Opportunity'
+    click_on 'Save and continue'
 
     expect(page).to_not have_text('Contacts are missing')
   end
@@ -456,7 +475,7 @@ feature 'Administering opportunities' do
     visit edit_admin_opportunity_path(invalid_opportunity)
     expect(page.status_code).to eq 200
 
-    click_on 'Update Opportunity'
+    click_on 'Save and continue'
 
     expect(page).to have_text('Contacts are missing')
 
@@ -465,7 +484,7 @@ feature 'Administering opportunities' do
     fill_in('opportunity[contacts_attributes][1][name]', with: Faker::Name.name)
     fill_in('opportunity[contacts_attributes][1][email]', with: Faker::Internet.email)
 
-    click_on 'Update Opportunity'
+    click_on 'Save and continue'
 
     expect(page).to_not have_text('Contacts are missing')
   end

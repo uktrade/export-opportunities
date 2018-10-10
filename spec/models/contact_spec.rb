@@ -3,11 +3,6 @@ require 'rails_helper'
 describe Contact, type: :model do
   describe 'validations' do
     it { is_expected.to validate_presence_of :name }
-    it { is_expected.to validate_presence_of :email }
-
-    it 'does not add further validation errors when the email is blank' do
-      expect(Contact.new(email: '')).to have(1).error_on(:email)
-    end
 
     it 'accepts valid email addresses' do
       expect(Contact.new(email: 'foo@bar.com')).to have(0).errors_on(:email)

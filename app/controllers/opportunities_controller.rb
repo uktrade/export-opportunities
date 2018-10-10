@@ -188,23 +188,13 @@ class OpportunitiesController < ApplicationController
     country_list = []
     per_page = Opportunity.default_per_page
 
-    query = if @recent_opportunity_search
-              Opportunity.public_search(
-                search_term: @search_term,
-                filters: filters_with_mapped_regions,
-                sort: sort,
-                limit: 100,
-                dit_boost_search: @dit_boost_search
-              )
-            else
-              Opportunity.public_search(
-                search_term: @search_term,
-                filters: filters_with_mapped_regions,
-                sort: sort,
-                limit: 100,
-                dit_boost_search: @dit_boost_search
-              )
-            end
+    query = Opportunity.public_search(
+      search_term: @search_term,
+      filters: filters_with_mapped_regions,
+      sort: sort,
+      limit: 100,
+      dit_boost_search: @dit_boost_search
+    )
 
     if atom_request?
       atom_request_query(query)
