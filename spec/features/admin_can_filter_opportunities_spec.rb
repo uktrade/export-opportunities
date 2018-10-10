@@ -230,6 +230,9 @@ RSpec.feature 'Admin can filter opportunities' do
     create(:opportunity, :published, title: 'published opportunity')
     create(:opportunity, :unpublished, title: 'pending opportunity')
     create(:opportunity, :published, :expired, title: 'expired opportunity')
+    create(:type, name: 'Public Sector')
+    create(:value, name: 'More than £100k')
+    create(:supplier_preference)
 
     visit '/admin/opportunities'
 
@@ -246,7 +249,7 @@ RSpec.feature 'Admin can filter opportunities' do
 
     click_on 'published opportunity'
     click_on 'Edit opportunity'
-    click_on 'Update Opportunity'
+    click_on 'Save and continue'
     page.first(:link, 'Back').click
 
     expect(page).to have_no_content('pending opportunity')

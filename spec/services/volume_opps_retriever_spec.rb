@@ -196,8 +196,8 @@ RSpec.describe VolumeOppsRetriever do
   end
 
   describe '#translates opportunity' do
-    skip('TODO: add the tests here in a periodically running suite')
     it 'translates a sample opp' do
+      skip('TODO: add the tests here in a periodically running suite')
       opportunity = create(:opportunity, description: 'alex jest świetny, niech żyje alex', original_language: 'pl')
 
       VolumeOppsRetriever.new.translate(opportunity, [:description, :teaser, :title], 'pl')
@@ -206,8 +206,8 @@ RSpec.describe VolumeOppsRetriever do
       expect(opportunity.original_language).to eq('pl')
     end
 
-    skip('TODO: add the tests here in a periodically running suite')
     it 'queries translate API to translate the opportunity' do
+      skip('TODO: add the tests here in a periodically running suite')
       opportunity = create(:opportunity,
                            source: :volume_opps,
                            original_language: 'fr',
@@ -238,7 +238,7 @@ Les langages utilisés et à considérer comme obsolètes sont Matrix, Matlab, F
 
       VolumeOppsRetriever.new.translate(opportunity, [:description, :teaser, :title], 'fr')
       expect(opportunity.original_language).to eq('fr')
-      expect(opportunity.title).to include('Overhaul of the Matys business application')
+      expect(opportunity.title).to include('Redesign of the Matys business application')
       expect(opportunity.description).to include("RATP's Matys application is a business application for railway studies")
       expect(opportunity.teaser).to include('The services included in the market scope are described below')
     end

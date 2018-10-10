@@ -19,8 +19,8 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
   end
 
   scenario 'clicks on featured industries link, gets both OO and posts opportunities', :elasticsearch, :commit, js: true do
-    sector = create(:sector, slug: 'food-drink', id: 9, name: 'FoodDrink')
-    security_sector = create(:sector, slug: 'security', id: 31, name: 'Security')
+    sector = create(:sector, slug: 'food-drink', id: 11, name: 'FoodDrink')
+    security_sector = create(:sector, slug: 'security', id: 17, name: 'Security')
     security_opp = create(:opportunity, title: 'Italy - White hat hacker required', description: 'security food drink', sectors: [security_sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
     post_opp = create(:opportunity, title: 'France - Cow required', sectors: [sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
     oo_opp = create(:opportunity, title: 'Greece - Pimms food drink in Mykonos', description: 'food drink pimms mykonoos', source: :volume_opps, status: :publish, response_due_on: 1.week.from_now)
