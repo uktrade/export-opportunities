@@ -1,0 +1,20 @@
+-# TODO: Update this to use individual %select elements instead of %input
+%fieldset.field.date-month-year
+  %legend
+    = input[:label]
+
+  - unless input[:description].nil? or input[:description].empty?
+    %p.description{ :id=> input[:description_id] }
+      = input[:description]
+
+  %label.day
+    Day
+    %input{:type=>'text', :name=>input[:name_dd]}
+
+  %label.month
+    Month
+    %input{:type=>'text', :name=>input[:name_mm]}
+
+  %label.year
+    Year
+    %input{:type=>'text', :name=>input[:name_yy]}

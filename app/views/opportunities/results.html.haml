@@ -14,7 +14,7 @@
 
     %form.search{:action=>results.form_path, :method=>"get"}
       %label
-        %span New search
+        %span= results.content['title_new_search']
         %input{:name=>"s", :autocomplete=>"off", :class=>"text", :type=>"search", :value=>"", :placeholder=>"What are you selling?"}
       %input.submit{:value=>results.content['search_again_button'], :type=>"submit"}
 
@@ -29,7 +29,7 @@
     - if results.found.length > 0
 
       .search-results
-        %h2.verbose= results.content['title']
+        %h2.verbose= results.content['title_results_list']
         = results.displayed "information"
         .sort
           = render partial: "forms/input_select", locals: { input: results.sort_input_select }
@@ -39,13 +39,14 @@
 
       .search-results-filters
         %h3= results.content['title_filters']
-        - if results.selected_list.length > 0
+        - if results.applied_filters?
           .selected-filters
-            %h4= results.content['title_filters_selected']
-            %p= results.searched_in_with_html
+            = results.selected_filter_list(results.content['title_filters_selected'])
             = link_to "Clear all filters", results.reset_url(request), { :class=>"reset" }
         = render partial: "forms/input_checkbox_group", locals: { group: results.input_checkbox_group('regions') }
         = render partial: "forms/input_checkbox_group", locals: { group: results.input_checkbox_group('countries') }
+        = render partial: "forms/input_checkbox_group", locals: { group: results.input_checkbox_group('sources') }
+
         %input.submit.button{:type=>"submit", :value=>"Update results"}
         %input.reset.link{:type=>"reset", :value=>"Reset"}
 

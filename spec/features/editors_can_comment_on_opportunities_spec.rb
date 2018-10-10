@@ -36,6 +36,10 @@ RSpec.feature 'Commenting on opportunities' do
     scenario 'when editing an opportunity' do
       uploader = create(:uploader, name: 'Barbara Windsor')
       opportunity = create(:opportunity, author: uploader)
+      create(:type, name: 'Public Sector')
+      create(:value, name: 'More than £100k')
+      create(:supplier_preference)
+
       login_as(uploader)
 
       visit '/admin/opportunities'
@@ -48,7 +52,7 @@ RSpec.feature 'Commenting on opportunities' do
           click_on 'Add Comment'
         end
 
-        expect(page).to have_content 'Edit opportunity'
+        expect(page).to have_content 'Edit export opportunity'
         expect(page).to have_content 'Make comments great again!'
         expect(page).to have_content 'Barbara Windsor (Opportunity author) on 23 June 2016 at 12:00'
       end

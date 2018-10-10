@@ -12,12 +12,13 @@ RSpec.describe OpportunityPresenter do
   end
 
   describe '#title_with_country' do
-    it 'does not change title if source is post' do
-      opportunity = create(:opportunity, title: 'foo', source: 0)
+    it 'does not change title if source is post and created before special date' do
+      opportunity = create(:opportunity, title: 'foo', source: 0, created_at: Date.new(2018,10,7))
       opportunity.countries = create_list(:country, 2)
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
 
       expect(opportunity.source).to eq('post')
+      expect(opportunity.created_at).to eq(Date.new(2018,10,7))
       expect(presenter.title_with_country).to eq('foo')
     end
 
@@ -32,9 +33,11 @@ RSpec.describe OpportunityPresenter do
 
     it 'adds country to opportunity title' do
       country = create(:country, name: 'Iran')
-      opportunity = create(:opportunity, title: 'foo', source: 1, countries: [country])
+      opportunity = create(:opportunity, title: 'foo', source: 1, countries: [country], created_at: Date.new(2018,10,7))
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
       expect(opportunity.source).to_not eq('post')
+      expect(opportunity.created_at).to eq(Date.new(2018,10,7))
       expect(presenter.title_with_country).to eq('Iran - foo')
     end
   end
@@ -183,24 +186,12 @@ RSpec.describe OpportunityPresenter do
       expect(presenter.contact).to eq('foo@bar.com')
     end
 
-    it 'return contact name when does not have email' do
-      contact = create(:contact)
+    it 'return nil when has no contact email' do
+      contact = create(:contact, email: nil)
       opportunity = create(:opportunity, contacts: [contact])
-
-      # Only likely on third-party Opps??
-      opportunity.contacts.first.name = 'fred' 
-      opportunity.contacts.first.email = ''
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
 
-      expect(presenter.contact).to eq('fred')
-    end
-
-    it 'return "Contact unknown" when does not have email or contact name' do
-      opportunity = create(:opportunity)
-      opportunity.contacts = [] # because create adds a default even if we pass an empty Array
-      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
-
-      expect(presenter.contact).to eq('Contact unknown')
+      expect(presenter.contact).to eq(nil)
     end
   end
 
@@ -300,6 +291,50 @@ RSpec.describe OpportunityPresenter do
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
 
       expect(presenter.source('foo')).to be_falsey
+    end
+  end
+
+  describe '#supplier_preferences' do
+    it 'returns an empty string when has no supplier ids' do
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+       expect(opportunity.supplier_preference_ids.length).to eql(0)
+      expect(presenter.supplier_preferences).to be_empty
+    end
+     it 'returns a single supplier type as string when has one supplier id' do
+      create(:supplier_preference, id: 1, slug: 'foo', name: 'foo')
+      opportunity = create(:opportunity, supplier_preference_ids: [1])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+       expect(opportunity.supplier_preference_ids.length).to eql(1)
+      expect(presenter.supplier_preferences).to eql('foo')
+    end
+     it 'returns comma-separated supplier types as a string when has more than one supplier id' do
+      create(:supplier_preference, id: 1, slug: 'foo', name: 'foo')
+      create(:supplier_preference, id: 2, slug: 'bar', name: 'bar')
+      opportunity = create(:opportunity, supplier_preference_ids: [1, 2])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+       expect(opportunity.supplier_preference_ids.length).to eql(2)
+      expect(presenter.supplier_preferences).to eql('foo, bar')
+    end
+  end
+
+  describe '#supplier_preference?' do
+    it 'returns true when opportunity has supplier preference ids' do
+      create(:supplier_preference, id: 1, slug: 'foo', name: 'foo')
+      create(:supplier_preference, id: 2, slug: 'bar', name: 'bar')
+      create(:supplier_preference, id: 3, slug: 'diddle', name: 'diddle')
+      opportunity = create(:opportunity, supplier_preference_ids: [1, 2])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+       expect(opportunity.supplier_preference_ids).to_not be_nil
+      expect(opportunity.supplier_preference_ids).to_not be_empty
+      expect(presenter.supplier_preference?).to be_truthy
+    end
+     it 'returns false when opportunity does not have supplier preference ids' do
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+       expect(opportunity.supplier_preference_ids).to_not be_nil
+      expect(opportunity.supplier_preference_ids).to be_empty
+      expect(presenter.supplier_preference?).to be_falsey
     end
   end
 

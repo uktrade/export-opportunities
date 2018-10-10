@@ -99,6 +99,11 @@
         %dd.value
           = opportunity.value
 
+        - if opportunity.supplier_preference?
+          %dt.supplier-preference
+            The buyer is happy to talk to
+          %dd.supplier-preference
+            = opportunity.supplier_preferences
 
     - unless opportunity.source('post') || opportunity.buyer_details_empty?
       .buyer
@@ -110,10 +115,11 @@
             = opportunity.buyer_name
             = opportunity.buyer_address
 
-          %dt.contact
-            Contact
-          %dd.contact
-            = opportunity.contact
+          - unless opportunity.contact.blank?
+            %dt.contact
+              Contact
+            %dd.contact
+              = opportunity.contact
 
 
     .bid

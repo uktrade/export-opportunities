@@ -51,7 +51,7 @@ class ApplicationController < ActionController::Base
     # opps that have not expired and are published
     db_opportunities_ids = db_opportunities
     sort = OpenStruct.new(column: :response_due_on, order: :desc)
-    query = OpportunitySearchBuilder.new(search_term: '', sort: sort).call
+    query = OpportunitySearchBuilder.new(search_term: '', sort: sort, dit_boost_search: false).call
     es_opportunities_ids = es_opportunities(query)
 
     res_opportunities_count = db_opportunities_ids.size == es_opportunities_ids.size
@@ -83,13 +83,14 @@ class ApplicationController < ActionController::Base
   end
 
   def api_check
-    redis = Redis.new(url: Figaro.env.redis_url!)
-    latest_sidekiq_failure = redis.get(:sidekiq_retry_jobs_last_failure)
+    @redis ||= Redis.new(url: Figaro.env.redis_url)
+
+    latest_sidekiq_failure = @redis.get(:sidekiq_retry_jobs_last_failure)
 
     sidekiq_retry_jobs_count = sidekiq_retry_count
-    retry_count = redis_oo_retry_count(redis)
+    retry_count = redis_oo_retry_count(@redis)
 
-    update_redis_counter(redis, sidekiq_retry_jobs_count, latest_sidekiq_failure)
+    update_redis_counter(@redis, sidekiq_retry_jobs_count, latest_sidekiq_failure)
 
     # calculate counters
     today_date = Time.zone.now
@@ -109,13 +110,11 @@ class ApplicationController < ActionController::Base
     azure_list_id = Figaro.env.AZ_CUSTOM_LIST_ID
     azure_az_api_key = "...#{Figaro.env.AZ_API_KEY[-4..-1]}"
 
-    @redis ||= Redis.new(url: Figaro.env.redis_url)
-
     counter_opps_expiring_soon = @redis.get(:opps_counters_expiring_soon)
     counter_opps_total = @redis.get(:opps_counters_total)
     counter_opps_published_recently = @redis.get(:opps_counters_published_recently)
 
-    volume_opps_failed_timestamp = redis.get(:application_error)&.strip
+    volume_opps_failed_timestamp = @redis.get(:application_error)&.strip
 
     if (sidekiq_retry_jobs_count - retry_count).positive? && days_since_last_failure(latest_sidekiq_failure) < PUBLISH_SIDEKIQ_ERROR_DAYS
       render json: { status: 'error', retry_error_count: sidekiq_retry_jobs_count }
@@ -230,8 +229,12 @@ class ApplicationController < ActionController::Base
     render 'errors/invalid_authenticity_token', status: 422
   end
 
-  # (POC experiment) Gets keeps content separated from the view
-  # and makes easy to switch later to CMS-style content editing.
+  # Returns content provided by .yml files in app/content folder.
+  # Intended use is to keep content separated from the view code.
+  # Should make it easier to switch later to CMS-style content editing.
+  # Note: Rails may already provide a similar service for multiple
+  # language support, so this mechanism might be replaced by that
+  # at some point in the furture.
   def get_content(file)
     YAML.load_file('app/content/' + file)
   end

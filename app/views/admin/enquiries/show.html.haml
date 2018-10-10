@@ -17,7 +17,7 @@
     %td= @enquiry.email
   - if @trade_profile_url then
     %tr
-      %th{:scope => 'row'} Applicant trade profile
+      %th{:scope => 'row'} Applicant business profile
       %td= link_to @enquiry.company_name, @trade_profile_url, target: :blank, :rel => 'noopener noreferrer'
   %tr
     %th{:scope => 'row'} Company Address

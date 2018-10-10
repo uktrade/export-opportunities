@@ -1,0 +1,111 @@
+// General mixins
+// ----------------
+
+
+@mixin container {
+  max-width: $design-max-width;
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+
+  @media (max-width: #{$design-max-width + ($spacing-3 * 2)}) {
+    margin-left: $spacing-3;
+    margin-right: $spacing-3;
+  }
+
+  @media (max-width: 420px) {
+    margin-left: $spacing-4-m;
+    margin-right: $spacing-4-m;
+  }
+}
+
+@mixin focus {
+  &::-moz-focus-inner { border: 0; }
+  &:focus { outline: $focus-yellow solid 3px; }
+}
+
+// BUTTONS
+@mixin button-base {
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: none;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 26px;
+  overflow: hidden;
+  padding: 10px $spacing-2;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: top;
+  width: auto;
+}
+
+@mixin button($colour-1, $colour-2) {
+  @include button-base;
+  @include focus;
+  background-color: $colour-1;
+  border-color: $colour-1;
+  color: $white;
+  
+  &:hover {
+    background-color: $colour-2;
+    border-color: $colour-2;
+    color: $white;
+  }
+}
+
+@mixin button-disabled($colour-1, $colour-2) {
+  @include button-base;
+  background-color: $colour-2;
+  border-color: $colour-2;
+  color: $colour-1;
+  cursor: default;
+}
+
+@mixin button-ghost($colour-1, $colour-2) {
+  @include button-base;
+  @include focus;
+  background-color: $colour-2;
+  border-color: $colour-1;
+  color: $colour-1;
+  
+  &:focus {
+    border-color: $colour-2;
+  }
+  
+  &:hover {
+    background-color: $colour-1;
+    border-color: $colour-1;
+    color: $colour-2;
+  }
+}
+
+@mixin button-icon($colour-1, $colour-2, $image) {
+  @include button($colour-1, $colour-2);
+  @include focus;
+  padding-left: $spacing-3;
+  padding-right: $spacing-3;
+  position: relative;
+  text-align: left;
+  text-indent: -500px;
+
+  &:after {
+    background-image: url(#{"/static/images/icons/" + $image});
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    content: "";
+    display: block;
+    height: 80%;
+    left: 10%;
+    position: absolute;
+    top: 10%;
+    width: 80%;
+  }
+}
+
+@mixin button-disabled {
+  cursor: default;
+  opacity: 0.5;
+}

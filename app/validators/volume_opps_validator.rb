@@ -16,8 +16,6 @@ class VolumeOppsValidator
       opportunity[:title] = opportunity[:description][0, 80]
     end
 
-    # return false if opportunity[:first_published_at].blank?
-
     return false unless SUPPORTED_LANGUAGES.include?(opportunity[:language].to_s.downcase)
     return false if opportunity[:response_due_on].blank?
 

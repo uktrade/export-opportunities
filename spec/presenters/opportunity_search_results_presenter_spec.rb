@@ -1,4 +1,5 @@
 # coding: utf-8
+
 require 'rails_helper'
 
 RSpec.describe OpportunitySearchResultsPresenter do
@@ -6,11 +7,10 @@ RSpec.describe OpportunitySearchResultsPresenter do
   # Due to Ruby annoyance doesn't work with nicer syntax.
   CONTENT = { 'some' => 'content',
               'fields' => {
-                  'countries' => {
-                  'question' => 'Countries'
-                }
-              }
-            }.freeze
+                'countries' => {
+                  'question' => 'Countries',
+                },
+              } }.freeze
 
   describe '#initialize' do
     it 'initialises a presenter' do
@@ -22,10 +22,10 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
   describe '#field_content' do
     it 'returns the correct content' do
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters(true))
       field = presenter.field_content('countries')
-      
-      expect(field['options']).to include({:label => "Mexico (0)", :value => "mexico", :checked => "true"})
+
+      expect(field[:options]).to eq([{ label: 'Spain (0)', name: 'Spain', description: nil, value: 'spain', checked: 'true' }])
     end
   end
 
@@ -38,7 +38,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
     it 'Returns nil when does not have more opportunities to show' do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, { total: 1, limit: 2 }, {})
-      
+
       expect(presenter.view_all_link('some/where')).to eql(nil)
     end
 
@@ -53,14 +53,9 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
   describe '#displayed' do
     it 'Returns HTML containing information about results displayed' do
-      create(:opportunity, :published, { title: 'food' })
-      query = Opportunity.public_search(
-        search_term: 'food',
-        filters: SearchFilter.new({s: 'food'}),
-        sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
-      )
-
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { results: query.results }, {})
+      create(:opportunity, :published, title: 'food')
+      search = public_search(search_term: 'food')
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
       message = presenter.displayed
 
       expect(presenter.displayed).to include('Displaying ')
@@ -68,21 +63,16 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
 
     it 'Adds a class name when passed' do
-      create(:opportunity, :published, { title: 'food' })
-      query = Opportunity.public_search(
-        search_term: 'food',
-        filters: SearchFilter.new({s: 'food'}),
-        sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
-      )
-
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { results: query.results }, {})
+      create(:opportunity, :published, title: 'food')
+      search = public_search(search_term: 'food')
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
 
       expect(presenter.displayed('class-name')).to include('class-name')
     end
   end
 
   describe '#found_message' do
-    it 'Returns the correct message when more than one results is found' do 
+    it 'Returns the correct message when more than one results is found' do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
 
       expect(presenter.found_message(2)).to eql('2 results found')
@@ -112,7 +102,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
 
     it 'Returns result found information message with countries' do
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { total: 1 }, search_filters)
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { term: 'food', total: 1 }, search_filters)
       message = presenter.information
 
       expect(message).to include('1 result found')
@@ -139,14 +129,12 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
   describe '#searched_for' do
     it 'Returns plain text message " for [search term]"' do
-      create(:opportunity, :published, { title: 'food' })
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, { term: 'food' }, {})
 
       expect(presenter.searched_for).to eql(' for food')
     end
 
     it 'Returns HTML markup for message " for [search term]"' do
-      create(:opportunity, :published, { title: 'food' })
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, { term: 'food' }, {})
       message = presenter.searched_for(true)
 
@@ -158,23 +146,6 @@ RSpec.describe OpportunitySearchResultsPresenter do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
 
       expect(presenter.searched_for).to eql('')
-    end
-  end
-
-  describe '#searched_for_with_html' do
-    it 'Returns HTML markup for message " for [search term]"' do
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { term: 'food' }, search_filters(true))
-      message = presenter.searched_for_with_html
-
-      expect(message).to include(' for ')
-      expect(message).to include('food')
-      expect(has_html?(message)).to be_truthy
-    end
-
-    it 'Returns an empty string when searching without a specified term' do
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
-
-      expect(presenter.searched_for_with_html).to eql('')
     end
   end
 
@@ -244,9 +215,27 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
   end
 
+  describe '#searched_for_with_html' do
+    it 'Returns HTML markup for message " for [search term]"' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { term: 'food' }, search_filters(true))
+      message = presenter.searched_for_with_html
+
+      expect(message).to include(' for ')
+      expect(message).to include('food')
+      expect(has_html?(message)).to be_truthy
+    end
+
+    it 'Returns an empty string when searching without a specified term' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
+
+      expect(presenter.searched_for_with_html).to eql('')
+    end
+  end
+
   describe '#sort_input_select' do
     it 'Returns object to construct the chosen sort order' do
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { sort_by: 'first_published_at' }, search_filters)
+      content = get_content('opportunities/results')
+      presenter = OpportunitySearchResultsPresenter.new(content, { sort_by: 'first_published_at' }, search_filters)
       input = presenter.sort_input_select
 
       expect(input[:name]).to eql('sort_column_name')
@@ -255,41 +244,24 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#selected_filter_list' do
-    it 'returns the selected filter names' do
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
-      selected_filters = presenter.selected_filter_list(search_filters)
+    it 'Returns HTML markup for the selected filters' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
+      title = 'this is a title'
+      selected_filters = presenter.selected_filter_list(title)
 
+      expect(has_html?(selected_filters)).to be_truthy
+      expect(selected_filters).to include(title)
       expect(selected_filters).to include('Mexico')
       expect(selected_filters).to include('Spain')
       expect(selected_filters).to_not include('Dominica')
-    end
-
-    it 'returns the list of unique values' do
-      country_1 = country('Spain', 'spain')
-      country_2 = country('Mexico', 'mexico')
-      country_3 = country('Spain', 'spain')
-      options = [ country_1, country_2, country_3 ]
-      selected = [ country_1.slug, country_2.slug, country_3.slug ]
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
-      selected_filters = presenter.selected_filter_list({
-        countries: {
-          name: 'countries[]',
-          options: options,
-          selected: selected
-        }
-      })
-
-      expect(selected_filters).to include('Mexico')
-      expect(selected_filters).to include('Spain')
-      expect(selected_filters.length).to be(2)
     end
   end
 
   describe '#reset_url', type: :request do
     it 'Returns url and params, without filters, as a string' do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, {})
-      params = {"s"=>"food and drink", "sort_column_name"=>"response_due_on", "countries"=>["dominica", "mexico"]}
-      headers = { "CONTENT_TYPE" => "text/html" }
+      params = { 's' => 'food and drink', 'sort_column_name' => 'response_due_on', 'countries' => %w[dominica mexico] }
+      headers = { 'CONTENT_TYPE' => 'text/html' }
 
       get opportunities_path, params: params, headers: headers
       expect(response.status).to eq 200
@@ -299,20 +271,10 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
   describe '#subscription' do
     it 'Returns subscription data object' do
-      filters = search_filters
-      term = 'food'
-      form = SubscriptionForm.new(
-        query: {
-          search_term: term,
-          sectors: [],
-          types: [],
-          countries: [],
-          values: [],
-        }
-      )
-
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: form, term: term }, filters)
+      search = public_search(search_term: 'food')
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, search_filters)
       subscription = presenter.subscription
+
       expect(subscription[:title]).to eql('food in Spain or Mexico')
       expect(subscription[:keywords]).to eql('food')
       expect(subscription[:what]).to eql(' for food')
@@ -322,70 +284,179 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
   describe '#offer_subscription' do
     it 'Returns false when sectors is not empty' do
-      skip 'TODO: Find out and fix why subscription.sectors returns nil and fails this test'
-      term = 'something'
-      query = { search_term: term, sectors: ['not_empty'], types: [], countries: [], values: [], }
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: SubscriptionForm.new(query: query), term: term }, {})
+      create(:sector, name: 'food and stuff', slug: 'food-and-stuff')
+      search = public_search(search_term: 'munchies', sectors: ['food-and-stuff'])
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, search[:filters])
 
       expect(presenter.offer_subscription).to be_falsey
     end
 
     it 'Returns false when types is not empty' do
-      skip 'TODO: Find out and fix why subscription.types returns nil and fails this test'
-      term = 'something'
-      query = { search_term: term, sectors: [], types: ['not_empty'], countries: [], values: [], }
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: SubscriptionForm.new(query: query), term: term }, {})
+      create(:type, name: 'Strange Thing', slug: 'strange-thing')
+      search = public_search(search_term: 'flubber', types: ['strange-thing'])
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
 
       expect(presenter.offer_subscription).to be_falsey
     end
 
     it 'Returns false when values is not empty' do
-      skip 'TODO: Find out and fix why subscription.values returns nil and fails this test'
-      term = 'something'
-      query = { search_term: term, sectors: [], types: [], countries: [], values: ['not_empty'], }
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: SubscriptionForm.new(query: query), term: term }, {})
+      create(:value, name: 'Half a penny', slug: 'halfapenny')
+      search = public_search(search_term: 'Loads of money', values: ['halfapenny'])
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
 
       expect(presenter.offer_subscription).to be_falsey
     end
 
     it 'Returns false when search_term is empty' do
-      term = ''
-      query = { search_term: term, sectors: [], types: [], countries: [], values: [], }
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: SubscriptionForm.new(query: query), term: term }, {})
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, public_search, {})
 
       expect(presenter.offer_subscription).to be_falsey
     end
 
     it 'Returns true when search_term is not empty' do
-      term = 'something'
-      query = { search_term: term, sectors: [], types: [], countries: [], values: [], }
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { subscription: SubscriptionForm.new(query: query), term: term }, {})
+      search = public_search(search_term: 'cheap and easy money makers')
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
 
       expect(presenter.offer_subscription).to be_truthy
     end
+
+    it 'Returns true when countries is not empty' do
+      create(:country, name: 'Spain', slug: 'spain')
+      search = public_search(countries: %w[spain mexico])
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
+
+      expect(presenter.offer_subscription).to be_truthy
+    end
+
+    it 'Returns true when regions is not empty' do
+      create(:country, name: 'Mexico', slug: 'mexico')
+      search = public_search(regions: ['south-america'])
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
+
+      expect(presenter.offer_subscription).to be_truthy
+    end
+
+    # Home page passes regions and countries as 'areas[]' param so need to also check this.
+    it 'Returns true when areas are passed' do
+      create(:country, name: 'Mexico', slug: 'mexico')
+      search = public_search(areas: ['south-america'])
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
+
+      expect(presenter.offer_subscription).to be_truthy
+    end
+  end
+
+  describe '#format_filter_checkboxes' do
+    it 'Returns a field hash created from a mix of content and data' do
+      field_content = { 'question' => 'something',
+                        'options' => [{ 'label' => 'foo', 'description' => 'label help' }],
+                        'description' => 'question help' }
+      field_data = { name: 'info', options: [{ slug: 'boo' }], selected: [] }
+      presenter = OpportunitySearchResultsPresenter.new({}, {}, field_name: field_data)
+      checkboxes = presenter.send(:format_filter_checkboxes, field_content, :field_name)
+
+      expect(checkboxes[:name]).to eq('info')
+      expect(checkboxes[:options][0][:label]).to eq('foo')
+      expect(checkboxes[:options][0][:name]).to eq('foo')
+      expect(checkboxes[:options][0][:description]).to eq('label help')
+      expect(checkboxes[:options][0][:value]).to eq('boo')
+      expect(checkboxes[:question]).to eq('something')
+      expect(checkboxes[:description]).to eq('question help')
+    end
+  end
+
+  describe '#selected_filters' do
+    it 'Return a string array of selected filter labels' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
+      selected = presenter.send(:selected_filters, search_filters)
+
+      expect(selected).to eql(%w[Spain Mexico])
+    end
+
+    it 'Return an empty array when no filters selected' do
+      filters = search_filters
+      filters[:countries][:selected] = []
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, filters)
+      selected = presenter.send(:selected_filters, filters)
+
+      expect(selected).to eql([])
+    end
+  end
+
+  describe '#selected_filters_without' do
+    it 'Return a string array of selected filter labels' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
+      selected = presenter.send(:selected_filters_without, search_filters, [:sectors])
+
+      expect(selected).to eql(%w[Spain Mexico])
+    end
+
+    it 'Return an empty array when no filters selected' do
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
+      selected = presenter.send(:selected_filters_without, search_filters, [:countries])
+
+      expect(selected).to eql([])
+    end
+  end
+
+  # Helper functions follow...
+
+  def public_search(params = {}, total = nil)
+    params = ActionController::Parameters.new(convert_areas_params_into_regions_and_countries(params))
+    filters = SearchFilter.new(params)
+    query = Opportunity.public_search(
+      search_term: params[:search_term],
+      filters: filters,
+      sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
+    )
+
+    {
+      filters: filters,
+      results: query.records,
+      total: total || query.results.total, # passing an integer for total allows rigging the test result.
+      limit: Opportunity.default_per_page,
+      term: params[:search_term],
+      sort_by: 'relevance',
+      subscription: SubscriptionForm.new(query: params),
+    }
+  end
+
+  # Fake the opportunity_controller workaround to convert areas into countries and regions
+  def convert_areas_params_into_regions_and_countries(params)
+    if params[:areas].present?
+      params[:countries] = [] if params[:countries].blank?
+      params[:areas].each do |area|
+        if area == 'south-america'
+          params[:countries].push 'mexico'
+        else
+          params[:countries].push area
+        end
+      end
+    end
+    params
   end
 
   def has_html?(message)
     /\<\/\w+\>/.match(message)
   end
 
-  def country(name, slug='')
+  def country(name, slug = '')
     country = Country.find_by(name: name)
     if country.nil?
-      if slug.length > 0
-        country = create(:country, { name: name, slug: slug })
-      else
-        country = create(:country, { name: name })
-      end
+      country = if slug.present?
+                  create(:country, name: name, slug: slug)
+                else
+                  create(:country, name: name)
+                end
     end
     country
   end
 
   def search_filters(single_country = false)
-    country_1 = country('Spain', 'spain')
-    country_2 = country('Mexico', 'mexico')
-    options = [ country_1, country_2 ]
-    selected = [ country_1.slug, country_2.slug ]
+    country1 = country('Spain', 'spain')
+    country2 = country('Mexico', 'mexico')
+    options = [country1, country2]
+    selected = [country1.slug, country2.slug]
 
     if single_country
       options.pop
@@ -397,19 +468,17 @@ RSpec.describe OpportunitySearchResultsPresenter do
         name: 'sectors[]',
         options: [],
       },
- 
+
       countries: {
         name: 'countries[]',
         options: options,
-        selected: selected
+        selected: selected,
       },
 
       regions: {
         name: 'regions[]',
-        options: []
-      }
+        options: [],
+      },
     }
   end
-
 end
-

@@ -35,18 +35,21 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
     scenario 'when a filter is provided, should be confirmed' do
       country = create(:country, name: 'Italy')
       create(:opportunity, status: :publish, countries: [country])
+      create(:type, name: 'Public Sector')
+      create(:value, name: 'More than £100k')
+      create(:supplier_preference)
 
       sleep 1
 
       visit opportunities_path
 
 
-      find(:css, '#countries_0').set(true)
+      find('#countries_0').set(true)
       click_on 'Update results'
-      
-      expect(page.body).to include 'Subscribe to email alerts for all opportunities  in Italy'
 
-      click_button 'Subscribe to email alerts for all opportunities  in Italy'
+      expect(page.body).to include 'Subscribe to email alerts in Italy'
+
+      click_button 'Subscribe to email alerts in Italy'
 
       subscription = @user.subscriptions.first
       expect(subscription.search_term).to eq ''
@@ -110,16 +113,11 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
       expect(page).to have_no_content 'Subscribe to Email Alerts'
     end
 
-    scenario 'can subscribe to all opportunities' do
+    scenario 'can not subscribe to all opportunities' do
       create(:opportunity, :published)
       visit opportunities_path
 
-      expect(page.body).to include 'Subscribe to email alerts'
-
-      click_on 'Subscribe to email alerts'
-
-      expect(page.body).to include 'Your daily email alert has been added'
-      expect(page.body).to include 'when opportunities that match your search terms are published'
+      expect(page.body).to_not include 'Subscribe to email alerts'
     end
   end
 

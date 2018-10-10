@@ -1,76 +1,77 @@
 <!DOCTYPE html>
-<!--[if IE 8]> <html class="no-js lt-ie10 lt-ie9" lang="en-GB"> <![endif]-->
-<!--[if IE 9]> <html class="no-js lt-ie10" lang="en-GB"> <![endif]-->
-<!--[if gt IE 9]>  <![endif]-->
-<html class='no-js' lang='en-GB'>
+<html lang='en-GB'>
 <head>
   <%= content_for?(:content) ? yield(:content) : yield %>
-
   <title><%= t('organisation.name') %> - <%= @article.title %></title>
-  <%= stylesheet_link_tag 'updated/admin', media: 'all' %>
-  <%= stylesheet_link_tag 'updated/layouts/help', media: 'all' %>
   <%= csrf_meta_tags %>
-  <%= render partial: 'admin/includes/global_script_tags' %>
+
+  <%= render partial: 'admin/includes/transformation_head' %>
+  <%= render partial: 'admin/includes/transformation_styles' %>
+  <%= render partial: 'admin/includes/transformation_scripts' %>
+  <%= stylesheet_link_tag 'transformation_admin/pages/help' %>
+  <%= yield :action_specific_head %>
 </head>
 <body class="help help-article">
   <%= render partial: 'admin/includes/header' %>
 
-  <main id="content" role="main" class="container">
+  <main id="content" role="main">
     <%= render partial: 'admin/includes/phase_banner' %>
     <%= render partial: 'admin/includes/flash_announcement' %>
     <%= render partial: 'admin/includes/flash_error' %>
     <%= render partial: 'admin/includes/flash_notice' %>
     <%= content_for?(:errors) ? yield(:errors) : "" %>
 
-    <article>
-      <h1><%= @article.title %></h1>
-      <div class="article-index">
-        <ol>
-          <% @article.sections.each do |s| %>
-            <li>
-              <% if s[:current] %>
-                <span class="selected"><%= s[:heading] %></span>
-              <% else %>
-                <%= link_to s[:heading], admin_help_article_path(s[:article_id], s[:id]) %>
-              <% end %>
-            </li>
+    <div class="container">
+      <article>
+        <h1><%= @article.title %></h1>
+        <div class="article-index">
+          <ol>
+            <% @article.sections.each do |s| %>
+              <li>
+                <% if s[:current] %>
+                  <span class="selected"><%= s[:heading] %></span>
+                <% else %>
+                  <%= link_to s[:heading], admin_help_article_path(s[:article_id], s[:id]) %>
+                <% end %>
+              </li>
+            <% end %>
+          </ol>
+        </div>
+
+        <div class="article-content">
+          <h2><%= @article.current_section[:heading] %></h2>
+          <%= @article.current_section[:content].html_safe %>
+        </div>
+
+        <div class="article-pagination">
+          <% if @article.pagination.has_key? :previous %>
+            <a class="previous" href="<%= @article.pagination[:previous][:url] %>">
+              <span class="label">Previous</span>
+              <span class="title"><%= @article.pagination[:previous][:heading] %></span>	
+            </a>
           <% end %>
-        </ol>
-      </div>
 
-      <div class="article-content">
-        <h2><%= @article.current_section[:heading] %></h2>
-        <%= @article.current_section[:content].html_safe %>
-      </div>
+          <% if @article.pagination.has_key? :next %>
+            <a class="next" href="<%= @article.pagination[:next][:url] %>">
+              <span class="label">Next</span>
+              <span class="title"><%= @article.pagination[:next][:heading] %></span>
+            </a>
+          <% end %>
+        </div>
 
-      <div class="article-pagination">
-        <% if @article.pagination.has_key? :previous %>
-          <a class="previous" href="<%= @article.pagination[:previous][:url] %>">
-            <span class="label">Previous</span>
-            <span class="title"><%= @article.pagination[:previous][:heading] %></span>	
-          </a>
-        <% end %>
+        <div class="article-controls">
+          <%= link_to admin_help_article_print_path do %>
+            <%= image_tag "icons/print.png", :class => "icon", :alt => "", :width => "16" %>Print entire guide
+          <% end %>
+        </div>
 
-        <% if @article.pagination.has_key? :next %>
-          <a class="next" href="<%= @article.pagination[:next][:url] %>">
-            <span class="label">Next</span>
-            <span class="title"><%= @article.pagination[:next][:heading] %></span>
-          </a>
-        <% end %>
-      </div>
+      </article>
 
-      <div class="article-controls">
-        <%= link_to admin_help_article_print_path do %>
-          <%= image_tag "icons/print.png", :class => "icon", :alt => "", :width => "16" %>Print entire guide
-        <% end %>
-      </div>
-
-    </article>
-
-    <aside>
-      <h2>Other Guidance</h2>
-      <%= render partial: 'admin/help/article_list', locals: { articles: @article.other_articles(@article_list) } %>
-    </aside>
+      <aside>
+        <h2>Other Guidance</h2>
+        <%= render partial: 'admin/help/article_list', locals: { articles: @article.other_articles(@article_list) } %>
+      </aside>
+    </div>
   </main>
 
   <%= render partial: 'admin/includes/footer' %>

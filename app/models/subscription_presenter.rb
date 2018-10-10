@@ -16,6 +16,16 @@ class SubscriptionPresenter < SimpleDelegator
     end
   end
 
+  def description_for_email
+    default = 'all opportunities'
+    desc = description
+    if desc == default
+      desc.sub(default, '')
+    else
+      "for #{desc}"
+    end
+  end
+
   def country_names
     country_names_array.to_sentence(last_word_connector: ' and ')
   end

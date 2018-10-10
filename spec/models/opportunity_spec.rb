@@ -18,10 +18,6 @@ RSpec.describe Opportunity do
       expect(Opportunity.new).to have(1).error_on(:response_due_on)
     end
 
-    it 'has to have a description' do
-      expect(Opportunity.new).to have(1).error_on(:description)
-    end
-
     it 'has to have two contacts' do
       expect(Opportunity.new(source: :post)).to have(1).error_on(:contacts)
     end

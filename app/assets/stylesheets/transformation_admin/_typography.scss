@@ -1,0 +1,124 @@
+// FONT vars and mixins
+// ------------------------------
+
+$brand-font-standard: 'Roboto', arial, helvetica, sans-serif;
+$brand-font-serif: georgia, serif;
+
+
+$font-size-body-xl: 36px;
+$font-size-body-l : 24px;
+$font-size-body-m : 19px;
+$font-size-body-s : 16px;
+$font-size-body-xs: 14px;
+
+$font-size-heading-xl: 48px;
+$font-size-heading-l : 24px;
+$font-size-heading-m : 19px;
+
+
+
+// HEADING mixins
+@mixin heading-l {
+  font-family: $brand-font-standard;
+  font-size:   48px;
+  font-weight: 600;
+  line-height: 1.15em;
+  margin: 0 0 1em 0;
+}
+
+@mixin heading-l-mob {
+  font-family: $brand-font-standard;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.25em;
+}
+
+@mixin heading-m {
+  font-family: $brand-font-standard;
+  font-size:   36px;
+  font-weight: 600;
+  line-height: 1.1em;
+  margin: 0 0 1em 0;
+}
+
+@mixin heading-m-mob {
+  font-family: $brand-font-standard;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.25em;
+  letter-spacing: 0.3px;
+}
+
+@mixin heading-s {
+  font-family: $brand-font-standard;
+  font-size:   24px;
+  font-weight: 600;
+  line-height: 1.42em;
+  margin: 0 0 1em 0;
+}
+
+@mixin heading-s-mob {
+  font-family: $brand-font-standard;
+  font-size:   19px;
+  font-weight: 600;
+  line-height: 1.58em;
+  margin: 0 0 0.5em 0;
+}
+
+// CONTENT mixins
+@mixin body-xl {
+  font-family: $brand-font-standard;
+  font-size:   32px;
+  font-weight: 400;
+  line-height: 1.25em;
+}
+
+@mixin body-l {
+  font-family: $brand-font-standard;
+  font-size:   24px;
+  font-weight: 400;
+  line-height: 1.5em;
+}
+
+@mixin body-m {
+  font-family: $brand-font-standard;
+  font-size:   19px;
+  font-weight: 400;
+  line-height: 1.58em;
+}
+
+@mixin body-m-mob {
+  font-family: $brand-font-standard;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.38em;
+}
+
+@mixin body-s {
+  font-family: $brand-font-standard;
+  font-size:   15px;
+  font-weight: 400;
+  line-height: 1.47em;
+}
+
+@mixin body-s-mob {
+  font-family: $brand-font-standard;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.54em;
+}
+
+// SPECAL
+@mixin quote {
+  font-family: $brand-font-serif;
+  font-size:   24px;
+  font-weight: 400;
+  line-height: 32px;
+}
+
+@mixin quote-mob {
+  font-family: $brand-font-serif;
+  font-size:   16px;
+  font-weight: 400;
+  line-height: 1.88em;
+}

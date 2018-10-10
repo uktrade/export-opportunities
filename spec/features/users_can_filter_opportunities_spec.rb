@@ -31,7 +31,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
     page.find("#countries_0").click
     page.find('.button.submit').click
 
-    expect(page).to have_content('1 result found for all opportunities  in Iran')
+    expect(page).to have_content('1 result found in Iran')
 
     expect(page).to have_content opportunity_with_market.title
     expect(page).to have_no_content opportunity.title
@@ -49,7 +49,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
 
     expect(page).to have_content opportunity_with_market.title
     expect(page).to have_no_content opportunity.title
-    expect(page).to have_content('1 result found for all opportunities  in Italy')
+    expect(page).to have_content('1 result found in Italy')
   end
 
   scenario 'users can filter opportunity that belongs to multiple markets' do
@@ -66,8 +66,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
     search_results_information = page.find(:css, '#opportunity-search-results').text
 
     expect(page).to have_content opportunity_with_market.title
-
-    expect(page).to have_content('1 result found for all opportunities  in Iran')
+    expect(page).to have_content('1 result found in Iran')
 
     visit opportunities_path
 
@@ -77,7 +76,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
     search_results_information = page.find(:css, '#opportunity-search-results').text
 
     expect(page).to have_content opportunity_with_market.title
-    expect(page).to have_content('1 result found for all opportunities  in Italy')
+    expect(page).to have_content('1 result found in Italy')
   end
 
   scenario 'users can filter by multiple categories' do

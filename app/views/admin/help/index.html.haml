@@ -1,11 +1,12 @@
-%h1 Guidance 
-%dl.content-meta
-  %dt Published by
-  %dd
-    %a{:href => "mailto:exportopportunities@trade.gov.uk"} Content community
-  %dt Last updated
-  %dd
-    15 March 2018
+.container
+  %h1 Guidance 
+  %dl.content-meta
+    %dt Published by
+    %dd
+      %a{:href => "mailto:exportopportunities@trade.gov.uk"} Content community
+    %dt Last updated
+    %dd
+      15 March 2018
 
-%section.content-directory
-  = render partial: 'article_list', locals: { articles: @article_list }
+  %section.content-directory
+    = render partial: 'article_list', locals: { articles: @article_list }

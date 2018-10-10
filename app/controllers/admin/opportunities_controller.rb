@@ -46,11 +46,17 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def new
+    content = get_content('admin/opportunities.yml')
     @opportunity = Opportunity.new
     @save_to_draft_button = policy(@opportunity).uploader_previewer?
+    @editor = current_editor
+
     load_options_for_form(@opportunity)
     setup_opportunity_contacts(@opportunity)
     authorize @opportunity
+    render layout: 'admin_transformed', locals: {
+      content: content,
+    }
   end
 
   def create
@@ -66,25 +72,36 @@ class Admin::OpportunitiesController < Admin::BaseController
         redirect_to admin_opportunities_path, notice: %(Saved to draft: "#{@opportunity.title}")
       end
     else
+      content = get_content('admin/opportunities.yml')
+      @editor = current_editor
+
       load_options_for_form(@opportunity)
       setup_opportunity_contacts(@opportunity)
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_entity, layout: 'admin_transformed', locals: {
+        content: content,
+      }
     end
   end
 
   def edit
+    content = get_content('admin/opportunities.yml')
     @opportunity = Opportunity.includes(comments: [:author]).find(params[:id])
     @comment_form = OpportunityCommentForm.new(opportunity: @opportunity, author: current_editor)
     @history = OpportunityHistory.new(opportunity: @opportunity)
+    @editor = current_editor
 
     load_options_for_form(@opportunity)
 
     setup_opportunity_contacts(@opportunity)
 
     authorize @opportunity
+    render layout: 'admin_transformed', locals: {
+      content: content,
+    }
   end
 
   def update
+    content = get_content('admin/opportunities.yml')
     @opportunity = Opportunity.find(params[:id])
     authorize @opportunity
 
@@ -98,7 +115,9 @@ class Admin::OpportunitiesController < Admin::BaseController
 
       load_options_for_form(@opportunity)
       setup_opportunity_contacts(@opportunity)
-      render :edit
+      render :edit, layout: 'admin_transformed', locals: {
+        content: content,
+      }
     end
   end
 
@@ -107,12 +126,17 @@ class Admin::OpportunitiesController < Admin::BaseController
   private
 
   def load_options_for_form(opportunity)
+    @request_types = Opportunity.request_types.keys
+    @tender_bool = %w[true false]
+    @request_usages = Opportunity.request_usages.keys
+    @supplier_preferences = SupplierPreference.all
     @countries = promote_elements_to_front_of_array(Country.all.order(:name), opportunity.countries.sort_by(&:name))
     @sectors = promote_elements_to_front_of_array(Sector.all.order(:name), opportunity.sectors.sort_by(&:name))
     @types = Type.all.order(:name)
-    @values = Value.all.order(:name)
+    @values = Value.all.order(:slug)
     @service_providers = ServiceProvider.all.order(:name)
     @selected_service_provider = opportunity.service_provider || current_editor.service_provider
+    @enquiry_interactions = Opportunity.enquiry_interactions.keys
     @ragg = opportunity.ragg
   end
 
@@ -131,7 +155,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def opportunity_params(contacts_attributes:)
-    params.require(:opportunity).permit(:title, :slug, { country_ids: [] }, { sector_ids: [] }, { type_ids: [] }, :value_ids, :teaser, :response_due_on, :description, { contacts_attributes: contacts_attributes }, :service_provider_id, :ragg, :buyer_name, :buyer_address, :language, :tender_value, :source, :tender_content, :tender_url, :target_url, :tender_source, :tender_value, :ocid, :industry_id, :industry_scheme)
+    params.require(:opportunity).permit(:title, :slug, { country_ids: [] }, { sector_ids: [] }, { type_ids: [] }, { supplier_preference_ids: [] }, :response_due_on, :request_type, :tender, :request_usage, :enquiry_interaction, :value_ids, :teaser, :description, { contacts_attributes: contacts_attributes }, :service_provider_id, :ragg, :buyer_name, :buyer_address, :language, :tender_value, :source, :tender_content, :tender_url, :target_url, :tender_source, :tender_value, :ocid, :industry_id, :industry_scheme)
   end
 
   def create_contacts_attributes

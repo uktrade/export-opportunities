@@ -8,31 +8,29 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     sleep 1
     visit opportunities_path
 
-    expect(page).to have_content('2 results found')
-
     within '.search' do
       fill_in 's', with: 'Super'
       page.find('.submit').click
     end
 
+    expect(page).to have_content('1 result found for Super')
     expect(page).to have_content('Super opportunity')
     expect(page).to have_no_content('Boring opportunity')
   end
 
-  scenario 'users can find an opportunity including apostroph\'s ' do
+  scenario 'users can find an opportunity including apostrophe' do
     create(:opportunity, status: 'publish', title: 'Children\'s opportunity')
     create(:opportunity, status: 'publish', title: 'Childrens opportunity')
 
     sleep 1
     visit opportunities_path
 
-    expect(page).to have_content('2 results found')
-
     within '.search' do
       fill_in 's', with: "Children\'s"
       page.find('.submit').click
     end
 
+    expect(page).to have_content('2 results found')
     expect(page).to have_content("Children's opportunity")
     expect(page).to have_content('Childrens opportunity')
   end
@@ -78,5 +76,46 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
 
     expect(page).to have_content('France requires pork sausages')
     expect(page).to have_no_content('France requires back bacon')
+  end
+
+  scenario 'users cannot perform an empty search from home page', js: true do
+    visit root_path
+    sleep 1
+
+
+    # Check we're on home and have no error showing.
+    expect(current_breadcrumb).to eql('Export Opportunities')
+    expect(page).to have_no_content('Please type in a product or service and/or select a region or country')
+
+    # Form each search form...
+    page.all('.search-form').each do |form|
+      form.find('.submit').click
+      sleep 1
+
+      # Check we stay on home and have the error in content.
+      expect(current_breadcrumb).to eql('Export Opportunities')
+      expect(page).to have_content('Please type in a product or service and/or select a region or country')
+    end
+  end
+
+  scenario 'users cannot perform an empty search from search results page', js: true do
+    visit opportunities_path
+    sleep 1
+
+    # Check we're on search results page.
+    expect(current_breadcrumb).to eql('Search results')
+
+    within '.search' do
+      find('.submit').click
+    end
+    sleep 1
+
+    # Check we are still on search results page but error does not show.
+    expect(current_breadcrumb).to eql('Search results')
+    expect(page).to have_no_content('Please type in a product or service and/or select a region or country')
+  end
+
+  def current_breadcrumb
+    page.find('.breadcrumbs').find('.current').text
   end
 end

@@ -1,140 +1,81 @@
+- form = FormPresenter.new(content, {})
 - content_for :action_specific_head  do
-  = javascript_include_tag('transformation/dit.admin.opportunity')
+  = stylesheet_link_tag 'transformation_admin/pages/opportunity'
+  = javascript_include_tag 'transformation_admin/dit.page.opportunity'
 
-= form_for [:admin, opportunity] do |f|
-  - if opportunity.errors.any?
-    .error-summary{:role => 'group', :tabindex => '-1'}
-      %h2
-        = pluralize(opportunity.errors.count, 'error')
-        prevented this opportunity from being saved:
-      %ul
-        - opportunity.errors.full_messages.each do |message|
-          %li= message
 
-  .grid-row
-    .column-one-quarter
-      .filters
-        .filters-panel
-          %h2 Country
-          .form-group
-            = f.collection_check_boxes :country_ids, @countries, :id, :name do |field|
-              %div
-                = field.check_box
-                = field.label
 
-    .column-one-quarter
-      .filters
-        .filters-panel
-          %h2 Sector
-          .form-group
-            = f.collection_check_boxes :sector_ids, @sectors, :id, :name do |field|
-              %div
-                = field.check_box
-                = field.label
+- if opportunity.errors.any?
+  .errors
+    %p#errors-list-label
+      = pluralize(opportunity.errors.count, 'error')
+      prevented this opportunity from being saved:
+    %ul{'aria-labelledby': 'errors-list-label'}
+      - opportunity.errors.full_messages.each do |message|
+        %li= message
 
-    .column-one-quarter
-      .filters
-        .filters-panel
-          %h2 Type
-          .form-group
-            = f.collection_check_boxes :type_ids, @types, :id, :name do |field|
-              %div
-                = field.check_box
-                = field.label
+= form_for [:admin, opportunity], :builder => TemplateFormBuilder do |f|
 
-    .column-one-quarter
-      .filters
-        .filters-panel
-          %h2 Value
-          .form-group
-            = f.collection_radio_buttons :value_ids, @values, :id, :name, { checked: @opportunity.values.map(&:id).join('') } do |field|
-              %div
-                = field.radio_button
-                = field.label
+  %fieldset
+    %legend.group= content['group_2_title']
+    %p= content['group_2_description']
+    = f.input_text :title, form.input_text('title'), { maxlength: '80', required: true }
 
-  .form-group
-    = f.label :title, class: 'form-label-bold'
-    = f.text_field :title, class: 'form-control', required: true
-    %p.form-hint
-      This must start with the country and describe the opportunity in
-      = Opportunity::TITLE_LENGTH_LIMIT
-      characters or fewer.
-      = link_to 'See more guidance for this field', '/admin/help/how_to_write_an_export_opportunity/writingthetitle', class: 'text', target: 'guidance'
+    - if opportunity.errors[:slug].any?
+      = f.input_text :slug, form.input_text('slug'), required: true
 
-  - if opportunity.errors[:slug].any?
-    .form-group
-      = f.label :slug, class: 'form-label-bold'
-      = f.text_field :slug, class: 'form-control', required: true
+    = f.input_text :teaser, form.input_text('teaser'), { maxlength: '150', required: true }
+    = f.input_textarea :description, form.input_textarea('description'), { rows: '12', required: true }
 
-  .form-group
-    = f.label :teaser, t('admin.opportunity.teaser_field'), class: 'form-label-bold'
-    = f.text_field :teaser, class: 'form-control', required: true
-    %p.form-hint
-      This will be the text that appears on email alerts and as the first line of the opportunity online.
-      It must be different to the title and be
-      = Opportunity::TEASER_LENGTH_LIMIT
-      characters or fewer.
-      = link_to 'See more guidance for this field', '/admin/help/how_to_write_an_export_opportunity/writingthesummary', class: 'text', target: 'guidance'
-      
-  .form-group
-    = f.label :description, t('admin.opportunity.description_field'), class: 'form-label-bold'
-    = f.text_area :description, class: 'form-control', required: true
-    %p.form-hint
-      Include details relevant for UK businesses, such as product or service specifications, language
-      requirements, exact value of contract, timescales and potential barriers to trade.
-    %p.form-hint
-      Also include details of the type of UK business that might be able to fulfil this opportunity.
-    %p.form-hint
-      Do not post events, competitions, news or requests for investment.
-      = link_to 'See more guidance for this field', '/admin/help/how_to_write_an_export_opportunity/describeyouropportunitypart1of2', class: 'text', target: 'guidance'
+    -# Workaround because value_ids should be a single value rather than an Array.
+    - attrs = {}
+    - if @opportunity.value_ids.present?
+      - attrs = { default: @opportunity.value_ids[0] }
+    = f.input_radio :value_ids, form.input_radio('values', @values), attrs
 
-  .form-group{ 'data-node' => 'service-provider' }
-    = f.label :service_provider_id, class: 'form-label-bold'
-    = f.collection_select :service_provider_id, @service_providers, :id, :name, { prompt: '', selected: @selected_service_provider&.id }, { class: 'form-control', required: true }
+    = f.input_select :country_ids, form.input_select('countries', @countries), { default: @selected_service_provider.country&.id, multiple: true, size: '5', data: { node: 'countries', unselected: content['countries_unselected'], display: content['countries_selected_title'] } }
+    = f.input_select :sector_ids, form.input_select('sector_ids', @sectors), { multiple: true, size: '5', data: { node: 'sectors', unselected: content['sectors_unselected'], display: content['sectors_selected_title'] } }
+    = f.input_checkbox_group :type_ids, form.input_checkbox_group('types', @types)
+    = f.input_checkbox_group :supplier_preference_ids, form.input_checkbox_group('supplier_preferences', @supplier_preferences)
+    = f.input_date_month_year :response_due_on, form.input_date_month_year('response_due_on'), required: true
+    = f.input_select :service_provider_id, form.input_select('service_provider_id', @service_providers), { default: @selected_service_provider.id, required: true }
+    = f.input_text :target_url, form.input_text('target_url'), data: { node: 'target-url' }
 
-  .form-group{ 'data-node' => 'target-url' }
-    = f.label "Enter an optional external opportunity link (it must start with http:// or https://)", for: "opportunity_target_url", class: 'form-label-bold'
-    = f.text_field :target_url, class: 'form-control'
-    %noscript
-      %p.form-hint
-        (Only available for DFID service provider)
+  = f.fields_for :contacts do |field|
+    - required = field.index < 1
+    = field.input_text :name, form.input_text("contact_#{field.index + 1}_name"), required: required
+    = field.input_text :email, form.input_text("contact_#{field.index + 1}_email"), required: required
 
-  .form-group
-    = f.label :response_due_on, class: 'form-label-bold'
-    = f.date_select :response_due_on, { prompt: '' }, { required: true }
 
-  = f.fields_for :contacts do |form|
-    .grid-row
-      .column-one-half
-        %h4.heading-small Contact #{form.index + 1}
-        .form-group
-          = form.label :name, class: 'form-label'
-          = form.text_field :name, class: 'form-control', required: true
-        .form-group
-          = form.label :email, 'Email address', class: 'form-label'
-          = form.text_field :email, class: 'form-control', type: :email, required: true
+  .controls
+    %input{:type=>'submit', :value=>form.content['submit_create'], :class=>'button'}
 
-  - if policy(@opportunity).show_ragg? && opportunity.id.present?
+    - if current_page?(action: 'new') || true
+      %span or
+      %input{:type=>'submit', :value=>form.content['submit_draft'], :class=>'button draft'}
 
+
+
+-# TODO: Do we keep this?
+
+  - if policy(opportunity).show_ragg? && opportunity.id.present?
     %h2 Triage rating
-    .form-group.ragg_choice
-      %fieldset.inline
-        %legend Set the rating: Red to indicate rejection, Amber to indicate editing required, Blue to indicate special consideration required.
-        .multiple-choice.ragg_choice-red
-          = f.radio_button :ragg, :red, id: 'radio-inline-1', 'autocomplete': 'off'
-          %label{:for => "radio-inline-1"} Red
-        .multiple-choice.ragg_choice-amber
-          = f.radio_button :ragg, :amber, id: 'radio-inline-2', 'autocomplete': 'off'
-          %label{:for => "radio-inline-2"} Amber
-        .multiple-choice.ragg_choice-green
-          = f.radio_button :ragg, :green, id: 'radio-inline-3', 'autocomplete': 'off'
-          %label{:for => "radio-inline-3"} Green
-        .multiple-choice.ragg_choice-blue
-          = f.radio_button :ragg, :blue, id: 'radio-inline-4', 'autocomplete': 'off'
-          %label{:for => "radio-inline-4"} Blue
-  .grid-row
-    .column-one-half
-      .form-group
-        = f.submit class: 'button'
-        - if current_page?(action: 'new') && @save_to_draft_button
-          = f.submit 'Save to Draft', class: 'button button-draft'
+    %fieldset
+       %legend Set the rating: Red to indicate rejection, Amber to indicate editing required, Blue to indicate special consideration required.
+      .multiple-choice.ragg_choice-red
+        = f.radio_button :ragg, :red, id: 'radio-inline-1', 'autocomplete': 'off'
+        %label{:for => "radio-inline-1"} Red
+      .multiple-choice.ragg_choice-amber
+        = f.radio_button :ragg, :amber, id: 'radio-inline-2', 'autocomplete': 'off'
+        %label{:for => "radio-inline-2"} Amber
+      .multiple-choice.ragg_choice-green
+        = f.radio_button :ragg, :green, id: 'radio-inline-3', 'autocomplete': 'off'
+        %label{:for => "radio-inline-3"} Green
+      .multiple-choice.ragg_choice-blue
+        = f.radio_button :ragg, :blue, id: 'radio-inline-4', 'autocomplete': 'off'
+        %label{:for => "radio-inline-4"} Blue
+
+
+  = f.submit class: 'button'
+  - if current_page?(action: 'new') && @save_to_draft_button
+    = f.submit 'Save to Draft', class: 'button button-draft'

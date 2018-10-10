@@ -7,42 +7,20 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to have_content('Latest export opportunities')
   end
 
-  scenario 'clicks on view more opportunities from root', :elasticsearch, :commit do
-    country1 = create(:country, name: 'Selected 1')
-    create_list(:opportunity, 6, status: 'publish', countries: [country1])
+  scenario 'empty search shows up to the specified limit (*5 for ES shards)', :elasticsearch, :commit do
+    skip('intermittent failure due to results not always returning 500')
+    country = create(:country, name: 'big country')
+    create_list(:opportunity, 550, status: 'publish', countries: [country], first_published_at: Time.zone.now)
 
-    visit '/'
+    visit opportunities_path
 
-    expect(page).to have_content('Latest export opportunities')
-    expect(page).to have_content('View more')
-
-    sleep 1
-    click_on 'View more'
-
-    expect(page.body).to have_content('6 results found')
-  end
-
-  scenario 'clicks on view more opportunities from root, should only view opportunities up to the specified limit (*5 for ES shards)', :elasticsearch, :commit do
-    skip('TODO: fix to get to less opps')
-    country1 = create(:country, name: 'Selected 1')
-    create_list(:opportunity, 500, status: 'publish', countries: [country1], first_published_at: Time.zone.now)
-    visible_opportunity = create(:opportunity, status: 'publish', countries: [country1], title: 'need flags', first_published_at: Time.zone.now - 1.day)
-
-    visit '/'
-
-    expect(page).to have_content('Latest export opportunities')
-    expect(page).to have_content('View more')
-
-    sleep 10
-    click_on 'View more'
-
-    expect(page.body).to have_content('500 results found')
-    expect(page.body).to_not have_content(visible_opportunity.title)
+    expect(page).to have_current_path('/opportunities')
+    expect(page).to have_content('Displaying items 1 - 10 of 500')
   end
 
   scenario 'clicks on featured industries link, gets both OO and posts opportunities', :elasticsearch, :commit, js: true do
-    sector = create(:sector, slug: 'food-drink', id: 9, name: 'FoodDrink')
-    security_sector = create(:sector, slug: 'security', id: 31, name: 'Security')
+    sector = create(:sector, slug: 'food-drink', id: 11, name: 'FoodDrink')
+    security_sector = create(:sector, slug: 'security', id: 17, name: 'Security')
     security_opp = create(:opportunity, title: 'Italy - White hat hacker required', description: 'security food drink', sectors: [security_sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
     post_opp = create(:opportunity, title: 'France - Cow required', sectors: [sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
     oo_opp = create(:opportunity, title: 'Greece - Pimms food drink in Mykonos', description: 'food drink pimms mykonoos', source: :volume_opps, status: :publish, response_due_on: 1.week.from_now)
@@ -196,7 +174,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to have_content('Italy')
     expect(page).to_not have_content('Japan')
 
-    expect(page).to have_content('2 results found for all opportunities  in Greece or Italy')
+    expect(page).to have_content('2 results found in Greece or Italy')
 
     # only select Greece from countries
     find(:css, '#countries_1').set(false)
@@ -211,7 +189,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to_not have_content('Italy')
     expect(page).to_not have_content('Japan')
 
-    expect(page).to have_content('1 result found for all opportunities  in Greece')
+    expect(page).to have_content('1 result found in Greece')
 
     # select mediterranean region now
     find(:css, '#regions_4').set(true)
@@ -226,7 +204,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to have_content('Italy')
     expect(page).to_not have_content('Japan')
 
-    expect(page).to have_content('2 results found for all opportunities  in Greece or Mediterranean Europe')
+    expect(page).to have_content('2 results found in Greece or Mediterranean Europe')
 
     # select North East Asia now
     # 3 results now. 2 results from before + 1 from North Asia
@@ -246,14 +224,14 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to_not have_content('Spain')
     expect(page).to_not have_content('Canada')
 
-    expect(page).to have_content('3 results found for all opportunities  in Greece or Mediterranean Europe or North East Asia')
+    expect(page).to have_content('3 results found in Greece or Mediterranean Europe or North East Asia')
 
     # select a region with no results (South America), nothing should change
     find(:css, '#regions_11').set(true)
     click_on 'Update results'
 
     expect(page).to_not have_content('Colombia')
-    expect(page).to have_content('3 results found for all opportunities  in Greece or Mediterranean Europe or North East Asia or South America')
+    expect(page).to have_content('3 results found in Greece or Mediterranean Europe or North East Asia or South America')
 
     # start a new search by searching for oil on the top right hand corner
     within '.search' do
@@ -330,7 +308,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect_any_instance_of(ApplicationController).to receive(:opps_counter_stats).and_return({total: 1000})
 
     visit '/'
-    expect(page).to have_content('Find over 1000 export opportunities')
+    expect(page).to have_content('Search 1,000 export sales leads')
   end
 
   scenario 'counters for landing page, total counter missing' do

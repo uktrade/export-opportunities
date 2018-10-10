@@ -1,6 +1,8 @@
 # Search Result Content
 # ---------------------
 title: Search results
+title_results_list: Opportunities
+title_new_search: New search
 description: 
 breadcrumb_current: Search results
 
@@ -19,6 +21,13 @@ fields:
       - Closing date
       - Published date
       - Relevance
+
+  sources:
+    question: Opportunities provided by
+    options:
+      - label: DIT
+        description: (Department for International Trade)
+      - label: Third party
 
   industries:
     question: Industries

@@ -41,31 +41,3 @@ $cols-12   : #{($columns * 12)};
   margin-left: 0;
   width: auto;
 }
-
-// Some classes to add responsive sizing directly in templates.
-
-// DESKTOP ONLY
-@media (min-width: 768px) {
-  .lg-6 { @include items(6, $spacing-3); }
-  .lg-5 { @include items(5, $spacing-3); }
-  .lg-4 { @include items(4, $spacing-3); }
-  .lg-3 { @include items(3, $spacing-3); }
-  .lg-2 { @include items(2, $spacing-3); }
-  .lg-1 { @include items-1; }
-}
-
-// TABLET
-@media (min-width: 481px) and (max-width: 767px) {
-  .md-4 { @include items(4, $spacing-3); }
-  .md-3 { @include items(3, $spacing-3); }
-  .md-2 { @include items(2, $spacing-3); }
-  .md-1 { @include items-1; }
-}
-
-// MOBILE
-@media (max-width: 480px) {
-  .sm-4 { @include items(4, $spacing-4); }
-  .sm-3 { @include items(3, $spacing-4); }
-  .sm-2 { @include items(2, $spacing-4); }
-  .sm-1 { @include items-1; }
-}

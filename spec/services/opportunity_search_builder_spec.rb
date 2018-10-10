@@ -6,7 +6,7 @@ RSpec.describe OpportunitySearchBuilder do
   end
   describe '#call' do
     it 'returns the default search query with no parameters' do
-      builder = OpportunitySearchBuilder.new(sort: @sort).call
+      builder = OpportunitySearchBuilder.new(sort: @sort, dit_boost_search: false).call
 
       expected_hash = {
         match_all: {},
@@ -17,7 +17,7 @@ RSpec.describe OpportunitySearchBuilder do
     end
 
     it 'builds a keyword search when a search term is provided' do
-      builder = OpportunitySearchBuilder.new(search_term: 'cheese', sort: @sort).call
+      builder = OpportunitySearchBuilder.new(search_term: 'cheese', sort: @sort, dit_boost_search: false).call
 
       expected_hash = {
         multi_match: {
@@ -32,7 +32,7 @@ RSpec.describe OpportunitySearchBuilder do
     end
 
     it 'filters by a single sector' do
-      builder = OpportunitySearchBuilder.new(sectors: 'food', sort: @sort).call
+      builder = OpportunitySearchBuilder.new(sectors: 'food', sort: @sort, dit_boost_search: false).call
 
       expected_sectors_hash = {
         bool: {
@@ -49,7 +49,7 @@ RSpec.describe OpportunitySearchBuilder do
     end
 
     it 'filters by multiple sectors' do
-      builder = OpportunitySearchBuilder.new(sectors: %w[food drink], sort: @sort).call
+      builder = OpportunitySearchBuilder.new(sectors: %w[food drink], sort: @sort, dit_boost_search: false).call
 
       expected_sectors_hash = {
         bool: {
@@ -66,7 +66,7 @@ RSpec.describe OpportunitySearchBuilder do
     end
 
     it 'filters by multiple countries' do
-      builder = OpportunitySearchBuilder.new(countries: %w[albania iran], sort: @sort).call
+      builder = OpportunitySearchBuilder.new(countries: %w[albania iran], sort: @sort, dit_boost_search: false).call
 
       expected_sectors_hash = {
         bool: {
@@ -83,7 +83,7 @@ RSpec.describe OpportunitySearchBuilder do
     end
 
     it 'filters by multiple opportunity types' do
-      builder = OpportunitySearchBuilder.new(opportunity_types: ['Private Sector'], sort: @sort).call
+      builder = OpportunitySearchBuilder.new(opportunity_types: ['Private Sector'], sort: @sort, dit_boost_search: false).call
 
       expected_sectors_hash = {
         bool: {
@@ -100,7 +100,7 @@ RSpec.describe OpportunitySearchBuilder do
     end
 
     it 'filters by multiple contract values' do
-      builder = OpportunitySearchBuilder.new(values: ['More than £100k'], sort: @sort).call
+      builder = OpportunitySearchBuilder.new(values: ['More than £100k'], sort: @sort, dit_boost_search: false).call
 
       expected_sectors_hash = {
         bool: {

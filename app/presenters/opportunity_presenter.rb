@@ -24,7 +24,7 @@ class OpportunityPresenter < BasePresenter
   # 'Multi Country - [opportunity.title]' when has multiple countries.
   # '[country] - [opportunity.title]' when has single country.
   def title_with_country
-    if source('post')
+    if source('post') && (opportunity.created_at < Date.parse(Figaro.env.POST_FORM_DEPLOYMENT_DATE) || (!opportunity.countries.empty? && opportunity.countries.map(&:region_id).include?(18)))
       opportunity.title
     else
       country = if opportunity.countries.size > 1
@@ -73,17 +73,7 @@ class OpportunityPresenter < BasePresenter
   end
 
   def contact
-    contact = ''
-    if opportunity.contacts.length.positive?
-      contact = if contact_email.blank?
-                  contact_name
-                else
-                  contact_email
-                end
-    end
-
-    # Final check to make sure it is not still blank.
-    contact.blank? ? 'Contact unknown' : contact
+    contact_email if opportunity.contacts.length.positive?
   end
 
   def guides_available
@@ -129,6 +119,16 @@ class OpportunityPresenter < BasePresenter
     opportunity.source.eql? value
   end
 
+  def supplier_preferences
+    opportunity.supplier_preferences.map(&:name).join(', ')
+  end
+
+  def supplier_preference?
+    if opportunity.respond_to? :supplier_preference_ids
+      opportunity.supplier_preference_ids.present?
+    end
+  end
+
   def css_class_name
     if source('volume_opps')
       'opportunity-external'
@@ -146,16 +146,16 @@ class OpportunityPresenter < BasePresenter
   end
 
   def published_date
-    opportunity.first_published_at.strftime('%d %B %Y')
+    if opportunity.first_published_at.present?
+      opportunity.first_published_at.strftime('%d %B %Y')
+    else
+      ''
+    end
   end
 
   private
 
   attr_reader :h, :opportunity
-
-  def contact_name
-    opportunity.contacts.first.name
-  end
 
   def contact_email
     opportunity.contacts.first.email

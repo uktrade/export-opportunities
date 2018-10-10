@@ -2,6 +2,7 @@ require 'vcr'
 require 'elasticsearch/extensions/test/cluster'
 require 'capybara'
 require 'webmock/rspec'
+require 'yaml'
 
 module Helpers
   def select2_select_multiple(select_these, _id)
@@ -19,6 +20,10 @@ module Helpers
         end
       end
     end
+  end
+
+  def get_content(file)
+    YAML.load_file(File.join(Rails.root.to_s, 'app', 'content/') + file + '.yml')
   end
 end
 

@@ -1,22 +1,12 @@
-/*
- * Main stylesheet to support the admin section of site.
- * Only add global admin styles to this file. 
- *
- * Individual layout-specific styles should be added to relevant layout files.
- */
+// Temporary support for old/legacy/unchanged admin views.
+// -------------------------------------------------------
+// Reworked or updated design admin files are running on transformation_admin CSS
+// These temporary styles are designed to counter clashes and style errors caused
+// by old/legacy CSS that still exists in older pages that have not been updated.
+// ------------------------------------------------------------------------------
 
-@import "updated/_vars";
-@import "updated/_colours";
-@import "updated/_fonts";
-@import "updated/_mixins";
-@import "updated/_layout";
-
-
-/* Hidden or disabled
- *********************/
-.js-header-toggle.menu {
-  display: none;
-}
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
+@import 'transformation_admin/config';
 
 
 /* General 
@@ -27,7 +17,7 @@ a,
   border: none;
   color: $blue-1;
   cursor: pointer;
-  font-family: $font-family-standard;
+  font-family: $brand-font-standard;
   font-size: $font-size-body-s;
   padding: 0;
   text-decoration: underline;
@@ -50,7 +40,7 @@ a,
 body {
   box-sizing: border-box;
   color: $grey-1;
-  font-family: $font-family-standard;
+  font-family: $brand-font-standard;
   font-size: $font-size-body-m;
   font-weight: normal;
   line-height: 1.5em;
@@ -93,8 +83,25 @@ ul {
   padding-left: 1em;
 }
 
+.authenticator .button {
+	border: none;
+	float: right;
+	font-size: 16px;
+	font-weight: normal;
+	height: auto;
+	line-height: 1.2em;
+	padding: 7px 15px;
+	position: relative;
+	right: 0;
+	top: 24px;
+}
+
 .button {
   @include button($green-1, $green-2);
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1.2em;
+  padding: 7px 15px;
 
   &[disabled="disabled"] {
     @include button-disabled;
@@ -161,7 +168,9 @@ ul {
   }
 }
 
-#main {
+main#content {
+  @include container;
+  line-height: inherit;
   margin-bottom: $spacing-3;
 }
 
@@ -190,8 +199,8 @@ ul {
 }
 
 .content-meta {
-  @include clear_floats;
   margin-bottom: $spacing-3;
+  overflow: hidden;
   position: relative;
   top: -$spacing-3;
 
@@ -216,7 +225,7 @@ ul {
 
 /* Menu (primary navigation)
  ****************************/
-#menu  {
+#menu {
   display: inline-block;
   padding: 13px 0 9px 0;
   text-align: left;
@@ -332,18 +341,4 @@ ul {
   #menu {
     margin-top: 10px;
   }
-}
-
-
-
-// -----------------------------------------------------------------------------
-// TEMPORARY RULES ONLY FROM THIS POINT
-// These styles are only here until older admin pages no longer use the old CSS. 
-// Once all admin pages have been updated to use the new (stylesheets/updated/)
-// CSS, rules beyond this point can be safely removed. 
-// -----------------------------------------------------------------------------
-main#content {
-  @include container;
-
-  line-height: inherit;
 }

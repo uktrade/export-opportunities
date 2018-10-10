@@ -35,6 +35,8 @@ class OpportunitiesController < ApplicationController
   end
 
   def results
+    @dit_boost_search = params['boost_search'].present?
+
     convert_areas_params_into_regions_and_countries
     @content = get_content('opportunities/results.yml')
     @filters = SearchFilter.new(params)
@@ -56,6 +58,7 @@ class OpportunitiesController < ApplicationController
       'sectors': search_filter_sectors,
       'countries': search_filter_countries,
       'regions': search_filter_regions,
+      'sources': search_filter_sources,
     }
 
     respond_to do |format|
@@ -185,20 +188,13 @@ class OpportunitiesController < ApplicationController
     country_list = []
     per_page = Opportunity.default_per_page
 
-    query = if @recent_opportunity_search
-              Opportunity.public_search(
-                search_term: @search_term,
-                filters: filters_with_mapped_regions,
-                sort: sort,
-                limit: 100
-              )
-            else
-              Opportunity.public_search(
-                search_term: @search_term,
-                filters: filters_with_mapped_regions,
-                sort: sort
-              )
-            end
+    query = Opportunity.public_search(
+      search_term: @search_term,
+      filters: filters_with_mapped_regions,
+      sort: sort,
+      limit: 100,
+      dit_boost_search: @dit_boost_search
+    )
 
     if atom_request?
       atom_request_query(query)
@@ -318,20 +314,13 @@ class OpportunitiesController < ApplicationController
 
   # Get 5 most recent only
   private def recent_opportunities
-    per_page = 5
-    query = Opportunity.public_search(
-      search_term: nil,
-      filters: SearchFilter.new,
-      sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
-    )
-    total = query.results.total
-    records = query.records.page(params[:paged]).per(per_page)
-    {
-      results: records,
-      total: total,
-      limit: per_page,
-      sort_by: @sort_column_name,
-    }
+    today = Time.zone.today
+    post_opps = Opportunity.__elasticsearch__.where(status: :publish).where('response_due_on>?', today).where(source: :post).order(first_published_at: :desc).limit(4).to_a
+    volume_opps = Opportunity.__elasticsearch__.where(status: :publish).where('response_due_on>?', today).where(source: :volume_opps).order(first_published_at: :desc).limit(1).to_a
+
+    opps = [post_opps, volume_opps].flatten
+
+    { results: opps, limit: 5, total: 5 }
   end
 
   # TODO: How are the featured industries chosen?
@@ -378,6 +367,16 @@ class OpportunitiesController < ApplicationController
     }
   end
 
+  private def search_filter_sources
+    # @filters.sources ... lists all selected sources
+    # lists all sources from Opportunity model
+    {
+      'name': 'sources[]',
+      'options': sources_list,
+      'selected': @filters.sources,
+    }
+  end
+
   private def search_filter_regions
     # @filters.regions ... lists all selected regions
     # regions_list ... lists all regions (not stored in DB)
@@ -396,6 +395,17 @@ class OpportunitiesController < ApplicationController
       'options': areas_list,
       'selected': @filters.areas,
     }
+  end
+
+  # TODO: Disable the 'buyer' option coming form model
+  private def sources_list
+    sources = []
+    disabled_sources = ['buyer']
+    Opportunity.sources.keys.each do |key|
+      next if disabled_sources.include? key
+      sources.push(slug: key)
+    end
+    sources
   end
 
   # TODO: Could be stored in DB but writing here.

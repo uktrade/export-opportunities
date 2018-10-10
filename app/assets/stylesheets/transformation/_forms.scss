@@ -48,14 +48,11 @@ input {
   }
 }
 
-label,
-.date legend,
-.multi-currency-amount legend,
-.radio-group legend {
+label {
   @include body-m;
   color: $grey;
   display: inline-block;
-  margin-bottom: $spacing-3;
+  margin-bottom: 5px;
 }
 
 legend {
@@ -85,6 +82,11 @@ select {
   -moz-appearance: none;
   -webkit-appearance: none;
   -webkit-padding-start: 10px;
+
+  &[multiple] {
+    background-image: none;
+    height: auto;
+  }
 }
 
 textarea {
@@ -97,21 +99,46 @@ textarea {
   width: 100%;
 }
 
+.date legend,
+.date-month-year legend,
+.multi-currency-amount legend,
+.radio-group legend {
+  @include body-m;
+  color: $grey;
+  display: inline-block;
+  margin-bottom: $spacing-3;
+}
+
 .error {
   color: $great-red;
 }
 
-.date {
+.errors {
+  @include container;
+  border: 4px solid $great-red;
+  margin-bottom: $spacing-4;
+  padding: $spacing-3;
+
+  p {
+    color: $great-red;
+    font-weight: bold;
+    margin-bottom: 1em;
+  }
+}
+
+.date,
+.date-month-year {
   label {
     @include body-s;
     display: inline-block;
     margin: 0 $spacing-4 0 0;
     padding-top: 55px;
     position: relative;
-    width: 50px;
+    width: 65px;
   }
 
-  input {
+  select {
+    margin-bottom: 0;
     position: absolute;
     top: 0;
   }
@@ -124,6 +151,14 @@ textarea {
 .field {
   clear: both;
   margin-bottom: $spacing-3;
+
+  &.output input,
+  &.output textarea {
+    background-color: inherit;
+    border: none;
+    color: inherit;
+    padding: 0;
+  }
 }
 
 .intro {

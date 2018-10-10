@@ -12,6 +12,7 @@
  **/
 (function($, utils, classes) {
 
+  var DataProvider = classes.DataProvider;
   var SelectiveLookup = classes.SelectiveLookup;
   var DATA_ATTRIBUTE_INITIAL_VALUE = "data-initial-value";
 
@@ -41,7 +42,7 @@
     // Inherit...
     SelectiveLookup.call(instance,
       $input,
-      new DataProvider(FilterSelect.optionsToDataArray($select.find("option"))),
+      new DataProvider(FilterSelect.optionsToDataArray($select.find("option")), "text"),
       { $after: $select, lookupOnCharacter: 0 }
     );
 
@@ -210,57 +211,6 @@
   FilterSelect.prototype.open = function() {
     SelectiveLookup.prototype.open.call(this);
     this._private.$field.val("");
-  }
-
-  /* Internal Class
-   * SelectiveLookup classes use a Service instance to provide JSON data
-   * from AJAX requests. A FilterSelect instance is expected to work
-   * on local (known) data, provided by the target <select> element.
-   * This class mimics the functionality of a Service instance but works
-   * with the key/value data extracted from the <select> options. 
-   * 
-   * @data (Array) Array of key/value pairs.
-   **/
-  function DataProvider(data) {
-    var dataProvider = this;
-    var unfilteredData = data;
-    this.data = data;
-    this.callback = function() {}; 
-
-    // Allow ability to reset back to original data
-    this.reset = function() {
-      this.data = unfilteredData;
-    }
-
-    // A Service instance provides listener functionality but we're
-    // keeping it simple and allowing one task to run when ready.
-    this.listener = function(task) {
-      dataProvider.callback = task;
-    }
-  }
-
-  /* Filter the known data to return only key/value pairs that
-   * match (against value) the passed string value.
-   * @str (String) Value to filter (match) against data.
-   **/
-  DataProvider.prototype.filtered = function(str) {
-    var filtered = [];
-    var re = new RegExp(str, "gi");
-    for(var i=0; i<this.data.length; ++i) {
-      if(this.data[i].text.search(re) >= 0) {
-        filtered.push(this.data[i]);
-      }
-    }
-    return filtered;
-  }
-
-  /* Update the exposed service data having filtered again the 
-   * user input (param) and run the callback post-update actions.
-   * @params (String) Specify params for GET or data for POST
-   **/
-  DataProvider.prototype.update = function(param) {
-    this.data = this.filtered(param);
-    this.callback();
   }
 
 })(jQuery, dit.utils, dit.classes);

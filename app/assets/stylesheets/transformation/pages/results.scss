@@ -115,6 +115,14 @@ form {
   position: relative;
   width: $cols-3;
 
+  p {
+    font-weight: bold;
+  }
+
+  .description {
+    @include access-hidden;
+  }
+
   // Enhanced with JS
   .Expander {
     background-color: $white;
