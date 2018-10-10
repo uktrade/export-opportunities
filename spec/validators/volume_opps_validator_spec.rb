@@ -16,7 +16,7 @@ RSpec.describe VolumeOppsValidator do
     it 'returns false for empty opportunity description' do
       @opportunity_params[:description] = nil
       result = VolumeOppsValidator.new.validate_each(@opportunity_params)
-      expect(result).to eq false
+      expect(result).to eq true
     end
 
     it 'substitutes opportunity title with first 80 chars of description if nil' do

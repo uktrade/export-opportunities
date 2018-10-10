@@ -145,12 +145,13 @@ RSpec.feature 'Publishing opportunities:' do
 
   scenario 'publishing when opportunity is invalid' do
     publisher = create(:publisher)
-    invalid_opportunity = build(:opportunity, status: 'pending', description: nil)
+    invalid_opportunity = build(:opportunity, status: 'pending', title: nil, slug: 'slug-is-valid')
     invalid_opportunity.save(validate: false)
 
     login_as(publisher)
     visit admin_opportunity_path(invalid_opportunity)
     click_on 'Publish'
+
     expect(page).to have_text('problem')
     expect(invalid_opportunity.reload.status).to eq('pending')
     expect(page).to have_text('Pending')

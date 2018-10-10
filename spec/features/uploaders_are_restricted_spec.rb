@@ -4,6 +4,9 @@ feature 'Uploaders are restricted' do
   scenario 'Uploaders can edit their own opportunities' do
     uploader = create(:uploader)
     opportunity = create(:opportunity, author: uploader)
+    create(:type, name: 'Public Sector')
+    create(:value, name: 'More than £100k')
+    create(:supplier_preference)
 
     login_as(uploader)
     visit admin_opportunities_path
@@ -13,8 +16,8 @@ feature 'Uploaders are restricted' do
 
     expect(page.status_code).to eq 200
 
-    fill_in 'Title', with: 'A revised opportunity'
-    click_on 'Update Opportunity'
+    fill_in 'opportunity_title', with: 'A revised opportunity'
+    click_on 'Save and continue'
 
     expect(page.status_code).to eq 200
     expect(page).to have_text('Updated opportunity "A revised opportunity"')
