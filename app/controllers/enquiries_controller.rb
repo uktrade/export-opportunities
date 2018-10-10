@@ -1,4 +1,5 @@
 class EnquiriesController < ApplicationController
+  include ApplicationHelper
   before_action :require_sso!
 
   before_action :set_no_cache_headers, only: [:new]
@@ -12,6 +13,7 @@ class EnquiriesController < ApplicationController
                  Enquiry.new
                end
 
+    @trade_profile_url = trade_profile(@enquiry.company_house_number)
     if @opportunity.expired?
       redirect_to opportunity_path(@opportunity)
     else
@@ -22,6 +24,7 @@ class EnquiriesController < ApplicationController
   def create
     @opportunity = Opportunity.find_by!(slug: params[:slug])
     @enquiry = enquiry_current_user.enquiries.new(enquiry_params)
+    @trade_profile_url = trade_profile(@enquiry.company_house_number)
     @enquiry.opportunity = @opportunity
 
     if @enquiry.save && !@enquiry.opportunity.nil?
