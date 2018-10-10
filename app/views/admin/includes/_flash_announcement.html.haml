@@ -1,18 +1,6 @@
--#  TEMPORARY ACTION
--#  Disabling the usual flash.announcement for one month, 
--#  while we announce the .gsi and ukti.gsi email addresses change.
--#  Make sure to delete the CSS in admin.scss when reversing
--#  this temporary adjustment.
--#  ------------------------------------------------------ 
--# - if current_editor and not @admin_updates
--#   %p.flash.announcement
--#     Updated guidance documents
--#     = link_to 'Read more', "/admin/updates"
--#   %br
-
-
--# Note: Also temporarily disabled the font:bold to to large amount of text.
-%p.flash.ptu-announcement{ :style => "font-weight:normal;" }
-  From 30 June, you won't be able to use @trade.gsi.gov.uk or @ukti.gsi.gov.uk email addresses to log into the admin centre because '.gsi' email addresses are being switched off. You will need to use your '@trade.gov.uk' email address instead. FCO email addresses are not affected.
-  -#= link_to 'Read more', "/admin/updates"
+- if current_editor and not @admin_updates
+  %p.flash.announcement
+    Updated guidance documents
+    = link_to 'Read more', "/admin/updates"
+  %br
 
