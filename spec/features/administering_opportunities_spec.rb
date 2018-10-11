@@ -1,4 +1,5 @@
 # coding: utf-8
+
 require 'rails_helper'
 
 feature 'Administering opportunities' do
@@ -152,7 +153,7 @@ feature 'Administering opportunities' do
 
   context 'service provider dropdown behaviour' do
     scenario 'is not automatically populated by default' do
-      form = setup_opportunity_form
+      setup_opportunity_form
       uploader = create(:editor, role: :uploader)
       create(:service_provider)
 
@@ -165,7 +166,7 @@ feature 'Administering opportunities' do
     end
 
     scenario 'automatically selects the editor’s service provider if available' do
-      form = setup_opportunity_form
+      setup_opportunity_form
       uploader = create(:editor, role: :uploader, service_provider: create(:service_provider, name: 'Zanzibar'))
       login_as(uploader)
 
@@ -237,7 +238,7 @@ feature 'Administering opportunities' do
     expect(page.status_code).to eq 200
     expect(page).to have_text('3 errors prevented this opportunity from being saved')
     expect(page).to have_text('Title is missing')
-    expect(page).to have_text("Summary is missing")
+    expect(page).to have_text('Summary is missing')
 
     # TODO: This is showing in Browser but...
     # expect(page).to have_text('Contacts Contacts are missing (2 are required)')
@@ -370,5 +371,3 @@ feature 'Administering opportunities' do
     select dd, from: 'opportunity_response_due_on_3i'
   end
 end
-
-
