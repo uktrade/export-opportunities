@@ -84,3 +84,6 @@ output.png
 
 # IDE files
 .idea/*
+
+# Ignore rspec default options
+.rspec
