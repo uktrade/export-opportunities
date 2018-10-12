@@ -30,9 +30,6 @@
 
       = content_for?(:content) ? yield(:content) : yield
 
-    - if current_editor
-      = render 'admin/includes/dialogue'
-
     = render partial: 'admin/includes/footer'
 
     = javascript_include_tag 'modernizr.min'

@@ -20,6 +20,4 @@
 //= require components/EnquiryResponse
 //= require components/ToggleFieldEdit
 //= require components/UploadWidget
-//= require components/Dialogue
-//= require components/Announcements
 //= require admin.init.js

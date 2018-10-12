@@ -7,23 +7,23 @@ class SendOpportunitiesDigest
     yesterday_date = (Time.zone.now - 1.day).strftime('%Y-%m-%d')
     today_date = Time.zone.now.strftime('%Y-%m-%d')
 
-    results = SubscriptionNotification.joins(:subscription).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at <= ? and sent=false', yesterday_date, today_date).group(:user_id).count(:opportunity_id)
+    results = SubscriptionNotification.joins(:subscription).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at <= ? and sent=false and subscriptions.unsubscribed_at is null', yesterday_date, today_date).group(:user_id).count(:opportunity_id)
     # user_id -> count_opportunity_ids
     # => {"1feb333d-ff17-49f8-9caa-2053bb0b25fa"=>4, "6083766f-e113-46e7-b4df-7c63c50d5b89"=>2}
 
-    struct = {}
-    struct[:subscriptions] = {}
-
     # go through each user
     results.each do |user_id, opp_count|
+      struct = {}
+      struct[:subscriptions] = {}
+
       struct[:count] = opp_count
 
       # find all subscriptions for this user, along with count of opps for this day
-      subscriptions = SubscriptionNotification.joins(:subscription).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at <= ? and subscriptions.user_id = ? and sent=false', yesterday_date, today_date, user_id).group(:subscription_id).count(:opportunity_id)
+      subscriptions = SubscriptionNotification.joins(:subscription).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at <= ? and subscriptions.user_id = ? and sent=false and subscriptions.unsubscribed_at is null', yesterday_date, today_date, user_id).group(:subscription_id).count(:opportunity_id)
 
       subscriptions.each do |subscription_id, subscription_count|
         # the one random opportunity that we are going to use for this subscription
-        sample_opportunity = SubscriptionNotification.where(subscription_id: subscription_id).where(sent: false).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at < ?', yesterday_date, today_date).select(:opportunity_id).sample(1).first.opportunity
+        sample_opportunity = SubscriptionNotification.where(subscription_id: subscription_id).where(sent: false).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at <= ?', yesterday_date, today_date).select(:opportunity_id).sample(1).first.opportunity
         subscription = Subscription.find(subscription_id)
         struct[:subscriptions][subscription_id] = {
           subscription: subscription,

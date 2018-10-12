@@ -48,12 +48,12 @@
           = f.label :company_url, "Company URL (optional)"
           = f.text_field :company_url
 
-        - if trade_profile(@enquiry.company_house_number)
+        - if @trade_profile_url
           %p
             = 'We have identified that you have a business profile.'
-          %p
+            %br
             = 'Your'
-            = link_to 'Business Profile', trade_profile(@enquiry.company_house_number), target: :blank
+            = link_to 'Business Profile', @trade_profile_url, target: :blank
             = 'will be added to your application.'
 
       %fieldset.your-exporting
