@@ -21,10 +21,10 @@ feature 'Administering opportunities' do
     select_all_buttons[1].click
 
     # click on type
-    find('label[for="opportunity_type_ids_1"]').click
+    page.all('.field.checkbox')[0].find('input', visible: false).trigger('click')
 
     # click on value
-    find('label[for="opportunity_value_ids_1"]').click
+    page.all('.field.radio')[0].find('input', visible: false).trigger('click')
 
     fill_in 'opportunity_teaser', with: 'A new life awaits you in the off-world colonies!'
 
@@ -70,9 +70,9 @@ feature 'Administering opportunities' do
       uploader = create(:uploader)
       country = create(:country, name: 'America')
       sector = create(:sector, name: 'Aerospace')
-      type = create(:type, name: 'Public Sector')
-      value = create(:value, name: 'More than £100k')
-      service_provider = create(:service_provider, name: 'Italy Rome')
+      type = create(:type, name: 'Public Sector', slug: 1)
+      value = create(:value, name: 'More than £100k', slug: 1)
+      @service_provider = create(:service_provider, name: 'Italy Rome')
       create(:supplier_preference)
 
       login_as(uploader)
@@ -82,29 +82,25 @@ feature 'Administering opportunities' do
 
       find('#opportunity_country_ids').select(country.name)
       find('#opportunity_sector_ids').select(sector.name)
+    end
 
-      #TODO: locate by id here
-      begin
-        find('label[for="opportunity_type_ids_1"]').click
-      rescue Capybara::ElementNotFound
-        find('label[for="opportunity_type_ids_2"]').click
-      end
+    scenario 'create an opportunity without valid contact details' do
 
-      begin
-        find('label[for="opportunity_value_ids_1"]').click
-      rescue Capybara::ElementNotFound
-        find('label[for="opportunity_value_ids_2"]').click
-      end
+      # click on type checkbox
+      page.all('.field.checkbox')[0].find('input', visible: false).click
+
+      # click on value checkbox
+      page.all('.field.radio')[0].find('input', visible: false).click
+
+      # click on supplier preference checkbox
+      page.all('.field.checkbox')[1].find('input', visible: false).click
 
       select '2016', from: 'opportunity_response_due_on_1i'
       select '06', from: 'opportunity_response_due_on_2i'
       select '04', from: 'opportunity_response_due_on_3i'
 
       fill_in 'opportunity_description', with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
-      select service_provider.name, from: 'Service provider'
-    end
-
-    scenario 'create an opportunity without valid contact details' do
+      select @service_provider.name, from: 'Service provider'
 
       fill_in 'opportunity_title', with: 'A chance to begin again in a golden land of opportunity and adventure'
       fill_in 'opportunity_teaser', with: 'A new life awaits you in the off-world colonies!'
@@ -122,7 +118,23 @@ feature 'Administering opportunities' do
       expect(page).to have_text("Contacts email doesn't look like a valid email address")
     end
 
-    scenario 'creates a new opportunity without valid title and teaser lengths', js: true do
+    scenario 'creates a new opportunity without valid title and teaser lengths', :elasticsearch, :commit, js: true do
+      # click on type checkbox
+      page.all('.field.checkbox')[0].find('input', visible: false).trigger('click')
+
+      # click on value checkbox
+      page.all('.field.radio')[0].find('input', visible: false).trigger('click')
+
+      # click on supplier preference checkbox
+      page.all('.field.checkbox')[1].find('input', visible: false).trigger('click')
+
+      select '2016', from: 'opportunity_response_due_on_1i'
+      select '06', from: 'opportunity_response_due_on_2i'
+      select '04', from: 'opportunity_response_due_on_3i'
+
+      fill_in 'opportunity_description', with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
+      select @service_provider.name, from: 'Service provider'
+
       fill_in 'opportunity_contacts_attributes_0_name', with:'Jane Doe'
       fill_in 'opportunity_contacts_attributes_0_email', with:'jane@doe.com'
 
@@ -132,13 +144,10 @@ feature 'Administering opportunities' do
       fill_in 'opportunity_title', with: 'Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive253'
       fill_in 'opportunity_teaser', with: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p153'
 
-      # expect(page).to have_text('3 characters over the limit')
-
       click_on 'Save and continue'
 
       expect(page.status_code).to eq 422
 
-      # expect(page).to have_text("Title can\'t be more than 250")
       expect(page).to have_text("Summary can\'t be more than 140")
     end
   end
@@ -186,7 +195,7 @@ feature 'Administering opportunities' do
 
       click_on opportunity.title
       click_on 'Edit opportunity'
-      byebug
+
       choose 'radio-inline-2' # amber
       click_on 'Update Opportunity'
 

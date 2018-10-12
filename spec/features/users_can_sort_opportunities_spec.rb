@@ -51,17 +51,22 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       expect(page).to have_no_content('Cod')
 
       page.find('#search-sort').select(sort_options[1])
+
+      sleep 1
+
       page.find('.button.submit').click
 
-      sleep 2
 
       expect(page).to have_no_content('Cod')
       expect('Sardines, Big Sardines').to appear_before('Really Old Sardines, Expiring Soon')
 
       page.find('#search-sort').select(sort_options[0])
+
+      sleep 1
+
       page.find('.button.submit').click
 
-      sleep 2
+
 
       expect(page).to have_no_content('Cod')
       expect('Really Old Sardines, Expiring Soon').to appear_before('Sardines, Big Sardines')

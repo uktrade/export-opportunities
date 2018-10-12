@@ -50,7 +50,7 @@
   .controls
     %input{:type=>'submit', :value=>form.content['submit_create'], :class=>'button'}
 
-    - if current_page?(action: 'new') || true
+    - if current_page?(action: 'new')
       %span or
       %input{:type=>'submit', :value=>form.content['submit_draft'], :class=>'button draft'}
 
