@@ -22,6 +22,21 @@ RSpec.describe OpportunityPresenter do
       expect(presenter.title_with_country).to eq('foo')
     end
 
+    it 'does not change title if has no country assigned' do
+      opportunity = create(:opportunity, title: 'foo', countries: [])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.title_with_country).to eq('foo')
+    end
+
+    it 'does not change title if only has no restricted country assigned' do
+      country = create(:country, name: 'DIT HQ', id: 198)
+      opportunity = create(:opportunity, title: 'foo', countries: [country])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.title_with_country).to eq('foo')
+    end
+
     it 'adds "Multi Country" if opportunity has more than one country' do
       opportunity = create(:opportunity, title: 'foo', source: 1)
       opportunity.countries = create_list(:country, 2)
@@ -196,7 +211,21 @@ RSpec.describe OpportunityPresenter do
   end
 
   describe '#guides_available' do
-    skip 'TODO: On hold due to related work required for JIRA#XOT-271'
+    it 'return true when has country guides' do
+      countries = create_list(:country, 3, exporting_guide_path: "/file/#{Faker::Lorem.word}")
+      opportunity = create(:opportunity, countries: countries)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.guides_available).to be_truthy
+    end
+
+    it 'return false when has no counry cguides' do
+      countries = create_list(:country, 3, exporting_guide_path: nil)
+      opportunity = create(:opportunity, countries: countries)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.guides_available).to be_falsey
+    end
   end
 
   describe '#country_guides' do
