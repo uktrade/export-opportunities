@@ -175,6 +175,50 @@ feature 'Administering opportunities' do
       # expect(page).to have_text("Title can\'t be more than 250")
       expect(page).to have_text("Summary can\'t be more than 140")
     end
+
+    scenario 'updates a duplicate slug opportunity ending in -133 (3 digits), should not change the random id appended to slug' do
+      administrator = create(:admin)
+      create(:country, name: 'America')
+      create(:sector, name: 'Aerospace')
+      create(:type, name: 'Public Sector')
+      create(:type, name: 'More than £100k')
+      create(:service_provider, name: 'Italy Rome')
+      opportunity = create(:opportunity, status: :publish, title: 'export opportunities', teaser: 'teaser teasing teaser', author: administrator, slug: 'export-opportunities-133')
+      create(:supplier_preference)
+
+      login_as(administrator)
+      visit admin_opportunities_path
+
+      click_on opportunity.title
+      click_on 'Edit opportunity'
+
+      fill_in 'opportunity_teaser', with: 'you can update the teaser, but you cant update the slug now!'
+      click_on 'Save and continue'
+
+      expect(page).to have_text('export-opportunities-133')
+    end
+
+    scenario 'updates a duplicate slug opportunity ending in -3 (1 digit), should not change the random id appended to slug' do
+      administrator = create(:admin)
+      create(:country, name: 'America')
+      create(:sector, name: 'Aerospace')
+      create(:type, name: 'Public Sector')
+      create(:type, name: 'More than £100k')
+      create(:service_provider, name: 'Italy Rome')
+      opportunity = create(:opportunity, status: :publish, title: 'export opportunities', teaser: 'teaser teasing teaser', author: administrator, slug: 'export-opportunities-3')
+      create(:supplier_preference)
+
+      login_as(administrator)
+      visit admin_opportunities_path
+
+      click_on opportunity.title
+      click_on 'Edit opportunity'
+
+      fill_in 'opportunity_teaser', with: 'you can update the teaser, but you cant update the slug now!'
+      click_on 'Save and continue'
+
+      expect(page).to have_text('export-opportunities-3')
+    end
   end
 
   feature 'updating ragg rating' do
