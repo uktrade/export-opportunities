@@ -7,7 +7,7 @@ class CreateOpportunitySlug
     return if opportunity.title.blank?
 
     # if the opportunity ends with -XYZ integer, then it was generated through a collision before. Lock the slug (URL)
-    slug = if opportunity.slug.present? && opportunity.slug.match(/\-[0-9]{3}$/)
+    slug = if opportunity.slug.present? && opportunity.slug.match(/\-[0-9]{1,3}$/)
              opportunity.slug
            else
              opportunity.title.parameterize
