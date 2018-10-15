@@ -267,5 +267,63 @@ feature 'Administering opportunities' do
         expect(page.body).to have_content('permeat. This is a difficult word to spell')
       end
     end
+
+    feature 'managing BST errors in opportunities' do
+      scenario 'published opportunity with a BST error coming from internal list' do
+        admin = create(:admin)
+        opportunity = create(:opportunity, status: :publish, title: 'A sample title', slug: 'swearing-contest')
+        opportunity_sensitivity_check = OpportunitySensitivityCheck.new
+        opportunity_sensitivity_check.submitted_text = "A sample title permeate should not be spelled as permeat. This is a difficult word to spell"
+        opportunity_sensitivity_check.review_recommended = true
+        opportunity_sensitivity_check.category1_score = 0.009
+        opportunity_sensitivity_check.category2_score = 0.010
+        opportunity_sensitivity_check.category3_score = 0.011
+        opportunity_sensitivity_check.opportunity_id = opportunity.id
+
+        opportunity_sensitivity_check.save!
+
+        opportunity_sensitivity_term_check = OpportunitySensitivityTermCheck.new
+        opportunity_sensitivity_term_check.opportunity_sensitivity_check_id = opportunity_sensitivity_check.id
+        opportunity_sensitivity_term_check.list_id = 0
+        opportunity_sensitivity_term_check.term = 'Gooogle'
+        opportunity_sensitivity_term_check.save!
+
+        login_as(admin)
+        visit admin_opportunities_path
+
+        click_on opportunity.title
+
+        expect(page.body).to have_content('Gooogle')
+        expect(page.body).to have_content('Azure internal list')
+      end
+
+      scenario 'published opportunity with a BST error coming from DIT list' do
+        admin = create(:admin)
+        opportunity = create(:opportunity, status: :publish, title: 'A sample title', slug: 'swearing-contest')
+        opportunity_sensitivity_check = OpportunitySensitivityCheck.new
+        opportunity_sensitivity_check.submitted_text = "A sample title permeate should not be spelled as permeat. This is a difficult word to spell"
+        opportunity_sensitivity_check.review_recommended = true
+        opportunity_sensitivity_check.category1_score = 0.009
+        opportunity_sensitivity_check.category2_score = 0.010
+        opportunity_sensitivity_check.category3_score = 0.011
+        opportunity_sensitivity_check.opportunity_id = opportunity.id
+
+        opportunity_sensitivity_check.save!
+
+        opportunity_sensitivity_term_check = OpportunitySensitivityTermCheck.new
+        opportunity_sensitivity_term_check.opportunity_sensitivity_check_id = opportunity_sensitivity_check.id
+        opportunity_sensitivity_term_check.list_id = 151
+        opportunity_sensitivity_term_check.term = 'innovative jam'
+        opportunity_sensitivity_term_check.save!
+
+        login_as(admin)
+        visit admin_opportunities_path
+
+        click_on opportunity.title
+
+        expect(page.body).to have_content('innovative jam')
+        expect(page.body).to have_content('DIT list')
+      end
+    end
   end
 end
