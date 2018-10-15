@@ -39,7 +39,7 @@ class OpportunitiesController < ApplicationController
   def results
     @dit_boost_search = params['boost_search'].present?
 
-    convert_areas_params_into_regions_and_countries
+    convert_areas_params_into_regions_and_countries(params)
     @content = get_content('opportunities/results.yml')
     @filters = SearchFilter.new(params)
 
@@ -108,37 +108,6 @@ class OpportunitiesController < ApplicationController
 
   private def new_domain?(request)
     NewDomainConstraint.new.matches? request
-  end
-
-  # Due to the combined Region/Country single selector on
-  # standard search area (e.g. landing page), we need to
-  # convert passed areas[] into regions[] and countries[]
-  # Note: If regions and countries exist, then search results
-  # page has been viewed and those filters have already been
-  # applied.
-  private def convert_areas_params_into_regions_and_countries
-    unless params[:regions] || params[:countries] || params[:areas].nil?
-      params[:regions] = []
-      params[:countries] = []
-      params[:areas].each do |area|
-        is_region = false
-        regions_list.each do |region|
-          if region[:slug].eql? area
-            params[:regions].push area
-          else
-            params[:countries].push area
-            is_region = true
-            break
-          end
-        end
-
-        if is_region
-          params[:regions].push area
-        else
-          params[:countries].push area
-        end
-      end
-    end
   end
 
   private def sort
