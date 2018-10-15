@@ -12,25 +12,21 @@ module RegionHelper
       params[:regions] = []
       params[:countries] = []
       params[:areas].each do |area|
-        is_region = false
+        not_region = true
         regions_list.each do |region|
           if region[:slug].eql? area
             params[:regions].push area
-          else
-            params[:countries].push area
-            is_region = true
+            not_region = false
             break
           end
         end
 
-        if is_region
-          params[:regions].push area
-        else
+        if not_region
           params[:countries].push area
         end
       end
-      params
     end
+    params
   end
 
   # TODO: Could be stored in DB but writing here.
