@@ -6,7 +6,12 @@ class CreateOpportunitySlug
   def call(opportunity)
     return if opportunity.title.blank?
 
-    slug = opportunity.title.parameterize
+    # if the opportunity ends with -XYZ integer, then it was generated through a collision before. Lock the slug (URL)
+    slug = if opportunity.slug.present? && opportunity.slug.match(/\-[0-9]{3}$/)
+             opportunity.slug
+           else
+             opportunity.title.parameterize
+           end
 
     3.times do
       return slug unless duplicate?(slug, opportunity.id)

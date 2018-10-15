@@ -4,6 +4,7 @@ RSpec.describe CreateOpportunitySlug do
   describe '#call' do
     it 'creates a slug from the opportunity title' do
       opportunity = double(title: 'Export tea to china (really)', id: nil)
+      allow(opportunity).to receive(:slug).and_return(nil)
       expect(subject.call(opportunity)).to eq 'export-tea-to-china-really'
     end
 
