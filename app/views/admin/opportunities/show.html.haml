@@ -165,6 +165,9 @@
           %tr
             %th{:scope => 'row'} BST
             %td= term_check.term
+          %tr
+            %th{:scope => 'row'} ListId
+            %td= "#{term_check.list_id} (#{term_check&.list_id == 0 ? 'Azure internal list' : 'DIT list'})"
 
 %h2 Enquiries
 - if @opportunity.enquiries.size == 0
