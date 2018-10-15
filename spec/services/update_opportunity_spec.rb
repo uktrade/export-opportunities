@@ -3,7 +3,7 @@ require 'rails_helper'
 describe UpdateOpportunity, type: :service do
   describe '#call' do
     it 'updates the opportunity' do
-      opportunity = create(:opportunity, id: '4030bdeb-7fb1-44d9-a6d6-ac3e5a6d3d46')
+      opportunity = create(:opportunity, id: '4030bdeb-7fb1-44d9-a6d6-ac3e5a6d3d46', slug: nil)
 
       UpdateOpportunity.new(opportunity).call(opportunity_params(title: 'Export Pens To Pennsylvania'))
 
