@@ -11,6 +11,7 @@ RSpec.describe CreateOpportunitySlug do
     it 'appends a random number to avoid duplicates' do
       create(:opportunity, title: 'Export basil to india', slug: 'export-basil-to-india')
       duplicate = double(title: 'Export Basil to India', id: nil)
+      allow(duplicate).to receive(:slug).and_return(nil)
       expect(subject.call(duplicate)).to match(/export\-basil\-to\-india\-\d+/)
     end
 
@@ -24,6 +25,7 @@ RSpec.describe CreateOpportunitySlug do
       create(:opportunity, title: 'Export basil to india', slug: 'export-basil-to-india-5')
       allow(subject).to receive(:rand).and_return(5)
       duplicate = double(title: 'Export Basil to India', id: nil)
+      allow(duplicate).to receive(:slug).and_return(nil)
       expect(subject.call(duplicate)).to eq(opportunity.slug)
     end
 
