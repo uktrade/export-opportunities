@@ -152,6 +152,23 @@ describe RegionHelper do
     end
   end
 
+  describe '#region_by_countries' do
+    it 'returns a region when one is found' do
+      region = region_by_countries(Country.all.where(slug: %w[australia new-zealand papua-new-guinea fiji]))
+
+      expect(region.present?).to be_truthy
+      expect(region[:slug]).to eq('australia_new_zealand')
+      expect(region[:name]).to eq('Australia/New Zealand')
+      expect(region[:countries].length).to eq(4)
+    end
+
+    it 'returns an empty hash when no region is found' do
+      region = region_by_countries(Country.all.where(slug: %w[australia new-zealand papua-new-guinea]))
+
+      expect(region).to eq({})
+    end
+  end
+
   describe '#regions_list' do
     it 'returns a list of region hashes' do
       checked = []
