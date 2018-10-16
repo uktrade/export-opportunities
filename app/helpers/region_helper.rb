@@ -29,6 +29,105 @@ module RegionHelper
     params
   end
 
+  # Looks through a list of countries and tries to return a list of
+  # region and country hashes, based on matching countries in the 
+  # original list to complete sets found to match a region within
+  # the regions_list from RegionHelper.
+  def regions_and_countries_from(countries = [])
+    country_items = []
+    region_items = []
+    potential_regions = {}
+
+    # First try to sort countries into potential regions.
+    countries.each do |country|
+      region = region_by_country(country)
+      if region.present?
+        region_key = region[:slug]
+        unless potential_regions.key? region_key
+          potential_regions[region_key] = []
+        end
+        potential_regions[region_key].push(country)
+      else
+        country_items.push(country)
+      end
+    end
+
+    # Next find out how many potential region entries are complete.
+    potential_regions.each do |name, countries|
+      region = region_by_countries(countries)
+      if region.present?
+        region_items.push(region)
+      else
+        country_items.concat(countries)
+      end
+    end
+
+    # Return the (hopefully) sorted countries and regions
+    { regions: region_items, countries: country_items }
+  end
+
+  # Pass in a country object to get the region containing it.
+  # Return region object that matches passed country.
+  # If none found, returns empty hash.
+  def region_by_country(country)
+    found_region = {}
+    regions_list.each do |region|
+      if region[:countries].include? country[:slug]
+        found_region = region
+        break
+      end
+    end
+    found_region
+  end
+
+  # Return region object that matches passed name.
+  # If none found, returns empty hash.
+  def region_by_name(name)
+    found_region = {}
+    regions_list.each do |region|
+      if region[:name] == name
+        found_region = region
+        break
+      end
+    end
+    found_region
+  end
+
+  # Return region object that matches passed slug.
+  # If none found, returns empty hash.
+  def region_by_slug(slug)
+    found_region = {}
+    regions_list.each do |region|
+      if region[:slug] == slug
+        found_region = region
+        break
+      end
+    end
+    found_region
+  end
+
+  # Return region object that matches passed country list.
+  # If none found, returns empty hash.
+  def region_by_countries(countries)
+    found_region = {}
+    country_slugs = []
+
+    # Get all the slugs...
+    countries.each do |country|
+      country_slugs.push(country[:slug])
+    end
+
+    # now compare slugs to those in known regions
+    # (sort both for comparison)
+    regions_list.each do |region|
+      if region[:countries].sort == country_slugs.sort
+        found_region = region
+        break
+      end
+    end
+    found_region
+  end
+
   # TODO: Could be stored in DB but writing here.
   # DB has regions but no country ids added to any.
   # DB regions also differ slightly in names.
