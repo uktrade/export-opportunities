@@ -1,10 +1,11 @@
 class SubscriptionPresenter < SimpleDelegator
   include Rails.application.routes.url_helpers
+  include RegionHelper
 
   def description
     out = []
     out << search_term if search_term?
-    out << country_names_array
+    out << region_and_country_names_array
     out << sector_names_array
     out << type_names_array
     out << value_names_array
@@ -86,5 +87,17 @@ class SubscriptionPresenter < SimpleDelegator
 
   def value_names_array
     values.map(&:name)
+  end
+
+  def region_and_country_names_array
+    region_and_country_names = [] 
+    regions_and_countries = regions_and_countries_from(countries)
+    regions_and_countries[:regions].each do |region|
+      region_and_country_names.push(region[:name])
+    end
+    regions_and_countries[:countries].each do |country|
+      region_and_country_names.push(country[:name])
+    end
+    region_and_country_names
   end
 end
