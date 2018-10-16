@@ -118,6 +118,23 @@ describe RegionHelper do
     end
   end
 
+  describe '#region_by_name' do
+    it 'returns a region when one is found' do
+      region = region_by_name('Western Europe')
+
+      expect(region.present?).to be_truthy
+      expect(region[:slug]).to eq('western_europe')
+      expect(region[:name]).to eq('Western Europe')
+      expect(region[:countries].length).to eq(8)
+    end
+
+    it 'returns an empty hash when no region is found' do
+      region = region_by_name('Oceania')
+
+      expect(region).to eq({})
+    end
+  end
+
   describe '#regions_list' do
     it 'returns a list of region hashes' do
       checked = []
