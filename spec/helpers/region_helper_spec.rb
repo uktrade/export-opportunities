@@ -65,9 +65,7 @@ describe RegionHelper do
     it 'returns a collection of regions and countries when regions are found' do
       regions_and_countries = regions_and_countries_from(@countries)
       example_country = @countries.first
-      example_region =  { slug: 'australia_new_zealand',
-        countries: %w[australia fiji new-zealand papua-new-guinea],
-        name: 'Australia/New Zealand' }
+      example_region =  { slug: 'australia_new_zealand', countries: %w[australia fiji new-zealand papua-new-guinea], name: 'Australia/New Zealand' }
 
       region_slugs = []
       regions_and_countries[:regions].each do |region|
@@ -100,6 +98,23 @@ describe RegionHelper do
       expect(regions_and_countries[:regions].length).to eq(0)
       expect(regions_and_countries[:countries].length).to eq(4)
       expect(country_slugs).to eq(%w[mexico austria belgium spain])
+    end
+  end
+
+  describe '#region_by_country' do
+    it 'returns a region when one is found' do
+      region = region_by_country(@countries.first)
+
+      expect(region.present?).to be_truthy
+      expect(region[:slug]).to eq('south_america')
+      expect(region[:name]).to eq('South America')
+      expect(region[:countries].length).to eq(12)
+    end
+
+    it 'returns an empty hash when no region is found' do
+      region = region_by_country(create(:country, name: 'The Land of Giants'))
+
+      expect(region).to eq({})
     end
   end
 
