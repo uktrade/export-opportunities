@@ -1,6 +1,4 @@
 module RegionHelper
-
-
   # Due to the combined Region/Country single selector on
   # standard search area (e.g. landing page), we need to
   # convert passed areas[] into regions[] and countries[]
@@ -14,23 +12,20 @@ module RegionHelper
       params[:areas].each do |area|
         not_region = true
         regions_list.each do |region|
-          if region[:slug].eql? area
-            params[:regions].push area
-            not_region = false
-            break
-          end
+          next if region[:slug] != area
+          params[:regions].push area
+          not_region = false
+          break
         end
 
-        if not_region
-          params[:countries].push area
-        end
+        params[:countries].push(area) if not_region
       end
     end
     params
   end
 
   # Looks through a list of countries and tries to return a list of
-  # region and country hashes, based on matching countries in the 
+  # region and country hashes, based on matching countries in the
   # original list to complete sets found to match a region within
   # the regions_list from RegionHelper.
   def regions_and_countries_from(countries = [])
@@ -53,12 +48,12 @@ module RegionHelper
     end
 
     # Next find out how many potential region entries are complete.
-    potential_regions.each do |name, countries|
-      region = region_by_countries(countries)
+    potential_regions.each_value do |country_list|
+      region = region_by_countries(country_list)
       if region.present?
         region_items.push(region)
       else
-        country_items.concat(countries)
+        country_items.concat(country_list)
       end
     end
 

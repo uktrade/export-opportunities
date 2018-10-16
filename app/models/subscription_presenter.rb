@@ -90,7 +90,7 @@ class SubscriptionPresenter < SimpleDelegator
   end
 
   def region_and_country_names_array
-    region_and_country_names = [] 
+    region_and_country_names = []
     regions_and_countries = regions_and_countries_from(countries)
     regions_and_countries[:regions].each do |region|
       region_and_country_names.push(region[:name])
