@@ -11,7 +11,6 @@ class SendOpportunitiesDigest
     # user_id -> count_opportunity_ids
     # => {"1feb333d-ff17-49f8-9caa-2053bb0b25fa"=>4, "6083766f-e113-46e7-b4df-7c63c50d5b89"=>2}
 
-
     # go through each user
     results.each do |user_id, opp_count|
       struct = {}

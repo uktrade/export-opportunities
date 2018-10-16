@@ -1,6 +1,6 @@
 FactoryBot.define do
-  factory :value do
+  factory :supplier_preference do
+    name { Faker::Superhero.name }
     sequence(:slug) { |n| [name.downcase.parameterize, n].join('-') }
-    name { "#{Faker::Number.number(3)}k" }
   end
 end

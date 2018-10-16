@@ -27,6 +27,8 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
 
     visit '/'
 
+    sleep 2
+
     click_on 'FoodDrink'
 
     expect(page).to have_content('Cow required')

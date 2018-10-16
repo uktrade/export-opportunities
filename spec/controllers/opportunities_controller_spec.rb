@@ -42,18 +42,6 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       end
     end
 
-    context 'when there are non-alphanumerics in search string' do
-      subject(:get_index) { get :index, params: { s: "'hello; --' &glyn" } }
-
-      it 'rejects them' do
-        expect(Opportunity).to receive(:public_search)
-          .with(a_hash_including(search_term: nil)).with(a_hash_including(filters: instance_of(SearchFilter)))
-          .and_call_original
-
-        get_index
-      end
-    end
-
     context 'provides an XML-based Atom feed' do
       it 'provides the correct MIME type' do
         get :index, params: { format: 'atom' }

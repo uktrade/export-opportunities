@@ -1,4 +1,5 @@
 # coding: utf-8
+
 require 'rails_helper'
 
 RSpec.describe OpportunityPresenter do
@@ -13,12 +14,27 @@ RSpec.describe OpportunityPresenter do
 
   describe '#title_with_country' do
     it 'does not change title if source is post and created before special date' do
-      opportunity = create(:opportunity, title: 'foo', source: 0, created_at: Date.new(2018,10,7))
+      opportunity = create(:opportunity, title: 'foo', source: 0, created_at: Date.new(2018, 10, 7))
       opportunity.countries = create_list(:country, 2)
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
 
       expect(opportunity.source).to eq('post')
-      expect(opportunity.created_at).to eq(Date.new(2018,10,7))
+      expect(opportunity.created_at).to eq(Date.new(2018, 10, 7))
+      expect(presenter.title_with_country).to eq('foo')
+    end
+
+    it 'does not change title if has no country assigned' do
+      opportunity = create(:opportunity, title: 'foo', countries: [])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.title_with_country).to eq('foo')
+    end
+
+    it 'does not change title if only has no restricted country assigned' do
+      country = create(:country, name: 'DIT HQ', id: 198)
+      opportunity = create(:opportunity, title: 'foo', countries: [country])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
       expect(presenter.title_with_country).to eq('foo')
     end
 
@@ -33,20 +49,20 @@ RSpec.describe OpportunityPresenter do
 
     it 'adds country to opportunity title' do
       country = create(:country, name: 'Iran')
-      opportunity = create(:opportunity, title: 'foo', source: 1, countries: [country], created_at: Date.new(2018,10,7))
+      opportunity = create(:opportunity, title: 'foo', source: 1, countries: [country], created_at: Date.new(2018, 10, 7))
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
 
       expect(opportunity.source).to_not eq('post')
-      expect(opportunity.created_at).to eq(Date.new(2018,10,7))
+      expect(opportunity.created_at).to eq(Date.new(2018, 10, 7))
       expect(presenter.title_with_country).to eq('Iran - foo')
     end
   end
 
   describe '#first_country' do
     it 'returns first opportunity country name only' do
-      country_1 = create(:country, name: 'Iran')
-      country_2 = create(:country, name: 'France')
-      opportunity = create(:opportunity, countries: [country_1, country_2])
+      country1 = create(:country, name: 'Iran')
+      country2 = create(:country, name: 'France')
+      opportunity = create(:opportunity, countries: [country1, country2])
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
 
       expect(opportunity.countries.size).to eq(2)
@@ -82,9 +98,9 @@ RSpec.describe OpportunityPresenter do
 
   describe '#enquiries_total' do
     it 'returns correct number of enquiries' do
-      enquiry_1 = create(:enquiry)
-      enquiry_2 = create(:enquiry)
-      opportunity = create(:opportunity, enquiries: [enquiry_1, enquiry_2])
+      enquiry1 = create(:enquiry)
+      enquiry2 = create(:enquiry)
+      opportunity = create(:opportunity, enquiries: [enquiry1, enquiry2])
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
 
       expect(presenter.enquiries_total).to eq(2)
@@ -108,9 +124,9 @@ RSpec.describe OpportunityPresenter do
     end
 
     it 'returns the correct opportunity type when has more than one' do
-      type_1 = create(:type, name: 'Public Sector')
-      type_2 = create(:type, name: 'Public Sector')
-      opportunity = create(:opportunity, types: [type_1, type_2])
+      type1 = create(:type, name: 'Public Sector')
+      type2 = create(:type, name: 'Public Sector')
+      opportunity = create(:opportunity, types: [type1, type2])
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
 
       expect(presenter.type).to eq('Public Sector and Public Sector')
@@ -133,17 +149,17 @@ RSpec.describe OpportunityPresenter do
     end
 
     it 'returns single sector as a string' do
-      sector_1 = create(:sector, name: 'Aerospace')
-      opportunity = create(:opportunity, sectors: [sector_1])
+      sector1 = create(:sector, name: 'Aerospace')
+      opportunity = create(:opportunity, sectors: [sector1])
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
 
       expect(presenter.sectors_as_string).to eq('Aerospace')
     end
 
     it 'returns multiple sectors as a string' do
-      sector_1 = create(:sector, name: 'Aerospace')
-      sector_2 = create(:sector, name: 'Agriculture')
-      opportunity = create(:opportunity, sectors: [sector_1, sector_2])
+      sector1 = create(:sector, name: 'Aerospace')
+      sector2 = create(:sector, name: 'Agriculture')
+      opportunity = create(:opportunity, sectors: [sector1, sector2])
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
 
       expect(presenter.sectors_as_string).to eq('Aerospace and Agriculture')
@@ -160,9 +176,9 @@ RSpec.describe OpportunityPresenter do
     end
 
     it 'returns first value from multiple' do
-      value_1 = create(:value, name: '100k')
-      value_2 = create(:value, name: '150k')
-      opportunity = create(:opportunity, values: [value_1, value_2])
+      value1 = create(:value, name: '100k')
+      value2 = create(:value, name: '150k')
+      opportunity = create(:opportunity, values: [value1, value2])
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
 
       expect(presenter.value).to eq('100k')
@@ -196,7 +212,21 @@ RSpec.describe OpportunityPresenter do
   end
 
   describe '#guides_available' do
-    skip 'TODO: On hold due to related work required for JIRA#XOT-271'
+    it 'return true when has country guides' do
+      countries = create_list(:country, 3, exporting_guide_path: "/file/#{Faker::Lorem.word}")
+      opportunity = create(:opportunity, countries: countries)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.guides_available).to be_truthy
+    end
+
+    it 'return false when has no counry cguides' do
+      countries = create_list(:country, 3, exporting_guide_path: nil)
+      opportunity = create(:opportunity, countries: countries)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.guides_available).to be_falsey
+    end
   end
 
   describe '#country_guides' do
@@ -298,22 +328,27 @@ RSpec.describe OpportunityPresenter do
     it 'returns an empty string when has no supplier ids' do
       opportunity = create(:opportunity)
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
-       expect(opportunity.supplier_preference_ids.length).to eql(0)
+
+      expect(opportunity.supplier_preference_ids.length).to eql(0)
       expect(presenter.supplier_preferences).to be_empty
     end
-     it 'returns a single supplier type as string when has one supplier id' do
+
+    it 'returns a single supplier type as string when has one supplier id' do
       create(:supplier_preference, id: 1, slug: 'foo', name: 'foo')
       opportunity = create(:opportunity, supplier_preference_ids: [1])
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
-       expect(opportunity.supplier_preference_ids.length).to eql(1)
+
+      expect(opportunity.supplier_preference_ids.length).to eql(1)
       expect(presenter.supplier_preferences).to eql('foo')
     end
-     it 'returns comma-separated supplier types as a string when has more than one supplier id' do
+
+    it 'returns comma-separated supplier types as a string when has more than one supplier id' do
       create(:supplier_preference, id: 1, slug: 'foo', name: 'foo')
       create(:supplier_preference, id: 2, slug: 'bar', name: 'bar')
       opportunity = create(:opportunity, supplier_preference_ids: [1, 2])
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
-       expect(opportunity.supplier_preference_ids.length).to eql(2)
+
+      expect(opportunity.supplier_preference_ids.length).to eql(2)
       expect(presenter.supplier_preferences).to eql('foo, bar')
     end
   end
@@ -325,14 +360,17 @@ RSpec.describe OpportunityPresenter do
       create(:supplier_preference, id: 3, slug: 'diddle', name: 'diddle')
       opportunity = create(:opportunity, supplier_preference_ids: [1, 2])
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
-       expect(opportunity.supplier_preference_ids).to_not be_nil
+
+      expect(opportunity.supplier_preference_ids).to_not be_nil
       expect(opportunity.supplier_preference_ids).to_not be_empty
       expect(presenter.supplier_preference?).to be_truthy
     end
-     it 'returns false when opportunity does not have supplier preference ids' do
+
+    it 'returns false when opportunity does not have supplier preference ids' do
       opportunity = create(:opportunity)
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
-       expect(opportunity.supplier_preference_ids).to_not be_nil
+
+      expect(opportunity.supplier_preference_ids).to_not be_nil
       expect(opportunity.supplier_preference_ids).to be_empty
       expect(presenter.supplier_preference?).to be_falsey
     end

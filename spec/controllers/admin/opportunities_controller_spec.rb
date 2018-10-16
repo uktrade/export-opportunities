@@ -100,7 +100,7 @@ describe Admin::OpportunitiesController, type: :controller do
     login_editor(role: :admin)
 
     it 'updates the opportunity' do
-      opportunity = create(:opportunity)
+      opportunity = create(:opportunity, slug: 'opp-slug')
 
       update_opportunity(opportunity.id)
 
