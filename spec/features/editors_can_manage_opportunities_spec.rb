@@ -152,7 +152,7 @@ feature 'Administering opportunities' do
     end
   end
   feature 'updating an opportunity' do
-    scenario 'updates an opportunity to invalid title and teaser lengths' do
+    scenario 'updates an opportunity to invalid teaser length' do
       uploader = create(:uploader)
       create(:country, name: 'America')
       create(:sector, name: 'Aerospace')
@@ -168,11 +168,9 @@ feature 'Administering opportunities' do
       click_on opportunity.title
       click_on 'Edit opportunity'
 
-      fill_in 'opportunity_title', with: "Coloring book pickled fanny pack selfies blue bottle small batch palo santo jianbing marfa. Actually gastropub lomo, drinking vinegar typewriter biodiesel fashion axe kickstarter you probably haven't heard of them messenger bag echo park.1234567890 252"
       fill_in 'opportunity_teaser', with: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p153'
 
       click_on 'Save and continue'
-      # expect(page).to have_text("Title can\'t be more than 250")
       expect(page).to have_text("Summary can\'t be more than 140")
     end
 
