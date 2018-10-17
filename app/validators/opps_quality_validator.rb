@@ -9,10 +9,10 @@ class OppsQualityValidator
       existing_quality_check.last.score
     else
       new_quality_check = OpportunityQualityRetriever.new.call(opportunity)
-      if new_quality_check.eql? 'Error'
+      if new_quality_check.include? 'Error'
         0
       else
-        new_quality_check.score
+        new_quality_check.first.score
       end
     end
   end

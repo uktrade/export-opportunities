@@ -7,11 +7,10 @@ class OpportunityQualityRetriever
     submitted_text = "#{opportunity.title} #{opportunity.description}"[0..1999]
 
     response = quality_check(hostname, quality_api_key, submitted_text)
-
+    result_set = []
     if response[:status]
-      opportunity_check = OpportunityCheck.new
-
       response[:errors]&.each do |opps_quality_error|
+        opportunity_check = OpportunityCheck.new
         opportunity_check.error_id = opportunity.id
         opportunity_check.offset = opps_quality_error['offset'] - 1
         # length of string to be able to mark it as red in text
@@ -26,17 +25,19 @@ class OpportunityQualityRetriever
         opportunity_check.opportunity_id = opportunity.id
 
         opportunity_check.save!
+        result_set.push opportunity_check
       end
 
-      if response[:errors].length.zero?
-        opportunity_check.score = response[:score]
-        opportunity_check.opportunity_id = opportunity.id
-        opportunity_check.submitted_text = submitted_text
-
-        opportunity_check.save!
+      if response[:errors].blank?
+        no_error_check = OpportunityCheck.new
+        no_error_check.score = response[:score]
+        no_error_check.opportunity_id = opportunity.id
+        no_error_check.submitted_text = submitted_text
+        no_error_check.save!
+        result_set.push no_error_check
       end
 
-      return opportunity_check
+      return result_set
     else
       Rails.logger.info 'log errors from API'
       'Error'
