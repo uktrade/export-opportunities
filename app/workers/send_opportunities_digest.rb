@@ -37,8 +37,7 @@ class SendOpportunitiesDigest
 
       # update subscription notifications to sent=true
       subscriptions.each do |sub, _count|
-        subscription = Subscription.find(sub)
-        sub_nots = SubscriptionNotification.where(subscription_id: subscription.id).where(sent: false).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at < ?', yesterday_date, today_date)
+        sub_nots = SubscriptionNotification.where(subscription_id: sub.id).where(sent: false).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at < ?', yesterday_date, today_date)
         sub_nots.update_all(sent: true) unless Rails.env.development?
       end
     end
