@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'rails_helper'
 
 RSpec.describe SubscriptionPresenter do
@@ -59,6 +60,31 @@ RSpec.describe SubscriptionPresenter do
       presenter = SubscriptionPresenter.new(subscription)
 
       expect(presenter.type_names).to eq 'Private Sector, Public Sector and Aid-funded business'
+    end
+  end
+
+  describe '#search_path' do
+    it 'creates the correct url for a subscription with search term only' do
+      subscription = create(:subscription, countries: [], search_term: 'feta')
+      presenter = SubscriptionPresenter.new(subscription)
+
+      expect(presenter.search_path).to eq('/opportunities/?s=feta&subscription_url=true')
+    end
+
+    it 'creates the correct url for a subscription with countries only' do
+      countries = [create(:country, slug: 'Greece'), create(:country, slug: 'Macedonia')]
+      subscription = create(:subscription, countries: countries, search_term: '')
+      presenter = SubscriptionPresenter.new(subscription)
+
+      expect(presenter.search_path).to eq('/opportunities/?countries%5B%5D=Greece&countries%5B%5D=Macedonia&s=&subscription_url=true')
+    end
+
+    it 'creates the correct url for a subscription with search term and countries' do
+      countries = [create(:country, slug: 'Greece'), create(:country, slug: 'Macedonia')]
+      subscription = create(:subscription, countries: countries, search_term: 'halva')
+      presenter = SubscriptionPresenter.new(subscription)
+
+      expect(presenter.search_path).to eq('/opportunities/?countries%5B%5D=Greece&countries%5B%5D=Macedonia&s=halva&subscription_url=true')
     end
   end
 

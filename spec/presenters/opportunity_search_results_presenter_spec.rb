@@ -313,6 +313,14 @@ RSpec.describe OpportunitySearchResultsPresenter do
       expect(presenter.offer_subscription).to be_falsey
     end
 
+    it 'Returns false when is subscription search' do
+      search = public_search(search_term: 'cheap and easy money makers')
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
+      params = { subscription_url: true }
+
+      expect(presenter.offer_subscription(params[:subscription_url].blank?)).to be_falsey
+    end
+
     it 'Returns true when search_term is not empty' do
       search = public_search(search_term: 'cheap and easy money makers')
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})

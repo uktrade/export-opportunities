@@ -53,33 +53,4 @@ RSpec.describe SendOpportunitiesDigest, :elasticsearch, :commit, sidekiq: :inlin
 
     expect(last_delivery.text_part.to_s).to include(third_party_opportunity.title)
   end
-
-  it 'creates the correct target_url for a subscription with search term only' do
-    user = create(:user)
-    subscription = create(:subscription, user: user, search_term: 'feta')
-    target_url = SendOpportunitiesDigest.new.url_from_subscription(subscription)
-    expect(target_url).to eq('/opportunities?s=feta')
-  end
-
-  it 'creates the correct target_url for a subscription with countries only' do
-    user = create(:user)
-    country = create(:country, slug: 'Greece')
-    another_country = create(:country, slug: 'Macedonia')
-    subscription = create(:subscription, user: user, countries: [country, another_country], search_term: '')
-
-    target_url = SendOpportunitiesDigest.new.url_from_subscription(subscription)
-
-    expect(target_url).to eq('/opportunities?s=&countries%5B%5D=Greece&countries%5B%5D=Macedonia')
-  end
-
-  it 'creates the correct target_url for a subscription with search term and countries' do
-    user = create(:user)
-    country = create(:country, slug: 'Greece')
-    another_country = create(:country, slug: 'Macedonia')
-    subscription = create(:subscription, user: user, search_term: 'halva', countries: [country, another_country])
-
-    target_url = SendOpportunitiesDigest.new.url_from_subscription(subscription)
-
-    expect(target_url).to eq('/opportunities?s=halva&countries%5B%5D=Greece&countries%5B%5D=Macedonia')
-  end
 end
