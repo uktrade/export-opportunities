@@ -74,25 +74,33 @@ class ApplicationController < ActionController::Base
       res['subscriptions'] = { expected_opportunities: db_subscriptions_ids.size, actual_opportunities: es_subscriptions_ids.size, missing: missing_docs }
     end
 
-    result = res_opportunities_count && res_subscriptions_count
-    case result
-    when true
-      # unset the counter when data is back in sync
-      @redis.del(:es_data_sync_error_ts)
-      render json: { git_revision: ExportOpportunities::REVISION, status: 'OK', result: res }, status: 200
+    json = { git_revision: ExportOpportunities::REVISION, status: 'OK', result: res }
+    response_status = 200
+
+    if res_opportunities_count && res_subscriptions_count
+      @redis.del(:es_data_sync_error_ts) # unset the counter when data is back in sync
     else
       previous_state = @redis.get(:es_data_sync_error_ts)
-      timeout_seconds = (Time.now.utc - Time.zone.parse(previous_state)).floor if previous_state
-      # if we found an error and it's more than 10 minutes since we found it, report the error
+      timeout_seconds = if previous_state
+                          (Time.now.utc - Time.zone.parse(previous_state)).floor
+                        end
+      json[:timeout_sec] = timeout_seconds
 
       if previous_state && timeout_seconds > report_es_data_sync_timeout
-        return render json: { git_revision: ExportOpportunities::REVISION, status: 'error', timeout_sec: timeout_seconds, result: res }, status: 500
+        # if we found an error and it's more than 10 minutes since we found it, report the error
+        json[:status] = 'error'
+        response_status = 500
       end
-      # first time we see an error
-      @redis.set(:es_data_sync_error_ts, Time.now.utc) unless previous_state
-      # keep reporting OK for pingdom, show the error in result field
-      render json: { git_revision: ExportOpportunities::REVISION, status: 'OK', timeout_sec: timeout_seconds, result: res }, status: 200
+
+      unless previous_state
+        # first time we see an error
+        # keep reporting OK for pingdom, show the error in result field
+        @redis.set(:es_data_sync_error_ts, Time.now.utc)
+      end
     end
+
+    json[:response_status] = response_status
+    render json: json
   end
 
   def api_check
