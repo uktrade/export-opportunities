@@ -2,6 +2,11 @@ class SubscriptionPresenter < SimpleDelegator
   include Rails.application.routes.url_helpers
   include RegionHelper
 
+  def initialize(obj)
+    super
+    @regions_and_countries = regions_and_countries_from(countries)
+  end
+
   def description
     out = []
     out << search_term if search_term?
@@ -49,7 +54,8 @@ class SubscriptionPresenter < SimpleDelegator
       controller: :opportunities,
       action: :index,
       s: search_term,
-      countries: countries.map(&:slug),
+      regions: slugs_from(@regions_and_countries[:regions]),
+      countries: slugs_from(@regions_and_countries[:countries]),
       sectors: sectors.map(&:slug),
       types: types.map(&:slug),
       values: values.map(&:slug),
@@ -92,13 +98,20 @@ class SubscriptionPresenter < SimpleDelegator
 
   def region_and_country_names_array
     region_and_country_names = []
-    regions_and_countries = regions_and_countries_from(countries)
-    regions_and_countries[:regions].each do |region|
+    @regions_and_countries[:regions].each do |region|
       region_and_country_names.push(region[:name])
     end
-    regions_and_countries[:countries].each do |country|
+    @regions_and_countries[:countries].each do |country|
       region_and_country_names.push(country[:name])
     end
     region_and_country_names
+  end
+
+  def slugs_from(collection)
+    arr = []
+    collection.each do |item|
+      arr.push(item[:slug]) if item[:slug].present?
+    end
+    arr
   end
 end
