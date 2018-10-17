@@ -44,7 +44,7 @@ class SubscriptionPresenter < SimpleDelegator
   end
 
   def search_path
-    url_for(
+    params = url_for(
       only_path: true,
       controller: :opportunities,
       action: :index,
@@ -55,6 +55,7 @@ class SubscriptionPresenter < SimpleDelegator
       values: values.map(&:slug),
       suppress_subscription_block: true
     )
+    "#{opportunities_path}#{params}&subscription-url=true"
   end
 
   def short_description
