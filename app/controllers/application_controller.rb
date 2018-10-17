@@ -46,6 +46,7 @@ class ApplicationController < ActionController::Base
 
   # basic checks for data sync between ES and PG DB
   def data_sync_check
+    @redis ||= Redis.new(url: Figaro.env.redis_url)
     res = {}
 
     # opps that have not expired and are published
@@ -73,13 +74,33 @@ class ApplicationController < ActionController::Base
       res['subscriptions'] = { expected_opportunities: db_subscriptions_ids.size, actual_opportunities: es_subscriptions_ids.size, missing: missing_docs }
     end
 
-    result = res_opportunities_count && res_subscriptions_count
-    case result
-    when true
-      render json: { git_revision: ExportOpportunities::REVISION, status: 'OK', result: res }, status: 200
+    json = { git_revision: ExportOpportunities::REVISION, status: 'OK', result: res }
+    response_status = 200
+
+    if res_opportunities_count && res_subscriptions_count
+      @redis.del(:es_data_sync_error_ts) # unset the counter when data is back in sync
     else
-      render json: { git_revision: ExportOpportunities::REVISION, status: 'error', result: res }, status: 500
+      previous_state = @redis.get(:es_data_sync_error_ts)
+      timeout_seconds = if previous_state
+                          (Time.now.utc - Time.zone.parse(previous_state)).floor
+                        end
+      json[:timeout_sec] = timeout_seconds
+
+      if previous_state && timeout_seconds > report_es_data_sync_timeout
+        # if we found an error and it's more than 10 minutes since we found it, report the error
+        json[:status] = 'error'
+        response_status = 500
+      end
+
+      unless previous_state
+        # first time we see an error
+        # keep reporting OK for pingdom, show the error in result field
+        @redis.set(:es_data_sync_error_ts, Time.now.utc)
+      end
     end
+
+    json[:response_status] = response_status
+    render json: json, status: response_status
   end
 
   def api_check
@@ -168,6 +189,10 @@ class ApplicationController < ActionController::Base
     counter_opps_published_recently = @redis.get(:opps_counters_published_recently)
 
     { total: counter_opps_total.to_i, expiring_soon: counter_opps_expiring_soon.to_i, published_recently: counter_opps_published_recently.to_i }
+  end
+
+  def report_es_data_sync_timeout
+    600.freeze
   end
 
   private

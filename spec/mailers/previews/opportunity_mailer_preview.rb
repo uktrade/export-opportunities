@@ -19,7 +19,7 @@ class OpportunityMailerPreview < ActionMailer::Preview
 
     OpportunityMailer.send_opportunity(
       @user,
-      {count: 1, subscriptions: subscription_struct}
+      {count: 1090, subscriptions: subscription_struct}
     )
   end
 end
