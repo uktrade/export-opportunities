@@ -53,9 +53,9 @@ class SubscriptionPresenter < SimpleDelegator
       sectors: sectors.map(&:slug),
       types: types.map(&:slug),
       values: values.map(&:slug),
-      suppress_subscription_block: true
+      subscription_url: true
     )
-    "#{opportunities_path}#{params}&subscription-url=true"
+    "#{opportunities_path}#{params}"
   end
 
   def short_description
