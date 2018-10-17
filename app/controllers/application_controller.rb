@@ -100,7 +100,7 @@ class ApplicationController < ActionController::Base
     end
 
     json[:response_status] = response_status
-    render json: json
+    render json: json, status: response_status
   end
 
   def api_check
