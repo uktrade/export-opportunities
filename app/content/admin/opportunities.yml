@@ -118,3 +118,14 @@ fields:
     label: Resolve duplicate slug (url) value
     description: Cannot automatically generate a unique URL from the title. Please add a unique value here. 
 
+  ragg:
+    question: Triage rating
+    options:
+      - label: indicate rejection
+        value: red
+      - label: indicate editing required
+        value: abmer
+      - label: indicate is ok
+        value: green
+      - label: indicate special consideration required
+        value: blue

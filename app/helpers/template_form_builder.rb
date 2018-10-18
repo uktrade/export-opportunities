@@ -3,7 +3,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
     @template.content_tag(
       :fieldset,
       @template.content_tag(:legend, props[:question]) + checkbox_collection(method, props[:checkboxes]),
-      class: 'field checkbox-group'
+      class: "field checkbox-group field-#{method}"
     )
   end
 
@@ -55,7 +55,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
          @template.content_tag(:span, 'Year') +
          year_field.html_safe
        end),
-      class: 'field date-month-year'
+      class: "field date-month-year field-#{method}"
     )
   end
 
@@ -80,7 +80,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
       :fieldset,
       @template.content_tag(:legend, props[:question]) +
       radio_collection(method, props[:options], config),
-      class: 'field radio-group'
+      class: "field radio-group field-#{method}"
     )
   end
 
@@ -100,7 +100,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
       :div,
       input_label(method, props[:label]) +
       collection_select(method, props[:options], :id, :name, config, attributes),
-      class: 'field select'
+      class: "field select field-#{method}"
     )
   end
 
@@ -112,7 +112,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
       :div,
       input_label(method, props[:label]) +
       @template.text_field(@object_name, method, objectify_options(attrs)),
-      class: 'field text'
+      class: "field text field-#{method}"
     )
   end
 
@@ -121,7 +121,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
       :div,
       input_label(method, props[:label]) +
       @template.text_area(@object_name, method, objectify_options(attributes)),
-      class: 'field textarea'
+      class: "field textarea field-#{method}"
     )
   end
 
@@ -136,7 +136,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
       :div,
       input_label(method, props) +
       output,
-      class: 'field output'
+      class: "field output field-#{method}"
     )
   end
 
@@ -147,13 +147,13 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
     # Is there a better way to detect difference?
     if collection.class.to_s == 'Array'
       # collection is Array data constructed with content .yml file
-      collection.each do |option|
+      collection.each_with_index do |option, index|
         label = option[:label]
         inputs += @template.content_tag(
           :div,
           @template.radio_button(@object_name, method, option[:value]) +
             @template.label(@object_name, method, label[:text], value: option[:value]),
-          class: 'field radio'
+          class: "radio field-#{method}-#{index}"
         )
       end
     else
@@ -163,7 +163,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
           :div,
           option.radio_button +
             option.label,
-          class: 'field radio'
+          class: 'radio'
         )
       end
     end
@@ -175,7 +175,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
       @template.content_tag(:div,
         option.check_box +
         option.label,
-        class: 'field checkbox')
+        class: 'checkbox')
     end
   end
 end
