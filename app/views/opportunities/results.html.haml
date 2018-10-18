@@ -9,7 +9,7 @@
     %h1.verbose= @content['title']
     .information
       %p= results.information
-      - if results.offer_subscription
+      - if results.offer_subscription(params[:subscription_url].blank?)
         = render partial: "components/subscription_link", locals: { subscription: results.subscription }
 
     %form.search{:action=>results.form_path, :method=>"get"}

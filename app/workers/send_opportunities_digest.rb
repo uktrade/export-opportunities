@@ -27,7 +27,6 @@ class SendOpportunitiesDigest
         subscription = Subscription.find(subscription_id)
         struct[:subscriptions][subscription_id] = {
           subscription: subscription,
-          target_url: url_from_subscription(subscription),
           count: subscription_count,
           opportunity: sample_opportunity,
         }
@@ -41,24 +40,5 @@ class SendOpportunitiesDigest
         sub_nots.update_all(sent: true) unless Rails.env.development?
       end
     end
-  end
-
-  def url_from_subscription(subscription)
-    if subscription.search_term && subscription.countries
-      target_url = "/opportunities?s=#{subscription.search_term}"
-      subscription.countries.each do |country|
-        target_url += "&countries%5B%5D=#{country.slug}"
-      end
-    elsif subscription.search_term
-      target_url = "/opportunities?s=#{subscription.search_term}"
-    elsif subscription.countries
-      target_url = '/opportunities?s=&sort_column_name=response_due_on'
-      subscription.countries.each do |country|
-        target_url += "&countries%5B%5D=#{country.slug}"
-      end
-    else
-      target_url = '/opportunities'
-    end
-    target_url
   end
 end
