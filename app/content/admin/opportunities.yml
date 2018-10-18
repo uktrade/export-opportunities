@@ -124,7 +124,7 @@ fields:
       - label: indicate rejection
         value: red
       - label: indicate editing required
-        value: abmer
+        value: amber
       - label: indicate is ok
         value: green
       - label: indicate special consideration required
