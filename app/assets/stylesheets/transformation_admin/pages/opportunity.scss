@@ -62,6 +62,10 @@ main {
     margin-bottom: $spacing-4;
   }
 
+  li {
+    font-size: $font-size-body-s;
+  }
+
   small {
     color: $grey-5;
   }
@@ -83,17 +87,17 @@ main {
 }
 
 .field-ragg-0 {
-  border-color: #e41f13;
+  border-color: $great-red;
 }
 
 .field-ragg-1 {
-  border-color: #ffbf47;
+  border-color: $focus-yellow;
 }
 
 .field-ragg-2 {
-  border-color: #00823b;
+  border-color: $green-3;
 }
 
 .field-ragg-3 {
-  border-color: #005ea5;
+  border-color: $blue-2;
 }
