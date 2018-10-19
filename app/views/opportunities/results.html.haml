@@ -20,10 +20,7 @@
 
 
 %form{:action=>opportunities_path, :method=>"get"}
-  - params[:areas]&.each do |area|
-    %input{:name=>"areas[]", :type=>"hidden", :value=>"#{area}"}
-
-  %input{:name=>"s", :type=>"hidden", :value=>@search_term}
+  = results.hidden_search_fields(request.params)
   
   .container
     - if results.found.length > 0

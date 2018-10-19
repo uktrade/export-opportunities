@@ -213,6 +213,22 @@ class OpportunitySearchResultsPresenter < FormPresenter
     allowed_filters_present && disallowed_filters_empty && not_subscription_url
   end
 
+  # Returns hidden form fields to make sure the search results 
+  # form remembers original search parameters.
+  def hidden_search_fields(params)
+    fields = ''
+    params.each do |key, value|
+      if key == 's'
+        fields += hidden_field_tag 's', value, id: ''
+      end
+
+      if %w[sectors].include? key
+        fields += hidden_field_tag "#{key}[]", value, id: ''
+      end
+    end
+    fields.html_safe
+  end
+
   private
 
   # We have content from .yml file but want to mix data
