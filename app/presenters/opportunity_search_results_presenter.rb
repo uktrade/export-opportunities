@@ -223,7 +223,13 @@ class OpportunitySearchResultsPresenter < FormPresenter
       end
 
       if %w[sectors].include? key
-        fields += hidden_field_tag "#{key}[]", value, id: ''
+        if value.class == Array
+          value.each do |item|
+            fields += hidden_field_tag "#{key}[]", item, id: ''
+          end
+        else
+          fields += hidden_field_tag "#{key}[]", value, id: ''
+        end
       end
     end
     fields.html_safe

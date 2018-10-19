@@ -357,6 +357,54 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
   end
 
+  describe '#hidden_search_fields' do
+    it 'Returns hidden input field to match search term' do
+      params = { 's' => 'food and drink', 'something' => 'foo' }
+      presenter = OpportunitySearchResultsPresenter.new({}, {}, {})
+      hidden_search_fields = presenter.hidden_search_fields(params)
+
+      expect(hidden_search_fields).to include('food and drink')
+      expect(has_html?(hidden_search_fields)).to be_truthy
+    end
+
+    it 'Returns hidden input fields to matching multiple areas' do
+      params = { 'something' => 'foo', 'sectors' => %w[some-area another-area] }
+      presenter = OpportunitySearchResultsPresenter.new({}, {}, {})
+      hidden_search_fields = presenter.hidden_search_fields(params)
+
+      expect(hidden_search_fields).to include('some-area')
+      expect(hidden_search_fields).to include('another-area')
+      expect(has_html?(hidden_search_fields)).to be_truthy
+    end
+
+    it 'Returns hidden input field to matching single area' do
+      params = { 'something' => 'foo', 'sectors' => 'some-area' }
+      presenter = OpportunitySearchResultsPresenter.new({}, {}, {})
+      hidden_search_fields = presenter.hidden_search_fields(params)
+
+      expect(hidden_search_fields).to include('some-area')
+      expect(has_html?(hidden_search_fields)).to be_truthy
+    end
+
+    it 'Returns hidden input fields to matching search and areas' do
+      params = { 's' => 'food and drink', 'something' => 'foo', 'sectors' => 'some-area' }
+      presenter = OpportunitySearchResultsPresenter.new({}, {}, {})
+      hidden_search_fields = presenter.hidden_search_fields(params)
+
+      expect(hidden_search_fields).to include('food and drink')
+      expect(hidden_search_fields).to include('some-area')
+      expect(has_html?(hidden_search_fields)).to be_truthy
+    end
+
+    it 'Returns blank string when no relevant params to capture' do
+      params = { 'something' => 'foo', 'countries' => 'some-country' }
+      presenter = OpportunitySearchResultsPresenter.new({}, {}, {})
+      hidden_search_fields = presenter.hidden_search_fields(params)
+
+      expect(hidden_search_fields).to eq('')
+    end
+  end
+
   describe '#format_filter_checkboxes' do
     it 'Returns a field hash created from a mix of content and data' do
       field_content = { 'question' => 'something',
@@ -448,7 +496,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   def has_html?(message)
-    /\<\/\w+\>/.match(message)
+    /\<\/\w+\>|\<\w+\s+\w+=/.match(message)
   end
 
   def country(name, slug = '')
