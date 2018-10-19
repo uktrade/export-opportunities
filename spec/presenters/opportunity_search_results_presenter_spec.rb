@@ -54,6 +54,9 @@ RSpec.describe OpportunitySearchResultsPresenter do
   describe '#displayed' do
     it 'Returns HTML containing information about results displayed' do
       create(:opportunity, :published, title: 'food')
+
+      Opportunity.__elasticsearch__.refresh_index!
+
       search = public_search(search_term: 'food')
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
       message = presenter.displayed
