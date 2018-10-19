@@ -1,0 +1,9 @@
+%div.optionSelect
+  %div.optionSelect__container
+    - sources = [:volume_opps, :post]
+    - sources.each do |source|
+      = check_box :id, :name, class: 'form-control' do |field|
+        =field
+      -#%div
+      -#  = field.label { field.check_box + field.text }
+

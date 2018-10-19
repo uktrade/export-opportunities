@@ -1,7 +1,7 @@
 %div.form-group
   %fieldset.inline
     %legend.visually-hidden Select Granularity
-    .multiple-choice{'data-target': 'select-all'}
+    .multiple-choice{'data-target': 'select-all', 'aria-controls': 'select-source'}
       = radio_button_tag 'granularity', 'Universe', stats_search_form.granularity == 'Universe'
       %label{:for => "granularity_Universe"} All
     .multiple-choice{'data-target': 'select-region', 'aria-controls': 'select-region'}

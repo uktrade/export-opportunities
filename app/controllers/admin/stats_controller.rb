@@ -7,6 +7,7 @@ module Admin
       search_params[:Country]
       search_params[:Region]
       search_params[:granularity]
+      search_params[:sources]
 
       @stats_search_form = StatsSearchForm.new(search_params)
 

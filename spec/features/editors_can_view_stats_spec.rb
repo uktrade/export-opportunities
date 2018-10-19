@@ -295,6 +295,72 @@ RSpec.feature 'Editors can view stats' do
     expect(page).to have_content(t('admin.stats.opportunities_published', count: 3))
   end
 
+  scenario 'for all the DIT universe' do
+    region = create(:region, name: 'Latin America')
+    another_region = create(:region, name: 'North America')
+    country = create(:country, name: 'Mexico', region: region)
+    another_country = create(:country, name: 'Barbados', region: another_region)
+    nassau = create(:service_provider, name: 'Nassau', country: country)
+    mexico = create(:service_provider, name: 'Mexico', country: country)
+    barbados = create(:service_provider, name: 'Barbados', country: another_country)
+
+    create(:opportunity, :published, service_provider: nassau, first_published_at: Date.new(2015, 9, 15), source: :post)
+    create(:opportunity, :published, service_provider: mexico, first_published_at: Date.new(2015, 9, 15), source: :post)
+    create(:opportunity, :published, service_provider: barbados, first_published_at: Date.new(2015, 9, 15), source: :volume_opps)
+
+    login_as(create(:editor, service_provider: nassau))
+    Timecop.freeze(Date.new(2015, 10, 1)) do
+      visit '/admin/stats'
+
+      select '2015', from: 'stats_from_year'
+      select 'September', from: 'stats_from_month'
+      select '15', from: 'stats_from_day'
+
+      select '2015', from: 'stats_to_year'
+      select 'September', from: 'stats_to_month'
+      select '15', from: 'stats_to_day'
+
+      choose 'granularity_Universe'
+
+      click_on 'Show stats'
+    end
+
+    expect(page).to have_content(t('admin.stats.opportunities_published', count: 2))
+  end
+
+  scenario 'for all the third party universe' do
+    region = create(:region, name: 'Latin America')
+    another_region = create(:region, name: 'North America')
+    country = create(:country, name: 'Mexico', region: region)
+    another_country = create(:country, name: 'Barbados', region: another_region)
+    nassau = create(:service_provider, name: 'Nassau', country: country)
+    mexico = create(:service_provider, name: 'Mexico', country: country)
+    barbados = create(:service_provider, name: 'Barbados', country: another_country)
+
+    create(:opportunity, :published, service_provider: nassau, first_published_at: Date.new(2015, 9, 15), source: :post)
+    create(:opportunity, :published, service_provider: mexico, first_published_at: Date.new(2015, 9, 15), source: :post)
+    create(:opportunity, :published, service_provider: barbados, first_published_at: Date.new(2015, 9, 15), source: :volume_opps)
+
+    login_as(create(:editor, service_provider: nassau))
+    Timecop.freeze(Date.new(2015, 10, 1)) do
+      visit '/admin/stats'
+
+      select '2015', from: 'stats_from_year'
+      select 'September', from: 'stats_from_month'
+      select '15', from: 'stats_from_day'
+
+      select '2015', from: 'stats_to_year'
+      select 'September', from: 'stats_to_month'
+      select '15', from: 'stats_to_day'
+
+      choose 'granularity_Universe'
+
+      click_on 'Show stats'
+    end
+
+    expect(page).to have_content(t('admin.stats.opportunities_published', count: 1))
+  end
+
   scenario 'for all service providers' do
     nassau = create(:service_provider, name: 'Nassau')
     mexico = create(:service_provider, name: 'Mexico')
