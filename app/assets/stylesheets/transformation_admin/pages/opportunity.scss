@@ -61,6 +61,14 @@ main {
     color: $blue-1;
     margin-bottom: $spacing-4;
   }
+
+  li {
+    font-size: $font-size-body-s;
+  }
+
+  small {
+    color: $grey-5;
+  }
 }
 
 .process {
@@ -69,4 +77,27 @@ main {
   form {
     @include container;
   }
+}
+
+.field-ragg {
+  .radio {
+    border-style: solid;
+    border-width: 0 30px 0 0;
+  }
+}
+
+.field-ragg-0 {
+  border-color: $great-red;
+}
+
+.field-ragg-1 {
+  border-color: $focus-yellow;
+}
+
+.field-ragg-2 {
+  border-color: $green-3;
+}
+
+.field-ragg-3 {
+  border-color: $blue-2;
 }

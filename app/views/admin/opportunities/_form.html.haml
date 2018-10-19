@@ -46,6 +46,8 @@
     = field.input_text :name, form.input_text("contact_#{field.index + 1}_name"), required: required
     = field.input_text :email, form.input_text("contact_#{field.index + 1}_email"), required: required
 
+  - if policy(opportunity).show_ragg? && opportunity.id.present?
+    = f.input_radio :ragg, form.input_radio('ragg', @ragg)
 
   .controls
     %input{:type=>'submit', :value=>form.content['submit_create'], :class=>'button'}
@@ -53,29 +55,3 @@
     - if current_page?(action: 'new')
       %span or
       %input{:type=>'submit', :value=>form.content['submit_draft'], :class=>'button draft'}
-
-
-
--# TODO: Do we keep this?
-
-  - if policy(opportunity).show_ragg? && opportunity.id.present?
-    %h2 Triage rating
-    %fieldset
-       %legend Set the rating: Red to indicate rejection, Amber to indicate editing required, Blue to indicate special consideration required.
-      .multiple-choice.ragg_choice-red
-        = f.radio_button :ragg, :red, id: 'radio-inline-1', 'autocomplete': 'off'
-        %label{:for => "radio-inline-1"} Red
-      .multiple-choice.ragg_choice-amber
-        = f.radio_button :ragg, :amber, id: 'radio-inline-2', 'autocomplete': 'off'
-        %label{:for => "radio-inline-2"} Amber
-      .multiple-choice.ragg_choice-green
-        = f.radio_button :ragg, :green, id: 'radio-inline-3', 'autocomplete': 'off'
-        %label{:for => "radio-inline-3"} Green
-      .multiple-choice.ragg_choice-blue
-        = f.radio_button :ragg, :blue, id: 'radio-inline-4', 'autocomplete': 'off'
-        %label{:for => "radio-inline-4"} Blue
-
-
-  = f.submit class: 'button'
-  - if current_page?(action: 'new') && @save_to_draft_button
-    = f.submit 'Save to Draft', class: 'button button-draft'
