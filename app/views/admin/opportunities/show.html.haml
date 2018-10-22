@@ -1,10 +1,16 @@
+- content_for :action_specific_head  do
+  = stylesheet_link_tag 'transformation_admin/pages/opportunity'
+  = javascript_include_tag 'transformation_admin/dit.page.opportunity'
+
+
 - enquiries_count = 0
 = link_to "Back", filtered_admin_opportunities_path, class: 'link-back'
 
-%h1.heading-xlarge
-  = @opportunity.title
-  - if @opportunity.expired?
-    .heading-secondary This opportunity has expired
+.intro
+  %h1.heading-xlarge
+    = @opportunity.title
+    - if @opportunity.expired?
+      .heading-secondary This opportunity has expired
 
 %p
   - if policy(@opportunity).edit?
