@@ -22,7 +22,6 @@ class StatsSearchForm
                 :post
               elsif params[:third_party]
                 :volume_opps
-              else nil
               end
     @granularity = params[:granularity]
     @from_date_field = SelectDateField.new(value: params[:stats_from], default: Time.zone.today - 30)
@@ -75,7 +74,7 @@ class StatsSearchForm
   end
 
   def sources
-    [:post, :volume_opps]
+    %i[post volume_opps]
   end
 
   class SelectDateField

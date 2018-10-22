@@ -66,8 +66,16 @@ class StatsCalculator
     opportunities_submitted = Opportunity.where(created_at: date_range).where(source: source).count
     opportunities_published = Opportunity.where(first_published_at: date_range).where(source: source)
     # TODO: need to join with opportunity and take opportunity source into account
-    enquiries = Enquiry.joins(:opportunity).where(created_at: date_range).count
-    enquiry_response = EnquiryResponse.joins(:enquiry).where(created_at: date_range).count
+    enquiries = if source == 'post'
+                  Enquiry.joins(:opportunity).where(created_at: date_range).count
+                else
+                  0
+                end
+    enquiry_response = if source == 'post'
+                         EnquiryResponse.joins(:enquiry).where(created_at: date_range).count
+                       else
+                         0
+                       end
     [opportunities_submitted, opportunities_published, enquiries, enquiry_response]
   end
 
