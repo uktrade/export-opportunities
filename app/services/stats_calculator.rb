@@ -3,6 +3,7 @@ class StatsCalculator
 
   def call(criteria)
     date_range = (criteria.date_from..criteria.date_to)
+    source = criteria.source
     case criteria.granularity
     when 'ServiceProvider'
       if criteria.all_service_providers?
@@ -37,7 +38,11 @@ class StatsCalculator
 
       opportunities_submitted, opportunities_published, enquiries, enquiry_response = results_with_filters(service_providers, date_range)
     when 'Universe'
-      opportunities_submitted, opportunities_published, enquiries, enquiry_response = global_results(date_range)
+      opportunities_submitted, opportunities_published, enquiries, enquiry_response = if source
+                                                                                        global_results_by_source(date_range, source)
+                                                                                      else
+                                                                                        global_results(date_range)
+                                                                                      end
     end
 
     Stats.new(opportunities_submitted: opportunities_submitted,
@@ -54,6 +59,23 @@ class StatsCalculator
     opportunities_published = Opportunity.where(first_published_at: date_range)
     enquiries = Enquiry.joins(:opportunity).where(created_at: date_range).count
     enquiry_response = EnquiryResponse.joins(:enquiry).where(created_at: date_range).count
+    [opportunities_submitted, opportunities_published, enquiries, enquiry_response]
+  end
+
+  def global_results_by_source(date_range, source)
+    opportunities_submitted = Opportunity.where(created_at: date_range).where(source: source).count
+    opportunities_published = Opportunity.where(first_published_at: date_range).where(source: source)
+    # TODO: need to join with opportunity and take opportunity source into account
+    enquiries = if source == 'post'
+                  Enquiry.joins(:opportunity).where(created_at: date_range).count
+                else
+                  0
+                end
+    enquiry_response = if source == 'post'
+                         EnquiryResponse.joins(:enquiry).where(created_at: date_range).count
+                       else
+                         0
+                       end
     [opportunities_submitted, opportunities_published, enquiries, enquiry_response]
   end
 

@@ -4,6 +4,7 @@ class StatsSearchForm
   attr_reader :region_id
   attr_reader :granularity
   attr_reader :error_messages
+  attr_reader :source
 
   AllServiceProviders = Struct.new(:name, :id).new('all service providers', 'all')
 
@@ -15,6 +16,13 @@ class StatsSearchForm
                     [params[:Country][:country_ids]]
                   end
     @region_id = params[:Region][':region_ids'].reject { |e| e.to_s.empty? }.map(&:to_i) if params[:Region]
+    @source = if params[:post] && params[:third_party]
+                nil
+              elsif params[:post]
+                :post
+              elsif params[:third_party]
+                :volume_opps
+              end
     @granularity = params[:granularity]
     @from_date_field = SelectDateField.new(value: params[:stats_from], default: Time.zone.today - 30)
     @to_date_field = SelectDateField.new(value: params[:stats_to], default: Time.zone.today - 1)
@@ -63,6 +71,10 @@ class StatsSearchForm
 
   def date_to
     @to_date_field.date
+  end
+
+  def sources
+    %i[post volume_opps]
   end
 
   class SelectDateField
