@@ -1,3 +1,6 @@
+@import 'transformation/config';
+@import 'transformation/components/restricted_input';
+
 h1 {
   margin-bottom: $spacing-2;
 }

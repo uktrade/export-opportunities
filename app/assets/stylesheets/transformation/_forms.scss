@@ -1,3 +1,6 @@
+@import 'transformation/config';
+@import 'transformation/components/restricted_input';
+
 h1 {
   margin-bottom: $spacing-2;
 }
@@ -18,8 +21,7 @@ form {
   margin-bottom: $spacing-3;
 
   .description,
-  .helptext,
-  .RestrictedInputCount {
+  .helptext {
     color: $mid-grey;
     display: block;
   }
