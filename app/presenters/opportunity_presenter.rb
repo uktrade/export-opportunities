@@ -51,6 +51,10 @@ class OpportunityPresenter < BasePresenter
     present_html_or_formatted_text(opportunity.description).html_safe
   end
 
+  def created
+    opportunity.created_at.strftime('%d %B %Y')
+  end
+
   def expires
     opportunity.response_due_on.strftime('%d %B %Y')
   end
