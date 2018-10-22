@@ -323,6 +323,7 @@ RSpec.feature 'Editors can view stats' do
       choose 'granularity_Universe'
 
       uncheck('third party')
+
       click_on 'Show stats'
     end
 
@@ -355,6 +356,7 @@ RSpec.feature 'Editors can view stats' do
       select '15', from: 'stats_to_day'
 
       choose 'granularity_Universe'
+
       uncheck('DIT')
 
       click_on 'Show stats'
