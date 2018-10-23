@@ -160,6 +160,14 @@ class OpportunityPresenter < BasePresenter
     end
   end
 
+  def formatted_date(date_field_name)
+    if opportunity[date_field_name].present?
+      opportunity[date_field_name].strftime('%d %B %Y')
+    else
+      ''
+    end
+  end
+
   private
 
   attr_reader :h, :opportunity

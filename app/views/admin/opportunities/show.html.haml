@@ -1,3 +1,4 @@
+- opportunity = OpportunityPresenter.new(self, @opportunity)
 - content_for :action_specific_head  do
   = stylesheet_link_tag 'transformation_admin/pages/opportunity'
   = javascript_include_tag 'transformation_admin/dit.page.opportunity'
@@ -11,6 +12,12 @@
     = @opportunity.title
     - if @opportunity.expired?
       This opportunity has expired
+
+  %p 
+    Created by 
+    = @opportunity.author.name
+    on 
+    = opportunity.formatted_date('created_at')
 
 .container
   %p
