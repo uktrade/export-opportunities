@@ -4,6 +4,7 @@
 %section
   %p
     = "Statistics by #{@stats_search_form.granularity}"
+    = "and #{@stats_search_form.to_h}"
     - if @stats_search_form.date_from == @stats_search_form.date_to
       = "on #{@stats_search_form.date_from.to_s(:admin_date)}"
     - else

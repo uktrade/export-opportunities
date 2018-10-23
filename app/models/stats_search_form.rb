@@ -77,6 +77,16 @@ class StatsSearchForm
     %i[post volume_opps]
   end
 
+  def to_h
+    if @source.eql?(:post)
+      "DIT"
+    elsif @source.eql?(:volume_opps)
+      "Third party"
+    else
+      "all sources"
+    end
+  end
+
   class SelectDateField
     attr_reader :date
 
