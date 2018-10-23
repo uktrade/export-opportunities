@@ -10,7 +10,7 @@ class SubscriptionPresenter < SimpleDelegator
   def description
     out = []
     out << search_term if search_term?
-    out << regions_and_countries_to_a(@regions_and_countries[:regions], @regions_and_countries[:countries])
+    out << region_and_country_names_to_a(@regions_and_countries)
     out << sector_names_array
     out << type_names_array
     out << value_names_array

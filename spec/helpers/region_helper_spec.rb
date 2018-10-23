@@ -103,12 +103,12 @@ describe RegionHelper do
 
   describe '#regions_and_countries_from_to_h' do
     it 'returns nothing if input is empty' do
-      regions_and_countries = regions_and_country_names_to_h([])
+      regions_and_countries = region_and_country_names_to_h([])
       expect(regions_and_countries).to eq ""
     end
 
     it 'returns something if input is valid' do
-      regions_and_countries = regions_and_country_names_to_h(@countries)
+      regions_and_countries = region_and_country_names_to_h(@countries)
 
       expect(regions_and_countries).to eq "Western Europe, Mediterranean Europe, Australia/New Zealand, China, Mexico, Romania, Qatar and Iran"
     end
