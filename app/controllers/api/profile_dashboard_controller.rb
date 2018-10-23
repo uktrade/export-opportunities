@@ -1,5 +1,6 @@
 module Api
   class ProfileDashboardController < ApplicationController
+    include RegionHelper
     protect_from_forgery with: :exception
 
     def index
@@ -26,13 +27,14 @@ module Api
       end
 
       @subscriptions = user.subscriptions.includes(:types, :values, :countries, :sectors).active
+
       @result[:email_alerts] = @subscriptions.map do |sub|
         {
           term: sub.search_term,
           created_on: sub.created_at,
           unsubscribe_url: unsubscribe_url(sub.id),
-          description: sub.title,
-          countries: sub.countries.map(&:name).join(','),
+          title: sub.title,
+          countries: region_and_country_names_to_h(sub.countries),
         }
       end
       respond_to do |format|

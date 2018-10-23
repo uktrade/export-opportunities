@@ -10,7 +10,7 @@ class SubscriptionPresenter < SimpleDelegator
   def description
     out = []
     out << search_term if search_term?
-    out << region_and_country_names_array
+    out << region_and_country_names_to_a(@regions_and_countries)
     out << sector_names_array
     out << type_names_array
     out << value_names_array
@@ -94,17 +94,6 @@ class SubscriptionPresenter < SimpleDelegator
 
   def value_names_array
     values.map(&:name)
-  end
-
-  def region_and_country_names_array
-    region_and_country_names = []
-    @regions_and_countries[:regions].each do |region|
-      region_and_country_names.push(region[:name])
-    end
-    @regions_and_countries[:countries].each do |country|
-      region_and_country_names.push(country[:name])
-    end
-    region_and_country_names
   end
 
   def slugs_from(collection)

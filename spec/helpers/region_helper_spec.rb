@@ -101,6 +101,19 @@ describe RegionHelper do
     end
   end
 
+  describe '#regions_and_countries_from_to_h' do
+    it 'returns nothing if input is empty' do
+      regions_and_countries = region_and_country_names_to_h([])
+      expect(regions_and_countries).to eq ""
+    end
+
+    it 'returns something if input is valid' do
+      regions_and_countries = region_and_country_names_to_h(@countries)
+
+      expect(regions_and_countries).to eq "Western Europe, Mediterranean Europe, Australia/New Zealand, China, Mexico, Romania, Qatar and Iran"
+    end
+  end
+
   describe '#region_by_country' do
     it 'returns a region when one is found' do
       region = region_by_country(@countries.first)
