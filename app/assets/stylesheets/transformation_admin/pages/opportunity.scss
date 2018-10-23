@@ -80,25 +80,34 @@ main {
 }
 
 .field-ragg {
-  .radio {
-    border-style: solid;
-    border-width: 0 30px 0 0;
+  .radio:after {
+    border-radius: 50%;
+    color: white;
+    display: block;
+    float: right;
+    height: 30px;
+    text-align: center;
+    width: 30px;
   }
 }
 
-.field-ragg-0 {
-  border-color: $great-red;
+.field-ragg-0:after {
+  background-color: $great-red;
+  content: 'R';
 }
 
-.field-ragg-1 {
-  border-color: $focus-yellow;
+.field-ragg-1:after {
+  background-color: $focus-yellow;
+  content: 'A';
 }
 
-.field-ragg-2 {
-  border-color: $green-3;
+.field-ragg-2:after {
+  background-color: $green-3;
+  content: 'G';
 }
 
-.field-ragg-3 {
-  border-color: $blue-2;
+.field-ragg-3:after {
+  background-color: $blue-2;
+  content: 'B';
 }
 

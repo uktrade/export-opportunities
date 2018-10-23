@@ -121,11 +121,11 @@ fields:
   ragg:
     question: Triage rating
     options:
-      - label: indicate rejection
+      - label: reject
         value: red
-      - label: indicate editing required
+      - label: edit required
         value: amber
-      - label: indicate is ok
+      - label: ok
         value: green
-      - label: indicate special consideration required
+      - label: special consideration required
         value: blue
