@@ -54,15 +54,17 @@ dit.page.opportunity = (new function () {
    * components.
   /**/
   function setupFilterMultipleSelectFields() {
-    new dit.classes.FilterMultipleSelect(_cache.$companyInput, {
-      title: _cache.$companyInput.data("display"),
-      unselected: _cache.$companyInput.data("unselected")
-    });
+    if(_cache.$companyInput.length && _cache.$sectorInput.length) {
+      new dit.classes.FilterMultipleSelect(_cache.$companyInput, {
+        title: _cache.$companyInput.data("display"),
+        unselected: _cache.$companyInput.data("unselected")
+      });
 
-    new dit.classes.FilterMultipleSelect(_cache.$sectorInput, {
-      title: _cache.$sectorInput.data("display"),
-      unselected: _cache.$sectorInput.data("unselected")
-    });
+      new dit.classes.FilterMultipleSelect(_cache.$sectorInput, {
+        title: _cache.$sectorInput.data("display"),
+        unselected: _cache.$sectorInput.data("unselected")
+      });
+    }
   }
 });
 
