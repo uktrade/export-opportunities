@@ -65,7 +65,7 @@ module RegionHelper
   def region_and_country_names_to_h(countries = [])
     regions_countries = regions_and_countries_from(countries)
 
-    if regions.empty? && countries.empty?
+    if regions_countries[:regions].empty? && regions_countries[:countries].empty?
       ''
     else
       to_h = region_and_country_names_to_a(regions_countries)
