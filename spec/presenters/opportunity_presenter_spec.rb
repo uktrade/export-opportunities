@@ -87,15 +87,6 @@ RSpec.describe OpportunityPresenter do
     end
   end
 
-  describe '#created' do
-    it 'returns formatted date string for created at time' do
-      opportunity = create(:opportunity, created_at: '2019-02-01')
-      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
-
-      expect(presenter.created).to eq('01 February 2019')
-    end
-  end
-
   describe '#expires' do
     it 'returns formatted date string for response due time' do
       opportunity = create(:opportunity, response_due_on: '2019-02-01')

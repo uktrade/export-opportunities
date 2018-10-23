@@ -25,15 +25,15 @@
         = render partial: "partials/open_opps_link"
 
       %dl
-        %dt.created
-          Opportunity creation date
-        %dd.created
-          = opportunity.created
-
         %dt.expiry
           Opportunity closing date
         %dd.expiry
           = opportunity.expires
+
+        %dt.published
+          Opportunity publication date
+        %dd.published
+          = opportunity.published_date
 
         - if opportunity.source('post')
           %dt.opportunity_type
