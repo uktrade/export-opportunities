@@ -33,7 +33,7 @@ module Api
           term: sub.search_term,
           created_on: sub.created_at,
           unsubscribe_url: unsubscribe_url(sub.id),
-          description: sub.title,
+          title: sub.title,
           countries: regions_and_countries_from_to_h(sub.countries),
         }
       end
