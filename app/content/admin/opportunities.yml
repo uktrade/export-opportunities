@@ -119,13 +119,13 @@ fields:
     description: Cannot automatically generate a unique URL from the title. Please add a unique value here. 
 
   ragg:
-    question: Triage rating
+    question: Editor
     options:
-      - label: reject
+      - label: Jamil
         value: red
-      - label: edit required
+      - label: Jennie
         value: amber
-      - label: ok
+      - label: David
         value: green
-      - label: special consideration required
+      - label: DSO
         value: blue
