@@ -79,11 +79,11 @@ class StatsSearchForm
 
   def to_h
     if @source.eql?(:post)
-      "DIT"
+      'DIT'
     elsif @source.eql?(:volume_opps)
-      "Third party"
+      'Third party'
     else
-      "all sources"
+      'all sources'
     end
   end
 

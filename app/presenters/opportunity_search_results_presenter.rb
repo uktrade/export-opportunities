@@ -213,14 +213,12 @@ class OpportunitySearchResultsPresenter < FormPresenter
     allowed_filters_present && disallowed_filters_empty && not_subscription_url
   end
 
-  # Returns hidden form fields to make sure the search results 
+  # Returns hidden form fields to make sure the search results
   # form remembers original search parameters.
   def hidden_search_fields(params)
     fields = ''
     params.each do |key, value|
-      if key == 's'
-        fields += hidden_field_tag 's', value, id: ''
-      end
+      fields += hidden_field_tag 's', value, id: '' if key == 's'
 
       if %w[sectors].include? key
         if value.class == Array
