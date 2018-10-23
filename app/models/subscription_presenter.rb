@@ -97,7 +97,8 @@ class SubscriptionPresenter < SimpleDelegator
   end
 
   def slugs_from(collection)
-    arr = []
+    # workaround to trick url_for to provide correct output, e.g. /country/greece vs /countries[]=greece
+    arr = ['']
     collection.each do |item|
       arr.push(item[:slug]) if item[:slug].present?
     end
