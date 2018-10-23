@@ -57,7 +57,7 @@ RSpec.feature 'Editors can view stats' do
       expect(page.find('#stats_to_month').value).to eq '9'
       expect(page.find('#stats_to_day').value).to eq '20'
 
-      expect(page).to have_content('Statistics by Universe over the period 10 Sep 1970 to 20 Sep 1970')
+      expect(page).to have_content('Statistics by Universe and all sources over the period 10 Sep 1970 to 20 Sep 1970')
 
       expect(page).to have_content(t('admin.stats.opportunities_submitted', count: 1))
       expect(page).to have_content(t('admin.stats.opportunities_published', count: 2))
@@ -140,7 +140,7 @@ RSpec.feature 'Editors can view stats' do
 
       click_on 'Show stats'
 
-      expect(page).to have_content('Statistics by ServiceProvider on 10 Sep 2015')
+      expect(page).to have_content('Statistics by ServiceProvider and all sources on 10 Sep 2015')
     end
   end
 
@@ -181,7 +181,7 @@ RSpec.feature 'Editors can view stats' do
       click_on 'Show stats'
     end
 
-    expect(page).to have_content('Statistics by Country on 15 Sep 2015')
+    expect(page).to have_content('Statistics by Country and all sources on 15 Sep 2015')
     expect(page).to have_content(t('admin.stats.opportunities_published', count: 2))
   end
 
