@@ -1,0 +1,73 @@
+@import 'transformation_admin/config';
+
+main {
+  max-width: none;
+}
+
+.back {
+  color: $grey-1;
+  display: inline-block;
+  margin-bottom: $spacing-3;
+
+  &:before {
+    @include arrow-left(#{$font-size-body-s / 2}, $stone-40, $grey-1);
+    margin-right: 0.4em;
+  }
+}
+
+.intro {
+  background-color: $stone-40;
+  margin-bottom: $spacing-3;
+  padding: $spacing-3 0;
+
+  h1 {
+    margin-bottom: $spacing-4;
+  }
+
+  p {
+    font-size: $font-size-body-s;
+  }
+}
+
+.status {
+  background-color: $white;
+  border: 1px solid $grey-3;
+  padding: $spacing-3;
+
+  dl {
+    @include body-s;
+    margin-bottom: $spacing-4;
+  }
+
+  dt {
+    font-weight: bold;
+  }
+
+  form {
+    display: inline-block;
+  }
+
+  h2 {
+    font-size: $font-size-body-s;
+    margin-bottom: 0;
+  }
+
+  p {
+    font-size: $font-size-body-s;
+  }
+
+  .button {
+    font-size: $font-size-body-m;
+  }
+
+  .state {
+    font-size: $font-size-body-l;
+    display: block;
+  }
+
+  .value {
+    @include body-l;
+    text-transform: capitalize;
+  }
+}
+
