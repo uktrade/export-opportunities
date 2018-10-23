@@ -34,7 +34,7 @@ module Api
           created_on: sub.created_at,
           unsubscribe_url: unsubscribe_url(sub.id),
           title: sub.title,
-          countries: regions_and_countries_from_to_h(sub.countries),
+          countries: regions_and_country_names_to_h(sub.countries),
         }
       end
       respond_to do |format|

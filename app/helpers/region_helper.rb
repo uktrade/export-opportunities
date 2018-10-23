@@ -62,26 +62,31 @@ module RegionHelper
   end
 
   # returns a human readable String representation of regions and countries from the objects
-  def regions_and_countries_from_to_h(countries= [])
+  def regions_and_country_names_to_h(countries = [])
     regions_countries = regions_and_countries_from(countries)
     regions = regions_countries[:regions]
     countries = regions_countries[:countries]
 
     if regions.empty? && countries.empty?
-      ""
+      ''
     else
-      to_h = []
-      regions.each do |region|
-        to_h << region[:name]
-      end
-
-      countries.each do |country|
-        to_h << country[:slug].capitalize
-      end
+      to_h = regions_and_countries_to_a(regions, countries)
 
       to_h.to_sentence(last_word_connector: ' and ')
     end
+  end
 
+  def regions_and_countries_to_a(regions, countries)
+    to_h = []
+    regions.each do |region|
+      to_h << region[:name]
+    end
+
+    countries.each do |country|
+      to_h << country[:name].capitalize
+    end
+
+    to_h
   end
 
   # Pass in a country object to get the region containing it.
