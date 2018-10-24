@@ -29,6 +29,21 @@ main {
   }
 }
 
+.details {
+  dd {
+    margin-bottom: 30px;
+  }
+
+  dt {
+    color: $grey-5;
+    font-weight: bold;
+  }
+
+  h2 {
+    font-size: $font-size-body-xl;
+  }
+}
+
 .status {
   background-color: $white;
   border: 1px solid $grey-3;

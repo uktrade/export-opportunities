@@ -5,7 +5,7 @@
   = javascript_include_tag 'transformation_admin/dit.page.opportunity'
 
 
-.intro
+%section.intro
   .container
     = link_to "Back", filtered_admin_opportunities_path, class: 'back'
 
@@ -35,75 +35,77 @@
       = opp.pending_button
 
 
-.container
-  %dl.details
-    %dt Title
-    %dd= @opportunity.title
+%section.details
+  .container
+    %h2 Opportunity details
+    %dl.details
+      %dt Title
+      %dd= @opportunity.title
 
-    %dt Teaser
-    %dd= @opportunity.teaser
+      %dt Teaser
+      %dd= @opportunity.teaser
 
-    - if @opportunity.request_type
-      %dt Buyer is looking for
-      %dd= @opportunity.request_type
+      - if @opportunity.request_type
+        %dt Buyer is looking for
+        %dd= @opportunity.request_type
 
-    - if @opportunity.tender
-      %dt Is a tender
-      %dd= @opportunity.tender
+      - if @opportunity.tender
+        %dt Is a tender
+        %dd= @opportunity.tender
 
-    %dt Slug
-    %dt= @opportunity.slug
+      %dt Slug
+      %dt= @opportunity.slug
 
-    %dt Created at
-    %dd= @opportunity.created_at.to_s(:admin_datetime)
+      %dt Created at
+      %dd= @opportunity.created_at.to_s(:admin_datetime)
 
-    %dt Updated at
-    %dd= @opportunity.updated_at.to_s(:admin_datetime)
+      %dt Updated at
+      %dd= @opportunity.updated_at.to_s(:admin_datetime)
 
-    %dt First published at
-    %dd= @opportunity.first_published_at&.to_s(:admin_datetime)
+      %dt First published at
+      %dd= @opportunity.first_published_at&.to_s(:admin_datetime)
 
-    %dt Countries
-    %dd= @opportunity.countries.map(&:name).join(', ')
+      %dt Countries
+      %dd= @opportunity.countries.map(&:name).join(', ')
 
-    %dt Sectors
-    %dd= @opportunity.sectors.map(&:name).join(', ')
+      %dt Sectors
+      %dd= @opportunity.sectors.map(&:name).join(', ')
 
-    %dt Types
-    %dd= @opportunity.types.map(&:name).join(', ')
+      %dt Types
+      %dd= @opportunity.types.map(&:name).join(', ')
 
-    - if @opportunity.supplier_preferences
-      %dt Buyer is happy to talk to
-      %dd= @opportunity.supplier_preferences.map(&:name).join(', ')
+      - if @opportunity.supplier_preferences
+        %dt Buyer is happy to talk to
+        %dd= @opportunity.supplier_preferences.map(&:name).join(', ')
 
-    %dt Values
-    %dd= @opportunity.values.map(&:name).join(', ')
+      %dt Values
+      %dd= @opportunity.values.map(&:name).join(', ')
 
-    %dt Expiry date
-    %dd= @opportunity.response_due_on.to_s(:admin_date) if @opportunity.response_due_on
+      %dt Expiry date
+      %dd= @opportunity.response_due_on.to_s(:admin_date) if @opportunity.response_due_on
 
-    %dt Description
-    %dd= present_html_or_formatted_text(@opportunity.description).html_safe
+      %dt Description
+      %dd= present_html_or_formatted_text(@opportunity.description).html_safe
 
-    - if @opportunity.target_url.present?
-      %dt External opportunity link
-      %dd= present_html_or_formatted_text(@opportunity.target_url).html_safe
+      - if @opportunity.target_url.present?
+        %dt External opportunity link
+        %dd= present_html_or_formatted_text(@opportunity.target_url).html_safe
 
-    %dt Contacts
-    %dd= @opportunity.contacts.map { |contact| "#{contact.name} <#{contact.email}>" }.join(', ')
+      %dt Contacts
+      %dd= @opportunity.contacts.map { |contact| "#{contact.name} <#{contact.email}>" }.join(', ')
 
-    %dt Service provider
-    %dd= @opportunity.service_provider.try(:name)
+      %dt Service provider
+      %dd= @opportunity.service_provider.try(:name)
 
-    -if @opportunity.tender_url.present?
-      %dt Third-party (original) link
-      %dd= link_to @opportunity.tender_url, @opportunity.tender_url.html_safe, target: "_blank"
+      -if @opportunity.tender_url.present?
+        %dt Third-party (original) link
+        %dd= link_to @opportunity.tender_url, @opportunity.tender_url.html_safe, target: "_blank"
 
-    %dt RAGG
-    %dd{:class => 'ragg-cell'}=@opportunity.ragg
+      %dt RAGG
+      %dd{:class => 'ragg-cell'}=@opportunity.ragg
 
-    %dt Author
-    %dd= @opportunity.author.name
+      %dt Author
+      %dd= @opportunity.author.name
 
 %br
 = render 'history'
