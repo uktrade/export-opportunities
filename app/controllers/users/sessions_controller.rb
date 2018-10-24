@@ -9,7 +9,7 @@ class Users::SessionsController < Devise::SessionsController
     if Figaro.env.bypass_sso?
       root_url
     else
-      "#{Figaro.env.sso_endpoint_base_uri}/accounts/logout?next=#{root_url}"
+      "#{Figaro.env.sso_endpoint_base_uri}#{Figaro.env.SSO_ENDPOINT_SSO_APPEND}/accounts/logout?next=#{root_url}"
     end
   end
 
