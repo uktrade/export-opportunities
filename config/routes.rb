@@ -117,19 +117,6 @@ Rails.application.routes.draw do
   get '/v1/subscriptions/unsubscribe/:id' => 'subscriptions#destroy'
   patch '/v1/subscriptions/explain/:id' => 'subscriptions#update'
 
-  # The constraints on the following routes will match individual values
-  # (e.g. "france", "brazil", "the-usa", "100k", "aerospace") but not the
-  # comma-separated values Rails spits out to represent multiply-valued fields.
-  # This means we'll get /country/brazil but not /country/brazil,france
-  # and we won't get nasty stuff like /country/the-usa?sector=aerospace
-  # if there's more than one value, it should fall back to using the
-  # standard /opportunity route with the filters in the params. -TM
-
-  get '/country/:countries', to: 'opportunities#index', as: :opportunities_by_country, constraints: { countries: /[\w\-]+/ }
-  get '/industry/:sectors', to: 'opportunities#index', as: :opportunities_by_sector, constraints: { sectors: /[\w\-]+/ }
-  get '/sector/:types', to: 'opportunities#index', as: :opportunities_by_type, constraints: { types: /[\w\-]+/ }
-  get '/value/:values', to: 'opportunities#index', as: :opportunities_by_value, constraints: { values: /[\w\-]+/ }
-
   # Atom feed
   get '/feed', action: :index, controller: 'opportunities', format: 'atom'
 
