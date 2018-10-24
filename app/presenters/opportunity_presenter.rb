@@ -1,12 +1,11 @@
 class OpportunityPresenter < BasePresenter
   include ApplicationHelper
-
   attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries, :tender_value, :tender_url, :target_url, :opportunity_cpvs, :sectors
 
   delegate :expired?, to: :opportunity
 
-  def initialize(helpers, opportunity)
-    @h = helpers
+  def initialize(view_context, opportunity)
+    @view_context = view_context
     @opportunity = opportunity
     @tender_url = opportunity.tender_url
     @target_url = opportunity.target_url
@@ -168,9 +167,50 @@ class OpportunityPresenter < BasePresenter
     end
   end
 
+  def edit_button
+    @view_context.link_to 'Edit opportunity', edit_admin_opportunity_path(@opportunity), class: 'button' if @view_context.policy(@opportunity).edit?
+  end
+
+  def publishing_button
+    case @opportunity.status
+    when 'publish'
+      button_to('Unpublish', :patch, 'pending') if @view_context.policy(@opportunity).publishing?
+    when 'pending'
+      button_to('Publish', :patch, 'publish') if @view_context.policy(@opportunity).publishing?
+    when 'trash'
+      button_to('Restore', :patch, 'pending') if @view_context.policy(@opportunity).restore?
+    end
+  end
+
+  def trash_button
+    button_to('Trash', :delete) if @view_context.policy(@opportunity).trash?
+  end
+
+  def draft_button
+    case @opportunity.status
+    when 'trash', 'pending'
+      button_to('Draft', :patch, 'draft') if @view_context.policy(opportunity).draft?
+    end
+  end
+
+  def pending_button
+    if @opportunity.status == 'draft'
+      button_to('Pending', :patch, 'pending') if @view_context.policy(opportunity).uploader_previewer_restore?
+    end
+  end
+
+  def button_to(text, method, status = '')
+    params = { status: status } if status.present?
+    view_context.button_to(text, 
+                           admin_opportunity_status_path(@opportunity), 
+                           method: method, 
+                           params: params, 
+                           class: 'button')
+  end
+
   private
 
-  attr_reader :h, :opportunity
+  attr_reader :view_context, :opportunity
 
   def contact_email
     opportunity.contacts.first.email
