@@ -1,10 +1,16 @@
 class SubscriptionPresenter < SimpleDelegator
   include Rails.application.routes.url_helpers
+  include RegionHelper
+
+  def initialize(obj)
+    super
+    @regions_and_countries = regions_and_countries_from(countries)
+  end
 
   def description
     out = []
     out << search_term if search_term?
-    out << country_names_array
+    out << region_and_country_names_to_a(@regions_and_countries)
     out << sector_names_array
     out << type_names_array
     out << value_names_array
@@ -43,17 +49,19 @@ class SubscriptionPresenter < SimpleDelegator
   end
 
   def search_path
-    url_for(
+    params = url_for(
       only_path: true,
       controller: :opportunities,
       action: :index,
       s: search_term,
-      countries: countries.map(&:slug),
+      regions: slugs_from(@regions_and_countries[:regions]),
+      countries: slugs_from(@regions_and_countries[:countries]),
       sectors: sectors.map(&:slug),
       types: types.map(&:slug),
       values: values.map(&:slug),
-      suppress_subscription_block: true
+      subscription_url: true
     )
+    "#{opportunities_path}#{params}"
   end
 
   def short_description
@@ -86,5 +94,13 @@ class SubscriptionPresenter < SimpleDelegator
 
   def value_names_array
     values.map(&:name)
+  end
+
+  def slugs_from(collection)
+    arr = []
+    collection.each do |item|
+      arr.push(item[:slug]) if item[:slug].present?
+    end
+    arr
   end
 end

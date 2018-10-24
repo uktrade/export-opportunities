@@ -228,7 +228,6 @@ class VolumeOppsRetriever
       if opportunity_params && process_opportunity
         if VolumeOppsValidator.new.validate_each(opportunity_params)
           translate(opportunity_params, %i[description teaser title], opportunity_language) if should_translate?(opportunity_language)
-
           CreateOpportunity.new(editor, :draft, :volume_opps).call(opportunity_params)
           valid_opp += 1
         else

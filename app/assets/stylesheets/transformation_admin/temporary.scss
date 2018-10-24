@@ -3,6 +3,7 @@
 // Reworked or updated design admin files are running on transformation_admin CSS
 // These temporary styles are designed to counter clashes and style errors caused
 // by old/legacy CSS that still exists in older pages that have not been updated.
+// Delete this file when there are no longer any legacy templates or css.
 // ------------------------------------------------------------------------------
 
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
@@ -328,8 +329,6 @@ main#content {
     padding: $spacing-3 0;
   }
 }
-
-
 
 
 // TABLET

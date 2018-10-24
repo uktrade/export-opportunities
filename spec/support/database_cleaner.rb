@@ -18,6 +18,10 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :truncation
   end
 
+  config.before(:each, type: :request) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
   # This block must be here, do not combine with the other `before(:each)` block.
   # This makes it so Capybara can see the database.
   config.before(:each) do
@@ -47,7 +51,6 @@ RSpec.configure do |config|
 
   private def es_delete_all
     Opportunity.__elasticsearch__.refresh_index!
-    # we don't need to refresh indexes for subscriptions yet
-    # Subscription.__elasticsearch__.refresh_index!
+    Opportunity.__elasticsearch__.delete_all
   end
 end

@@ -22,12 +22,11 @@ class SendOpportunitiesDigest
       subscriptions = SubscriptionNotification.joins(:subscription).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at <= ? and subscriptions.user_id = ? and sent=false and subscriptions.unsubscribed_at is null', yesterday_date, today_date, user_id).group(:subscription_id).count(:opportunity_id)
 
       subscriptions.each do |subscription_id, subscription_count|
-        # the one random opportunity that we are going to use for this subscription
-        sample_opportunity = SubscriptionNotification.where(subscription_id: subscription_id).where(sent: false).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at <= ?', yesterday_date, today_date).select(:opportunity_id).sample(1).first.opportunity
+        # the one random opportunity that we are going to use for this subscription. order by source to fetch DIT opps first
+        sample_opportunity = SubscriptionNotification.where(subscription_id: subscription_id).includes(:subscription).joins(:opportunity).where(sent: false).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at <= ?', yesterday_date, today_date).select(:subscription_id).select(:opportunity_id).order('opportunities.source').first.opportunity
         subscription = Subscription.find(subscription_id)
         struct[:subscriptions][subscription_id] = {
           subscription: subscription,
-          target_url: url_from_subscription(subscription),
           count: subscription_count,
           opportunity: sample_opportunity,
         }
@@ -37,29 +36,9 @@ class SendOpportunitiesDigest
 
       # update subscription notifications to sent=true
       subscriptions.each do |sub, _count|
-        subscription = Subscription.find(sub)
-        sub_nots = SubscriptionNotification.where(subscription_id: subscription).where(sent: false).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at < ?', yesterday_date, today_date)
+        sub_nots = SubscriptionNotification.where(subscription_id: sub).where(sent: false).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at < ?', yesterday_date, today_date)
         sub_nots.update_all(sent: true) unless Rails.env.development?
       end
     end
-  end
-
-  def url_from_subscription(subscription)
-    if subscription.search_term && subscription.countries
-      target_url = "/opportunities?s=#{subscription.search_term}"
-      subscription.countries.each do |country|
-        target_url += "&countries%5B%5D=#{country.slug}"
-      end
-    elsif subscription.search_term
-      target_url = "/opportunities?s=#{subscription.search_term}"
-    elsif subscription.countries
-      target_url = '/opportunities?s=&sort_column_name=response_due_on'
-      subscription.countries.each do |country|
-        target_url += "&countries%5B%5D=#{country.slug}"
-      end
-    else
-      target_url = '/opportunities'
-    end
-    target_url
   end
 end

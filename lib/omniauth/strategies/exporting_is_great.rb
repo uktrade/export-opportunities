@@ -7,8 +7,8 @@ module OmniAuth
 
       option :client_options,
         site: Figaro.env.sso_endpoint_base_uri,
-        authorize_url: '/oauth2/authorize/',
-        token_url: '/oauth2/token/'
+        authorize_url: "#{Figaro.env.SSO_ENDPOINT_SSO_APPEND}/oauth2/authorize/",
+        token_url: "#{Figaro.env.SSO_ENDPOINT_SSO_APPEND}/oauth2/token/"
 
       option :token_params,
         redirect_uri: "#{Figaro.env.domain}/users/auth/exporting_is_great/callback"
@@ -24,7 +24,7 @@ module OmniAuth
       end
 
       def raw_info
-        @raw_info ||= access_token.get('/oauth2/user-profile/v1/').parsed
+        @raw_info ||= access_token.get("#{Figaro.env.SSO_ENDPOINT_SSO_APPEND}/oauth2/user-profile/v1/").parsed
       end
     end
   end

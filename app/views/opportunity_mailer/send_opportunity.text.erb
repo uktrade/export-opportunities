@@ -20,7 +20,7 @@ Opportunity expires: <%= opportunity.expires %>
 <%= opportunity_url(item[:opportunity]) %>
 
 View all opportunities <%= subscription.description_for_email %>
-<%= "#{Figaro.env.DOMAIN}#{item[:target_url]}" %>
+<%= "#{Figaro.env.DOMAIN}#{subscription.search_path}" %>
 -------------------------
 
 <% end %>

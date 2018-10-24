@@ -8,9 +8,9 @@ GIT
 
 GIT
   remote: https://github.com/uktrade/export_components.git
-  revision: dc1ae003bc7f755bcc30bd502fe43a452a62e5b4
+  revision: db970ff72e50e8b5ef336c1805a72cc5206c4ed2
   specs:
-    export_components (0.7.0)
+    export_components (0.8.0)
       rails (~> 5.2)
 
 GEM
@@ -258,7 +258,7 @@ GEM
       thor (~> 0.19)
     netrc (0.11.0)
     nio4r (2.3.1)
-    nokogiri (1.8.5)
+    nokogiri (1.8.4)
       mini_portile2 (~> 2.3.0)
     normalize-scss (7.0.0)
       sass (~> 3.3)
@@ -523,7 +523,7 @@ DEPENDENCIES
   elasticsearch-extensions
   elasticsearch-model (= 5.1.0)
   elasticsearch-rails (= 5.1.0)
-  export_components (~> 0.7)!
+  export_components (~> 0.8)!
   factory_bot_rails
   faker
   faraday (= 0.12.2)

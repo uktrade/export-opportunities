@@ -206,11 +206,31 @@ class OpportunitySearchResultsPresenter < FormPresenter
   end
 
   # Control whether subscription link should be shown
-  def offer_subscription
+  def offer_subscription(not_subscription_url = true)
     f = @search[:filters]
     allowed_filters_present = (@search[:term].present? || f.countries.present? || f.regions.present?)
     disallowed_filters_empty = (f.sectors.blank? && f.types.blank? && f.values.blank?)
-    allowed_filters_present && disallowed_filters_empty
+    allowed_filters_present && disallowed_filters_empty && not_subscription_url
+  end
+
+  # Returns hidden form fields to make sure the search results
+  # form remembers original search parameters.
+  def hidden_search_fields(params)
+    fields = ''
+    params.each do |key, value|
+      fields += hidden_field_tag 's', value, id: '' if key == 's'
+
+      if %w[sectors].include? key
+        if value.class == Array
+          value.each do |item|
+            fields += hidden_field_tag "#{key}[]", item, id: ''
+          end
+        else
+          fields += hidden_field_tag "#{key}[]", value, id: ''
+        end
+      end
+    end
+    fields.html_safe
   end
 
   private

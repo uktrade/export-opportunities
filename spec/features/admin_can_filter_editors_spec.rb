@@ -59,12 +59,12 @@ RSpec.feature 'Admin can filter editors' do
   end
 
   scenario 'filters by Service provider' do
-    first_service_provider = create(:service_provider)
-    second_service_provider = create(:service_provider)
+    first_service_provider = create(:service_provider, name: 'alexandria')
+    second_service_provider = create(:service_provider, name: 'stevesonia')
 
     admin = create(:admin)
-    first_editor = create(:editor, service_provider: first_service_provider)
-    second_editor = create(:editor, service_provider: second_service_provider)
+    first_editor = create(:editor, service_provider: first_service_provider, name: 'bobby')
+    second_editor = create(:editor, service_provider: second_service_provider, name: 'catherine')
 
     login_as(admin)
     visit admin_editors_path

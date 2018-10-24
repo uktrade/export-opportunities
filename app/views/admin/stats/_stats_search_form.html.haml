@@ -17,6 +17,14 @@
     = render partial: 'stats_radio', locals: { stats_search_form: @stats_search_form }
 
     %div.grid-row
+
+      %div.column-one-third
+        %div.panel.panel-border-narrow.js-hidden{:value => 'All', :id => 'select-all', 'aria-expanded' => 'false'}
+          %h3.heading-small Choose source
+          %div.form-group
+            = label_tag :source, 'Source', :class => 'form-label visually-hidden'
+            = render partial: 'stats_opportunity_source_option_select'
+
       %div.column-one-third
         %div.panel.panel-border-narrow.js-hidden{:id => 'select-region', 'aria-expanded' => 'false'}
           %h3.heading-small Choose regions

@@ -118,3 +118,14 @@ fields:
     label: Resolve duplicate slug (url) value
     description: Cannot automatically generate a unique URL from the title. Please add a unique value here. 
 
+  ragg:
+    question: Editor
+    options:
+      - label: Jamil
+        value: red
+      - label: Jennie
+        value: amber
+      - label: David
+        value: green
+      - label: DSO
+        value: blue

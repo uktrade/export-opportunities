@@ -15,6 +15,7 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
 
   scenario 'published but expired opportunities are accessible' do
     create(:opportunity, :expired, status: :publish, title: 'Hairdressers wanted', slug: 'hairdressers-wanted')
+
     visit 'opportunities/hairdressers-wanted'
 
     expect(page).to have_content 'Hairdressers wanted'
@@ -63,7 +64,7 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
       page.find('.submit').click
     end
 
-    click_on opportunity.title
+    find('.title').click
     expect(page).to have_content opportunity.title
 
     sectors.each do |s|

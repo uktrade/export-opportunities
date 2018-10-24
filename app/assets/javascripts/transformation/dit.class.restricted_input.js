@@ -33,7 +33,7 @@
         $remaining.text(max - this.value.length);
       });
 
-      $remaining.text(max);
+      $remaining.text(max - $target.val().length);
       $message.addClass("RestrictedInputCount");
       $message.text(" " + text);
       $message.prepend($remaining);

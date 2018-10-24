@@ -3,6 +3,8 @@ require 'set'
 
 class OpportunitiesController < ApplicationController
   protect_from_forgery except: :index
+  include RegionHelper
+
   # caches_page :index
 
   def index
@@ -37,7 +39,7 @@ class OpportunitiesController < ApplicationController
   def results
     @dit_boost_search = params['boost_search'].present?
 
-    convert_areas_params_into_regions_and_countries
+    convert_areas_params_into_regions_and_countries(params)
     @content = get_content('opportunities/results.yml')
     @filters = SearchFilter.new(params)
 
@@ -106,37 +108,6 @@ class OpportunitiesController < ApplicationController
 
   private def new_domain?(request)
     NewDomainConstraint.new.matches? request
-  end
-
-  # Due to the combined Region/Country single selector on
-  # standard search area (e.g. landing page), we need to
-  # convert passed areas[] into regions[] and countries[]
-  # Note: If regions and countries exist, then search results
-  # page has been viewed and those filters have already been
-  # applied.
-  private def convert_areas_params_into_regions_and_countries
-    unless params[:regions] || params[:countries] || params[:areas].nil?
-      params[:regions] = []
-      params[:countries] = []
-      params[:areas].each do |area|
-        is_region = false
-        regions_list.each do |region|
-          if region[:slug].eql? area
-            params[:regions].push area
-          else
-            params[:countries].push area
-            is_region = true
-            break
-          end
-        end
-
-        if is_region
-          params[:regions].push area
-        else
-          params[:countries].push area
-        end
-      end
-    end
   end
 
   private def sort
@@ -406,67 +377,6 @@ class OpportunitiesController < ApplicationController
       sources.push(slug: key)
     end
     sources
-  end
-
-  # TODO: Could be stored in DB but writing here.
-  # DB has regions but no country ids added to any.
-  # DB regions also differ slightly in names.
-  # Structure is based on what we get in other filters,
-  # e.g. matches structure of Sector.order(:name)
-  private def regions_list
-    [
-      { slug: 'australia_new_zealand',
-        countries: %w[australia fiji new-zealand papua-new-guinea],
-        name: 'Australia/New Zealand' },
-      { slug: 'caribbean',
-        countries: %w[barbados costa-rica cuba dominican-republic jamaica trinidad-and-tobago],
-        name: 'Caribbean' },
-      { slug: 'central_and_eastern_europe',
-        countries: %w[bosnia-and-herzegovina bulgaria croatia czech-republic hungary macedonia poland romania serbia slovakia slovenia],
-        name: 'Central and Eastern Europe' },
-      { slug: 'china',
-        countries: %w[china],
-        name: 'China' },
-      { slug: 'south_america',
-        countries: %w[argentina bolivia brazil chile colombia ecuador guyana mexico panama peru uruguay venezuela],
-        name: 'South America' },
-      { slug: 'mediterranean_europe',
-        countries: %w[cyprus greece israel italy portugal spain],
-        name: 'Mediterranean Europe' },
-      { slug: 'middle_east',
-        countries: %w[afghanistan bahrain iran iraq jordan kuwait lebanon oman pakistan palestine qatar saudi-arabia the-united-arab-emirates],
-        name: 'Middle East' },
-      { slug: 'nato',
-        countries: %w[nato],
-        name: 'NATO' },
-      { slug: 'nordic_and_baltic',
-        countries: %w[denmark estonia finland iceland latvia lithuania norway sweden],
-        name: 'Nordic & Baltic' },
-      { slug: 'north_africa',
-        countries: %w[algeria egypt libya morocco tunisia],
-        name: 'North Africa' },
-      { slug: 'north_america',
-        countries: %w[canada the-usa],
-        name: 'North America' },
-      { slug: 'north_east_asia',
-        countries: %w[japan japan south-korea taiwan],
-        name: 'North East Asia' },
-      { slug: 'south_asia',
-        countries: %w[bangladesh india nepal sri-lanka],
-        name: 'South Asia' },
-      { slug: 'south_east_asia',
-        countries: %w[brunei burma cambodia indonesia malaysia philippines singapore thailand vietnam],
-        name: 'South East Asia' },
-      { slug: 'sub_saharan_africa',
-        countries: %w[angola cameroon ethiopia ghana ivory-coast kenya mauritius mozambique namibia nigeria rwanda senegal seychelles south-africa tanzania uganda zambia],
-        name: 'Sub Saharan Africa' },
-      { slug: 'turkey_russia_and_caucasus',
-        countries: %w[armenia azerbaijan georgia kazakhstan mongolia russia tajikistan turkey turkmenistan ukraine uzbekistan],
-        name: 'Turkey, Russia & Caucasus' },
-      { slug: 'western_europe',
-        countries: %w[austria belgium france germany ireland luxembourg netherlands switzerland],
-        name: 'Western Europe' },
-    ].sort_by { |region| region[:name] }
   end
 
   private def atom_request_query(query)

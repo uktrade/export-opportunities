@@ -30,6 +30,11 @@
         %dd.expiry
           = opportunity.expires
 
+        %dt.published
+          Opportunity publication date
+        %dd.published
+          = opportunity.published_date
+
         - if opportunity.source('post')
           %dt.opportunity_type
             Opportunity type

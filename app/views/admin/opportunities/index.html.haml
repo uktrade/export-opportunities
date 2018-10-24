@@ -48,7 +48,7 @@
 %table
   %thead
     - if policy(@opportunities).show_ragg?
-      %th{:scope => 'col'} Triage
+      %th{:scope => 'col'} Editor
     %th{:scope => 'col'}= sortable(:opportunity_filters, 'title', 'Title', 'asc', @filters.sort)
     %th{:scope => 'col'}= sortable(:opportunity_filters, 'status', 'Status', 'asc', @filters.sort)
     %th{:scope => 'col'}= sortable(:opportunity_filters, 'service_provider_name', 'Service provider', 'asc', @filters.sort)

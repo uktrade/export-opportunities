@@ -54,6 +54,9 @@ RSpec.describe OpportunitySearchResultsPresenter do
   describe '#displayed' do
     it 'Returns HTML containing information about results displayed' do
       create(:opportunity, :published, title: 'food')
+
+      Opportunity.__elasticsearch__.refresh_index!
+
       search = public_search(search_term: 'food')
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
       message = presenter.displayed
@@ -313,6 +316,14 @@ RSpec.describe OpportunitySearchResultsPresenter do
       expect(presenter.offer_subscription).to be_falsey
     end
 
+    it 'Returns false when is subscription search' do
+      search = public_search(search_term: 'cheap and easy money makers')
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
+      params = { subscription_url: true }
+
+      expect(presenter.offer_subscription(params[:subscription_url].blank?)).to be_falsey
+    end
+
     it 'Returns true when search_term is not empty' do
       search = public_search(search_term: 'cheap and easy money makers')
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
@@ -343,6 +354,54 @@ RSpec.describe OpportunitySearchResultsPresenter do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, search, {})
 
       expect(presenter.offer_subscription).to be_truthy
+    end
+  end
+
+  describe '#hidden_search_fields' do
+    it 'Returns hidden input field to match search term' do
+      params = { 's' => 'food and drink', 'something' => 'foo' }
+      presenter = OpportunitySearchResultsPresenter.new({}, {}, {})
+      hidden_search_fields = presenter.hidden_search_fields(params)
+
+      expect(hidden_search_fields).to include('food and drink')
+      expect(has_html?(hidden_search_fields)).to be_truthy
+    end
+
+    it 'Returns hidden input fields to matching multiple areas' do
+      params = { 'something' => 'foo', 'sectors' => %w[some-area another-area] }
+      presenter = OpportunitySearchResultsPresenter.new({}, {}, {})
+      hidden_search_fields = presenter.hidden_search_fields(params)
+
+      expect(hidden_search_fields).to include('some-area')
+      expect(hidden_search_fields).to include('another-area')
+      expect(has_html?(hidden_search_fields)).to be_truthy
+    end
+
+    it 'Returns hidden input field to matching single area' do
+      params = { 'something' => 'foo', 'sectors' => 'some-area' }
+      presenter = OpportunitySearchResultsPresenter.new({}, {}, {})
+      hidden_search_fields = presenter.hidden_search_fields(params)
+
+      expect(hidden_search_fields).to include('some-area')
+      expect(has_html?(hidden_search_fields)).to be_truthy
+    end
+
+    it 'Returns hidden input fields to matching search and areas' do
+      params = { 's' => 'food and drink', 'something' => 'foo', 'sectors' => 'some-area' }
+      presenter = OpportunitySearchResultsPresenter.new({}, {}, {})
+      hidden_search_fields = presenter.hidden_search_fields(params)
+
+      expect(hidden_search_fields).to include('food and drink')
+      expect(hidden_search_fields).to include('some-area')
+      expect(has_html?(hidden_search_fields)).to be_truthy
+    end
+
+    it 'Returns blank string when no relevant params to capture' do
+      params = { 'something' => 'foo', 'countries' => 'some-country' }
+      presenter = OpportunitySearchResultsPresenter.new({}, {}, {})
+      hidden_search_fields = presenter.hidden_search_fields(params)
+
+      expect(hidden_search_fields).to eq('')
     end
   end
 
@@ -437,7 +496,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   def has_html?(message)
-    /\<\/\w+\>/.match(message)
+    /\<\/\w+\>|\<\w+\s+\w+=/.match(message)
   end
 
   def country(name, slug = '')
