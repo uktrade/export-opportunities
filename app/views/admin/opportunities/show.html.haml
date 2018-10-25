@@ -38,7 +38,7 @@
 %section.details
   .container
     %h2 Opportunity details
-    %dl.details
+    %dl
       %dt Title
       %dd= @opportunity.title
 
@@ -107,9 +107,9 @@
       %dt Author
       %dd= @opportunity.author.name
 
-%br
+
 = render 'history'
-%br
+
 
 %h2 Automatic opportunity checks
 - if @opportunity.opportunity_checks.size == 0
