@@ -3,6 +3,10 @@
 @import 'transformation_admin/components/history';
 
 
+h2 {
+  @include heading-m;
+}
+
 main {
   max-width: none;
 }
@@ -21,7 +25,8 @@ main {
 .intro {
   background-color: $stone-40;
   margin-bottom: $spacing-3;
-  padding: $spacing-3 0;
+  overflow: hidden;
+  padding-top: $spacing-3;
 
   h1 {
     margin-bottom: $spacing-4;
@@ -33,6 +38,9 @@ main {
 }
 
 .details {
+  border-bottom: 1px solid $grey-3;
+  margin-bottom: $spacing-3;
+
   dd {
     margin-bottom: 30px;
   }
@@ -41,15 +49,12 @@ main {
     color: $grey-5;
     font-weight: bold;
   }
-
-  h2 {
-    font-size: $font-size-body-xl;
-  }
 }
 
 .status {
   background-color: $white;
   border: 1px solid $grey-3;
+  margin-bottom: $spacing-3;
   padding: $spacing-3;
 
   dl {
@@ -63,6 +68,7 @@ main {
 
   form {
     display: inline-block;
+    margin-bottom: 0;
   }
 
   h2 {

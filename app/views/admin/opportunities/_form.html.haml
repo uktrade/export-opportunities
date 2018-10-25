@@ -17,30 +17,29 @@
 
 = form_for [:admin, opportunity], :builder => TemplateFormBuilder do |f|
 
-  %fieldset
-    %legend.group= content['group_2_title']
-    %p= content['group_2_description']
-    = f.input_text :title, form.input_text('title'), { maxlength: '80', required: true }
+  %h2= content['group_2_title']
+  %p= content['group_2_description']
+  = f.input_text :title, form.input_text('title'), { maxlength: '80', required: true }
 
-    - if opportunity.errors[:slug].any?
-      = f.input_text :slug, form.input_text('slug'), required: true
+  - if opportunity.errors[:slug].any?
+    = f.input_text :slug, form.input_text('slug'), required: true
 
-    = f.input_text :teaser, form.input_text('teaser'), { maxlength: '150', required: true }
-    = f.input_textarea :description, form.input_textarea('description'), { rows: '12', required: true }
+  = f.input_text :teaser, form.input_text('teaser'), { maxlength: '150', required: true }
+  = f.input_textarea :description, form.input_textarea('description'), { rows: '12', required: true }
 
-    -# Workaround because value_ids should be a single value rather than an Array.
-    - attrs = {}
-    - if @opportunity.value_ids.present?
-      - attrs = { default: @opportunity.value_ids[0] }
-    = f.input_radio :value_ids, form.input_radio('values', @values), attrs
+  -# Workaround because value_ids should be a single value rather than an Array.
+  - attrs = {}
+  - if @opportunity.value_ids.present?
+    - attrs = { default: @opportunity.value_ids[0] }
+  = f.input_radio :value_ids, form.input_radio('values', @values), attrs
 
-    = f.input_select :country_ids, form.input_select('countries', @countries), { default: @selected_service_provider.country&.id, multiple: true, size: '5', data: { node: 'countries', unselected: content['countries_unselected'], display: content['countries_selected_title'] } }
-    = f.input_select :sector_ids, form.input_select('sector_ids', @sectors), { multiple: true, size: '5', data: { node: 'sectors', unselected: content['sectors_unselected'], display: content['sectors_selected_title'] } }
-    = f.input_checkbox_group :type_ids, form.input_checkbox_group('types', @types)
-    = f.input_checkbox_group :supplier_preference_ids, form.input_checkbox_group('supplier_preferences', @supplier_preferences)
-    = f.input_date_month_year :response_due_on, form.input_date_month_year('response_due_on'), required: true
-    = f.input_select :service_provider_id, form.input_select('service_provider_id', @service_providers), { default: @selected_service_provider.id, required: true }
-    = f.input_text :target_url, form.input_text('target_url'), data: { node: 'target-url' }
+  = f.input_select :country_ids, form.input_select('countries', @countries), { default: @selected_service_provider.country&.id, multiple: true, size: '5', data: { node: 'countries', unselected: content['countries_unselected'], display: content['countries_selected_title'] } }
+  = f.input_select :sector_ids, form.input_select('sector_ids', @sectors), { multiple: true, size: '5', data: { node: 'sectors', unselected: content['sectors_unselected'], display: content['sectors_selected_title'] } }
+  = f.input_checkbox_group :type_ids, form.input_checkbox_group('types', @types)
+  = f.input_checkbox_group :supplier_preference_ids, form.input_checkbox_group('supplier_preferences', @supplier_preferences)
+  = f.input_date_month_year :response_due_on, form.input_date_month_year('response_due_on'), required: true
+  = f.input_select :service_provider_id, form.input_select('service_provider_id', @service_providers), { default: @selected_service_provider.id, required: true }
+  = f.input_text :target_url, form.input_text('target_url'), data: { node: 'target-url' }
 
   = f.fields_for :contacts do |field|
     - required = field.index < 1

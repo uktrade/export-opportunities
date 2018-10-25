@@ -1,6 +1,7 @@
 @import 'transformation/components/filter_multiple_select';
 @import 'transformation_admin/config';
 @import 'transformation_admin/forms';
+@import 'transformation_admin/components/history';
 
 
 dl.company {
@@ -21,13 +22,19 @@ dl.company {
   }
 }
 
+h2 {
+  @include heading-m;
+}
+
 main {
   max-width: none;
 }
 
 .intro {
   background-color: $stone-40;
-  padding: $spacing-3 0;
+  margin-bottom: $spacing-3;
+  overflow: hidden;
+  padding-top: $spacing-3;
 
   h1 {
     @include container;
@@ -43,31 +50,6 @@ main {
   span {
     display: inline-block;
     padding: 10px;
-  }
-}
-
-.comment-form {
-  span {
-    display: inline-block;
-    padding: 10px;
-  }
-}
-
-.history {
-  @include container;
-
-  h2 {
-    @include heading-s;
-    color: $blue-1;
-    margin-bottom: $spacing-4;
-  }
-
-  li {
-    font-size: $font-size-body-s;
-  }
-
-  small {
-    color: $grey-5;
   }
 }
 
