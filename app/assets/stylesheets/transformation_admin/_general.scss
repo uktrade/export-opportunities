@@ -248,11 +248,7 @@ main {
 #footer {
   clear: both;
   margin-bottom: $spacing-3;
-
-  .container {
-    border-top: $grey-2 solid 1px;
-    padding: $spacing-3 0;
-  }
+  padding: #{$spacing-2 * 2} 0 $spacing-3 0;
 }
 
 

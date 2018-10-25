@@ -14,7 +14,6 @@ main {
 .back {
   color: $grey-1;
   display: inline-block;
-  margin-bottom: $spacing-3;
 
   &:before {
     @include arrow-left(#{$font-size-body-s / 2}, $white, $grey-1);
@@ -37,6 +36,8 @@ main {
   }
 
   .back {
+    margin-bottom: $spacing-3;
+
     &:before {
       border-bottom-color: $stone-40;
       border-left-color: $stone-40;
