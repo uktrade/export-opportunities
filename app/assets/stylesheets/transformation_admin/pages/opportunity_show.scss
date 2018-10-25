@@ -37,9 +37,20 @@ main {
   }
 }
 
+.checks {
+  border-bottom: 1px solid $grey-3;
+  margin-bottom: $spacing-3;
+  padding-bottom: $spacing-3;
+
+  p {
+    margin-bottom: 0;
+  }
+}
+
 .details {
   border-bottom: 1px solid $grey-3;
   margin-bottom: $spacing-3;
+  padding-bottom: $spacing-3;
 
   dd {
     margin-bottom: 30px;
@@ -49,6 +60,12 @@ main {
     color: $grey-5;
     font-weight: bold;
   }
+}
+
+.history {
+  border-bottom: 1px solid $grey-3;
+  margin-bottom: $spacing-3;
+  padding-bottom: $spacing-3;
 }
 
 .status {

@@ -110,63 +110,64 @@
 
 = render 'history'
 
-
-%h2 Automatic opportunity checks
-- if @opportunity.opportunity_checks.size == 0
-  %p We haven't quality checked this opportunity yet.
-
-- else
-  - @opportunity.opportunity_checks.each do |check|
-    - if check.offset
-      =check.submitted_text[0..check.offset-2]
-      %span.error
-        =check.submitted_text[check.offset-1..check.offset+check.length]
-      =check.submitted_text[check.offset+check.length+1..check.submitted_text.length]
+%section.checks
+  .container
+    %h2 Automatic opportunity checks
+    - if @opportunity.opportunity_checks.size == 0
+      %p We haven't quality checked this opportunity yet.
 
     - else
-      =check.submitted_text
+      - @opportunity.opportunity_checks.each do |check|
+        - if check.offset
+          =check.submitted_text[0..check.offset-2]
+          %span.error
+            =check.submitted_text[check.offset-1..check.offset+check.length]
+          =check.submitted_text[check.offset+check.length+1..check.submitted_text.length]
 
-    %dl.score
-      %dt Score
-      %dd= check.score
+        - else
+          =check.submitted_text
 
-      %dt Offensive Term
-      %dd= check.offensive_term
+        %dl.score
+          %dt Score
+          %dd= check.score
 
-      %dt Suggested Term
-      %dd= check.suggested_term
+          %dt Offensive Term
+          %dd= check.offensive_term
 
-      %dt Error Id
-      %dd= check.error_id
+          %dt Suggested Term
+          %dd= check.suggested_term
 
-- if @opportunity.opportunity_sensitivity_checks.size == 0
-  %p We haven't sensitivity checked this opportunity yet.
+          %dt Error Id
+          %dd= check.error_id
 
-- else
-  - @opportunity.opportunity_sensitivity_checks.each do |check|
-    =check.submitted_text.truncate(160, omission: '...(continued)')
-    %dl
-      %dt Review Recommended?
-      %dd= check.review_recommended
+    - if @opportunity.opportunity_sensitivity_checks.size == 0
+      %p We haven't sensitivity checked this opportunity yet.
 
-      %dt sexually explicit or adult
-      %dd= number_to_percentage(check.category1_score*100, precision: 2)
+    - else
+      - @opportunity.opportunity_sensitivity_checks.each do |check|
+        =check.submitted_text.truncate(160, omission: '...(continued)')
+        %dl
+          %dt Review Recommended?
+          %dd= check.review_recommended
 
-      %dt sexually suggestive or mature
-      %dd= number_to_percentage(check.category2_score*100, precision: 2)
+          %dt sexually explicit or adult
+          %dd= number_to_percentage(check.category1_score*100, precision: 2)
 
-      %dt offensive
-      %dd= number_to_percentage(check.category3_score*100, precision: 2)
+          %dt sexually suggestive or mature
+          %dd= number_to_percentage(check.category2_score*100, precision: 2)
 
-    - if check&.opportunity_sensitivity_term_checks.size > 0
-      %p BST (Business Sensitive Terms) Matched:
-      - check&.opportunity_sensitivity_term_checks.each do |term_check|
-        %dl.bst
-          %dt BST
-          %dd= term_check.term
+          %dt offensive
+          %dd= number_to_percentage(check.category3_score*100, precision: 2)
 
-          %dt ListId
-          %dd= "#{term_check.list_id} (#{term_check&.list_id == 0 ? 'Azure internal list' : 'DIT list'})"
+        - if check&.opportunity_sensitivity_term_checks.size > 0
+          %p BST (Business Sensitive Terms) Matched:
+          - check&.opportunity_sensitivity_term_checks.each do |term_check|
+            %dl.bst
+              %dt BST
+              %dd= term_check.term
+
+              %dt ListId
+              %dd= "#{term_check.list_id} (#{term_check&.list_id == 0 ? 'Azure internal list' : 'DIT list'})"
 
 %h2 Enquiries
 - if @opportunity.enquiries.size == 0
