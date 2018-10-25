@@ -169,73 +169,76 @@
               %dt ListId
               %dd= "#{term_check.list_id} (#{term_check&.list_id == 0 ? 'Azure internal list' : 'DIT list'})"
 
-%h2 Enquiries
-- if @opportunity.enquiries.size == 0
-  %p No enquiries have been made about this opportunity.
 
-- else
-  - if @show_enquiries
-    - @opportunity.enquiries.each do |enquiry|
-      %p =enquiry.company_name
-      %dl
-        %dt First name
-        %dd= enquiry.first_name
+%section.enquiries
+  .container
+    %h2 Enquiries
+    - if @opportunity.enquiries.size == 0
+      %p No enquiries have been made about this opportunity.
 
-        %dt Last name
-        %dd= enquiry.last_name
+    - else
+      - if @show_enquiries
+        - @opportunity.enquiries.each do |enquiry|
+          %p =enquiry.company_name
+          %dl
+            %dt First name
+            %dd= enquiry.first_name
 
-        %dt Email address
-        %dd= enquiry.email
+            %dt Last name
+            %dd= enquiry.last_name
 
-        %dt Company Address
-        %dd= enquiry.company_address
+            %dt Email address
+            %dd= enquiry.email
 
-        %dt Company Telephone
-        %dd= enquiry.company_telephone
+            %dt Company Address
+            %dd= enquiry.company_address
 
-        %dt Companies House listing
-        - enquiries_count = enquiries_count + 1
-        %dd
-          - if enquiries_count <= @enquiries_cutoff
-            - @companies_house_url = companies_house_url(enquiry.company_house_number)
-            - if @companies_house_url then
-              =link_to enquiry.company_name, @companies_house_url, target: :blank, :rel => 'noopener noreferrer'
-            - else
-              ='Not supplied'
-          - else
-            -# Rate CH exceeded
-            =enquiry.company_house_number
+            %dt Company Telephone
+            %dd= enquiry.company_telephone
 
-        %dt Company Postcode
-        %dd= enquiry.company_postcode
-        %tr
-          %th URL
-          %td= enquiry.company_url
+            %dt Companies House listing
+            - enquiries_count = enquiries_count + 1
+            %dd
+              - if enquiries_count <= @enquiries_cutoff
+                - @companies_house_url = companies_house_url(enquiry.company_house_number)
+                - if @companies_house_url then
+                  =link_to enquiry.company_name, @companies_house_url, target: :blank, :rel => 'noopener noreferrer'
+                - else
+                  ='Not supplied'
+              - else
+                -# Rate CH exceeded
+                =enquiry.company_house_number
 
-        %dt Business Profile
-        %dd
-          - if enquiries_count <= @enquiries_cutoff
-            - @trade_profile_url = trade_profile(enquiry.company_house_number)
-            - if @trade_profile_url then
-              =link_to enquiry.company_name, @trade_profile_url, target: :blank
-            - else
-              ='Not supplied'
-          - else
-            -# Rate Trade Profile Exceeded
-            =link_to 'Please check individual enquiry here', admin_enquiry_url(enquiry.id)
+            %dt Company Postcode
+            %dd= enquiry.company_postcode
+            %tr
+              %th URL
+              %td= enquiry.company_url
 
-        %dt Existing exporter?
-        %dd= enquiry.existing_exporter
+            %dt Business Profile
+            %dd
+              - if enquiries_count <= @enquiries_cutoff
+                - @trade_profile_url = trade_profile(enquiry.company_house_number)
+                - if @trade_profile_url then
+                  =link_to enquiry.company_name, @trade_profile_url, target: :blank
+                - else
+                  ='Not supplied'
+              - else
+                -# Rate Trade Profile Exceeded
+                =link_to 'Please check individual enquiry here', admin_enquiry_url(enquiry.id)
 
-        %dt Company Sector
-        %dd= enquiry.company_sector
+            %dt Existing exporter?
+            %dd= enquiry.existing_exporter
 
-        %dt Company Explanation
-        %dd= enquiry.company_explanation
+            %dt Company Sector
+            %dd= enquiry.company_sector
 
-        %dt Data Protection
-        %dd= enquiry.data_protection ? 'Yes' : 'No'
+            %dt Company Explanation
+            %dd= enquiry.company_explanation
+
+            %dt Data Protection
+            %dd= enquiry.data_protection ? 'Yes' : 'No'
 
 
-
-= link_to "Back", filtered_admin_opportunities_path, class: 'back'
+.container
+  = link_to "Back", filtered_admin_opportunities_path, class: 'back'

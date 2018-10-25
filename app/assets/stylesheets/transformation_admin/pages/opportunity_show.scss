@@ -17,7 +17,7 @@ main {
   margin-bottom: $spacing-3;
 
   &:before {
-    @include arrow-left(#{$font-size-body-s / 2}, $stone-40, $grey-1);
+    @include arrow-left(#{$font-size-body-s / 2}, $white, $grey-1);
     margin-right: 0.4em;
   }
 }
@@ -34,6 +34,14 @@ main {
 
   p {
     font-size: $font-size-body-s;
+  }
+
+  .back {
+    &:before {
+      border-bottom-color: $stone-40;
+      border-left-color: $stone-40;
+      border-top-color: $stone-40;
+    }
   }
 }
 
@@ -60,6 +68,12 @@ main {
     color: $grey-5;
     font-weight: bold;
   }
+}
+
+.enquiries {
+  border-bottom: 1px solid $grey-3;
+  margin-bottom: $spacing-3;
+  padding-bottom: $spacing-3;
 }
 
 .history {
