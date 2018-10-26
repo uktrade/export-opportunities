@@ -51,7 +51,7 @@
         %dd= @opportunity.tender
 
       %dt Slug
-      %dt= @opportunity.slug
+      %dd= @opportunity.slug
 
       %dt Created at
       %dd= @opportunity.created_at.to_s(:admin_datetime)
@@ -116,33 +116,32 @@
     - else
       - @opportunity.opportunity_checks.each do |check|
         - if check.offset
-          =check.submitted_text[0..check.offset-2]
-          %span.error
-            =check.submitted_text[check.offset-1..check.offset+check.length]
-          =check.submitted_text[check.offset+check.length+1..check.submitted_text.length]
+          %p= check.submitted_text[0..check.offset-2]
+          %p.error= check.submitted_text[check.offset-1..check.offset+check.length]
+          %p= check.submitted_text[check.offset+check.length+1..check.submitted_text.length]
 
         - else
-          =check.submitted_text
+          %p= check.submitted_text
 
         %dl.score
           %dt Score
-          %dd= check.score
+          %dd= opp.put(check.score)
 
           %dt Offensive Term
-          %dd= check.offensive_term
+          %dd= opp.put(check.offensive_term)
 
           %dt Suggested Term
-          %dd= check.suggested_term
+          %dd= opp.put(check.suggested_term)
 
           %dt Error Id
-          %dd= check.error_id
+          %dd= opp.put(check.error_id)
 
     - if @opportunity.opportunity_sensitivity_checks.size == 0
       %p We haven't sensitivity checked this opportunity yet.
 
     - else
       - @opportunity.opportunity_sensitivity_checks.each do |check|
-        =check.submitted_text.truncate(160, omission: '...(continued)')
+        %p= check.submitted_text.truncate(160, omission: '...(continued)')
         %dl
           %dt Review Recommended?
           %dd= check.review_recommended

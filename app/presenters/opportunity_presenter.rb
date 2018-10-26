@@ -208,6 +208,10 @@ class OpportunityPresenter < BasePresenter
                            class: 'button')
   end
 
+  def put(value, default = 'none')
+    value || default
+  end
+
   private
 
   attr_reader :view_context, :opportunity
