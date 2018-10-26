@@ -21,12 +21,9 @@
       = opp.formatted_date('created_at')
 
     .status
-      %h2 Status
       %p
+        Status
         %span.state= opportunity_status_link(@opportunity.status)
-        %span.verbose :
-        %span.explanation
-          This opportunity will be reviewed soon. There are 23 opportunities before this one
 
       = opp.edit_button
       = opp.publishing_button

@@ -89,27 +89,14 @@ main {
   margin-bottom: $spacing-3;
   padding: $spacing-3;
 
-  dl {
-    @include body-s;
-    margin-bottom: $spacing-4;
-  }
-
-  dt {
-    font-weight: bold;
-  }
-
   form {
     display: inline-block;
     margin-bottom: 0;
   }
 
-  h2 {
-    font-size: $font-size-body-s;
-    margin-bottom: 0;
-  }
-
   p {
     font-size: $font-size-body-s;
+    font-weight: bold;
   }
 
   .button {
@@ -119,6 +106,7 @@ main {
 
   .state {
     font-size: $font-size-body-l;
+    font-weight: normal;
     display: block;
   }
 
