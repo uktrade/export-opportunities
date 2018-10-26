@@ -47,7 +47,8 @@ main {
 }
 
 .checks,
-.details {
+.details,
+.enquiries {
   border-bottom: 1px solid $grey-3;
   margin-bottom: $spacing-3;
   padding-bottom: $spacing-3;
@@ -62,10 +63,13 @@ main {
   }
 }
 
-.enquiries {
-  border-bottom: 1px solid $grey-3;
+.enquiry-company-details {
+  border-bottom: 1px solid $stone-40;
   margin-bottom: $spacing-3;
-  padding-bottom: $spacing-3;
+
+  &:last-child {
+    border: none;
+  }
 }
 
 .history {

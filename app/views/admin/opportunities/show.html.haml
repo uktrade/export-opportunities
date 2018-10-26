@@ -175,65 +175,66 @@
     - else
       - if @show_enquiries
         - @opportunity.enquiries.each do |enquiry|
-          %p =enquiry.company_name
-          %dl
-            %dt First name
-            %dd= enquiry.first_name
+          .enquiry-company-details
+            %p= enquiry.company_name
+            %dl
+              %dt First name
+              %dd= enquiry.first_name
 
-            %dt Last name
-            %dd= enquiry.last_name
+              %dt Last name
+              %dd= enquiry.last_name
 
-            %dt Email address
-            %dd= enquiry.email
+              %dt Email address
+              %dd= enquiry.email
 
-            %dt Company Address
-            %dd= enquiry.company_address
+              %dt Company Address
+              %dd= enquiry.company_address
 
-            %dt Company Telephone
-            %dd= enquiry.company_telephone
+              %dt Company Telephone
+              %dd= enquiry.company_telephone
 
-            %dt Companies House listing
-            - enquiries_count = enquiries_count + 1
-            %dd
-              - if enquiries_count <= @enquiries_cutoff
-                - @companies_house_url = companies_house_url(enquiry.company_house_number)
-                - if @companies_house_url then
-                  =link_to enquiry.company_name, @companies_house_url, target: :blank, :rel => 'noopener noreferrer'
+              %dt Companies House listing
+              - enquiries_count = enquiries_count + 1
+              %dd
+                - if enquiries_count <= @enquiries_cutoff
+                  - @companies_house_url = companies_house_url(enquiry.company_house_number)
+                  - if @companies_house_url then
+                    =link_to enquiry.company_name, @companies_house_url, target: :blank, :rel => 'noopener noreferrer'
+                  - else
+                    ='Not supplied'
                 - else
-                  ='Not supplied'
-              - else
-                -# Rate CH exceeded
-                =enquiry.company_house_number
+                  -# Rate CH exceeded
+                  =enquiry.company_house_number
 
-            %dt Company Postcode
-            %dd= enquiry.company_postcode
-            %tr
-              %th URL
-              %td= enquiry.company_url
+              %dt Company Postcode
+              %dd= enquiry.company_postcode
+              %tr
+                %th URL
+                %td= enquiry.company_url
 
-            %dt Business Profile
-            %dd
-              - if enquiries_count <= @enquiries_cutoff
-                - @trade_profile_url = trade_profile(enquiry.company_house_number)
-                - if @trade_profile_url then
-                  =link_to enquiry.company_name, @trade_profile_url, target: :blank
+              %dt Business Profile
+              %dd
+                - if enquiries_count <= @enquiries_cutoff
+                  - @trade_profile_url = trade_profile(enquiry.company_house_number)
+                  - if @trade_profile_url then
+                    =link_to enquiry.company_name, @trade_profile_url, target: :blank
+                  - else
+                    ='Not supplied'
                 - else
-                  ='Not supplied'
-              - else
-                -# Rate Trade Profile Exceeded
-                =link_to 'Please check individual enquiry here', admin_enquiry_url(enquiry.id)
+                  -# Rate Trade Profile Exceeded
+                  =link_to 'Please check individual enquiry here', admin_enquiry_url(enquiry.id)
 
-            %dt Existing exporter?
-            %dd= enquiry.existing_exporter
+              %dt Existing exporter?
+              %dd= enquiry.existing_exporter
 
-            %dt Company Sector
-            %dd= enquiry.company_sector
+              %dt Company Sector
+              %dd= enquiry.company_sector
 
-            %dt Company Explanation
-            %dd= enquiry.company_explanation
+              %dt Company Explanation
+              %dd= enquiry.company_explanation
 
-            %dt Data Protection
-            %dd= enquiry.data_protection ? 'Yes' : 'No'
+              %dt Data Protection
+              %dd= enquiry.data_protection ? 'Yes' : 'No'
 
 
 .container
