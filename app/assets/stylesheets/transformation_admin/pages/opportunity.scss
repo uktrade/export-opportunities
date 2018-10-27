@@ -2,6 +2,7 @@
 @import 'transformation_admin/config';
 @import 'transformation_admin/forms';
 @import 'transformation_admin/components/history';
+@import 'transformation_admin/components/_section_expanders';
 
 
 dl.company {
@@ -65,10 +66,6 @@ main {
   border-bottom: 1px solid $grey-3;
   margin-bottom: $spacing-3;
   padding-bottom: $spacing-3;
-
-  form {
-    @include container;
-  }
 }
 
 .field-ragg {

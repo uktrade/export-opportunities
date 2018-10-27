@@ -77,6 +77,7 @@ Rails.application.config.assets.precompile += %w[transformation_admin/main_ie9_f
 # JS...
 Rails.application.config.assets.precompile += %w[transformation_admin/dit.page.all.js]
 Rails.application.config.assets.precompile += %w[transformation_admin/dit.page.opportunity.js]
+Rails.application.config.assets.precompile += %w[transformation_admin/dit.page.opportunity_show.js]
 
 
 # POC - originally on develop_zeus.

@@ -5,6 +5,7 @@
 //= require transformation/dit.class.selective_lookup.js
 //= require transformation/dit.class.data_provider.js
 //= require transformation/dit.class.filter_multiple_select.js
+//= require transformation/dit.class.expander.js
 
 
 dit.page.opportunity = (new function () {
@@ -14,6 +15,7 @@ dit.page.opportunity = (new function () {
     cacheComponents();
     setupTargetUrlField();
     setupFilterMultipleSelectFields();
+    setupExpanders();
 
     delete this.init; // Run once
   }
@@ -26,6 +28,8 @@ dit.page.opportunity = (new function () {
     _cache.$targetUrlParent = $("[data-node='target-url']").parent();
     _cache.$companyInput = $("[data-node='countries']")
     _cache.$sectorInput = $("[data-node='sectors']")
+    _cache.$process = $(".process");
+    _cache.$history = $(".history");
   }
 
   /* Add visual toggle to show/hide Target URL field, 
@@ -64,6 +68,24 @@ dit.page.opportunity = (new function () {
         title: _cache.$sectorInput.data("display"),
         unselected: _cache.$sectorInput.data("unselected")
       });
+    }
+  }
+
+  /* Add visual toggle to show/hide Target URL field, 
+   * based on Service Provider field changes. 
+   **/
+  function setupExpanders() {
+    var areas = [_cache.$process, _cache.$history]
+    for(i=0; i<areas.length; ++i) {
+      var $control = areas[i].find('h2');
+      var $container = areas[i].find('.container');
+      var $wrapper = $("<div></div>");
+      $wrapper.append($container.children());
+      $container.append($control);
+      $container.append($wrapper);
+      if($wrapper.length && $control.length) {
+        new dit.classes.Expander($wrapper, { $control: $control, closed: false, blur: false });
+      }
     }
   }
 });
