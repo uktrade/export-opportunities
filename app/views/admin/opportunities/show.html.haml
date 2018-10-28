@@ -44,7 +44,7 @@
       %dd= present_html_or_formatted_text(@opportunity.description).html_safe
 
       %dt= page.content('fields.values.question')
-      %dd= opp.put(@opportunity.values.map(&:name).join(', '), '-')
+      %dd= opp.put(opp.value, '-')
 
       %dt= page.content('fields.countries.label')
       %dd= opp.put(@opportunity.countries.map(&:name).join(', '), '-')
@@ -57,7 +57,7 @@
 
       - if @opportunity.supplier_preferences
         %dt= page.content('fields.supplier_preferences.question')
-        %dd= @opportunity.supplier_preferences.map(&:name).join(', ')
+        %dd= opp.supplier_preferences
 
       %dt= page.content('fields.response_due_on.label')
       %dd= @opportunity.response_due_on.to_s(:admin_date) if @opportunity.response_due_on
