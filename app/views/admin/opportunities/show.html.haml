@@ -1,4 +1,5 @@
 - enquiries_count = 0
+- page = PagePresenter.new(content)
 - opp = OpportunityPresenter.new(self, @opportunity)
 - content_for :action_specific_head  do
   = stylesheet_link_tag 'transformation_admin/pages/opportunity_show'
@@ -11,18 +12,13 @@
 
     %h1
       = @opportunity.title
-      - if @opportunity.expired?
-        This opportunity has expired
+    - if @opportunity.expired?
+      %p.expired= content['message_expired']
 
-    %p
-      Created by
-      = @opportunity.author.name
-      on
-      = opp.formatted_date('created_at')
-
+    %p= page.content_with_inclusion 'created_information', [@opportunity.author.name, opp.formatted_date('created_at')]
     .status
       %p
-        Status
+        = content['title_status']
         %span.state= opportunity_status_link(@opportunity.status)
 
       = opp.edit_button
@@ -34,27 +30,55 @@
 
 %section.details
   .container
-    %h2 Opportunity details
+    %h2= content['group_2_title']
     %dl
-      %dt Title
+      %dt= page.content('fields.title.label')
       %dd= @opportunity.title
 
-      %dt Teaser
-      %dd= @opportunity.teaser
-
-      - if @opportunity.request_type
-        %dt Buyer is looking for
-        %dd= @opportunity.request_type
-
-      - if @opportunity.tender
-        %dt Is a tender
-        %dd= @opportunity.tender
-
-      %dt Slug
+      %dt= page.content('fields.slug.label')
       %dd= @opportunity.slug
 
-      %dt Created at
-      %dd= @opportunity.created_at.to_s(:admin_datetime)
+      %dt= page.content('fields.teaser.label')
+      %dd= @opportunity.teaser
+
+      %dt= page.content('fields.description.label')
+      %dd= present_html_or_formatted_text(@opportunity.description).html_safe
+
+      %dt= page.content('fields.values.question')
+      %dd= @opportunity.values.map(&:name).join(', ')
+
+      %dt= page.content('fields.countries.label')
+      %dd= @opportunity.countries.map(&:name).join(', ')
+
+      %dt= page.content('fields.sector_ids.label')
+      %dd= @opportunity.sectors.map(&:name).join(', ')
+
+      %dt= page.content('fields.types.question')
+      %dd= @opportunity.types.map(&:name).join(', ')
+
+      - if @opportunity.supplier_preferences
+        %dt= page.content('fields.supplier_preferences.question')
+        %dd= @opportunity.supplier_preferences.map(&:name).join(', ')
+
+      %dt= page.content('fields.response_due_on.label')
+      %dd= @opportunity.response_due_on.to_s(:admin_date) if @opportunity.response_due_on
+
+      %dt= page.content('fields.service_provider_id.label')
+      %dd= @opportunity.service_provider.try(:name)
+
+      - if @opportunity.target_url.present?
+        %dt= page.content('fields.target_url.label')
+        %dd= present_html_or_formatted_text(@opportunity.target_url).html_safe
+
+      %dt= page.content('fields.contacts.label')
+      %dd= @opportunity.contacts.map { |contact| "#{contact.name} <#{contact.email}>" }.join(', ')
+
+      %dt= page.content('fields.ragg.question')
+      %dd.ragg= @opportunity.ragg
+
+      -if @opportunity.tender_url.present?
+        %dt Third-party (original) link
+        %dd= link_to @opportunity.tender_url, @opportunity.tender_url.html_safe, target: "_blank"
 
       %dt Updated at
       %dd= @opportunity.updated_at.to_s(:admin_datetime)
@@ -62,48 +86,15 @@
       %dt First published at
       %dd= @opportunity.first_published_at&.to_s(:admin_datetime)
 
-      %dt Countries
-      %dd= @opportunity.countries.map(&:name).join(', ')
+      -# TODO: Potential to remove this as may no longer be requird.
+      - if @opportunity.request_type
+        %dt Buyer is looking for
+        %dd= @opportunity.request_type
 
-      %dt Sectors
-      %dd= @opportunity.sectors.map(&:name).join(', ')
-
-      %dt Types
-      %dd= @opportunity.types.map(&:name).join(', ')
-
-      - if @opportunity.supplier_preferences
-        %dt Buyer is happy to talk to
-        %dd= @opportunity.supplier_preferences.map(&:name).join(', ')
-
-      %dt Values
-      %dd= @opportunity.values.map(&:name).join(', ')
-
-      %dt Expiry date
-      %dd= @opportunity.response_due_on.to_s(:admin_date) if @opportunity.response_due_on
-
-      %dt Description
-      %dd= present_html_or_formatted_text(@opportunity.description).html_safe
-
-      - if @opportunity.target_url.present?
-        %dt External opportunity link
-        %dd= present_html_or_formatted_text(@opportunity.target_url).html_safe
-
-      %dt Contacts
-      %dd= @opportunity.contacts.map { |contact| "#{contact.name} <#{contact.email}>" }.join(', ')
-
-      %dt Service provider
-      %dd= @opportunity.service_provider.try(:name)
-
-      -if @opportunity.tender_url.present?
-        %dt Third-party (original) link
-        %dd= link_to @opportunity.tender_url, @opportunity.tender_url.html_safe, target: "_blank"
-
-      %dt RAGG
-      %dd{:class => 'ragg-cell'}=@opportunity.ragg
-
-      %dt Author
-      %dd= @opportunity.author.name
-
+      -# TODO: Potential to remove this as may no longer be requird.
+      - if @opportunity.tender
+        %dt Is a tender
+        %dd= @opportunity.tender
 
 = render 'history'
 

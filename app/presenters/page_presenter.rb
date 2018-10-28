@@ -7,6 +7,18 @@ class PagePresenter < BasePresenter
     add_breadcrumb_current(content['breadcrumb_current']) if content.present?
   end
 
+  # Gets content by either single 'key' value
+  # or nested 'key.is.here' value. 
+  def content(key_path)
+    keys = key_path.split('.')
+    content = @content
+    keys.each do |key|
+      break unless content.key? key
+      content = content[key]
+    end
+    content.class == String ? content : ''
+  end
+
   # Injects values into a formatted string.
   # Unmatched markers (not enough arguments) leave the
   # inclusion markers in place.

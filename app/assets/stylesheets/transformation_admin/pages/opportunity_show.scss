@@ -45,6 +45,12 @@ main {
       border-top-color: $stone-40;
     }
   }
+
+  .expired {
+    color: $great-red;
+    font-size: $font-size-body-l;
+    font-weight: bold;
+  }
 }
 
 .checks,

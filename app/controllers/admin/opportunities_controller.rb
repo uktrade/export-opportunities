@@ -31,7 +31,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def show
-    @content = get_content('admin/opportunities.yml')
+    content = get_content('admin/opportunities.yml')
     @opportunity = Opportunity.includes(:enquiries).find(params[:id])
     @enquiries_cutoff = 20
     @comment_form = OpportunityCommentForm.new(opportunity: @opportunity, author: current_editor)
@@ -39,7 +39,9 @@ class Admin::OpportunitiesController < Admin::BaseController
     @show_enquiries = policy(@opportunity).show_enquiries?
 
     authorize @opportunity
-    render layout: 'admin_transformed'
+    render layout: 'admin_transformed', locals: {
+      content: content,
+    }
   end
 
   def new
