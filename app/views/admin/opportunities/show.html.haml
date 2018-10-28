@@ -10,8 +10,7 @@
   .container
     = link_to "Back", filtered_admin_opportunities_path, class: 'back'
 
-    %h1
-      = @opportunity.title
+    %h1= opp.title_with_country
     - if @opportunity.expired?
       %p.expired= content['message_expired']
 
