@@ -44,16 +44,16 @@
       %dd= present_html_or_formatted_text(@opportunity.description).html_safe
 
       %dt= page.content('fields.values.question')
-      %dd= @opportunity.values.map(&:name).join(', ')
+      %dd= opp.put(@opportunity.values.map(&:name).join(', '), '-')
 
       %dt= page.content('fields.countries.label')
-      %dd= @opportunity.countries.map(&:name).join(', ')
+      %dd= opp.put(@opportunity.countries.map(&:name).join(', '), '-')
 
       %dt= page.content('fields.sector_ids.label')
-      %dd= @opportunity.sectors.map(&:name).join(', ')
+      %dd= opp.put(@opportunity.sectors.map(&:name).join(', '), '-')
 
       %dt= page.content('fields.types.question')
-      %dd= @opportunity.types.map(&:name).join(', ')
+      %dd= opp.put(@opportunity.types.map(&:name).join(', '), '-')
 
       - if @opportunity.supplier_preferences
         %dt= page.content('fields.supplier_preferences.question')
@@ -63,7 +63,7 @@
       %dd= @opportunity.response_due_on.to_s(:admin_date) if @opportunity.response_due_on
 
       %dt= page.content('fields.service_provider_id.label')
-      %dd= @opportunity.service_provider.try(:name)
+      %dd= opp.put(@opportunity.service_provider.try(:name), '-')
 
       - if @opportunity.target_url.present?
         %dt= page.content('fields.target_url.label')
@@ -73,7 +73,7 @@
       %dd= @opportunity.contacts.map { |contact| "#{contact.name} <#{contact.email}>" }.join(', ')
 
       %dt= page.content('fields.ragg.question')
-      %dd.ragg= @opportunity.ragg
+      %dd.ragg= opp.put(@opportunity.ragg, '-')
 
       -if @opportunity.tender_url.present?
         %dt Third-party (original) link

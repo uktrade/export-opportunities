@@ -209,7 +209,7 @@ class OpportunityPresenter < BasePresenter
   end
 
   def put(value, default = 'none')
-    value || default
+    value.present? && value != 'undefined' ? value : default
   end
 
   private
