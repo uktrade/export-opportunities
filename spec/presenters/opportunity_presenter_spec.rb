@@ -535,7 +535,37 @@ RSpec.describe OpportunityPresenter do
     end
 
     describe '#draft_button' do
-      skip 'TODO...'
+      it 'returns html for a Draft button when statis is trash' do
+        content = get_content('admin/opportunities')
+        opportunity = create(:opportunity, status: :trash)
+        presenter = OpportunityPresenter.new(view_context, opportunity)
+        button = presenter.draft_button
+
+        expect(has_html? button).to be_truthy
+        expect(button).to include('Draft')
+        expect(button).to include(paths.admin_opportunity_status_path(opportunity))
+      end
+
+      it 'returns html for a Draft button when status is pending' do
+        content = get_content('admin/opportunities')
+        opportunity = create(:opportunity, status: :pending)
+        presenter = OpportunityPresenter.new(view_context, opportunity)
+        button = presenter.draft_button
+
+        expect(has_html? button).to be_truthy
+        expect(button).to include('Draft')
+        expect(button).to include(paths.admin_opportunity_status_path(opportunity))
+      end
+
+
+      it 'returns blank string when status is neither trash or pending' do
+        content = get_content('admin/opportunities')
+        opportunity = create(:opportunity, status: :draft)
+        presenter = OpportunityPresenter.new(view_context, opportunity)
+        button = presenter.draft_button
+
+        expect(button).to eq('')
+      end
     end
 
     describe '#pending_button' do

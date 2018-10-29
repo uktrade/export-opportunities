@@ -200,6 +200,8 @@ class OpportunityPresenter < BasePresenter
     case @opportunity.status
     when 'trash', 'pending'
       button_to('Draft', :patch, 'draft') if @view_context.policy(opportunity).draft?
+    else
+      ''
     end
   end
 
