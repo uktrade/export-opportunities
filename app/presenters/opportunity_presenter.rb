@@ -206,8 +206,10 @@ class OpportunityPresenter < BasePresenter
   end
 
   def pending_button
-    if @opportunity.status == 'draft'
-      button_to('Pending', :patch, 'pending') if @view_context.policy(opportunity).uploader_previewer_restore?
+    if @opportunity.status == 'draft' && @view_context.policy(opportunity).uploader_previewer_restore?
+      button_to('Pending', :patch, 'pending')
+    else
+      ''
     end
   end
 

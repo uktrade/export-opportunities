@@ -569,7 +569,25 @@ RSpec.describe OpportunityPresenter do
     end
 
     describe '#pending_button' do
-      skip 'TODO...'
+      it 'returns html for a Pending button when status is draft' do
+        content = get_content('admin/opportunities')
+        opportunity = create(:opportunity, status: :draft)
+        presenter = OpportunityPresenter.new(view_context, opportunity)
+        button = presenter.pending_button
+
+        expect(has_html? button).to be_truthy
+        expect(button).to include('Pending')
+        expect(button).to include(paths.admin_opportunity_status_path(opportunity))
+      end
+
+      it 'returns empty string when status is not draft' do
+        content = get_content('admin/opportunities')
+        opportunity = create(:opportunity, status: :pending)
+        presenter = OpportunityPresenter.new(view_context, opportunity)
+        button = presenter.pending_button
+
+        expect(button).to eq('')
+      end
     end
 
     describe '#button_to' do
