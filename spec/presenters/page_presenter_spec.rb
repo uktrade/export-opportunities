@@ -11,6 +11,31 @@ RSpec.describe PagePresenter do
     end
   end
 
+  describe '#content' do
+    it 'returns content from first-level key' do
+      content = { hello: 'Hello snoopy' }.with_indifferent_access
+      presenter = PagePresenter.new(content)
+
+      expect(presenter.content('hello')).to eq('Hello snoopy')
+    end
+
+    it 'returns content from nested-level key' do
+      content = { hello: { message: { everyone: 'Hello everyone' } } }.with_indifferent_access
+      presenter = PagePresenter.new(content)
+
+      expect(presenter.content('hello.message.everyone')).to eq('Hello everyone')
+    end
+
+    it 'returns a blank string when key is not found' do
+      content = { hello: { message: { everyone: 'Hello everyone' } } }.with_indifferent_access
+      presenter = PagePresenter.new(content)
+
+      expect(presenter.content('foo')).to eq('')
+      expect(presenter.content('foo.bar')).to eq('')
+      expect(presenter.content('foo.bar.widget')).to eq('')
+    end
+  end
+
   describe '#content_with_inclusion' do
     it 'returns content string with injected values' do
       content = { hello: 'Hello [$first_name] [$last_name]' }.with_indifferent_access
