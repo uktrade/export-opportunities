@@ -168,7 +168,11 @@ class OpportunityPresenter < BasePresenter
   end
 
   def edit_button
-    @view_context.link_to 'Edit opportunity', edit_admin_opportunity_path(@opportunity), class: 'button' if @view_context.policy(@opportunity).edit?
+    if @view_context.policy(@opportunity).edit?
+      @view_context.link_to 'Edit opportunity', edit_admin_opportunity_path(@opportunity), class: 'button'
+    else
+      ''
+    end
   end
 
   def publishing_button
@@ -179,6 +183,8 @@ class OpportunityPresenter < BasePresenter
       button_to('Publish', :patch, 'publish') if @view_context.policy(@opportunity).publishing?
     when 'trash'
       button_to('Restore', :patch, 'pending') if @view_context.policy(@opportunity).restore?
+    else
+      ''
     end
   end
 
@@ -201,11 +207,12 @@ class OpportunityPresenter < BasePresenter
 
   def button_to(text, method, status = '')
     params = { status: status } if status.present?
-    view_context.button_to(text, 
-                           admin_opportunity_status_path(@opportunity), 
-                           method: method, 
-                           params: params, 
-                           class: 'button')
+    button = view_context.button_to(text,
+                                    admin_opportunity_status_path(@opportunity),
+                                    method: method,
+                                    params: params,
+                                    class: 'button')
+    button.class == ActiveSupport::SafeBuffer ? button : ''
   end
 
   def put(value, default = 'none')

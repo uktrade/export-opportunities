@@ -460,7 +460,8 @@ RSpec.describe OpportunityPresenter do
   end
 
   context 'for editors' do
-    let(:view_context) { admin_view_context }
+    let(:editor) { create(:editor, role: :administrator) }
+    let(:view_context) { admin_view_context(editor) }
     let(:paths) { Rails.application.routes.url_helpers }
 
     describe '#edit_button' do
@@ -477,7 +478,47 @@ RSpec.describe OpportunityPresenter do
     end
 
     describe '#publishing_button' do
-      skip 'TODO...'
+      it 'returns html for an Publishing button when status is publish' do
+        content = get_content('admin/opportunities')
+        opportunity = create(:opportunity, status: :publish)
+        presenter = OpportunityPresenter.new(view_context, opportunity)
+        button = presenter.publishing_button
+
+        expect(has_html? button).to be_truthy
+        expect(button).to include('Unpublish')
+        expect(button).to include(paths.admin_opportunity_status_path(opportunity))
+      end
+
+      it 'returns html for an Publishing button when status is pending' do
+        content = get_content('admin/opportunities')
+        opportunity = create(:opportunity, status: :pending)
+        presenter = OpportunityPresenter.new(view_context, opportunity)
+        button = presenter.publishing_button
+
+        expect(has_html? button).to be_truthy
+        expect(button).to include('Publish')
+        expect(button).to include(paths.admin_opportunity_status_path(opportunity))
+      end
+
+      it 'returns html for an Publishing button when status is trash' do
+        content = get_content('admin/opportunities')
+        opportunity = create(:opportunity, status: :trash)
+        presenter = OpportunityPresenter.new(view_context, opportunity)
+        button = presenter.publishing_button
+
+        expect(has_html? button).to be_truthy
+        expect(button).to include('Restore')
+        expect(button).to include(paths.admin_opportunity_status_path(opportunity))
+      end
+
+      it 'returns empty string when status is not publish, pending, or trash' do
+        content = get_content('admin/opportunities')
+        opportunity = create(:opportunity, status: :draft)
+        presenter = OpportunityPresenter.new(view_context, opportunity)
+        button = presenter.publishing_button
+
+        expect(button).to eq('')
+      end
     end
 
     describe '#trash_button' do
@@ -518,14 +559,17 @@ RSpec.describe OpportunityPresenter do
     /\<\/\w+\>/.match(str)
   end
 
-  def admin_view_context
-    create(:editor, role: :administrator)
-    TestAdminOpportunitiesController.new.view_context
+  def admin_view_context(editor)
+    TestAdminOpportunitiesController.new(editor).view_context
   end
 
   class TestAdminOpportunitiesController < Admin::OpportunitiesController
+    def initialize(editor)
+      @editor = editor
+    end
+
     def pundit_user
-      Editor.all.first
+      @editor
     end
   end
 end
