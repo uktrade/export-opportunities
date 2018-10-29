@@ -458,4 +458,43 @@ RSpec.describe OpportunityPresenter do
       expect(presenter.formatted_date('foo')).to eql('')
     end
   end
+
+  describe '#edit_button' do
+    skip 'TODO...'
+  end
+
+  describe '#publishing_button' do
+    skip 'TODO...'
+  end
+
+  describe '#trash_button' do
+    skip 'TODO...'
+  end
+
+  describe '#draft_button' do
+    skip 'TODO...'
+  end
+
+  describe '#pending_button' do
+    skip 'TODO...'
+  end
+
+  describe '#button_to' do
+    skip 'TODO...'
+  end
+
+  describe '#put' do
+    skip 'TODO...'
+  end
+
+  describe '::contact_email' do
+    it 'returns the email of first contact' do
+      contact1 = create(:contact, email: 'foo1@bar.com')
+      contact2 = create(:contact, email: 'foo2@bar.com')
+      opportunity = create(:opportunity, contacts: [contact1, contact2])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.send(:contact_email)).to eq('foo1@bar.com')
+    end
+  end
 end
