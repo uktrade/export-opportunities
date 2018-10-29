@@ -591,7 +591,18 @@ RSpec.describe OpportunityPresenter do
     end
 
     describe '#button_to' do
-      skip 'TODO...'
+      it 'returns html for a button' do
+        content = get_content('admin/opportunities')
+        opportunity = create(:opportunity, status: :draft)
+        presenter = OpportunityPresenter.new(view_context, opportunity)
+        button = presenter.button_to('some text', 'get', 'status_x') 
+
+        expect(has_html? button).to be_truthy
+        expect(button).to include('some text')
+        expect(button).to include('get')
+        expect(button).to include('status_x')
+        expect(button).to include(paths.admin_opportunity_status_path(opportunity))
+      end
     end
 
     describe '#put' do
