@@ -606,7 +606,23 @@ RSpec.describe OpportunityPresenter do
     end
 
     describe '#put' do
-      skip 'TODO...'
+      it 'returns value when present' do
+        presenter = OpportunityPresenter.new(view_context, create(:opportunity))
+
+        expect(presenter.put('some present text')).to eq('some present text')
+      end
+
+      it 'returns default when value not present' do
+        presenter = OpportunityPresenter.new(view_context, create(:opportunity))
+
+        expect(presenter.put('')).to eq('none')
+      end
+
+      it 'returns specified default when value not present' do
+        presenter = OpportunityPresenter.new(view_context, create(:opportunity))
+
+        expect(presenter.put('', 'something else')).to eq('something else')
+      end
     end
   end
 
