@@ -460,16 +460,19 @@ RSpec.describe OpportunityPresenter do
   end
 
   context 'for editors' do
+    let(:view_context) { admin_view_context }
+    let(:paths) { Rails.application.routes.url_helpers }
+
     describe '#edit_button' do
       it 'returns html for an Edit button' do
         content = get_content('admin/opportunities')
         opportunity = create(:opportunity)
-        presenter = OpportunityPresenter.new(Admin::OpportunitiesController.new, opportunity)
+        presenter = OpportunityPresenter.new(view_context, opportunity)
         button = presenter.edit_button
 
-        expect(button.has_html?).to be_falsey
-        expect(button).to include('foo')
-        expect(button).to include(edit_admin_opportunity_path(opportunity) + "foo")
+        expect(has_html? button).to be_truthy
+        expect(button).to include('Edit opportunity')
+        expect(button).to include(paths.edit_admin_opportunity_path(opportunity))
       end
     end
 
@@ -515,9 +518,14 @@ RSpec.describe OpportunityPresenter do
     /\<\/\w+\>/.match(str)
   end
 
+  def admin_view_context
+    create(:editor, role: :administrator)
+    TestAdminOpportunitiesController.new.view_context
+  end
+
   class TestAdminOpportunitiesController < Admin::OpportunitiesController
     def pundit_user
-      create(:editor, role: :administrator)
+      Editor.all.first
     end
   end
 end
