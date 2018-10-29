@@ -522,7 +522,16 @@ RSpec.describe OpportunityPresenter do
     end
 
     describe '#trash_button' do
-      skip 'TODO...'
+      it 'returns html for a Trash button' do
+        content = get_content('admin/opportunities')
+        opportunity = create(:opportunity, status: :draft)
+        presenter = OpportunityPresenter.new(view_context, opportunity)
+        button = presenter.trash_button
+
+        expect(has_html? button).to be_truthy
+        expect(button).to include('Trash')
+        expect(button).to include(paths.admin_opportunity_status_path(opportunity))
+      end
     end
 
     describe '#draft_button' do

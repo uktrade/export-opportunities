@@ -189,7 +189,11 @@ class OpportunityPresenter < BasePresenter
   end
 
   def trash_button
-    button_to('Trash', :delete) if @view_context.policy(@opportunity).trash?
+    if @view_context.policy(@opportunity).trash?
+      button_to('Trash', :delete)
+    else
+      ''
+    end
   end
 
   def draft_button
