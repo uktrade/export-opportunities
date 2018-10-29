@@ -459,32 +459,43 @@ RSpec.describe OpportunityPresenter do
     end
   end
 
-  describe '#edit_button' do
-    skip 'TODO...'
-  end
+  context 'for editors' do
+    describe '#edit_button' do
+      it 'returns html for an Edit button' do
+        content = get_content('admin/opportunities')
+        opportunity = create(:opportunity)
+        presenter = OpportunityPresenter.new(Admin::OpportunitiesController.new, opportunity)
+        button = presenter.edit_button
 
-  describe '#publishing_button' do
-    skip 'TODO...'
-  end
+        expect(button.has_html?).to be_falsey
+        expect(button).to include('foo')
+        expect(button).to include(edit_admin_opportunity_path(opportunity) + "foo")
+      end
+    end
 
-  describe '#trash_button' do
-    skip 'TODO...'
-  end
+    describe '#publishing_button' do
+      skip 'TODO...'
+    end
 
-  describe '#draft_button' do
-    skip 'TODO...'
-  end
+    describe '#trash_button' do
+      skip 'TODO...'
+    end
 
-  describe '#pending_button' do
-    skip 'TODO...'
-  end
+    describe '#draft_button' do
+      skip 'TODO...'
+    end
 
-  describe '#button_to' do
-    skip 'TODO...'
-  end
+    describe '#pending_button' do
+      skip 'TODO...'
+    end
 
-  describe '#put' do
-    skip 'TODO...'
+    describe '#button_to' do
+      skip 'TODO...'
+    end
+
+    describe '#put' do
+      skip 'TODO...'
+    end
   end
 
   describe '::contact_email' do
@@ -495,6 +506,18 @@ RSpec.describe OpportunityPresenter do
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
 
       expect(presenter.send(:contact_email)).to eq('foo1@bar.com')
+    end
+  end
+
+  # Helpers
+
+  def has_html?(str)
+    /\<\/\w+\>/.match(str)
+  end
+
+  class TestAdminOpportunitiesController < Admin::OpportunitiesController
+    def pundit_user
+      create(:editor, role: :administrator)
     end
   end
 end
