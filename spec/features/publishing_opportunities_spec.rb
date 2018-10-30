@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'rails_helper'
 
 RSpec.feature 'Publishing opportunities:' do
@@ -90,57 +91,37 @@ RSpec.feature 'Publishing opportunities:' do
   end
 
   scenario 'publishing and republishing an opportunity' do
-    date_of_first_publication = Time.new(2017, 1, 2, 10, 15).utc
-    date_of_republishing = Time.new(2017, 1, 3, 14, 0).utc
-
     publisher = create(:publisher)
     opportunity = create_opportunity(status: 'pending')
 
+    # Select the opportunity from list
     login_as(publisher)
-
-    visit '/admin/opportunities'
-
-    within 'tr.opportunity' do
-      expect(page.find('td.first-published').text).to be_blank
-    end
-
+    visit admin_opportunities_path
     click_on opportunity.title
 
-    row = find('tr', text: 'First published at')
-    expect(row.find('td').text).to be_blank
+    expect(current_path).to eq(admin_opportunity_path(opportunity))
+    expect(find('.status').text).to include('Status Pending')
+    expect(opportunity.reload.status).to eq('pending')
 
-    Timecop.freeze(date_of_first_publication) do
-      click_on 'Publish'
-    end
+    click_on 'Publish'
 
-    row = find('tr', text: 'First published at')
-    expect(row.find('td').text).to eq date_of_first_publication.strftime("%d %b %Y %l:%M %p").to_s
-
-    visit '/admin/opportunities'
-
-    within 'tr.opportunity' do
-      expect(page.find('td.first-published').text).to eq date_of_first_publication.strftime("%d %b %Y %l:%M %p").to_s
-    end
-
+    # Now go back and see if it was published.
+    visit admin_opportunities_path
     click_on opportunity.title
+
+    expect(current_path).to eq(admin_opportunity_path(opportunity))
+    expect(find('.status').text).to include('Status Published')
+    expect(opportunity.reload.status).to eq('publish')
 
     click_on 'Unpublish'
 
-    Timecop.freeze(date_of_republishing) do
-      click_on 'Publish'
-    end
+    # Now go back and see if it is unpublished again.
+    visit admin_opportunities_path
+    click_on opportunity.title
 
-    row = find('tr', text: 'First published at')
-    expect(row.find('td').text).to eq date_of_first_publication.strftime("%d %b %Y %l:%M %p").to_s
-
-    row = find('tr', text: 'Updated at')
-    expect(row.find('td').text).to eq date_of_republishing.strftime("%d %b %Y%l:%M %p").to_s
-
-    visit '/admin/opportunities'
-
-    within 'tr.opportunity' do
-      expect(page.find('td.first-published').text).to eq date_of_first_publication.strftime("%d %b %Y %l:%M %p").to_s
-    end
+    expect(current_path).to eq(admin_opportunity_path(opportunity))
+    expect(find('.status').text).to include('Status Pending')
+    expect(opportunity.reload.status).to eq('pending')
   end
 
   scenario 'publishing when opportunity is invalid' do
