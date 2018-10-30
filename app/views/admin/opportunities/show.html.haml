@@ -1,6 +1,6 @@
 - enquiries_count = 0
 - page = PagePresenter.new(content)
-- opp = OpportunityPresenter.new(self, @opportunity)
+- opp = AdminOpportunityPresenter.new(self, @opportunity, content)
 - content_for :action_specific_head  do
   = stylesheet_link_tag 'transformation_admin/pages/opportunity_show'
   = javascript_include_tag 'transformation_admin/dit.page.opportunity_show'

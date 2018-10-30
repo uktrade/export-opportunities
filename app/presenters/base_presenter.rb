@@ -4,6 +4,10 @@ class BasePresenter < ActionView::Base
 
   def initialize; end
 
+  def put(value, default = 'none')
+    value.present? && value != 'undefined' ? value : default
+  end
+
   private def h
     ApplicationController.helpers
   end
