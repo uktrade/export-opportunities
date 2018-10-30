@@ -1,5 +1,5 @@
 class PagePresenter < BasePresenter
-  attr_reader :content, :breadcrumbs
+  attr_reader :breadcrumbs
 
   def initialize(content)
     @content = content
