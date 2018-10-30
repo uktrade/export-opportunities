@@ -53,10 +53,10 @@ class AdminOpportunityPresenter < OpportunityPresenter
   def button_to(text, method, status = '')
     params = { status: status } if status.present?
     button = view_context.button_to(text,
-                                    admin_opportunity_status_path(@opportunity),
-                                    method: method,
-                                    params: params,
-                                    class: 'button')
+      admin_opportunity_status_path(@opportunity),
+      method: method,
+      params: params,
+      class: 'button')
     button.class == ActiveSupport::SafeBuffer ? button : ''
-  end  
+  end
 end

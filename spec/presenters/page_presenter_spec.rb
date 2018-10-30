@@ -1,4 +1,5 @@
 # coding: utf-8
+
 require 'rails_helper'
 
 RSpec.describe PagePresenter do
@@ -41,7 +42,7 @@ RSpec.describe PagePresenter do
       content = { hello: 'Hello [$first_name] [$last_name]' }.with_indifferent_access
       presenter = PagePresenter.new(content)
 
-      expect(presenter.content_with_inclusion('hello', ['Darth', 'Vader'])).to eql('Hello Darth Vader')
+      expect(presenter.content_with_inclusion('hello', %w[Darth Vader])).to eql('Hello Darth Vader')
       expect(presenter.content_with_inclusion('hello', ['Darth'])).to eql('Hello Darth [$last_name]')
       expect(presenter.content_with_inclusion('hello', ['', 'Vader'])).to eql('Hello Vader')
       expect(presenter.content_with_inclusion('hello', ['Darth', 'Vader', ' or shall we say, Anakin'])).to eql('Hello Darth Vader')
@@ -59,7 +60,7 @@ RSpec.describe PagePresenter do
 
   describe '#create_trade_profile_url' do
     it 'returns the correct url depending on passed number' do
-      content = { fields: { countries: {}, industries: {}, regions: {} }}
+      content = { fields: { countries: {}, industries: {}, regions: {} } }
       presenter = PagePresenter.new(content)
 
       expect(presenter.create_trade_profile_url).to eql(Figaro.env.TRADE_PROFILE_CREATE_WITHOUT_NUMBER)
@@ -73,7 +74,7 @@ RSpec.describe PagePresenter do
       presenter = PagePresenter.new(content)
       presenter.add_breadcrumb_current('foo')
 
-      expect(presenter.breadcrumbs).to include({title: "foo", slug: ""})
+      expect(presenter.breadcrumbs).to include(title: 'foo', slug: '')
     end
   end
 end

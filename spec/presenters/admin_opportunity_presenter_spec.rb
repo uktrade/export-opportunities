@@ -14,7 +14,7 @@ RSpec.describe AdminOpportunityPresenter do
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
       button = presenter.edit_button
 
-      expect(has_html? button).to be_truthy
+      expect(has_html?(button)).to be_truthy
       expect(button).to include('Edit opportunity')
       expect(button).to include(paths.edit_admin_opportunity_path(opportunity))
     end
@@ -27,7 +27,7 @@ RSpec.describe AdminOpportunityPresenter do
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
       button = presenter.publishing_button
 
-      expect(has_html? button).to be_truthy
+      expect(has_html?(button)).to be_truthy
       expect(button).to include('Unpublish')
       expect(button).to include(paths.admin_opportunity_status_path(opportunity))
     end
@@ -38,7 +38,7 @@ RSpec.describe AdminOpportunityPresenter do
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
       button = presenter.publishing_button
 
-      expect(has_html? button).to be_truthy
+      expect(has_html?(button)).to be_truthy
       expect(button).to include('Publish')
       expect(button).to include(paths.admin_opportunity_status_path(opportunity))
     end
@@ -49,7 +49,7 @@ RSpec.describe AdminOpportunityPresenter do
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
       button = presenter.publishing_button
 
-      expect(has_html? button).to be_truthy
+      expect(has_html?(button)).to be_truthy
       expect(button).to include('Restore')
       expect(button).to include(paths.admin_opportunity_status_path(opportunity))
     end
@@ -71,7 +71,7 @@ RSpec.describe AdminOpportunityPresenter do
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
       button = presenter.trash_button
 
-      expect(has_html? button).to be_truthy
+      expect(has_html?(button)).to be_truthy
       expect(button).to include('Trash')
       expect(button).to include(paths.admin_opportunity_status_path(opportunity))
     end
@@ -84,7 +84,7 @@ RSpec.describe AdminOpportunityPresenter do
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
       button = presenter.draft_button
 
-      expect(has_html? button).to be_truthy
+      expect(has_html?(button)).to be_truthy
       expect(button).to include('Draft')
       expect(button).to include(paths.admin_opportunity_status_path(opportunity))
     end
@@ -95,7 +95,7 @@ RSpec.describe AdminOpportunityPresenter do
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
       button = presenter.draft_button
 
-      expect(has_html? button).to be_truthy
+      expect(has_html?(button)).to be_truthy
       expect(button).to include('Draft')
       expect(button).to include(paths.admin_opportunity_status_path(opportunity))
     end
@@ -118,7 +118,7 @@ RSpec.describe AdminOpportunityPresenter do
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
       button = presenter.pending_button
 
-      expect(has_html? button).to be_truthy
+      expect(has_html?(button)).to be_truthy
       expect(button).to include('Pending')
       expect(button).to include(paths.admin_opportunity_status_path(opportunity))
     end
@@ -138,9 +138,9 @@ RSpec.describe AdminOpportunityPresenter do
       content = get_content('admin/opportunities')
       opportunity = create(:opportunity, status: :draft)
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
-      button = presenter.button_to('some text', 'get', 'status_x') 
+      button = presenter.button_to('some text', 'get', 'status_x')
 
-      expect(has_html? button).to be_truthy
+      expect(has_html?(button)).to be_truthy
       expect(button).to include('some text')
       expect(button).to include('get')
       expect(button).to include('status_x')

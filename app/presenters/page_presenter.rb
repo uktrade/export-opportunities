@@ -8,7 +8,7 @@ class PagePresenter < BasePresenter
   end
 
   # Gets content by either single 'key' value
-  # or nested 'key.is.here' value. 
+  # or nested 'key.is.here' value.
   def content(key_path)
     keys = key_path.split('.')
     content = @content
