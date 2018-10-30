@@ -216,9 +216,7 @@ feature 'Administering opportunities' do
       choose 'opportunity_ragg_amber'
       click_on @content['submit_create']
 
-      within(:css, 'table td.ragg-cell') do
-        expect(page).to have_text('amber')
-      end
+      expect(page.find('.ragg')).to have_text('amber')
     end
 
     scenario 'admin sets ragg rating to trash, ragg rating should be deleted' do
@@ -234,9 +232,7 @@ feature 'Administering opportunities' do
 
       click_on 'Trash'
 
-      within(:css, 'table td.ragg-cell') do
-        expect(page).to_not have_text('red')
-      end
+      expect(page.find('.ragg')).to_not have_text('red')
     end
 
     scenario 'admin sets ragg rating to draft, ragg rating should not be deleted' do
@@ -248,15 +244,11 @@ feature 'Administering opportunities' do
 
       click_on opportunity.title
 
-      within(:css, 'table td.ragg-cell') do
-        expect(page).to have_text('red')
-      end
+      expect(page.find('.ragg')).to have_text('red')
 
       click_on 'Draft'
 
-      within(:css, 'table td.ragg-cell') do
-        expect(page).to have_text('red')
-      end
+      expect(page.find('.ragg')).to have_text('red')
     end
 
     feature 'managing spelling and sensitivity errors in opportunities' do
