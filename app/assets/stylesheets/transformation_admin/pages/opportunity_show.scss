@@ -1,0 +1,120 @@
+@import 'transformation_admin/config';
+@import 'transformation_admin/forms';
+@import 'transformation_admin/components/history';
+@import 'transformation_admin/components/_section_expanders';
+
+
+h2 {
+  @include heading-m;
+}
+
+main {
+  max-width: none;
+}
+
+.back {
+  color: $grey-1;
+  display: inline-block;
+
+  &:before {
+    @include arrow-left(#{$font-size-body-s / 2}, $white, $grey-1);
+    margin-right: 0.4em;
+  }
+}
+
+.intro {
+  background-color: $stone-40;
+  margin-bottom: $spacing-3;
+  overflow: hidden;
+  padding-top: $spacing-3;
+
+  h1 {
+    margin-bottom: $spacing-4;
+  }
+
+  p {
+    font-size: $font-size-body-s;
+  }
+
+  .back {
+    margin-bottom: $spacing-3;
+
+    &:before {
+      border-bottom-color: $stone-40;
+      border-left-color: $stone-40;
+      border-top-color: $stone-40;
+    }
+  }
+
+  .expired {
+    color: $great-red;
+    font-size: $font-size-body-l;
+    font-weight: bold;
+  }
+}
+
+.checks,
+.details,
+.enquiries {
+  border-bottom: 1px solid $grey-3;
+  margin-bottom: $spacing-3;
+  padding-bottom: $spacing-3;
+
+  dd {
+    margin-bottom: 30px;
+  }
+
+  dt {
+    color: $grey-5;
+    font-weight: bold;
+  }
+}
+
+.enquiry-company-details {
+  border-bottom: 1px solid $stone-40;
+  margin-bottom: $spacing-3;
+
+  &:last-child {
+    border: none;
+  }
+}
+
+.history {
+  border-bottom: 1px solid $grey-3;
+  margin-bottom: $spacing-3;
+  padding-bottom: $spacing-3;
+}
+
+.status {
+  background-color: $white;
+  border: 1px solid $grey-3;
+  margin-bottom: $spacing-3;
+  padding: $spacing-3;
+
+  form {
+    display: inline-block;
+    margin-bottom: 0;
+  }
+
+  p {
+    font-size: $font-size-body-s;
+    font-weight: bold;
+  }
+
+  .button {
+    font-size: $font-size-body-m;
+    margin-right: $spacing-4;
+  }
+
+  .state {
+    font-size: $font-size-body-l;
+    font-weight: normal;
+    display: block;
+  }
+
+  .value {
+    @include body-l;
+    text-transform: capitalize;
+  }
+}
+

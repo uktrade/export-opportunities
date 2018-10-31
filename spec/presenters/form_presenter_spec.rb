@@ -1,4 +1,5 @@
 # coding: utf-8
+
 require 'rails_helper'
 
 RSpec.describe FormPresenter do
@@ -78,19 +79,19 @@ RSpec.describe FormPresenter do
 
   describe '::field_id' do
     it 'Returns lowercase string with alphanumeric+hyphen characters only' do
-      presenter_1 = FormPresenter.new({}, {})
-      presenter_2 = FormPresenter.new({}, {view: 'viewname'})
+      presenter1 = FormPresenter.new({}, {})
+      presenter2 = FormPresenter.new({}, view: 'viewname')
 
-      expect(presenter_1.send(:field_id, 'This -  [is]    a_string')).to eql('this-is-a-string')
-      expect(presenter_2.send(:field_id, 'This -  [is]    a_string')).to eql('viewname-this-is-a-string')
+      expect(presenter1.send(:field_id, 'This -  [is]    a_string')).to eql('this-is-a-string')
+      expect(presenter2.send(:field_id, 'This -  [is]    a_string')).to eql('viewname-this-is-a-string')
     end
 
     it 'Should not return an id starting with hyphen' do
-      presenter_1 = FormPresenter.new({}, {})
-      presenter_2 = FormPresenter.new({}, {view: '-viewname'})
+      presenter1 = FormPresenter.new({}, {})
+      presenter2 = FormPresenter.new({}, view: '-viewname')
 
-      expect(presenter_1.send(:field_id, '-foo')).to eql('foo')
-      expect(presenter_2.send(:field_id, '-foo')).to eql('viewname-foo')
+      expect(presenter1.send(:field_id, '-foo')).to eql('foo')
+      expect(presenter2.send(:field_id, '-foo')).to eql('viewname-foo')
     end
   end
 

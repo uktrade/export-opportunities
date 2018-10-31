@@ -1,4 +1,4 @@
-.opportunity-summary-list {
+.summary-list {
  a {
     @include body-m;
     display: block;
@@ -39,7 +39,7 @@
 
 // RESPONSIVE
 @media screen and (max-width: 767px) {
-  .opportunity-summary-list {
+  .summary-list {
     a {
       @include columns(7);
       margin: 0;
@@ -59,7 +59,7 @@
 
 
 @media screen and (max-width: 480px) {
-  .opportunity-summary-list {
+  .summary-list {
     a {
       @include heading-s-mob;
     }

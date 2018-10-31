@@ -1,4 +1,4 @@
-@import 'transformation/config';
+@import 'transformation_admin/config';
 @import 'transformation/components/restricted_input';
 
 h1 {
@@ -178,10 +178,6 @@ textarea {
   }
 }
 
-.intro {
-  margin-bottom: $spacing-1;
-}
-
 .multi-currency-amount {
   overflow: hidden;
 
@@ -237,11 +233,6 @@ textarea {
 
   dt {
     font-weight: bold;
-  }
-
-  form {
-    margin: 0 0 $spacing-1 0;
-    padding-bottom: $spacing-3;
   }
 
   .progress {

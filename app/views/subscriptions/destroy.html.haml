@@ -3,11 +3,11 @@
 .container
   = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
 
-  %h1.verbose= page.content["title"]
+  %h1.verbose= content["title"]
 
   .confirmation-notice
-    %p.notice= page.content["confirmation"]
+    %p.notice= content["confirmation"]
     %p.message
-      = link_to page.content["manage_alerts"], dashboard_path(anchor: 'alerts', target: :alerts), class: "button"
+      = link_to content["manage_alerts"], dashboard_path(anchor: 'alerts', target: :alerts), class: "button"
 
-  = link_to page.content["next"], root_path, class: "button"
+  = link_to content["next"], root_path, class: "button"

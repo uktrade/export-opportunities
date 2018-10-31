@@ -35,6 +35,12 @@
   @include container;
 }
 
+// Accessibility hidden
+.verbose {
+  @include access-hidden;
+}
+
+
 // Make (x) number of elements sit on one row and wrap where necessary. 
 @media (min-width: 768px) {
   .lg-6 { @include items(6, $spacing-3); }

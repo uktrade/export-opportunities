@@ -1,12 +1,11 @@
 class OpportunityPresenter < BasePresenter
   include ApplicationHelper
-
   attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries, :tender_value, :tender_url, :target_url, :opportunity_cpvs, :sectors
 
   delegate :expired?, to: :opportunity
 
-  def initialize(helpers, opportunity)
-    @h = helpers
+  def initialize(view_context, opportunity)
+    @view_context = view_context
     @opportunity = opportunity
     @tender_url = opportunity.tender_url
     @target_url = opportunity.target_url
@@ -160,9 +159,17 @@ class OpportunityPresenter < BasePresenter
     end
   end
 
+  def formatted_date(date_field_name)
+    if opportunity[date_field_name].present?
+      opportunity[date_field_name].strftime('%d %B %Y')
+    else
+      ''
+    end
+  end
+
   private
 
-  attr_reader :h, :opportunity
+  attr_reader :view_context, :opportunity
 
   def contact_email
     opportunity.contacts.first.email

@@ -21,8 +21,8 @@ $cols-11   : #{($columns * 11)};
 $cols-12   : #{($columns * 12)};
 
 // Add CSS to make the element (x)Number of columns wide.
-@mixin columns($multiples) {
-  float: left;
+@mixin columns($multiples, $float:left) {
+  float: $float;
   width: ($columns * $multiples);
 }
 

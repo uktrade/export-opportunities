@@ -2,15 +2,15 @@
 
 .container
   = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
-  %h1.verbose= page.content["title"]
+  %h1.verbose= content["title"]
 
   .confirmation-notice
-    %p.notice= page.content["confirmation"]
+    %p.notice= content["confirmation"]
     %p.message= page.content_with_inclusion "message", [current_user.email]
 
   .alert-panel
-    %h2= page.content["alert_summary_title"]
-    %p= page.content["alert_summary_message"]
+    %h2= content["alert_summary_title"]
+    %p= content["alert_summary_message"]
 
     - if subscriptions != nil && subscriptions.size > 0
       %ul.subscriptions
@@ -18,8 +18,8 @@
           - sub = SubscriptionPresenter.new(item)
           %li= sub.description
 
-    = link_to page.content["alert_summary_link"], dashboard_path(anchor: 'alerts', target: :alerts)
+    = link_to content["alert_summary_link"], dashboard_path(anchor: 'alerts', target: :alerts)
 
   %p= page.content_with_inclusion("advice", [link_to("Account", "/dashboard")]).html_safe
   %p.back
-    =link_to page.content["back"], request.referrer, :class=>"button"
+    =link_to content["back"], request.referrer, :class=>"button"
