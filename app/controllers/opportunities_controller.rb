@@ -42,7 +42,7 @@ class OpportunitiesController < ApplicationController
     convert_areas_params_into_regions_and_countries(params)
     @content = get_content('opportunities/results.yml')
     @filters = SearchFilter.new(params)
-
+byebug
     @search_term = params['s']
     @recent_opportunity_search = params['s'].blank? && params[:sectors].blank? && (params[:countries].blank? || params[:countries].all?(&:blank?)) && (params[:regions].blank? || params[:regions].all?(&:blank?))
     @sort_column_name = sort_column

@@ -36,6 +36,29 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to_not have_content('Italy')
   end
 
+  scenario 'clicks on featured industries link, can sort and filter on results', :elasticsearch, :commit, js: true do
+    sector = create(:sector, slug: 'food-drink', id: 11, name: 'FoodDrink')
+    security_sector = create(:sector, slug: 'security', id: 17, name: 'Security')
+    security_opp = create(:opportunity, title: 'Italy - White hat hacker required', description: 'security food drink', sectors: [security_sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
+    post_opp = create(:opportunity, title: 'France - Cow required', sectors: [sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
+    oo_opp = create(:opportunity, title: 'Greece - Pimms food drink in Mykonos', description: 'food drink pimms mykonoos', source: :volume_opps, status: :publish, response_due_on: 1.week.from_now)
+
+    visit '/'
+
+    sleep 2
+
+    click_on 'FoodDrink'
+
+    # click on third party
+    find('#sources_1', visible: false).trigger('click')
+    click_on('Update results')
+byebug
+    expect(page).to_not have_content('Cow required')
+    expect(page).to have_content('Pimms food drink in Mykonos')
+    expect(page).to_not have_content('Italy')
+    expect(page).to_not have_content('2 items')
+  end
+
   scenario 'uses search term only', :elasticsearch, :commit, js: true do
     fictional_country = create(:country, name: 'Zouaziland')
     create(:opportunity, :published, title: 'Boats for Zouaziland lakes', countries: [fictional_country])
