@@ -7,10 +7,6 @@ module ApplicationHelper
     sanitize(text)
   end
 
-  def promote_elements_to_front_of_array(array, selected_elements = [])
-    selected_elements + (array - selected_elements)
-  end
-
   def companies_house_url(companies_house_number)
     return nil if companies_house_number.blank?
     companies_house_url = Figaro.env.COMPANIES_HOUSE_BASE_URL + companies_house_number
