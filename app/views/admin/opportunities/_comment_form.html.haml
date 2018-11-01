@@ -4,9 +4,8 @@
     %p.description{ id: 'opportunity-comment-field-description' }
       Comments posted here are only visible by you and other editors.
     = f.text_area :message, { rows: 8, cols: 60 }
-    %br
 
   = f.submit 'Add Comment', class: 'button add'
-  %span or
+  %span.separator or
   - if current_editor.administrator?
     = f.submit 'Return to draft with comment', class: 'button draft'

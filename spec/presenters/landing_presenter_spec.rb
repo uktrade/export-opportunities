@@ -1,11 +1,12 @@
 # coding: utf-8
+
 require 'rails_helper'
 
 RSpec.describe LandingPresenter do
   describe '#initialize' do
     it 'initializes a presenter' do
-      create(:sector, { slug: 'sector-1', name: 'sector one', id: 9 })
-      create(:sector, { slug: 'sector-2', name: 'sector two', id: 31 })
+      create(:sector, slug: 'sector-1', name: 'sector one', id: 9)
+      create(:sector, slug: 'sector-2', name: 'sector two', id: 31)
       presenter = LandingPresenter.new({}, Sector.where(id: [9, 31]))
       sector_list = presenter.instance_variable_get(:@sector_list)
 
@@ -52,17 +53,16 @@ RSpec.describe LandingPresenter do
       presenter = LandingPresenter.new(content, [])
 
       expect(presenter.description(100)).to include('100')
-      expect(presenter.description(1000)).to include('1,000')
-      expect(presenter.description(100000)).to include('100,000')
+      expect(presenter.description(1_000)).to include('1,000')
+      expect(presenter.description(100_000)).to include('100,000')
     end
   end
 
   describe '#featured_industries' do
     it 'should return a list of featured industries' do
-      create(:sector, { slug: 'sector-1', name: 'sector one', id: 9 })
-      create(:sector, { slug: 'sector-2', name: 'sector two', id: 31 })
+      create(:sector, slug: 'sector-1', name: 'sector one', id: 9)
+      create(:sector, slug: 'sector-2', name: 'sector two', id: 31)
       presenter = LandingPresenter.new({}, Sector.where(id: [9, 31]))
-      sector_list = presenter.instance_variable_get(:@sector_list)
 
       expect(presenter.featured_industries.length).to eql(2)
       expect(presenter.featured_industries[0][:title]).to eql('sector one')

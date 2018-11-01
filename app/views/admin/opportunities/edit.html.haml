@@ -1,8 +1,12 @@
-.intro
+- content_for :action_specific_head  do
+  = stylesheet_link_tag 'transformation_admin/pages/opportunity'
+  = javascript_include_tag 'transformation/dit.page.form'
+  = javascript_include_tag 'transformation_admin/dit.page.opportunity'
+
+
+%section.intro
   %h1= content['title_edit']
   %p.mandatory= content['mandatory']
 
-.process
-  = render  partial: 'form', locals: { opportunity: @opportunity, content: content }
-
+= render  partial: 'form', locals: { opportunity: @opportunity, content: content }
 = render 'history'

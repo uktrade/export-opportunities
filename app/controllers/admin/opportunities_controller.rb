@@ -31,18 +31,17 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def show
+    content = get_content('admin/opportunities.yml')
     @opportunity = Opportunity.includes(:enquiries).find(params[:id])
     @enquiries_cutoff = 20
     @comment_form = OpportunityCommentForm.new(opportunity: @opportunity, author: current_editor)
     @history = OpportunityHistory.new(opportunity: @opportunity)
-
-    @publishing_button_data = publishing_button_data(@opportunity)
-    @drafting_button_data = drafting_button_data(@opportunity)
-    @pending_button_data = pending_button_data(@opportunity)
-    @show_trash_button = policy(@opportunity).trash?
     @show_enquiries = policy(@opportunity).show_enquiries?
 
     authorize @opportunity
+    render layout: 'admin_transformed', locals: {
+      content: content,
+    }
   end
 
   def new
@@ -164,47 +163,6 @@ class Admin::OpportunitiesController < Admin::BaseController
 
   def update_contacts_attributes
     %i[name email id opportunity_id]
-  end
-
-  ButtonData = Struct.new(:show, :text, :path, :params)
-
-  def publishing_button_data(opportunity)
-    path = admin_opportunity_status_path(opportunity)
-
-    case opportunity.status
-    when 'publish'
-      ButtonData.new(policy(opportunity).publishing?, 'Unpublish', path, status: 'pending')
-    when 'pending'
-      ButtonData.new(policy(opportunity).publishing?, 'Publish', path, status: 'publish')
-    when 'trash'
-      ButtonData.new(policy(opportunity).restore?, 'Restore', path, status: 'pending')
-    else
-      ButtonData.new(false)
-    end
-  end
-
-  def drafting_button_data(opportunity)
-    path = admin_opportunity_status_path(opportunity)
-
-    case opportunity.status
-    when 'trash'
-      ButtonData.new(policy(opportunity).draft?, 'Draft', path, status: 'draft')
-    when 'pending'
-      ButtonData.new(policy(opportunity).draft?, 'Draft', path, status: 'draft')
-    else
-      ButtonData.new(false)
-    end
-  end
-
-  def pending_button_data(opportunity)
-    path = admin_opportunity_status_path(opportunity)
-
-    case opportunity.status
-    when 'draft'
-      ButtonData.new(policy(opportunity).uploader_previewer_restore?, 'Pending', path, status: 'pending')
-    else
-      ButtonData.new(false)
-    end
   end
 
   private def filter_params

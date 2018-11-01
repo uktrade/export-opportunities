@@ -2,6 +2,13 @@
 // ----------------
 
 
+@mixin access-hidden {
+  overflow: hidden;
+  position: absolute;
+  text-indent: -1000px;
+  z-index: -1;
+}
+
 @mixin container {
   max-width: $design-max-width;
   margin-left: auto;
@@ -31,7 +38,7 @@
   box-shadow: none;
   cursor: pointer;
   display: inline-block;
-  font-weight: bold;
+  font-weight: normal;
   line-height: 26px;
   overflow: hidden;
   padding: 10px $spacing-2;
@@ -108,4 +115,37 @@
 @mixin button-disabled {
   cursor: default;
   opacity: 0.5;
+}
+
+// ARROWS
+@mixin arrow-base($size, $colour-bg) {
+  // Do not use directly
+  content: "";
+  border-color: $colour-bg;
+  border-style: solid;
+  border-width: $size;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@mixin arrow-down($size, $colour-bg, $colour-fg) {
+  @include arrow-base($size, $colour-bg);
+  border-top-color: $colour-fg;
+  margin-top: 25%;
+}
+
+@mixin arrow-left($size, $colour-bg, $colour-fg) {
+  @include arrow-base($size, $colour-bg);
+  border-right-color: $colour-fg,;
+}
+
+@mixin arrow-right($size, $colour-bg, $colour-fg) {
+  @include arrow-base($size, $colour-bg);
+  border-left-color: $colour-fg;
+}
+
+@mixin arrow-up($size, $colour-bg, $colour-fg) {
+  @include arrow-base($size, $colour-bg);
+  border-bottom-color: $colour-fg;
+  margin-bottom: 25%;
 }

@@ -1,13 +1,12 @@
 %section.history
-  %h2 History and comments
-  %ul
-    - if @history.any?
-      - @history.each do |event|
-        %li.event
-          = render event
-    - else
-      %li.event
-        = t('admin.opportunity.history.unavailable')
+  .container
+    %h2 History and comments
 
-  = render 'comment_form'
+    - if @history.any?
+      - @history.each do |item|
+        = render item
+    - else
+      %p.version-unavailable= t('admin.opportunity.history.unavailable')
+
+    = render 'comment_form'
 

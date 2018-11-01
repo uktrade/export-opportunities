@@ -442,4 +442,37 @@ RSpec.describe OpportunityPresenter do
       expect(presenter.published_date).to eql('15 September 2015')
     end
   end
+
+  describe '#formatted_date' do
+    it 'returns correctly formatted published date as string' do
+      opportunity = create(:opportunity, :published, created_at: Date.new(2015, 9, 15))
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.formatted_date('created_at')).to eql('15 September 2015')
+    end
+
+    it 'returns empty string when no corresponding date property found' do
+      opportunity = create(:opportunity, :published, first_published_at: Date.new(2015, 9, 15))
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.formatted_date('foo')).to eql('')
+    end
+  end
+
+  describe '::contact_email' do
+    it 'returns the email of first contact' do
+      contact1 = create(:contact, email: 'foo1@bar.com')
+      contact2 = create(:contact, email: 'foo2@bar.com')
+      opportunity = create(:opportunity, contacts: [contact1, contact2])
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      expect(presenter.send(:contact_email)).to eq('foo1@bar.com')
+    end
+  end
+
+  # Helpers
+
+  def has_html?(str)
+    /\<\/\w+\>/.match(str)
+  end
 end
