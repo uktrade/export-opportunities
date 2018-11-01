@@ -1,0 +1,42 @@
+.history {
+  form {
+    background-color: $white;
+    padding: $spacing-3 0 0 0;
+    position: relative;
+    top: -1px;
+  }
+
+  .comment,
+  .version,
+  .version-unavailable {
+    border-bottom: 1px solid $stone-40;
+    overflow: hidden;
+    margin: 0;
+    padding: $spacing-4 0;
+  }
+
+  .created {
+    font-size: $font-size-body-s;
+  }
+
+  .metadata {
+    @include columns(3, right);
+    line-height: 1.2em;
+  }
+
+  .name {
+    display: block;
+    font-size: $font-size-body-s;
+    font-weight: bold;
+    line-height: 1.2em;
+  }
+
+  .separator {
+    display: inline-block;
+    padding: 10px;
+  }
+
+  .text {
+    @include columns(8);
+  }
+}

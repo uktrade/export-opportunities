@@ -1,10 +1,16 @@
-.intro
+- content_for :action_specific_head  do
+  = stylesheet_link_tag 'transformation_admin/pages/opportunity'
+  = javascript_include_tag 'transformation/dit.page.form'
+  = javascript_include_tag 'transformation_admin/dit.page.opportunity'
+
+
+%section.intro
   %h1= content['title_new']
   %p.mandatory= content['mandatory']
 
-.process
-  = render  partial: 'form', locals: { opportunity: @opportunity, content: content }
+= render  partial: 'form', locals: { opportunity: @opportunity, content: content }
  
-.container
-  %h2= content['help_title']
-  = link_to content['help_link'], '/admin/help/how-to-write-an-export-opportunity/overview'
+%section.help
+  .container
+    %h2= content['help_title']
+    = link_to content['help_link'], '/admin/help/how-to-write-an-export-opportunity/overview'

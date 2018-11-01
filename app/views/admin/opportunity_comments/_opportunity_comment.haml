@@ -1,4 +1,8 @@
-= opportunity_comment.message
-%small
-  - author_string = opportunity_comment.posted_by_author? ? "#{opportunity_comment.author_name} (Opportunity author)" : opportunity_comment.author_name
-  = 'Comment by ' + t('admin.opportunity.history.attribution', who: author_string, when: opportunity_comment.created_at.to_s(:admin_history))
+%p.comment
+  %span.text
+    = opportunity_comment.message
+  %span.metadata
+    %span.name= opportunity_comment.posted_by_author? ? "#{opportunity_comment.author_name} (Opportunity author)" : opportunity_comment.author_name
+    %span.created
+      on
+      =opportunity_comment.created_at.to_s(:admin_history)

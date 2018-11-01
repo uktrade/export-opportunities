@@ -1,4 +1,5 @@
 # coding: utf-8
+
 require 'rails_helper'
 
 RSpec.describe BasePresenter do
@@ -6,6 +7,26 @@ RSpec.describe BasePresenter do
     it 'creates an instance' do
       presenter = BasePresenter.new
       expect(presenter).to be_truthy
+    end
+  end
+
+  describe '#put' do
+    it 'returns value when present' do
+      presenter = BasePresenter.new
+
+      expect(presenter.put('some present text')).to eq('some present text')
+    end
+
+    it 'returns default when value not present' do
+      presenter = BasePresenter.new
+
+      expect(presenter.put('')).to eq('none')
+    end
+
+    it 'returns specified default when value not present' do
+      presenter = BasePresenter.new
+
+      expect(presenter.put('', 'something else')).to eq('something else')
     end
   end
 

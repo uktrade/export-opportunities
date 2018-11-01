@@ -1,22 +1,11 @@
-# New Opportunity Form
+# Admin Opportunities (new/edit/show)
 # -------------------------------------------------
 
-
-title_new: Create a new export opportunity
-title_edit: Edit export opportunity
-description: 
-mandatory: All fields are required unless marked as optional.
-submit_create: Save and continue
-submit_draft: Save as a draft
-submit: Submit opportunity
-search: Search
-help_title: Need help?
-help_link: Read advice on how to add a new export opportunity
 countries_unselected: No countries selected
 countries_selected_title: Selected countries
-sectors_unselected: No industries selected
-sectors_selected_title: Selected industries
+created_information: Created by [$author] on [$date]
 
+description: 
 
 group_1_title: Type of opportunity
 group_2_title: Opportunity details
@@ -24,10 +13,34 @@ group_2_description: Provide details for this opportunity
 group_3_title: Buyer details
 group_3_description: Select or add a new buyer. You'll be able to keep the buyer anonymous and reveal only to customers who are right for the opportunity.
 
+help_title: Need help?
+help_link: Read advice on how to add a new export opportunity
+
+mandatory: All fields are required unless marked as optional.
+message_expired: This opportunity has expired
+
+search: Search
+sectors_unselected: No industries selected
+sectors_selected_title: Selected industries
+submit_create: Save and continue
+submit_draft: Save as a draft
+submit: Submit opportunity
+
+title_new: Create a new export opportunity
+title_edit: Edit export opportunity
+title_status: Status
+
+
+#------- FORM FIELDS ----------
+
 fields:
   title:
     label: Enter the goods or services that the buyer is looking for
     description: This will appear as the title of your opportunity. For example, traffic cameras, safety equipment, biscuits.
+
+  slug:
+    label: Resolve duplicate slug (url) value
+    description: Cannot automatically generate a unique URL from the title. Please add a unique value here. 
 
   teaser:
     label: Summarise the export opportunity in a sentence
@@ -37,13 +50,13 @@ fields:
     label: Describe what the buyer is looking for
     description: Enter clear information for suppliers to easily understand what the buyer is looking for. For example, quantity, specifications, mass-market or premium.
 
+  values:
+    question: Order value
+
   countries:
     label: Country
     description: Select the relevant countries for this opportunity. Your default country has been preselected.
     placeholder: Search the relevant countries
-
-  values:
-    question: Order value
 
   sector_ids:
     label: Industry
@@ -69,10 +82,6 @@ fields:
       - label: agents
       - label: consultants
 
-  commodity_codes:
-    label: Commodity codes (optional)
-    description: Enter commodity code for the products you need to help suppliers to find your opportunity. For example, 0804201000.
-
   response_due_on:
     label: Deadline for proposals
     description: Opportunity will be automatically closed on this day.
@@ -84,14 +93,8 @@ fields:
     label: Enter an optional external opportunity link
     placeholder: Must start with http:// or https://
 
-  enquiry_interaction:
-    question: The next step for customers is
-    options:
-      - label: I will respond to customers
-      - label: I want customers to go to another website and contact the buyer directly
-
-  sign_off_line:
-    label: Sign off line
+  contacts:
+    label: Contacts
 
   contact_1_name:
     label: Contact 1 name
@@ -105,19 +108,6 @@ fields:
   contact_2_email:
     label: Contact 2 email
 
-  buyer_lookup:
-    label: Find an organisation record in the Export Opportunities database
-
-  buyer_display:
-    question: Choose how to display buyer details
-    options:
-      - label: Display buyer's details on the opportunity page
-      - label: Keep buyer's details hidden, and only display them to UK business when they are right for the opportunity
-
-  slug:
-    label: Resolve duplicate slug (url) value
-    description: Cannot automatically generate a unique URL from the title. Please add a unique value here. 
-
   ragg:
     question: Editor
     options:
@@ -129,3 +119,26 @@ fields:
         value: green
       - label: DSO
         value: blue
+
+  commodity_codes:
+    label: Commodity codes (optional)
+    description: Enter commodity code for the products you need to help suppliers to find your opportunity. For example, 0804201000.
+
+  enquiry_interaction:
+    question: The next step for customers is
+    options:
+      - label: I will respond to customers
+      - label: I want customers to go to another website and contact the buyer directly
+
+  sign_off_line:
+    label: Sign off line
+
+  buyer_lookup:
+    label: Find an organisation record in the Export Opportunities database
+
+  buyer_display:
+    question: Choose how to display buyer details
+    options:
+      - label: Display buyer's details on the opportunity page
+      - label: Keep buyer's details hidden, and only display them to UK business when they are right for the opportunity
+

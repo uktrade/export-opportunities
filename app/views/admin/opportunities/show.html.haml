@@ -1,238 +1,231 @@
 - enquiries_count = 0
-= link_to "Back", filtered_admin_opportunities_path, class: 'link-back'
+- page = PagePresenter.new(content)
+- opp = AdminOpportunityPresenter.new(self, @opportunity, content)
+- content_for :action_specific_head  do
+  = stylesheet_link_tag 'transformation_admin/pages/opportunity_show'
+  = javascript_include_tag 'transformation_admin/dit.page.opportunity_show'
 
-%h1.heading-xlarge
-  = @opportunity.title
-  - if @opportunity.expired?
-    .heading-secondary This opportunity has expired
 
-%p
-  - if policy(@opportunity).edit?
-    = link_to 'Edit opportunity', edit_admin_opportunity_path(@opportunity), class: 'button'
+%section.intro
+  .container
+    = link_to "Back", filtered_admin_opportunities_path, class: 'back'
 
-%table.horizontal.opportunities
-  %tr
-    %th{:scope => 'row'} Title
-    %td= @opportunity.title
-  %tr
-    %th{:scope => 'row'} Teaser
-    %td= @opportunity.teaser
+    %h1= opp.title_with_country
+    - if @opportunity.expired?
+      %p.expired= content['message_expired']
 
-  - if @opportunity.request_type
-    %tr
-      %th{:scope => 'row'} Buyer is looking for
-      %td= @opportunity.request_type
+    %p= page.content_with_inclusion 'created_information', [@opportunity.author.name, opp.formatted_date('created_at')]
+    .status
+      %p
+        = content['title_status']
+        %span.state= opportunity_status_link(@opportunity.status)
 
-  - if @opportunity.tender
-    %tr
-      %th{:scope => 'row'} Is a tender
-      %td= @opportunity.tender
+      = opp.edit_button
+      = opp.publishing_button
+      = opp.trash_button
+      = opp.draft_button
+      = opp.pending_button
 
-  %tr
-    %th{:scope => 'row'} Slug
-    %td= @opportunity.slug
-  %tr
-    %th{:scope => 'row'} Created at
-    %td= @opportunity.created_at.to_s(:admin_datetime)
-  %tr
-    %th{:scope => 'row'} Updated at
-    %td= @opportunity.updated_at.to_s(:admin_datetime)
-  %tr
-    %th{:scope => 'row'} First published at
-    %td= @opportunity.first_published_at&.to_s(:admin_datetime)
-  %tr
-    %th{:scope => 'row'} Status
-    %td
-      .inline
-        .inline-item
-          =opportunity_status_link(@opportunity.status)
-        - if @publishing_button_data.show
-          .inline-item
-            =button_to(@publishing_button_data.text, @publishing_button_data.path, method: :patch, params: @publishing_button_data.params, class: "button")
-        - if @show_trash_button
-          .inline-item
-            =button_to('Trash', admin_opportunity_status_path(@opportunity), method: :delete, class: "button button-danger")
-        - if @drafting_button_data.show
-          .inline-item
-            =button_to(@drafting_button_data.text, @drafting_button_data.path, method: :patch, params: @drafting_button_data.params, class: "button")
-        - if @pending_button_data.show
-          .inline-item
-            =button_to(@pending_button_data.text, @pending_button_data.path, method: :patch, params: @pending_button_data.params, class: "button")
-  %tr
-    %th{:scope => 'row'} Countries
-    %td= @opportunity.countries.map(&:name).join(', ')
-  %tr
-    %th{:scope => 'row'} Sectors
-    %td= @opportunity.sectors.map(&:name).join(', ')
-  %tr
-    %th{:scope => 'row'} Types
-    %td= @opportunity.types.map(&:name).join(', ')
 
-  - if @opportunity.supplier_preferences
-    %tr
-      %th{:scope => 'row'} Buyer is happy to talk to
-      %td= @opportunity.supplier_preferences.map(&:name).join(', ')
+%section.details
+  .container
+    %h2= content['group_2_title']
+    %dl
+      %dt= page.content('fields.title.label')
+      %dd= @opportunity.title
 
-  %tr
-    %th{:scope => 'row'} Values
-    %td= @opportunity.values.map(&:name).join(', ')
-  %tr
-    %th{:scope => 'row'} Expiry date
-    %td= @opportunity.response_due_on.to_s(:admin_date) if @opportunity.response_due_on
+      %dt= page.content('fields.slug.label')
+      %dd= @opportunity.slug
 
-  %tr
-    %th{:scope => 'row'} Description
-    %td= present_html_or_formatted_text(@opportunity.description).html_safe
+      %dt= page.content('fields.teaser.label')
+      %dd= @opportunity.teaser
 
-  - if @opportunity.target_url.present?
-    %tr
-      %th{:scope => 'row'} External opportunity link
-      %td= present_html_or_formatted_text(@opportunity.target_url).html_safe
+      %dt= page.content('fields.description.label')
+      %dd= present_html_or_formatted_text(@opportunity.description).html_safe
 
-  %tr
-    %th{:scope => 'row'} Contacts
-    %td= @opportunity.contacts.map { |contact| "#{contact.name} <#{contact.email}>" }.join(', ')
-  %tr
-    %th{:scope => 'row'} Service provider
-    %td= @opportunity.service_provider.try(:name)
+      %dt= page.content('fields.values.question')
+      %dd= opp.put(opp.value, '-')
 
-  -if @opportunity.tender_url.present?
-    %tr
-      %th{:scope => 'row'} Third-party (original) link
-      %td= link_to @opportunity.tender_url, @opportunity.tender_url.html_safe, target: "_blank"
+      %dt= page.content('fields.countries.label')
+      %dd= opp.put(@opportunity.countries.map(&:name).join(', '), '-')
 
-  %tr
-    %th{:scope => 'row'} RAGG
-    %td{:class => 'ragg-cell'}=@opportunity.ragg
-  %tr
-    %th{:scope => 'row'} Author
-    %td= @opportunity.author.name
+      %dt= page.content('fields.sector_ids.label')
+      %dd= opp.put(@opportunity.sectors.map(&:name).join(', '), '-')
 
-%br
+      %dt= page.content('fields.types.question')
+      %dd= opp.put(@opportunity.types.map(&:name).join(', '), '-')
+
+      - if @opportunity.supplier_preferences
+        %dt= page.content('fields.supplier_preferences.question')
+        %dd= opp.supplier_preferences
+
+      %dt= page.content('fields.response_due_on.label')
+      %dd= @opportunity.response_due_on.to_s(:admin_date) if @opportunity.response_due_on
+
+      %dt= page.content('fields.service_provider_id.label')
+      %dd= opp.put(@opportunity.service_provider.try(:name), '-')
+
+      - if @opportunity.target_url.present?
+        %dt= page.content('fields.target_url.label')
+        %dd= present_html_or_formatted_text(@opportunity.target_url).html_safe
+
+      %dt= page.content('fields.contacts.label')
+      %dd= @opportunity.contacts.map { |contact| "#{contact.name} <#{contact.email}>" }.join(', ')
+
+      %dt= page.content('fields.ragg.question')
+      %dd.ragg= opp.put(@opportunity.ragg, '-')
+
+      -if @opportunity.tender_url.present?
+        %dt Third-party (original) link
+        %dd= link_to @opportunity.tender_url, @opportunity.tender_url.html_safe, target: "_blank"
+
+      %dt Updated at
+      %dd= @opportunity.updated_at.to_s(:admin_datetime)
+
+      %dt First published at
+      %dd= @opportunity.first_published_at&.to_s(:admin_datetime)
+
+      -# TODO: Potential to remove this as may no longer be requird.
+      - if @opportunity.request_type
+        %dt Buyer is looking for
+        %dd= @opportunity.request_type
+
+      -# TODO: Potential to remove this as may no longer be requird.
+      - if @opportunity.tender
+        %dt Is a tender
+        %dd= @opportunity.tender
+
 = render 'history'
-%br
 
-%h2 Opportunity Checks
-- if @opportunity.opportunity_checks.size == 0
-  %p We haven't quality checked this opportunity yet.
-- else
-  - @opportunity.opportunity_checks.each do |check|
-    %h3
-      - if check.offset
-        =check.submitted_text[0..check.offset-2]
-        %span.error_term
-          =check.submitted_text[check.offset-1..check.offset+check.length]
-        =check.submitted_text[check.offset+check.length+1..check.submitted_text.length]
-      - else
-        =check.submitted_text
-      %table.horizontal
-        %tr
-          %th{:scope => 'row'} Score
-          %td= check.score
-        %tr
-          %th{:scope => 'row'} Offensive Term
-          %td= check.offensive_term
-        %tr
-          %th{:scope => 'row'} Suggested Term
-          %td= check.suggested_term
-        %tr
-          %th{:scope => 'row'} Error Id
-          %td= check.error_id
+%section.checks
+  .container
+    %h2 Automatic opportunity checks
+    - if @opportunity.opportunity_checks.size == 0
+      %p We haven't quality checked this opportunity yet.
 
-- if @opportunity.opportunity_sensitivity_checks.size == 0
-  %p We haven't sensitivity checked this opportunity yet.
-- else
-  - @opportunity.opportunity_sensitivity_checks.each do |check|
-    %h3
-      =check.submitted_text.truncate(160, omission: '...(continued)')
-      %table.horizontal
-        %tr
-          %th{:scope => 'row'} Review Recommended?
-          %td= check.review_recommended
-        %tr
-          %th{:scope => 'row'} sexually explicit or adult
-          %td= number_to_percentage(check.category1_score*100, precision: 2)
-        %tr
-          %th{:scope => 'row'} sexually suggestive or mature
-          %td= number_to_percentage(check.category2_score*100, precision: 2)
-        %tr
-          %th{:scope => 'row'} offensive
-          %td= number_to_percentage(check.category3_score*100, precision: 2)
-    - if check&.opportunity_sensitivity_term_checks.size > 0
-      %h3 BST (Business Sensitive Terms) Matched:
-      - check&.opportunity_sensitivity_term_checks.each do |term_check|
-        %table.horizontal
-          %tr
-            %th{:scope => 'row'} BST
-            %td= term_check.term
-          %tr
-            %th{:scope => 'row'} ListId
-            %td= "#{term_check.list_id} (#{term_check&.list_id == 0 ? 'Azure internal list' : 'DIT list'})"
+    - else
+      - @opportunity.opportunity_checks.each do |check|
+        - if check.offset
+          %p= check.submitted_text[0..check.offset-2]
+          %p.error= check.submitted_text[check.offset-1..check.offset+check.length]
+          %p= check.submitted_text[check.offset+check.length+1..check.submitted_text.length]
 
-%h2 Enquiries
-- if @opportunity.enquiries.size == 0
-  %p No enquiries have been made about this opportunity.
-- else
-  - if @show_enquiries
-    - @opportunity.enquiries.each do |enquiry|
-      %h3
-        =enquiry.company_name
-      %table.horizontal
-        %tr
-          %th{:scope => 'row'} First name
-          %td= enquiry.first_name
-        %tr
-          %th{:scope => 'row'} Last name
-          %td= enquiry.last_name
-        %tr
-          %th{:scope => 'row'} Email address
-          %td= enquiry.email
-        %tr
-          %th{:scope => 'row'} Company Address
-          %td= enquiry.company_address
-        %tr
-          %th{:scope => 'row'} Company Telephone
-          %td= enquiry.company_telephone
-        %tr
-          %th{:scope => 'row'} Companies House listing
-          - enquiries_count = enquiries_count + 1
-          - if enquiries_count <= @enquiries_cutoff
-            - @companies_house_url = companies_house_url(enquiry.company_house_number)
-            - if @companies_house_url then
-              %td=link_to enquiry.company_name, @companies_house_url, target: :blank, :rel => 'noopener noreferrer'
-            - else
-              %td='Not supplied'
-          - else
-            %td{class: 'rate_ch_exceeded'}=enquiry.company_house_number
-        %tr
-          %th{:scope => 'row'} Company Postcode
-          %td= enquiry.company_postcode
-        %tr
-          %th{:scope => 'row'} URL
-          %td= enquiry.company_url
-        %tr
-          %th{:scope => 'row'} Business Profile
-          - if enquiries_count <= @enquiries_cutoff
-            - @trade_profile_url = trade_profile(enquiry.company_house_number)
-            - if @trade_profile_url then
-              %td= link_to enquiry.company_name, @trade_profile_url, target: :blank
-            - else
-              %td='Not supplied'
-          - else
-            %td{class: 'rate_trade_profile_exceeded'}=link_to 'Please check individual enquiry here', admin_enquiry_url(enquiry.id)
-        %tr
-          %th{:scope => 'row'} Existing exporter?
-          %td= enquiry.existing_exporter
-        %tr
-          %th{:scope => 'row'} Company Sector
-          %td= enquiry.company_sector
-        %tr
-          %th{:scope => 'row'} Company Explanation
-          %td= enquiry.company_explanation
-        %tr
-          %th{:scope => 'row'} Data Protection
-          %td= enquiry.data_protection ? 'Yes' : 'No'
+        - else
+          %p= check.submitted_text
+
+        %dl.score
+          %dt Score
+          %dd= opp.put(check.score)
+
+          %dt Offensive Term
+          %dd= opp.put(check.offensive_term)
+
+          %dt Suggested Term
+          %dd= opp.put(check.suggested_term)
+
+          %dt Error Id
+          %dd= opp.put(check.error_id)
+
+    - if @opportunity.opportunity_sensitivity_checks.size == 0
+      %p We haven't sensitivity checked this opportunity yet.
+
+    - else
+      - @opportunity.opportunity_sensitivity_checks.each do |check|
+        %p= check.submitted_text.truncate(160, omission: '...(continued)')
+        %dl
+          %dt Review Recommended?
+          %dd= check.review_recommended
+
+          %dt sexually explicit or adult
+          %dd= number_to_percentage(check.category1_score*100, precision: 2)
+
+          %dt sexually suggestive or mature
+          %dd= number_to_percentage(check.category2_score*100, precision: 2)
+
+          %dt offensive
+          %dd= number_to_percentage(check.category3_score*100, precision: 2)
+
+        - if check&.opportunity_sensitivity_term_checks.size > 0
+          %p BST (Business Sensitive Terms) Matched:
+          - check&.opportunity_sensitivity_term_checks.each do |term_check|
+            %dl.bst
+              %dt BST
+              %dd= term_check.term
+
+              %dt ListId
+              %dd= "#{term_check.list_id} (#{term_check&.list_id == 0 ? 'Azure internal list' : 'DIT list'})"
 
 
+%section.enquiries
+  .container
+    %h2 Enquiries
+    - if @opportunity.enquiries.size == 0
+      %p No enquiries have been made about this opportunity.
 
-= link_to "Back", filtered_admin_opportunities_path, class: 'link-back'
+    - else
+      - if @show_enquiries
+        - @opportunity.enquiries.each do |enquiry|
+          .enquiry-company-details
+            %p= enquiry.company_name
+            %dl
+              %dt First name
+              %dd= enquiry.first_name
+
+              %dt Last name
+              %dd= enquiry.last_name
+
+              %dt Email address
+              %dd= enquiry.email
+
+              %dt Company Address
+              %dd= enquiry.company_address
+
+              %dt Company Telephone
+              %dd= enquiry.company_telephone
+
+              %dt Companies House listing
+              - enquiries_count = enquiries_count + 1
+              %dd
+                - if enquiries_count <= @enquiries_cutoff
+                  - @companies_house_url = companies_house_url(enquiry.company_house_number)
+                  - if @companies_house_url then
+                    =link_to enquiry.company_name, @companies_house_url, target: :blank, :rel => 'noopener noreferrer'
+                  - else
+                    ='Not supplied'
+                - else
+                  -# Rate CH exceeded
+                  =enquiry.company_house_number
+
+              %dt Company Postcode
+              %dd= enquiry.company_postcode
+              %tr
+                %th URL
+                %td= enquiry.company_url
+
+              %dt Business Profile
+              %dd
+                - if enquiries_count <= @enquiries_cutoff
+                  - @trade_profile_url = trade_profile(enquiry.company_house_number)
+                  - if @trade_profile_url then
+                    =link_to enquiry.company_name, @trade_profile_url, target: :blank
+                  - else
+                    ='Not supplied'
+                - else
+                  -# Rate Trade Profile Exceeded
+                  =link_to 'Please check individual enquiry here', admin_enquiry_url(enquiry.id)
+
+              %dt Existing exporter?
+              %dd= enquiry.existing_exporter
+
+              %dt Company Sector
+              %dd= enquiry.company_sector
+
+              %dt Company Explanation
+              %dd= enquiry.company_explanation
+
+              %dt Data Protection
+              %dd= enquiry.data_protection ? 'Yes' : 'No'
+
+
+.container
+  = link_to "Back", filtered_admin_opportunities_path, class: 'back'

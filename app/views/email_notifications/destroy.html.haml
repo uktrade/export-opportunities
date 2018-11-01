@@ -6,10 +6,10 @@
 .container
   = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
 
-  %h1.verbose= page.content["title"]
+  %h1.verbose= content["title"]
 
   .confirmation-notice
-    %p.notice= page.content["confirmation"]
+    %p.notice= content["confirmation"]
 
   = form_tag update_email_notification_path(params[:user_id]), class: 'reason-form', method: :post do
     %input{:type=>"hidden", :value=>"PATCH", :name=>"_method"}

@@ -1,0 +1,50 @@
+main {
+  max-width: none;
+
+  // JS enhancement of open/close areas
+  .Expander {
+    &.collapsed {
+      height: 0px;
+      overflow: hidden;
+    }
+  }
+
+  .ExpanderControl {
+    cursor: pointer;
+    outline: none;
+    padding-right: 40px;
+    position: relative;
+
+    &:after {
+      background-color: $grey-1;
+      color: inherit;
+      content: '';
+      display: block;
+      height: 4px;
+      overflow: hidden;
+      position: absolute;
+      right: 0;
+      top: 20px;
+      width: 20px;
+    }
+
+    &:before {
+      background-color: $grey-1;
+      color: inherit;
+      content: '';
+      display: block;
+      height: 20px;
+      overflow: hidden;
+      position: absolute;
+      right: 8px;
+      top: 12px;
+      width: 4px;
+    }
+
+    &.active {
+      &:before {
+        display: none;
+      }
+    }
+  }
+}
