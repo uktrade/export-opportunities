@@ -59,7 +59,8 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def create
-    opportunity_status = params[:commit] == 'Save to Draft' ? :draft : :pending
+    content = get_content('admin/opportunities.yml')
+    opportunity_status = params[:commit] == content['submit_draft'] ? :draft : :pending
 
     @opportunity = CreateOpportunity.new(current_editor, opportunity_status, :post).call(create_opportunity_params)
     authorize @opportunity
