@@ -52,7 +52,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     # click on third party
     find('#sources_1', visible: false).trigger('click')
     click_on('Update results')
-byebug
+
     expect(page).to_not have_content('Cow required')
     expect(page).to have_content('Pimms food drink in Mykonos')
     expect(page).to_not have_content('Italy')
