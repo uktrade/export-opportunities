@@ -4,7 +4,6 @@ class EnquiryFeedbackController < ApplicationController
   def new
     @content = get_content('enquiry_feedback.yml')
     @enquiry_feedback = EnquiryFeedback.find(enquiry_feedback_params[:id])
-
     @enquiry_feedback.update!(
       initial_response: enquiry_feedback_params[:response],
       responded_at: Time.zone.now
@@ -18,7 +17,6 @@ class EnquiryFeedbackController < ApplicationController
   def patch
     @content = get_content('enquiry_feedback.yml')
     @enquiry_feedback_form = EnquiryFeedback.find(params[:id])
-
     @enquiry_feedback_form.update!(
       message: params[:enquiry_feedback][:message]
     )

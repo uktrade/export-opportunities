@@ -25,9 +25,9 @@
 - checkbox = "background: url(#{image_url('icons/icon-checkbox.gif')}) top left no-repeat; padding-left:40px;"
 %p What happened after you applied for this opportunity?
 %ul
-  - (1...5).each do |i|
+  - %w[no_response did_not_win dont_know_outcome won].each do |response|
     %li
-      = link_to @content["feedback_#{i}"], enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: "feedback_#{i}" ))
+      = link_to @content[response], enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: response ))
 
 - content_for :email_sub_footer do
   %table{ border: "0", cellpadding: "30", cellspacing: "0", width: "600" }
