@@ -1,15 +1,13 @@
-%main
-  .enquiry_feedback_form
-    .container
-      .margin-top-30
-        %h1.h1 Thank you
-        %p
-          You selected:
-          %strong
-            = @response_text
-        %p
-          We'd love to know more about why you selected this category 
-          %span.optional
-            (optional)
-        %p
-          = render 'form', enquiry_feedback: @enquiry_feedback
+- page = PagePresenter.new(content)
+- page.add_breadcrumb_current(content['response_breadcrumb'])
+- content_for :action_specific_head  do
+  = stylesheet_link_tag 'transformation/pages/form'
+
+
+%section.enquiry_feedback_form
+  .container
+    = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
+
+    %h1= content['response_title']
+    %p= content['response_instruction']
+    = render partial: 'form', locals: { content: content, enquiry_feedback: @enquiry_feedback }
