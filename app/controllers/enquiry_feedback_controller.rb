@@ -12,7 +12,7 @@ class EnquiryFeedbackController < ApplicationController
 
     @response_text = content[response]
     render 'enquiry_feedback/new', layout: 'general', locals: {
-      content: content
+      content: content,
     }
   end
 
