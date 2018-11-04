@@ -1,76 +1,44 @@
-/ Preamble
-%div{:style => "text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;margin-top:3px;color:#5F5F5F;line-height:135%;background-color: #ececec; padding: 10px"} We value your feedback. Responding to this email will help us improve our service.
-%div{:style => "text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:18px;margin-bottom:0;margin-top:3px;color:#5F5F5F;line-height:135%; margin-top: 20px;"}On #{@enquiry_feedback.enquiry.created_at.strftime('%e %B %Y')} you applied for:
-%a{:href => "#{Figaro.env.DOMAIN}/opportunities/#{@enquiry_feedback.enquiry.opportunity.slug}", :style => "text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:18px;margin-bottom:0;margin-top:3px;color:#0a569d;line-height:135%;"} #{@enquiry_feedback.enquiry.opportunity.title}
-%div{:style => "text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:18px;margin-bottom:0;margin-top:3px;color:#5F5F5F;line-height:135%; margin-top: 15px; margin-bottom: 20px;"} What happened after you applied for this opportunity?
+%h1 We value your feedback.
+%br
 
-%table.flexibleContainer{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%"}
+%p Responding to this email will help us improve our service.
+
+%hr{ style: "background-color:#f2eee8;  border:none; height:1px; margin-bottom:30px;" }
+
+
+%p On #{@enquiry_feedback.enquiry.created_at.strftime('%e %B %Y')} you applied for:
+
+- opportunity = @enquiry_feedback.enquiry.opportunity
+- presenter = OpportunityPresenter.new(self, opportunity)
+%table.opportunity{ border: "0", cellpadding: "30", cellspacing: "0", bgcolor: "#f2eee8", width: "540", style: "table-layout: fixed;" }
   %tr
-    %td.flexibleContainerCell{:align => "center", :valign => "top", :width => "100%"}
-      %div{:style => "margin-bottom: 10px"}
-        /[if mso]
-          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :dont_know_outcome))}" style="height:60px;v-text-anchor:middle;width:300px;" arcsize="10%" strokecolor="#d3c6b3" fill="t">
-          <v:fill type="tile" src="" color="#dfd5c5" />
-          <w:anchorlock/>
-          <center style="color:#000000;font-family:sans-serif;font-size:16px;font-weight:bold;">I was contacted by the buyer but don't yet know the outcome</center>
-          </v:roundrect>
-        %a{:href => "#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :dont_know_outcome))}", :style => "background-color:#dfd5c5;background-image:url();border:1px solid #d3c6b3;border-radius:5px;color:#000000;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;line-height:60px;text-align:center;text-decoration:none;width:100%;-webkit-text-size-adjust:none;mso-hide:all;"} I was contacted by the buyer but don't yet know the outcome
+    %td
+      %b
+        = link_to presenter.title_with_country, opportunity_url(opportunity), { style: "white-space:inherit;" }
+      %br
+      %br
+      = opportunity.teaser
+%hr{ style: "background-color: #B00D23; height: 2px; margin: 0px; border: 2px solid #b00d23;" }
+%br
+%br
 
-      %div{:style => "margin-bottom: 10px"}
-        /[if mso]
-          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :did_not_win))}" style="height:60px;v-text-anchor:middle;width:300px;" arcsize="10%" strokecolor="#d3c6b3" fill="t">
-          <v:fill type="tile" src="" color="#dfd5c5" />
-          <w:anchorlock/>
-          <center style="color:#000000;font-family:sans-serif;font-size:16px;font-weight:bold;">I didn't win the business</center>
-          </v:roundrect>
-        %a{:href => "#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :did_not_win))}", :style => "background-color:#dfd5c5;background-image:url();border:1px solid #d3c6b3;border-radius:5px;color:#000000;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;line-height:60px;text-align:center;text-decoration:none;width:100%;-webkit-text-size-adjust:none;mso-hide:all;"} I didn't win the business
+- checkbox = "background: url(#{image_url('icons/icon-checkbox.gif')}) top left no-repeat; padding-left:40px;"
+%p What happened after you applied for this opportunity?
+%ul
+  - (1...5).each do |i|
+    %li
+      = link_to @content["feedback_#{i}"], enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: "feedback_#{i}" ))
 
-      %div{:style => "margin-bottom: 10px"}
-        /[if mso]
-          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :won))}" style="height:60px;v-text-anchor:middle;width:300px;" arcsize="10%" strokecolor="#d3c6b3" fill="t">
-          <v:fill type="tile" src="" color="#dfd5c5" />
-          <w:anchorlock/>
-          <center style="color:#000000;font-family:sans-serif;font-size:16px;font-weight:bold;">I won the business</center>
-          </v:roundrect>
-        %a{:href => "#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :won))}", :style => "background-color:#dfd5c5;background-image:url();border:1px solid #d3c6b3;border-radius:5px;color:#000000;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;line-height:60px;text-align:center;text-decoration:none;width:100%;-webkit-text-size-adjust:none;mso-hide:all;"} I won the business
-
-      %div{:style => "margin-bottom: 10px"}
-        /[if mso]
-          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :no_response))}" style="height:60px;v-text-anchor:middle;width:300px;" arcsize="10%" strokecolor="#d3c6b3" fill="t">
-          <v:fill type="tile" src="" color="#dfd5c5" />
-          <w:anchorlock/>
-          <center style="color:#000000;font-family:sans-serif;font-size:16px;font-weight:bold;">I wasn't contacted by the buyer</center>
-          </v:roundrect>
-        %a{:href => "#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :no_response))}", :style => "background-color:#dfd5c5;background-image:url();border:1px solid #d3c6b3;border-radius:5px;color:#000000;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;line-height:60px;text-align:center;text-decoration:none;width:100%;-webkit-text-size-adjust:none;mso-hide:all;"} I wasn't contacted by the buyer
-
-
-      %div{:style => "margin-bottom: 10px"}
-        /[if mso]
-          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :dontknow_want_to_say))}" style="height:60px;v-text-anchor:middle;width:300px;" arcsize="10%" strokecolor="#d3c6b3" fill="t">
-          <v:fill type="tile" src="" color="#dfd5c5" />
-          <w:anchorlock/>
-          <center style="color:#000000;font-family:sans-serif;font-size:16px;font-weight:bold;">I don't know or I don't want to say</center>
-          </v:roundrect>
-        %a{:href => "#{enquiry_feedback_url(q: EncryptedParams.encrypt(id: @enquiry_feedback.id, response: :dontknow_want_to_say))}", :style => "background-color:#dfd5c5;background-image:url();border:1px solid #d3c6b3;border-radius:5px;color:#000000;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;line-height:60px;text-align:center;text-decoration:none;width:100%;-webkit-text-size-adjust:none;mso-hide:all;"} I don't know or I don't want to say
-        
-/ Sign off
-%table.flexibleContainer{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "margin-top:30px", :width => "500"}
-  %tr
-    %td.flexibleContainerCell{:align => "left", :valign => "top", :width => "50%"}
-      %div{:style => "font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#333333;line-height:120%;"}
-        The Export Opportunities team
-        %a{:href => "#{Figaro.env.GREAT_GOV_URL}" }https://great.gov.uk/export
-
-    %td.flexibleContainerCell{:align => "right", :valign => "top", :width => "50%"}
-      = image_tag('dept_logo_mini-2x.gif', style: "width: 130px; height: 59px; width: px;")
-
-- content_for :message_reason do
-  %p
-    You are receiving this email because you applied for an export opportunity on the opportunities.export.great.gov.uk website.
-- content_for :footer_links do
-  %div{:style => "margin-bottom: 6px;"}
-    = link_to('Unsubscribe', feedback_opt_out_url(q: EncryptedParams.encrypt(user_id: @enquiry_feedback.enquiry.user.id)))
-    from future ‘Give feedback on’ emails
-  %div{:style => "margin-bottom: 6px;"}
-    View
-    = link_to('privacy statement', "#{Figaro.env.PRIVACY_AND_COOKIES_URL}")
+- content_for :email_sub_footer do
+  %table{ border: "0", cellpadding: "30", cellspacing: "0", width: "600" }
+    %tr
+      %td
+        %center
+          %p
+            You are receiving this email because you applied for an opportunity on the 
+            = link_to 'Export Opportunities ', Figaro.env.EXPORT_OPPORTUNITIES_URL.to_s
+            website.
+          %p
+            = link_to('Unsubscribe from feedback requests', feedback_opt_out_url(q: EncryptedParams.encrypt(user_id: @enquiry_feedback.enquiry.user.id)))
+            %br
+            = link_to "View privacy statement", Figaro.env.PRIVACY_AND_COOKIES_URL.to_s

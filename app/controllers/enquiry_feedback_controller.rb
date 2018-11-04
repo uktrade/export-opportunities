@@ -2,6 +2,7 @@ class EnquiryFeedbackController < ApplicationController
   rescue_from EncryptedParams::CouldNotDecrypt, with: :not_found
 
   def new
+    @content = get_content('enquiry_feedback.yml')
     @enquiry_feedback = EnquiryFeedback.find(enquiry_feedback_params[:id])
 
     @enquiry_feedback.update!(
@@ -15,6 +16,7 @@ class EnquiryFeedbackController < ApplicationController
 
   # impact email feedback form submit
   def patch
+    @content = get_content('enquiry_feedback.yml')
     @enquiry_feedback_form = EnquiryFeedback.find(params[:id])
 
     @enquiry_feedback_form.update!(
