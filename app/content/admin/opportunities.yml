@@ -89,6 +89,10 @@ fields:
   service_provider_id:
     label: Service provider
 
+  sign_off:
+    label: Sign off line
+    description: (For saved service provider)
+
   target_url:
     label: Enter an optional external opportunity link
     placeholder: Must start with http:// or https://
@@ -130,9 +134,6 @@ fields:
       - label: I will respond to customers
       - label: I want customers to go to another website and contact the buyer directly
 
-  sign_off_line:
-    label: Sign off line
-
   buyer_lookup:
     label: Find an organisation record in the Export Opportunities database
 
@@ -141,4 +142,5 @@ fields:
     options:
       - label: Display buyer's details on the opportunity page
       - label: Keep buyer's details hidden, and only display them to UK business when they are right for the opportunity
+
 
