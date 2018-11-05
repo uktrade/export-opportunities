@@ -2,6 +2,8 @@ require 'rails_helper'
 require 'capybara/email/rspec'
 
 RSpec.feature 'User can give feedback to the impact email' do
+  let(:content) { get_content('admin/opportunities') }
+
   scenario 'receives an email' do
     opp = create(:opportunity, title: 'France - Cow required')
     user = create(:user, email: 'test@example.com')
@@ -18,12 +20,10 @@ RSpec.feature 'User can give feedback to the impact email' do
 
   scenario 'clicking each of the feedback links' do
     options = [
-      'I was contacted by the buyer but don\'t yet know the outcome',
-      'I won the business',
-      'I didn\'t win the business',
-      'I was contacted by the buyer but don\'t yet know the outcome',
-      'I wasn\'t contacted by the buyer',
-      'I don\'t know or I don\'t want to say',
+      content['won'],
+      content['did_not_win'],
+      content['dont_know_outcome'],
+      content['no_response'],
     ]
 
     opp = create(:opportunity)
@@ -37,7 +37,8 @@ RSpec.feature 'User can give feedback to the impact email' do
       open_email('test@example.com')
       current_email.click_on option
 
-      expect(page).to have_content('Thank you You selected:')
+      expect(page).to have_content content['response_title']
+      expect(page).to have_content content['response_instruction']
 
       clear_emails
     end
