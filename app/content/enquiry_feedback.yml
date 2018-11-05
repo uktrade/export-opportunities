@@ -1,0 +1,19 @@
+# EnquiryFeedbackController
+# actions:
+#   new
+#   patch
+# ------------------------------------
+
+won: I've agreed a sale with the buyer
+did_not_win: I've heard from the buyer but we've agreed not to proceed
+dont_know_outcome: I've heard from the buyer and we're in discussion
+dontknow_want_to_say: 
+no_response: I haven't heard from the buyer
+
+response_title: Thank you
+response_breadcrumb: Enqury Feedback
+response_submit: Submit
+
+fields:
+  message:
+    label: Please provide any additional information or feedback below (optional)
