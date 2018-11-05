@@ -130,12 +130,13 @@ class Admin::OpportunitiesController < Admin::BaseController
     @tender_bool = %w[true false]
     @request_usages = Opportunity.request_usages.keys
     @supplier_preferences = SupplierPreference.all
-    @countries = promote_elements_to_front_of_array(Country.all.order(:name), opportunity.countries.sort_by(&:name))
-    @sectors = promote_elements_to_front_of_array(Sector.all.order(:name), opportunity.sectors.sort_by(&:name))
-    @types = Type.all.order(:name)
-    @values = Value.all.order(:slug)
     @service_providers = ServiceProvider.all.order(:name)
     @selected_service_provider = opportunity.service_provider || current_editor.service_provider
+    @countries = Country.all.order(:name)
+    @default_country = @selected_service_provider.country&.id if opportunity.countries.empty?
+    @sectors = Sector.all.order(:name)
+    @types = Type.all.order(:name)
+    @values = Value.all.order(:slug)
     @enquiry_interactions = Opportunity.enquiry_interactions.keys
     @ragg = opportunity.ragg
   end
