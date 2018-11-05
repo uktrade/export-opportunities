@@ -183,7 +183,7 @@ class Opportunity < ApplicationRecord
                 },
             ],
         },
-    },
+    }
 
     volume_opps_query = {
         "bool": {
@@ -212,9 +212,9 @@ class Opportunity < ApplicationRecord
                 },
             ],
         },
-    },
+    }
 
-    search_query = if sources == 'post'
+    search_query = if sources&.include? 'post'
                      {
                        "bool": {
                          "should": [
@@ -222,7 +222,7 @@ class Opportunity < ApplicationRecord
                          ],
                        },
                      }
-                   elsif sources == 'volume_opps'
+                   elsif sources&.include? 'volume_opps'
                      {
                        "bool": {
                          "should": [
@@ -234,12 +234,11 @@ class Opportunity < ApplicationRecord
                      {
                        "bool": {
                          "should": [
-                           post_opps_query, volume_opps_query
+                           volume_opps_query, post_opps_query
                          ],
                        },
                      }
                    end
-byebug
 
     search_sort = [{ "response_due_on": { "order": 'asc' } }]
 
