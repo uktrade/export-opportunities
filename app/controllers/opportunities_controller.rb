@@ -44,14 +44,14 @@ class OpportunitiesController < ApplicationController
     @filters = SearchFilter.new(params)
 
     @search_term = params['s']
-    # @recent_opportunity_search = params['s'].blank? && params[:sectors].blank? && (params[:countries].blank? || params[:countries].all?(&:blank?)) && (params[:regions].blank? || params[:regions].all?(&:blank?))
     @sort_column_name = sort_column
     @search_results = if params[:sectors]
                         sector = params[:sectors].first
                         sector_search_term = sector.tr('-', ' ')
                         sector_obj = Sector.where(slug: sector).first
+                        sources = params[:sources]
+                        opportunity_featured_industries_search(sector_obj.slug, sector_search_term, sources)
 
-                        opportunity_featured_industries_search(sector_obj.slug, sector_search_term)
                       else
                         opportunity_search
                       end
@@ -188,10 +188,10 @@ class OpportunitiesController < ApplicationController
     }
   end
 
-  private def opportunity_featured_industries_search(sector, search_term)
+  private def opportunity_featured_industries_search(sector, search_term, sources)
     country_list = []
     per_page = Opportunity.default_per_page
-    query = Opportunity.public_featured_industries_search(sector, search_term)
+    query = Opportunity.public_featured_industries_search(sector, search_term, sources)
 
     if atom_request?
       query = query.records
