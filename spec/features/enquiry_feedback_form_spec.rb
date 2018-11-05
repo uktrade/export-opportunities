@@ -14,7 +14,6 @@ feature 'users can submit feedback after impact email has been sent to them' do
     expect(page).to have_content content['response_breadcrumb']
     fill_in 'enquiry_feedback[message]', with: feedback_message
     click_on content['response_submit']
-    byebug
     feedback.reload
 
     expect(feedback).to be_won
