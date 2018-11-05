@@ -157,68 +157,88 @@ class Opportunity < ApplicationRecord
     ElasticSearchFinder.new.call(query[:search_query], query[:search_sort], limit)
   end
 
-  def self.public_featured_industries_search(sector, search_term)
-    search_query =
-      {
+  def self.public_featured_industries_search(sector, search_term, sources)
+    post_opps_query = {
         "bool": {
-          "should": [
-            {
-              "bool": {
-                "must": [
-                  {
+            "must": [
+                {
                     "match": {
-                      "source": 'post',
+                        "source": 'post',
                     },
-                  },
-                  {
+                },
+                {
                     "match": {
-                      "sectors.slug": sector,
+                        "sectors.slug": sector,
                     },
-                  },
-                  {
+                },
+                {
                     "match": {
-                      "status": 'publish',
+                        "status": 'publish',
                     },
-                  },
-                  "range": {
+                },
+                "range": {
                     "response_due_on": {
-                      "gte": 'now/d',
+                        "gte": 'now/d',
                     },
-                  },
-                ],
-              },
-            },
-            {
-              "bool": {
-                "must": [
-                  {
-                    "match": {
-                      "source": 'volume_opps',
-                    },
-                  },
-                  {
-                    "multi_match": {
-                      "query": search_term,
-                      "fields": %w[title^5 teaser^2 description],
-                      "operator": 'or',
-                    },
-                  },
-                  {
-                    "match": {
-                      "status": 'publish',
-                    },
-                  },
-                  "range": {
-                    "response_due_on": {
-                      "gte": 'now/d',
-                    },
-                  },
-                ],
-              },
-            },
-          ],
+                },
+            ],
         },
-      }
+    }
+
+    volume_opps_query = {
+        "bool": {
+            "must": [
+                {
+                    "match": {
+                        "source": 'volume_opps',
+                    },
+                },
+                {
+                    "multi_match": {
+                        "query": search_term,
+                        "fields": %w[title^5 teaser^2 description],
+                        "operator": 'or',
+                    },
+                },
+                {
+                    "match": {
+                        "status": 'publish',
+                    },
+                },
+                "range": {
+                    "response_due_on": {
+                        "gte": 'now/d',
+                    },
+                },
+            ],
+        },
+    }
+
+    search_query = if sources&.include? 'post'
+                     {
+                       "bool": {
+                         "should": [
+                           post_opps_query
+                         ],
+                       },
+                     }
+                   elsif sources&.include? 'volume_opps'
+                     {
+                       "bool": {
+                         "should": [
+                           volume_opps_query
+                         ],
+                       },
+                     }
+                   else
+                     {
+                       "bool": {
+                         "should": [
+                           volume_opps_query, post_opps_query
+                         ],
+                       },
+                     }
+                   end
 
     search_sort = [{ "response_due_on": { "order": 'asc' } }]
 
