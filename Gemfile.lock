@@ -523,7 +523,7 @@ DEPENDENCIES
   elasticsearch-extensions
   elasticsearch-model (= 5.1.0)
   elasticsearch-rails (= 5.1.0)
-  export_components (~> 0.9)!
+  export_components (~> 0.9.0)!
   factory_bot_rails
   faker
   faraday (= 0.12.2)
