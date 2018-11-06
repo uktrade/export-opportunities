@@ -128,6 +128,8 @@
 
 
     .bid
+      = opportunity.sign_off_content @service_provider
+
       - if opportunity.expired?
         %p.expired
           %strong
