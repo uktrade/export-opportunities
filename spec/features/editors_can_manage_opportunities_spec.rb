@@ -71,8 +71,8 @@ feature 'Administering opportunities' do
       Sector.delete_all
       SupplierPreference.delete_all
       ServiceProvider.delete_all
-      type = create(:type, name: 'Public Sector')
-      value = create(:value, name: 'More than £100k')
+      type = create(:type, name: 'Public Sector', id: 9)
+      value = create(:value, name: 'More than £100k', id: 9)
       country = create(:country, name: 'America')
       sector = create(:sector, name: 'Aerospace')
       supplier_preference = create(:supplier_preference)
@@ -91,8 +91,8 @@ feature 'Administering opportunities' do
       select '06', from: 'opportunity_response_due_on_2i'
       select '04', from: 'opportunity_response_due_on_3i'
 
-      find_by_id('opportunity_value_ids_1', visible: false).trigger('click')
-      find_by_id('opportunity_type_ids_1', visible: false).trigger('click')
+      find_by_id('opportunity_value_ids_9', visible: false).trigger('click')
+      find_by_id('opportunity_type_ids_9', visible: false).trigger('click')
     end
 
     scenario 'create an opportunity without valid contact details' do
