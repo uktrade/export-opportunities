@@ -172,28 +172,28 @@ class OpportunityPresenter < BasePresenter
     name = service_provider[:name]
     country = service_provider.country
     lines = []
-    if partner.present?
+    if source('volume_opps')
+      lines.push('Bid for tender')
+      lines.push('If your company meets the requirements of the tender, go to the website where the tender is hosted and submit your bid.')
+    elsif partner.present?
       lines.push("Express your interest to the #{partner} in #{country.name}.")
       lines.push("The #{partner} is our chosen partner to deliver trade services in #{country.name}.")
     else
-      line = if name == 'DFID'
-               'For more information and to make a bid you will need to go to the third party website.'
-             elsif name == 'DIT HQ' # source will always be post
-               'Express your interest to the Department for International Trade.'
-             elsif ['DIT Education', 'DSO HQ', 'DSO RD West 2 / NATO',
-                    'Occupied Palestinian Territories Jerusalem', 'UKEF', 'UKREP',
-                    'United Kingdom LONDON', 'USA AFB', 'USA OBN OCO', 'USA OBN Sannam S4'].include?(name)
-               'Express your interest to the Department for International Trade.'
-             elsif name.include?('OBNI') && country.region.name.include?('Africa')
-               'Express your interest to the Department for International Trade team in Africa.'
-             elsif name.include?('United States') && country.region.name.include?('America')
-               'Express your interest to the Department for International Trade team in USA.'
-             elsif name.include?('Canada') && country.region.name.include?('America')
-               'Express your interest to the Department for International Trade team in Canada.'
-             else
-               ''
-             end
-      lines.push(line)
+      if name == 'DFID'
+        lines.push('For more information and to make a bid you will need to go to the third party website.')
+      elsif name == 'DIT HQ' # source will always be post
+        lines.push('Express your interest to the Department for International Trade.')
+      elsif ['DIT Education', 'DSO HQ', 'DSO RD West 2 / NATO',
+             'Occupied Palestinian Territories Jerusalem', 'UKEF', 'UKREP',
+             'United Kingdom LONDON', 'USA AFB', 'USA OBN OCO', 'USA OBN Sannam S4'].include?(name)
+        lines.push('Express your interest to the Department for International Trade.')
+      elsif name.include?('OBNI') && country.region.name.include?('Africa')
+        lines.push('Express your interest to the Department for International Trade team in Africa.')
+      elsif name.include?('United States') && country.region.name.include?('America')
+        lines.push('Express your interest to the Department for International Trade team in USA.')
+      elsif name.include?('Canada') && country.region.name.include?('America')
+        lines.push('Express your interest to the Department for International Trade team in Canada.')
+      end
     end
     lines
   end

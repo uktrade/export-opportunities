@@ -91,7 +91,6 @@ fields:
 
   sign_off:
     label: Sign off line
-    description: (For saved service provider)
 
   target_url:
     label: Enter an optional external opportunity link
