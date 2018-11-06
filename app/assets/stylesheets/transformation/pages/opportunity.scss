@@ -67,7 +67,6 @@ h1 {
 
 .disclaimer {
   margin-bottom: $spacing-2;
-  padding-top: $spacing-3;
 
   p {
     @include body-s;
@@ -127,6 +126,13 @@ h1 {
   left: 0;
   position: absolute;
   top: 0;
+}
+
+.sign-off {
+  &-0 {
+    @include heading-m;
+    margin-bottom: $spacing-3;
+  }
 }
 
 .summary {

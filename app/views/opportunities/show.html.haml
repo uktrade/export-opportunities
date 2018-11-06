@@ -128,8 +128,6 @@
 
 
     .bid
-      = opportunity.sign_off_content @service_provider
-
       - if opportunity.expired?
         %p.expired
           %strong
@@ -137,8 +135,10 @@
           Visit the #{link_to 'opportunities page', opportunities_path} to find another.
 
       - else
+        - opportunity.sign_off_content(@service_provider).each_with_index do |line, index|
+          = content_tag("p", line, class: "sign-off-#{index}")
+
         - if opportunity.source('volume_opps')
-          %h2 Bid for tender
           %p If your company meets the requirements of the tender, go to the website where the tender is hosted and submit your bid.
 
           .disclaimer
