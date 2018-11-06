@@ -121,7 +121,7 @@ feature 'Administering opportunities' do
     click_on form['submit_draft']
 
     expect(page.status_code).to eq 200
-    expect(page).to have_text('Created opportunity "A chance to begin again in a golden land of opportunity and adventure"')
+    expect(page).to have_text('Saved to draft: "A chance to begin again in a golden land of opportunity and adventure"')
   end
 
   scenario 'Editing an opportunity' do
