@@ -60,15 +60,19 @@ class Admin::OpportunitiesController < Admin::BaseController
 
   def create
     content = get_content('admin/opportunities.yml')
-    opportunity_status = params[:commit] == content['submit_draft'] ? :draft : :pending
+    status = if params[:commit] == content['submit_draft']
+               :draft
+             else
+               :pending
+             end
 
-    @opportunity = CreateOpportunity.new(current_editor, opportunity_status, :post).call(create_opportunity_params)
+    @opportunity = CreateOpportunity.new(current_editor, status, :post).call(create_opportunity_params)
     authorize @opportunity
 
     if @opportunity.errors.empty?
-      if opportunity_status == :pending
+      if status == :pending
         redirect_to admin_opportunities_path, notice: %(Created opportunity "#{@opportunity.title}")
-      elsif opportunity_status == :draft
+      elsif status == :draft
         redirect_to admin_opportunities_path, notice: %(Saved to draft: "#{@opportunity.title}")
       end
     else
