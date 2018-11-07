@@ -459,6 +459,112 @@ RSpec.describe OpportunityPresenter do
     end
   end
 
+  describe '#sign_off_content' do
+    it 'returns sign off content for open opps' do
+      provider = create(:service_provider)
+      opportunity = create(:opportunity, source: 'volume_opps')
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+      lines = presenter.sign_off_content(provider)
+
+      expect(lines.length).to eq(2)
+      expect(lines[0]).to eq('Bid for tender')
+      expect(lines[1]).to eq('If your company meets the requirements of the tender, go to the website where the tender is hosted and submit your bid.')
+    end
+
+    it 'returns sign off content for present partner' do
+      country = create(:country, name: 'Spain')
+      partner = 'Spanish DIT'
+      provider = create(:service_provider, country: country, partner: partner)
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+      lines = presenter.sign_off_content(provider)
+
+      expect(lines.length).to eq(2)
+      expect(lines[0]).to eq("Express your interest to the #{partner} in #{country.name}.")
+      expect(lines[1]).to eq("The #{partner} is our chosen partner to deliver trade services in #{country.name}.")
+    end
+
+    it 'returns sign off content for DFID' do
+      provider = create(:service_provider, name: 'DFID')
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+      lines = presenter.sign_off_content(provider)
+
+      expect(lines.length).to eq(1)
+      expect(lines[0]).to eq('For more information and to make a bid you will need to go to the third party website.')
+    end
+
+    it 'returns sign off content for DIT HQ' do
+      provider = create(:service_provider, name: 'DIT HQ')
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+      lines = presenter.sign_off_content(provider)
+
+      expect(lines.length).to eq(1)
+      expect(lines[0]).to eq('Express your interest to the Department for International Trade.')
+    end
+
+    it 'returns sign off content for name in list' do
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+
+      ['DIT Education', 'DSO HQ', 'DSO RD West 2 / NATO',
+             'Occupied Palestinian Territories Jerusalem', 'UKEF', 'UKREP',
+             'United Kingdom LONDON', 'USA AFB', 'USA OBN OCO', 'USA OBN Sannam S4'].each do |name|
+        provider = create(:service_provider, name: name)
+        lines = presenter.sign_off_content(provider)
+
+        expect(lines.length).to eq(1)
+        expect(lines[0]).to eq('Express your interest to the Department for International Trade.')
+      end
+    end
+
+    it 'returns sign off content for OBNI and in Africa' do
+      region = create(:region, name: 'Africa')
+      country = create(:country, name: 'Zambia', region: region)
+      provider = create(:service_provider, name: 'OBNI', country: country)
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+      lines = presenter.sign_off_content(provider)
+
+      expect(lines.length).to eq(1)
+      expect(lines[0]).to eq('Express your interest to the Department for International Trade team in Africa.')
+    end
+
+    it 'returns sign off content for United States and in North America region' do
+      region = create(:region, name: 'Canada and North America')
+      country = create(:country, name: 'USA', region: region)
+      provider = create(:service_provider, name: 'DIT for the United States', country: country)
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+      lines = presenter.sign_off_content(provider)
+
+      expect(lines.length).to eq(1)
+      expect(lines[0]).to eq('Express your interest to the Department for International Trade team in USA.')
+    end
+
+    it 'returns sign off content for Canada and in North America region' do
+      region = create(:region, name: 'Canada and North America')
+      country = create(:country, name: 'Canada', region: region)
+      provider = create(:service_provider, name: 'DIT for the Canada', country: country)
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+      lines = presenter.sign_off_content(provider)
+
+      expect(lines.length).to eq(1)
+      expect(lines[0]).to eq('Express your interest to the Department for International Trade team in Canada.')
+    end
+
+    it 'returns empty sign off content for unmatched service provider' do
+      provider = create(:service_provider, name: 'Who is this provider')
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+      lines = presenter.sign_off_content(provider)
+
+      expect(lines.length).to eq(0)
+    end
+  end
+
   describe '::contact_email' do
     it 'returns the email of first contact' do
       contact1 = create(:contact, email: 'foo1@bar.com')
