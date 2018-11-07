@@ -1,5 +1,5 @@
 - form = FormPresenter.new(content, {})
-- opportunity = AdminOpportunityPresenter.new(self, @opportunity, content)
+- opp = AdminOpportunityPresenter.new(self, @opportunity, content)
 
 %section.process
   .container
@@ -8,7 +8,7 @@
     - if @opportunity.errors.any?
       .errors
         %p#errors-list-label
-          = pluralize(opportunity.errors.count, 'error')
+          = pluralize(@opportunity.errors.count, 'error')
           prevented this opportunity from being saved:
         %ul{'aria-labelledby': 'errors-list-label'}
           - @opportunity.errors.full_messages.each do |message|
@@ -39,7 +39,7 @@
 
       = render partial: 'forms/input_label', locals: { label: form.input_label('sign_off') }
       %fieldset.field.field-sign-off
-        - opportunity.sign_off_content(@service_provider).each_with_index do |line, index|
+        - opp.sign_off_content(@service_provider).each_with_index do |line, index|
           = content_tag("p", line)
 
       = f.input_text :target_url, form.input_text('target_url'), data: { node: 'target-url' }
