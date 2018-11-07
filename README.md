@@ -10,7 +10,6 @@ databases may continue to be called ukti.
 
 We aim to follow [GDS service standards](https://www.gov.uk/service-manual/service-standard) and [GDS design principles](https://www.gov.uk/design-principles).
 
-
 ## Installation
 
 * Copy the application configuration

@@ -29,7 +29,7 @@
         - attrs = { default: @opportunity.value_ids[0] }
       = f.input_radio :value_ids, form.input_radio('values', @values), attrs
 
-      = f.input_select :country_ids, form.input_select('countries', @countries), { default: @selected_service_provider.country&.id, multiple: true, size: '5', data: { node: 'countries', unselected: content['countries_unselected'], display: content['countries_selected_title'] } }
+      = f.input_select :country_ids, form.input_select('countries', @countries), { default: @default_country, multiple: true, size: '5', data: { node: 'countries', unselected: content['countries_unselected'], display: content['countries_selected_title'] } }
       = f.input_select :sector_ids, form.input_select('sector_ids', @sectors), { multiple: true, size: '5', data: { node: 'sectors', unselected: content['sectors_unselected'], display: content['sectors_selected_title'] } }
       = f.input_checkbox_group :type_ids, form.input_checkbox_group('types', @types)
       = f.input_checkbox_group :supplier_preference_ids, form.input_checkbox_group('supplier_preferences', @supplier_preferences)
@@ -46,8 +46,8 @@
         = f.input_radio :ragg, form.input_radio('ragg', @ragg)
 
       .controls
-        %input{:type=>'submit', :value=>form.content['submit_create'], :class=>'button'}
+        %input{ type: 'submit', name: 'commit', value: form.content['submit_create'], class: 'button' }
 
         - if current_page?(action: 'new')
           %span or
-          %input{:type=>'submit', :value=>form.content['submit_draft'], :class=>'button draft'}
+          %input{ type: 'submit', name: 'commit', value: form.content['submit_draft'], class: 'button draft' }

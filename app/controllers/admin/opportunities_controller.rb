@@ -59,15 +59,20 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def create
-    opportunity_status = params[:commit] == 'Save to Draft' ? :draft : :pending
+    content = get_content('admin/opportunities.yml')
+    status = if params[:commit] == content['submit_draft']
+               :draft
+             else
+               :pending
+             end
 
-    @opportunity = CreateOpportunity.new(current_editor, opportunity_status, :post).call(create_opportunity_params)
+    @opportunity = CreateOpportunity.new(current_editor, status, :post).call(create_opportunity_params)
     authorize @opportunity
 
     if @opportunity.errors.empty?
-      if opportunity_status == :pending
+      if status == :pending
         redirect_to admin_opportunities_path, notice: %(Created opportunity "#{@opportunity.title}")
-      elsif opportunity_status == :draft
+      elsif status == :draft
         redirect_to admin_opportunities_path, notice: %(Saved to draft: "#{@opportunity.title}")
       end
     else
@@ -129,12 +134,13 @@ class Admin::OpportunitiesController < Admin::BaseController
     @tender_bool = %w[true false]
     @request_usages = Opportunity.request_usages.keys
     @supplier_preferences = SupplierPreference.all
-    @countries = promote_elements_to_front_of_array(Country.all.order(:name), opportunity.countries.sort_by(&:name))
-    @sectors = promote_elements_to_front_of_array(Sector.all.order(:name), opportunity.sectors.sort_by(&:name))
-    @types = Type.all.order(:name)
-    @values = Value.all.order(:slug)
     @service_providers = ServiceProvider.all.order(:name)
     @selected_service_provider = opportunity.service_provider || current_editor.service_provider
+    @countries = Country.all.order(:name)
+    @default_country = @selected_service_provider.country&.id if opportunity.countries.empty?
+    @sectors = Sector.all.order(:name)
+    @types = Type.all.order(:name)
+    @values = Value.all.order(:slug)
     @enquiry_interactions = Opportunity.enquiry_interactions.keys
     @ragg = opportunity.ragg
   end
