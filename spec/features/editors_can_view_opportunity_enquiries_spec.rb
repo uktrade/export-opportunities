@@ -37,7 +37,7 @@ feature 'admin can view enquiries in opportunity show page' do
 
     click_on 'Hello World'
 
-    expect(page.body).to have_css('td.rate_ch_exceeded', count: 2)
-    expect(page.body).to have_css('td.rate_trade_profile_exceeded', count: 2)
+    expect(page.body).to have_css('.rate_ch_exceeded', count: 2)
+    expect(page.body).to have_css('.rate_trade_profile_exceeded', count: 2)
   end
 end

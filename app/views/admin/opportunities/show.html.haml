@@ -193,8 +193,9 @@
                   - else
                     ='Not supplied'
                 - else
+
                   -# Rate CH exceeded
-                  =enquiry.company_house_number
+                  %span.rate_ch_exceeded= enquiry.company_house_number
 
               %dt Company Postcode
               %dd= enquiry.company_postcode
@@ -211,8 +212,9 @@
                   - else
                     ='Not supplied'
                 - else
+
                   -# Rate Trade Profile Exceeded
-                  =link_to 'Please check individual enquiry here', admin_enquiry_url(enquiry.id)
+                  =link_to 'Please check individual enquiry here', admin_enquiry_url(enquiry.id), class: 'rate_trade_profile_exceeded'
 
               %dt Existing exporter?
               %dd= enquiry.existing_exporter
