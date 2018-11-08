@@ -7,11 +7,10 @@ class Admin::OpportunitiesController < Admin::BaseController
 
   def index
     @filters = OpportunityFilters.new(filter_params)
-
+    @available_status = Opportunity.statuses.keys
     previewer_or_uploader = pundit_user.uploader? || pundit_user.previewer?
 
     session[:opportunity_filters] = filter_params
-    session[:available_status] = filter_status(pundit_user.id)
 
     query = OpportunityQuery.new(
       scope: policy_scope(Opportunity).includes(:service_provider),
@@ -173,18 +172,6 @@ class Admin::OpportunitiesController < Admin::BaseController
 
   private def filter_params
     params.permit(:status, { sort: %i[column order] }, :show_expired, :s, :paged)
-  end
-
-  private def filter_status(current_user)
-    @editor = Editor.find(current_user)
-    @available_status = []
-    Opportunity.statuses.each do |name, _|
-      if name == 'draft'
-        @available_status << name if policy(@editor).draft_view_state?
-      else
-        @available_status << name
-      end
-    end
   end
 
   class OpportunityFilters
