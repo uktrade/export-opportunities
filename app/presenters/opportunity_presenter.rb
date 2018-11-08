@@ -167,6 +167,10 @@ class OpportunityPresenter < BasePresenter
     end
   end
 
+  # Return appropriate sign off line(s) for display
+  # with Opportunity details. Relies on working out
+  # content based on passed service provider, unless
+  # is third-party, which has separate sign off.
   def sign_off_content(service_provider)
     partner = service_provider[:partner]
     name = service_provider[:name]
