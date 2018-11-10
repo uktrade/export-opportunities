@@ -14,7 +14,7 @@
     - if @opportunity.expired?
       %p.expired= content['message_expired']
 
-    %p= page.content_with_inclusion 'created_information', [@opportunity.author.name, opp.formatted_date('created_at')]
+    %p= page.content_with_inclusion 'created_information', [opp.author, opp.formatted_date('created_at')]
     .status
       %p
         = content['title_status']
