@@ -71,9 +71,9 @@ class Admin::OpportunitiesController < Admin::BaseController
 
     if @opportunity.errors.empty?
       if status == :pending
-        redirect_to admin_opportunities_path, notice: %(Created opportunity "#{@opportunity.title}")
+        redirect_to admin_opportunity_path(@opportunity), notice: %(Created opportunity "#{@opportunity.title}")
       elsif status == :draft
-        redirect_to admin_opportunities_path, notice: %(Saved to draft: "#{@opportunity.title}")
+        redirect_to admin_opportunity_path(@opportunity), notice: %(Saved to draft: "#{@opportunity.title}")
       end
     else
       content = get_content('admin/opportunities.yml')
