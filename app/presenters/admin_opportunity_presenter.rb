@@ -59,4 +59,14 @@ class AdminOpportunityPresenter < OpportunityPresenter
       class: 'button')
     button.class == ActiveSupport::SafeBuffer ? button : ''
   end
+
+  # Third party opps (at least in development)
+  # do not have an author, so throw an error.
+  def author
+    if @opportunity.author.present?
+      @opportunity.author.name
+    else
+      'editor'
+    end
+  end
 end
