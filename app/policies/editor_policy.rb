@@ -15,11 +15,6 @@ class EditorPolicy < ApplicationPolicy
     @editor.role == 'uploader'
   end
 
-  # draft state is only visible to uploaders/previewers
-  def draft_view_state?
-    @editor.role == 'uploader' || @editor.role == 'previewer'
-  end
-
   alias edit? administrator?
   alias update? administrator?
   alias index? administrator?
