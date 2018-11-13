@@ -111,15 +111,15 @@ main {
     min-width: 0;
   }
 
+  .highlight {
+    color: $great-red;
+  }
+
   .list {
     font-size: $font-size-body-s;
     color: $grey-5;
     display: inline-block;
     min-width: 150px;
-  }
-
-  .text {
-    font-size: $font-size-body-s;
   }
 }
 
