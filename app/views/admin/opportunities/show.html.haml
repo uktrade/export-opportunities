@@ -122,10 +122,7 @@
             %dd= opp.put(check.error_id)
 
           - if check.offset
-            %p
-              %span= check.submitted_text[0..check.offset-2]
-              %span.error= check.submitted_text[check.offset-1..check.offset+check.length]
-              %span.text= check.submitted_text[check.offset+check.length+1..check.submitted_text.length]
+            %p.text= page.highlight_words(check.submitted_text, [check.offensive_term])
 
           - else
             %p.text= check.submitted_text.truncate(160, omission: '...')
@@ -153,17 +150,19 @@
             %dt Offensive
             %dd= number_to_percentage(check.category3_score*100, precision: 2)
 
+          - terms = []
           - if check&.opportunity_sensitivity_term_checks.size > 0
             %p.bst-label{ id: "bst-label-#{index}" }  Matched BST (Business Sensitive Terms)
             %ul{ aria: { labelledby: "bst-label-#{index}" } }
               - check&.opportunity_sensitivity_term_checks.each do |term_check|
+                - terms.push term_check.term
                 %li
                   -#%span.list= "List ID: #{term_check.list_id}"
                   %span.list= "#{term_check&.list_id == 0 ? 'Azure internal list' : 'DIT list'}:"
                   %span.term= term_check.term
 
           - if check.review_recommended
-            %p.text= check.submitted_text
+            %p.text= page.highlight_words(check.submitted_text, terms)
           - else
             %p.text= check.submitted_text.truncate(160, omission: '...(continued)')
 

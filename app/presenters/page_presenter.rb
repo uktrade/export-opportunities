@@ -85,6 +85,13 @@ class PagePresenter < BasePresenter
     @breadcrumbs.push(title: title, slug: '') unless title.nil?
   end
 
+  def highlight_words(content, words)
+    words.reverse.each do |word|
+      content = content.gsub(Regexp.new("\\b#{word}\\b", 'i'), content_tag('span', word, class: 'highlight'))
+    end
+    content.html_safe
+  end
+
   private
 
   def create_breadcrumbs

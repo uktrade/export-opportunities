@@ -77,4 +77,20 @@ RSpec.describe PagePresenter do
       expect(presenter.breadcrumbs).to include(title: 'foo', slug: '')
     end
   end
+
+  describe '#highlight_words' do
+    it 'returns input content with target words surround in SPAN.highlight markup' do
+      presenter = PagePresenter.new({})
+      highlighted = presenter.highlight_words('foo bar diddle woo and more', %w[bar woo])
+
+      expect(highlighted).to eq('foo <span class="highlight">bar</span> diddle <span class="highlight">woo</span> and more')
+    end
+
+    it 'returns unchanged input content when no target words found' do
+      presenter = PagePresenter.new({})
+      highlighted = presenter.highlight_words('foo bar diddle', %w[beer wine])
+
+      expect(highlighted).to eq('foo bar diddle')
+    end
+  end
 end
