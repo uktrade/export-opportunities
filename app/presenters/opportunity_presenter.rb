@@ -167,6 +167,41 @@ class OpportunityPresenter < BasePresenter
     end
   end
 
+  # Return appropriate sign off line(s) for display
+  # with Opportunity details. Relies on working out
+  # content based on passed service provider, unless
+  # is third-party, which has separate sign off.
+  def sign_off_content(service_provider)
+    partner = service_provider[:partner]
+    name = service_provider[:name]
+    country = service_provider.country
+    lines = []
+    if source('volume_opps')
+      lines.push('Bid for tender')
+      lines.push('If your company meets the requirements of the tender, go to the website where the tender is hosted and submit your bid.')
+    elsif partner.present?
+      lines.push("Express your interest to the #{partner} in #{country.name}.")
+      lines.push("The #{partner} is our chosen partner to deliver trade services in #{country.name}.")
+    else
+      if name == 'DFID'
+        lines.push('For more information and to make a bid you will need to go to the third party website.')
+      elsif name == 'DIT HQ' # source will always be post
+        lines.push('Express your interest to the Department for International Trade.')
+      elsif ['DIT Education', 'DSO HQ', 'DSO RD West 2 / NATO',
+             'Occupied Palestinian Territories Jerusalem', 'UKEF', 'UKREP',
+             'United Kingdom LONDON', 'USA AFB', 'USA OBN OCO', 'USA OBN Sannam S4'].include?(name)
+        lines.push('Express your interest to the Department for International Trade.')
+      elsif name.include?('OBNI') && country.region.name.include?('Africa')
+        lines.push('Express your interest to the Department for International Trade team in Africa.')
+      elsif name.include?('United States') && country.region.name.include?('America')
+        lines.push('Express your interest to the Department for International Trade team in USA.')
+      elsif name.include?('Canada') && country.region.name.include?('America')
+        lines.push('Express your interest to the Department for International Trade team in Canada.')
+      end
+    end
+    lines
+  end
+
   private
 
   attr_reader :view_context, :opportunity

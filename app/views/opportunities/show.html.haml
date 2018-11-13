@@ -127,6 +127,7 @@
               = opportunity.contact
 
 
+
     .bid
       - if opportunity.expired?
         %p.expired
@@ -135,42 +136,24 @@
           Visit the #{link_to 'opportunities page', opportunities_path} to find another.
 
       - else
-        - if opportunity.source('volume_opps')
-          %h2 Bid for tender
-          %p If your company meets the requirements of the tender, go to the website where the tender is hosted and submit your bid.
+        - opportunity.sign_off_content(@service_provider).each_with_index do |line, index|
+          = content_tag("p", line, class: "sign-off-#{index}")
 
-          .disclaimer
-            %p= @content["disclaimer_1"]
-            %p= @content["disclaimer_2"]
-            -if opportunity.translated?
-              %p= @content["disclaimer_3"]
-          = link_to 'Go to third party website', opportunity.tender_url, class: 'button', target: :_blank
+        .disclaimer
+          %p= @content["disclaimer_1"]
+          %p= @content["disclaimer_2"]
+          -if opportunity.translated?
+            %p= @content["disclaimer_3"]
 
-        - elsif opportunity.target_url.present?
-          .disclaimer
-            %p= @content["disclaimer_1"]
-            %p= @content["disclaimer_2"]
-            -if opportunity.translated?
-              %p= @content["disclaimer_3"]
-          = link_to 'Go to third party website', opportunity.target_url, class: 'button', target: :_blank
-
-        - elsif opportunity.source('post')
-          .disclaimer
-            %p= @content["disclaimer_1"]
-            %p= @content["disclaimer_2"]
-            -if opportunity.translated?
-              %p= @content["disclaimer_3"]
-          = link_to 'Express your interest', new_enquiry_path(@opportunity.slug), class: 'button abcbutton'
+        - if opportunity.source('post')
+          - if opportunity.target_url.present?
+            = link_to 'Go to third party website', opportunity.target_url, class: 'button', target: :_blank
+          - else
+            = link_to 'Express your interest', new_enquiry_path(@opportunity.slug), class: 'button abcbutton'
 
         - else
-          %h2 Contact the buyer
-          %p If you meet the requirements contact the buyer.
-          %p You will be notified if you are right for this opportunity. You can only apply if you are a UK registered companny.
-          .disclaimer
-            %p= @content["disclaimer_1"]
-            %p= @content["disclaimer_2"]
-            -if opportunity.translated?
-              %p= @content["disclaimer_3"]
-          = link_to 'Contact buyer', new_enquiry_path(@opportunity.slug), class: 'button abcbutton'
+          -# OpenOpps/Third-party location.
+          = link_to 'Go to third party website', opportunity.tender_url, class: 'button', target: :_blank
+
 
     = render partial: 'components/sharing_links', locals: { title: opportunity.title_with_country, path: opportunity_url(@opportunity) }
