@@ -148,6 +148,20 @@ RSpec.describe AdminOpportunityPresenter do
     end
   end
 
+  describe '#author' do
+    it 'returns author name or \'editor\' when author is nil' do
+      content = get_content('admin/opportunities')
+      author = create(:editor, name: 'Fred')
+      opportunity = create(:opportunity, author: author)
+      presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
+
+      expect(presenter.author).to eq('Fred')
+
+      opportunity.author = nil # now remove it
+      expect(presenter.author).to eq('editor')
+    end
+  end
+
   # Helpers
 
   def has_html?(str)
