@@ -555,8 +555,30 @@ RSpec.describe OpportunityPresenter do
       expect(lines[0]).to eq('Express your interest to the Department for International Trade team in Canada.')
     end
 
-    it 'returns empty sign off content for unmatched service provider' do
-      provider = create(:service_provider, name: 'Who is this provider')
+    it 'returns default sign off content for country with \'in the [country name]\' added' do
+      country = create(:country, name: 'Netherlands')
+      provider = create(:service_provider, name: 'Provider', country: country)
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+      lines = presenter.sign_off_content(provider)
+
+      expect(lines.length).to eq(1)
+      expect(lines[0]).to eq('Express your interest to the Department for International Trade team in the Netherlands.')
+    end
+
+    it 'returns default sign off content for country with \'in [country name]\' added' do
+      country = create(:country, name: 'Spain')
+      provider = create(:service_provider, name: 'Provider', country: country)
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+      lines = presenter.sign_off_content(provider)
+
+      expect(lines.length).to eq(1)
+      expect(lines[0]).to eq('Express your interest to the Department for International Trade team in Spain.')
+    end
+
+    it 'returns no sign off line when conditions are not matched or service provider has not country value' do
+      provider = create(:service_provider, country: nil)
       opportunity = create(:opportunity)
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
       lines = presenter.sign_off_content(provider)

@@ -175,6 +175,8 @@ class OpportunityPresenter < BasePresenter
     partner = service_provider[:partner]
     name = service_provider[:name]
     country = service_provider.country
+    country_name = country.nil? ? '' : country.name # compensate for poor data
+    common_text = 'Express your interest to the Department for International Trade'
     lines = []
     if source('volume_opps')
       lines.push('Bid for tender')
@@ -185,18 +187,23 @@ class OpportunityPresenter < BasePresenter
     else
       if name == 'DFID'
         lines.push('For more information and to make a bid you will need to go to the third party website.')
-      elsif name == 'DIT HQ' # source will always be post
-        lines.push('Express your interest to the Department for International Trade.')
-      elsif ['DIT Education', 'DSO HQ', 'DSO RD West 2 / NATO',
+      elsif ['DIT HQ', 'DIT Education', 'DSO HQ', 'DSO RD West 2 / NATO',
              'Occupied Palestinian Territories Jerusalem', 'UKEF', 'UKREP',
              'United Kingdom LONDON', 'USA AFB', 'USA OBN OCO', 'USA OBN Sannam S4'].include?(name)
-        lines.push('Express your interest to the Department for International Trade.')
+        lines.push("#{common_text}.")
       elsif name.include?('OBNI') && country.region.name.include?('Africa')
-        lines.push('Express your interest to the Department for International Trade team in Africa.')
+        lines.push("#{common_text} team in Africa.")
       elsif name.include?('United States') && country.region.name.include?('America')
-        lines.push('Express your interest to the Department for International Trade team in USA.')
+        lines.push("#{common_text} team in USA.")
       elsif name.include?('Canada') && country.region.name.include?('America')
-        lines.push('Express your interest to the Department for International Trade team in Canada.')
+        lines.push("#{common_text} team in Canada.")
+      else
+        # Default sign off
+        if ['Ivory Coast', 'Netherlands', 'Philippines', 'USA'].include? country_name
+          lines.push("#{common_text} team in the #{country_name}.")
+        elsif country_name.present?
+lines.push("#{common_text} team in #{country_name}.")
+        end
       end
     end
     lines
