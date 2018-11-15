@@ -17,7 +17,7 @@ RSpec.describe HelpArticlePresenter do
       help_article_presenter = HelpArticlePresenter.new('url', 'some_section_id')
       text_to_id = help_article_presenter.text_to_id('Hooked on Monkey Fonics')
 
-      expect(text_to_id).to eq 'hookedonmonkeyfonics'
+      expect(text_to_id).to eq 'hooked-on-monkey-fonics'
     end
 
     it 'submits non latin text' do
