@@ -14,8 +14,8 @@ RSpec.describe Api::ProfileDashboardController, type: :controller do
 
         expect(response).to have_http_status(200)
         expect(response.body).to include('"status":"ok"')
-        expect(json_response['email_alerts'][0]['description']).to include(subscription.search_term)
-        expect(json_response['email_alerts'][0]['countries']).to include(country.name)
+        expect(json_response['email_alerts'][0]['title']).to include(subscription.search_term)
+        expect(json_response['email_alerts'][0]['countries']).to include(country.slug)
       end
     end
   end

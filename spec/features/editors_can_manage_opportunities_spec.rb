@@ -44,9 +44,7 @@ feature 'Administering opportunities' do
     expect(page.status_code).to eq 200
     expect(page).to have_text('Created opportunity "Lorem ipsum title"')
 
-    # View the created opportunity
-    click_on 'Lorem ipsum title'
-
+    # View should be admin/opportunity#show of created opportunity
     expect(page).to have_text('Lorem ipsum title')
     expect(page).to have_text('Lorem ipsum teaser')
     expect(page).to have_text('Lorem ipsum description')
@@ -169,7 +167,9 @@ feature 'Administering opportunities' do
       fill_in 'opportunity_teaser', with: 'you can update the teaser, but you cant update the slug now!'
       click_on 'Save and continue'
 
-      expect(page).to have_text('export-opportunities-133')
+      expect(page).to have_current_path(admin_opportunity_url(opportunity), url: true)
+      expect(page).to have_text(opportunity.title)
+      expect(current_path).to eq('/admin/opportunities/export-opportunities-133')
     end
 
     scenario 'updates a duplicate slug opportunity ending in -3 (1 digit), should not change the random id appended to slug' do
@@ -191,7 +191,8 @@ feature 'Administering opportunities' do
       fill_in 'opportunity_teaser', with: 'you can update the teaser, but you cant update the slug now!'
       click_on 'Save and continue'
 
-      expect(page).to have_text('export-opportunities-3')
+      expect(page).to have_current_path(admin_opportunity_url(opportunity), url: true)
+      expect(page).to have_text(opportunity.title)
     end
   end
 
