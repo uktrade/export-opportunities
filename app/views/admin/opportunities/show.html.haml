@@ -62,6 +62,11 @@
       %dt= page.content('fields.service_provider_id.label')
       %dd= opp.put(@opportunity.service_provider.try(:name), '-')
 
+      %dt= page.content('fields.sign_off.label')
+      %dd.sign-off
+        - opp.sign_off_content(@opportunity.service_provider).each_with_index do |line, index|
+          = content_tag("p", line, class: "sign-off-#{index}")
+
       - if @opportunity.target_url.present?
         %dt= page.content('fields.target_url.label')
         %dd= present_html_or_formatted_text(@opportunity.target_url).html_safe
