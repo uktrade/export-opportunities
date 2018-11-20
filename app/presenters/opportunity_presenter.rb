@@ -1,6 +1,6 @@
 class OpportunityPresenter < BasePresenter
   include ApplicationHelper
-  attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries, :tender_value, :tender_url, :target_url, :opportunity_cpvs, :sectors
+  attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries, :tender_value, :tender_url, :target_url, :opportunity_cpvs, :sectors, :sign_off
 
   delegate :expired?, to: :opportunity
 
@@ -15,6 +15,11 @@ class OpportunityPresenter < BasePresenter
     @opportunity_cpvs = opportunity&.opportunity_cpvs
     @teaser = opportunity.teaser
     @sectors = opportunity.sectors
+    @sign_off = if opportunity.service_provider.present?
+                  sign_off_content(opportunity.service_provider)
+                else
+                  []
+                end
   end
 
   # Opportunity.title in required format.
@@ -171,7 +176,7 @@ class OpportunityPresenter < BasePresenter
   # with Opportunity details. Relies on working out
   # content based on passed service provider, unless
   # is third-party, which has separate sign off.
-  def sign_off_content(service_provider)
+  def sign_off_content(service_provider = opportunity.service_provider)
     partner = service_provider[:partner]
     name = service_provider[:name]
     country = service_provider.country
@@ -179,7 +184,6 @@ class OpportunityPresenter < BasePresenter
     common_text = 'Express your interest to the Department for International Trade'
     lines = []
     if source('volume_opps')
-      lines.push('Bid for tender')
       lines.push('If your company meets the requirements of the tender, go to the website where the tender is hosted and submit your bid.')
     elsif partner.present?
       lines.push("Express your interest to the #{partner} in #{country.name}.")

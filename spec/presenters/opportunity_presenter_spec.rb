@@ -466,9 +466,8 @@ RSpec.describe OpportunityPresenter do
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
       lines = presenter.sign_off_content(provider)
 
-      expect(lines.length).to eq(2)
-      expect(lines[0]).to eq('Bid for tender')
-      expect(lines[1]).to eq('If your company meets the requirements of the tender, go to the website where the tender is hosted and submit your bid.')
+      expect(lines.length).to eq(1)
+      expect(lines[0]).to eq('If your company meets the requirements of the tender, go to the website where the tender is hosted and submit your bid.')
     end
 
     it 'returns sign off content for present partner' do

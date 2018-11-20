@@ -128,31 +128,46 @@
 
 
 
+    - content_for :disclaimer_content  do
+      .disclaimer
+        %p= @content["disclaimer_1"]
+        %p= @content["disclaimer_2"]
+        -if opportunity.translated?
+          %p= @content["disclaimer_3"]
+
     .bid
       - if opportunity.expired?
         %p.expired
           %strong
             = t('opportunity.expired')
-          Visit the #{link_to 'opportunities page', opportunities_path} to find another.
+          %br
+          Visit the
+          = link_to 'opportunities page', opportunities_path
+          to find another.
 
       - else
-        - opportunity.sign_off_content(@service_provider).each_with_index do |line, index|
-          = content_tag("p", line, class: "sign-off-#{index}")
-
-        .disclaimer
-          %p= @content["disclaimer_1"]
-          %p= @content["disclaimer_2"]
-          -if opportunity.translated?
-            %p= @content["disclaimer_3"]
-
         - if opportunity.source('post')
+          %h2 Express your interest
+          - opportunity.sign_off_content.each do |line|
+            = content_tag("p", line, class: "sign-off")
+
           - if opportunity.target_url.present?
+            = yield :disclaimer_content
             = link_to 'Go to third party website', opportunity.target_url, class: 'button', target: :_blank
+
           - else
+            %p.sign-off 
+              All submissions will be reviewed and you will be notified of any potential next steps.
+              You can only express your interest if you are a UK registered company.
+            = yield :disclaimer_content
             = link_to 'Express your interest', new_enquiry_path(@opportunity.slug), class: 'button abcbutton'
 
         - else
           -# OpenOpps/Third-party location.
+          %h2 Bid for tender
+          - opportunity.sign_off_content.each do |line|
+            = content_tag("p", line, class: "sign-off")
+          = yield :disclaimer_content
           = link_to 'Go to third party website', opportunity.tender_url, class: 'button', target: :_blank
 
 
