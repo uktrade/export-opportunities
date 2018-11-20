@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'rails_helper'
 require 'capybara/email/rspec'
 
@@ -123,21 +124,23 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
 
   context 'when not signed in' do
     scenario 'can subscribe to email alerts' do
-      skip 'TODO: fix pending_subscriptions_controller#update method, doesnt pass content var but page presenter view requires it'
+      content = get_content('subscriptions')['create']
       mock_sso_with(email: 'test@example.com')
-
       create(:opportunity, title: 'Food')
 
       visit opportunities_path
-      fill_in :s, with: 'food'
-      page.find('.submit').click
+      within '.search' do
+        fill_in :s, with: 'food'
+        page.find('.submit').click
+      end
 
-      expect(page.body).to include 'Subscribe to email alerts for food'
+      expect(page.body).to include 'Subscribe to email alerts'
+      expect(page.body).to include 'for food'
 
-      click_button 'Subscribe to email alerts for food'
+      click_on 'Subscribe to email alerts for food'
 
-      expect(page).to have_content 'Your email alert has been created'
-      expect(page).to have_content 'Search term: food'
+      expect(page).to have_content content['confirmation']
+      expect(page).to have_content content['alert_summary_message']
     end
   end
 end

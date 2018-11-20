@@ -1,4 +1,5 @@
 class SubscriptionsController < ApplicationController
+  include SubscriptionHelper
   before_action :require_sso!, only: :create
   before_action :require_sso_after_cutoff, only: :destroy
 
@@ -13,20 +14,7 @@ class SubscriptionsController < ApplicationController
 
   def create
     content = get_content('subscriptions.yml')
-    subscriptions = Subscription.where(user_id: current_user.id).where(unsubscribed_at: nil)
-    subscription_form = SubscriptionForm.new(subscription_params)
-
-    if subscription_form.valid?
-      subscription = CreateSubscription.new.call(subscription_form, current_user)
-      @subscription = SubscriptionPresenter.new(subscription)
-      render layout: 'notification', locals: {
-        subscription: @subscription,
-        subscriptions: subscriptions,
-        content: content['create'],
-      }
-    else
-      redirect_to opportunities_path(s: subscription_form.search_term), alert: subscription_form.errors.full_messages
-    end
+    create_subscription(subscription_params, content)
   end
 
   def update
@@ -68,9 +56,5 @@ class SubscriptionsController < ApplicationController
     reason = params.fetch(:reason)
 
     reason if Subscription.unsubscribe_reasons.keys.include?(reason)
-  end
-
-  private def subscription_params
-    params.require(:subscription).permit(query: [:title, :search_term, sectors: [], countries: [], types: [], values: []])
   end
 end

@@ -1,4 +1,5 @@
 class PendingSubscriptionsController < ApplicationController
+  include SubscriptionHelper
   before_action :require_sso!, only: [:update]
 
   def create
@@ -8,30 +9,11 @@ class PendingSubscriptionsController < ApplicationController
   end
 
   def update
-    content = get_content('pending_subscriptions.yml')
-
+    content = get_content('subscriptions.yml')
     pending_subscription = PendingSubscription.find(params[:id])
-    subscription_form = SubscriptionForm.new(pending_subscription.query_params)
-
-    unless subscription_form.valid?
-      return redirect_to opportunities_path(s: subscription_form.search_term), alert: subscription_form.errors.full_messages
+    create_subscription(pending_subscription.query_params, content) do |subscription|
+      pending_subscription.update!(subscription: subscription)
+      flash.clear # Suppress the "You are now signed in" message
     end
-
-    subscription = CreateSubscription.new.call(subscription_form, current_user)
-    pending_subscription.update!(subscription: subscription)
-
-    # Suppress the "You are now signed in" message
-    flash.clear
-
-    @subscription = SubscriptionPresenter.new(subscription)
-    render 'subscriptions/create', layout: 'notification', locals: {
-      subscriptions: [subscription],
-      subscription: @subscription,
-      content: content['update'],
-    }
-  end
-
-  private def subscription_params
-    params.require(:subscription).permit(query: [:search_term, sectors: [], countries: [], types: [], values: []])
   end
 end
