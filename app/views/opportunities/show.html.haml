@@ -133,7 +133,10 @@
         %p.expired
           %strong
             = t('opportunity.expired')
-          Visit the #{link_to 'opportunities page', opportunities_path} to find another.
+          %br
+          Visit the
+          = link_to 'opportunities page', opportunities_path
+          to find another.
 
       - else
         - opportunity.sign_off_content(@service_provider).each_with_index do |line, index|
