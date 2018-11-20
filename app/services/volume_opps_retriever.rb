@@ -126,7 +126,7 @@ class VolumeOppsRetriever
         value_ids: value_id,
         teaser: nil,
         response_due_on: response_due_on,
-        description: description,
+        description: sanitise(description),
         service_provider_id: 27, # DIT HQ
         contacts_attributes: contact_attributes(buyer),
         buyer_name: buyer['name'],
@@ -146,6 +146,11 @@ class VolumeOppsRetriever
       Rails.logger.error "tender_url: #{tender_url} tender url docs: #{opportunity_release['tender']['documents']}"
       return nil
     end
+  end
+
+  # removing nbsp and other breaking characters
+  def sanitise(description)
+    description.gsub(/[[:space:]]+/, ' ')
   end
 
   def address_from_buyer(address)

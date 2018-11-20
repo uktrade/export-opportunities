@@ -202,7 +202,7 @@ class OpportunityPresenter < BasePresenter
         if ['Ivory Coast', 'Netherlands', 'Philippines', 'USA'].include? country_name
           lines.push("#{common_text} team in the #{country_name}.")
         elsif country_name.present?
-lines.push("#{common_text} team in #{country_name}.")
+          lines.push("#{common_text} team in #{country_name}.")
         end
       end
     end
