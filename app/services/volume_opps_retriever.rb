@@ -2,6 +2,8 @@ require 'jwt_volume_connector'
 require 'translation_connector'
 
 class VolumeOppsRetriever
+  include ApplicationHelper
+
   def call(editor, from_date, to_date)
     username = Figaro.env.OO_USERNAME!
     password = Figaro.env.OO_PASSWORD!
@@ -126,7 +128,7 @@ class VolumeOppsRetriever
         value_ids: value_id,
         teaser: nil,
         response_due_on: response_due_on,
-        description: sanitise(description),
+        description: sanitise_opportunity_text(description),
         service_provider_id: 27, # DIT HQ
         contacts_attributes: contact_attributes(buyer),
         buyer_name: buyer['name'],

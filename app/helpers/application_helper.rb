@@ -57,4 +57,11 @@ module ApplicationHelper
 
     normalized_text == ActionController::Base.helpers.strip_tags(text)
   end
+
+  # removing nbsp and other breaking characters
+  def sanitise_opportunity_text(description)
+    return nil unless description
+    description = description.gsub(/[[:space:]]+/, ' ')
+    description.gsub(/&nbsp;/i, ' ')
+  end
 end
