@@ -1,0 +1,31 @@
+@import 'transformation_admin/config';
+
+.change {
+  display: list-item;
+  list-style-type: disc;
+  margin-left: 20px;
+  max-width: $cols-8;
+}
+
+.content-meta {
+  border-bottom: $grey-2 solid 1px;
+  margin-bottom: 0;
+  padding-bottom: $spacing-3;
+}
+
+.update {
+  border-bottom: 1px solid $grey-3;
+  margin-bottom: $spacing-3;
+  padding-bottom: $spacing-3;
+
+  dt {
+    font-weight: bold;
+    max-width: $cols-8;
+  }
+
+  .date {
+    display: block;
+    font-weight: normal;
+    margin-bottom: $spacing-4;
+  }
+}

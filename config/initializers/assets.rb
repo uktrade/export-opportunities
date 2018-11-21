@@ -71,6 +71,7 @@ Rails.application.config.assets.precompile += %w[transformation_admin/main.scss]
 Rails.application.config.assets.precompile += %w[transformation_admin/pages/opportunity.scss]
 Rails.application.config.assets.precompile += %w[transformation_admin/pages/opportunity_show.scss]
 Rails.application.config.assets.precompile += %w[transformation_admin/pages/help.scss]
+Rails.application.config.assets.precompile += %w[transformation_admin/pages/updates.scss]
 Rails.application.config.assets.precompile += %w[transformation_admin/main_ie8_fixes.scss]
 Rails.application.config.assets.precompile += %w[transformation_admin/main_ie9_fixes.scss]
 
