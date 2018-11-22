@@ -56,6 +56,10 @@ main {
   }
 }
 
+.back {
+  font-size: $font-size-body-s;
+}
+
 .flash {
   @include container;
   border-style: solid;

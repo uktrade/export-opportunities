@@ -3,7 +3,7 @@ module Admin
     include ActionController::Live
     def index
       @admin_updates = true
-      render 'index'
+      render layout: 'admin_transformed'
     end
   end
 end
