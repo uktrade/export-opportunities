@@ -196,10 +196,10 @@ class OpportunityPresenter < BasePresenter
 
     elsif ['DIT Education', 'DIT HQ', 'DSO HQ', 'DSO RD West 2 / NATO',
            'Occupied Palestinian Territories Jerusalem', 'UKEF', 'UKREP',
-           'United Kingdom LONDON', 'USA AFB', 'USA OBN OCO', 'USA OBN Sannam S4'].include?(name)
+           'United Kingdom LONDON', 'USA AFB', 'USA OBN OCO', 'USA OBN Sannam S4'].include? name
       lines.push("#{common_text}.")
 
-    elsif ['Ivory Coast', 'Netherlands', 'Philippines', 'USA'].include? country_name
+    elsif name.match(/Czech Republic \w+|Dominican Republic \w+|Ivory Coast \w+|Netherlands \w+|Philippines \w+|United Arab Emirates \w+|United States \w+/)
       lines.push("#{common_text} team in the #{country_name}.")
 
     else
