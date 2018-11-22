@@ -509,8 +509,19 @@ RSpec.describe OpportunityPresenter do
 
     # ['special', 'case', 'provider', 'names', 'here'].include?(provider_name)
     it 'returns standard sign off content with \'the\' variant required for country name' do
-      country = create(:country, name: 'Netherlands')
-      provider = create(:service_provider, country_id: country.id)
+      country = create(:country, name: 'Czech Republic')
+      provider = create(:service_provider, name: 'Czech Republic Prague', country_id: country.id)
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+      lines = presenter.sign_off_content(provider)
+      country_name = provider.country.name
+
+      expect(lines.length).to eq(1)
+      expect(lines[0]).to eq("Express your interest to the Department for International Trade team in the #{country_name}.")
+
+      # And do another one to be sure...
+      country = create(:country, name: 'USA')
+      provider = create(:service_provider, name: 'United States Chicago', country_id: country.id)
       opportunity = create(:opportunity)
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
       lines = presenter.sign_off_content(provider)
