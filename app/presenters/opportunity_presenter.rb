@@ -102,7 +102,7 @@ class OpportunityPresenter < BasePresenter
         links.push(link.html_safe)
       end
     end
-    links
+    links 
   end
 
   def industry_links
@@ -183,32 +183,29 @@ class OpportunityPresenter < BasePresenter
     country_name = country.nil? ? '' : country.name # compensate for poor data
     common_text = 'Express your interest to the Department for International Trade'
     lines = []
-    if source('volume_opps')
+
+    if @target_url.present?
+      lines.push('For more information and to make a bid you will need to go to the third party website.')
+
+    elsif source('volume_opps')
       lines.push('If your company meets the requirements of the tender, go to the website where the tender is hosted and submit your bid.')
+
     elsif partner.present?
       lines.push("Express your interest to the #{partner} in #{country.name}.")
       lines.push("The #{partner} is our chosen partner to deliver trade services in #{country.name}.")
+
+    elsif ['DIT Education', 'DIT HQ', 'DSO HQ', 'DSO RD West 2 / NATO',
+           'Occupied Palestinian Territories Jerusalem', 'UKEF', 'UKREP',
+           'United Kingdom LONDON', 'USA AFB', 'USA OBN OCO', 'USA OBN Sannam S4'].include?(name)
+      lines.push("#{common_text}.")
+
+    elsif ['Ivory Coast', 'Netherlands', 'Philippines', 'USA'].include? country_name
+      lines.push("#{common_text} team in the #{country_name}.")
+
     else
-      if name == 'DFID'
-        lines.push('For more information and to make a bid you will need to go to the third party website.')
-      elsif ['DIT HQ', 'DIT Education', 'DSO HQ', 'DSO RD West 2 / NATO',
-             'Occupied Palestinian Territories Jerusalem', 'UKEF', 'UKREP',
-             'United Kingdom LONDON', 'USA AFB', 'USA OBN OCO', 'USA OBN Sannam S4'].include?(name)
-        lines.push("#{common_text}.")
-      elsif name.include?('OBNI') && country.region.name.include?('Africa')
-        lines.push("#{common_text} team in Africa.")
-      elsif name.include?('United States') && country.region.name.include?('America')
-        lines.push("#{common_text} team in USA.")
-      elsif name.include?('Canada') && country.region.name.include?('America')
-        lines.push("#{common_text} team in Canada.")
-      else
-        # Default sign off
-        if ['Ivory Coast', 'Netherlands', 'Philippines', 'USA'].include? country_name
-          lines.push("#{common_text} team in the #{country_name}.")
-        elsif country_name.present?
-          lines.push("#{common_text} team in #{country_name}.")
-        end
-      end
+      # Default sign off
+      lines.push("#{common_text} team in #{country_name}.")
+
     end
     lines
   end
