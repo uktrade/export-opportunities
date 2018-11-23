@@ -507,7 +507,7 @@ RSpec.describe OpportunityPresenter do
       expect(lines[0]).to eq('Express your interest to the Department for International Trade.')
     end
 
-    # ['special', 'case', 'provider', 'names', 'here'].include?(provider_name)
+    # name.match(/Czech Republic \w+|Dominican Republic \w+|Ivory Coast \w+|Netherlands \w+|Philippines \w+|United Arab Emirates \w+|United States \w+/)
     it 'returns standard sign off content with \'the\' variant required for country name' do
       country = create(:country, name: 'Czech Republic')
       provider = create(:service_provider, name: 'Czech Republic Prague', country_id: country.id)
@@ -529,6 +529,32 @@ RSpec.describe OpportunityPresenter do
 
       expect(lines.length).to eq(1)
       expect(lines[0]).to eq("Express your interest to the Department for International Trade team in the #{country_name}.")
+    end
+
+    # name.match(/.*Africa.* \w+|Cameroon \w+|Egypt \w+|Kenya OBNI|Nabia \w+|Rwanda \w+|Senegal \w+|Seychelles \w+|Tanzania \w+|Tunisia \w+|Zambia \w+/)
+    it 'returns standard sign off content with region name instead of country' do
+      region = create(:region, name: 'Africa')
+      country = create(:country, name: 'Cameroon', region_id: region.id)
+      provider = create(:service_provider, name: 'Cameroon Yaounde', country_id: country.id)
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+      lines = presenter.sign_off_content(provider)
+      country_name = provider.country.name
+
+      expect(lines.length).to eq(1)
+      expect(lines[0]).to eq("Express your interest to the Department for International Trade team in #{region.name}.")
+
+      # And do another one to be sure...
+      region = create(:region, name: 'Africa')
+      country = create(:country, name: 'South Africa', region_id: region.id)
+      provider = create(:service_provider, name: 'South Africa Johannesburg', country_id: country.id)
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity)
+      lines = presenter.sign_off_content(provider)
+      country_name = provider.country.name
+
+      expect(lines.length).to eq(1)
+      expect(lines[0]).to eq("Express your interest to the Department for International Trade team in #{region.name}.")
     end
 
     # else
