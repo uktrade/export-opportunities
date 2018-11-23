@@ -202,6 +202,10 @@ class OpportunityPresenter < BasePresenter
     elsif name.match(/Czech Republic \w+|Dominican Republic \w+|Ivory Coast \w+|Netherlands \w+|Philippines \w+|United Arab Emirates \w+|United States \w+/)
       lines.push("#{common_text} team in the #{country_name}.")
 
+    # Exceptions where we need to use Region name
+    elsif name.match(/.*Africa.* \w+|Cameroon \w+|Egypt \w+|Kenya OBNI|Nabia \w+|Rwanda \w+|Senegal \w+|Seychelles \w+|Tanzania \w+|Tunisia \w+|Zambia \w+/)
+      lines.push("#{common_text} team in #{country.region.name}.")
+
     else
       # Default sign off
       lines.push("#{common_text} team in #{country_name}.")
