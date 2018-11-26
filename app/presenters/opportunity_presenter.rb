@@ -1,12 +1,13 @@
-class OpportunityPresenter < BasePresenter
+class OpportunityPresenter < PagePresenter
   include ApplicationHelper
   attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries, :tender_value, :tender_url, :target_url, :opportunity_cpvs, :sectors, :sign_off
 
   delegate :expired?, to: :opportunity
 
-  def initialize(view_context, opportunity)
+  def initialize(view_context, opportunity, content = {})
     @view_context = view_context
     @opportunity = opportunity
+    @content = content
     @tender_url = opportunity.tender_url
     @target_url = opportunity.target_url
     @tender_value = opportunity.tender_value
@@ -15,11 +16,6 @@ class OpportunityPresenter < BasePresenter
     @opportunity_cpvs = opportunity&.opportunity_cpvs
     @teaser = opportunity.teaser
     @sectors = opportunity.sectors
-    @sign_off = if opportunity.service_provider.present?
-                  sign_off_content(opportunity.service_provider)
-                else
-                  []
-                end
   end
 
   # Opportunity.title in required format.
@@ -181,34 +177,32 @@ class OpportunityPresenter < BasePresenter
     name = service_provider[:name]
     country = service_provider.country
     country_name = country.nil? ? '' : country.name # compensate for poor data
-    common_text = 'Express your interest to the Department for International Trade'
     lines = []
-
     if @target_url.present?
-      lines.push('For more information and to make a bid you will need to go to the third party website.')
+      lines.push @content['sign_off_target_url']
 
     elsif source('volume_opps')
-      lines.push('If your company meets the requirements of the tender, go to the website where the tender is hosted and submit your bid.')
+      lines.push @content['sign_off_volume_opps']
 
     elsif partner.present?
-      lines.push("Express your interest to the #{partner} in #{country.name}.")
-      lines.push("The #{partner} is our chosen partner to deliver trade services in #{country.name}.")
+      lines.push content_with_inclusion('sign_off_partner_1', [partner, country.name])
+      lines.push content_with_inclusion('sign_off_partner_2', [partner, country.name])
 
     elsif ['DIT Education', 'DIT HQ', 'DSO HQ', 'DSO RD West 2 / NATO',
            'Occupied Palestinian Territories Jerusalem', 'UKEF', 'UKREP',
            'United Kingdom LONDON', 'USA AFB', 'USA OBN OCO', 'USA OBN Sannam S4'].include? name
-      lines.push("#{common_text}.")
+      lines.push @content['sign_off_dit']
 
     elsif name.match(/Czech Republic \w+|Dominican Republic \w+|Ivory Coast \w+|Netherlands \w+|Philippines \w+|United Arab Emirates \w+|United States \w+/)
-      lines.push("#{common_text} team in the #{country_name}.")
+      lines.push content_with_inclusion('sign_off_default', ['the ', country.name])
 
     # Exceptions where we need to use Region name
     elsif name.match(/.*Africa.* \w+|Cameroon \w+|Egypt \w+|Kenya OBNI|Nabia \w+|Rwanda \w+|Senegal \w+|Seychelles \w+|Tanzania \w+|Tunisia \w+|Zambia \w+/)
-      lines.push("#{common_text} team in #{country.region.name}.")
+      lines.push content_with_inclusion('sign_off_default', ['', country.region.name])
 
     else
       # Default sign off
-      lines.push("#{common_text} team in #{country_name}.")
+      lines.push content_with_inclusion('sign_off_default', ['', country.name])
 
     end
     lines

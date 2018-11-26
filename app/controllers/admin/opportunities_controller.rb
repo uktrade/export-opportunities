@@ -30,7 +30,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def show
-    content = get_content('admin/opportunities.yml')
+    content = get_content('opportunities/show.yml', 'admin/opportunities.yml')
     @opportunity = Opportunity.includes(:enquiries).find(params[:id])
     @enquiries_cutoff = 20
     @comment_form = OpportunityCommentForm.new(opportunity: @opportunity, author: current_editor)
@@ -44,7 +44,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def new
-    content = get_content('admin/opportunities.yml')
+    content = get_content('opportunities/show.yml', 'admin/opportunities.yml')
     @opportunity = Opportunity.new
     @save_to_draft_button = policy(@opportunity).uploader_previewer?
     @editor = current_editor
@@ -58,7 +58,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def create
-    content = get_content('admin/opportunities.yml')
+    content = get_content('opportunities/show.yml', 'admin/opportunities.yml')
     status = if params[:commit] == content['submit_draft']
                :draft
              else
@@ -75,7 +75,6 @@ class Admin::OpportunitiesController < Admin::BaseController
         redirect_to admin_opportunity_path(@opportunity), notice: %(Saved to draft: "#{@opportunity.title}")
       end
     else
-      content = get_content('admin/opportunities.yml')
       @editor = current_editor
 
       load_options_for_form(@opportunity)
@@ -87,7 +86,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def edit
-    content = get_content('admin/opportunities.yml')
+    content = get_content('opportunities/show.yml', 'admin/opportunities.yml')
     @opportunity = Opportunity.includes(comments: [:author]).find(params[:id])
     @comment_form = OpportunityCommentForm.new(opportunity: @opportunity, author: current_editor)
     @history = OpportunityHistory.new(opportunity: @opportunity)
@@ -104,7 +103,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def update
-    content = get_content('admin/opportunities.yml')
+    content = get_content('opportunities/show.yml', 'admin/opportunities.yml')
     @opportunity = Opportunity.find(params[:id])
     authorize @opportunity
 

@@ -6,3 +6,11 @@ disclaimer_1: This website contains links to other websites that we do not contr
 disclaimer_2: Before entering into a contract you need to apply for any necessary export licences, which can include applications to trade in certain goods. You should also make your own enquiries and be satisfied by the accuracy of any information supplied to you.
 
 disclaimer_3: This opportunity has been translated from its original language. You should check if you need to apply in the original language.
+
+sign_off_dit: Express your interest to the Department for International Trade.
+sign_off_default: Express your interest to the Department for International Trade team in [$determiner][$place_name].
+sign_off_partner_1: Express your interest to the [$partner_name] in [$country_name].
+sign_off_partner_2: The [$partner_name] is our chosen partner to deliver trade services in [$country_name].
+sign_off_target_url: For more information and to make a bid you will need to go to the third party website.
+sign_off_volume_opps: If your company meets the requirements of the tender, go to the website where the tender is hosted and submit your bid.
+
