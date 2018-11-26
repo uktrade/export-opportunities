@@ -260,8 +260,12 @@ class ApplicationController < ActionController::Base
   # Note: Rails may already provide a similar service for multiple
   # language support, so this mechanism might be replaced by that
   # at some point in the furture.
-  def get_content(file)
-    YAML.load_file('app/content/' + file)
+  def get_content(*files)
+    content = {}
+    files.each do |file|
+      content = content.merge YAML.load_file('app/content/' + file)
+    end
+    content
   end
 
   def redis_oo_retry_count(redis)

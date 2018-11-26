@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
+  let(:service_provider) { create(:service_provider, country: create(:country)) }
+
   scenario 'pending and trashed opportunities are not accessible' do
     opportunities = [
       create(:opportunity, status: :pending),
@@ -14,7 +16,7 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
   end
 
   scenario 'published but expired opportunities are accessible' do
-    create(:opportunity, :expired, status: :publish, title: 'Hairdressers wanted', slug: 'hairdressers-wanted')
+    create(:opportunity, :expired, status: :publish, title: 'Hairdressers wanted', slug: 'hairdressers-wanted', service_provider_id: service_provider.id)
 
     visit 'opportunities/hairdressers-wanted'
 
@@ -52,7 +54,7 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
     types = create_list(:type, 5)
     countries = [create(:country, exporting_guide_path: '/somelink')]
 
-    opportunity = create(:opportunity, source: :post, status: 'publish', sectors: sectors, types: types, countries: countries)
+    opportunity = create(:opportunity, source: :post, status: 'publish', sectors: sectors, types: types, countries: countries, service_provider_id: service_provider.id)
 
     create_list(:enquiry, 3, opportunity: opportunity)
 
@@ -97,7 +99,8 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
 
   scenario 'country with a link to exporting guide' do
     country = create(:country, exporting_guide_path: '/government/publications/exporting-to-egypt')
-    opportunity = create(:opportunity, status: :publish, response_due_on: 3.months.from_now, countries: [country])
+    opportunity = create(:opportunity, status: :publish, response_due_on: 3.months.from_now, countries: [country], service_provider_id: service_provider.id)
+
     visit opportunity_path(opportunity.id)
     expect(page).to have_link(country.name, href: 'https://www.gov.uk/government/publications/exporting-to-egypt')
     expect(page).to have_content('Your guide to exporting')
@@ -106,7 +109,7 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
   scenario 'not all countries having links to exporting guide' do
     with_guide = create(:country, exporting_guide_path: '/government/publications/exporting-to-egypt')
     without_guide = create(:country)
-    opportunity = create(:opportunity, status: :publish, response_due_on: 3.months.from_now, countries: [with_guide, without_guide])
+    opportunity = create(:opportunity, status: :publish, response_due_on: 3.months.from_now, countries: [with_guide, without_guide], service_provider_id: service_provider.id)
 
     visit opportunity_path(opportunity.id)
     expect(page).to have_link(with_guide.name, href: 'https://www.gov.uk/government/publications/exporting-to-egypt')
@@ -124,7 +127,7 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
 
   scenario 'aid funded opportunities have links to aid guidance' do
     aid_type = create(:type, slug: 'aid-funded-business', name: 'Aid Funded Business')
-    opportunity = create(:opportunity, status: :publish, response_due_on: 3.months.from_now, types: [aid_type])
+    opportunity = create(:opportunity, status: :publish, response_due_on: 3.months.from_now, types: [aid_type], service_provider_id: service_provider.id)
 
     visit opportunity_path(opportunity.id)
 
@@ -140,7 +143,7 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
       { html: '<p>1</p>', selector: 'p' },
     ]
     acceptable_html_examples.each do |example|
-      op = create(:opportunity, status: 'publish', description: example[:html])
+      op = create(:opportunity, status: 'publish', description: example[:html], service_provider_id: service_provider.id)
       visit opportunity_path(op.id)
       expect(page).to have_css('.description ' + example[:selector])
     end
@@ -153,7 +156,7 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
       { html: '<marquee>Funtimes</marquee>', selector: 'marquee' },
     ]
     unacceptable_html_examples.each do |example|
-      op = create(:opportunity, status: 'publish', description: example[:html])
+      op = create(:opportunity, status: 'publish', description: example[:html], service_provider_id: service_provider.id)
       visit opportunity_path(op.id)
       expect(page).not_to have_css('.opportunity__content ' + example[:selector])
     end
@@ -168,7 +171,7 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
   They must be from Wimbledon.
 EOD
 
-    op = create(:opportunity, status: 'publish', description: example)
+    op = create(:opportunity, status: 'publish', description: example, service_provider_id: service_provider.id)
     visit opportunity_path(op.id)
     expect(page).to have_css('.description p:nth-last-child(3)')
   end

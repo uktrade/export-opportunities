@@ -22,8 +22,12 @@ module Helpers
     end
   end
 
-  def get_content(file)
-    YAML.load_file(File.join(Rails.root.to_s, 'app', 'content/') + file + '.yml')
+  def get_content(*files)
+    content = {}
+    files.each do |file|
+      content = content.merge YAML.load_file(File.join(Rails.root.to_s, 'app', 'content/') + file + '.yml')
+    end
+    content
   end
 end
 

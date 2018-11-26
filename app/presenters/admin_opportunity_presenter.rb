@@ -1,7 +1,6 @@
 class AdminOpportunityPresenter < OpportunityPresenter
   def initialize(view_context, opportunity, content)
-    super(view_context, opportunity)
-    @content = content
+    super(view_context, opportunity, content)
   end
 
   def edit_button

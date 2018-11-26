@@ -5,11 +5,11 @@ require 'rails_helper'
 RSpec.describe AdminOpportunityPresenter do
   let(:editor) { create(:editor, role: :administrator) }
   let(:view_context) { admin_view_context(editor) }
+  let(:content) { get_content('opportunities/show', 'admin/opportunities') }
   let(:paths) { Rails.application.routes.url_helpers }
 
   describe '#edit_button' do
     it 'returns html for an Edit button' do
-      content = get_content('admin/opportunities')
       opportunity = create(:opportunity)
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
       button = presenter.edit_button
@@ -22,7 +22,6 @@ RSpec.describe AdminOpportunityPresenter do
 
   describe '#publishing_button' do
     it 'returns html for an Publishing button when status is publish' do
-      content = get_content('admin/opportunities')
       opportunity = create(:opportunity, status: :publish)
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
       button = presenter.publishing_button
@@ -33,7 +32,6 @@ RSpec.describe AdminOpportunityPresenter do
     end
 
     it 'returns html for an Publishing button when status is pending' do
-      content = get_content('admin/opportunities')
       opportunity = create(:opportunity, status: :pending)
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
       button = presenter.publishing_button
@@ -44,7 +42,6 @@ RSpec.describe AdminOpportunityPresenter do
     end
 
     it 'returns html for an Publishing button when status is trash' do
-      content = get_content('admin/opportunities')
       opportunity = create(:opportunity, status: :trash)
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
       button = presenter.publishing_button
@@ -55,7 +52,6 @@ RSpec.describe AdminOpportunityPresenter do
     end
 
     it 'returns empty string when status is not publish, pending, or trash' do
-      content = get_content('admin/opportunities')
       opportunity = create(:opportunity, status: :draft)
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
       button = presenter.publishing_button
@@ -66,7 +62,6 @@ RSpec.describe AdminOpportunityPresenter do
 
   describe '#trash_button' do
     it 'returns html for a Trash button' do
-      content = get_content('admin/opportunities')
       opportunity = create(:opportunity, status: :draft)
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
       button = presenter.trash_button
@@ -79,7 +74,6 @@ RSpec.describe AdminOpportunityPresenter do
 
   describe '#draft_button' do
     it 'returns html for a Draft button when statis is trash' do
-      content = get_content('admin/opportunities')
       opportunity = create(:opportunity, status: :trash)
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
       button = presenter.draft_button
@@ -90,7 +84,6 @@ RSpec.describe AdminOpportunityPresenter do
     end
 
     it 'returns html for a Draft button when status is pending' do
-      content = get_content('admin/opportunities')
       opportunity = create(:opportunity, status: :pending)
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
       button = presenter.draft_button
@@ -102,7 +95,6 @@ RSpec.describe AdminOpportunityPresenter do
 
 
     it 'returns blank string when status is neither trash or pending' do
-      content = get_content('admin/opportunities')
       opportunity = create(:opportunity, status: :draft)
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
       button = presenter.draft_button
@@ -113,7 +105,6 @@ RSpec.describe AdminOpportunityPresenter do
 
   describe '#pending_button' do
     it 'returns html for a Pending button when status is draft' do
-      content = get_content('admin/opportunities')
       opportunity = create(:opportunity, status: :draft)
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
       button = presenter.pending_button
@@ -124,7 +115,6 @@ RSpec.describe AdminOpportunityPresenter do
     end
 
     it 'returns empty string when status is not draft' do
-      content = get_content('admin/opportunities')
       opportunity = create(:opportunity, status: :pending)
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
       button = presenter.pending_button
@@ -135,7 +125,6 @@ RSpec.describe AdminOpportunityPresenter do
 
   describe '#button_to' do
     it 'returns html for a button' do
-      content = get_content('admin/opportunities')
       opportunity = create(:opportunity, status: :draft)
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
       button = presenter.button_to('some text', 'get', 'status_x')
@@ -164,7 +153,6 @@ RSpec.describe AdminOpportunityPresenter do
 
   describe '#author' do
     it 'returns author name or \'editor\' when author is nil' do
-      content = get_content('admin/opportunities')
       author = create(:editor, name: 'Fred')
       opportunity = create(:opportunity, author: author)
       presenter = AdminOpportunityPresenter.new(view_context, opportunity, content)
