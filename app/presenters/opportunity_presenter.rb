@@ -187,22 +187,27 @@ class OpportunityPresenter < PagePresenter
     elsif partner.present?
       lines.push content_with_inclusion('sign_off_partner_1', [partner, country_name])
       lines.push content_with_inclusion('sign_off_partner_2', [partner, country_name])
+      lines.push @content['sign_off_extra']
 
     elsif ['DIT Education', 'DIT HQ', 'DSO HQ', 'DSO RD West 2 / NATO',
            'Occupied Palestinian Territories Jerusalem', 'UKEF', 'UKREP',
            'United Kingdom LONDON', 'USA AFB', 'USA OBN OCO', 'USA OBN Sannam S4'].include? name
       lines.push @content['sign_off_dit']
+      lines.push @content['sign_off_extra']
 
     elsif name.match(/Czech Republic \w+|Dominican Republic \w+|Ivory Coast \w+|Netherlands \w+|Philippines \w+|United Arab Emirates \w+|United States \w+/)
       lines.push content_with_inclusion('sign_off_default', ['the ', country_name])
+      lines.push @content['sign_off_extra']
 
     # Exceptions where we need to use Region name
     elsif name.match(/.*Africa.* \w+|Cameroon \w+|Egypt \w+|Kenya OBNI|Nabia \w+|Rwanda \w+|Senegal \w+|Seychelles \w+|Tanzania \w+|Tunisia \w+|Zambia \w+/)
       lines.push content_with_inclusion('sign_off_default', ['', country.region.name])
+      lines.push @content['sign_off_extra']
 
     else
       # Default sign off
       lines.push content_with_inclusion('sign_off_default', ['', country_name])
+      lines.push @content['sign_off_extra']
 
     end
     lines
