@@ -1,6 +1,6 @@
 // Main/Global/All pages JS files for site
 //
-//= require transformation/third_party/jquery-3.2.0.min
+//= require transformation/third_party/jquery-3.3.1.min
 //= require transformation/dit
 //= require transformation/dit.utils
 //= require transformation/dit.responsive
