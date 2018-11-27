@@ -62,7 +62,7 @@ namespace :partners do
     kuwait.partner = 'Kuwait British Business Centre (KBBC).'
     kuwait.save!
 
-    malaysia = ServiceProvider.where(name: 'Kuwait OBNI').first
+    malaysia = ServiceProvider.where(name: 'Malaysia OBNI').first
     malaysia.partner = 'British Malaysian Chamber of Commerce (BMCC)'
     malaysia.save!
 
@@ -73,6 +73,10 @@ namespace :partners do
     poland = ServiceProvider.where(name: 'Poland OBNI').first
     poland.partner = 'British Polish Chamber of Commerce'
     poland.save!
+
+    romania = ServiceProvider.where(name: 'Romania OBNI').first
+    romania.partner = 'British Romanian Chamber of Commerce'
+    romania.save!
 
     taiwan = ServiceProvider.where(name: 'Taiwan OBNI').first
     taiwan.partner = 'British Chamber of Commerce in Taipei (BCCT)'
