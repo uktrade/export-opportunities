@@ -205,7 +205,6 @@ class OpportunityPresenter < PagePresenter
 
     # Exceptions where we need to use Region name
     elsif region_name.match(/Africa/)
-    #elsif name.match(/.*Africa.* \w+|Cameroon \w+|Egypt \w+|Kenya OBNI|Nabia \w+|Rwanda \w+|Senegal \w+|Seychelles \w+|Tanzania \w+|Tunisia \w+|Zambia \w+/)
       lines.push content_with_inclusion('sign_off_default', ['', region_name])
       lines.push @content['sign_off_extra']
 
