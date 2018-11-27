@@ -176,7 +176,11 @@ class OpportunityPresenter < PagePresenter
     partner = service_provider[:partner]
     name = service_provider[:name]
     country = service_provider.country
-    country_name = country.nil? ? '' : country.name # compensate for poor data
+
+    # compensate for poor country data by using ternary operator.
+    country_name = country.nil? ? '' : country.name
+    region_name = country.nil? ? '' : country.region.name
+
     lines = []
     if @target_url.present?
       lines.push @content['sign_off_target_url']
@@ -200,8 +204,9 @@ class OpportunityPresenter < PagePresenter
       lines.push @content['sign_off_extra']
 
     # Exceptions where we need to use Region name
-    elsif name.match(/.*Africa.* \w+|Cameroon \w+|Egypt \w+|Kenya OBNI|Nabia \w+|Rwanda \w+|Senegal \w+|Seychelles \w+|Tanzania \w+|Tunisia \w+|Zambia \w+/)
-      lines.push content_with_inclusion('sign_off_default', ['', country.region.name])
+    elsif region_name.match(/Africa/)
+    #elsif name.match(/.*Africa.* \w+|Cameroon \w+|Egypt \w+|Kenya OBNI|Nabia \w+|Rwanda \w+|Senegal \w+|Seychelles \w+|Tanzania \w+|Tunisia \w+|Zambia \w+/)
+      lines.push content_with_inclusion('sign_off_default', ['', region_name])
       lines.push @content['sign_off_extra']
 
     else
