@@ -551,19 +551,6 @@ RSpec.describe OpportunityPresenter do
       expect(lines[0]).to eq("Express your interest to the Department for International Trade team in #{region.name}.")
       expect(lines[1]).to eq(content['sign_off_extra'])
 
-      # And do another one to be sure...
-      region = create(:region, name: 'Africa')
-      country = create(:country, name: 'South Africa', region_id: region.id)
-      provider = create(:service_provider, name: 'South Africa Johannesburg', country_id: country.id)
-      opportunity = create(:opportunity)
-      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity, content)
-      lines = presenter.sign_off_content(provider)
-      country_name = provider.country.name
-
-      expect(lines.length).to eq(2)
-      expect(lines[0]).to eq("Express your interest to the Department for International Trade team in #{region.name}.")
-      expect(lines[1]).to eq(content['sign_off_extra'])
-
       # And another which looks for 'Africa' in the region name...
       region = create(:region, name: 'East Africa')
       country = create(:country, name: 'Rwanda', region_id: region.id)
