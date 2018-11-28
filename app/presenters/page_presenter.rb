@@ -20,44 +20,83 @@ class PagePresenter < BasePresenter
   end
 
   # Injects values into a formatted string.
-  # Unmatched markers (not enough arguments) leave the
-  # inclusion markers in place.
+  # You can includes conditional content by surrounding
+  # your inclusion marker labels.
   #
-  # e.g. Returns string "Hello Darth Vader"
-  # when
+  # [$something] = Inclusion marker
+  # $something = Inclusion marker label ('something' can be any word, it is not matched)
+  # [some $label content ] = Inclusion marker with conditional content.
+  #
+  # The conditional content above is 'some ' and ' content ' (spaces included).
+  #
+  #
+  # EXMPLES WITHOUT CONDITIONAL CONTENT in the inclusion markers
+  # ------------------------------------------------------------
+  #
+  # E.g. 
   # content = "Hello [$first_name] [$last_name]"
-  # and
-  # includes = ["Darth", "Vader"]
   #
-  # e.g. Returns string "Hello Darth [$last_name]"
-  # when
-  # content = "Hello [$first_name] [$last_name]"
-  # and
-  # includes = ["Darth"]
+  # Returns string "Hello Darth Vader"
+  # when includes = ["Darth", "Vader"]
   #
-  # e.g. Returns string "Hello  Vader"
-  # when
-  # content = "Hello [$first_name] [$last_name]"
-  # and
-  # includes = ["", "Vader"]
+  # Returns string "Hello Darth"
+  # when includes = ["Darth"]
   #
-  # The inclusion markers first_name and last_name are irrelevant
-  # and only need be used to help understand what content will
-  # be injected.
+  # Returns string "Hello Vader"
+  # when includes = ["", "Vader"]
   #
-  # e.g. Returns string "Hello Darth Vader"
-  # when
-  # content = "Hello [$first_name] [$last_name]"
-  # or
-  # content = "Hello [$anything_here] [$whatever]"
-  # and
-  # includes = ["Darth", "Vader"]
+  # 
+  # EXAMPLES TO SHOW THE LABEL NAMES ARE IRRELEVANT
+  # -----------------------------------------------
+  # The inclusion marker label names/wording is irrelevant.
+  # first_name and last_name are only helpful in these examples
+  # to show what is expected to be injected in the content.
+  # The content in this example contains confusing names but
+  # would work exactly the same as the other examles, given
+  # the same data.
+  #
+  # E.g.
+  # content = "Hello [$building] [$spaceman]"
+  #
+  # Returns string "Hello Darth Vader"
+  # when includes = ["Darth", "Vader"]
+  #
+  #
+  # EXAMPLES WITH CONDITIONAL CONTENT in the inclusion markers
+  # ----------------------------------------------------------
+  # You can also include conditional content that shows only when a match is found. 
+  # The conditional content can be put around the target inclusion marker label.
+  # Some examples will explain better than words.
+  #
+  # E.g.
+  # content = 'Has [an $foo or ][a $bar and ]a dream'
+  #
+  # Returns 'Has a dream'
+  # when includes = []
+  #
+  # Returns 'Has an idea or a dream'
+  # when includes = ['idea', '']
+  # 
+  # Returns 'Has a plan and a dream'
+  # when includes = ['', 'plan']
+  #
+  # Returns 'Has an idea or a plan and a dream'
+  # when includes = ['idea', 'plan']
   #
   def content_with_inclusion(key, includes)
     str = @content[key] || ''
+    re = /\[([^\[\]]*?)\$[a-z]+[\w_]*([^\[\]]*?)\]/i
+    #re = Regexp.new("\\[([^\\[\\]]*?)\\$[a-z]+[\w_]*([^\\[\\]]*?)\\]", Regexp::IGNORECASE) 
     includes.each do |include|
-      str = str.sub(/\[\$.+?\]/, include)
+      str.sub(re, '') # TODO: Why does it work with this line but not without?
+      #re.match(str)   # This one also makes it work !?!?!
+      if include.present?
+        str = str.sub(re, "#{$1}#{include}#{$2}")
+      else
+        str = str.sub(re, '') # just remove the inclusion marker
+      end
     end
+    str = str.gsub(re, '') # If includes was empty
     str.gsub(/\s+/, ' ').html_safe
   end
 
@@ -70,7 +109,8 @@ class PagePresenter < BasePresenter
   #
   def content_without_inclusion(key)
     str = @content[key] || ''
-    str.gsub(/\[\$.+?\]/, '').gsub(/\s+/, ' ').html_safe
+    content_with_inclusion(key, [])
+#    str.gsub(/\[\$.+?\]/, '').gsub(/\s+/, ' ').html_safe
   end
 
   def create_trade_profile_url(number = '')

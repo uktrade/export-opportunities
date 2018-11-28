@@ -462,6 +462,16 @@ RSpec.describe OpportunityPresenter do
   end
 
   describe '#sign_off_content' do
+    # source('volume_opps')
+    it 'returns sign off content for Open Opp' do
+      opportunity = create(:opportunity, source: 'volume_opps')
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity, content)
+      lines = presenter.sign_off_content
+
+      expect(lines.length).to eq(1)
+      expect(lines[0]).to eq('If your company meets the requirements of the tender, go to the website where the tender is hosted and submit your bid.')
+    end
+
     # @target_url.present?
     it 'returns sign off content for Post opp with third-party URL' do
       provider = create(:service_provider)
@@ -473,18 +483,41 @@ RSpec.describe OpportunityPresenter do
       expect(lines[0]).to eq('For more information and to make a bid you will need to go to the third party website.')
     end
 
-    # source('volume_opps')
-    it 'returns sign off content for Open Opp' do
-      opportunity = create(:opportunity, source: 'volume_opps')
+    # Partner line variant
+    # name.match(/China - CBBC|Colombia OBNI|India OBNI|Japan OBNI|Kuwait OBNI/)
+    it 'returns sign off content for provider with partner but not showing the country on first line ' do
+      country = create(:country)
+      provider = create(:service_provider, name: 'India OBNI', country_id: country.id, partner: 'Partner Name')
+      opportunity = create(:opportunity)
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity, content)
-      lines = presenter.sign_off_content
+      lines = presenter.sign_off_content(provider)
+      partner_name = provider.partner
+      country_name = provider.country.name
 
-      expect(lines.length).to eq(1)
-      expect(lines[0]).to eq('If your company meets the requirements of the tender, go to the website where the tender is hosted and submit your bid.')
+      expect(lines.length).to eq(3)
+      expect(lines[0]).to eq("Express your interest to the #{partner_name}.")
+      expect(lines[1]).to eq("The #{partner_name} is our chosen partner to deliver trade services in #{country_name}.")
     end
 
+    # Partner line one-off
+    # name.match(/Saudi Arabia OBNI/)
+    it 'returns an isolated variant of sign off content for provider with partner' do
+      country = create(:country, name: 'Saudi Arabia')
+      provider = create(:service_provider, name: 'Saudi Arabia OBNI', country_id: country.id, partner: 'Partner Name')
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity, content)
+      lines = presenter.sign_off_content(provider)
+      partner_name = provider.partner
+      country_name = provider.country.name
+
+      expect(lines.length).to eq(3)
+      expect(lines[0]).to eq("Express your interest to the #{partner_name} in #{country_name}.")
+      expect(lines[1]).to eq("#{partner_name} is our chosen partner to deliver trade services in #{country_name}.")
+    end
+
+    # Default partner line
     # partner.present?
-    it 'returns sign off content for opp with partner' do
+    it 'returns default sign off content for opp with partner' do
       country = create(:country)
       provider = create(:service_provider, country_id: country.id, partner: 'partner name')
       opportunity = create(:opportunity)
@@ -499,6 +532,7 @@ RSpec.describe OpportunityPresenter do
       expect(lines[2]).to eq(content['sign_off_extra'])
     end
 
+    # Specific exceptions for DIT
     # ['specific', 'standard', 'provider', 'names', 'here'].include?(provider_name)
     it 'returns standard DIT sign off content for specific providers' do
       provider = create(:service_provider, name: 'DIT HQ')
@@ -511,6 +545,19 @@ RSpec.describe OpportunityPresenter do
       expect(lines[1]).to eq(content['sign_off_extra'])
     end
 
+    # One-off especially for DFID
+    # name == 'DFID'
+    it 'returns sign off content specific to DFID' do
+      provider = create(:service_provider, name: 'DFID')
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity, content)
+      lines = presenter.sign_off_content(provider)
+
+      expect(lines.length).to eq(2)
+      expect(lines[0]).to eq('Express your interest to the Department for International Development.')
+    end
+
+    # Exceptions for countries that need 'the' (e.g. the Netherlands)
     # name.match(/Czech Republic \w+|Dominican Republic \w+|Ivory Coast \w+|Netherlands \w+|Philippines \w+|United Arab Emirates \w+|United States \w+/)
     it 'returns standard sign off content with \'the\' variant required for country name' do
       country = create(:country, name: 'Czech Republic')
@@ -537,6 +584,7 @@ RSpec.describe OpportunityPresenter do
       expect(lines[1]).to eq(content['sign_off_extra'])
     end
 
+    # Exceptions where we need to use Region name
     # name.match(/.*Africa.* \w+|Cameroon \w+|Egypt \w+|Kenya OBNI|Nabia \w+|Rwanda \w+|Senegal \w+|Seychelles \w+|Tanzania \w+|Tunisia \w+|Zambia \w+/)
     it 'returns standard sign off content with region name instead of country' do
       region = create(:region, name: 'Africa')
@@ -565,6 +613,7 @@ RSpec.describe OpportunityPresenter do
       expect(lines[1]).to eq(content['sign_off_extra'])
     end
 
+    # Default sign off
     # else
     it 'returns standard sign off when no other condition matched' do
       country = create(:country, name: 'France')
