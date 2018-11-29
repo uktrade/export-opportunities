@@ -483,8 +483,24 @@ RSpec.describe OpportunityPresenter do
       expect(lines[0]).to eq('For more information and to make a bid you will need to go to the third party website.')
     end
 
-    # Partner line variant
-    # name.match(/China - CBBC|Colombia OBNI|India OBNI|Japan OBNI|Kuwait OBNI/)
+    # Partner line variant (without country and second line 'the')
+    # name.match(/Colombia OBNI|Japan OBNI/)
+    it 'returns sign off content for provider with partner but not showing the country on first line ' do
+      country = create(:country)
+      provider = create(:service_provider, name: 'Japan OBNI', country_id: country.id, partner: 'Partner Name')
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity, content)
+      lines = presenter.sign_off_content(provider)
+      partner_name = provider.partner
+      country_name = provider.country.name
+
+      expect(lines.length).to eq(3)
+      expect(lines[0]).to eq("Express your interest to the #{partner_name}.")
+      expect(lines[1]).to eq("#{partner_name} is our chosen partner to deliver trade services in #{country_name}.")
+    end
+
+    # Partner line variant (without country)
+    # name.match(/China - CBBC|India OBNI|Kuwait OBNI/)
     it 'returns sign off content for provider with partner but not showing the country on first line ' do
       country = create(:country)
       provider = create(:service_provider, name: 'India OBNI', country_id: country.id, partner: 'Partner Name')
