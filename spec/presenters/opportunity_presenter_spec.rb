@@ -519,7 +519,7 @@ RSpec.describe OpportunityPresenter do
     # name.match(/Saudi Arabia OBNI/)
     it 'returns an isolated variant of sign off content for provider with partner' do
       country = create(:country, name: 'Saudi Arabia')
-      provider = create(:service_provider, name: 'Saudi Arabia OBNI', country_id: country.id, partner: 'Partner Name')
+      provider = create(:service_provider, name: 'Saudi Arabia OBNI', country_id: country.id, partner: 'Arabian Enterprise Incubators')
       opportunity = create(:opportunity)
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity, content)
       lines = presenter.sign_off_content(provider)
@@ -527,7 +527,7 @@ RSpec.describe OpportunityPresenter do
       country_name = provider.country.name
 
       expect(lines.length).to eq(3)
-      expect(lines[0]).to eq("Express your interest to the #{partner_name} in #{country_name}.")
+      expect(lines[0]).to eq("Express your interest to #{partner_name} in #{country_name}.")
       expect(lines[1]).to eq("#{partner_name} is our chosen partner to deliver trade services in #{country_name}.")
     end
 
