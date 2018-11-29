@@ -248,8 +248,8 @@ class OpportunityPresenter < PagePresenter
       lines.push @content['sign_off_extra']
 
     # Exceptions where we need to use Region name
-    elsif region_name.match(/Africa/)
-      lines.push content_with_inclusion('sign_off_default', ['', region_name])
+    elsif region_name.include? 'Africa'
+      lines.push content_with_inclusion('sign_off_default', ['', 'Africa'])
       lines.push @content['sign_off_extra']
 
     # Default sign off
