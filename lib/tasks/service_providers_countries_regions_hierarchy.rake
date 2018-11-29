@@ -51,7 +51,7 @@ namespace :partners do
     colombia.save!
 
     india = ServiceProvider.where(name: 'India OBNI').first
-    india.partner = 'UK India Business Council in India (UKIBC)'
+    india.partner = 'UK India Business Council (UKIBC)'
     india.save!
 
     japan = ServiceProvider.where(name: 'Japan OBNI').first
