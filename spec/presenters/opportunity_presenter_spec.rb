@@ -495,7 +495,7 @@ RSpec.describe OpportunityPresenter do
       country_name = provider.country.name
 
       expect(lines.length).to eq(3)
-      expect(lines[0]).to eq("Express your interest to the #{partner_name}.")
+      expect(lines[0]).to eq("Express your interest to #{partner_name}.")
       expect(lines[1]).to eq("#{partner_name} is our chosen partner to deliver trade services in #{country_name}.")
     end
 

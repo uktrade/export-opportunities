@@ -199,7 +199,7 @@ class OpportunityPresenter < PagePresenter
     #   "Message [PARTNER NAME]."
     #   "[PARTNER NAME] message in [COUNTRY NAME]."
     elsif name.match(/Colombia OBNI|Japan OBNI/)
-      lines.push content_with_inclusion('sign_off_partner_1', [partner])
+      lines.push content_with_inclusion('sign_off_partner_1a', [partner])
       lines.push content_with_inclusion('sign_off_partner_2', [partner, country_name]).sub(/^The\s/, '')
       lines.push @content['sign_off_extra']
 
@@ -217,7 +217,7 @@ class OpportunityPresenter < PagePresenter
     # "Message the [PARTNER NAME] in [COUNTRY NAME]."
     # "[PARTNER NAME] message in [COUNTRY NAME]."
     elsif name.match(/Saudi Arabia OBNI/)
-      lines.push content_with_inclusion('sign_off_partner_1', [partner, country_name]).sub('the Arabian Enterprise', 'Arabian Enterprise')
+      lines.push content_with_inclusion('sign_off_partner_1a', [partner, country_name])
       lines.push content_with_inclusion('sign_off_partner_2', [partner, country_name]).sub(/^The\s/, '')
       lines.push @content['sign_off_extra']
 
