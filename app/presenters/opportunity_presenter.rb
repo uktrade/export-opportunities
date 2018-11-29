@@ -190,27 +190,41 @@ class OpportunityPresenter < PagePresenter
     elsif @target_url.present?
       lines.push @content['sign_off_target_url']
 
-    # Specific (has partner) exceptions for isolated cases where the preference is 
-    # to cater just for these rather than change the format and update all the data. 
-    #elsif name.match(/China - CBBC|India OBNI|Kuwait OBNI/)
-    #  lines.push content_with)inclusion('sign_off_partner_1a', [partner])
-    #  "[PARTNER NAME SHORTENED] is our chosen partner to deliver trade services in [COUNTRY NAME]."
-    #  lines.push @content['sign_off_extra']
 
-    # Partner line variant
-    elsif name.match(/China - CBBC|Colombia OBNI|India OBNI|Japan OBNI|Kuwait OBNI/)
-    #elsif name.match(/Colombia OBNI|Japan OBNI/)
+    # Specific (has partner) exceptions for isolated cases where the preference is 
+    # to cater just for these rather than change the format and update all the data
+
+    # Partner line variant (without country and second line 'the')
+    # Format of message:
+    #   "Message [PARTNER NAME]."
+    #   "[PARTNER NAME] message in [COUNTRY NAME]."
+    elsif name.match(/Colombia OBNI|Japan OBNI/)
+      lines.push content_with_inclusion('sign_off_partner_1', [partner])
+      lines.push content_with_inclusion('sign_off_partner_2', [partner, country_name]).sub(/^The\s/, '')
+      lines.push @content['sign_off_extra']
+
+    # Partner line variant (without country)
+    # Format of message:
+    #   "Message the [PARTNER NAME]."
+    #   "The [PARTNER NAME] message in [COUNTRY NAME]."
+    elsif name.match(/China - CBBC|India OBNI|Kuwait OBNI/)
       lines.push content_with_inclusion('sign_off_partner_1', [partner])
       lines.push content_with_inclusion('sign_off_partner_2', [partner, country_name])
       lines.push @content['sign_off_extra']
 
     # Partner line one-off
+    # Format of message:
+    # "Message the [PARTNER NAME] in [COUNTRY NAME]."
+    # "[PARTNER NAME] message in [COUNTRY NAME]."
     elsif name.match(/Saudi Arabia OBNI/)
       lines.push content_with_inclusion('sign_off_partner_1', [partner, country_name])
       lines.push content_with_inclusion('sign_off_partner_2', [partner, country_name]).sub(/^The\s/, '')
       lines.push @content['sign_off_extra']
 
     # Default partner line
+    # Format of message:
+    # "Message the [PARTNER NAME] in [COUNTRY NAME]."
+    # "The [PARTNER NAME] message in [COUNTRY NAME]."
     elsif partner.present?
       lines.push content_with_inclusion('sign_off_partner_1', [partner, country_name])
       lines.push content_with_inclusion('sign_off_partner_2', [partner, country_name])
