@@ -495,7 +495,7 @@ RSpec.describe OpportunityPresenter do
       country_name = provider.country.name
 
       expect(lines.length).to eq(3)
-      expect(lines[0]).to eq("Express your interest to the #{partner_name}.")
+      expect(lines[0]).to eq("Express your interest to #{partner_name}.")
       expect(lines[1]).to eq("#{partner_name} is our chosen partner to deliver trade services in #{country_name}.")
     end
 
@@ -519,7 +519,7 @@ RSpec.describe OpportunityPresenter do
     # name.match(/Saudi Arabia OBNI/)
     it 'returns an isolated variant of sign off content for provider with partner' do
       country = create(:country, name: 'Saudi Arabia')
-      provider = create(:service_provider, name: 'Saudi Arabia OBNI', country_id: country.id, partner: 'Partner Name')
+      provider = create(:service_provider, name: 'Saudi Arabia OBNI', country_id: country.id, partner: 'Arabian Enterprise Incubators')
       opportunity = create(:opportunity)
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity, content)
       lines = presenter.sign_off_content(provider)
@@ -527,7 +527,7 @@ RSpec.describe OpportunityPresenter do
       country_name = provider.country.name
 
       expect(lines.length).to eq(3)
-      expect(lines[0]).to eq("Express your interest to the #{partner_name} in #{country_name}.")
+      expect(lines[0]).to eq("Express your interest to #{partner_name} in #{country_name}.")
       expect(lines[1]).to eq("#{partner_name} is our chosen partner to deliver trade services in #{country_name}.")
     end
 
@@ -602,8 +602,8 @@ RSpec.describe OpportunityPresenter do
 
     # Exceptions where we need to use Region name
     # name.match(/.*Africa.* \w+|Cameroon \w+|Egypt \w+|Kenya OBNI|Nabia \w+|Rwanda \w+|Senegal \w+|Seychelles \w+|Tanzania \w+|Tunisia \w+|Zambia \w+/)
-    it 'returns standard sign off content with region name instead of country' do
-      region = create(:region, name: 'Africa')
+    it 'returns standard sign off content with \'Africa\' instead of country for those in a related regions' do
+      region = create(:region, name: 'Somewhere in Africa')
       country = create(:country, name: 'Cameroon', region_id: region.id)
       provider = create(:service_provider, name: 'Cameroon Yaounde', country_id: country.id)
       opportunity = create(:opportunity)
@@ -612,7 +612,7 @@ RSpec.describe OpportunityPresenter do
       country_name = provider.country.name
 
       expect(lines.length).to eq(2)
-      expect(lines[0]).to eq("Express your interest to the Department for International Trade team in #{region.name}.")
+      expect(lines[0]).to eq("Express your interest to the Department for International Trade team in Africa.")
       expect(lines[1]).to eq(content['sign_off_extra'])
 
       # And another which looks for 'Africa' in the region name...
@@ -625,7 +625,7 @@ RSpec.describe OpportunityPresenter do
       country_name = provider.country.name
 
       expect(lines.length).to eq(2)
-      expect(lines[0]).to eq("Express your interest to the Department for International Trade team in #{region.name}.")
+      expect(lines[0]).to eq("Express your interest to the Department for International Trade team in Africa.")
       expect(lines[1]).to eq(content['sign_off_extra'])
     end
 

@@ -59,7 +59,7 @@ namespace :partners do
     japan.save!
 
     kuwait = ServiceProvider.where(name: 'Kuwait OBNI').first
-    kuwait.partner = 'Kuwait British Business Centre (KBBC).'
+    kuwait.partner = 'Kuwait British Business Centre (KBBC)'
     kuwait.save!
 
     malaysia = ServiceProvider.where(name: 'Malaysia OBNI').first
