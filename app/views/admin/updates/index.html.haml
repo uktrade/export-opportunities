@@ -1,126 +1,117 @@
+- content_for :action_specific_head  do
+  = stylesheet_link_tag 'transformation_admin/pages/updates'
 
-%h1.heading-large Service updates
 
-.metadata
-  %dl
-    %dt Last updated:
-    %dd 10 October 2018
+.container
+  %h1 Service updates
 
-%hr.no-margin
+  %dl.content-meta
+    %dt Last updated
+    %dd 21 November 2018
 
-.grid-row
-  .column-two-thirds
-    %h4 New opportunity creation form
+  .updates
+    %dl.update
+      %dt
+        New guidance for writing an opportunity
+        %span.verbose ,
+        %span.date 21 November
+      %dd.change
+        we've updated the
+        = link_to 'guidance', '/admin/help/how-to-write-an-export-opportunity/overview'
+        on how to write and upload a new opportunity
+      %dd.change
+        you don't need to add the country at the start of the title as this is now added automatically
+      %dd.change
+        you don't need to add the sign off lines to the description as these are now added automatically
 
-    %h5 10 October
+    %dl.update
+      %dt
+        New opportunity creation form
+        %span.verbose ,
+        %span.date 10 October
+      %dd.change country is automatically added to opportunity title
+      %dd.change service provider is pre-selected
+      %dd.change option to add a third party link directing customers to an external site instead of submitting a proposal to post
 
-    %ul.list.list-bullet
-      %li country is automatically added to opportunity title
-      %li service provider is pre-selected
-      %li option to add a third party link directing customers to an external site instead of submitting a proposal to post
+    %dl.update
+      %dt
+        'Need more information' tab removed
+        %span.verbose ,
+        %span.date 22 March
+      %dd.change 'need more information' tab removed from the 5 reply templates
+      %dd.change you will need to make a decision based on your research and the information you have available
+      %dd.change if you can't make a decision you will need to contact the company to ask for more information, then (whether the company responds or not) choose from one of the 4 reply templates
 
-%hr.no-margin
-
-.grid-row
-  .column-two-thirds
-    %h4 'Need more information' tab removed
-
-    %h5 22 March
-
-    %ul.list.list-bullet
-      %li 'need more information' tab removed from the 5 reply templates
-      %li you will need to make a decision based on your research and the information you have available
-      %li if you can't make a decision you will need to contact the company to ask for more information, then (whether the company responds or not) choose from one of the 4 reply templates
-
-%hr.no-margin
-
-.grid-row
-  .column-two-thirds
-    %h4 Responding to companies
-
-    %h5 12 March
-
-    %ul.list.list-bullet
-      %li from 3 April it will be mandatory for you to use the reply feature in the admin centre instead of your email when you first respond to companies
-      %li 
-        please see our 
+    %dl.update
+      %dt
+        Responding to companies
+        %span.verbose ,
+        %span.date 12 March
+      %dd.change from 3 April it will be mandatory for you to use the reply feature in the admin centre instead of your email when you first respond to companies
+      %dd.change 
+        please see our
         = link_to "FAQ document", "/downloads/Post_to_User_FAQ.pdf", :target=>"_blank" 
         for more information
 
-%hr.no-margin
 
-.grid-row
-  .column-two-thirds
-    %h4 Updated guidance documents
-
-    %h5 29 January
-
-    %ul.list.list-bullet
-      %li
+    %dl.update
+      %dt
+        Updated guidance documents
+        %span.verbose ,
+        %span.date 29 January
+      %dd.change
         %a(href="/admin/help/how-to-assess-a-company/overview") 'How to assess' guidance
         added and 
         %a(href="/admin/help") 'How to respond' guidance
         updated
 
-%hr.no-margin
+    %dl.update
+      %dt
+        Changes to Enquiries report
+        %span.verbose ,
+        %span.date 29 January
+      %dd.change new columns added to the enquiries tab which let you see the response template you sent to a company, the message you added and when it was sent
 
-.grid-row
-  .column-two-thirds
-    %h4 Changes to Enquiries report
+    %dl.update
+      %dt
+        Ability to sort columns in Enquiries tab
+        %span.verbose ,
+        %span.date 11 December
+      %dd.change clicking the 'Company' or 'Opportunity' headings in Enquiries will now sort the columns by name
 
-    %h5 29 January
+    %dl.update
+      %dt
+        Launch of a new look #{link_to 'great.gov.uk', 'https://www.great.gov.uk'}
+        %span.verbose ,
+        %span.date 11 December
+      %dd.change a filter tool as part of a new #{link_to 'great.gov.uk', 'https://www.great.gov.uk'} design, to help UK companies apply for opportunities for which they are most suitable
 
-    %ul.list.list-bullet
-      %li new columns added to the enquiries tab which let you see the response template you sent to a company, the message you added and when it was sent
+    %dl.update
+      %dt
+        Changes to sign-off line
+        %span.verbose ,
+        %span.date 15 November
+      %dd.change if the opportunity you are submitting is a tender, use the sign off line: 'For more information about this tender, submit your company details to....'
+      %dd.change if the opportunity you are submitting is uniquely sourced, continue using the sign off line: 'Submit your proposal to...' as described in the #{link_to 'writing guidance', '/admin/help/how_to_write_an_export_opportunity/overview'}
 
-%hr.no-margin
+    %dl.update
+      %dt
+        October 2017
+        %span.verbose ,
+        %span.date 30 October
+      %dd.change respond to UK companies directly from the admin centre by choosing 1 of 4 responses
+      %dd.change see which enquiries you have replied to, and which still need a response
+      %dd.change the writing guidance has changed – see the 2 new sign off lines
+      %dd.change we have introduced a 'Single Application View' for UK companies which lets them access all their proposals from one place, and includes suggested next steps and recommendations
 
-.grid-row
-  .column-two-thirds
-    %h4 Ability to sort columns in Enquiries tab
+    -#%dl.update
+    -#  %dt
+    -#    %span.verbose ,
+    -#    %span.date 
+    -#  %dd.change 
+    -#  %dd.change 
+    -#  %dd.change 
 
-    %h5 11 December
-
-    %ul.list.list-bullet
-      %li clicking the 'Company' or 'Opportunity' headings in Enquiries will now sort the columns by name
-
-%hr.no-margin
-
-.grid-row
-  .column-two-thirds
-    %h4 Launch of a new look #{link_to 'great.gov.uk', 'https://www.great.gov.uk'}
-
-    %h5 11 December
-
-    %ul.list.list-bullet
-      %li  a filter tool as part of a new #{link_to 'great.gov.uk', 'https://www.great.gov.uk'} design, to help UK companies apply for opportunities for which they are most suitable
-
-%hr.no-margin
-
-.grid-row
-  .column-two-thirds
-    %h4 Changes to sign-off line
-
-    %h5 15 November
-
-    %ul.list.list-bullet
-      %li if the opportunity you are submitting is a tender, use the sign off line: 'For more information about this tender, submit your company details to....'
-      %li if the opportunity you are submitting is uniquely sourced, continue using the sign off line: 'Submit your proposal to...' as described in the #{link_to 'writing guidance', '/admin/help/how_to_write_an_export_opportunity/overview'}
-
-
-%hr.no-margin
-
-.grid-row
-  .column-two-thirds
-    %h4 October 2017
-    %h5 30 October
-    %ul.list.list-bullet
-      %li respond to UK companies directly from the admin centre by choosing 1 of 4 responses
-      %li see which enquiries you have replied to, and which still need a response
-      %li the writing guidance has changed – see the 2 new sign off lines
-      %li we have introduced a 'Single Application View' for UK companies which lets them access all their proposals from one place, and includes suggested next steps and recommendations
-
-%hr.no-margin
 
 
 

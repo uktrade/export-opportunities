@@ -43,9 +43,18 @@ RSpec.describe PagePresenter do
       presenter = PagePresenter.new(content)
 
       expect(presenter.content_with_inclusion('hello', %w[Darth Vader])).to eql('Hello Darth Vader')
-      expect(presenter.content_with_inclusion('hello', ['Darth'])).to eql('Hello Darth [$last_name]')
       expect(presenter.content_with_inclusion('hello', ['', 'Vader'])).to eql('Hello Vader')
       expect(presenter.content_with_inclusion('hello', ['Darth', 'Vader', ' or shall we say, Anakin'])).to eql('Hello Darth Vader')
+    end
+
+    it 'returns content string with injected values and conditional extra content' do
+      content = { str: 'Has [an $foo or ][a $bar and ]a dream' }.with_indifferent_access
+      presenter = PagePresenter.new(content)
+
+      expect(presenter.content_with_inclusion('str', [])).to eql('Has a dream')
+      expect(presenter.content_with_inclusion('str', ['idea', ''])).to eql('Has an idea or a dream')
+      expect(presenter.content_with_inclusion('str', ['', 'plan'])).to eql('Has a plan and a dream')
+      expect(presenter.content_with_inclusion('str', %w[idea plan])).to eql('Has an idea or a plan and a dream')
     end
   end
 
@@ -75,6 +84,22 @@ RSpec.describe PagePresenter do
       presenter.add_breadcrumb_current('foo')
 
       expect(presenter.breadcrumbs).to include(title: 'foo', slug: '')
+    end
+  end
+
+  describe '#highlight_words' do
+    it 'returns input content with target words surround in SPAN.highlight markup' do
+      presenter = PagePresenter.new({})
+      highlighted = presenter.highlight_words('foo bar diddle woo and more', %w[bar woo])
+
+      expect(highlighted).to eq('foo <span class="highlight">bar</span> diddle <span class="highlight">woo</span> and more')
+    end
+
+    it 'returns unchanged input content when no target words found' do
+      presenter = PagePresenter.new({})
+      highlighted = presenter.highlight_words('foo bar diddle', %w[beer wine])
+
+      expect(highlighted).to eq('foo bar diddle')
     end
   end
 end

@@ -44,9 +44,7 @@ feature 'Administering opportunities' do
     expect(page.status_code).to eq 200
     expect(page).to have_text('Created opportunity "Lorem ipsum title"')
 
-    # View the created opportunity
-    click_on 'Lorem ipsum title'
-
+    # View should be admin/opportunity#show of created opportunity
     expect(page).to have_text('Lorem ipsum title')
     expect(page).to have_text('Lorem ipsum teaser')
     expect(page).to have_text('Lorem ipsum description')
@@ -61,6 +59,45 @@ feature 'Administering opportunities' do
     expect(page).to have_text("#{uploader.name} <jane.doe@example.com>")
     expect(page).to have_text('Joe Bloggs')
     expect(page).to have_text('Joe Bloggs <joe.bloggs@example.com>')
+  end
+
+  scenario 'creates a new opportunity with invalid nbsp characters', :elasticsearch, :commit, js: true do
+    type = create(:type, name: 'Public Sector')
+    value = create(:value, name: 'More than £100k')
+    country = create(:country, name: 'America')
+    sector = create(:sector, name: 'Aerospace')
+    supplier_preference = create(:supplier_preference)
+    service_provider = create(:service_provider, name: 'Italy Rome')
+    uploader = create(:uploader, service_provider: service_provider)
+
+    login_as(uploader)
+    visit admin_opportunities_path
+
+    # Create opportunity
+    click_on 'New opportunity'
+
+    fill_in 'opportunity_title', with: 'Lorem ipsum title'
+    fill_in 'opportunity_teaser', with: 'Lorem ipsum teaser'
+    fill_in 'opportunity_description', with: 'Lorem &nbsp;ipsum description'
+    fill_in 'opportunity_contacts_attributes_0_name', with: uploader.name
+    fill_in 'opportunity_contacts_attributes_0_email', with: 'jane.doe@example.com'
+    fill_in 'opportunity_contacts_attributes_1_name', with: 'Joe Bloggs'
+    fill_in 'opportunity_contacts_attributes_1_email', with: 'joe.bloggs@example.com'
+
+    find_by_id('opportunity_value_ids_1', visible: false).trigger('click')
+    find_by_id('opportunity_type_ids_1', visible: false).trigger('click')
+
+    select country.name, from: 'opportunity_country_ids'
+    select sector.name, from: 'opportunity_sector_ids'
+    select service_provider.name, from: 'opportunity_service_provider_id'
+    select '2020', from: 'opportunity_response_due_on_1i'
+    select '12', from: 'opportunity_response_due_on_2i'
+    select '15', from: 'opportunity_response_due_on_3i'
+
+    click_on 'Save and continue'
+
+    expect(page.status_code).to eq 200
+    expect(page).to have_text('Lorem ipsum description')
   end
 
   feature 'creating a new opportunity without valid data', js: true do
@@ -169,7 +206,9 @@ feature 'Administering opportunities' do
       fill_in 'opportunity_teaser', with: 'you can update the teaser, but you cant update the slug now!'
       click_on 'Save and continue'
 
-      expect(page).to have_text('export-opportunities-133')
+      expect(page).to have_current_path(admin_opportunity_url(opportunity), url: true)
+      expect(page).to have_text(opportunity.title)
+      expect(current_path).to eq('/admin/opportunities/export-opportunities-133')
     end
 
     scenario 'updates a duplicate slug opportunity ending in -3 (1 digit), should not change the random id appended to slug' do
@@ -191,7 +230,8 @@ feature 'Administering opportunities' do
       fill_in 'opportunity_teaser', with: 'you can update the teaser, but you cant update the slug now!'
       click_on 'Save and continue'
 
-      expect(page).to have_text('export-opportunities-3')
+      expect(page).to have_current_path(admin_opportunity_url(opportunity), url: true)
+      expect(page).to have_text(opportunity.title)
     end
   end
 

@@ -1,27 +1,33 @@
 - form = FormPresenter.new(content, {})
+- opp = AdminOpportunityPresenter.new(self, @opportunity, content)
 
 %section.process
   .container
     %h2= content['group_2_title']
 
-    - if opportunity.errors.any?
+    - if @opportunity.errors.any?
       .errors
         %p#errors-list-label
-          = pluralize(opportunity.errors.count, 'error')
+          = pluralize(@opportunity.errors.count, 'error')
           prevented this opportunity from being saved:
         %ul{'aria-labelledby': 'errors-list-label'}
-          - opportunity.errors.full_messages.each do |message|
+          - @opportunity.errors.full_messages.each do |message|
             %li= message
 
-    = form_for [:admin, opportunity], :builder => TemplateFormBuilder do |f|
+    = form_for [:admin, @opportunity], :builder => TemplateFormBuilder do |f|
       %p= content['group_2_description']
       = f.input_text :title, form.input_text('title'), { maxlength: '80', required: true }
 
-      - if opportunity.errors[:slug].any?
+      - if @opportunity.errors[:slug].any?
         = f.input_text :slug, form.input_text('slug'), required: true
 
       = f.input_text :teaser, form.input_text('teaser'), { maxlength: '150', required: true }
       = f.input_textarea :description, form.input_textarea('description'), { rows: '12', required: true }
+
+      = render partial: 'forms/input_label', locals: { label: form.input_label('sign_off') }
+      %fieldset.field.field-sign-off
+        - opp.sign_off_content(@service_provider).each_with_index do |line, index|
+          = content_tag("p", line)
 
       -# Workaround because value_ids should be a single value rather than an Array.
       - attrs = {}
@@ -34,15 +40,15 @@
       = f.input_checkbox_group :type_ids, form.input_checkbox_group('types', @types)
       = f.input_checkbox_group :supplier_preference_ids, form.input_checkbox_group('supplier_preferences', @supplier_preferences)
       = f.input_date_month_year :response_due_on, form.input_date_month_year('response_due_on'), required: true
-      = f.input_select :service_provider_id, form.input_select('service_provider_id', @service_providers), { default: @selected_service_provider.id, required: true }
-      = f.input_text :target_url, form.input_text('target_url'), data: { node: 'target-url' }
+      = f.input_select :service_provider_id, form.input_select('service_provider_id', @service_providers), { default: @service_provider.id, required: true }
 
+      = f.input_text :target_url, form.input_text('target_url'), data: { node: 'target-url' }
       = f.fields_for :contacts do |field|
         - required = field.index < 1
         = field.input_text :name, form.input_text("contact_#{field.index + 1}_name"), required: required
         = field.input_text :email, form.input_text("contact_#{field.index + 1}_email"), required: required
 
-      - if policy(opportunity).show_ragg? && opportunity.id.present?
+      - if policy(@opportunity).show_ragg? && @opportunity.id.present?
         = f.input_radio :ragg, form.input_radio('ragg', @ragg)
 
       .controls

@@ -14,7 +14,7 @@
     - if @opportunity.expired?
       %p.expired= content['message_expired']
 
-    %p= page.content_with_inclusion 'created_information', [@opportunity.author.name, opp.formatted_date('created_at')]
+    %p= page.content_with_inclusion 'created_information', [opp.author, opp.formatted_date('created_at')]
     .status
       %p
         = content['title_status']
@@ -34,14 +34,16 @@
       %dt= page.content('fields.title.label')
       %dd= @opportunity.title
 
-      %dt= page.content('fields.slug.label')
-      %dd= @opportunity.slug
-
       %dt= page.content('fields.teaser.label')
       %dd= @opportunity.teaser
 
       %dt= page.content('fields.description.label')
       %dd= present_html_or_formatted_text(@opportunity.description).html_safe
+
+      %dt= page.content('fields.sign_off.label')
+      %dd.sign-off
+        - opp.sign_off_content(@opportunity.service_provider).each_with_index do |line, index|
+          = content_tag("p", line, class: "sign-off-#{index}")
 
       %dt= page.content('fields.values.question')
       %dd= opp.put(opp.value, '-')
@@ -100,60 +102,74 @@
 %section.checks
   .container
     %h2 Automatic opportunity checks
+
+    -# Quality checks
     - if @opportunity.opportunity_checks.size == 0
       %p We haven't quality checked this opportunity yet.
 
     - else
       - @opportunity.opportunity_checks.each do |check|
-        - if check.offset
-          %p= check.submitted_text[0..check.offset-2]
-          %p.error= check.submitted_text[check.offset-1..check.offset+check.length]
-          %p= check.submitted_text[check.offset+check.length+1..check.submitted_text.length]
+        .check
+          %dl.score
+            %dt.created Quality checked
+            %dd.created= check.created_at
 
-        - else
-          %p= check.submitted_text
+            %dt Score
+            %dd= opp.put(check.score)
 
-        %dl.score
-          %dt Score
-          %dd= opp.put(check.score)
+            %dt Offensive term
+            %dd= opp.put(check.offensive_term)
 
-          %dt Offensive Term
-          %dd= opp.put(check.offensive_term)
+            %dt Suggested term
+            %dd= opp.put(check.suggested_term)
 
-          %dt Suggested Term
-          %dd= opp.put(check.suggested_term)
+            %dt Error Id
+            %dd= opp.put(check.error_id)
 
-          %dt Error Id
-          %dd= opp.put(check.error_id)
+          - if check.offset
+            %p.text= page.highlight_words(check.submitted_text, [check.offensive_term])
 
+          - else
+            %p.text= check.submitted_text.truncate(160, omission: '...')
+
+    -# Sensitivity checks
     - if @opportunity.opportunity_sensitivity_checks.size == 0
       %p We haven't sensitivity checked this opportunity yet.
 
     - else
-      - @opportunity.opportunity_sensitivity_checks.each do |check|
-        %p= check.submitted_text.truncate(160, omission: '...(continued)')
-        %dl
-          %dt Review Recommended?
-          %dd= check.review_recommended
+      - @opportunity.opportunity_sensitivity_checks.each_with_index do |check, index|
+        .check
+          %dl
+            %dt.created Sensitivity checked
+            %dd.created= check.created_at
 
-          %dt sexually explicit or adult
-          %dd= number_to_percentage(check.category1_score*100, precision: 2)
+            %dt Review Recommended?
+            %dd= check.review_recommended
 
-          %dt sexually suggestive or mature
-          %dd= number_to_percentage(check.category2_score*100, precision: 2)
+            %dt Sexually explicit or adult
+            %dd= number_to_percentage(check.category1_score*100, precision: 2)
 
-          %dt offensive
-          %dd= number_to_percentage(check.category3_score*100, precision: 2)
+            %dt Sexually suggestive or mature
+            %dd= number_to_percentage(check.category2_score*100, precision: 2)
 
-        - if check&.opportunity_sensitivity_term_checks.size > 0
-          %p BST (Business Sensitive Terms) Matched:
-          - check&.opportunity_sensitivity_term_checks.each do |term_check|
-            %dl.bst
-              %dt BST
-              %dd= term_check.term
+            %dt Offensive
+            %dd= number_to_percentage(check.category3_score*100, precision: 2)
 
-              %dt ListId
-              %dd= "#{term_check.list_id} (#{term_check&.list_id == 0 ? 'Azure internal list' : 'DIT list'})"
+          - terms = []
+          - if check&.opportunity_sensitivity_term_checks.size > 0
+            %p.bst-label{ id: "bst-label-#{index}" }  Matched BST (Business Sensitive Terms)
+            %ul{ aria: { labelledby: "bst-label-#{index}" } }
+              - check&.opportunity_sensitivity_term_checks.each do |term_check|
+                - terms.push term_check.term
+                %li
+                  -#%span.list= "List ID: #{term_check.list_id}"
+                  %span.list= "#{term_check&.list_id == 0 ? 'Azure internal list' : 'DIT list'}:"
+                  %span.term= term_check.term
+
+          - if check.review_recommended
+            %p.text= page.highlight_words(check.submitted_text, terms)
+          - else
+            %p.text= check.submitted_text.truncate(160, omission: '...(continued)')
 
 
 %section.enquiries
@@ -193,8 +209,9 @@
                   - else
                     ='Not supplied'
                 - else
+
                   -# Rate CH exceeded
-                  =enquiry.company_house_number
+                  %span.rate_ch_exceeded= enquiry.company_house_number
 
               %dt Company Postcode
               %dd= enquiry.company_postcode
@@ -211,8 +228,9 @@
                   - else
                     ='Not supplied'
                 - else
+
                   -# Rate Trade Profile Exceeded
-                  =link_to 'Please check individual enquiry here', admin_enquiry_url(enquiry.id)
+                  =link_to 'Please check individual enquiry here', admin_enquiry_url(enquiry.id), class: 'rate_trade_profile_exceeded'
 
               %dt Existing exporter?
               %dd= enquiry.existing_exporter

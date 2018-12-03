@@ -48,8 +48,7 @@ feature 'Logging in as an admin' do
 
     visit '/admin/help/how-to-write-an-export-opportunity/overview'
 
-    expect_editor_to_be_logged_in
-    expect(page.body).to include('This guidance aims to help you write export opportunities')
+    expect(page.body).to include('This guidance will help you write export opportunities.')
     expect(page.body).to include('How to write an export opportunity')
   end
 

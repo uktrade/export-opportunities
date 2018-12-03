@@ -1,5 +1,5 @@
 
-//= require jquery
+//= require jquery-3.3.1.min
 //= require jquery.charactercounter
 //= require datepicker.lang.en.js
 //= require datepicker

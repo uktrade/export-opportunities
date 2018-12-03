@@ -1,4 +1,5 @@
 require_relative 'boot'
+require_relative '../lib/rack_x_robots_tag'
 
 require 'rails/all'
 
@@ -25,6 +26,9 @@ module ExportOpportunities
     # GZIP our responses when supported by client
     config.middleware.use Rack::Deflater
 
+    # No indexing (if env.DISALLOW_ALL_WEB_CRAWLERS)
+    config.middleware.use Rack::XRobotsTag
+
     # Use Sidekiq to process jobs from ActiveJob
     config.active_job.queue_adapter = :sidekiq
 
@@ -38,9 +42,6 @@ module ExportOpportunities
         "<div class=\"field_with_errors\">#{html_tag}</div>".html_safe
       end
     end
-
-    # TODO: Temporary POC view path solution (remove when no longer using /poc/)
-    config.paths['app/views'].push("#{Rails.root}/app/views/poc")
 
     # TODO: temp workaround
     config.action_controller.permit_all_parameters = true

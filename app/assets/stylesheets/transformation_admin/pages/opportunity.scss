@@ -68,6 +68,12 @@ main {
   padding-bottom: $spacing-3;
 }
 
+.field-sign-off {
+  p {
+    margin-bottom: $spacing-4;
+  }
+}
+
 .field-ragg {
   .radio:after {
     border-radius: 50%;

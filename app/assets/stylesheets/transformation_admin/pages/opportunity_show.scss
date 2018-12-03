@@ -8,6 +8,10 @@ h2 {
   @include heading-m;
 }
 
+h3 {
+  @include heading-s;
+}
+
 main {
   max-width: none;
 }
@@ -53,7 +57,72 @@ main {
   }
 }
 
-.checks,
+.checks {
+  border-bottom: 1px solid $grey-3;
+  margin-bottom: $spacing-3;
+  overflow: hidden;
+
+  dd {
+    float: left;
+    font-weight: bold;
+
+    &.created {
+      font-weight: normal;
+      margin-bottom: $spacing-4;
+    }
+  }
+
+  dl {
+    margin-bottom: $spacing-3;
+    overflow: hidden;
+  }
+
+  dt {
+    clear: left;
+    color: $grey-5;
+    float: left;
+    font-size: $font-size-body-s;
+    margin-right: $spacing-4;
+    min-width: 300px;
+  }
+
+  li {
+    margin-bottom: 0;
+  }
+
+  .bst-label {
+    font-size: $font-size-body-s;
+    margin-bottom: $spacing-4;
+  }
+
+  .check {
+    border-bottom: 1px dotted $grey-3;
+    margin-bottom: $spacing-3;
+
+    &:last-child {
+      border: none;
+    }
+  }
+
+  .created {
+    color: inherit;
+    float: none;
+    font-weight: bold;
+    min-width: 0;
+  }
+
+  .highlight {
+    color: $great-red;
+  }
+
+  .list {
+    font-size: $font-size-body-s;
+    color: $grey-5;
+    display: inline-block;
+    min-width: 150px;
+  }
+}
+
 .details,
 .enquiries {
   border-bottom: 1px solid $grey-3;
@@ -83,6 +152,12 @@ main {
   border-bottom: 1px solid $grey-3;
   margin-bottom: $spacing-3;
   padding-bottom: $spacing-3;
+}
+
+.sign-off {
+  p {
+    margin-bottom: $spacing-4;
+  }
 }
 
 .status {

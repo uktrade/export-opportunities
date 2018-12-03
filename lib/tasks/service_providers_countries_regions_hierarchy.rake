@@ -1,5 +1,105 @@
 require 'csv'
 
+namespace :partners do
+  desc 'update service providers with partner names'
+  task add: :environment do
+    bcc_providers = []
+    # burma
+    bcc_providers <<   ServiceProvider.where(name: 'Burma OBNI').first
+    # cambodia
+    bcc_providers <<   ServiceProvider.where(name: 'Cambodia OBNI').first
+    # chile
+    bcc_providers <<   ServiceProvider.where(name: 'Chile OBNI').first
+    # czech
+    bcc_providers <<   ServiceProvider.where(name: 'Czech Republic OBNI').first
+    # ghana
+    bcc_providers <<   ServiceProvider.where(name: 'Ghana OBNI').first
+    # hungary
+    bcc_providers <<   ServiceProvider.where(name: 'Hungary OBNI').first
+    # indonesia
+    bcc_providers <<   ServiceProvider.where(name: 'Indonesia OBNI').first
+    # kazakhstan
+    bcc_providers <<   ServiceProvider.where(name: 'Kazakhstan OBNI').first
+    # korea
+    bcc_providers <<   ServiceProvider.where(name: 'Korea (South) OBNI').first
+    # morocco
+    bcc_providers <<   ServiceProvider.where(name: 'Morocco OBNI').first
+    # philippines
+    bcc_providers <<   ServiceProvider.where(name: 'Philippines, OBNI').first
+    # qatar
+    bcc_providers <<   ServiceProvider.where(name: 'Qatar, OBNI').first
+    # singapore
+    bcc_providers <<   ServiceProvider.where(name: 'Singapore OBNI').first
+    # slovakia
+    bcc_providers <<   ServiceProvider.where(name: 'Slovakia OBNI').first
+    # slovenia
+    bcc_providers <<   ServiceProvider.where(name: 'Slovenia OBNI').first
+    # thailand
+    bcc_providers <<   ServiceProvider.where(name: 'Thailand OBNI').first
+
+    bcc_providers.each do |bcc_provider|
+      bcc_provider.partner = 'British Chamber of Commerce'
+      bcc_provider.save!
+    end
+
+    china = ServiceProvider.where(name: 'China - CBBC').first
+    china.partner = 'China-Britain Business Council (CBBC)'
+    china.save!
+
+    colombia = ServiceProvider.where(name: 'Colombia OBNI').first
+    colombia.partner = 'UK Colombia Trade'
+    colombia.save!
+
+    india = ServiceProvider.where(name: 'India OBNI').first
+    india.partner = 'UK India Business Council (UKIBC)'
+    india.save!
+
+    japan = ServiceProvider.where(name: 'Japan OBNI').first
+    japan.partner = 'Export to Japan'
+    japan.save!
+
+    kuwait = ServiceProvider.where(name: 'Kuwait OBNI').first
+    kuwait.partner = 'Kuwait British Business Centre (KBBC)'
+    kuwait.save!
+
+    malaysia = ServiceProvider.where(name: 'Malaysia OBNI').first
+    malaysia.partner = 'British Malaysian Chamber of Commerce (BMCC)'
+    malaysia.save!
+
+    pakistan = ServiceProvider.where(name: 'Pakistan OBNI').first
+    pakistan.partner = 'British Business Centre'
+    pakistan.save!
+
+    poland = ServiceProvider.where(name: 'Poland OBNI').first
+    poland.partner = 'British Polish Chamber of Commerce'
+    poland.save!
+
+    romania = ServiceProvider.where(name: 'Romania OBNI').first
+    romania.partner = 'British Romanian Chamber of Commerce'
+    romania.save!
+
+    taiwan = ServiceProvider.where(name: 'Taiwan OBNI').first
+    taiwan.partner = 'British Chamber of Commerce in Taipei (BCCT)'
+    taiwan.save!
+
+    turkey = ServiceProvider.where(name: 'Turkey OBNI').first
+    turkey.partner = 'British Chamber of Commerce in Turkey (BCCT)'
+    turkey.save!
+
+    uae = ServiceProvider.where(name: 'United Arab Emirates OBNI').first
+    uae.partner = 'British Centre for Business'
+    uae.save!
+
+    vietnam = ServiceProvider.where(name: 'Vietnam OBNI').first
+    vietnam.partner = 'British Business Group Vietnam (BBGV)'
+    vietnam.save!
+
+    saudi_ar = ServiceProvider.where(name: 'Saudi Arabia OBNI').first
+    saudi_ar.partner = 'Arabian Enterprise Incubators'
+    saudi_ar.save!
+  end
+end
+
 namespace :reports do
   desc 'Update database with service_providers.country_id , countries.region_id according to internal mapping'
   task load_data: :environment do

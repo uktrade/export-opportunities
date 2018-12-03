@@ -10,7 +10,7 @@ class HelpArticlePresenter < BasePresenter
   end
 
   def text_to_id(str = '')
-    str = str.tr('', '-')
+    str = str.tr(' ', '-')
     str = str.gsub(/[^0-9a-z-]/i, '')
     str.downcase
   end

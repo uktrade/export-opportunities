@@ -1,7 +1,6 @@
 class AdminOpportunityPresenter < OpportunityPresenter
   def initialize(view_context, opportunity, content)
-    super(view_context, opportunity)
-    @content = content
+    super(view_context, opportunity, content)
   end
 
   def edit_button
@@ -58,5 +57,15 @@ class AdminOpportunityPresenter < OpportunityPresenter
       params: params,
       class: 'button')
     button.class == ActiveSupport::SafeBuffer ? button : ''
+  end
+
+  # Third party opps (at least in development)
+  # do not have an author, so throw an error.
+  def author
+    if @opportunity.author.present?
+      @opportunity.author.name
+    else
+      'editor'
+    end
   end
 end

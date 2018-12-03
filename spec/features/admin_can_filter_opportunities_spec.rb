@@ -1,7 +1,8 @@
+# coding: utf-8
 require 'rails_helper'
 
 RSpec.feature 'Admin can filter opportunities' do
-  scenario 'an uploader can see all filtering links (including Draft)' do
+  scenario 'an uploader can see all filtering links' do
     uploader = create(:uploader)
     login_as(uploader)
     visit admin_opportunities_path
@@ -12,7 +13,7 @@ RSpec.feature 'Admin can filter opportunities' do
     expect(page).to have_link('Draft')
   end
 
-  scenario 'a previewer can see all filtering links (including Draft)' do
+  scenario 'a previewer can see all filtering links' do
     uploader = create(:previewer)
     login_as(uploader)
     visit admin_opportunities_path
@@ -23,7 +24,7 @@ RSpec.feature 'Admin can filter opportunities' do
     expect(page).to have_link('Draft')
   end
 
-  scenario 'a publisher can see filtering links except Draft' do
+  scenario 'a publisher can see all filtering links' do
     uploader = create(:publisher)
     login_as(uploader)
     visit admin_opportunities_path
@@ -31,10 +32,10 @@ RSpec.feature 'Admin can filter opportunities' do
     expect(page).to have_link('Published')
     expect(page).to have_link('Pending')
     expect(page).to have_link('Trashed')
-    expect(page).to_not have_link('Draft')
+    expect(page).to have_link('Draft')
   end
 
-  scenario 'an admin can see filtering links except Draft' do
+  scenario 'an admin can see all filtering links' do
     uploader = create(:admin)
     login_as(uploader)
     visit admin_opportunities_path
@@ -42,7 +43,7 @@ RSpec.feature 'Admin can filter opportunities' do
     expect(page).to have_link('Published')
     expect(page).to have_link('Pending')
     expect(page).to have_link('Trashed')
-    expect(page).to_not have_link('Draft')
+    expect(page).to have_link('Draft')
   end
   scenario 'Editor preference for showing and hiding expired opportunities persists when changing filters (All,Pending,Published,Trashed)' do
     login_as(create(:publisher))

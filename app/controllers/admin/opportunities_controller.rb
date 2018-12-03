@@ -7,11 +7,10 @@ class Admin::OpportunitiesController < Admin::BaseController
 
   def index
     @filters = OpportunityFilters.new(filter_params)
-
+    @available_status = Opportunity.statuses.keys
     previewer_or_uploader = pundit_user.uploader? || pundit_user.previewer?
 
     session[:opportunity_filters] = filter_params
-    session[:available_status] = filter_status(pundit_user.id)
 
     query = OpportunityQuery.new(
       scope: policy_scope(Opportunity).includes(:service_provider),
@@ -31,7 +30,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def show
-    content = get_content('admin/opportunities.yml')
+    content = get_content('opportunities/show.yml', 'admin/opportunities.yml')
     @opportunity = Opportunity.includes(:enquiries).find(params[:id])
     @enquiries_cutoff = 20
     @comment_form = OpportunityCommentForm.new(opportunity: @opportunity, author: current_editor)
@@ -45,7 +44,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def new
-    content = get_content('admin/opportunities.yml')
+    content = get_content('opportunities/show.yml', 'admin/opportunities.yml')
     @opportunity = Opportunity.new
     @save_to_draft_button = policy(@opportunity).uploader_previewer?
     @editor = current_editor
@@ -59,7 +58,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def create
-    content = get_content('admin/opportunities.yml')
+    content = get_content('opportunities/show.yml', 'admin/opportunities.yml')
     status = if params[:commit] == content['submit_draft']
                :draft
              else
@@ -71,12 +70,11 @@ class Admin::OpportunitiesController < Admin::BaseController
 
     if @opportunity.errors.empty?
       if status == :pending
-        redirect_to admin_opportunities_path, notice: %(Created opportunity "#{@opportunity.title}")
+        redirect_to admin_opportunity_path(@opportunity), notice: %(Created opportunity "#{@opportunity.title}")
       elsif status == :draft
-        redirect_to admin_opportunities_path, notice: %(Saved to draft: "#{@opportunity.title}")
+        redirect_to admin_opportunity_path(@opportunity), notice: %(Saved to draft: "#{@opportunity.title}")
       end
     else
-      content = get_content('admin/opportunities.yml')
       @editor = current_editor
 
       load_options_for_form(@opportunity)
@@ -88,7 +86,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def edit
-    content = get_content('admin/opportunities.yml')
+    content = get_content('opportunities/show.yml', 'admin/opportunities.yml')
     @opportunity = Opportunity.includes(comments: [:author]).find(params[:id])
     @comment_form = OpportunityCommentForm.new(opportunity: @opportunity, author: current_editor)
     @history = OpportunityHistory.new(opportunity: @opportunity)
@@ -105,7 +103,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def update
-    content = get_content('admin/opportunities.yml')
+    content = get_content('opportunities/show.yml', 'admin/opportunities.yml')
     @opportunity = Opportunity.find(params[:id])
     authorize @opportunity
 
@@ -135,9 +133,9 @@ class Admin::OpportunitiesController < Admin::BaseController
     @request_usages = Opportunity.request_usages.keys
     @supplier_preferences = SupplierPreference.all
     @service_providers = ServiceProvider.all.order(:name)
-    @selected_service_provider = opportunity.service_provider || current_editor.service_provider
+    @service_provider = opportunity.service_provider || current_editor.service_provider
     @countries = Country.all.order(:name)
-    @default_country = @selected_service_provider.country&.id if opportunity.countries.empty?
+    @default_country = @service_provider.country&.id if opportunity.countries.empty?
     @sectors = Sector.all.order(:name)
     @types = Type.all.order(:name)
     @values = Value.all.order(:slug)
@@ -173,18 +171,6 @@ class Admin::OpportunitiesController < Admin::BaseController
 
   private def filter_params
     params.permit(:status, { sort: %i[column order] }, :show_expired, :s, :paged)
-  end
-
-  private def filter_status(current_user)
-    @editor = Editor.find(current_user)
-    @available_status = []
-    Opportunity.statuses.each do |name, _|
-      if name == 'draft'
-        @available_status << name if policy(@editor).draft_view_state?
-      else
-        @available_status << name
-      end
-    end
   end
 
   class OpportunityFilters

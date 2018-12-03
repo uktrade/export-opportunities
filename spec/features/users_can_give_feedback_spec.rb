@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'capybara/email/rspec'
 
 RSpec.feature 'User can give feedback to the impact email' do
-  let(:content) { get_content('admin/opportunities') }
+  let(:content) { get_content('enquiry_feedback') }
 
   scenario 'receives an email' do
     opp = create(:opportunity, title: 'France - Cow required')
