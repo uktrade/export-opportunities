@@ -470,7 +470,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
       expect(helper.regions_list.length).to eq(17)
       expect(regions_after_filtering.length).to eq(5)
-      expect(region_slugs).to eq(["mediterranean_europe", "south_america", "australia_new_zealand", "south_asia", "south_asia"])
+      expect(region_slugs).to eq(%w[mediterranean_europe south_america australia_new_zealand south_asia south_asia])
     end
 
     it 'Return empty region array when filtering matches no regions' do
@@ -521,7 +521,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   def has_html?(message)
-    /\<\/\w+\>|\<\w+\s+\w+=/.match(message)
+    %r{\<\/\w+\>|\<\w+\s+\w+=}.match(message)
   end
 
   def country(name, slug = '')
