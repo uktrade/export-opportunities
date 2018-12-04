@@ -217,7 +217,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to have_content('1 result found in Greece')
 
     # select mediterranean region now
-    find(:css, '#regions_4').set(true)
+    check('Mediterranean Europe')
     click_on 'Update results'
 
     # only Greek and Italian(because of Mediterranean Europe) opportunities should be visible
@@ -231,10 +231,8 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
 
     expect(page).to have_content('2 results found in Greece or Mediterranean Europe')
 
-    # select North East Asia now
-    # 3 results now. 2 results from before + 1 from North Asia
-    find(:css, '#regions_10').set(true)
-    click_on 'Update results'
+    # reset country and region filters
+    click_on 'Clear all filters'
 
     # all opportunities should be visible now
     expect(page).to have_content('pies')
@@ -250,13 +248,6 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to_not have_content('Canada')
 
     expect(page).to have_content('3 results found in Greece or Mediterranean Europe or North East Asia')
-
-    # select a region with no results (South America), nothing should change
-    find(:css, '#regions_11').set(true)
-    click_on 'Update results'
-
-    expect(page).to_not have_content('Colombia')
-    expect(page).to have_content('3 results found in Greece or Mediterranean Europe or North East Asia or South America')
 
     # start a new search by searching for oil on the top right hand corner
     within '.search' do
@@ -299,7 +290,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to have_content('Japan')
 
     # Use region filtering to select North East Asia (Japan)
-    find(:css, '#regions_10').set(true)
+    check('North East Asia')
     click_on 'Update results'
 
     # only Japanese opportunity should be visible

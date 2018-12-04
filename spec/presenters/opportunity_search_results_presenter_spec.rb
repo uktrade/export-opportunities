@@ -458,6 +458,31 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
   end
 
+  describe '#filtered_regions' do
+    it 'Return a reduced set of regions to match the active countries' do
+      helper = TestRegionHelper.new
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters_with_countries_matching_regions)
+      regions_after_filtering = presenter.send(:filtered_regions)
+      region_slugs = []
+      regions_after_filtering.each do |region|
+        region_slugs.push region[:slug]
+      end
+
+      expect(helper.regions_list.length).to eq(17)
+      expect(regions_after_filtering.length).to eq(5)
+      expect(region_slugs).to eq(%w[mediterranean_europe south_america australia_new_zealand south_asia south_asia])
+    end
+
+    it 'Return empty region array when filtering matches no regions' do
+      helper = TestRegionHelper.new
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters_without_countries_matching_regions)
+      regions_after_filtering = presenter.send(:filtered_regions)
+
+      expect(helper.regions_list.length).to eq(17)
+      expect(regions_after_filtering.length).to eq(0)
+    end
+  end
+
   # Helper functions follow...
 
   def public_search(params = {}, total = nil)
@@ -496,7 +521,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   def has_html?(message)
-    /\<\/\w+\>|\<\w+\s+\w+=/.match(message)
+    %r{\<\/\w+\>|\<\w+\s+\w+=}.match(message)
   end
 
   def country(name, slug = '')
@@ -539,5 +564,36 @@ RSpec.describe OpportunitySearchResultsPresenter do
         options: [],
       },
     }
+  end
+
+  def search_filters_with_countries_matching_regions
+    filters = search_filters
+    more_countries = [
+      # australia_new_zealand
+      create(:country, slug: 'australia'),
+
+      # south_asia
+      create(:country, slug: 'bangladesh'),
+      create(:country, slug: 'india'),
+    ]
+
+    filters[:countries][:options] = filters[:countries][:options].concat(more_countries)
+    filters
+  end
+
+  def search_filters_without_countries_matching_regions
+    filters = search_filters
+    no_region_countries = [
+      create(:country, slug: 'country_one'),
+      create(:country, slug: 'country_two'),
+      create(:country, slug: 'country_three'),
+    ]
+
+    filters[:countries][:options] = no_region_countries
+    filters
+  end
+
+  class TestRegionHelper
+    include RegionHelper
   end
 end
