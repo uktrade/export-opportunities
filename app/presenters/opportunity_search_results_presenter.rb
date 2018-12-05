@@ -323,6 +323,6 @@ class OpportunitySearchResultsPresenter < FormPresenter
       region = region_by_country(country)
       regions.push(region) if region.present?
     end
-    regions
+    regions.uniq
   end
 end
