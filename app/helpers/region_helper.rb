@@ -2,24 +2,51 @@ module RegionHelper
   # Due to the combined Region/Country single selector on
   # standard search area (e.g. landing page), we need to
   # convert passed areas[] into regions[] and countries[]
-  # Note: If regions and countries exist, then search results
-  # page has been viewed and those filters have already been
-  # applied.
-  def convert_areas_params_into_regions_and_countries(params)
-    unless params[:regions] || params[:countries] || params[:areas].nil?
-      params[:regions] = []
-      params[:countries] = []
+  #
+  # If regions and countries exist, then search results
+  # page has been viewed and area conversions have already
+  # been applied.
+  #
+  # When we have some countries, we will also try to reduce
+  # the list by extracting any detected regions.
+  def region_and_country_param_conversion(params)
+    # Did we get here from home page search which pases areas?
+    if params[:areas].present? && (params[:regions].blank? || params[:countries].blank?)
+      regions = []
+      countries = []
       params[:areas].each do |area|
         not_region = true
         regions_list.each do |region|
           next if region[:slug] != area
-          params[:regions].push area
+          regions.push area
           not_region = false
           break
         end
-
-        params[:countries].push(area) if not_region
+        countries.push(area) if not_region
       end
+      params[:countries] = countries.uniq
+      params[:regions] = regions.uniq
+    end
+
+    # Create region slugs if we have enough countries to make a full set.
+    if params[:countries].present?
+      regions = (params[:regions].present? ? params[:regions] : [])
+      potential_regions = {}
+
+      # Get potential regions by grouping countries
+      params[:countries].each do |country_slug|
+        region = region_by_country_slug(country_slug)
+        next if region.nil?
+        potential_regions[region[:slug]] = [] unless potential_regions.key? region[:slug]
+        potential_regions[region[:slug]].push(country_slug)
+      end
+
+      # Do we have any full sets of countries to be a region
+      potential_regions.each do |region_name, country_slugs|
+        region = region_match_country_slugs(country_slugs)
+        regions.push(region[:slug]) if region.present?
+      end
+      params[:regions] = regions.uniq
     end
     params
   end
@@ -92,64 +119,76 @@ module RegionHelper
 
   # Pass in a country object to get the region containing it.
   # Return region object that matches passed country.
-  # If none found, returns empty hash.
+  # Returns nil if none found.
   def region_by_country(country)
-    found_region = {}
+    found = nil
     regions_list.each do |region|
       if region[:countries].include? country[:slug]
-        found_region = region
+        found = region
         break
       end
     end
-    found_region
+    found
   end
 
   # Return region object that matches passed name.
-  # If none found, returns empty hash.
+  # Returns nil if none found.
   def region_by_name(name)
-    found_region = {}
+    found = nil
     regions_list.each do |region|
       if region[:name] == name
-        found_region = region
+        found = region
         break
       end
     end
-    found_region
+    found
   end
 
-  # Return region object that matches passed slug.
-  # If none found, returns empty hash.
+  # Return region object that matches slug.
+  # Returns nil if none found.
   def region_by_slug(slug)
-    found_region = {}
+    found = nil
     regions_list.each do |region|
       if region[:slug] == slug
-        found_region = region
+        found = region
         break
       end
     end
-    found_region
+    found
   end
 
-  # Return region object that matches passed country list.
-  # If none found, returns empty hash.
-  def region_by_countries(countries)
-    found_region = {}
-    country_slugs = []
-
-    # Get all the slugs...
-    countries.each do |country|
-      country_slugs.push(country[:slug])
-    end
-
-    # now compare slugs to those in known regions
-    # (sort both for comparison)
+  # Return region object that matches passed country slug.
+  # Returns nil if none found.
+  def region_by_country_slug(country_slug)
+    found = nil
     regions_list.each do |region|
-      if region[:countries].sort == country_slugs.sort
-        found_region = region
+      if region[:countries].include? country_slug
+        found = region
         break
       end
     end
-    found_region
+    found
+  end
+
+  # Returns a region if passed array of country slugs matches
+  # a full list of countries belonging to a region.
+  # Returns nil if does not match countries.
+  def region_match_country_slugs(country_slugs)
+    matched = nil
+    regions_list.each do |region|
+      next if region[:countries].sort != country_slugs.sort # sort both for comparison
+      matched = region
+      break
+    end
+    matched
+  end
+
+  # Return region object that matches passed country objects list.
+  # Returns nil if none found.
+  def region_by_countries(countries)
+    country_slugs = []
+    countries.each { |country| country_slugs.push(country[:slug]) }
+    region_match_country_slugs(country_slugs)
   end
 
   # TODO: Could be stored in DB but writing here.
@@ -159,55 +198,55 @@ module RegionHelper
   # e.g. matches structure of Sector.order(:name)
   def regions_list
     [
-      { slug: 'australia_new_zealand',
+      { slug: 'australia-new-zealand',
         countries: %w[australia fiji new-zealand papua-new-guinea],
         name: 'Australia/New Zealand' },
       { slug: 'caribbean',
         countries: %w[barbados costa-rica cuba dominican-republic jamaica trinidad-and-tobago],
         name: 'Caribbean' },
-      { slug: 'central_and_eastern_europe',
+      { slug: 'central-and-eastern-europe',
         countries: %w[bosnia-and-herzegovina bulgaria croatia czech-republic hungary macedonia poland romania serbia slovakia slovenia],
         name: 'Central and Eastern Europe' },
       { slug: 'china',
         countries: %w[china],
         name: 'China' },
-      { slug: 'south_america',
+      { slug: 'south-america',
         countries: %w[argentina bolivia brazil chile colombia ecuador guyana mexico panama peru uruguay venezuela],
         name: 'South America' },
-      { slug: 'mediterranean_europe',
+      { slug: 'mediterranean-europe',
         countries: %w[cyprus greece israel italy portugal spain],
         name: 'Mediterranean Europe' },
-      { slug: 'middle_east',
+      { slug: 'middle-east',
         countries: %w[afghanistan bahrain iran iraq jordan kuwait lebanon oman pakistan palestine qatar saudi-arabia the-united-arab-emirates],
         name: 'Middle East' },
       { slug: 'nato',
         countries: %w[nato],
         name: 'NATO' },
-      { slug: 'nordic_and_baltic',
+      { slug: 'nordic-and-baltic',
         countries: %w[denmark estonia finland iceland latvia lithuania norway sweden],
         name: 'Nordic & Baltic' },
-      { slug: 'north_africa',
+      { slug: 'north-africa',
         countries: %w[algeria egypt libya morocco tunisia],
         name: 'North Africa' },
-      { slug: 'north_america',
+      { slug: 'north-america',
         countries: %w[canada the-usa],
         name: 'North America' },
-      { slug: 'north_east_asia',
-        countries: %w[japan japan south-korea taiwan],
+      { slug: 'north-east-asia',
+        countries: %w[japan south-korea taiwan],
         name: 'North East Asia' },
-      { slug: 'south_asia',
+      { slug: 'south-asia',
         countries: %w[bangladesh india nepal sri-lanka],
         name: 'South Asia' },
-      { slug: 'south_east_asia',
+      { slug: 'south-east-asia',
         countries: %w[brunei burma cambodia indonesia malaysia philippines singapore thailand vietnam],
         name: 'South East Asia' },
-      { slug: 'sub_saharan_africa',
+      { slug: 'sub-saharan-africa',
         countries: %w[angola cameroon ethiopia ghana ivory-coast kenya mauritius mozambique namibia nigeria rwanda senegal seychelles south-africa tanzania uganda zambia],
         name: 'Sub Saharan Africa' },
-      { slug: 'turkey_russia_and_caucasus',
+      { slug: 'turkey-russia-and-caucasus',
         countries: %w[armenia azerbaijan georgia kazakhstan mongolia russia tajikistan turkey turkmenistan ukraine uzbekistan],
         name: 'Turkey, Russia & Caucasus' },
-      { slug: 'western_europe',
+      { slug: 'western-europe',
         countries: %w[austria belgium france germany ireland luxembourg netherlands switzerland],
         name: 'Western Europe' },
     ].sort_by { |region| region[:name] }

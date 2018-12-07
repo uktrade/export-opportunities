@@ -1,5 +1,5 @@
 - page = PagePresenter.new(@content)
-- results = OpportunitySearchResultsPresenter.new(@content, @search_results, @search_filters)
+- results = OpportunitySearchResultsPresenter.new(@content, @search_result)
 
 .container
   = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
@@ -12,7 +12,7 @@
       - if results.offer_subscription(params[:subscription_url].blank?)
         = render partial: "components/subscription_link", locals: { subscription: results.subscription }
 
-    %form.search{:action=>results.form_path, :method=>"get"}
+    %form.search{:action=>opportunities_path, :method=>"get"}
       %label
         %span= results.content['title_new_search']
         %input{:name=>"s", :autocomplete=>"off", :class=>"text", :type=>"search", :value=>"", :placeholder=>"What are you selling?"}

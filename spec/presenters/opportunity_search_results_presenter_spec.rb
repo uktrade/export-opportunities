@@ -194,6 +194,55 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
       expect(presenter.searched_in).to eql('')
     end
+
+   it 'Returns countries as a region name when a full set is matched' do
+      countries = [
+        country('Armenia', 'armenia'),
+        country('Azerbaijan', 'azerbaijan' ),
+        country('Georgia', 'georgia'),
+        country('Kazakhstan', 'kazakhstan'),
+        country('Mongolia', 'mongolia'),
+        country('Russia', 'russia'),
+        country('Tajikistan', 'tajikistan'),
+        country('Turkey', 'turkey'),
+        country('Ukraine', 'ukraine'),
+        country('Uzbekistan', 'uzbekistan')
+      ]
+
+      filters = search_filters_extended(:countries, countries, countries.map { |item| item[:slug] }) 
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { term: 'food', total: 10 }, filters)
+      searched_in_without_matched_regions = presenter.searched_in
+      names = searched_in_without_matched_regions.gsub(/\s+(or|in)\s+/, '|').split('|').drop(1) # first is empty
+
+      # First run it with countries that won't match a full region
+      expect(names.length).to eq(10)
+      expect(names.join(' ')).to eq('Armenia Azerbaijan Georgia Kazakhstan Mongolia Russia Tajikistan Turkey Ukraine Uzbekistan')
+
+      # Now add some countries that should match regions
+      more_countries = countries.concat([
+
+        # Mediterranean Europe
+        country('Cyprus', 'cyprus'),
+        country('Greece', 'greece' ),
+        country('Israel', 'israel'),
+        country('Italy', 'italy'),
+        country('Portugal', 'portugal'),
+        country('Spain', 'spain'),
+
+        # North East Asia
+        country('Taiwan', 'taiwan'),
+        country('South Korea', 'south-korea'),
+        country('Japan', 'japan')
+      ])
+
+      filters = search_filters_extended(:countries, more_countries, more_countries.map { |item| item[:slug] }) 
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, { term: 'food', total: 10 }, filters)
+      searched_in_with_matched_regions = presenter.searched_in
+      names = searched_in_with_matched_regions.gsub(/\s+(or|in)\s+/, '|').split('|').drop(1) # first is empty
+
+      expect(names.length).to eq(19)
+      expect(names.join(' ')).to eq('Armenia Azerbaijan Georgia Kazakhstan Mongolia Russia Tajikistan Turkey Ukraine Uzbekistan Mediterranean Europe North East Asia')
+   end
   end
 
   describe '#searched_in_with_html' do
@@ -424,10 +473,10 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
   end
 
-  describe '#selected_filters' do
+  describe '#selected_filter_labels' do
     it 'Return a string array of selected filter labels' do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
-      selected = presenter.send(:selected_filters, search_filters)
+      selected = presenter.send(:selected_filter_labels, search_filters)
 
       expect(selected).to eql(%w[Spain Mexico])
     end
@@ -436,23 +485,23 @@ RSpec.describe OpportunitySearchResultsPresenter do
       filters = search_filters
       filters[:countries][:selected] = []
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, filters)
-      selected = presenter.send(:selected_filters, filters)
+      selected = presenter.send(:selected_filter_labels, filters)
 
       expect(selected).to eql([])
     end
   end
 
-  describe '#selected_filters_without' do
+  describe '#selected_filter_labels_without' do
     it 'Return a string array of selected filter labels' do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
-      selected = presenter.send(:selected_filters_without, search_filters, [:sectors])
+      selected = presenter.send(:selected_filter_labels_without, search_filters, [:sectors])
 
       expect(selected).to eql(%w[Spain Mexico])
     end
 
     it 'Return an empty array when no filters selected' do
       presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
-      selected = presenter.send(:selected_filters_without, search_filters, [:countries])
+      selected = presenter.send(:selected_filter_labels_without, search_filters, [:countries])
 
       expect(selected).to eql([])
     end
@@ -461,7 +510,22 @@ RSpec.describe OpportunitySearchResultsPresenter do
   describe '#filtered_regions' do
     it 'Return a reduced set of regions to match the active countries' do
       helper = TestRegionHelper.new
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters_with_countries_matching_regions)
+      more_countries_to_match_regions = [
+        # australia_new_zealand
+        country('Australia', 'australia'),
+
+        # Mediterranean Europe
+        country('Spain', 'spain'),
+
+        # South America
+        country('Mexico', 'mexico'),
+
+        # south_asia
+        country('Bangladesh', 'bangladesh'),
+        country('India', 'india'),
+      ]
+
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters_extended(:countries, more_countries_to_match_regions))
       regions_after_filtering = presenter.send(:filtered_regions)
       region_slugs = []
       regions_after_filtering.each do |region|
@@ -475,7 +539,8 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
     it 'Return empty region array when filtering matches no regions' do
       helper = TestRegionHelper.new
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters_without_countries_matching_regions)
+      non_region_matching_countries = [create(:country, slug: 'one'), create(:country, slug: 'two')]
+      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters_extended(:countries, non_region_matching_countries))
       regions_after_filtering = presenter.send(:filtered_regions)
 
       expect(helper.regions_list.length).to eq(17)
@@ -581,15 +646,10 @@ RSpec.describe OpportunitySearchResultsPresenter do
     filters
   end
 
-  def search_filters_without_countries_matching_regions
+  def search_filters_extended(filter_name, filter_options, selected_slugs = [])
     filters = search_filters
-    no_region_countries = [
-      create(:country, slug: 'country_one'),
-      create(:country, slug: 'country_two'),
-      create(:country, slug: 'country_three'),
-    ]
-
-    filters[:countries][:options] = no_region_countries
+    filters[filter_name][:options] = filter_options
+    filters[filter_name][:selected] = selected_slugs
     filters
   end
 
