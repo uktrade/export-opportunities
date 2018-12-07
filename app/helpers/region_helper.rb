@@ -11,7 +11,7 @@ module RegionHelper
   # the list by extracting any detected regions.
   def region_and_country_param_conversion(params)
     # Did we get here from home page search which pases areas?
-    if params[:areas].present? && (params[:regions].blank? || params[:countries].blank?)
+    if params[:areas].present? && (params[:regions].blank? && params[:countries].blank?)
       regions = []
       countries = []
       params[:areas].each do |area|
@@ -42,7 +42,7 @@ module RegionHelper
       end
 
       # Do we have any full sets of countries to be a region
-      potential_regions.each do |region_name, country_slugs|
+      potential_regions.each do |_region_name, country_slugs|
         region = region_match_country_slugs(country_slugs)
         regions.push(region[:slug]) if region.present?
       end
