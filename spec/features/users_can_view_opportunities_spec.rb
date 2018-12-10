@@ -247,7 +247,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to_not have_content('Spain')
     expect(page).to_not have_content('Canada')
 
-    expect(page).to have_content('3 results found in Greece or Mediterranean Europe or North East Asia')
+    expect(page).to have_content('Displaying all 3 items')
 
     # start a new search by searching for oil on the top right hand corner
     within '.search' do

@@ -153,7 +153,7 @@ class VolumeOppsRetriever
   # removing nbsp and other breaking characters
   def sanitise(description)
     description = description.gsub(/[[:space:]]+/, ' ')
-    description.gsub(/&nbsp;/i,' ')
+    description.gsub(/&nbsp;/i, ' ')
   end
 
   def address_from_buyer(address)

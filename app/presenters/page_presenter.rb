@@ -33,7 +33,7 @@ class PagePresenter < BasePresenter
   # EXMPLES WITHOUT CONDITIONAL CONTENT in the inclusion markers
   # ------------------------------------------------------------
   #
-  # E.g. 
+  # E.g.
   # content = "Hello [$first_name] [$last_name]"
   #
   # Returns string "Hello Darth Vader"
@@ -45,7 +45,7 @@ class PagePresenter < BasePresenter
   # Returns string "Hello Vader"
   # when includes = ["", "Vader"]
   #
-  # 
+  #
   # EXAMPLES TO SHOW THE LABEL NAMES ARE IRRELEVANT
   # -----------------------------------------------
   # The inclusion marker label names/wording is irrelevant.
@@ -64,7 +64,7 @@ class PagePresenter < BasePresenter
   #
   # EXAMPLES WITH CONDITIONAL CONTENT in the inclusion markers
   # ----------------------------------------------------------
-  # You can also include conditional content that shows only when a match is found. 
+  # You can also include conditional content that shows only when a match is found.
   # The conditional content can be put around the target inclusion marker label.
   # Some examples will explain better than words.
   #
@@ -76,7 +76,7 @@ class PagePresenter < BasePresenter
   #
   # Returns 'Has an idea or a dream'
   # when includes = ['idea', '']
-  # 
+  #
   # Returns 'Has a plan and a dream'
   # when includes = ['', 'plan']
   #
@@ -86,15 +86,14 @@ class PagePresenter < BasePresenter
   def content_with_inclusion(key, includes)
     str = @content[key] || ''
     re = /\[([^\[\]]*?)\$[a-z]+[\w_]*([^\[\]]*?)\]/i
-    #re = Regexp.new("\\[([^\\[\\]]*?)\\$[a-z]+[\w_]*([^\\[\\]]*?)\\]", Regexp::IGNORECASE) 
     includes.each do |include|
       str.sub(re, '') # TODO: Why does it work with this line but not without?
-      #re.match(str)   # This one also makes it work !?!?!
-      if include.present?
-        str = str.sub(re, "#{$1}#{include}#{$2}")
-      else
-        str = str.sub(re, '') # just remove the inclusion marker
-      end
+      # re.match(str)   # This one also makes it work !?!?!
+      str = if include.present?
+              str.sub(re, "#{Regexp.last_match(1)}#{include}#{Regexp.last_match(2)}")
+            else
+              str.sub(re, '') # just remove the inclusion marker
+            end
     end
     str = str.gsub(re, '') # If includes was empty
     str.gsub(/\s+/, ' ').html_safe
@@ -108,9 +107,7 @@ class PagePresenter < BasePresenter
   # str = "Hello [$first_name] [$second_name]"
   #
   def content_without_inclusion(key)
-    str = @content[key] || ''
     content_with_inclusion(key, [])
-#    str.gsub(/\[\$.+?\]/, '').gsub(/\s+/, ' ').html_safe
   end
 
   def create_trade_profile_url(number = '')
