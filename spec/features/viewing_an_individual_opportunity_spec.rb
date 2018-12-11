@@ -102,6 +102,7 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
     opportunity = create(:opportunity, status: :publish, response_due_on: 3.months.from_now, countries: [country], service_provider_id: service_provider.id)
 
     visit opportunity_path(opportunity.id)
+
     expect(page).to have_link(country.name, href: 'https://www.gov.uk/government/publications/exporting-to-egypt')
     expect(page).to have_content('Your guide to exporting')
   end
@@ -112,6 +113,7 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
     opportunity = create(:opportunity, status: :publish, response_due_on: 3.months.from_now, countries: [with_guide, without_guide], service_provider_id: service_provider.id)
 
     visit opportunity_path(opportunity.id)
+
     expect(page).to have_link(with_guide.name, href: 'https://www.gov.uk/government/publications/exporting-to-egypt')
     expect(page).not_to have_link(without_guide.name)
   end
@@ -119,10 +121,35 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
   scenario 'country without a link to exporting guide' do
     country = create(:country)
     create(:opportunity, response_due_on: 3.months.from_now, countries: [country])
-    opportunity = create(:opportunity, status: :publish, response_due_on: Date.new(2016, 0o1, 12), countries: [country])
+    opportunity = create(:opportunity, status: :publish, response_due_on: Date.new(2016, 01, 12), countries: [country])
+
     visit opportunity_path(opportunity.id)
+
     expect(page).not_to have_link(country.name)
     expect(page).not_to have_content('Your guide to exporting')
+    expect(page).not_to have_content('UK registered company')
+  end
+
+  scenario 'opportunity before SIGNOFF_DEPLOYMENT_DATE does not show signoff line' do
+    country = create(:country, name: 'Italy')
+    create(:opportunity, created_at: DateTime.new(2018,12,01), countries: [country])
+    opportunity = create(:opportunity, status: :publish, countries: [country])
+
+    visit opportunity_path(opportunity.id)
+
+    expect(page).not_to have_link(country.name)
+    expect(page).to have_content('UK registered company')
+  end
+
+  scenario 'opportunity after SIGNOFF_DEPLOYMENT_DATE contains signoff line' do
+    country = create(:country, name: 'Italy')
+    create(:opportunity, created_at: DateTime.new(2018,12,05), countries: [country])
+    opportunity = create(:opportunity, status: :publish, countries: [country])
+
+    visit opportunity_path(opportunity.id)
+
+    expect(page).not_to have_link(country.name)
+    expect(page).not_to have_content('uk registered company')
   end
 
   scenario 'aid funded opportunities have links to aid guidance' do
@@ -157,7 +184,9 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
     ]
     unacceptable_html_examples.each do |example|
       op = create(:opportunity, status: 'publish', description: example[:html], service_provider_id: service_provider.id)
+
       visit opportunity_path(op.id)
+
       expect(page).not_to have_css('.opportunity__content ' + example[:selector])
     end
   end
