@@ -17,6 +17,17 @@ RSpec.describe SearchFilter, type: :service do
 
       expect(filter.sectors).to eq([])
     end
+
+    it 'returns an array of sector slugs' do
+      create(:sector, slug: 'airports')
+      create(:sector, slug: 'stations')
+      params = { sectors: %w[airports stations] }
+      filter = SearchFilter.new(params)
+
+      expect(filter.sectors.length).to eq(2)
+      expect(filter.sectors).to include('airports')
+      expect(filter.sectors).to include('stations')
+    end
   end
 
   describe '.regions' do
@@ -33,6 +44,17 @@ RSpec.describe SearchFilter, type: :service do
       filter = SearchFilter.new(params)
 
       expect(filter.regions).to eq([])
+    end
+
+    it 'returns an array of region slugs' do
+      create(:sector, slug: 'europe')
+      create(:sector, slug: 'asia')
+      params = { sectors: %w[europe asia] }
+      filter = SearchFilter.new(params)
+
+      expect(filter.sectors.length).to eq(2)
+      expect(filter.sectors).to include('europe')
+      expect(filter.sectors).to include('asia')
     end
   end
 
@@ -52,6 +74,17 @@ RSpec.describe SearchFilter, type: :service do
 
       expect(filter.countries).to eq([])
     end
+
+    it 'returns an array of country slugs' do
+      create(:sector, slug: 'france')
+      create(:sector, slug: 'spain')
+      params = { sectors: %w[france spain] }
+      filter = SearchFilter.new(params)
+
+      expect(filter.sectors.length).to eq(2)
+      expect(filter.sectors).to include('france')
+      expect(filter.sectors).to include('spain')
+    end
   end
 
   describe '.types' do
@@ -70,6 +103,17 @@ RSpec.describe SearchFilter, type: :service do
 
       expect(filter.types).to eq([])
     end
+
+    it 'returns an array of type slugs' do
+      create(:sector, slug: 'public-sector')
+      create(:sector, slug: 'private-sector')
+      params = { sectors: %w[public-sector private-sector] }
+      filter = SearchFilter.new(params)
+
+      expect(filter.sectors.length).to eq(2)
+      expect(filter.sectors).to include('public-sector')
+      expect(filter.sectors).to include('private-sector')
+    end
   end
 
   describe '.values' do
@@ -87,6 +131,17 @@ RSpec.describe SearchFilter, type: :service do
       filter = SearchFilter.new(params)
 
       expect(filter.values).to eq([])
+    end
+
+    it 'returns an array of value slugs' do
+      create(:sector, slug: 'unknown')
+      create(:sector, slug: 'over-amount')
+      params = { sectors: %w[unknown over-amount] }
+      filter = SearchFilter.new(params)
+
+      expect(filter.sectors.length).to eq(2)
+      expect(filter.sectors).to include('unknown')
+      expect(filter.sectors).to include('over-amount')
     end
   end
 end
