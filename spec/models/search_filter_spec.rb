@@ -40,6 +40,20 @@ RSpec.describe SearchFilter, type: :service do
       expect(filter.sectors(:name)).to include('Airport sector')
       expect(filter.sectors(:name)).to include('Station sector')
     end
+
+    it 'returns an array of sector data' do
+      create(:sector, name: 'Airport sector', slug: 'airports')
+      create(:sector, name: 'Station sector',  slug: 'stations')
+      params = { sectors: %w[airports stations] }
+      filter = SearchFilter.new(params)
+      sector_data = filter.sectors(:data)
+
+      expect(sector_data.length).to eq(2)
+      sector_data.each do |sector|
+        expect(sector[:name]).to eq('Airport sector').or eq('Station sector')
+        expect(sector[:slug]).to eq('airports').or eq('stations')
+      end
+    end
   end
 
   describe '.regions' do
@@ -59,21 +73,33 @@ RSpec.describe SearchFilter, type: :service do
     end
 
     it 'returns an array of region slugs' do
-      params = { region: %w[europe asia] }
+      params = { regions: %w[western-europe south-asia] }
       filter = SearchFilter.new(params)
 
       expect(filter.regions.length).to eq(2)
-      expect(filter.regions).to include('europe')
-      expect(filter.regions).to include('asia')
+      expect(filter.regions).to include('western-europe')
+      expect(filter.regions).to include('south-asia')
     end
 
     it 'returns an array of region names' do
-      params = { regions: %w[europe asia] }
+      params = { regions: %w[western-europe south-asia] }
       filter = SearchFilter.new(params)
 
       expect(filter.regions(:name).length).to eq(2)
-      expect(filter.regions(:name)).to include('Europe')
-      expect(filter.regions(:name)).to include('Asia')
+      expect(filter.regions(:name)).to include('Western Europe')
+      expect(filter.regions(:name)).to include('South Asia')
+    end
+
+    it 'returns an array of region data' do
+      params = { regions: %w[western-europe south-asia] }
+      filter = SearchFilter.new(params)
+      region_data = filter.regions(:data)
+
+      expect(region_data.length).to eq(2)
+      region_data.each do |region|
+        expect(region[:name]).to eq('Western Europe').or eq('South Asia')
+        expect(region[:slug]).to eq('western-europe').or eq('south-asia')
+      end
     end
   end
 
@@ -115,15 +141,29 @@ RSpec.describe SearchFilter, type: :service do
       expect(filter.countries(:name)).to include('France')
       expect(filter.countries(:name)).to include('Spain')
     end
+
+    it 'returns an array of country data' do
+      create(:country, name: 'France', slug: 'france')
+      create(:country, name: 'Spain',  slug: 'spain')
+      params = { countries: %w[france spain] }
+      filter = SearchFilter.new(params)
+      country_data = filter.countries(:data)
+
+      expect(country_data.length).to eq(2)
+      country_data.each do |country|
+        expect(country[:name]).to eq('France').or eq('Spain')
+        expect(country[:slug]).to eq('france').or eq('spain')
+      end
+    end
   end
 
   describe '.types' do
     it 'only contains whitelisted types' do
-      create(:type, slug: 'public-sector')
-      params = { types: %w[evil-empire public-sector] }
+      create(:type, slug: 'public')
+      params = { types: %w[evil-empire public] }
       filters = SearchFilter.new(params)
 
-      expect(filters.types).to include('public-sector')
+      expect(filters.types).to include('public')
       expect(filters.types).not_to include('evil-empire')
     end
 
@@ -135,25 +175,39 @@ RSpec.describe SearchFilter, type: :service do
     end
 
     it 'returns an array of type slugs' do
-      create(:type, slug: 'public-sector')
-      create(:type, slug: 'private-sector')
-      params = { types: %w[public-sector private-sector] }
+      create(:type, slug: 'public')
+      create(:type, slug: 'private')
+      params = { types: %w[public private] }
       filter = SearchFilter.new(params)
 
       expect(filter.types.length).to eq(2)
-      expect(filter.types).to include('public-sector')
-      expect(filter.types).to include('private-sector')
+      expect(filter.types).to include('public')
+      expect(filter.types).to include('private')
     end
 
     it 'returns an array of type names' do
-      create(:type, name: 'Public Sector', slug: 'public-sector')
-      create(:type, name: 'Private Sector',  slug: 'private-sector')
-      params = { types: %w[public-sector private-sector] }
+      create(:type, name: 'Public Sector', slug: 'public')
+      create(:type, name: 'Private Sector',  slug: 'private')
+      params = { types: %w[public private] }
       filter = SearchFilter.new(params)
 
       expect(filter.types(:name).length).to eq(2)
       expect(filter.types(:name)).to include('Public Sector')
       expect(filter.types(:name)).to include('Private Sector')
+    end
+
+    it 'returns an array of type data' do
+      create(:type, name: 'Public Sector', slug: 'public')
+      create(:type, name: 'Private Sector',  slug: 'private')
+      params = { types: %w[public private] }
+      filter = SearchFilter.new(params)
+      type_data = filter.types(:data)
+
+      expect(type_data.length).to eq(2)
+      type_data.each do |type|
+        expect(type[:name]).to eq('Public Sector').or eq('Private Sector')
+        expect(type[:slug]).to eq('public').or eq('private')
+      end
     end
   end
 
@@ -194,6 +248,20 @@ RSpec.describe SearchFilter, type: :service do
       expect(filter.values(:name).length).to eq(2)
       expect(filter.values(:name)).to include('Unknown')
       expect(filter.values(:name)).to include('over £100K')
+    end
+
+    it 'returns an array of value data' do
+      create(:value, name: 'Unknown', slug: 'unknown')
+      create(:value, name: 'over £100K',  slug: 'over-amount')
+      params = { values: %w[unknown over-amount] }
+      filter = SearchFilter.new(params)
+      value_data = filter.values(:data)
+
+      expect(value_data.length).to eq(2)
+      value_data.each do |value|
+        expect(value[:name]).to eq('Unknown').or eq('over £100K')
+        expect(value[:slug]).to eq('unknown').or eq('over-amount')
+      end
     end
   end
 end
