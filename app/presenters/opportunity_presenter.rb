@@ -1,6 +1,6 @@
 class OpportunityPresenter < PagePresenter
   include ApplicationHelper
-  attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries, :tender_value, :tender_url, :target_url, :opportunity_cpvs, :sectors, :sign_off
+  attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries, :tender_value, :tender_url, :target_url, :opportunity_cpvs, :sectors, :sign_off, :created_at
 
   delegate :expired?, to: :opportunity
 
@@ -16,6 +16,7 @@ class OpportunityPresenter < PagePresenter
     @opportunity_cpvs = opportunity&.opportunity_cpvs
     @teaser = opportunity.teaser
     @sectors = opportunity.sectors
+    @created_at = opportunity.created_at
   end
 
   # Opportunity.title in required format.
@@ -98,7 +99,7 @@ class OpportunityPresenter < PagePresenter
         links.push(link.html_safe)
       end
     end
-    links 
+    links
   end
 
   def industry_links
@@ -190,15 +191,14 @@ class OpportunityPresenter < PagePresenter
     elsif @target_url.present?
       lines.push @content['sign_off_target_url']
 
-
-    # Specific (has partner) exceptions for isolated cases where the preference is 
+    # Specific (has partner) exceptions for isolated cases where the preference is
     # to cater just for these rather than change the format and update all the data
 
     # Partner line variant (without country and second line 'the')
     # Format of message:
     #   "Message [PARTNER NAME]."
     #   "[PARTNER NAME] message in [COUNTRY NAME]."
-    elsif name.match(/Colombia OBNI|Japan OBNI/)
+    elsif name.match?(/Colombia OBNI|Japan OBNI/)
       lines.push content_with_inclusion('sign_off_partner_1a', [partner])
       lines.push content_with_inclusion('sign_off_partner_2', [partner, country_name]).sub(/^The\s/, '')
       lines.push @content['sign_off_extra']
@@ -207,7 +207,7 @@ class OpportunityPresenter < PagePresenter
     # Format of message:
     #   "Message the [PARTNER NAME]."
     #   "The [PARTNER NAME] message in [COUNTRY NAME]."
-    elsif name.match(/China - CBBC|India OBNI|Kuwait OBNI/)
+    elsif name.match?(/China - CBBC|India OBNI|Kuwait OBNI/)
       lines.push content_with_inclusion('sign_off_partner_1', [partner])
       lines.push content_with_inclusion('sign_off_partner_2', [partner, country_name])
       lines.push @content['sign_off_extra']
@@ -216,7 +216,7 @@ class OpportunityPresenter < PagePresenter
     # Format of message:
     # "Message the [PARTNER NAME] in [COUNTRY NAME]."
     # "[PARTNER NAME] message in [COUNTRY NAME]."
-    elsif name.match(/Saudi Arabia OBNI/)
+    elsif name.match?(/Saudi Arabia OBNI/)
       lines.push content_with_inclusion('sign_off_partner_1a', [partner, country_name])
       lines.push content_with_inclusion('sign_off_partner_2', [partner, country_name]).sub(/^The\s/, '')
       lines.push @content['sign_off_extra']
@@ -243,7 +243,7 @@ class OpportunityPresenter < PagePresenter
       lines.push @content['sign_off_extra']
 
     # Exceptions for countries that need 'the' (e.g. the Netherlands)
-    elsif name.match(/Czech Republic \w+|Dominican Republic \w+|Ivory Coast \w+|Netherlands \w+|Philippines \w+|United Arab Emirates \w+|United States \w+/)
+    elsif name.match?(/Czech Republic \w+|Dominican Republic \w+|Ivory Coast \w+|Netherlands \w+|Philippines \w+|United Arab Emirates \w+|United States \w+/)
       lines.push content_with_inclusion('sign_off_default', ['the ', country_name])
       lines.push @content['sign_off_extra']
 

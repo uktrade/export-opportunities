@@ -1,6 +1,7 @@
 # coding: utf-8
 
 class OpportunitySearchResultsPresenter < FormPresenter
+  include RegionHelper
   attr_reader :found, :form_path, :term, :unfiltered_search_url
 
   # Arguments passed come from the opportunities_controller.rb
@@ -25,6 +26,9 @@ class OpportunitySearchResultsPresenter < FormPresenter
     when 'industries'
       field = format_filter_checkboxes(field, :sectors)
     when 'regions'
+      # Instead of using @filters[:regions] we're going to reset
+      # regions to only those corresponding to countries in results.
+      @filters[:regions][:options] = filtered_regions
       field = format_filter_checkboxes(field, :regions)
     when 'countries'
       field = format_filter_checkboxes(field, :countries)
@@ -236,7 +240,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
   private
 
   # We have content from .yml file but want to mix data
-  # from filter(s) supplied by the controller, to create
+  # from filter supplied by the controller, to create
   # individual fields for use in view code.
   def format_filter_checkboxes(field, filter_name)
     filter = @filters[filter_name]
@@ -308,5 +312,17 @@ class OpportunitySearchResultsPresenter < FormPresenter
       filter_list.push filter
     end
     selected_filters(filter_list)
+  end
+
+  # Filters all regions (@filters[:regions]) down to
+  # return only those that are applicable to countries
+  # showing (so those that apply to the search)
+  def filtered_regions
+    regions = []
+    @filters[:countries][:options].each do |country|
+      region = region_by_country(country)
+      regions.push(region) if region.present?
+    end
+    regions.uniq
   end
 end

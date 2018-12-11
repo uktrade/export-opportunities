@@ -3,7 +3,9 @@ class RobotsTxtsController < ApplicationController
     if Figaro.env.DISALLOW_ALL_WEB_CRAWLERS.present?
       render 'disallow_all', layout: false, content_type: 'text/plain'
     else
-      render nothing: true, status: 404
+      respond_to do |format|
+        format.any  { head :not_found }
+      end
     end
   end
 end
