@@ -80,7 +80,10 @@ describe RegionHelper do
       # Has correct regions
       expect(regions_and_countries[:regions].length).to eq(4)
       expect(regions_and_countries[:regions]).to include(example_region)
-      expect(region_slugs).to eq(%w[western-europe mediterranean-europe australia-new-zealand china])
+      expect(region_slugs).to include('western-europe')
+      expect(region_slugs).to include('mediterranean-europe')
+      expect(region_slugs).to include('australia-new-zealand')
+      expect(region_slugs).to include('china')
 
       # Has correct countries
       expect(regions_and_countries[:countries].length).to eq(4)
