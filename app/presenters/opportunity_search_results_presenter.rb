@@ -2,7 +2,7 @@
 
 class OpportunitySearchResultsPresenter < FormPresenter
   include RegionHelper
-  attr_reader :found, :form_path, :term, :unfiltered_search_url
+  attr_reader :found, :term, :unfiltered_search_url
 
   # Arguments passed come from the opportunities_controller.rb
   # @content, @search_result
@@ -12,7 +12,6 @@ class OpportunitySearchResultsPresenter < FormPresenter
     @found = search[:results]
     @view_limit = search[:limit]
     @total = search[:total]
-    @sort_by = search[:sort_by]
     @term = search[:term]
   end
 
@@ -144,7 +143,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
       options: options,
     }
     input[:options].each do |option|
-      option[:selected] = true if option[:value].eql? @sort_by
+      option[:selected] = true if option[:value].eql? @search[:sort].column
     end
 
     input
@@ -165,7 +164,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
   end
 
   def applied_filters?
-    @search[:parameters].countries.present? || @search[:parameters].regions.present? || @search[:parameters].sources.present?
+    @search[:filter].countries.present? || @search[:filter].regions.present? || @search[:filter].sources.present?
   end
 
   # Pass in the query params (request.query_parameters)
@@ -207,7 +206,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
 
   # Control whether subscription link should be shown
   def offer_subscription(not_subscription_url = true)
-    f = @search[:parameters]
+    f = @search[:filter]
     allowed_parameters_present = (@search[:term].present? || f.countries.present? || f.regions.present?)
     disallowed_parameters_empty = (f.sectors.blank? && f.types.blank? && f.values.blank?)
     allowed_parameters_present && disallowed_parameters_empty && not_subscription_url
@@ -218,6 +217,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
   def hidden_search_fields(params)
     fields = ''
     params.each do |key, value|
+      key = key.to_s
       fields += hidden_field_tag 's', value, id: '' if key == 's'
 
       if %w[sectors].include? key
@@ -239,8 +239,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
   # from filter supplied by the controller, to create
   # individual fields for use in view code.
   def format_filter_checkboxes(field, filter_name)
-    filters = @search[:filters]
-    filter = filters[filter_name]
+    filter = @search[:filter_data][filter_name]
     field_options = prop(field, 'options')
     options = []
     filter[:options].each_with_index do |option, index|
@@ -284,7 +283,11 @@ class OpportunitySearchResultsPresenter < FormPresenter
 
   # Returns list of names for selected filter options.
   def selected_filter_option_names
-    regions_and_countries = regions_and_countries_from(@search[:parameters].countries(:data))
-    region_and_country_names_to_a(regions_and_countries)
+    if @search[:filter].countries
+      regions_and_countries = regions_and_countries_from(@search[:filter].countries(:data))
+      region_and_country_names_to_a(regions_and_countries)
+    else
+      []
+    end
   end
 end

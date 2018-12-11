@@ -1,6 +1,6 @@
 class SearchFilter
   include RegionHelper
-  attr_reader :sectors, :regions, :countries, :types, :values, :sources
+  attr_reader :sectors, :regions, :countries, :types, :values, :sources, :params
 
   def initialize(params = {})
     @params = params
@@ -98,15 +98,17 @@ class SearchFilter
 
   # Check requested slugs against those in DB
   def whitelisted_filters_for(name, klass)
-    requested_parameters = Array(@params[name])
-
-    return [] if requested_parameters.empty?
-    klass.where(slug: requested_parameters)
+    requested_parameters = as_array(@params[name])
+    if requested_parameters.empty?
+      []
+    else
+      klass.where(slug: requested_parameters)
+    end
   end
 
   # Check requested slugs against those stored in RegionHelper.regions_list
   def whitelisted_filters_for_regions
-    requested_parameters = Array(@params[:regions])
+    requested_parameters = as_array(@params[:regions])
     if requested_parameters.empty?
       []
     else
@@ -121,7 +123,7 @@ class SearchFilter
 
   # Check requested values against those stored from Opportunity.sources
   def whitelisted_filters_for_sources
-    requested_parameters = Array(@params[:sources])
+    requested_parameters = as_array(@params[:sources])
     if requested_parameters.empty?
       []
     else
@@ -129,5 +131,9 @@ class SearchFilter
       requested_parameters.each { |source| sources.push(source) if Opportunity.sources.key? source }
       sources
     end
+  end
+
+  def as_array(thing)
+    thing.class == Array ? thing : Array(thing)
   end
 end
