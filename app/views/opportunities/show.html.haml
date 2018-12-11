@@ -147,9 +147,10 @@
 
       - else
         - if opportunity.source('post')
-          %h2 Express your interest
-          - opportunity.sign_off_content.each do |line|
-            = content_tag("p", line, class: "sign-off")
+          - if opportunity.created_at > Date.parse(Figaro.env.SIGNOFF_LINES_DEPLOYMENT_DATE)
+            %h2 Express your interest
+            - opportunity.sign_off_content.each do |line|
+              = content_tag("p", line, class: "sign-off")
 
           = yield :disclaimer_content
 
