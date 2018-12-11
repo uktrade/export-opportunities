@@ -17,7 +17,7 @@ class OpportunitiesController < ApplicationController
     if atom_request?
       query = Opportunity.public_search(
         search_term: '',
-        filters: filters_with_mapped_regions,
+        filters: SearchFilter.new(params), #filters_with_mapped_regions,
         sort: sorting
       )
 
