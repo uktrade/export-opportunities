@@ -126,9 +126,9 @@ RSpec.describe SearchFilter, type: :service do
       params = { countries: %w[france spain] }
       filter = SearchFilter.new(params)
 
-      expect(filter.countries.length).to eq(2)
-      expect(filter.countries).to include('france')
-      expect(filter.countries).to include('spain')
+      expect(filter.countries(:slug).length).to eq(2)
+      expect(filter.countries(:slug)).to include('france')
+      expect(filter.countries(:slug)).to include('spain')
     end
 
     it 'returns an array of country names' do
@@ -154,6 +154,20 @@ RSpec.describe SearchFilter, type: :service do
         expect(country[:name]).to eq('France').or eq('Spain')
         expect(country[:slug]).to eq('france').or eq('spain')
       end
+    end
+
+    it 'returns an array of country slugs both from countries and region params' do
+      create(:country, slug: 'france')
+      create(:country, slug: 'spain')
+      params = { countries: %w[france spain], regions: %w[north-east-asia] }
+      filter = SearchFilter.new(params)
+
+      expect(filter.countries.length).to eq(5)
+      expect(filter.countries).to include('france')
+      expect(filter.countries).to include('spain')
+      expect(filter.countries).to include('japan')
+      expect(filter.countries).to include('south-korea')
+      expect(filter.countries).to include('taiwan')
     end
   end
 

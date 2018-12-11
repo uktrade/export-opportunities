@@ -3,7 +3,7 @@ class SearchFilter
   attr_reader :sectors, :regions, :countries, :types, :values, :sources, :params
 
   def initialize(params = {})
-    @params = params
+    @params = region_and_country_param_conversion(params)
   end
 
   def sectors(datatype = nil)
@@ -38,8 +38,14 @@ class SearchFilter
       country_data
     when :name
       country_data.pluck(:name)
-    else
+    when :slug
       country_data.pluck(:slug)
+    else
+      # Because regions aren't supported in the DB, we include
+      # the country slugs from selected regions here, as well.
+      all_countries = []
+      regions(:data).each { |region| all_countries = all_countries.concat(region[:countries]) }
+      all_countries.concat(country_data.pluck(:slug)).uniq.sort
     end
   end
 

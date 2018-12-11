@@ -17,7 +17,7 @@ class OpportunitiesController < ApplicationController
     if atom_request?
       query = Opportunity.public_search(
         search_term: '',
-        filters: SearchFilter.new(params), #filters_with_mapped_regions,
+        filters: SearchFilter.new(params),
         sort: sorting
       )
 
@@ -36,8 +36,6 @@ class OpportunitiesController < ApplicationController
   end
 
   def results
-    # First try to get params correctly formatted.
-    region_and_country_param_conversion(params) # alters params value
     @search_term = search_term(params[:s])
     @dit_boost_search = params['boost_search'].present?
     @content = get_content('opportunities/results.yml')
