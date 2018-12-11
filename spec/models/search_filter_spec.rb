@@ -16,6 +16,20 @@ RSpec.describe SearchFilter, type: :service do
     end
   end
 
+  describe '.regions' do
+    it 'only contains whitelisted regions' do
+
+      params = {
+        regions: %w[western-europe hackistan],
+      }
+
+      filter = SearchFilter.new(params)
+
+      expect(filter.regions).to include('western-europe')
+      expect(filter.regions).not_to include('hackistan')
+    end
+  end
+
   describe '.countries' do
     it 'only contains whitelisted countries' do
       create(:country, slug: 'australia')
