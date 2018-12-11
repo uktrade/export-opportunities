@@ -565,62 +565,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
     search_filter = SearchFilter.new(params)
     controller = TestOpportunitiesController.new(search_filter)
     controller.opportunity_search(total)
-#    params = ActionController::Parameters.new(url_params)
-#    search_filter = SearchFilter.new(params)
-#    search_term = params[:s]
-#    controller = OpportunitiesControllerAccessor.new(search_filter)
-#    query = Opportunity.public_search(
-#      search_term: search_term,
-#      filters: search_filter,
-#      sort: sort_order(params)
-#    )
-#    country_list = controller.relevant_countries_from_search(query.records.includes(:countries).includes(:opportunities_countries))
-#    {
-#      parameters: params,
-#      term: search_term,
-#      sort_by: 'relevance',
-#      results: query.records,
-#      total: total || query.results.total, # passing an integer for total allows rigging the test result.
-#      limit: Opportunity.default_per_page,
-#      subscription: SubscriptionForm.new(query: {
-#        search_term: search_term,
-#        sectors: search_filter.sectors,
-#        types: search_filter.types,
-#        countries: search_filter.countries,
-#        values: search_filter.values,
-#      }),
-#      filter: {
-#        sectors: controller.search_filter_sectors,
-#        countries: controller.search_filter_countries(country_list),
-#        regions: controller.search_filter_regions(country_list),
-#        sources: controller.search_filter_sources,
-#      },
-#    }
   end
-
-  # TODO: Find a better way that relies on code in OpportunitiesController
-  # rather than duplicating here with potential to get out of sync.
-  #def sort_order(params)
-  #  sort = OpportunitySort.new(default_column: 'response_due_on', default_order: 'asc')
-  #  if params[:sort_column_name] != 'response_due_on'
-  #    sort.update(column: params[:sort_column_name], order: 'desc')
-  #  end
-  #end
-
-  # Extract any country slug to 
-  #def convert_countries(params)
-  #  if params[:areas].present?
-  #    params[:countries] = [] if params[:countries].blank?
-  #    params[:areas].each do |area|
-  #      if area == 'south-america'
-  #        params[:countries].push 'mexico'
-  #      else
-  #        params[:countries].push area
-  #      end
-  #    end
-  #  end
-  #  params
-  #end
 
   def has_html?(message)
     %r{\<\/\w+\>|\<\w+\s+\w+=}.match(message)
@@ -651,28 +596,6 @@ RSpec.describe OpportunitySearchResultsPresenter do
     arr.each_with_index { |word, index| arr[index] = word.capitalize }
     arr.join(' ')
   end
-
-  #def search_filters_with_countries_matching_regions
-  #  filters = search_filters
-  #  more_countries = [
-  #    # australia_new_zealand
-  #    create(:country, slug: 'australia'),
-
-  #    # south_asia
-  #    create(:country, slug: 'bangladesh'),
-  #    create(:country, slug: 'india'),
-  #  ]
-
-  #  filters[:countries][:options] = filters[:countries][:options].concat(more_countries)
-  #  filters
-  #end
-
-  #def search_filters_extended(filter_name, filter_options, selected_slugs = [])
-  #  filters = search_filters
-  #  filters[filter_name][:options] = filter_options
-  #  filters[filter_name][:selected] = selected_slugs
-  #  filters
-  #end
 
   class TestRegionHelper
     include RegionHelper
