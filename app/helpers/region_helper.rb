@@ -14,6 +14,7 @@ module RegionHelper
     if params[:areas].present? && (params[:regions].blank? && params[:countries].blank?)
       regions = []
       countries = []
+      params[:areas] = [] if params[:areas] == [''] # Default has blank entry
       params[:areas].each do |area|
         not_region = true
         regions_list.each do |region|
