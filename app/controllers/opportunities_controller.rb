@@ -38,7 +38,7 @@ class OpportunitiesController < ApplicationController
   def results
     # First try to get params correctly formatted.
     region_and_country_param_conversion(params) # alters params value
-    @search_term = search_term
+    @search_term = search_term(params[:s])
     @dit_boost_search = params['boost_search'].present?
     @content = get_content('opportunities/results.yml')
     @search_filter = SearchFilter.new(params)
