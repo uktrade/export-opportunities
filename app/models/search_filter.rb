@@ -139,7 +139,11 @@ class SearchFilter
     @regions.each do |region|
       country_slugs = country_slugs.concat(region[:countries])
     end
-    Country.where(slug: country_slugs)
+    if country_slugs.empty?
+      []
+    else
+      Country.where(slug: country_slugs)
+    end
   end
 
   # Check requested values against those stored from Opportunity.sources
