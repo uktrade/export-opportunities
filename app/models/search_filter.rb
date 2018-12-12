@@ -75,9 +75,19 @@ class SearchFilter
     end
   end
 
-  def sources
-    # Nothing else to offer than this.
-    @source_data
+  def sources(datatype = nil)
+    case datatype
+    when :data
+      @sources
+    when :name
+      names = []
+      @sources.each { |source| names.push(source[:name]) }
+      names
+    else
+      slugs = []
+      @sources.each { |source| slugs.push(source[:slug]) }
+      slugs
+    end
   end
 
   def reduced_countries(datatype = nil)
@@ -134,12 +144,18 @@ class SearchFilter
 
   # Check requested values against those stored from Opportunity.sources
   def whitelisted_filters_for_sources
+    collection = Opportunity.sources
     requested_parameters = as_array(@params[:sources])
     if requested_parameters.empty?
       []
     else
       sources = []
-      requested_parameters.each { |source| sources.push(source) if Opportunity.sources.key? source }
+      requested_parameters.each do |source|
+        if collection.key? source
+          source_obj = { slug: source, name: source.capitalize, value: collection[source] }
+          sources.push(source_obj)
+        end
+      end
       sources
     end
   end
