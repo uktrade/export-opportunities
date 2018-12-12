@@ -283,11 +283,8 @@ class OpportunitySearchResultsPresenter < FormPresenter
 
   # Returns list of names for selected filter options.
   def selected_filter_option_names
-    if @search[:filter].countries
-      regions_and_countries = regions_and_countries_from(@search[:filter].countries(:data))
-      region_and_country_names_to_a(regions_and_countries)
-    else
-      []
-    end
+    region_names = @search[:filter].regions(:name).sort
+    country_names = @search[:filter].reduced_countries(:name).sort
+    region_names.concat(country_names)
   end
 end
