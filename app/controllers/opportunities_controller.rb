@@ -310,15 +310,6 @@ class OpportunitiesController < ApplicationController
     }
   end
 
-  # Data to build search filter for areas
-  private def search_filter_areas
-    {
-      'name': 'areas[]',
-      'options': areas_list,
-      'selected': @search_filter.areas,
-    }
-  end
-
   # Filters all regions (@search_filter[:regions]) down to
   # return only those that are applicable to countries
   # showing (so those that apply to the search)
