@@ -496,67 +496,6 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
   end
 
-  describe '#selected_filter_labels_without' do
-    it 'Return a string array of selected filter labels' do
-      skip "Method no longer exists???"
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
-      selected = presenter.send(:selected_filter_labels_without, search_filters, [:sectors])
-
-      expect(selected).to eql(%w[Spain Mexico])
-    end
-
-    it 'Return an empty array when no filters selected' do
-      skip "Method no longer exists???"
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters)
-      selected = presenter.send(:selected_filter_labels_without, search_filters, [:countries])
-
-      expect(selected).to eql([])
-    end
-  end
-
-  describe '#filtered_regions' do
-    it 'Return a reduced set of regions to match the active countries' do
-      skip "Method no longer exists???"
-      helper = TestRegionHelper.new
-      more_countries_to_match_regions = [
-        # australia_new_zealand
-        country('Australia', 'australia'),
-
-        # Mediterranean Europe
-        country('Spain', 'spain'),
-
-        # South America
-        country('Mexico', 'mexico'),
-
-        # south_asia
-        country('Bangladesh', 'bangladesh'),
-        country('India', 'india'),
-      ]
-
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters_extended(:countries, more_countries_to_match_regions))
-      regions_after_filtering = presenter.send(:filtered_regions)
-      region_slugs = []
-      regions_after_filtering.each do |region|
-        region_slugs.push region[:slug]
-      end
-
-      expect(helper.regions_list.length).to eq(17)
-      expect(regions_after_filtering.length).to eq(4)
-      expect(region_slugs).to eq(%w[mediterranean_europe south_america australia_new_zealand south_asia])
-    end
-
-    it 'Return empty region array when filtering matches no regions' do
-      skip "Method no longer exists???"
-      helper = TestRegionHelper.new
-      non_region_matching_countries = [create(:country, slug: 'one'), create(:country, slug: 'two')]
-      presenter = OpportunitySearchResultsPresenter.new(CONTENT, {}, search_filters_extended(:countries, non_region_matching_countries))
-      regions_after_filtering = presenter.send(:filtered_regions)
-
-      expect(helper.regions_list.length).to eq(17)
-      expect(regions_after_filtering.length).to eq(0)
-    end
-  end
-
   # Helper functions follow...
 
   def public_search(url_params, total=nil)
