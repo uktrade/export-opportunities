@@ -1,106 +1,102 @@
 class SearchFilter
   include RegionHelper
-  attr_reader :sectors, :regions, :countries, :types, :values, :sources, :params
+  attr_reader :params
 
   def initialize(params = {})
     @params = region_and_country_param_conversion(params)
+    @sectors = whitelisted_filters_for(:sectors, Sector)
+    @regions = whitelisted_filters_for_regions
+    @countries = whitelisted_filters_for_countries
+    @types = whitelisted_filters_for(:types, Type)
+    @values = whitelisted_filters_for(:values, Value)
+    @sources = whitelisted_filters_for_sources
+    @reduced_countries = countries_not_in_selected_regions
   end
 
   def sectors(datatype = nil)
+    return [] if @sectors.empty?
     case datatype
     when :data
-      sector_data
+      @sectors
     when :name
-      sector_data.pluck(:name)
+      @sectors.pluck(:name)
     else
-      sector_data.pluck(:slug)
+      @sectors.pluck(:slug)
     end
   end
 
   def regions(datatype = nil)
+    return [] if @regions.empty?
     case datatype
     when :data
-      region_data
+      @regions
     when :name
       region_names = []
-      region_data.each { |region| region_names.push(region[:name]) }
+      @regions.each { |region| region_names.push(region[:name]) }
       region_names
     else
       region_slugs = []
-      region_data.each { |region| region_slugs.push(region[:slug]) }
+      @regions.each { |region| region_slugs.push(region[:slug]) }
       region_slugs
     end
   end
 
   def countries(datatype = nil)
+    return [] if @countries.empty?
     case datatype
     when :data
-      country_data
+      @countries
     when :name
-      country_data.pluck(:name)
-    when :slug
-      country_data.pluck(:slug)
+      @countries.pluck(:name)
     else
-      # Because regions aren't supported in the DB, we include
-      # the country slugs from selected regions here, as well.
-      all_countries = []
-      regions(:data).each { |region| all_countries = all_countries.concat(region[:countries]) }
-      all_countries.concat(country_data.pluck(:slug)).uniq.sort
+      @countries.pluck(:slug)
     end
   end
 
   def types(datatype = nil)
     case datatype
     when :data
-      type_data
+      @types
     when :name
-      type_data.pluck(:name)
+      @types.pluck(:name)
     else
-      type_data.pluck(:slug)
+      @types.pluck(:slug)
     end
   end
 
   def values(datatype = nil)
     case datatype
     when :data
-      value_data
+      @values
     when :name
-      value_data.pluck(:name)
+      @values.pluck(:name)
     else
-      value_data.pluck(:slug)
+      @values.pluck(:slug)
     end
   end
 
   def sources
     # Nothing else to offer than this.
-    source_data
+    @source_data
+  end
+
+  def reduced_countries(datatype = nil)
+    return [] if @reduced_countries.empty?
+    case datatype
+    when :data
+      @reduced_countries
+    when :name
+      names = []
+      @reduced_countries.each { |country| names.push(country[:name]) }
+      names
+    else
+      slugs = []
+      @reduced_countries.each { |country| slugs.push(country[:slug]) }
+      slugs
+    end
   end
 
   private
-
-  def sector_data
-    @sectors ||= whitelisted_filters_for(:sectors, Sector)
-  end
-
-  def region_data
-    @regions ||= whitelisted_filters_for_regions
-  end
-
-  def country_data
-    @countries ||= whitelisted_filters_for(:countries, Country)
-  end
-
-  def type_data
-    @types ||= whitelisted_filters_for(:types, Type)
-  end
-
-  def value_data
-    @values ||= whitelisted_filters_for(:values, Value)
-  end
-
-  def source_data
-    @sources ||= whitelisted_filters_for_sources
-  end
 
   # Check requested slugs against those in DB
   def whitelisted_filters_for(name, klass)
@@ -127,6 +123,15 @@ class SearchFilter
     end
   end
 
+  # Gets countries from both requested regions and countries params.
+  def whitelisted_filters_for_countries
+    country_slugs = @params[:countries] || []
+    @regions.each do |region|
+      country_slugs = country_slugs.concat(region[:countries])
+    end
+    Country.where(slug: country_slugs)
+  end
+
   # Check requested values against those stored from Opportunity.sources
   def whitelisted_filters_for_sources
     requested_parameters = as_array(@params[:sources])
@@ -137,6 +142,24 @@ class SearchFilter
       requested_parameters.each { |source| sources.push(source) if Opportunity.sources.key? source }
       sources
     end
+  end
+
+  # Because the regions are not coming from the DB, we need some special
+  # handling to provide access to for countries that have been requested
+  # in a search but are not in a selected/requested region as well.
+  def countries_not_in_selected_regions
+    country_list = []
+    @countries.each do |country|
+      not_in_region = true
+      @regions.each do |region|
+        if region[:countries].include? country[:slug]
+          not_in_region = false
+          break
+        end
+      end
+      country_list.push(country) if not_in_region
+    end
+    country_list
   end
 
   def as_array(thing)

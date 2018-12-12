@@ -159,6 +159,9 @@ RSpec.describe SearchFilter, type: :service do
     it 'returns an array of country slugs both from countries and region params' do
       create(:country, slug: 'france')
       create(:country, slug: 'spain')
+      create(:country, slug: 'japan')
+      create(:country, slug: 'south-korea')
+      create(:country, slug: 'taiwan')
       params = { countries: %w[france spain], regions: %w[north-east-asia] }
       filter = SearchFilter.new(params)
 
@@ -276,6 +279,81 @@ RSpec.describe SearchFilter, type: :service do
         expect(value[:name]).to eq('Unknown').or eq('over £100K')
         expect(value[:slug]).to eq('unknown').or eq('over-amount')
       end
+    end
+  end
+
+  describe '.reduced_countries' do
+    it 'only contains whitelisted countries not including those in regions' do
+      create(:country, slug: 'australia')
+      create(:country, slug: 'japan')
+      params = { countries: %w[australia hackistan], regions: %w[north-east-asia] }
+      filters = SearchFilter.new(params)
+
+      expect(filters.reduced_countries).to include('australia')
+      expect(filters.reduced_countries).not_to include('hackistan')
+    end
+
+    it 'returns an empty array when no country params' do
+      params = {}
+      filter = SearchFilter.new(params)
+
+      expect(filter.reduced_countries).to eq([])
+    end
+
+    it 'returns an array of country slugs' do
+      create(:country, slug: 'france')
+      create(:country, slug: 'spain')
+      create(:country, slug: 'japan')
+      params = { countries: %w[france spain], regions: %w[north-east-asia] }
+      filter = SearchFilter.new(params)
+
+      expect(filter.reduced_countries(:slug).length).to eq(2)
+      expect(filter.reduced_countries(:slug)).to include('france')
+      expect(filter.reduced_countries(:slug)).to include('spain')
+    end
+
+    it 'returns an array of country names' do
+      create(:country, name: 'France', slug: 'france')
+      create(:country, name: 'Spain',  slug: 'spain')
+      create(:country, slug: 'japan')
+      params = { countries: %w[france spain], regions: %w[north-east-asia] }
+      filter = SearchFilter.new(params)
+
+      expect(filter.reduced_countries(:name).length).to eq(2)
+      expect(filter.reduced_countries(:name)).to include('France')
+      expect(filter.reduced_countries(:name)).to include('Spain')
+    end
+
+    it 'returns an array of country data' do
+      create(:country, name: 'France', slug: 'france')
+      create(:country, name: 'Spain',  slug: 'spain')
+      create(:country, slug: 'japan')
+      params = { countries: %w[france spain], regions: %w[north-east-asia] }
+      filter = SearchFilter.new(params)
+      country_data = filter.reduced_countries(:data)
+
+      expect(country_data.length).to eq(2)
+      country_data.each do |country|
+        expect(country[:name]).to eq('France').or eq('Spain')
+        expect(country[:slug]).to eq('france').or eq('spain')
+      end
+    end
+
+    it 'returns an array of country slugs both from countries and region params' do
+      create(:country, slug: 'france')
+      create(:country, slug: 'spain')
+      create(:country, slug: 'japan')
+      create(:country, slug: 'south-korea')
+      create(:country, slug: 'taiwan')
+      params = { countries: %w[france spain], regions: %w[north-east-asia] }
+      filter = SearchFilter.new(params)
+
+      expect(filter.reduced_countries.length).to eq(2)
+      expect(filter.reduced_countries).to include('france')
+      expect(filter.reduced_countries).to include('spain')
+      expect(filter.reduced_countries).to_not include('japan')
+      expect(filter.reduced_countries).to_not include('south-korea')
+      expect(filter.reduced_countries).to_not include('taiwan')
     end
   end
 end
