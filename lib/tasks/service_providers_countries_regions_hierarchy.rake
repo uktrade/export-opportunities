@@ -50,6 +50,10 @@ namespace :partners do
     colombia.partner = 'UK Colombia Trade'
     colombia.save!
 
+    hungary = ServiceProvider.where(name: 'Hungary OBNI').first
+    hungary.partner = 'British Business Centre'
+    hungary.save!
+
     india = ServiceProvider.where(name: 'India OBNI').first
     india.partner = 'UK India Business Council (UKIBC)'
     india.save!

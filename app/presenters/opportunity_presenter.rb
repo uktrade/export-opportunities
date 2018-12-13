@@ -180,7 +180,7 @@ class OpportunityPresenter < PagePresenter
 
     # compensate for poor country data by using ternary operator.
     country_name = country.nil? ? '' : country.name
-    region_name = country.nil? ? '' : country.region.name
+    region_name = country.nil? || country.region.nil? ? '' : country.region.name
 
     lines = []
 
