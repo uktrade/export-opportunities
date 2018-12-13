@@ -2,20 +2,17 @@
 
 class OpportunitySearchResultsPresenter < FormPresenter
   include RegionHelper
-  attr_reader :found, :form_path, :term, :unfiltered_search_url
+  attr_reader :found, :term, :unfiltered_search_url
 
   # Arguments passed come from the opportunities_controller.rb
-  # @content, @search_results, @search_filters
-  def initialize(content, search, filters)
+  # @content, @search_result
+  def initialize(content, search)
     super(content, {})
     @search = search
-    @filters = filters
     @found = search[:results]
     @view_limit = search[:limit]
     @total = search[:total]
-    @sort_by = search[:sort_by]
     @term = search[:term]
-    @form_path = opportunities_path
   end
 
   # Overwriting FormPresenter.field_content to allocate when we need
@@ -26,9 +23,6 @@ class OpportunitySearchResultsPresenter < FormPresenter
     when 'industries'
       field = format_filter_checkboxes(field, :sectors)
     when 'regions'
-      # Instead of using @filters[:regions] we're going to reset
-      # regions to only those corresponding to countries in results.
-      @filters[:regions][:options] = filtered_regions
       field = format_filter_checkboxes(field, :regions)
     when 'countries'
       field = format_filter_checkboxes(field, :countries)
@@ -97,7 +91,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
   # Add to 'X results found' message
   # Returns ' in [a country name here]' or ''
   def searched_in(with_html = false)
-    selected = selected_filters_without(@filters, [:sources])
+    selected = selected_filter_option_names
     message = ''
     separator_in = ' in '
     list = []
@@ -149,18 +143,19 @@ class OpportunitySearchResultsPresenter < FormPresenter
       options: options,
     }
     input[:options].each do |option|
-      option[:selected] = true if option[:value].eql? @sort_by
+      option[:selected] = true if option[:value].eql? @search[:sort].column
     end
 
     input
   end
 
+  # Returns list + HTML markup for 'Selected Filter' component. 
   def selected_filter_list(title)
     id = "selected-filter-title_#{Time.now.to_i}"
     html = content_tag(:p, title, id: id)
     html += content_tag(:ul, 'aria-labelledby': id) do
       list_items = ''
-      selected_filters(@filters).each do |filter|
+      selected_filter_option_names.each do |filter|
         list_items += content_tag('span', filter, 'class': 'param')
       end
       list_items.html_safe
@@ -169,7 +164,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
   end
 
   def applied_filters?
-    @search[:filters].countries.present? || @search[:filters] .regions.present? || @search[:filters] .sources.present?
+    @search[:filter].countries.present? || @search[:filter].regions.present? || @search[:filter].sources.present?
   end
 
   # Pass in the query params (request.query_parameters)
@@ -211,10 +206,10 @@ class OpportunitySearchResultsPresenter < FormPresenter
 
   # Control whether subscription link should be shown
   def offer_subscription(not_subscription_url = true)
-    f = @search[:filters]
-    allowed_filters_present = (@search[:term].present? || f.countries.present? || f.regions.present?)
-    disallowed_filters_empty = (f.sectors.blank? && f.types.blank? && f.values.blank?)
-    allowed_filters_present && disallowed_filters_empty && not_subscription_url
+    f = @search[:filter]
+    allowed_parameters_present = (@search[:term].present? || f.countries.present? || f.regions.present?)
+    disallowed_parameters_empty = (f.sectors.blank? && f.types.blank? && f.values.blank?)
+    allowed_parameters_present && disallowed_parameters_empty && not_subscription_url
   end
 
   # Returns hidden form fields to make sure the search results
@@ -222,6 +217,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
   def hidden_search_fields(params)
     fields = ''
     params.each do |key, value|
+      key = key.to_s
       fields += hidden_field_tag 's', value, id: '' if key == 's'
 
       if %w[sectors].include? key
@@ -243,7 +239,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
   # from filter supplied by the controller, to create
   # individual fields for use in view code.
   def format_filter_checkboxes(field, filter_name)
-    filter = @filters[filter_name]
+    filter = @search[:filter_data][filter_name]
     field_options = prop(field, 'options')
     options = []
     filter[:options].each_with_index do |option, index|
@@ -285,44 +281,10 @@ class OpportunitySearchResultsPresenter < FormPresenter
     }
   end
 
-  # Returns list of labels for selected filters.
-  # Note: Existing filter structure is complex.
-  # Actual data for each filter is an array, with
-  # the first element being a symbol and the second
-  # (e.g. filter[1]) being the object we want.
-  def selected_filters(filters)
-    selected = []
-    filters.each do |filter|
-      next unless filter[1].key?(:selected) && filter[1][:selected].length.positive?
-      field = field_content(filter[0])
-      next if field.blank?
-      prop(field, 'options').each do |option|
-        next unless option[:checked]
-        selected.push option[:name]
-      end
-    end
-    selected.uniq
-  end
-
-  # Returns list of labels for selected filters after excluding some filters.
-  def selected_filters_without(filters, exclusions)
-    filter_list = []
-    filters.each do |filter|
-      next if exclusions.include? filter[0]
-      filter_list.push filter
-    end
-    selected_filters(filter_list)
-  end
-
-  # Filters all regions (@filters[:regions]) down to
-  # return only those that are applicable to countries
-  # showing (so those that apply to the search)
-  def filtered_regions
-    regions = []
-    @filters[:countries][:options].each do |country|
-      region = region_by_country(country)
-      regions.push(region) if region.present?
-    end
-    regions.uniq
+  # Returns list of names for selected filter options.
+  def selected_filter_option_names
+    region_names = @search[:filter].regions(:name).sort
+    country_names = @search[:filter].reduced_countries(:name).sort
+    region_names.concat(country_names)
   end
 end
