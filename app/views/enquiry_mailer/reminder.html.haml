@@ -1,0 +1,24 @@
+- opportunity = OpportunityPresenter.new(self, @opportunity, @content)
+
+%h1
+  %span
+    = @reminder_number
+    reminder:
+  Respond to enquiry
+%br
+%p Dear colleague,
+%p
+  You received an enquiry for
+  = @enquiry.opportunity.title
+  from
+  = @enquiry.company_name
+  , but have yet to respond to it.
+
+%p You need to respond to enquiries within 5 working days. Failure to do so may result in restricted access to the admin centre.
+
+%p.action
+  =link_to 'Respond to enquiry', admin_enquiry_url(@enquiry.id)
+%br
+
+%p Please contact us at exportopportunities@trade.gsi.gov.uk if there is a specific reason that you haven't replied to the customer.
+
