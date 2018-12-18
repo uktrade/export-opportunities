@@ -5,13 +5,11 @@ class EnquiryMailer < ApplicationMailer
     @enquiry = enquiry
     return if @enquiry.opportunity.contacts.nil?
 
-    excepted_service_providers = Figaro.env.PTU_EXEMPT_SERVICE_PROVIDERS!
-
     email_addresses = @enquiry.opportunity.contacts.pluck(:email)
 
     subject = "Enquiry from #{@enquiry.company_name}: action required within 5 working days"
 
-    args = if excepted_service_providers.split(',').map(&:to_i).include? @enquiry.opportunity.service_provider.id
+    args = if service_provider_exception(enquiry)
              {
                template_name: 'sendenquiry_seller_details',
                to: email_addresses,
@@ -32,11 +30,10 @@ class EnquiryMailer < ApplicationMailer
     mail(args)
   end
 
+  # Sends a reminder email to the opportunity contacts (Post)
+  # when they do not respond the an enquiry in expected time.
   def reminder(enquiry, number, content)
-    # TODO: 
-    # What, if any, condition here?
-    # Should this have the excepted_service_providers condition, like send_enquiry?
-    if enquiry.opportunity.contacts.present?
+    if enquiry.opportunity.contacts.present? && !service_provider_exception(enquiry)
 
       # Convert number to required output format
       reminder = %w[Last first second third fourth fifth sixth seventh eigth ninth tenth]
@@ -44,7 +41,7 @@ class EnquiryMailer < ApplicationMailer
 
       args = {
         template_name: 'reminder',
-        to: enquiry.opportunity.contacts.pluck(:email), # Really? Or some other email?
+        to: enquiry.opportunity.contacts.pluck(:email),
         subject: "#{reminder_number} reminder: respond to enquiry",
       }
 
@@ -59,11 +56,6 @@ class EnquiryMailer < ApplicationMailer
 
       mail(args)
     end
-
-    # Development only (remove when ready for above mail functionality)
-    puts '*** Development output... ***'
-    puts '*** Enable the mail() function to make this work properly ***'
-    puts "id: #{enquiry.id}, number: #{number}, reminder_number: #{reminder_number}"
   end
 
   def reminders(enquiry_reminders)
@@ -71,5 +63,11 @@ class EnquiryMailer < ApplicationMailer
     enquiry_reminders.each do |reminder|
       reminder(reminder[:enquiry], reminder[:number], content)
     end
+  end
+
+  private def service_provider_exception(enquiry)
+    service_provider_id = enquiry.opportunity.service_provider.id
+    excepted_service_providers = Figaro.env.PTU_EXEMPT_SERVICE_PROVIDERS!
+    excepted_service_providers.split(',').map(&:to_i).include? service_provider_id
   end
 end
