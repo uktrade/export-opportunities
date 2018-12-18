@@ -47,6 +47,7 @@ class EnquiryMailer < ApplicationMailer
       args = {
         template_name: 'reminder',
         to: enquiry.opportunity.contacts.pluck(:email),
+        from: Figaro.env.MAILER_FROM_ADDRESS,
         subject: "#{content_with_inclusion 'title_prefix', [reminder_number]} #{content('title_main')}",
       }
 

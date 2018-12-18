@@ -88,6 +88,7 @@ RSpec.describe EnquiryMailer, type: :mailer do
       subject = "#{tch.content_with_inclusion('reminder.title_prefix', ['First'])} #{tch.content('reminder.title_main')}"
       expect(last_delivery.subject).to eql(subject)
       expect(last_delivery.to).to eql(enquiry.opportunity.contacts.pluck(:email))
+      expect(last_delivery.from).to eql([Figaro.env.MAILER_FROM_ADDRESS])
       expect(last_delivery.to_s).to include(enquiry.opportunity.title)
       expect(last_delivery.to_s).to include(enquiry.company_name)
     end
@@ -104,8 +105,10 @@ RSpec.describe EnquiryMailer, type: :mailer do
       EnquiryMailer.reminders(enquiry_reminders).deliver_now!
       last_delivery = ActionMailer::Base.deliveries.last
       subject = "#{tch.content_with_inclusion('reminder.title_prefix', ['Third'])} #{tch.content('reminder.title_main')}"
+
       expect(last_delivery.subject).to eql(subject)
       expect(last_delivery.to).to eql(enquiry2.opportunity.contacts.pluck(:email))
+      expect(last_delivery.from).to eql([Figaro.env.MAILER_FROM_ADDRESS])
       expect(last_delivery.to_s).to include(enquiry2.opportunity.title)
       expect(last_delivery.to_s).to include(enquiry2.company_name)
     end
