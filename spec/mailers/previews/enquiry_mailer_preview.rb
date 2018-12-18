@@ -23,27 +23,25 @@ class EnquiryMailerPreview < ActionMailer::Preview
   end
 
   def reminder
-    enquiry = Enquiry.first_or_create(
-      user: User.last,
-      first_name: 'Elijah',
-      last_name: 'Little',
-      company_telephone: '1-115-334-4358',
-      company_name: 'ilpert, Sanford and Abbott',
-      company_address: '813 Reinger Dale',
-      company_house_number: '1027',
-      company_postcode: '55939-3068',
-      existing_exporter: 'Not yet',
-      company_sector: 'human resources',
-      company_explanation: 'Business-focused bifurcated budgetary management',
-      opportunity: Opportunity.last
-    )
+    content = {} # Don't think we actually need anything just for OpportunityPresenter.
+    reminder = {
+      enquiry: Enquiry.first_or_create(
+        user: User.last,
+        first_name: 'Elijah',
+        last_name: 'Little',
+        company_telephone: '1-115-334-4358',
+        company_name: 'ilpert, Sanford and Abbott',
+        company_address: '813 Reinger Dale',
+        company_house_number: '1027',
+        company_postcode: '55939-3068',
+        existing_exporter: 'Not yet',
+        company_sector: 'human resources',
+        company_explanation: 'Business-focused bifurcated budgetary management',
+        opportunity: Opportunity.last
+      ),
+      number: 1,
+    }
 
-    # TODO: 
-    # What's the best way to keep track of reminder number?
-    # Currently only doing a first reminder but expect this
-    # to be updated to multiple soon.
-    reminder_number = 1
-
-    EnquiryMailer.reminder(enquiry, reminder_number)
+    EnquiryMailer.reminder(reminder[:enquiry], reminder[:number], content)
   end
 end

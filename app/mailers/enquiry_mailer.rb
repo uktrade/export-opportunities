@@ -57,9 +57,7 @@ class EnquiryMailer < ApplicationMailer
       @opportunity = enquiry.opportunity
       @reminder_number = reminder_number
 
-      # Commented out just for development.
-      # This line needs to be active when ready.
-      # mail(args)
+      mail(args)
     end
 
     # Development only (remove when ready for above mail functionality)
