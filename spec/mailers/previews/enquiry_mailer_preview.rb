@@ -1,4 +1,6 @@
 class EnquiryMailerPreview < ActionMailer::Preview
+  include ContentHelper
+
   def send_enquiry
     EnquiryMailer.send_enquiry(Enquiry.last)
   end
@@ -23,7 +25,7 @@ class EnquiryMailerPreview < ActionMailer::Preview
   end
 
   def reminder
-    content = EnquiryMailer.new.get_content('emails/enquiry_mailer.yml')
+    content = get_content('emails/enquiry_mailer.yml')
     reminder = {
       enquiry: Enquiry.first_or_create(
         user: User.last,
