@@ -23,7 +23,7 @@ class EnquiryMailerPreview < ActionMailer::Preview
   end
 
   def reminder
-    content = {} # Don't think we actually need anything just for OpportunityPresenter.
+    content = EnquiryMailer.new.get_content('emails/enquiry_mailer.yml')
     reminder = {
       enquiry: Enquiry.first_or_create(
         user: User.last,
@@ -42,6 +42,6 @@ class EnquiryMailerPreview < ActionMailer::Preview
       number: 1,
     }
 
-    EnquiryMailer.reminder(reminder[:enquiry], reminder[:number], content)
+    EnquiryMailer.reminder(reminder[:enquiry], reminder[:number], content['reminder'])
   end
 end
