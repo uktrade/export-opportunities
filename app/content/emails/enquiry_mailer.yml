@@ -6,6 +6,6 @@ reminder:
   title_main: Respond to enquiry
   greeting: Dear colleague,
   why_email: You received an enquiry for [$opportunity_title] from [$company_name], but have yet to respond to it.
-  what_to_do: You need to respond to enquiries within 5 working days. Failure to do so may result in restricted access to the admin centre.
+  what_to_do: You need to respond to enquiries within 5 working days.
   button: Respond to enquiry
-  contact_help: Please contact us at [$email] if there is a specific reason that you haven't replied to the customer.
+  contact_help: Please let us know if there is a specific reason that you haven't replied to the customer by replying to this email.
