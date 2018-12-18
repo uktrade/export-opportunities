@@ -1,5 +1,6 @@
 class EnquiryMailer < ApplicationMailer
   include Devise::Mailers::Helpers
+  include ContentHelper
 
   def send_enquiry(enquiry)
     @enquiry = enquiry
@@ -32,27 +33,26 @@ class EnquiryMailer < ApplicationMailer
 
   # Sends a reminder email to the opportunity contacts (Post)
   # when they do not respond the an enquiry in expected time.
-  def reminder(enquiry, number, content)
+  def reminder(enquiry, number, text)
     if enquiry.opportunity.contacts.present? && !service_provider_exception(enquiry)
 
       # Convert number to required output format
       reminder = %w[Last first second third fourth fifth sixth seventh eigth ninth tenth]
       reminder_number = number < reminder.length ? reminder[number].capitalize : "#{number}th"
+      @content = text
+      @enquiry = enquiry
+      @opportunity = enquiry.opportunity
+      @reminder_number = reminder_number
 
       args = {
         template_name: 'reminder',
         to: enquiry.opportunity.contacts.pluck(:email),
-        subject: "#{reminder_number} reminder: respond to enquiry",
+        subject: "#{content_with_inclusion 'title_prefix', [reminder_number]} #{content('title_main')}",
       }
 
       if Figaro.env.enquiries_cc_email.present?
         args[:cc] = Figaro.env.enquiries_cc_email
       end
-
-      @content = content
-      @enquiry = enquiry
-      @opportunity = enquiry.opportunity
-      @reminder_number = reminder_number
 
       mail(args)
     end
