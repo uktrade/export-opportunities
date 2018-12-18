@@ -1,4 +1,5 @@
 module ContentHelper
+  
   # Returns content provided by .yml files in app/content folder.
   # Intended use is to keep content separated from the view code.
   # Should make it easier to switch later to CMS-style content editing.
@@ -6,11 +7,11 @@ module ContentHelper
   # language support, so this mechanism might be replaced by that
   # at some point in the furture.
   def get_content(*files)
-    content = {}
+    @content ||= {}
     files.each do |file|
-      content = content.merge YAML.load_file('app/content/' + file)
+      @content = @content.merge YAML.load_file('app/content/' + file)
     end
-    content
+    @content
   end
 
   # Gets content by either single 'key' value
@@ -90,7 +91,7 @@ module ContentHelper
   # when includes = ['idea', 'plan']
   #
   def content_with_inclusion(key, includes)
-    str = @content[key] || ''
+    str = content(key)
     re = /\[([^\[\]]*?)\$[a-z]+[\w_]*([^\[\]]*?)\]/i
     includes.each do |include|
       str.sub(re, '') # TODO: Why does it work with this line but not without?
