@@ -1,26 +1,27 @@
-<% opportunity = OpportunityPresenter.new(self, @opportunity, @content) %>
+<% presenter = OpportunityPresenter.new(self, @opportunity, @content) %>
 
 Department for International Trade
 
 
 
-<%= @reminder_number %> reminder:
-Respond to enquiry
+<%= presenter.content_with_inclusion 'title_prefix', [@reminder_number] %>
+<%= presenter.content 'title_main' %>
 
 
 
-Dear colleague,
+<%= presenter.content 'greeting' %>
 
 
-You received an enquiry for <%= @enquiry.opportunity.title %> from <%= "#{@enquiry.company_name}" %>, but have yet to respond to it.
+<%= presenter.content_with_inclusion 'why_email', [@enquiry.opportunity.title, @enquiry.company_name] %>
 
-You need to respond to enquiries within 5 working days. Failure to do so may result in restricted access to the admin centre.
-
-
-Respond to enquiry: <%= admin_enquiry_url(@enquiry.id) %>
+<%= presenter.content 'what_to_do' %>
 
 
-Please contact us at exportopportunities@trade.gsi.gov.uk if there is a specific reason that you haven't replied to the customer.
+<%= presenter.content 'button' %>
+<%= admin_enquiry_url(@enquiry.id) %>
+
+
+<%= presenter.content_with_inclusion 'contact_help', ['exportopportunities@trade.gsi.gov.uk'] %>
 
 
 

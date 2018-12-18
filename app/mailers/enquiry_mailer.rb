@@ -59,9 +59,9 @@ class EnquiryMailer < ApplicationMailer
   end
 
   def reminders(enquiry_reminders)
-    content = get_content('opportunities/show.yml')
+    content = get_content('emails/enquiry_mailer.yml')
     enquiry_reminders.each do |reminder|
-      reminder(reminder[:enquiry], reminder[:number], content)
+      reminder(reminder[:enquiry], reminder[:number], content['reminder'])
     end
   end
 
