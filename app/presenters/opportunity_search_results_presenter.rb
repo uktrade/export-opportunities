@@ -149,7 +149,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
     input
   end
 
-  # Returns list + HTML markup for 'Selected Filter' component. 
+  # Returns list + HTML markup for 'Selected Filter' component.
   def selected_filter_list(title)
     id = "selected-filter-title_#{Time.now.to_i}"
     html = content_tag(:p, title, id: id)
