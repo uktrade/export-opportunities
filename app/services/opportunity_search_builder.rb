@@ -16,7 +16,7 @@ class OpportunitySearchBuilder
   #                            where response_due_on > Today
   #         status:            Symbol, if set to :published then returns Opportunities where
   #                            status='publish', defaults to  :published
-  # Ouput:  call() generates Hash containing :search_query, :search_sort
+  # Ouput:  call() generates Hash containing valid :search_query and :search_sort
 
   def initialize(search_term: '',
                  sort:,

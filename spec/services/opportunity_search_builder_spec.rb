@@ -13,7 +13,7 @@ RSpec.describe OpportunitySearchBuilder do
     dit_boost_search = false
   end
 
-  describe "#call", focus: true do
+  describe "#call", elasticsearch: true, focus: true do
     it 'returns a valid search object' do
       query_builder = OpportunitySearchBuilder.new(search_term, sort, dit_boost_search)
       query = query_builder.call
@@ -21,8 +21,6 @@ RSpec.describe OpportunitySearchBuilder do
       expect(search.results.count).to be 10
     end
   end
-
-    
 
   # Testing strategy:
   # Create a valid OpportunitySearchBuilder object
