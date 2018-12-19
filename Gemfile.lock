@@ -928,7 +928,7 @@ DEPENDENCIES
   aws-sdk
   bourbon
   bullet
-  bundler (>= 1.16.3)
+  bundler (= 1.16.3)
   byebug
   capybara
   capybara-email

@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '2.5.1'
 
 gem 'rails', '5.2.1'
-gem 'bundler', '>=1.16.3'
+gem 'bundler', '1.16.3'
 gem 'puma', '3.12.0'
 gem 'pg', '0.21.0'
 gem 'sidekiq'
