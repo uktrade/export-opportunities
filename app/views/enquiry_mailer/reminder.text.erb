@@ -1,4 +1,4 @@
-<% presenter = OpportunityPresenter.new(self, @opportunity, @content) %>
+<% presenter = OpportunityPresenter.new(self, @enquiry.opportunity, @content) %>
 
 Department for International Trade
 
@@ -12,7 +12,7 @@ Department for International Trade
 <%= presenter.content 'greeting' %>
 
 
-<%= presenter.content_with_inclusion 'why_email', [@enquiry.opportunity.title, @enquiry.company_name] %>
+<%= presenter.content_with_inclusion 'why_email', [presenter.title_with_country, @enquiry.company_name] %>
 
 <%= presenter.content 'what_to_do' %>
 
