@@ -4,10 +4,13 @@ require 'rails_helper'
 RSpec.describe ElasticSearchFinder do
   
   setup do
-    100_000.times do
-      create()
-    end
+
   end
+
+  # We need to put in the Opportunity Search Builder 
+  # Test that Opportunity Search Builder works
+  # Then, to test the ElasticSearchFinder
+  # Create a valid OpportunitySearchBuilder
 
   describe "call" do
     it "provides a set number of results" do

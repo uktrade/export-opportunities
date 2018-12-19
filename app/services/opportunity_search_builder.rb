@@ -1,5 +1,33 @@
 class OpportunitySearchBuilder
-  def initialize(search_term: '', sectors: [], countries: [], opportunity_types: [], values: [], expired: false, status: :published, sort:, sources: [], dit_boost_search:)
+
+  # Creates a pair of objects: search query and search sort, for an elastic seach
+  # Inputs: ---Required---
+  #         search term:       Phrase to be searched
+  #         sort:              Sort object
+  #         dit_boost_search:  Boolean, increases "source": 'post' posts when sorting by
+  #                            relevance, will be overwritten if there is any sorting applied
+  #         ---Optional---
+  #         sectors:           Array of Sector slugs to filter by
+  #         countries:         Array of Country slugs to filter by
+  #         opportunity_types: Array of Type slugs to filter by  
+  #         values:            Array of Value slugs to filter by
+  #         sources:           Array of Source slugs to filter by
+  #         expired:           Boolean, defaults to false, if true returns Opportunities
+  #                            where response_due_on > Today
+  #         status:            Symbol, if set to :published then returns Opportunities where
+  #                            status='publish', defaults to  :published
+  # Ouput:  call() generates Hash containing :search_query, :search_sort
+
+  def initialize(search_term: '',
+                 sort:,
+                 sectors: [],
+                 countries: [],
+                 opportunity_types: [],
+                 values: [],
+                 sources: [],
+                 expired: false,
+                 status: :published,
+                 dit_boost_search:)
     @search_term = search_term.to_s.strip
     @sectors = Array(sectors)
     @countries = Array(countries)
@@ -13,26 +41,22 @@ class OpportunitySearchBuilder
   end
 
   def call
-    keyword_query = keyword_build
-    sector_query = sector_build
-    country_query = country_build
-    opportunity_type_query = opportunity_build
-    value_query = value_build
-    expired_query = expired_build
-    status_query = status_build
-    sort_query = sort_build
-    source_query = source_build
+    joined_query = [keyword_build,
+                    sector_build,
+                    country_build,
+                    opportunity_type_build,
+                    value_build,
+                    expired_build,
+                    status_build,
+                    source_build].compact
 
-    joined_query = [keyword_query, sector_query, country_query, opportunity_type_query, value_query, expired_query, status_query, source_query].compact
-
-    query = {
+    search_query = {
       bool: {
         must: joined_query,
       },
     }
-    sort = sort_query
 
-    { search_query: query, search_sort: sort }
+    { search_query: search_query, search_sort: sort_build }
   end
 
   private
@@ -178,4 +202,17 @@ class OpportunitySearchBuilder
       }
     end
   end
+
+  # Suggest adding this refactor
+  # def query_builder(search_parameters, filter_type=:should)
+  #   {
+  #     bool: {
+  #       filter: {
+  #         terms: {
+  #           search_parameters
+  #         },
+  #       },
+  #     },
+  #   }
+  # end
 end

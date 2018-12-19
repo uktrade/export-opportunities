@@ -2,9 +2,22 @@ require 'rails_helper'
 
 RSpec.describe OpportunitySearchBuilder do
   before(:each) do
-    @sort = OpenStruct.new(column: :response_due_on, order: :desc)
+    # OLD:
+    #@sort = OpenStruct.new(column: :response_due_on, order: :desc)
+    # NEW:
+    # RETURN TO HERE
+    search_term = 'post'
+    valid_sort = OpportunitySort.new(default_column: 'first_published_at',
+                                     default_order: 'desc')
+    dit_boost_search = false
   end
-  describe '#call' do
+
+  # Create a valid OpportunitySearchBuilder
+  # Each of the filters accept valid terms, and work
+  # ?? Each of the filters reject invalid terms (?)
+  # Invalidate it by breaking each of the inputs in turn
+
+  describe '#call', focus: true do
     it 'returns the default search query with no parameters' do
       builder = OpportunitySearchBuilder.new(sort: @sort, dit_boost_search: false).call
 

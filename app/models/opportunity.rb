@@ -151,8 +151,27 @@ class Opportunity < ApplicationRecord
     results
   end
 
-  def self.public_search(dit_boost_search: false, search_term: nil, filters: NullFilter.new, limit: 0, sort:)
-    query = OpportunitySearchBuilder.new(dit_boost_search: dit_boost_search, search_term: search_term, sectors: filters.sectors, countries: filters.countries, opportunity_types: filters.types, values: filters.values, sort: sort, sources: filters.sources).call
+  # 
+  # Searches Opportunities given a set of parameters
+  # Inputs: term - the search term, defaults to nil
+  #         dit_boost_search - a boolean that makes the search
+  #                            prioritise DIT-sourced results
+  #         filter - a filter object, defaults to blank
+  #         limit - max number of documents to search, per shard
+  #                 defaults to zero causing no search to occur
+  #         sort - a sort object
+  # Returns: an ElasticSearch search results object
+  #
+  def self.public_search(dit_boost_search: false, search_term: nil, 
+                         filters: NullFilter.new, limit: 0, sort:)
+    query = OpportunitySearchBuilder.new(dit_boost_search:  dit_boost_search,
+                                         search_term:       search_term,
+                                         sectors:           filters.sectors,
+                                         countries:         filters.countries,
+                                         opportunity_types: filters.types,
+                                         values:            filters.values,
+                                         sort:              sort,
+                                         sources:           filters.sources).call
 
     ElasticSearchFinder.new.call(query[:search_query], query[:search_sort], limit)
   end
