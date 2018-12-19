@@ -1,76 +1,115 @@
 require 'rails_helper'
 
 feature 'Sorting opportunities', :elasticsearch, js: true do
-  scenario 'users can sort opportunities by first published at and expiry date' do
-    create(:opportunity, :published, title: 'First Opp', first_published_at: 2.days.ago, response_due_on: 3.days.from_now)
-    create(:opportunity, :published, title: 'Second Opp', first_published_at: 1.day.ago, response_due_on: 2.days.from_now)
-    create(:opportunity, :published, title: 'Third Opp', first_published_at: 3.days.ago, response_due_on: 1.day.from_now)
-    content = get_content('opportunities/results')
-    sort_options = content['fields']['sort']['options']
 
+  scenario 'by "Published date" shows most recent first' do
+    create(:opportunity, :published,
+            title: 'New post',
+            slug: '1', 
+            first_published_at: 1.months.ago,
+            response_due_on:    1.months.ago + 1.year)
+    create(:opportunity, :published,
+            title: 'Aged post (post post), but most relevant and ending soonest',
+            slug: '2', 
+            first_published_at: 2.months.ago,
+            response_due_on:    1.month.from_now)
+    create(:opportunity, :published,
+            title: 'Oldest post',
+            slug: '3', 
+            first_published_at: 3.months.ago,
+            response_due_on:    3.months.ago + 1.year)
     sleep 1
+
     visit opportunities_path
 
-    within('.search') do
-      fill_in 's', with: 'Opp'
+    select('Published date', from: "sort_column_name").trigger('click')
+    search_term = 'post'
+    within '.search' do
+      fill_in 's', with: search_term
       page.find('.submit').click
     end
 
-    # sort by published date
-    page.find('#search-sort').select(sort_options[1])
-    sleep 2
-
-    expect('Second').to appear_before('First')
-    expect('First').to appear_before('Third')
-
-    # sort by expiry date
-    page.find('#search-sort').select(sort_options[0])
-    sleep 2
-
-    expect('Third').to appear_before('Second')
-    expect('Second').to appear_before('First')
+    expect(page).to have_current_path(
+      opportunities_path(s: search_term, sort_column_name: 'first_published_at'))
+    expect('New post').to appear_before('Aged post')
+    expect('Aged post').to appear_before('Oldest post')
   end
 
-  context 'when a search term is provided' do
-    scenario 'users can sort opportunities by first published at, expiry date and relevance' do
-      create(:opportunity, :published, title: 'Sardines, Big Sardines', first_published_at: 2.days.ago, response_due_on: 3.days.from_now)
-      create(:opportunity, :published, title: 'Small Sardines', first_published_at: 1.day.ago, response_due_on: 4.days.from_now)
-      create(:opportunity, :published, title: 'Really Old Sardines, Expiring Soon', first_published_at: 4.days.ago, response_due_on: 2.days.from_now)
-      create(:opportunity, :published, title: 'Cod', first_published_at: 3.days.ago, response_due_on: 1.day.from_now)
-      content = get_content('opportunities/results')
-      sort_options = content['fields']['sort']['options']
+  scenario 'by "Closing date" shows soonest to close first' do
+    create(:opportunity, :published,
+            title: 'Closes soonest',
+            slug: '1', 
+            first_published_at: 1.months.ago,
+            response_due_on:    1.month.from_now)
+    create(:opportunity, :published,
+            title: 'Closes second (closes closes), but most relevant and newest',
+            slug: '2', 
+            first_published_at: 1.day.ago,
+            response_due_on:    2.months.from_now)
+    create(:opportunity, :published,
+            title: 'Closes last',
+            slug: '3',
+            first_published_at: 1.months.ago,
+            response_due_on:    3.months.from_now)
+    sleep 1
 
-      sleep 1
-      visit opportunities_path
+    visit opportunities_path
 
-      within('.search') do
-        fill_in 's', with: 'Sardines'
-        page.find('.submit').click
-      end
-      
-      expect(page).to have_no_content('Cod')
-
-      page.find('#search-sort').select(sort_options[1])
-
-      sleep 1
-
-      page.find('.button.submit').click
-
-
-      expect(page).to have_no_content('Cod')
-      expect('Sardines, Big Sardines').to appear_before('Really Old Sardines, Expiring Soon')
-
-      page.find('#search-sort').select(sort_options[0])
-
-      sleep 1
-
-      page.find('.button.submit').click
-
-
-
-      expect(page).to have_no_content('Cod')
-      expect('Really Old Sardines, Expiring Soon').to appear_before('Sardines, Big Sardines')
-      expect('Sardines, Big Sardines').to appear_before('Small Sardines')
+    search_term = "Closes"
+    select('Closing date', from: "sort_column_name")
+    within '.search' do
+      fill_in 's', with: search_term
+      page.find('.submit').click
     end
+
+    # Check select has been activated
+    expect(page).to have_current_path(opportunities_path(s: search_term,
+                            sort_column_name: 'response_due_on'))
+
+    expect('Closes soonest').to appear_before('Closes second')
+    expect('Closes second').to appear_before('Closes last')
   end
+
+  # Test below is correct, but we have no application
+  # code to test for relevance currently.
+  # scenario 'by "Relevance" shows most relevant first' do
+
+    # create(:opportunity, :published,
+    #         title: 'Most relevant post (post post)',
+    #         slug: '1', 
+    #         first_published_at: 2.months.ago,
+    #         response_due_on:    2.months.ago + 2.years)
+    # create(:opportunity, :published,
+    #         title: 'Not so relevant post (post), but newest and closes soonest',
+    #         slug: '2', 
+    #         first_published_at: 1.months.ago,
+    #         response_due_on:    1.months.ago + 1.year)
+    # create(:opportunity, :published,
+    #         title: 'Least relevant',
+    #         slug: '3', 
+    #         first_published_at: 3.months.ago,
+    #         response_due_on:    3.months.ago + 1.year)
+
+    # sleep 1
+
+    # visit opportunities_path
+
+    # search_term = "post"
+    # within '.search' do
+    #   fill_in 's', with: search_term
+    #   page.find('.submit').click
+    # end
+
+    # select('Relevance', from: "sort_column_name")
+    # within '.search' do
+    #   page.find('.submit').click
+    # end
+
+    # # Check select has been activated
+    # expect(page).to have_current_path(opportunities_path(s: search_term,
+    #                         sort_column_name: 'relevance'))
+
+    # expect('Most relevant').to appear_before('Not so relevant')
+    # expect('Not so relevant').to appear_before('Least relevant')
+  # end
 end
