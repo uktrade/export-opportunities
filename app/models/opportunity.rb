@@ -240,8 +240,7 @@ class Opportunity < ApplicationRecord
                      }
                    end
 
-    # search_sort = [{ sort.column.to_sym => { order: sort.order.to_sym } }]
-    search_sort = [{ "response_due_on": { "order": 'asc' } }]
+    search_sort = [{ sort.column.to_sym => { order: sort.order.to_sym } }]
 
     ElasticSearchFinder.new.call(search_query, search_sort, 100)
   end
