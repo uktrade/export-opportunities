@@ -7,17 +7,18 @@ RSpec.describe OpportunitySearchBuilder do
   # NEW:
 
   before(:each) do
-    search_term = 'Post'
-    valid_sort = OpportunitySort.new(default_column: 'first_published_at',
-                                     default_order: 'desc')
-    dit_boost_search = false
+    @sort = OpportunitySort.new(default_column: 'first_published_at',
+                                default_order: 'desc')
+    @boost = false
   end
 
   describe "#call", elasticsearch: true, focus: true do
     it 'returns a valid search object' do
-      query_builder = OpportunitySearchBuilder.new(search_term, sort, dit_boost_search)
+      query_builder = OpportunitySearchBuilder.new(sort: @sort,
+                                                   dit_boost_search: @boost)
       query = query_builder.call
-      search = Opportunity.__elasticsearch__.search(query: query[:search_query], sort: query[:sort])
+      search = Opportunity.__elasticsearch__.search(query: query[:search_query],
+                                                    sort:  query[:sort])
       expect(search.results.count).to be 10
     end
   end

@@ -2,11 +2,11 @@ class OpportunitySearchBuilder
 
   # Creates a pair of objects: search query and search sort, for an elastic seach
   # Inputs: ---Required---
-  #         search term:       Phrase to be searched
   #         sort:              Sort object
   #         dit_boost_search:  Boolean, increases "source": 'post' posts when sorting by
   #                            relevance, will be overwritten if there is any sorting applied
   #         ---Optional---
+  #         search term:       Phrase to be searched
   #         sectors:           Array of Sector slugs to filter by
   #         countries:         Array of Country slugs to filter by
   #         opportunity_types: Array of Type slugs to filter by  
@@ -135,7 +135,7 @@ class OpportunitySearchBuilder
     end
   end
 
-  def opportunity_build
+  def opportunity_type_build
     if @opportunity_types.present?
       {
         bool: {
