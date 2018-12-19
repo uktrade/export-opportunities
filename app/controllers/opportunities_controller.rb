@@ -173,7 +173,7 @@ class OpportunitiesController < ApplicationController
 
   private def opportunity_featured_industries_search(sector, search_term, sources)
     per_page = Opportunity.default_per_page
-    query = Opportunity.public_featured_industries_search(sector, search_term, sources)
+    query = Opportunity.public_featured_industries_search(sector, search_term, sources, @sort_selection)
 
     if atom_request?
       country_list = []
