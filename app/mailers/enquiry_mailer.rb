@@ -41,7 +41,6 @@ class EnquiryMailer < ApplicationMailer
       reminder_number = number < reminder.length ? reminder[number].capitalize : "#{number}th"
       @content = text
       @enquiry = enquiry
-      @opportunity = enquiry.opportunity
       @reminder_number = reminder_number
 
       args = {
