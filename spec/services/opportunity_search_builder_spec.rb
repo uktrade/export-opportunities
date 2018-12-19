@@ -1,18 +1,36 @@
 require 'rails_helper'
 
 RSpec.describe OpportunitySearchBuilder do
+
+  # OLD:
+  #@sort = OpenStruct.new(column: :response_due_on, order: :desc)
+  # NEW:
+
   before(:each) do
-    # OLD:
-    #@sort = OpenStruct.new(column: :response_due_on, order: :desc)
-    # NEW:
-    # RETURN TO HERE
-    search_term = 'post'
+    search_term = 'Post'
     valid_sort = OpportunitySort.new(default_column: 'first_published_at',
                                      default_order: 'desc')
     dit_boost_search = false
   end
 
-  # Create a valid OpportunitySearchBuilder
+  describe "#call", focus: true do
+    it 'returns a valid search object' do
+      query_builder = OpportunitySearchBuilder.new(search_term, sort, dit_boost_search)
+      query = query_builder.call
+      search = Opportunity.__elasticsearch__.search(query: query[:search_query], sort: query[:sort])
+      expect(search.results.count).to be 10
+    end
+  end
+
+    
+
+  # Testing strategy:
+  # Create a valid OpportunitySearchBuilder object
+  # Confirm it works by running through the ElasticSearchFinder object
+  # 
+  # Strictly speaking, this object does is tightly coupled to the 
+  # ElasticSearchFinder object, and the objects should be merged.
+  # 
   # Each of the filters accept valid terms, and work
   # ?? Each of the filters reject invalid terms (?)
   # Invalidate it by breaking each of the inputs in turn
