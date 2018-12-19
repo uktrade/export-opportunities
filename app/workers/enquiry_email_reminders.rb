@@ -10,18 +10,13 @@ class EnquiryEmailReminders
     # 2. Filter out those that have a response.
     enquiry_reminders = []
     enquiries_all.each do |enquiry|
-      if enquiry.enquiry_response.blank?
-        number = reminder_number(enquiry)
+      next if enquiry.enquiry_response.present?
+      number = reminder_number(enquiry)
 
-        # Currently only sending one initial reminder.
-        # Alter if we decide to send 1st, 2nd, 3rd... reminders.
-        if number == 1
-          enquiry_reminders.push({
-            enquiry: enquiry,
-            number: number,
-          })
-        end
-      end
+      # Currently only sending one initial reminder.
+      # Alter if we decide to send 1st, 2nd, 3rd... reminders.
+      next if number != 1
+      enquiry_reminders.push(enquiry: enquiry, number: number)
     end
 
     # 3. Send reminder email for those without a reponse.
@@ -30,9 +25,8 @@ class EnquiryEmailReminders
 
   private def reminder_number(enquiry)
     number = -1
-    days =  (Date.today - enquiry.created_at.to_date)
+    days = (Time.zone.today - enquiry.created_at.to_date)
     number = days.numerator if days.denominator == 1
     number
   end
 end
-

@@ -1,5 +1,4 @@
 module ContentHelper
-  
   # Returns content provided by .yml files in app/content folder.
   # Intended use is to keep content separated from the view code.
   # Should make it easier to switch later to CMS-style content editing.
