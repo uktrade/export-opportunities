@@ -19,7 +19,8 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
   end
 
   scenario 'clicks on featured industries link, gets both OO and posts opportunities', :elasticsearch, :commit, js: true do
-    sector = create(:sector, slug: 'food-drink', id: 11, name: 'FoodDrink')
+    # Sectors displayed on homepage currently have ids: 9,31,14,10,25
+    sector = create(:sector, slug: 'food-drink', id: 9, name: 'FoodDrink')
     security_sector = create(:sector, slug: 'security', id: 17, name: 'Security')
     security_opp = create(:opportunity, title: 'Italy - White hat hacker required', description: 'security food drink', sectors: [security_sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
     post_opp = create(:opportunity, title: 'France - Cow required', sectors: [sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
@@ -28,7 +29,6 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     visit '/'
 
     sleep 2
-
     click_on 'FoodDrink'
 
     expect(page).to have_content('Cow required')
@@ -37,7 +37,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
   end
 
   scenario 'clicks on featured industries link, can sort and filter on results', :elasticsearch, :commit, js: true do
-    sector = create(:sector, slug: 'food-drink', id: 11, name: 'FoodDrink')
+    sector = create(:sector, slug: 'food-drink', id: 9, name: 'FoodDrink')
     security_sector = create(:sector, slug: 'security', id: 17, name: 'Security')
     security_opp = create(:opportunity, title: 'Italy - White hat hacker required', description: 'security food drink', sectors: [security_sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
     post_opp = create(:opportunity, title: 'France - Cow required', sectors: [sector], source: :post, status: :publish, response_due_on: 1.week.from_now)

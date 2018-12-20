@@ -22,12 +22,12 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
 
     visit opportunities_path
 
-    select('Published date', from: "sort_column_name").trigger('click')
     search_term = 'post'
     within '.search' do
       fill_in 's', with: search_term
       page.find('.submit').click
     end
+    select('Published date', from: "sort_column_name").trigger('click')    
 
     expect(page).to have_current_path(
       opportunities_path(s: search_term, sort_column_name: 'first_published_at'))
@@ -56,11 +56,11 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
     visit opportunities_path
 
     search_term = "Closes"
-    select('Closing date', from: "sort_column_name")
     within '.search' do
       fill_in 's', with: search_term
       page.find('.submit').click
     end
+    select('Closing date', from: "sort_column_name")
 
     # Check select has been activated
     expect(page).to have_current_path(opportunities_path(s: search_term,
