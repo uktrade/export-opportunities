@@ -183,9 +183,6 @@ GEM
       rack-protection (>= 1.5.3, < 2.1.0)
     friendly_id (5.2.4)
       activerecord (>= 4.0.0)
-    fugit (1.1.6)
-      et-orbi (~> 1.1, >= 1.1.6)
-      raabro (~> 1.1)
     fuubar (2.3.2)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
@@ -318,7 +315,6 @@ GEM
       activesupport (>= 3.0.0)
     pundit-matchers (1.6.0)
       rspec-rails (>= 3.0.0)
-    raabro (1.1.6)
     rack (2.0.6)
     rack-protection (2.0.4)
       rack
@@ -416,6 +412,8 @@ GEM
     ruby_parser (3.12.0)
       sexp_processor (~> 4.9)
     rubyzip (1.2.2)
+    rufus-scheduler (3.4.2)
+      et-orbi (~> 1.0)
     safe_yaml (1.0.4)
     sass (3.7.2)
       sass-listen (~> 4.0.0)
@@ -442,8 +440,8 @@ GEM
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
       redis (~> 3.3, >= 3.3.3)
-    sidekiq-cron (1.0.4)
-      fugit (~> 1.1)
+    sidekiq-cron (0.6.3)
+      rufus-scheduler (>= 3.3.0)
       sidekiq (>= 4.2.1)
     sidekiq-failures (1.0.0)
       sidekiq (>= 4.0.0)
@@ -576,7 +574,7 @@ DEPENDENCIES
   shoulda-matchers
   show_me_the_cookies
   sidekiq
-  sidekiq-cron
+  sidekiq-cron (= 0.6.3)
   sidekiq-failures
   simplecov
   stringex
