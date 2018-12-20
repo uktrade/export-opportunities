@@ -10,16 +10,25 @@ RSpec.describe OpportunitySearchBuilder do
     @sort = OpportunitySort.new(default_column: 'first_published_at',
                                 default_order: 'desc')
     @boost = false
+
+    create(:opportunity, title: 'Aardvark', created_at: 2.months.ago, response_due_on: 12.months.from_now)
+    create(:opportunity, title: 'Bear', created_at: 3.months.ago, response_due_on: 24.months.from_now)
+    create(:opportunity, title: 'Capybara', created_at: 1.month.ago, response_due_on: 18.months.from_now)
+    sleep 1
+    Opportunity.__elasticsearch__.create_index!(force: true)
+    Opportunity.__elasticsearch__.refresh_index!
+    sleep 1
   end
 
-  describe "#call", elasticsearch: true, focus: true do
-    it 'returns a valid search object' do
+  describe "#call", elasticsearch: true do
+    it 'returns a valid search object', focus: true do
       query_builder = OpportunitySearchBuilder.new(sort: @sort,
                                                    dit_boost_search: @boost)
       query = query_builder.call
       search = Opportunity.__elasticsearch__.search(query: query[:search_query],
-                                                    sort:  query[:sort])
-      expect(search.results.count).to be 10
+                                                    sort:  query[:search_sort])
+      debugger
+      expect(search.results.count).to eq 3
     end
   end
 
@@ -34,7 +43,7 @@ RSpec.describe OpportunitySearchBuilder do
   # ?? Each of the filters reject invalid terms (?)
   # Invalidate it by breaking each of the inputs in turn
 
-  describe '#call', focus: true do
+  describe '#call' do
     it 'returns the default search query with no parameters' do
       builder = OpportunitySearchBuilder.new(sort: @sort, dit_boost_search: false).call
 
