@@ -574,7 +574,7 @@ DEPENDENCIES
   shoulda-matchers
   show_me_the_cookies
   sidekiq
-  sidekiq-cron (= 0.6.3)
+  sidekiq-cron
   sidekiq-failures
   simplecov
   stringex
