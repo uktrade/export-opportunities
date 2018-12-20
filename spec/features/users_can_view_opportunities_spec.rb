@@ -19,7 +19,8 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
   end
 
   scenario 'clicks on featured industries link, gets both OO and posts opportunities', :elasticsearch, :commit, js: true do
-    sector = create(:sector, slug: 'food-drink', id: 11, name: 'FoodDrink')
+    # Sectors displayed on homepage currently have ids: 9,31,14,10,25
+    sector = create(:sector, slug: 'food-drink', id: 9, name: 'FoodDrink')
     security_sector = create(:sector, slug: 'security', id: 17, name: 'Security')
     security_opp = create(:opportunity, title: 'Italy - White hat hacker required', description: 'security food drink', sectors: [security_sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
     post_opp = create(:opportunity, title: 'France - Cow required', sectors: [sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
@@ -28,7 +29,6 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     visit '/'
 
     sleep 2
-
     click_on 'FoodDrink'
 
     expect(page).to have_content('Cow required')
@@ -37,7 +37,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
   end
 
   scenario 'clicks on featured industries link, can sort and filter on results', :elasticsearch, :commit, js: true do
-    sector = create(:sector, slug: 'food-drink', id: 11, name: 'FoodDrink')
+    sector = create(:sector, slug: 'food-drink', id: 9, name: 'FoodDrink')
     security_sector = create(:sector, slug: 'security', id: 17, name: 'Security')
     security_opp = create(:opportunity, title: 'Italy - White hat hacker required', description: 'security food drink', sectors: [security_sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
     post_opp = create(:opportunity, title: 'France - Cow required', sectors: [sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
@@ -186,8 +186,8 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to_not have_content('Kenya')
 
     # select greece and italy from countries
-    find(:css, '#countries_0').set(true)
-    find(:css, '#countries_1').set(true)
+    check('Greece')
+    check('Italy')
     click_on 'Update results'
 
     # only Greek and Italian opportunities should be visible
@@ -202,7 +202,8 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to have_content('2 results found in Greece or Italy')
 
     # only select Greece from countries
-    find(:css, '#countries_1').set(false)
+    check('Greece')
+    uncheck('Italy')
     click_on 'Update results'
 
     # only Greek opportunity should be visible
@@ -217,10 +218,11 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to have_content('1 result found in Greece')
 
     # select mediterranean region now
+    uncheck('Greece')
     check('Mediterranean Europe')
     click_on 'Update results'
 
-    # only Greek and Italian(because of Mediterranean Europe) opportunities should be visible
+    # only Greek and Italian (because of Mediterranean Europe) opportunities should be visible
     expect(page).to have_content('pies')
     expect(page).to have_content('oil')
     expect(page).to_not have_content('tea')
@@ -229,7 +231,25 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to have_content('Italy')
     expect(page).to_not have_content('Japan')
 
-    expect(page).to have_content('2 results found in Greece or Mediterranean Europe')
+    expect(page).to have_content('2 results found in Mediterranean Europe')
+
+    # Regions will override country selections
+    check('Greece')
+    check('Mediterranean Europe')
+    click_on 'Update results'
+
+    # only Greek and Italian (because of Mediterranean Europe) opportunities should be visible
+    expect(page).to have_content('pies')
+    expect(page).to have_content('oil')
+    expect(page).to_not have_content('tea')
+
+    expect(page).to have_content('Greece')
+    expect(page).to have_content('Italy')
+    expect(page).to_not have_content('Japan')
+
+    # Will still not say Greece because it is part of Mediterranean Europe region
+    expect(page).to have_content('2 results found in Mediterranean Europe')
+
 
     # reset country and region filters
     click_on 'Clear all filters'

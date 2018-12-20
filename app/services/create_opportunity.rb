@@ -10,7 +10,6 @@ class CreateOpportunity
   def call(params)
     opportunity_cpvs = params[:opportunity_cpvs]
     params.delete :opportunity_cpvs
-    params[:description] = sanitise_opportunity_text(params[:description])
     opportunity = Opportunity.new(params)
 
     if params[:slug].nil?

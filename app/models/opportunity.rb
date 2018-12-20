@@ -157,7 +157,7 @@ class Opportunity < ApplicationRecord
     ElasticSearchFinder.new.call(query[:search_query], query[:search_sort], limit)
   end
 
-  def self.public_featured_industries_search(sector, search_term, sources)
+  def self.public_featured_industries_search(sector, search_term, sources, sort)
     post_opps_query = {
       "bool": {
         "must": [
@@ -240,7 +240,7 @@ class Opportunity < ApplicationRecord
                      }
                    end
 
-    search_sort = [{ "response_due_on": { "order": 'asc' } }]
+    search_sort = [{ sort.column.to_sym => { order: sort.order.to_sym } }]
 
     ElasticSearchFinder.new.call(search_query, search_sort, 100)
   end
