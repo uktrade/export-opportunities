@@ -10,7 +10,7 @@ class EnquiryEmailReminders
     # 2. Filter out those that have a response.
     enquiry_reminders = []
     enquiries_all.each do |enquiry|
-      next if enquiry.enquiry_response.present?
+      next if enquiry.enquiry_response.present? && enquiry.enquiry_response.completed_at.present?
       number = reminder_number(enquiry)
 
       # Currently only sending one initial reminder.
