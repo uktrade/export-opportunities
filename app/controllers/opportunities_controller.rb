@@ -98,16 +98,23 @@ class OpportunitiesController < ApplicationController
     NewDomainConstraint.new.matches? request
   end
 
+  # Builds OpportunitySort object based on params
   private def sorting
     if atom_request?
-      sort = OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
-    else
-      sort = OpportunitySort.new(default_column: 'response_due_on', default_order: 'asc')
-      if @search_filter.params[:sort_column_name] != 'response_due_on'
-        sort.update(column: @search_filter.params[:sort_column_name], order: 'desc')
+      column = 'updated_at' and order = 'desc'
+    else # In-browser sort options: response_due_on, first_published_at, relevance
+      case @search_filter.params[:sort_column_name]
+      when 'response_due_on' # Soonest to end first
+        column = 'response_due_on' and order = 'asc'
+      when 'first_published_at' # Newest posted to oldest
+        column = 'first_published_at' and order = 'desc' 
+      when 'relevance' # Most relevant first
+        column = 'response_due_on' and order = 'asc' # # TODO: Add relevance. Temporary fix
+      else
+        column = 'response_due_on' and order = 'asc'
       end
     end
-    sort
+    OpportunitySort.new(default_column: column, default_order: order)
   end
 
   private def digest_search
@@ -166,7 +173,7 @@ class OpportunitiesController < ApplicationController
 
   private def opportunity_featured_industries_search(sector, search_term, sources)
     per_page = Opportunity.default_per_page
-    query = Opportunity.public_featured_industries_search(sector, search_term, sources)
+    query = Opportunity.public_featured_industries_search(sector, search_term, sources, @sort_selection)
 
     if atom_request?
       country_list = []
