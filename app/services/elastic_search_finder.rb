@@ -5,9 +5,13 @@ class ElasticSearchFinder
   #
   # Searches through opportunities
   # Inputs: None 
-  # Methods: #call takes as inputs: a query, a sort order, 
-  #          and a max number of documents per shard (limit)
-  #          and returns an elasticsearch object containing opportunities
+  # Methods: 
+  #   #call
+  #     inputs: 
+  #       a query
+  #       a Sort object, 
+  #       a limit (int) and a max number of documents per shard to assess
+  #     returns: an elasticsearch object containing opportunities
   #
   # NOTE potential issue when using terminate_after
   # https://stackoverflow.com/questions/40423696/terminate-after-in-elasticsearch
@@ -24,4 +28,17 @@ class ElasticSearchFinder
                                          query: query,
                                          sort: sort)
   end
+
+  # Suggested solution
+  # def call(query, sort, limit)
+  #   size = Figaro.env.OPPORTUNITY_ES_MAX_RESULT_WINDOW_SIZE || 100_000
+  #   total = Opportunity.__elasticsearch__.search(size: size, 
+  #                                                query: query,
+  #                                                sort: sort).count
+  #   search = Opportunity.__elasticsearch__.search(size: size, 
+  #                                                 terminate_after: limit,
+  #                                                 query: query,
+  #                                                 sort: sort)
+  #   { search: search, total: total }
+  # end
 end

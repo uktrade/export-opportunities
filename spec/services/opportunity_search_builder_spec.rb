@@ -37,7 +37,7 @@ RSpec.describe OpportunitySearchBuilder do
                                          results.count
   end
 
-  describe "#call", elasticsearch: true, focus: true do
+  describe "#call", elasticsearch: true do
     it 'returns a valid search object' do
       query = new_query
       expect(results_count(query)).to eq 3
