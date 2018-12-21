@@ -2,157 +2,139 @@ require 'rails_helper'
 
 RSpec.describe OpportunitySearchBuilder do
 
-  # OLD:
-  #@sort = OpenStruct.new(column: :response_due_on, order: :desc)
-  # NEW:
-
-  before(:each) do
-    @sort = OpportunitySort.new(default_column: 'first_published_at',
-                                default_order: 'desc')
-    @boost = false
-
-    create(:opportunity, title: 'Aardvark', created_at: 2.months.ago, response_due_on: 12.months.from_now)
-    create(:opportunity, title: 'Bear', created_at: 3.months.ago, response_due_on: 24.months.from_now)
-    create(:opportunity, title: 'Capybara', created_at: 1.month.ago, response_due_on: 18.months.from_now)
-    sleep 1
-    Opportunity.__elasticsearch__.create_index!(force: true)
-    Opportunity.__elasticsearch__.refresh_index!
-    sleep 1
-  end
-
-  describe "#call", elasticsearch: true do
-    it 'returns a valid search object', focus: true do
-      query_builder = OpportunitySearchBuilder.new(sort: @sort,
-                                                   dit_boost_search: @boost)
-      query = query_builder.call
-      search = Opportunity.__elasticsearch__.search(query: query[:search_query],
-                                                    sort:  query[:search_sort])
-      debugger
-      expect(search.results.count).to eq 3
-    end
-  end
-
   # Testing strategy:
   # Create a valid OpportunitySearchBuilder object
   # Confirm it works by running through the ElasticSearchFinder object
   # 
-  # Strictly speaking, this object does is tightly coupled to the 
-  # ElasticSearchFinder object, and the objects should be merged.
-  # 
-  # Each of the filters accept valid terms, and work
-  # ?? Each of the filters reject invalid terms (?)
-  # Invalidate it by breaking each of the inputs in turn
+  # Note:
+  # This object is tightly coupled to the ElasticSearchFinder object.
+  # The objects should be merged.
 
-  describe '#call' do
-    it 'returns the default search query with no parameters' do
-      builder = OpportunitySearchBuilder.new(sort: @sort, dit_boost_search: false).call
+  before(:each) do
+    @post_1 = create(:opportunity, title: 'Post 1', created_at: 2.months.ago,
+                      response_due_on: 12.months.from_now, status: :publish)
+    create(:opportunity, title: 'Post 2', created_at: 3.months.ago,
+            response_due_on: 24.months.from_now, status: :publish)
+    create(:opportunity, title: 'Post 3', created_at: 1.month.ago,
+            response_due_on: 18.months.from_now, status: :publish)
+  end
 
-      expected_hash = {
-        match_all: {},
-      }
+  # Returns a query built with OpportunitySeachBuilder
+  # with any optional parameters
+  def new_query(**args)
+    sort = OpportunitySort.new(default_column: 'first_published_at',
+                               default_order: 'desc')
+    OpportunitySearchBuilder.new({ sort: sort,
+                                   dit_boost_search: false }.
+                                   merge(args)).call
+  end
 
-      expect(builder).to be_a(Hash)
-      expect(builder[:search_query][:bool][:must]).to include(expected_hash)
+  # Returns numbers of results for an elastic search
+  def results_count(query)
+    refresh_elasticsearch
+    Opportunity.__elasticsearch__.search(query: query[:search_query],
+                                         sort:  query[:search_sort]).
+                                         results.count
+  end
+
+  describe "#call", elasticsearch: true, focus: true do
+    it 'returns a valid search object' do
+      query = new_query
+      expect(results_count(query)).to eq 3
     end
 
-    it 'builds a keyword search when a search term is provided' do
-      builder = OpportunitySearchBuilder.new(search_term: 'cheese', sort: @sort, dit_boost_search: false).call
-
-      expected_hash = {
-        multi_match: {
-          query: 'cheese',
-          fields: ['title^5', 'teaser^2', 'description'],
-          operator: 'and',
-        },
-      }
-
-      expect(builder).to be_a(Hash)
-      expect(builder[:search_query][:bool][:must]).to include(expected_hash)
+    it 'searches by phrases' do
+      query = new_query(search_term: 'Post 1')
+      expect(results_count(query)).to eq 1
     end
 
-    it 'filters by a single sector' do
-      builder = OpportunitySearchBuilder.new(sectors: 'food', sort: @sort, dit_boost_search: false).call
+    it 'filters by sectors' do
+      # First check no response if filter not present present
+      query = new_query(sectors: ["sectors-slug"])
+      expect(results_count(query)).to eq 0
 
-      expected_sectors_hash = {
-        bool: {
-          should: {
-            terms: {
-              "sectors.slug": ['food'],
-            },
-          },
-        },
-      }
-
-      expect(builder).to be_a(Hash)
-      expect(builder[:search_query][:bool][:must]).to include(expected_sectors_hash)
+      # Then check finds correctly if filter present present
+      @post_1.sectors << Sector.create(slug: "sectors-slug", name: "name") 
+      refresh_elasticsearch
+      expect(results_count(query)).to eq 1
     end
 
-    it 'filters by multiple sectors' do
-      builder = OpportunitySearchBuilder.new(sectors: %w[food drink], sort: @sort, dit_boost_search: false).call
+    it 'filters by countries' do
+      # First check no response if filter not present present
+      query = new_query(countries: ["countries-slug"])
+      expect(results_count(query)).to eq 0
 
-      expected_sectors_hash = {
-        bool: {
-          should: {
-            terms: {
-              "sectors.slug": %w[food drink],
-            },
-          },
-        },
-      }
-
-      expect(builder).to be_a(Hash)
-      expect(builder[:search_query][:bool][:must]).to include(expected_sectors_hash)
+      # Then check finds correctly if filter present present
+      @post_1.countries << Country.create(slug: "countries-slug", name: "name") 
+      refresh_elasticsearch
+      expect(results_count(query)).to eq 1
     end
 
-    it 'filters by multiple countries' do
-      builder = OpportunitySearchBuilder.new(countries: %w[albania iran], sort: @sort, dit_boost_search: false).call
+    it 'filters by types' do
+      # First check no response if filter not present present
+      query = new_query(opportunity_types: ["type-slug"])
+      expect(results_count(query)).to eq 0
 
-      expected_sectors_hash = {
-        bool: {
-          should: {
-            terms: {
-              "countries.slug": %w[albania iran],
-            },
-          },
-        },
-      }
-
-      expect(builder).to be_a(Hash)
-      expect(builder[:search_query][:bool][:must]).to include(expected_sectors_hash)
+      # Then check finds correctly if filter present present
+      @post_1.types << Type.create(slug: "type-slug", name: "name") 
+      refresh_elasticsearch
+      expect(results_count(query)).to eq 1
     end
 
-    it 'filters by multiple opportunity types' do
-      builder = OpportunitySearchBuilder.new(opportunity_types: ['Private Sector'], sort: @sort, dit_boost_search: false).call
+    it 'filters by values' do
+      # First check no response if filter not present present
+      query = new_query(values: ["values-slug"])
+      expect(results_count(query)).to eq 0
 
-      expected_sectors_hash = {
-        bool: {
-          should: {
-            terms: {
-              "types.slug": ['Private Sector'],
-            },
-          },
-        },
-      }
-
-      expect(builder).to be_a(Hash)
-      expect(builder[:search_query][:bool][:must]).to include(expected_sectors_hash)
+      # Then check finds correctly if filter present present
+      @post_1.values << Value.create(slug: "values-slug", name: "name") 
+      refresh_elasticsearch
+      expect(results_count(query)).to eq 1
     end
 
-    it 'filters by multiple contract values' do
-      builder = OpportunitySearchBuilder.new(values: ['More than £100k'], sort: @sort, dit_boost_search: false).call
+    it 'filters by sources' do
+      # First check no response if filter not present present
+      query = new_query(sources: ['volume_opps'])
+      expect(results_count(query)).to eq 0
 
-      expected_sectors_hash = {
-        bool: {
-          should: {
-            terms: {
-              "values.slug": ['More than £100k'],
-            },
-          },
-        },
-      }
+      # Then check finds correctly if filter present present
+      @post_1.update(source: 'volume_opps')
+      refresh_elasticsearch
+      expect(results_count(query)).to eq 1
+    end
 
-      expect(builder).to be_a(Hash)
-      expect(builder[:search_query][:bool][:must]).to include(expected_sectors_hash)
+    it 'can show expired opportunities' do
+      # Build query that returns non-expired opportunities only
+      # All posts are unexpired to should return everything
+      query = new_query(expired: false)
+      expect(results_count(query)).to eq 3
+
+      # Then expire a post - search will hide that post
+      @post_1.update(response_due_on: 1.day.ago)
+      refresh_elasticsearch
+      expect(results_count(query)).to eq 2
+      
+      # Then create a query that returns expired AND non-expired opportunites
+      # Expect all opportunities to be shown
+      query = new_query(expired: true)
+      expect(results_count(query)).to eq 3
+    end
+
+    it 'can show unpublished opportunities' do
+      # Build a query that shows only published opportunities
+      # All opportunities are published currently
+      query = new_query(status: :published)
+      expect(results_count(query)).to eq 3
+
+      # Then change a post to draft
+      @post_1.update(status: :draft)
+      refresh_elasticsearch
+      expect(results_count(query)).to eq 2
+
+      # Then search for published AND unpublished
+      query = new_query(status: nil)
+      expect(results_count(query)).to eq 3
     end
   end
+
 end

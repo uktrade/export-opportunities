@@ -160,6 +160,9 @@ class SearchFilter
   end
 
   # Check requested values against those stored from Opportunity.sources
+  # Input:   @params[:sources] hash of source slugs
+  # Returns: array of hashes, each hash having a slug, name and value
+  #          e.g. [{ slug: 'volume_opps', name: 'Volume_opps', value: 1 }]
   def whitelisted_filters_for_sources
     collection = Opportunity.sources
     requested_parameters = as_array(@params[:sources])

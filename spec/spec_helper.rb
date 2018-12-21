@@ -29,6 +29,12 @@ module Helpers
     end
     content
   end
+
+  # Updates elasticsearch indexes with the latest data from the database
+  # Defaults to only refresh Opportunity, as is the most commonly used
+  def refresh_elasticsearch(models=[Opportunity])
+    models.each{ |m| m.import(refresh: true) }
+  end
 end
 
 # Capybara.register_driver :poltergeist do |app|

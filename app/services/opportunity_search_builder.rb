@@ -6,16 +6,17 @@ class OpportunitySearchBuilder
   #         dit_boost_search:  Boolean, increases "source": 'post' posts when sorting by
   #                            relevance, will be overwritten if there is any sorting applied
   #         ---Optional---
-  #         search term:       Phrase to be searched
+  #         search_term:       Phrase to be searched
   #         sectors:           Array of Sector slugs to filter by
   #         countries:         Array of Country slugs to filter by
   #         opportunity_types: Array of Type slugs to filter by  
   #         values:            Array of Value slugs to filter by
-  #         sources:           Array of Source slugs to filter by
-  #         expired:           Boolean, defaults to false, if true returns Opportunities
-  #                            where response_due_on > Today
-  #         status:            Symbol, if set to :published then returns Opportunities where
-  #                            status='publish', defaults to  :published
+  #         sources:           Array of Sources slugs to filter by
+  #         expired:           Boolean, defaults to false, if true also returns expired
+  #                            Opportunities (where response_due_on < Today)
+  #         status:            Symbol, if set to :published then only returns Opportunities
+  #                            where status='publish', otherwise returns all.
+  #                            Defaults to :published
   # Ouput:  call() generates Hash containing valid :search_query and :search_sort
 
   def initialize(search_term: '',
