@@ -22,22 +22,13 @@ class ElasticSearchFinder
 
   def call(query, sort, limit)
     size = Figaro.env.OPPORTUNITY_ES_MAX_RESULT_WINDOW_SIZE || 100_000
-    Opportunity.__elasticsearch__.search(query: query,
-                                         sort: sort,
-                                         terminate_after: limit,
-                                         size: size)
+    total_without_limit = Opportunity.__elasticsearch__.search(size: size, 
+                                                               query: query,
+                                                               sort: sort).count
+    search = Opportunity.__elasticsearch__.search(size: size, 
+                                                  terminate_after: limit,
+                                                  query: query,
+                                                  sort: sort)
+    { search: search, total_without_limit: total_without_limit }
   end
-
-  # Suggested solution
-  # def call(query, sort, limit)
-  #   size = Figaro.env.OPPORTUNITY_ES_MAX_RESULT_WINDOW_SIZE || 100_000
-  #   total = Opportunity.__elasticsearch__.search(size: size, 
-  #                                                query: query,
-  #                                                sort: sort).count
-  #   search = Opportunity.__elasticsearch__.search(size: size, 
-  #                                                 terminate_after: limit,
-  #                                                 query: query,
-  #                                                 sort: sort)
-  #   { search: search, total: total }
-  # end
 end

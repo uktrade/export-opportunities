@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Opportunity, focus: true do
+RSpec.describe Opportunity do
   describe 'validations' do
     subject { FactoryBot.build(:opportunity) }
     it { is_expected.to validate_uniqueness_of(:slug).case_insensitive }
@@ -142,12 +142,12 @@ RSpec.describe Opportunity, focus: true do
     end
     it 'provides a valid set of results' do
       search = Opportunity.public_search(sort: @sort)
-      expect(search.results.count).to eq 3
+      expect(search[:search].results.count).to eq 3
     end
     it 'can search by a term' do
       search = Opportunity.public_search(search_term: 'Post 1',
                                          sort: @sort)
-      expect(search.results.count).to eq 1
+      expect(search[:search].results.count).to eq 1
     end
     describe 'can filter' do
        it 'by countries' do
@@ -156,7 +156,7 @@ RSpec.describe Opportunity, focus: true do
           filter = SearchFilter.new(countries: ['country-slug'])
           search = Opportunity.public_search(filters: filter,
                                              sort:   @sort)
-          expect(search.results.count).to eq 1
+          expect(search[:search].results.count).to eq 1
         end
        it 'by sectors' do
           @post_1.sectors << Sector.create(slug: 'sector-slug', name: 'name')
@@ -164,11 +164,11 @@ RSpec.describe Opportunity, focus: true do
           filter = SearchFilter.new(sectors: ['sector-slug'])
           search = Opportunity.public_search(filters: filter,
                                              sort:   @sort)
-          expect(search.results.count).to eq 1
+          expect(search[:search].results.count).to eq 1
        end
     end
-    it 'can limit number of results' do
-      10.times do |n|
+    it 'can limit number of results and fetch the total_without_limit' do
+      12.times do |n|
         create(:opportunity, title: "Post #{n+3}", created_at: 2.months.ago,
                 response_due_on: 12.months.from_now, status: :publish)
       end
@@ -184,7 +184,8 @@ RSpec.describe Opportunity, focus: true do
       max_number_to_find = limit * number_of_shards
 
       expect(Opportunity.count).to be > max_number_to_find
-      expect(search.results.count).to be <= max_number_to_find
+      expect(search[:search].results.count).to be <= max_number_to_find
+      expect(search[:total_without_limit]).to eq 15
     end
     describe 'sorts results' do
       it 'by first_published_at' do
@@ -195,15 +196,15 @@ RSpec.describe Opportunity, focus: true do
           OpportunitySort.new(default_column: 'first_published_at',
                               default_order: 'desc')
         search = Opportunity.public_search(sort: most_recently_first)
-        expect(search.records.first).to eq @post_1
-        expect(search.records[-1]).to eq @post_3
+        expect(search[:search].records.first).to eq @post_1
+        expect(search[:search].records[-1]).to eq @post_3
 
         most_recently_last = 
           OpportunitySort.new(default_column: 'first_published_at',
                               default_order: 'asc')
         search = Opportunity.public_search(sort: most_recently_last)
-        expect(search.records.first).to eq @post_3
-        expect(search.records[-1]).to eq @post_1
+        expect(search[:search].records.first).to eq @post_3
+        expect(search[:search].records[-1]).to eq @post_1
       end
       it 'by response_due_on' do
         # Note Post 2 is due soonest,
@@ -213,15 +214,15 @@ RSpec.describe Opportunity, focus: true do
           OpportunitySort.new(default_column: 'response_due_on',
                               default_order: 'asc')
         search = Opportunity.public_search(sort: end_soonest_first)
-        expect(search.records.first).to eq @post_2
-        expect(search.records[-1]).to eq @post_3
+        expect(search[:search].records.first).to eq @post_2
+        expect(search[:search].records[-1]).to eq @post_3
 
         end_soonest_last = 
           OpportunitySort.new(default_column: 'response_due_on',
                               default_order: 'desc')
         search = Opportunity.public_search(sort: end_soonest_last)
-        expect(search.records.first).to eq @post_3
-        expect(search.records[-1]).to eq @post_2
+        expect(search[:search].records.first).to eq @post_3
+        expect(search[:search].records[-1]).to eq @post_2
       end
     end
   end
@@ -246,14 +247,16 @@ RSpec.describe Opportunity, focus: true do
       refresh_elasticsearch
     end
     it 'provides a valid set of results' do
-      search = Opportunity.public_featured_industries_search(@sector_slug, '', @sources, @sort)
-      expect(search.results.count).to eq 3
+      search = Opportunity.public_featured_industries_search(
+                 @sector_slug, '', @sources, @sort)
+      expect(search[:search].results.count).to eq 3
     end
     it 'filters by industry' do
       @post_1.sectors << Sector.create(slug: 'new-sector', name: 'name')
       refresh_elasticsearch
-      search = Opportunity.public_featured_industries_search('new-sector', '', @sources, @sort)
-      expect(search.results.count).to eq 1
+      search = Opportunity.public_featured_industries_search(
+                 'new-sector', '', @sources, @sort)
+      expect(search[:search].results.count).to eq 1
     end
     it 'sources correctly - but needs a search query for volume opps (tested: only post, only volume_opps, all)' do
       @post_1.update(source: 'volume_opps')
@@ -261,54 +264,61 @@ RSpec.describe Opportunity, focus: true do
 
       # Only post
       post_source = SearchFilter.new(sources: 'post').sources
-      search = Opportunity.public_featured_industries_search(@sector_slug, '', post_source, @sort)
-      expect(search.results.count).to eq 2
+      search = Opportunity.public_featured_industries_search(
+                 @sector_slug, '', post_source, @sort)
+      expect(search[:search].results.count).to eq 2
 
       # Only volume opps AND has a search query
       volume_opps_source = SearchFilter.new(sources: 'volume_opps').sources
-      search = Opportunity.public_featured_industries_search(@sector_slug, 'Post', volume_opps_source, @sort)
-      expect(search.results.count).to eq 1
+      search = Opportunity.public_featured_industries_search(
+                 @sector_slug, 'Post', volume_opps_source, @sort)
+      expect(search[:search].results.count).to eq 1
 
       # All
-      search = Opportunity.public_featured_industries_search(@sector_slug, 'Post', @sources, @sort)
-      expect(search.results.count).to eq 3
+      search = Opportunity.public_featured_industries_search(
+                 @sector_slug, 'Post', @sources, @sort)
+      expect(search[:search].results.count).to eq 3
     end
     describe 'sorts results' do
       it 'by first_published_at' do
-        # # Note Post 1 was published most recently,
-        # #      Post 2 second most recently,
-        # #      Post 3 second least recently
-        # most_recently_first = 
-        #   OpportunitySort.new(default_column: 'first_published_at',
-        #                       default_order: 'desc')
-        # search = Opportunity.public_search(sort: most_recently_first)
-        # expect(search.records.first).to eq @post_1
-        # expect(search.records[-1]).to eq @post_3
-# 
-        # most_recently_last = 
-        #   OpportunitySort.new(default_column: 'first_published_at',
-        #                       default_order: 'asc')
-        # search = Opportunity.public_search(sort: most_recently_last)
-        # expect(search.records.first).to eq @post_3
-        # expect(search.records[-1]).to eq @post_1
+        # Note Post 1 was published most recently,
+        #      Post 2 second most recently,
+        #      Post 3 second least recently
+        most_recently_first = 
+          OpportunitySort.new(default_column: 'first_published_at',
+                              default_order: 'desc')
+        search = Opportunity.public_featured_industries_search(
+                   @sector_slug, 'Post', @sources, most_recently_first)
+        expect(search[:search].records.first).to eq @post_1
+        expect(search[:search].records[-1]).to eq @post_3
+
+        most_recently_last = 
+          OpportunitySort.new(default_column: 'first_published_at',
+                              default_order: 'asc')
+        search = Opportunity.public_featured_industries_search(
+                    @sector_slug, 'Post', @sources, most_recently_last)
+        expect(search[:search].records.first).to eq @post_3
+        expect(search[:search].records[-1]).to eq @post_1
       end
       it 'by response_due_on' do
-        # # Note Post 2 is due soonest,
-        # #      Post 1 second soonest,
-        # #      Post 3 least soon
-        # end_soonest_first = 
-        #   OpportunitySort.new(default_column: 'response_due_on',
-        #                       default_order: 'asc')
-        # search = Opportunity.public_search(sort: end_soonest_first)
-        # expect(search.records.first).to eq @post_2
-        # expect(search.records[-1]).to eq @post_3
+        # Note Post 2 is due soonest,
+        #      Post 1 second soonest,
+        #      Post 3 least soon
+        end_soonest_first = 
+          OpportunitySort.new(default_column: 'response_due_on',
+                              default_order: 'asc')
+        search = Opportunity.public_featured_industries_search(
+                   @sector_slug, 'Post', @sources, end_soonest_first)
+        expect(search[:search].records.first).to eq @post_2
+        expect(search[:search].records[-1]).to eq @post_3
 
-        # end_soonest_last = 
-        #   OpportunitySort.new(default_column: 'response_due_on',
-        #                       default_order: 'desc')
-        # search = Opportunity.public_search(sort: end_soonest_last)
-        # expect(search.records.first).to eq @post_3
-        # expect(search.records[-1]).to eq @post_2
+        end_soonest_last = 
+          OpportunitySort.new(default_column: 'response_due_on',
+                              default_order: 'desc')
+        search = Opportunity.public_featured_industries_search(
+                   @sector_slug, 'Post', @sources, end_soonest_last)
+        expect(search[:search].records.first).to eq @post_3
+        expect(search[:search].records[-1]).to eq @post_2
       end
     end
   end

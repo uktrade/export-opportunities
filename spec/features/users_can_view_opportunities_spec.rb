@@ -18,7 +18,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     expect(page).to have_content('Displaying items 1 - 10 of 500')
   end
 
-  scenario 'clicks on featured industries link, gets both OO and posts opportunities', :elasticsearch, :commit, js: true do
+  scenario 'clicks on featured industries link, gets both OO and posts opportunities', :elasticsearch, :commit, js: true, focus: true do
     # Sectors displayed on homepage currently have ids: 9,31,14,10,25
     sector = create(:sector, slug: 'food-drink', id: 9, name: 'FoodDrink')
     security_sector = create(:sector, slug: 'security', id: 17, name: 'Security')

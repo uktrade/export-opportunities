@@ -39,7 +39,7 @@ class OpportunitiesController < ApplicationController
         search_term: '',
         filters: SearchFilter.new(params),
         sort: sorting
-      )
+      )[:search]
 
       atom_request_query(query)
     end
@@ -192,13 +192,15 @@ class OpportunitiesController < ApplicationController
   # Using a search with adjusted parameters that include mapped_regions.
   private def opportunity_search
     per_page = Opportunity.default_per_page
-    query = Opportunity.public_search(
+    search = Opportunity.public_search(
       search_term: @search_term,
       filters: @search_filter,
       sort: @sort_selection,
       limit: 100,
       dit_boost_search: @dit_boost_search
     )
+    query = search[:search]
+    total_without_limit = search[:total_without_limit]
 
     if atom_request?
       country_list = []
@@ -216,6 +218,7 @@ class OpportunitiesController < ApplicationController
       sort: @sort_selection,
       results: results,
       total: total,
+      total_without_limit: total_without_limit,
       limit: per_page,
       subscription: subscription_form,
       filter_data: {
@@ -229,7 +232,10 @@ class OpportunitiesController < ApplicationController
 
   private def opportunity_featured_industries_search(sector, search_term, sources)
     per_page = Opportunity.default_per_page
-    query = Opportunity.public_featured_industries_search(sector, search_term, sources, @sort_selection)
+    search = Opportunity.public_featured_industries_search(
+              sector, search_term, sources, @sort_selection)
+    query = search[:search]
+    total_without_limit = search[:total_without_limit]
 
     if atom_request?
       country_list = []
@@ -250,6 +256,7 @@ class OpportunitiesController < ApplicationController
       sort: sorting,
       results: results,
       total: total,
+      total_without_limit: total_without_limit,
       limit: per_page,
       subscription: subscription_form,
       filter_data: {
