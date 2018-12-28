@@ -5,9 +5,6 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
   include RegionHelper
 
   describe 'GET index' do
-    before :each do
-      get :index
-    end
     it "renders" do
       expect(response.status).to eq(200)
     end
@@ -19,7 +16,9 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       create(:sector, name: 'Oil & Gas')
       create(:sector, name: 'Retail and luxury')
       ENV['GREAT_FEATURED_INDUSTRIES']= Sector.all.limit(6).map(&:id).join ","
+      
       get :index
+      
       industries = assigns(:featured_industries)
       expect(industries.count).to eq 6
     end
@@ -30,18 +29,23 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
         source: n.even? ? :post : :volume_opps)
       end
       refresh_elasticsearch
+      
       get :index
+      
       recent = assigns(:recent_opportunities)
       expect(recent[:results].count).to be 5
     end
     it "provides list of countries" do
       create(:country, slug: 'france')
       create(:country, slug: 'germany')
+      
       get :index
+      
       countries = assigns(:countries)
       expect(countries.any?).to be true
     end
     it "provides list of regions" do
+      get :index
       regions = assigns(:regions)
       expect(regions.class).to eq Array
       expect(regions[0]).to eq({ slug: 'australia-new-zealand',
@@ -94,7 +98,9 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
           response_due_on: 1.year.from_now, first_published_at: n.day.ago)
         end
         refresh_elasticsearch
+
         get :index, params: { format: 'atom' }
+        
         opportunities = assigns(:opportunities)
         expect(opportunities.count).to be 10
       end
@@ -102,6 +108,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
   end
 
   describe 'GET #results' do
+    
     before do
       sector     = Sector.create(slug: 'test-sector', name: 'Sector 1')
       @country   = Country.create(slug: 'fiji', name: 'Fiji')
@@ -120,6 +127,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       end
       refresh_elasticsearch
     end
+
     it 'renders' do
       get :results
       result = assigns(:search_result)
@@ -138,21 +146,20 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       expect(result[:total]).to eq 1
     end
     describe 'filters by search filters and provides @search_filter' do
-      # Note cannot test SearchFilter directly as the actual object
-      # incorperates ActionController::Parameters which
-      # cannot be easily reproduced in tests
       it 'by country' do
         # One country
         get :results, params: { countries: ['fiji'] } 
         expect(assigns(:search_result)[:total]).to eq 3
         expect(assigns(:search_filter).countries).to eq(
           SearchFilter.new(countries: ['fiji']).countries)
-        # # Multiple countries
+        
+        # Multiple countries
         get :results, params: { countries: ['fiji', 'barbados'] }
         expect(assigns(:search_filter).countries).to eq(
           SearchFilter.new(countries: ['fiji', 'barbados']).countries)
         expect(assigns(:search_result)[:total]).to eq 4
-        # # No valid countries
+        
+        # No valid countries
         get :results, params: { countries: ['invalid-country'] }
         expect(assigns(:search_filter).countries).to eq SearchFilter.new.countries
         expect(assigns(:search_result)[:total]).to eq 10
@@ -163,7 +170,8 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
         expect(assigns(:search_result)[:total]).to eq 2
         expect(assigns(:search_filter).sectors).to eq(
           SearchFilter.new(sectors: ['test-sector']).sectors)
-        # # No valid sectors
+        
+        # No valid sectors
         get :results, params: { sectors: ['invalid-sector'] }
         expect(assigns(:search_filter).sectors).to eq SearchFilter.new.sectors
         expect(assigns(:search_result)[:total]).to eq 10
@@ -188,8 +196,9 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
     describe 'provides @search_result' do
       it 'with the filter' do
         get :results, params: { countries: ['fiji'] } 
-        expect(assigns(:search_result)[:filter].countries).to eq(
-          SearchFilter.new(countries: ['fiji']).countries)
+        filter = assigns(:search_result)[:filter]
+        example_filter = SearchFilter.new(countries: ['fiji'])
+        expect(filter.countries).to eq(example_filter.countries)
       end
       it 'with the term' do
         get :results, params: { s: 'Title 0' }
@@ -198,8 +207,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       it 'with the sort order' do
         get :results, params: { sort_column_name: 'response_due_on' }
         sort = assigns(:sort_selection)
-        expect(sort).to have_attributes(column: 'response_due_on',
-                                        order:  'asc')
+        expect(sort).to have_attributes(column: 'response_due_on', order: 'asc')
       end
       it 'with the results' do
         get :results
