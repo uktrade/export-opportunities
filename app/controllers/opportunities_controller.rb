@@ -271,6 +271,7 @@ class OpportunitiesController < ApplicationController
 
   # Use search results to find and return
   # only which countries are relevant.
+  # TODO: Refactor this low performance code.
   def relevant_countries_from_search!(query)
     countries = []
     country_list = []
