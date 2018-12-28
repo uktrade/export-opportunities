@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'mock_redis'
 
-RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controller, focus: true do
+RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controller do
   include RegionHelper
 
   describe 'GET index' do

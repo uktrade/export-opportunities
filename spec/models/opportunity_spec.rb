@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Opportunity do
+RSpec.describe Opportunity, focus: true do
   describe 'validations' do
     subject { FactoryBot.build(:opportunity) }
     it { is_expected.to validate_uniqueness_of(:slug).case_insensitive }
