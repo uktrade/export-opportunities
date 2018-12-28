@@ -226,7 +226,7 @@ RSpec.describe Opportunity do
     end
   end
 
-  describe '#public_featured_industries_search', focus: true do
+  describe '#public_featured_industries_search' do
     before(:each) do
       @post_1 = create(:opportunity, title: 'Post 1', first_published_at: 1.months.ago,
                         response_due_on: 12.months.from_now, status: :publish, source: 'post')

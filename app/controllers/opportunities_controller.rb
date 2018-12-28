@@ -7,6 +7,26 @@ class OpportunitiesController < ApplicationController
 
   # caches_page :index
 
+  #
+  # Homepage
+  # Provides the following to the views:
+  #   @content:              strings to insert into page
+  #   @featured_industries:  Collection of Sectors
+  #   @recent_opportunities: Hash of 5 recent opportunities with format
+  #                             { results: opps, limit: 5, total: 5 }
+  #   @countries:            Collection of Countries excluding reserved names
+  #   @regions:              Array of hashes of geographic regions, of format
+  #                             [{ slug: 'australia-new-zealand',
+  #                                countries: ["australia", "fiji"...],
+  #                                name: 'Australia/New Zealand' }, {...}...]
+  #   @opportunities_stats   Hash of statistics about opportunities, of format:
+  #                             { total: #, expiring_soon: #, published_recently: #, }
+  #   --- .atom or .xml requests only --
+  #   @query:                ElasticSearch object with Opportunity results from
+  #                          query with filter params
+  #   @total:                Total number of opportunities returned
+  #   @opportunities:        Records from @query
+  #
   def index
     @content = get_content('opportunities/index.yml')
     @featured_industries = featured_industries
@@ -35,7 +55,43 @@ class OpportunitiesController < ApplicationController
     end
   end
 
-  def results
+  #
+  # Search results listings page
+  # Provides the following to the views:
+  #   @search_term:         String search term
+  #   @dit_boost_search:    Boolean, if true increases prominance of results from
+  #                         source "post" (i.e. internal to DIT)
+  #   @content:             strings to insert into page
+  #   @search_filter:       Filter, contains sanitised input from filters
+  #   @sort_selection:      OpportunitySort, contains sanitised data from sort dropdown
+  #   @search_result:       Hash of data for views, of format:
+  #        {
+  #          filter: @search_filter,
+  #          term: @search_term,
+  #          sort: @sort_selection,
+  #          results: results,
+  #          total: total,
+  #          limit: per_page,
+  #          subscription: subscription_form,
+  #          filter_data: {
+  #            sectors: search_filter_sectors,
+  #            countries: search_filter_countries(country_list),
+  #            regions: search_filter_regions(country_list),
+  #            sources: search_filter_sources,
+  #          }
+  #        }
+  #   Where:
+  #   @search_result[:results]: ElasticSearch object with Opportunity results from
+  #                             query with filter params
+  #   @search_result[:total]:   Int number of results
+  #   @search_result[:limit]:   Int number of results per page
+  #   @search_result[:subscription]: SubscriptionForm object, receives term and arrays of
+  #                             slugs for sectors, types, countries, values. Provides
+  #                             each of the objects associated with the slugs. Enables
+  #                             creation of the subscription form.
+  #   @search_result[:filter_data]: Data to build search filters for each dimention
+  #
+  def results 
     @search_term = search_term(params[:s])
     @dit_boost_search = params['boost_search'].present?
     @content = get_content('opportunities/results.yml')

@@ -203,17 +203,4 @@ class OpportunitySearchBuilder
       }
     end
   end
-
-  # Suggest adding this refactor
-  # def query_builder(search_parameters, filter_type=:should)
-  #   {
-  #     bool: {
-  #       filter: {
-  #         terms: {
-  #           search_parameters
-  #         },
-  #       },
-  #     },
-  #   }
-  # end
 end

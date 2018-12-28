@@ -1,5 +1,6 @@
 class SubscriptionForm
   include ActiveModel::Validations
+  attr_accessor :params
 
   validate :minimum_search_criteria
   validate :countries
