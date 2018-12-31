@@ -1,7 +1,7 @@
 .summary-list
   %ul.navigation
     - list.each do |item|
-      = if item.dig(:images, :small).present?
+      - if item.dig(:images, :small).present?
         %li
           %picture
             %source{:srcset=>"#{image_url(item.dig(:images, :small))}", :media=>"(max-width: 768px)"}
