@@ -37,15 +37,15 @@ class OpportunitiesController < ApplicationController
         @countries = all_countries
         @regions = regions_list
         @opportunities_stats = opportunities_stats
-        # @page = LandingPresenter.new(@content, @featured_industries)
-        # @recent_opportunities = OpportunitySearchResultsPresenter.new(@content, @recent_opportunities)
+        @page = LandingPresenter.new(@content, @featured_industries)
+        @recent_opportunities = OpportunitySearchResultsPresenter.new(@content, @recent_opportunities)
         render layout: 'landing'
       end
       format.any(:atom, :xml) do
         query = Opportunity.public_search(
           search_term: '',
           filters: SearchFilter.new(params),
-          sort: sorting
+          sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
         )[:search]
         atom_request_query(query)
         render :index, formats: :atom
@@ -56,11 +56,7 @@ class OpportunitiesController < ApplicationController
   #
   # Search results listings page
   # Provides the following to the views:
-  #   @dit_boost_search:    Boolean, if true increases prominance of results from
-  #                         source "post" (i.e. internal to DIT)
   #   @content:             strings to insert into page
-  #   @search_filter:       Filter, contains sanitised input from filters
-  #   @sort_selection:      OpportunitySort, contains sanitised data from sort dropdown
   #   @search_result:       Hash of data for views, of format:
   #        {
   #          filter: @search_filter,
@@ -79,6 +75,8 @@ class OpportunitiesController < ApplicationController
   #        }
   #   Where:
   #   @search_result[:term]:    String search term
+  #   @search_result[:filter]:  Filter, contains sanitised input from filters
+  #   @search_result[:sort]:    OpportunitySort, contains sanitised data from sort dropdown
   #   @search_result[:results]: ElasticSearch object with Opportunity results from
   #                             query with filter params
   #   @search_result[:total]:   Int number of results
@@ -92,9 +90,9 @@ class OpportunitiesController < ApplicationController
   #
   def results 
     term = search_term(params[:s])
-    @dit_boost_search = params['boost_search'].present?
-    @search_filter = SearchFilter.new(params)
-    @sort_selection = sorting
+    boost = params['boost_search'].present?
+    filter = SearchFilter.new(params)
+    sort = sorting(filter)
     # {
     #   filter: @search_filter,
     #   term: @search_term,
@@ -111,11 +109,11 @@ class OpportunitiesController < ApplicationController
     #     sources: search_filter_sources,
     #   },
     # }
-    @search_result = if @search_filter.sectors.present?
-                       sector_slug = @search_filter.sectors.first
-                       opportunity_featured_industries_search(sector_slug, @search_filter.sources)
+    @search_result = if filter.sectors.present?
+                       term = filter.sectors.first.tr('-', ' ')
+                       opportunity_featured_industries_search(term, filter, sort, boost)
                      else
-                       opportunity_search(term)
+                       opportunity_search(term, filter, sort, boost)
                      end
 
     respond_to do |format|
@@ -175,21 +173,17 @@ class OpportunitiesController < ApplicationController
     NewDomainConstraint.new.matches? request
   end
 
-  # Builds OpportunitySort object based on params
-  private def sorting
-    if atom_request?
-      column = 'updated_at' and order = 'desc'
-    else # In-browser sort options: response_due_on, first_published_at, relevance
-      case @search_filter.params[:sort_column_name]
-      when 'response_due_on' # Soonest to end first
-        column = 'response_due_on' and order = 'asc'
-      when 'first_published_at' # Newest posted to oldest
-        column = 'first_published_at' and order = 'desc' 
-      when 'relevance' # Most relevant first
-        column = 'response_due_on' and order = 'asc' # # TODO: Add relevance. Temporary fix
-      else
-        column = 'response_due_on' and order = 'asc'
-      end
+  # Builds OpportunitySort object based on filter
+  private def sorting(filter)
+    case filter.params[:sort_column_name]
+    when 'response_due_on' # Soonest to end first
+      column = 'response_due_on' and order = 'asc'
+    when 'first_published_at' # Newest posted to oldest
+      column = 'first_published_at' and order = 'desc' 
+    when 'relevance' # Most relevant first
+      column = 'response_due_on' and order = 'asc' # # TODO: Add relevance. Temporary fix
+    else
+      column = 'response_due_on' and order = 'asc'
     end
     OpportunitySort.new(default_column: column, default_order: order)
   end
@@ -211,17 +205,14 @@ class OpportunitiesController < ApplicationController
   end
 
   # Using a search with adjusted parameters that include mapped_regions.
-  #
-  # Inputs: term: String search term
-  #
-  private def opportunity_search(term)
+  private def opportunity_search(term, filter, sort, boost)
     per_page = Opportunity.default_per_page
     search = Opportunity.public_search(
       search_term: term,
-      filters: @search_filter,
-      sort: @sort_selection,
+      filters: filter,
+      sort: sort,
       limit: 100,
-      dit_boost_search: @dit_boost_search
+      dit_boost_search: boost
     )
     query = search[:search]
     total_without_limit = search[:total_without_limit]
@@ -234,31 +225,32 @@ class OpportunitiesController < ApplicationController
       results = query.records
       total = query.results.total
       country_list = relevant_countries_from_search(results.includes(:countries).includes(:opportunities_countries)) # Run before paging.
-      query.page(@search_filter.params[:paged]).per(per_page)
+      query.page(filter.params[:paged]).per(per_page)
     end
     {
-      filter: @search_filter,
       term: term,
-      sort: @sort_selection,
+      filter: filter,
+      sort: sort,
       results: results,
       total: total,
       total_without_limit: total_without_limit,
       limit: per_page,
-      subscription: subscription_form(term),
+      subscription: subscription_form(term, filter),
       filter_data: {
-        sectors: search_filter_sectors,
-        countries: search_filter_countries(country_list),
-        regions: search_filter_regions(country_list),
-        sources: search_filter_sources,
+        sectors: filter_sectors(filter),
+        countries: filter_countries(filter, country_list),
+        regions: filter_regions(filter, country_list),
+        sources: filter_sources(filter),
       },
     }
   end
 
-  private def opportunity_featured_industries_search(sector, sources)
-    search_term = sector.tr('-', ' ')
+  private def opportunity_featured_industries_search(term, filter, sort, boost)
+    boost = false
+    sector, sources = filter.sectors.first, filter.sources
     per_page = Opportunity.default_per_page
     search = Opportunity.public_featured_industries_search(
-              sector, search_term, sources, @sort_selection)
+              sector, term, sources, sort)
     query = search[:search]
     total_without_limit = search[:total_without_limit]
 
@@ -271,24 +263,24 @@ class OpportunitiesController < ApplicationController
       results = query
     else
       country_list = relevant_countries_from_search(query) # Run before paging.
-      query = query.page(@search_filter.params[:paged]).per(per_page)
+      query = query.page(filter.params[:paged]).per(per_page)
       total = query.records.total
       results = query.records
     end
     {
-      filter: @search_filter,
-      term: search_term,
-      sort: sorting,
+      term: term,
+      filter: filter,
+      sort: sorting(filter),
       results: results,
       total: total,
       total_without_limit: total_without_limit,
       limit: per_page,
-      subscription: subscription_form(search_term),
+      subscription: subscription_form(term, filter),
       filter_data: {
-        sectors: search_filter_sectors,
-        countries: search_filter_countries(country_list),
-        regions: search_filter_regions(country_list),
-        sources: search_filter_sources,
+        sectors: filter_sectors(filter),
+        countries: filter_countries(filter, country_list),
+        regions: filter_regions(filter, country_list),
+        sources: filter_sources(filter),
       },
     }
   end
@@ -348,52 +340,52 @@ class OpportunitiesController < ApplicationController
     Sector.where(id: Figaro.env.GREAT_FEATURED_INDUSTRIES.split(',').map(&:to_i).to_a)
   end
 
-  private def subscription_form(term)
+  private def subscription_form(term, filter)
     SubscriptionForm.new(
       query: {
         search_term: term,
-        sectors: @search_filter.sectors,
-        types: @search_filter.types,
-        countries: @search_filter.countries,
-        values: @search_filter.values,
+        sectors: filter.sectors,
+        types: filter.types,
+        countries: filter.countries,
+        values: filter.values,
       }
     )
   end
 
   # Data to build search filer for sectors
-  private def search_filter_sectors
+  private def filter_sectors(filter)
     {
       'name': 'sectors[]',
       'options': Sector.order(:name),
-      'selected': @search_filter.sectors,
+      'selected': filter.sectors,
     }
   end
 
   # Data to build search filter for countries
-  private def search_filter_countries(country_list = [])
+  private def filter_countries(filter, country_list = [])
     countries = if country_list.present?
                   country_list
                 else
-                  Country.where(slug: @search_filter.countries)
+                  Country.where(slug: filter.countries)
                 end
     {
       'name': 'countries[]',
       'options': countries,
-      'selected': @search_filter.countries,
+      'selected': filter.countries,
     }
   end
 
   # Data to build search filter for sources
-  private def search_filter_sources
+  private def filter_sources(filter)
     {
       'name': 'sources[]',
       'options': sources_list,
-      'selected': @search_filter.sources,
+      'selected': filter.sources,
     }
   end
 
   # Data to build search filter for regions
-  private def search_filter_regions(country_list = [])
+  private def filter_regions(filter, country_list = [])
     regions = if country_list.present?
                 filtered_region_list(country_list)
               else
@@ -402,11 +394,11 @@ class OpportunitiesController < ApplicationController
     {
       'name': 'regions[]',
       'options': regions,
-      'selected': @search_filter.regions,
+      'selected': filter.regions,
     }
   end
 
-  # Filters all regions (@search_filter[:regions]) down to
+  # Filters all regions (filter[:regions]) down to
   # return only those that are applicable to countries
   # showing (so those that apply to the search)
   def filtered_region_list(countries)

@@ -1,25 +1,22 @@
-- page = LandingPresenter.new(@content, @featured_industries)
-- recent_opportunities = OpportunitySearchResultsPresenter.new(@content, @recent_opportunities)
-
 %section.hero-section.search-section
   .container
-    = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
+    = render partial: 'components/breadcrumbs', locals: { breadcrumbs: @page.breadcrumbs }
     
     %h1= @content["title"]
-    %p= page.description @opportunities_stats[:total]
+    %p= @page.description @opportunities_stats[:total]
     = render partial: "opportunities/search_form", locals: { regions: @regions, countries: @countries }
 
 
 %section#recent-opportunities
   .container
     %h2 Latest export opportunities
-    = render partial: "opportunities/list", locals: { list: recent_opportunities.found }
+    = render partial: "opportunities/list", locals: { list: @recent_opportunities.found }
 
 
 %section#featured-industries
   .container
     %h2 Featured industries
-    = render partial: "summary_list", locals: { list: page.featured_industries }
+    = render partial: "summary_list", locals: { list: @page.featured_industries }
 
 
 %section#service-promotion

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe OpportunitySearch, elasticsearch: true, focus: true do
+RSpec.describe OpportunitySearch, elasticsearch: true do
 
   before do
     sector  = Sector.create(slug: 'test-sector', name: 'Sector 1')

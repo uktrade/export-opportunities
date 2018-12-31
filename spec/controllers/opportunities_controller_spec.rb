@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'mock_redis'
 
-RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controller do
+RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controller, focus: true do
   include RegionHelper
 
   describe 'GET index' do
@@ -146,51 +146,56 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       expect(result[:term]).to eq "Title 0"
       expect(result[:total]).to eq 1
     end
-    describe 'filters by search filters and provides @search_filter' do
+    describe 'filters by search filters' do
       it 'by country' do
         # One country
         get :results, params: { countries: ['fiji'] } 
-        expect(assigns(:search_result)[:total]).to eq 3
-        expect(assigns(:search_filter).countries).to eq(
+        search_result = assigns(:search_result)
+        expect(search_result[:total]).to eq 3
+        expect(search_result[:filter].countries).to eq(
           SearchFilter.new(countries: ['fiji']).countries)
         
         # Multiple countries
         get :results, params: { countries: ['fiji', 'barbados'] }
-        expect(assigns(:search_filter).countries).to eq(
+        search_result = assigns(:search_result)
+        expect(search_result[:filter].countries).to eq(
           SearchFilter.new(countries: ['fiji', 'barbados']).countries)
         expect(assigns(:search_result)[:total]).to eq 4
         
         # No valid countries
         get :results, params: { countries: ['invalid-country'] }
-        expect(assigns(:search_filter).countries).to eq SearchFilter.new.countries
-        expect(assigns(:search_result)[:total]).to eq 10
+        search_result = assigns(:search_result)
+        expect(search_result[:filter].countries).to eq SearchFilter.new.countries
+        expect(search_result[:total]).to eq 10
       end
       it 'by industry' do
         # One sector
         get :results, params: { sectors: ['test-sector'] } 
-        expect(assigns(:search_result)[:total]).to eq 2
-        expect(assigns(:search_filter).sectors).to eq(
+        search_result = assigns(:search_result)
+        expect(search_result[:total]).to eq 2
+        expect(search_result[:filter].sectors).to eq(
           SearchFilter.new(sectors: ['test-sector']).sectors)
         
         # No valid sectors
         get :results, params: { sectors: ['invalid-sector'] }
-        expect(assigns(:search_filter).sectors).to eq SearchFilter.new.sectors
-        expect(assigns(:search_result)[:total]).to eq 10
+        search_result = assigns(:search_result)
+        expect(search_result[:filter].sectors).to eq SearchFilter.new.sectors
+        expect(search_result[:total]).to eq 10
       end
     end
     context 'can sort results and provide @sort_selection' do
       it 'by date_posted' do
         get :results, params: { sort_column_name: 'first_published_at' }
-        expect(assigns(:search_result)[:results][0].title).to eq "Title 5"
-        sort = assigns(:sort_selection)
-        expect(sort).to have_attributes(column: 'first_published_at',
-                                        order:  'desc')
+        search_result = assigns(:search_result)
+        expect(search_result[:results][0].title).to eq "Title 5"
+        expect(search_result[:sort]).to have_attributes(column: 'first_published_at',
+                                                        order:  'desc')
       end
       it 'by published soonest' do
         get :results, params: { sort_column_name: 'response_due_on' }
-        expect(assigns(:search_result)[:results][0].title).to eq "Title 4"
-        sort = assigns(:sort_selection)
-        expect(sort).to have_attributes(column: 'response_due_on',
+        search_result = assigns(:search_result)
+        expect(search_result[:results][0].title).to eq "Title 4"
+        expect(search_result[:sort]).to have_attributes(column: 'response_due_on',
                                         order:  'asc')
       end
     end
@@ -207,8 +212,8 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       end
       it 'with the sort order' do
         get :results, params: { sort_column_name: 'response_due_on' }
-        sort = assigns(:sort_selection)
-        expect(sort).to have_attributes(column: 'response_due_on', order: 'asc')
+        search_result = assigns(:search_result)
+        expect(search_result[:sort]).to have_attributes(column: 'response_due_on', order: 'asc')
       end
       it 'with the results' do
         get :results
@@ -246,7 +251,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
           expect(assigns(:search_result)[:subscription].params).to eq(
             SubscriptionForm.new(
               query: {
-                search_term: nil,
+                search_term: 'test sector',
                 sectors:     ['test-sector'],
                 types:       [],
                 countries:   [],
