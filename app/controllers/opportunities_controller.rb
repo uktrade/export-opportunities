@@ -10,6 +10,7 @@ class OpportunitiesController < ApplicationController
   #
   # Homepage
   # Provides the following to the views:
+  #   --- html requests only --
   #   @content:              strings to insert into page
   #   @featured_industries:  Collection of Sectors
   #   @recent_opportunities: Hash of 5 recent opportunities with format
@@ -28,28 +29,25 @@ class OpportunitiesController < ApplicationController
   #   @opportunities:        Records from @query
   #
   def index
-    @content = get_content('opportunities/index.yml')
-    @featured_industries = featured_industries
-    @recent_opportunities = recent_opportunities
-    @countries = all_countries
-    @regions = regions_list
-    @opportunities_stats = opportunities_stats
-    if atom_request?
-      query = Opportunity.public_search(
-        search_term: '',
-        filters: SearchFilter.new(params),
-        sort: sorting
-      )[:search]
-
-      atom_request_query(query)
-    end
-
     respond_to do |format|
       format.html do
+        @content = get_content('opportunities/index.yml')
+        @recent_opportunities = recent_opportunities
+        @featured_industries = featured_industries
+        @countries = all_countries
+        @regions = regions_list
+        @opportunities_stats = opportunities_stats
+        # @page = LandingPresenter.new(@content, @featured_industries)
+        # @recent_opportunities = OpportunitySearchResultsPresenter.new(@content, @recent_opportunities)
         render layout: 'landing'
       end
-      format.js
       format.any(:atom, :xml) do
+        query = Opportunity.public_search(
+          search_term: '',
+          filters: SearchFilter.new(params),
+          sort: sorting
+        )[:search]
+        atom_request_query(query)
         render :index, formats: :atom
       end
     end
@@ -58,7 +56,6 @@ class OpportunitiesController < ApplicationController
   #
   # Search results listings page
   # Provides the following to the views:
-  #   @search_term:         String search term
   #   @dit_boost_search:    Boolean, if true increases prominance of results from
   #                         source "post" (i.e. internal to DIT)
   #   @content:             strings to insert into page
@@ -81,9 +78,11 @@ class OpportunitiesController < ApplicationController
   #          }
   #        }
   #   Where:
+  #   @search_result[:term]:    String search term
   #   @search_result[:results]: ElasticSearch object with Opportunity results from
   #                             query with filter params
   #   @search_result[:total]:   Int number of results
+  #   @search_result[:total_without_limit]: Int maximum number of results for search
   #   @search_result[:limit]:   Int number of results per page
   #   @search_result[:subscription]: SubscriptionForm object, receives term and arrays of
   #                             slugs for sectors, types, countries, values. Provides
@@ -92,27 +91,49 @@ class OpportunitiesController < ApplicationController
   #   @search_result[:filter_data]: Data to build search filters for each dimention
   #
   def results 
-    @search_term = search_term(params[:s])
+    term = search_term(params[:s])
     @dit_boost_search = params['boost_search'].present?
-    @content = get_content('opportunities/results.yml')
     @search_filter = SearchFilter.new(params)
     @sort_selection = sorting
+    # {
+    #   filter: @search_filter,
+    #   term: @search_term,
+    #   sort: @sort_selection,
+    #   results: results,
+    #   total: total,
+    #   total_without_limit: total_without_limit,
+    #   limit: per_page,
+    #   subscription: subscription_form,
+    #   filter_data: {
+    #     sectors: search_filter_sectors,
+    #     countries: search_filter_countries(country_list),
+    #     regions: search_filter_regions(country_list),
+    #     sources: search_filter_sources,
+    #   },
+    # }
     @search_result = if @search_filter.sectors.present?
-                       sector = @search_filter.sectors.first
-                       sector_search_term = sector.tr('-', ' ')
-                       sector_obj = Sector.where(slug: sector).first
-                       sources = @search_filter.sources
-                       opportunity_featured_industries_search(sector_obj.slug, sector_search_term, sources)
+                       sector_slug = @search_filter.sectors.first
+                       opportunity_featured_industries_search(sector_slug, @search_filter.sources)
                      else
-                       opportunity_search
+                       opportunity_search(term)
                      end
 
     respond_to do |format|
       format.html do
+        @content = get_content('opportunities/results.yml')
+        @page = PagePresenter.new(@content)
+        # What is used by this presenter?
+        @results = OpportunitySearchResultsPresenter.new(@content, @search_result)
+        # @page.breadcrumbs
+        # @content.title
+        # @results: .information, .offer_subscription, .subscription
+        #    .sort_input_select, .found, .view_all_link,
+        #   .applied_filters?, .selected_filter_list,
+        #   .input_checkbox_group, .none,  
         render layout: 'results'
       end
-      format.js
       format.any(:atom, :xml) do
+        # Only uses @opportunities and @query
         render :index, formats: :atom
       end
     end
@@ -190,10 +211,13 @@ class OpportunitiesController < ApplicationController
   end
 
   # Using a search with adjusted parameters that include mapped_regions.
-  private def opportunity_search
+  #
+  # Inputs: term: String search term
+  #
+  private def opportunity_search(term)
     per_page = Opportunity.default_per_page
     search = Opportunity.public_search(
-      search_term: @search_term,
+      search_term: term,
       filters: @search_filter,
       sort: @sort_selection,
       limit: 100,
@@ -214,13 +238,13 @@ class OpportunitiesController < ApplicationController
     end
     {
       filter: @search_filter,
-      term: @search_term,
+      term: term,
       sort: @sort_selection,
       results: results,
       total: total,
       total_without_limit: total_without_limit,
       limit: per_page,
-      subscription: subscription_form,
+      subscription: subscription_form(term),
       filter_data: {
         sectors: search_filter_sectors,
         countries: search_filter_countries(country_list),
@@ -230,7 +254,8 @@ class OpportunitiesController < ApplicationController
     }
   end
 
-  private def opportunity_featured_industries_search(sector, search_term, sources)
+  private def opportunity_featured_industries_search(sector, sources)
+    search_term = sector.tr('-', ' ')
     per_page = Opportunity.default_per_page
     search = Opportunity.public_featured_industries_search(
               sector, search_term, sources, @sort_selection)
@@ -258,7 +283,7 @@ class OpportunitiesController < ApplicationController
       total: total,
       total_without_limit: total_without_limit,
       limit: per_page,
-      subscription: subscription_form,
+      subscription: subscription_form(search_term),
       filter_data: {
         sectors: search_filter_sectors,
         countries: search_filter_countries(country_list),
@@ -323,10 +348,10 @@ class OpportunitiesController < ApplicationController
     Sector.where(id: Figaro.env.GREAT_FEATURED_INDUSTRIES.split(',').map(&:to_i).to_a)
   end
 
-  private def subscription_form
+  private def subscription_form(term)
     SubscriptionForm.new(
       query: {
-        search_term: @search_term,
+        search_term: term,
         sectors: @search_filter.sectors,
         types: @search_filter.types,
         countries: @search_filter.countries,

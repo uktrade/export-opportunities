@@ -33,7 +33,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       get :index
       
       recent = assigns(:recent_opportunities)
-      expect(recent[:results].count).to be 5
+      expect(recent.found.count).to be 5
     end
     it "provides list of countries" do
       create(:country, slug: 'france')
@@ -108,7 +108,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
   end
 
   describe 'GET #results' do
-    
+
     before do
       sector     = Sector.create(slug: 'test-sector', name: 'Sector 1')
       @country   = Country.create(slug: 'fiji', name: 'Fiji')
@@ -134,15 +134,16 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       expect(response.status).to eq(200)
       expect(result[:total]).to eq 10
     end
-    it 'filters by search term and provides @search_term' do
+    it 'filters by search term and provides term' do
       get :results, params: { s: 'Title 0' }
       result = assigns(:search_result)
+      expect(result[:term]).to eq "Title 0"
       expect(result[:total]).to eq 1
     end
     it 'removes non-alphanumeric charecters and words from search' do
       get :results, params: { s: 'Title é 0' }
       result = assigns(:search_result)
-      expect(assigns(:search_term)).to eq "Title 0"
+      expect(result[:term]).to eq "Title 0"
       expect(result[:total]).to eq 1
     end
     describe 'filters by search filters and provides @search_filter' do
