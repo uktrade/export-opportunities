@@ -99,110 +99,65 @@ class OpportunitiesController < ApplicationController
     boost = params['boost_search'].present?
     filter = SearchFilter.new(params)
     sort = sorting(filter)
-    # {
-    #   filter: @search_filter,
-    #   term: @search_term,
-    #   sort: @sort_selection,
-    #   results: results,
-    #   total: total,
-    #   total_without_limit: total_without_limit,
-    #   limit: per_page,
-    #   subscription: subscription_form,
-    #   filter_data: {
-    #     sectors: search_filter_sectors,
-    #     countries: search_filter_countries(country_list),
-    #     regions: search_filter_regions(country_list),
-    #     sources: search_filter_sources,
-    #   },
-    # }
-    @search_result = if filter.sectors.present?
-                       term = filter.sectors.first.tr('-', ' ')
-                       search = opportunity_featured_industries_search(term, filter, sort, boost)
-                       query = search[:search]
-                       total_without_limit = search[:total_without_limit]
-                       if atom_request?
-                         country_list = []
-                         query = query.records
-                         query = query.page(params[:paged]).per(per_page)
-                         query = AtomOpportunityQueryDecorator.new(query, view_context)
-                         total = query.records.size
-                         results = query
-                       else
-                         country_list = relevant_countries_from_search(query) # Run before paging.
-                         query = query.page(filter.params[:paged]).per(per_page)
-                         total = query.records.total
-                         results = query.records
-                       end
-                       {
-                         term: term,
-                         filter: filter,
-                         sort: sorting(filter),
-                         results: results,
-                         total: total,
-                         total_without_limit: total_without_limit,
-                         limit: Opportunity.default_per_page,
-                         subscription: subscription_form(term, filter),
-                         filter_data: {
-                           sectors: filter_sectors(filter),
-                           countries: filter_countries(filter, country_list),
-                           regions: filter_regions(filter, country_list),
-                           sources: filter_sources(filter),
-                         },
-                       }
-                     else
-                       search = opportunity_search(term, filter, sort, boost)
-                       query = search[:search]
-                       total_without_limit = search[:total_without_limit]
-                       if atom_request?
-                         country_list = []
-                         query = query.records
-                         # return 25 results per page for atom feed
-                         query = query.page(params[:paged]).per(25)
-                         query = AtomOpportunityQueryDecorator.new(query, view_context)
-                         @query = query
-                         @total = query.records.size
-                         @opportunities = query.records
-                         total = query.records.size
-                       else
-                         results = query.records
-                         total = query.results.total
-                         country_list = relevant_countries_from_search(results.includes(:countries).includes(:opportunities_countries)) # Run before paging.
-                         query.page(filter.params[:paged]).per(per_page)
-                       end
-                       {
-                         term: term,
-                         filter: filter,
-                         sort: sort,
-                         results: results,
-                         total: total,
-                         total_without_limit: total_without_limit,
-                         limit: Opportunity.default_per_page,
-                         subscription: subscription_form(term, filter),
-                         filter_data: {
-                           sectors: filter_sectors(filter),
-                           countries: filter_countries(filter, country_list),
-                           regions: filter_regions(filter, country_list),
-                           sources: filter_sources(filter),
-                         },
-                       }
-                     end
-
+    
     respond_to do |format|
       format.html do
-        @content = get_content('opportunities/results.yml')
-        @page = PagePresenter.new(@content)
+         if filter.sectors.present?
+          term = filter.sectors.first.tr('-', ' ')
+          search = opportunity_featured_industries_search(term, filter, sort, boost)
+          query = search[:search]
+          total_without_limit = search[:total_without_limit]
+          country_list = relevant_countries_from_search(query) # Run before paging.
+          query = query.page(filter.params[:paged]).per(Opportunity.default_per_page)
+          total = query.records.total
+          results = query.records
+        else
+          search = opportunity_search(term, filter, sort, boost)
+          query = search[:search]
+          total_without_limit = search[:total_without_limit]
+          results = query.records
+          total = query.results.total
+          country_list = relevant_countries_from_search(results.includes(:countries).includes(:opportunities_countries)) # Run before paging.
+          query.page(filter.params[:paged]).per(Opportunity.default_per_page)
+        end
+        @data = {
+          term: term,
+          filter: filter,
+          sort: sort,
+          results: results,
+          total: total,
+          total_without_limit: total_without_limit,
+          limit: Opportunity.default_per_page,
+          subscription: subscription_form(term, filter),
+          filter_data: {
+            sectors: filter_sectors(filter),
+            countries: filter_countries(filter, country_list),
+            regions: filter_regions(filter, country_list),
+            sources: filter_sources(filter),
+          },
+        }
+        content = get_content('opportunities/results.yml')
+        @page = PagePresenter.new(content)
         # What is used by this presenter?
-        @results = OpportunitySearchResultsPresenter.new(@content, @search_result)
+        @results = OpportunitySearchResultsPresenter.new(content, @data)
         # @page.breadcrumbs
-        # @content.title
         # @results: .information, .offer_subscription, .subscription
         #    .sort_input_select, .found, .view_all_link,
         #   .applied_filters?, .selected_filter_list,
-        #   .input_checkbox_group, .none,  
+        #   .input_checkbox_group, .none, .content
         render layout: 'results'
       end
       format.any(:atom, :xml) do
+        search = opportunity_search(term, filter, sort, boost)
+        query = search[:search]
         # Only uses @opportunities and @query
+        query = query.records
+        # return 25 results per page for atom feed
+        query = query.page(params[:paged]).per(25)
+        query = AtomOpportunityQueryDecorator.new(query, view_context)
+        @query = query
+        @total = query.records.size
+        @opportunities = query.records
         render :index, formats: :atom
       end
     end

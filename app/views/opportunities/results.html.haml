@@ -3,7 +3,7 @@
 
 #opportunity-search-results
   .container
-    %h1.verbose= @content['title']
+    %h1.verbose= @results.content['title']
     .information
       %p= @results.information
       - if @results.offer_subscription(params[:subscription_url].blank?)

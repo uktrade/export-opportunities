@@ -1,10 +1,10 @@
 require 'rails_helper'
 require 'mock_redis'
 
-RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controller, focus: true do
+RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controller do
   include RegionHelper
 
-  describe 'GET index' do
+  describe 'GET #index' do
     it "renders" do
       expect(response.status).to eq(200)
     end
@@ -130,19 +130,19 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
 
     it 'renders' do
       get :results
-      result = assigns(:search_result)
+      result = assigns(:data)
       expect(response.status).to eq(200)
       expect(result[:total]).to eq 10
     end
     it 'filters by search term and provides term' do
       get :results, params: { s: 'Title 0' }
-      result = assigns(:search_result)
+      result = assigns(:data)
       expect(result[:term]).to eq "Title 0"
       expect(result[:total]).to eq 1
     end
     it 'removes non-alphanumeric charecters and words from search' do
       get :results, params: { s: 'Title é 0' }
-      result = assigns(:search_result)
+      result = assigns(:data)
       expect(result[:term]).to eq "Title 0"
       expect(result[:total]).to eq 1
     end
@@ -150,91 +150,91 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       it 'by country' do
         # One country
         get :results, params: { countries: ['fiji'] } 
-        search_result = assigns(:search_result)
-        expect(search_result[:total]).to eq 3
-        expect(search_result[:filter].countries).to eq(
+        data = assigns(:data)
+        expect(data[:total]).to eq 3
+        expect(data[:filter].countries).to eq(
           SearchFilter.new(countries: ['fiji']).countries)
         
         # Multiple countries
         get :results, params: { countries: ['fiji', 'barbados'] }
-        search_result = assigns(:search_result)
-        expect(search_result[:filter].countries).to eq(
+        data = assigns(:data)
+        expect(data[:filter].countries).to eq(
           SearchFilter.new(countries: ['fiji', 'barbados']).countries)
-        expect(assigns(:search_result)[:total]).to eq 4
+        expect(assigns(:data)[:total]).to eq 4
         
         # No valid countries
         get :results, params: { countries: ['invalid-country'] }
-        search_result = assigns(:search_result)
-        expect(search_result[:filter].countries).to eq SearchFilter.new.countries
-        expect(search_result[:total]).to eq 10
+        data = assigns(:data)
+        expect(data[:filter].countries).to eq SearchFilter.new.countries
+        expect(data[:total]).to eq 10
       end
       it 'by industry' do
         # One sector
         get :results, params: { sectors: ['test-sector'] } 
-        search_result = assigns(:search_result)
-        expect(search_result[:total]).to eq 2
-        expect(search_result[:filter].sectors).to eq(
+        data = assigns(:data)
+        expect(data[:total]).to eq 2
+        expect(data[:filter].sectors).to eq(
           SearchFilter.new(sectors: ['test-sector']).sectors)
         
         # No valid sectors
         get :results, params: { sectors: ['invalid-sector'] }
-        search_result = assigns(:search_result)
-        expect(search_result[:filter].sectors).to eq SearchFilter.new.sectors
-        expect(search_result[:total]).to eq 10
+        data = assigns(:data)
+        expect(data[:filter].sectors).to eq SearchFilter.new.sectors
+        expect(data[:total]).to eq 10
       end
     end
     context 'can sort results and provide @sort_selection' do
       it 'by date_posted' do
         get :results, params: { sort_column_name: 'first_published_at' }
-        search_result = assigns(:search_result)
-        expect(search_result[:results][0].title).to eq "Title 5"
-        expect(search_result[:sort]).to have_attributes(column: 'first_published_at',
+        data = assigns(:data)
+        expect(data[:results][0].title).to eq "Title 5"
+        expect(data[:sort]).to have_attributes(column: 'first_published_at',
                                                         order:  'desc')
       end
       it 'by published soonest' do
         get :results, params: { sort_column_name: 'response_due_on' }
-        search_result = assigns(:search_result)
-        expect(search_result[:results][0].title).to eq "Title 4"
-        expect(search_result[:sort]).to have_attributes(column: 'response_due_on',
+        data = assigns(:data)
+        expect(data[:results][0].title).to eq "Title 4"
+        expect(data[:sort]).to have_attributes(column: 'response_due_on',
                                         order:  'asc')
       end
     end
-    describe 'provides @search_result' do
+    describe 'provides @data' do
       it 'with the filter' do
         get :results, params: { countries: ['fiji'] } 
-        filter = assigns(:search_result)[:filter]
+        filter = assigns(:data)[:filter]
         example_filter = SearchFilter.new(countries: ['fiji'])
         expect(filter.countries).to eq(example_filter.countries)
       end
       it 'with the term' do
         get :results, params: { s: 'Title 0' }
-        expect(assigns(:search_result)[:term]).to eq "Title 0"
+        expect(assigns(:data)[:term]).to eq "Title 0"
       end
       it 'with the sort order' do
         get :results, params: { sort_column_name: 'response_due_on' }
-        search_result = assigns(:search_result)
-        expect(search_result[:sort]).to have_attributes(column: 'response_due_on', order: 'asc')
+        data = assigns(:data)
+        expect(data[:sort]).to have_attributes(column: 'response_due_on', order: 'asc')
       end
       it 'with the results' do
         get :results
-        expect(assigns(:search_result)[:results].count).to eq 10
+        expect(assigns(:data)[:results].count).to eq 10
       end
       it 'with the total' do
         get :results
-        expect(assigns(:search_result)[:total]).to eq 10
+        expect(assigns(:data)[:total]).to eq 10
       end
       it 'with the max total' do
         get :results
-        expect(assigns(:search_result)[:total_without_limit]).to eq 10
+        expect(assigns(:data)[:total_without_limit]).to eq 10
       end
       it 'with the limit to the number of results' do
         get :results
-        expect(assigns(:search_result)[:limit]).to eq Opportunity.default_per_page
+        expect(assigns(:data)[:limit]).to eq Opportunity.default_per_page
       end
       describe 'provides a valid subscription form object' do
         it "includes the search term" do
           get :results, params: { s: 'Title 0' }
-          expect(assigns(:search_result)[:subscription].params).to eq(
+          expect(assigns(:data)[:subscription].params).to eq(
             SubscriptionForm.new(
               query: {
                 search_term: 'Title 0',
@@ -248,7 +248,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
         end
         it "includes valid sectors" do
           get :results, params: { sectors: ['test-sector'] } 
-          expect(assigns(:search_result)[:subscription].params).to eq(
+          expect(assigns(:data)[:subscription].params).to eq(
             SubscriptionForm.new(
               query: {
                 search_term: 'test sector',
@@ -260,7 +260,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
             ).params
           )
           get :results, params: { sectors: ['invalid-sector'] } 
-          expect(assigns(:search_result)[:subscription].params).to eq(
+          expect(assigns(:data)[:subscription].params).to eq(
             SubscriptionForm.new(
               query: {
                 search_term: nil,
@@ -274,7 +274,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
         end
         it "includes valid types" do
           get :results, params: { types: ['test-type'] }
-          expect(assigns(:search_result)[:subscription].params).to eq(
+          expect(assigns(:data)[:subscription].params).to eq(
             SubscriptionForm.new(
               query: {
                 search_term: nil,
@@ -286,7 +286,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
             ).params
           )
           get :results, params: { types: ['invalid-type'] }
-          expect(assigns(:search_result)[:subscription].params).to eq(
+          expect(assigns(:data)[:subscription].params).to eq(
             SubscriptionForm.new(
               query: {
                 search_term: nil,
@@ -300,7 +300,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
         end
         it "includes valid countries" do
           get :results, params: { countries: ['fiji'] } 
-          expect(assigns(:search_result)[:subscription].params).to eq(
+          expect(assigns(:data)[:subscription].params).to eq(
             SubscriptionForm.new(
               query: {
                 search_term: nil,
@@ -312,7 +312,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
             ).params
           )
           get :results, params: { countries: ['invalid-country'] }
-          expect(assigns(:search_result)[:subscription].params).to eq(
+          expect(assigns(:data)[:subscription].params).to eq(
             SubscriptionForm.new(
               query: {
                 search_term: nil,
@@ -326,7 +326,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
         end
         it "includes values" do
           get :results, params: { values: ['test-value'] }
-          expect(assigns(:search_result)[:subscription].params).to eq(
+          expect(assigns(:data)[:subscription].params).to eq(
             SubscriptionForm.new(
               query: {
                 search_term: nil,
@@ -338,7 +338,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
             ).params
           )
           get :results, params: { values: ['invalid-value'] }
-          expect(assigns(:search_result)[:subscription].params).to eq(
+          expect(assigns(:data)[:subscription].params).to eq(
             SubscriptionForm.new(
               query: {
                 search_term: nil,
@@ -354,7 +354,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       describe 'provides the filter_data' do
         it 'with sectors' do
           get :results, params: { sectors: ['test-sector'] } 
-          expect(assigns(:search_result)[:filter_data][:sectors]).to eq(
+          expect(assigns(:data)[:filter_data][:sectors]).to eq(
             {
               'name': 'sectors[]',
               'options': Sector.order(:name),
@@ -362,7 +362,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
             }
           )
           get :results, params: { sectors: ['invalid-sector'] }
-          expect(assigns(:search_result)[:filter_data][:sectors]).to eq(
+          expect(assigns(:data)[:filter_data][:sectors]).to eq(
             {
               'name': 'sectors[]',
               'options': Sector.order(:name),
@@ -370,102 +370,62 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
             }
           )
         end
-        describe "for .atom/.xml searches" do
-          it 'with all countries shown and valid countries selected' do
-            get :results, params: { countries: ['fiji'], format: :xml } 
-            expect(assigns(:search_result)[:filter_data][:countries]).to eq(
-              {
-                'name': 'countries[]',
-                'options': Country.where(slug: 'fiji'),
-                'selected': ['fiji'],
-              }
-            )
-            get :results, params: { countries: ['invalid-country'], format: :xml  }
-            expect(assigns(:search_result)[:filter_data][:countries]).to eq(
-              {
-                'name': 'countries[]',
-                'options': Country.where(slug: []),
-                'selected': [],
-              }
-            )
-          end
-          it 'with all regions shown' do
-            get :results, params: { regions: ['australia-new-zealand'], format: :xml } 
-            expect(assigns(:search_result)[:filter_data][:regions]).to eq(
-              {
-                'name': 'regions[]',
-                'options': regions_list,
-                'selected': ['australia-new-zealand'],
-              }
-            )
-            get :results, params: { regions: ['invalid-region'], format: :xml } 
-            expect(assigns(:search_result)[:filter_data][:regions]).to eq(
-              {
-                'name': 'regions[]',
-                'options': regions_list,
-                'selected': [],
-              }
-            )
-          end
+        it 'with relevant countries shown and valid countries selected' do
+          get :results, params: { countries: ['fiji'] } 
+          @country.update_attribute(:opportunity_count, 3)
+          @country_2.update_attribute(:opportunity_count, 1)
+          expect(assigns(:data)[:filter_data][:countries]).to eq(
+            {
+              'name': 'countries[]',
+              'options': [@country],
+              'selected': ['fiji'],
+            }
+          )
+          # Note: for invalid search, search is blank therefore more results returned
+          #       resulting in more countries shown in options
+          get :results, params: { countries: ['invalid-country'] }
+          expect(assigns(:data)[:filter_data][:countries]).to eq(
+            {
+              'name': 'countries[]',
+              'options': [@country_2, @country],
+              'selected': [],
+            }
+          )
         end
-        describe "for web searches" do
-          it 'with relevant countries shown and valid countries selected' do
-            get :results, params: { countries: ['fiji'] } 
-            @country.update_attribute(:opportunity_count, 3)
-            @country_2.update_attribute(:opportunity_count, 1)
-            expect(assigns(:search_result)[:filter_data][:countries]).to eq(
-              {
-                'name': 'countries[]',
-                'options': [@country],
-                'selected': ['fiji'],
-              }
-            )
-            # Note: for invalid search, search is blank therefore more results returned
-            #       resulting in more countries shown in options
-            get :results, params: { countries: ['invalid-country'] }
-            expect(assigns(:search_result)[:filter_data][:countries]).to eq(
-              {
-                'name': 'countries[]',
-                'options': [@country_2, @country],
-                'selected': [],
-              }
-            )
-          end
-          it 'with relevant regions shown and valid regions selected' do
-            # Without selection
-            get :results, params: { countries: ['fiji'] } 
-            expect(assigns(:search_result)[:filter_data][:regions]).to eq(
-              {
-                'name': 'regions[]',
-                'options': [region_by_country_slug('fiji')],
-                'selected': [],
-              }
-            )
-            # With selection
-            get :results, params: { countries: ['fiji'], regions: ['australia-new-zealand'] } 
-            expect(assigns(:search_result)[:filter_data][:regions]).to eq(
-              {
-                'name': 'regions[]',
-                'options': [region_by_country_slug('fiji')],
-                'selected': ['australia-new-zealand'],
-              }
-            )
-            # Invalid country
-            get :results, params: { countries: ['invalid-country'] } 
-            expect(assigns(:search_result)[:filter_data][:regions]).to eq(
-              {
-                'name': 'regions[]',
-                'options': [region_by_country_slug('barbados'),
-                            region_by_country_slug('fiji')],
-                'selected': [],
-              }
-            )
-          end
+        it 'with relevant regions shown and valid regions selected' do
+          # Without selection
+          get :results, params: { countries: ['fiji'] } 
+          expect(assigns(:data)[:filter_data][:regions]).to eq(
+            {
+              'name': 'regions[]',
+              'options': [region_by_country_slug('fiji')],
+              'selected': [],
+            }
+          )
+          # With selection
+          get :results, params: { countries: ['fiji'], regions: ['australia-new-zealand'] } 
+          expect(assigns(:data)[:filter_data][:regions]).to eq(
+            {
+              'name': 'regions[]',
+              'options': [region_by_country_slug('fiji')],
+              'selected': ['australia-new-zealand'],
+            }
+          )
+          # Invalid country
+          get :results, params: { countries: ['invalid-country'] } 
+          expect(assigns(:data)[:filter_data][:regions]).to eq(
+            {
+              'name': 'regions[]',
+              'options': [region_by_country_slug('barbados'),
+                          region_by_country_slug('fiji')],
+              'selected': [],
+            }
+          )
         end
         it 'with sources' do
           options = Opportunity.sources.keys.map{|k| k == 'buyer' ? nil : { slug: k } }.compact
           get :results, params: { sources: ['post'] } 
-          expect(assigns(:search_result)[:filter_data][:sources]).to eq(
+          expect(assigns(:data)[:filter_data][:sources]).to eq(
             {
               'name': 'sources[]',
               'options': options,
@@ -473,7 +433,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
             }
           )
           get :results, params: { sources: ['invalid-source'] }
-          expect(assigns(:search_result)[:filter_data][:sources]).to eq(
+          expect(assigns(:data)[:filter_data][:sources]).to eq(
             {
               'name': 'sources[]',
               'options': options,
