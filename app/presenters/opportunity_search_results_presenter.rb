@@ -9,6 +9,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
   def initialize(content, data)
     super(content, {})
     @data = data
+    @filter_data = build_filter_data(@data[:filter])
     @found = data[:results]
     @view_limit = Opportunity.default_per_page
     @total = data[:total]
@@ -239,7 +240,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
   # from filter supplied by the controller, to create
   # individual fields for use in view code.
   def format_filter_checkboxes(field, filter_name)
-    filter = @data[:filter_data][filter_name]
+    filter = @filter_data[filter_name]
     field_options = prop(field, 'options')
     options = []
     filter[:options].each_with_index do |option, index|

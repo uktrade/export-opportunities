@@ -42,11 +42,11 @@ class OpportunitiesController < ApplicationController
         render layout: 'landing'
       end
       format.any(:atom, :xml) do
-        query = Search.new(
+        query = Search.new({
           term: '',
           filter: SearchFilter.new(params),
           sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
-        ).public_search[:search]
+        }).public_search[:search]
         query = query.records
         # return 25 results per page for atom feed
         query = query.page(params[:paged]).per(25)
@@ -73,10 +73,10 @@ class OpportunitiesController < ApplicationController
   #          limit: per_page,
   #          subscription: subscription_form,
   #          filter_data: {
-  #            sectors: search_filter_sectors,
-  #            countries: search_filter_countries(country_list),
-  #            regions: search_filter_regions(country_list),
-  #            sources: search_filter_sources,
+  #            sectors: filter_sectors,
+  #            countries: filter_countries(country_list),
+  #            regions: filter_regions(country_list),
+  #            sources: filter_sources,
   #          }
   #        }
   #   Where:
@@ -96,51 +96,41 @@ class OpportunitiesController < ApplicationController
   #
   def results 
     # Clean params
-    term = search_term(params[:s])
-    boost = params['boost_search'].present?
     filter = SearchFilter.new(params)
-    sort = sorting(filter)
+    inputs = { term: search_term(params[:s]),        
+               filter: filter,
+               sort: sorting(filter),
+               boost: params['boost_search'].present? }
     
     respond_to do |format|
       format.html do
 
         # Search
         if filter.sectors.present?
-          term = filter.sectors.first.tr('-', ' ')
-          search = Search.new(term: term, sort: sort, filter: filter, boost: boost).
-                    industries_search
-          query = search[:search]
-          country_list = relevant_countries_from_search(query) # Run before paging.
+          inputs[:term] = filter.sectors.first.tr('-', ' ')
+          search = Search.new(inputs).industries_search
         else
-          search = Search.new(
-            term: term,
-            filter: filter,
-            sort: sort,
-            limit: 100,
-            boost: boost
-          ).public_search
-          query = search[:search]
-          country_list = relevant_countries_from_search(query.records.includes(:countries).includes(:opportunities_countries)) # Run before paging.
+          search = Search.new(inputs, limit: 100).public_search
         end
 
+        query = search[:search]
+        country_list = relevant_countries_from_search(query.records.includes(:countries).includes(:opportunities_countries)) # Run before paging.
         # Paging
         paged_query = query.page(filter.params[:paged]).per(Opportunity.default_per_page)
 
         @data = {
-          term: term,
-          filter: filter,
-          sort: sort,
           results: paged_query.records,
           total: query.records.total,
           total_without_limit: search[:total_without_limit],
-          subscription: subscription_form(term, filter),
+          subscription: subscription_form(inputs),
           filter_data: {
             sectors: filter_sectors(filter),
             countries: filter_countries(filter, country_list),
             regions: filter_regions(filter, country_list),
             sources: filter_sources(filter),
           },
-        }
+        }.merge(inputs)
+        # inputs, records, country_list, total, total_without_limit, subscription
         content = get_content('opportunities/results.yml')
         @page = PagePresenter.new(content)
         # What is used by this presenter?
@@ -153,13 +143,7 @@ class OpportunitiesController < ApplicationController
         render layout: 'results'
       end
       format.any(:atom, :xml) do
-        search = Search.new(
-            term: term,
-            filter: filter,
-            sort: sort,
-            limit: 100,
-            boost: boost
-          ).public_search
+        search = Search.new(inputs, limit: 100).public_search
         query = search[:search]
         # Only uses @opportunities and @query
         query = query.records
@@ -296,10 +280,11 @@ class OpportunitiesController < ApplicationController
     Sector.where(id: Figaro.env.GREAT_FEATURED_INDUSTRIES.split(',').map(&:to_i).to_a)
   end
 
-  private def subscription_form(term, filter)
+  private def subscription_form(inputs)
+    filter = inputs[:filter]
     SubscriptionForm.new(
       query: {
-        search_term: term,
+        search_term: inputs[:term],
         sectors: filter.sectors,
         types: filter.types,
         countries: filter.countries,

@@ -496,6 +496,127 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
   end
 
+  describe 'provides the filter_data', focus: true do
+    it 'with sectors' do
+      create(:sector, name: 'food and stuff', slug: 'food-and-stuff')
+      url_params = { s: 'munchies', sectors: ['food-and-stuff'] }
+      presenter = OpportunitySearchResultsPresenter.new(content, public_search(url_params))
+      filter_data = presenter.instance_variable_get(:@filter_data)
+      expect(filter_data[:sectors]).to eq(
+        {
+          'name': 'sectors[]',
+          'options': Sector.order(:name),
+          'selected': ['test-sector'],
+        }
+      )
+      url_params = { s: 'munchies', sectors: ['invalid-sector'] }
+      presenter = OpportunitySearchResultsPresenter.new(content, public_search(url_params))
+      expect(assigns(:data)[:filter_data][:sectors]).to eq(
+        {
+          'name': 'sectors[]',
+          'options': Sector.order(:name),
+          'selected': [],
+        }
+      )
+    end
+    it 'with relevant countries shown and valid countries selected' do
+      country   = Country.create(slug: 'fiji', name: 'Fiji')
+      country_2 = Country.create(slug: 'barbados', name: 'Barbados')
+
+      url_params = { countries: ['fiji'] }
+      presenter = OpportunitySearchResultsPresenter.new(content, public_search(url_params))
+      filter_data = presenter.instance_variable_get(:@filter_data)
+
+      # @country.update_attribute(:opportunity_count, 3)
+      # @country_2.update_attribute(:opportunity_count, 1)
+      expect(filter_data[:countries]).to eq(
+        {
+          'name': 'countries[]',
+          'options': [country],
+          'selected': ['fiji'],
+        }
+      )
+      # Note: for invalid search, search is blank therefore more results returned
+      #       resulting in more countries shown in options
+      url_params = { countries: ['invalid-country'] }
+      presenter = OpportunitySearchResultsPresenter.new(content, public_search(url_params))
+      filter_data = presenter.instance_variable_get(:@filter_data)
+
+      expect(filter_data[:countries]).to eq(
+        {
+          'name': 'countries[]',
+          'options': [country_2, country],
+          'selected': [],
+        }
+      )
+    end
+    it 'with relevant regions shown and valid regions selected' do
+      # Without selection
+      url_params = { countries: ['fiji'] }
+      presenter = OpportunitySearchResultsPresenter.new(content, public_search(url_params))
+      filter_data = presenter.instance_variable_get(:@filter_data)
+
+      get :results, params: { countries: ['fiji'] } 
+      expect(filter_data[:regions]).to eq(
+        {
+          'name': 'regions[]',
+          'options': [region_by_country_slug('fiji')],
+          'selected': [],
+        }
+      )
+      # With selection
+      url_params = { countries: ['fiji'], regions: ['australia-new-zealand'] }
+      presenter = OpportunitySearchResultsPresenter.new(content, public_search(url_params))
+      filter_data = presenter.instance_variable_get(:@filter_data)
+
+      expect(filter_data[:regions]).to eq(
+        {
+          'name': 'regions[]',
+          'options': [region_by_country_slug('fiji')],
+          'selected': ['australia-new-zealand'],
+        }
+      )
+      # Invalid country
+      url_params = { countries: ['invalid-country'] }
+      presenter = OpportunitySearchResultsPresenter.new(content, public_search(url_params))
+      filter_data = presenter.instance_variable_get(:@filter_data)
+
+      expect(filter_data[:regions]).to eq(
+        {
+          'name': 'regions[]',
+          'options': [region_by_country_slug('barbados'),
+                      region_by_country_slug('fiji')],
+          'selected': [],
+        }
+      )
+    end
+    it 'with sources' do
+      options = Opportunity.sources.keys.map{|k| k == 'buyer' ? nil : { slug: k } }.compact
+      url_params = { sources: ['post'] }
+      presenter = OpportunitySearchResultsPresenter.new(content, public_search(url_params))
+      filter_data = presenter.instance_variable_get(:@filter_data)
+
+      expect(filter_data[:sources]).to eq(
+        {
+          'name': 'sources[]',
+          'options': options,
+          'selected': ['post'],
+        }
+      )
+      url_params = { sources: ['invalid-source'] }
+      presenter = OpportunitySearchResultsPresenter.new(content, public_search(url_params))
+      filter_data = presenter.instance_variable_get(:@filter_data)
+
+      expect(filter_data[:sources]).to eq(
+        {
+          'name': 'sources[]',
+          'options': options,
+          'selected': [],
+        }
+      )
+    end
+  end
+
   # Helper functions follow...
 
   def public_search(url_params, total=nil)
@@ -544,18 +665,18 @@ RSpec.describe OpportunitySearchResultsPresenter do
     def initialize(filter)
       @search_filter = filter
       @search_term = filter.params[:s]
-      @sort_selection = sorting
+      @sort_selection = sorting(filter)
       @dit_boost_search = nil
     end
 
     def opportunity_search(total)
-      search = OpportunitiesController.instance_method(:opportunity_search).bind(self).call
+      search = Search.new({})
       search[:total] = total unless total.nil?
       search
     end
 
-    def sorting
-      OpportunitiesController.instance_method(:sorting).bind(self).call
+    def sorting(filter)
+      OpportunitiesController.instance_method(:sorting).bind(self).call(filter)
     end
   end
 end

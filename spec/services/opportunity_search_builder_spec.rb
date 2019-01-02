@@ -124,7 +124,7 @@ RSpec.describe OpportunitySearchBuilder do
       expect(results_count(query)).to eq 3
     end
 
-    describe 'can sort', focus: true do
+    describe 'can sort' do
       it 'by newest' do
         sort = OpportunitySort.new(default_column: 'first_published_at',
                                    default_order: 'desc')

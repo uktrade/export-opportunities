@@ -18,10 +18,14 @@ class Search
 
   attr_accessor :results, :total, :count_without_limit
 
-  def initialize(term: '', filter: NullFilter.new(),
-      sort: OpportunitySort.new(default_column: 'first_published_at',
-        default_order: 'desc'), boost: false, limit: 100)
-    @term, @filter, @sort, @boost, @limit = term, filter, sort, boost, limit
+  def initialize(inputs, limit: 100)
+    @term   = inputs[:term]   || ''
+    @filter = inputs[:filter] || NullFilter.new()
+    @sort   = inputs[:sort]   || 
+                OpportunitySort.new(default_column: 'first_published_at',
+                                    default_order: 'desc')
+    @boost  = inputs[:boost]  || false 
+    @limit = limit
   end
 
   # Beginnings of generic solution
