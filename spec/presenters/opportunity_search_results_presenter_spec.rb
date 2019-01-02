@@ -619,12 +619,45 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
   # Helper functions follow...
 
+  # OLD
+  # def public_search(url_params, total=nil)
+  #   url_params = region_helper.region_and_country_param_conversion(url_params)
+  #   params = ActionController::Parameters.new(url_params)
+  #   search_filter = SearchFilter.new(params)
+  #   controller = TestOpportunitiesController.new(search_filter)
+  #   controller.opportunity_search(total)
+  # end
+
+  # NEW
   def public_search(url_params, total=nil)
     url_params = region_helper.region_and_country_param_conversion(url_params)
     params = ActionController::Parameters.new(url_params)
-    search_filter = SearchFilter.new(params)
-    controller = TestOpportunitiesController.new(search_filter)
-    controller.opportunity_search(total)
+    filter = SearchFilter.new(params)
+    controller = TestOpportunitiesController.new(filter)
+
+    inputs = {
+      term: params[:s],
+      filter: filter,
+      sort: controller.sorting(filter)
+    }
+
+    search = Search.new(inputs, limit: 100).public_search
+    query = search[:search]
+    {
+      boost: params['boost_search'].present?,
+      results: query.records,
+      total: query.records.total,
+      total_without_limit: search[:total_without_limit],
+      subscription: SubscriptionForm.new(
+        query: {
+          search_term: inputs[:term],
+          sectors: filter.sectors,
+          types: filter.types,
+          countries: filter.countries,
+          values: filter.values,
+        }
+      )
+    }.merge(inputs)
   end
 
   def has_html?(message)
