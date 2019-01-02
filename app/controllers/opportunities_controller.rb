@@ -42,11 +42,11 @@ class OpportunitiesController < ApplicationController
         render layout: 'landing'
       end
       format.any(:atom, :xml) do
-        query = Opportunity.public_search(
-          search_term: '',
-          filters: SearchFilter.new(params),
+        query = Search.new(
+          term: '',
+          filter: SearchFilter.new(params),
           sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
-        )[:search]
+        ).public_search[:search]
         query = query.records
         # return 25 results per page for atom feed
         query = query.page(params[:paged]).per(25)
@@ -95,6 +95,7 @@ class OpportunitiesController < ApplicationController
   #   @search_result[:filter_data]: Data to build search filters for each dimention
   #
   def results 
+    # Clean params
     term = search_term(params[:s])
     boost = params['boost_search'].present?
     filter = SearchFilter.new(params)
@@ -102,32 +103,36 @@ class OpportunitiesController < ApplicationController
     
     respond_to do |format|
       format.html do
-         if filter.sectors.present?
+
+        # Search
+        if filter.sectors.present?
           term = filter.sectors.first.tr('-', ' ')
-          search = opportunity_featured_industries_search(term, filter, sort, boost)
+          search = Search.new(term: term, sort: sort, filter: filter, boost: boost).
+                    industries_search
           query = search[:search]
-          total_without_limit = search[:total_without_limit]
           country_list = relevant_countries_from_search(query) # Run before paging.
-          query = query.page(filter.params[:paged]).per(Opportunity.default_per_page)
-          total = query.records.total
-          results = query.records
         else
-          search = opportunity_search(term, filter, sort, boost)
+          search = Search.new(
+            term: term,
+            filter: filter,
+            sort: sort,
+            limit: 100,
+            boost: boost
+          ).public_search
           query = search[:search]
-          total_without_limit = search[:total_without_limit]
-          results = query.records
-          total = query.results.total
-          country_list = relevant_countries_from_search(results.includes(:countries).includes(:opportunities_countries)) # Run before paging.
-          query.page(filter.params[:paged]).per(Opportunity.default_per_page)
+          country_list = relevant_countries_from_search(query.records.includes(:countries).includes(:opportunities_countries)) # Run before paging.
         end
+
+        # Paging
+        paged_query = query.page(filter.params[:paged]).per(Opportunity.default_per_page)
+
         @data = {
           term: term,
           filter: filter,
           sort: sort,
-          results: results,
-          total: total,
-          total_without_limit: total_without_limit,
-          limit: Opportunity.default_per_page,
+          results: paged_query.records,
+          total: query.records.total,
+          total_without_limit: search[:total_without_limit],
           subscription: subscription_form(term, filter),
           filter_data: {
             sectors: filter_sectors(filter),
@@ -148,7 +153,13 @@ class OpportunitiesController < ApplicationController
         render layout: 'results'
       end
       format.any(:atom, :xml) do
-        search = opportunity_search(term, filter, sort, boost)
+        search = Search.new(
+            term: term,
+            filter: filter,
+            sort: sort,
+            limit: 100,
+            boost: boost
+          ).public_search
         query = search[:search]
         # Only uses @opportunities and @query
         query = query.records
@@ -228,24 +239,6 @@ class OpportunitiesController < ApplicationController
     subscription_notification_ids.each do |sub_not_id|
       results.push(SubscriptionNotification.find(sub_not_id).opportunity)
     end
-  end
-
-  # Using a search with adjusted parameters that include mapped_regions.
-  private def opportunity_search(term, filter, sort, boost)
-    Opportunity.public_search(
-      search_term: term,
-      filters: filter,
-      sort: sort,
-      limit: 100,
-      dit_boost_search: boost
-    )
-  end
-
-  private def opportunity_featured_industries_search(term, filter, sort, boost)
-    boost = false
-    sector, sources = filter.sectors.first, filter.sources
-    Opportunity.public_featured_industries_search(
-              sector, term, sources, sort)
   end
 
   # cache expensive method call for 10 minutes

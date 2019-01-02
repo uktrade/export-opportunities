@@ -227,10 +227,6 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
         get :results
         expect(assigns(:data)[:total_without_limit]).to eq 10
       end
-      it 'with the limit to the number of results' do
-        get :results
-        expect(assigns(:data)[:limit]).to eq Opportunity.default_per_page
-      end
       describe 'provides a valid subscription form object' do
         it "includes the search term" do
           get :results, params: { s: 'Title 0' }

@@ -10,7 +10,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
     super(content, {})
     @data = data
     @found = data[:results]
-    @view_limit = data[:limit]
+    @view_limit = Opportunity.default_per_page
     @total = data[:total]
     @term = data[:term]
   end

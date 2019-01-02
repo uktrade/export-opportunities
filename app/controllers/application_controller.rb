@@ -52,7 +52,7 @@ class ApplicationController < ActionController::Base
     # opps that have not expired and are published
     db_opportunities_ids = db_opportunities
     sort = OpenStruct.new(column: :response_due_on, order: :desc)
-    query = OpportunitySearchBuilder.new(search_term: '', sort: sort, dit_boost_search: false).call
+    query = OpportunitySearchBuilder.new(term: '', sort: sort).call
     es_opportunities_ids = es_opportunities(query)
 
     res_opportunities_count = db_opportunities_ids.size == es_opportunities_ids.size

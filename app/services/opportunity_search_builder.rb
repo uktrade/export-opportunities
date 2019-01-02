@@ -2,12 +2,12 @@ class OpportunitySearchBuilder
 
   # Creates a pair of objects: search query and search sort, for an elastic seach
   # Inputs: ---Required---
-  #         sort:              Sort object
-  #         dit_boost_search:  Boolean, increases "source": 'post' posts when sorting by
-  #                            relevance, will be overwritten if there is any sorting applied
   #         ---Optional---
-  #         search_term:       Phrase to be searched
+  #         term:       Phrase to be searched
   #         sectors:           Array of Sector slugs to filter by
+  #         sort:              Sort object
+  #         boost:             Boolean, increases "source": 'post' posts when sorting by
+  #                            relevance, will be overwritten if there is any sorting applied
   #         countries:         Array of Country slugs to filter by
   #         opportunity_types: Array of Type slugs to filter by  
   #         values:            Array of Value slugs to filter by
@@ -19,8 +19,9 @@ class OpportunitySearchBuilder
   #                            Defaults to :published
   # Ouput:  call() generates Hash containing valid :search_query and :search_sort
 
-  def initialize(search_term: '',
-                 sort:,
+  def initialize(term: '',
+                 sort: OpportunitySort.new(default_column: 'first_published_at',
+                                           default_order: 'asc'),
                  sectors: [],
                  countries: [],
                  opportunity_types: [],
@@ -28,8 +29,8 @@ class OpportunitySearchBuilder
                  sources: [],
                  expired: false,
                  status: :published,
-                 dit_boost_search:)
-    @search_term = search_term.to_s.strip
+                 boost: false)
+    @term = term.to_s.strip
     @sectors = Array(sectors)
     @countries = Array(countries)
     @opportunity_types = Array(opportunity_types)
@@ -38,7 +39,7 @@ class OpportunitySearchBuilder
     @status = status
     @sort = sort
     @sources = Array(sources)
-    @dit_boost_search = dit_boost_search
+    @boost = boost
   end
 
   def call
@@ -67,17 +68,17 @@ class OpportunitySearchBuilder
   end
 
   def keyword_build
-    if @search_term.empty?
+    if @term.empty?
       {
         match_all: {},
       }
-    elsif @dit_boost_search
+    elsif @boost
       {
         bool: {
           should: [
-            { match: { title: { "boost": 5, "query": @search_term } } },
-            { match: { teaser: { "boost": 2, "query": @search_term } } },
-            { match: { description: @search_term } },
+            { match: { title: { "boost": 5, "query": @term } } },
+            { match: { teaser: { "boost": 2, "query": @term } } },
+            { match: { description: @term } },
             {
               "boosting": {
                 "positive": {
@@ -100,7 +101,7 @@ class OpportunitySearchBuilder
     else
       {
         multi_match: {
-          query: @search_term,
+          query: @term,
           fields: ['title^5', 'teaser^2', 'description'],
           operator: 'and',
         },

@@ -2,14 +2,6 @@ require 'rails_helper'
 
 RSpec.describe OpportunitySearchBuilder do
 
-  # Testing strategy:
-  # Create a valid OpportunitySearchBuilder object
-  # Confirm it works by running through the ElasticSearchFinder object
-  # 
-  # Note:
-  # This object is tightly coupled to the ElasticSearchFinder object.
-  # The objects should be merged.
-
   before(:each) do
     @post_1 = create(:opportunity, title: 'Post 1', created_at: 2.months.ago,
                       response_due_on: 12.months.from_now, status: :publish)
@@ -22,11 +14,7 @@ RSpec.describe OpportunitySearchBuilder do
   # Returns a query built with OpportunitySeachBuilder
   # with any optional parameters
   def new_query(**args)
-    sort = OpportunitySort.new(default_column: 'first_published_at',
-                               default_order: 'desc')
-    OpportunitySearchBuilder.new({ sort: sort,
-                                   dit_boost_search: false }.
-                                   merge(args)).call
+    OpportunitySearchBuilder.new(args).call
   end
 
   # Returns numbers of results for an elastic search
@@ -44,7 +32,7 @@ RSpec.describe OpportunitySearchBuilder do
     end
 
     it 'searches by phrases' do
-      query = new_query(search_term: 'Post 1')
+      query = new_query(term: 'Post 1')
       expect(results_count(query)).to eq 1
     end
 
@@ -134,6 +122,32 @@ RSpec.describe OpportunitySearchBuilder do
       # Then search for published AND unpublished
       query = new_query(status: nil)
       expect(results_count(query)).to eq 3
+    end
+
+    describe 'can sort', focus: true do
+      it 'by newest' do
+        sort = OpportunitySort.new(default_column: 'first_published_at',
+                                   default_order: 'desc')
+        query = new_query(sort: sort)
+        results = Opportunity.__elasticsearch__.search(
+          query: query[:search_query],
+          sort:  query[:search_sort]
+        ).results
+        debugger
+        expect(results[0].title).to eq "Post 1"
+        expect(results[-1].title).to eq "Post 2"
+      end
+      it 'by soonest to close' do
+        sort = OpportunitySort.new(default_column: 'response_due_on',
+                                   default_order: 'asc')
+        query = new_query(sort: sort)
+        results = Opportunity.__elasticsearch__.search(
+          query: query[:search_query],
+          sort:  query[:search_sort]
+        ).results
+        expect(results[0].title).to eq "Post 3"
+        expect(results[-1].title).to eq "Post 2"
+      end
     end
   end
 
