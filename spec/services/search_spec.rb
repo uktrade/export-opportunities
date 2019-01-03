@@ -1,18 +1,84 @@
 require 'rails_helper'
 
-RSpec.describe Search, elasticsearch: true do
+RSpec.describe Search, elasticsearch: true, focus: true do
 
-  describe '#public_search' do
+  describe 'cleans input parameters and' do
+    it "allows only valid seach terms" do
+      search = Search.new({})
+      expect(search.instance_variable_get(:@term)).to eq ""
+
+      search = Search.new({ s: 'Title é 0' })
+      expect(search.instance_variable_get(:@term)).to eq "Title 0"
+    end
+    it "allows only valid filters" do
+      search = Search.new({ regions: %w[western-europe invalid-country] })
+      filter = search.instance_variable_get(:@filter)
+      expect(filter.regions).to eq ["western-europe"]
+
+      search = Search.new({ regions: %w[western-europe invalid-country] })
+      filter = search.instance_variable_get(:@filter)
+      expect(filter.regions).to include "western-europe"
+
+      create(:sector, slug: 'airports')
+      create(:sector, slug: 'stations')
+      params = { sectors: %w[airports stations invalid] }
+      search = Search.new(params)
+      filter = search.instance_variable_get(:@filter)
+      expect(filter.sectors).to include("airports")
+      expect(filter.sectors).to include("stations")
+      expect(filter.sectors).not_to include("invalid")
+    end
+    it "allows only valid sort" do
+      search = Search.new({ sort_column_name: 'response_due_on' })
+      sort = search.instance_variable_get(:@sort)
+      expect(sort.column).to eq "response_due_on"
+      expect(sort.order).to eq "asc"
+
+      search = Search.new({ sort_column_name: 'first_published_at' })
+      sort = search.instance_variable_get(:@sort)
+      expect(sort.column).to eq "first_published_at"
+      expect(sort.order).to eq "desc"
+
+      search = Search.new({ sort_column_name: 'updated_at' })
+      sort = search.instance_variable_get(:@sort)
+      expect(sort.column).to eq "updated_at"
+      expect(sort.order).to eq "desc"
+
+      search = Search.new({ sort_column_name: 'invalid' })
+      sort = search.instance_variable_get(:@sort)
+      expect(sort.column).to eq "response_due_on"
+      expect(sort.order).to eq "asc"
+
+      search = Search.new({})
+      sort = search.instance_variable_get(:@sort)
+      expect(sort.column).to eq "response_due_on"
+      expect(sort.order).to eq "asc"
+    end
+    it "allows only valid boost" do
+      search = Search.new({ boost_search: 'y' })
+      boost = search.instance_variable_get(:@boost)
+      expect(boost).to be_truthy
+
+      search = Search.new({})
+      boost = search.instance_variable_get(:@boost)
+      expect(boost).not_to be_truthy
+    end
+  end
+
+  describe '#run - no industries_search' do
     before do
       Opportunity.destroy_all
       @sort = OpportunitySort.new(default_column: 'first_published_at',
                                   default_order: 'desc')
       @post_1 = create(:opportunity, title: 'Post 1', first_published_at: 1.months.ago,
-                        response_due_on: 12.months.from_now, status: :publish)
+                        response_due_on: 12.months.from_now, status: :publish,
+                       updated_at: 3.month.ago)
       @post_2 = create(:opportunity, title: 'Post 2', first_published_at: 2.months.ago,
-                        response_due_on: 6.months.from_now, status: :publish)
+                        response_due_on: 6.months.from_now, status: :publish,
+                       updated_at: 2.month.ago)
       @post_3 = create(:opportunity, title: 'Post 3', first_published_at: 3.month.ago,
-                       response_due_on: 18.months.from_now, status: :publish)
+                       response_due_on: 18.months.from_now, status: :publish,
+                       updated_at: 1.month.ago)
       @post_1.countries << Country.create(slug: 'country-slug', name: 'Country 1')
       sector = Sector.create(slug: 'sector-slug', name: 'Sector 1')
       @post_1.sectors << sector
@@ -21,25 +87,24 @@ RSpec.describe Search, elasticsearch: true do
       refresh_elasticsearch
     end
     it 'provides a valid set of results' do
-      search = Search.new({ sort: @sort }).public_search
-      expect(search[:search].results.count).to eq 3
+      results = Search.new({}).run
+      expect(results[:total]).to eq 3
     end
     it 'can search by a term' do
-      search = Search.new({ term: 'Post 1', sort: @sort }).public_search
-      expect(search[:search].results.count).to eq 1
+      results = Search.new({ s: 'Post 1' }).run
+      expect(results[:total]).to eq 1
     end
     describe 'can filter' do
       it 'by countries' do
-        filter = SearchFilter.new(countries: ['country-slug'])
-        search = Search.new({ filter: filter, sort: @sort }).public_search
+        results = Search.new({ countries: ['country-slug'] }).run
 
-        expect(search[:search].results.count).to eq 1
+        expect(results[:total]).to eq 1
        end
       it 'by sectors' do
         filter = SearchFilter.new(sectors: ['sector-slug'])
-        search = Search.new({ filter: filter, sort: @sort }).public_search
+        results = Search.new({ sectors: ['sector-slug'] }).run
 
-        expect(search[:search].results.count).to eq 2
+        expect(results[:total]).to eq 2
       end
     end
     it 'can limit number of results and fetch the total_without_limit' do
@@ -50,7 +115,7 @@ RSpec.describe Search, elasticsearch: true do
       refresh_elasticsearch
 
       limit = 2
-      search = Search.new({ sort: @sort }, limit: limit).public_search
+      results = Search.new({}, limit: limit).run
 
       # ElasticSearch returns 1 result per shard, and currently 5 shards.
       # Note, may return less than max due to data being unevenly 
@@ -58,150 +123,91 @@ RSpec.describe Search, elasticsearch: true do
       max_number_to_find = limit * number_of_shards
 
       expect(Opportunity.count).to be > max_number_to_find
-      expect(search[:search].results.count).to be <= max_number_to_find
-      expect(search[:total_without_limit]).to eq 15
+      expect(results[:total]).to be <= max_number_to_find
+      expect(results[:total_without_limit]).to eq 15
     end
     describe 'sorts results' do
       it 'by first_published_at' do
         # Note Post 1 was published most recently,
         #      Post 2 second most recently,
         #      Post 3 second least recently
-        newest_first = 
-          OpportunitySort.new(default_column: 'first_published_at',
-                              default_order: 'desc')
-        search = Search.new({ sort: newest_first }).public_search
-        expect(search[:search].records.first).to eq @post_1
-        expect(search[:search].records[-1]).to eq @post_3
-
-        newest_last = 
-          OpportunitySort.new(default_column: 'first_published_at',
-                              default_order: 'asc')
-        search = Search.new({ sort: newest_last }).public_search
-        expect(search[:search].records.first).to eq @post_3
-        expect(search[:search].records[-1]).to eq @post_1
+        results = Search.new({ sort_column_name: 'first_published_at' }).run
+        expect(results[:results].first).to eq @post_1
+        expect(results[:results][-1]).to eq @post_3
       end
       it 'by response_due_on' do
         # Note Post 2 is due soonest,
         #      Post 1 second soonest,
         #      Post 3 least soon
-        end_soonest_first = 
-          OpportunitySort.new(default_column: 'response_due_on',
-                              default_order: 'asc')
-        search = Search.new({ sort: end_soonest_first }).public_search
-        expect(search[:search].records.first).to eq @post_2
-        expect(search[:search].records[-1]).to eq @post_3
+        results = Search.new({ sort_column_name: 'response_due_on' }).run
+        expect(results[:results].first).to eq @post_2
+        expect(results[:results][-1]).to eq @post_3
 
-        end_soonest_last = 
-          OpportunitySort.new(default_column: 'response_due_on',
-                              default_order: 'desc')
-        search = Search.new({ sort: end_soonest_last }).public_search
-        expect(search[:search].records.first).to eq @post_3
-        expect(search[:search].records[-1]).to eq @post_2
+      end
+      it 'by updated_at' do
+        results = Search.new({ sort_column_name: 'updated_at' }).run
+        expect(results[:results].first).to eq @post_3
+        expect(results[:results][-1]).to eq @post_1
       end
     end
   end
 
-  describe '#industries_search' do
+  describe 'run - with sectors' do
     
     before do
       Opportunity.destroy_all
-      @post_1 = create(:opportunity, title: 'Title 1', first_published_at: 1.months.ago,
+      @post_1 = create(:opportunity, title: 'Title 1 - sector slug', first_published_at: 1.months.ago,
                         response_due_on: 12.months.from_now, status: :publish, source: 'volume_opps')
       @post_2 = create(:opportunity, title: 'Title 2', first_published_at: 2.months.ago,
                         response_due_on: 6.months.from_now, status: :publish, source: 'post')
       @post_3 = create(:opportunity, title: 'Title 3', first_published_at: 3.month.ago,
                        response_due_on: 18.months.from_now, status: :publish, source: 'post')
-      @sector   = Sector.create(slug: 'sector-slug', name: 'Sector 1')
+      @sector  = Sector.create(slug: 'sector-slug', name: 'Sector 1')
       sector_2 = Sector.create(slug: 'new-sector', name: 'Sector 2')
       @post_1.sectors << @sector
       @post_2.sectors << @sector
       @post_3.sectors << @sector
       @post_1.sectors << sector_2
-      @filter = SearchFilter.new(sectors: [@sector.slug]) 
-      @sort = OpportunitySort.new(default_column: 'first_published_at',
-                                  default_order: 'desc')
       Opportunity.__elasticsearch__.create_index! force: true
       refresh_elasticsearch
     end
 
     it 'provides a valid set of results' do
-      search = Search.new({ term: 'Title', sort: @sort, filter: @filter }).
-                 industries_search
-      expect(search[:search].results.count).to eq 3
+      results = Search.new({ sectors: [@sector.slug] }).run
+      expect(results[:total]).to eq 3
     end
 
     it 'filters by industry' do
-      new_filter = SearchFilter.new(sectors: ['new-sector'])
-
-      search = Search.new({ term: 'Title', sort: @sort, filter: new_filter }).
-        industries_search
-
-      expect(search[:search].results.count).to eq 1
+      results = Search.new({ sectors: ['new-sector'] }).run
+      expect(results[:total]).to eq 1
     end
 
     it 'sources correctly - NOTE needs a search query for volume opps' do
-      # tested: only post, only volume_opps, all
-
       # Only post
-      post_filter = SearchFilter.new(sources: 'post', sectors: [@sector.slug])
-
-      search = Search.new({ term: 'Title', sort: @sort, filter: post_filter }).
-        industries_search
-
-      expect(search[:search].results.count).to eq 2
+      results = Search.new({ sources: 'post', sectors: [@sector.slug] }).run
+      expect(results[:total]).to eq 2
 
       # Only volume opps AND has a search query
-      volume_opps_filter = SearchFilter.new(sources: 'volume_opps', sectors: [@sector.slug])
-
-      search = Search.new({ term: 'Title', sort: @sort, filter: volume_opps_filter }).
-        industries_search
-
-      expect(search[:search].results.count).to eq 1
+      results = Search.new({ sources: 'volume_opps', sectors: [@sector.slug] }).run
+      expect(results[:total]).to eq 1
 
       # All
-      search = Search.new({ term: 'Title', sort: @sort, filter: @filter }).
-        industries_search
-      expect(search[:search].results.count).to eq 3
+      results = Search.new({ sectors: [@sector.slug], sectors: [@sector.slug] }).run
+      expect(results[:total]).to eq 3
     end
     describe 'sorts results' do
       it 'by first_published_at' do
-        # Note Post 1 was published most recently,
-        #      Post 3 least recently
-        most_recently_first = 
-          OpportunitySort.new(default_column: 'first_published_at',
-                              default_order: 'desc')
-        search = Search.new({ term: 'Title',
-                              sort: most_recently_first,
-                              filter: @filter }).industries_search
-        expect(search[:search].records.first).to eq @post_1
-        expect(search[:search].records[-1]).to eq @post_3
-
-        most_recently_last = 
-          OpportunitySort.new(default_column: 'first_published_at',
-                              default_order: 'asc')
-        search = Search.new({ term: 'Title', sort: most_recently_last, filter: @filter }).
-                 industries_search
-        expect(search[:search].records.first).to eq @post_3
-        expect(search[:search].records[-1]).to eq @post_1
+        # Note Post 1 was published most recently, Post 3 least recently
+        results = Search.new({ sort_column_name: 'first_published_at',
+                               sectors: [@sector.slug] }).run
+        expect(results[:results].first).to eq @post_1
+        expect(results[:results][-1]).to eq @post_3
       end
       it 'by response_due_on' do
-        # Note Post 2 is due soonest,
-        #      Post 3 least soon
-        end_soonest_first = 
-          OpportunitySort.new(default_column: 'response_due_on',
-                              default_order: 'asc')
-        search = Search.new({ term: 'Title', sort: end_soonest_first, filter: @filter }).
-                 industries_search
-        expect(search[:search].records.first).to eq @post_2
-        expect(search[:search].records[-1]).to eq @post_3
-
-        end_soonest_last = 
-          OpportunitySort.new(default_column: 'response_due_on',
-                              default_order: 'desc')
-        search = Search.new({ term: 'Title', sort: end_soonest_last, filter: @filter }).
-                 industries_search
-        expect(search[:search].records.first).to eq @post_3
-        expect(search[:search].records[-1]).to eq @post_2
+        # Note Post 2 is due soonest, Post 3 least soon
+        results = Search.new({ sort_column_name: 'response_due_on', sectors: [@sector.slug]  }).run
+        expect(results[:results].first).to eq @post_2
+        expect(results[:results][-1]).to eq @post_3
       end
     end
   end
@@ -226,26 +232,26 @@ end
   # end
 
   # it 'provides search results and total' do
-  #   search = Search.new({ term: 'Title' }).call
+  #   results = Search.new({ term: 'Title' }).call
   #   expect(search.results.count).to eq 10
   #   expect(search.total).to eq 10
   # end
   # it 'provides search results and total' do
-  #   search = Search.new({ term: 'Title 1' }).call
+  #   results = Search.new({ term: 'Title 1' }).call
   #   expect(search.total).to eq 1
   # end
   # describe "can sort" do
   #   it "by soonest to close" do
   #     sort = OpportunitySort.new(default_column: 'response_due_on',
   #                                default_order: 'asc')
-  #     search = Search.new({ term: 'Title', sort: sort }).call
+  #     results = Search.new({ term: 'Title', sort: sort }).call
   #     expect(search.results[0].title).to eq "Title 4"
   #     expect(search.total).to eq 10
   #   end
   #   it "by most recently published" do
   #     sort = OpportunitySort.new(default_column: 'first_published_at',
   #                                default_order: 'desc')
-  #     search = Search.new({ term: 'Title', sort: sort }).call
+  #     results = Search.new({ term: 'Title', sort: sort }).call
   #     expect(search.results[0].title).to eq "Title 5"
   #     expect(search.total).to eq 10
   #   end
@@ -253,23 +259,23 @@ end
   # describe "can filter" do
   #   it "by country" do
   #     filter = SearchFilter.new(countries: ['fiji'])
-  #     search = Search.new({ term: 'Title', filter: filter }).call
+  #     results = Search.new({ term: 'Title', filter: filter }).call
   #     expect(search.total).to eq 3
   #   end
   #   it "by industry" do
   #     filter = SearchFilter.new(sectors: ['test-sector'])
-  #     search = Search.new({ term: 'Title', filter: filter }).call
+  #     results = Search.new({ term: 'Title', filter: filter }).call
   #     expect(search.total).to eq 2
   #   end
   #   it "by sources" do
   #     filter = SearchFilter.new(sources: ['post'])
-  #     search = Search.new({ term: 'Title', filter: filter }).call
+  #     results = Search.new({ term: 'Title', filter: filter }).call
   #     expect(search.total).to eq 5
   #   end
   # end
   # it "can boost DIT post results" do
   #   # Only testing that it doesn't error
-  #   search = Search.new({ term: 'Title', boost: true }).call
+  #   results = Search.new({ term: 'Title', boost: true }).call
   #   expect(search.results.count).to eq 10
   #   expect(search.total).to eq 10
   # end

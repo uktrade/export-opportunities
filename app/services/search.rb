@@ -1,75 +1,97 @@
 require 'elasticsearch'
 
 class Search
+
   # 
   # Provides search functionality for Opportunities
   #
-  # Input:
-  #   term:    String search term
-  #   filter:  Filter, contains sanitised input from filters
-  #   sort:    OpportunitySort, contains sanitised data from sort dropdown
-  #   limit:   Int number of results to cap at, per shard
+  # Input: params: url parameters Hash, with accepts keys:
+  #                s:                 search term
+  #                regions:           url-encoded array of slugs of regions
+  #                countries:         url-encoded array of slugs of countries
+  #                sources:           url-encoded array of slugs of sources
+  #                types:             url-encoded array of slugs of types
+  #                sort_column_name:  column to filter on
+  #                paged:             Which page number to return results on
+  #        limit:  Int number of results to cap at, per shard
+  #        results_only: Boolean, if true only provides results of search and not
+  #                      search metadata and input data
   #
-  # Accessors
-  #   results: ElasticSearch object with Opportunity results
-  #   total:   Int number of results
-  #   total_without_limit:  Int number of results with out cap
-  #
-
-  attr_accessor :results, :total, :count_without_limit
-
-  def initialize(inputs, limit: 100)
-    @term   = inputs[:term]   || ''
-    @filter = inputs[:filter] || NullFilter.new()
-    @sort   = inputs[:sort]   || 
-                OpportunitySort.new(default_column: 'first_published_at',
-                                    default_order: 'desc')
-    @boost  = inputs[:boost]  || false 
-    @limit = limit
+  def initialize(params, limit: 100, results_only: false)
+    @term   = clean_term(params[:s])
+    @filter = SearchFilter.new(params)
+    @sort   = clean_sort(params)
+    @boost  = params['boost_search'].present? 
+    @limit  = limit
+    @paged  = params[:paged]
+    @results_only = results_only
   end
 
-  # Beginnings of generic solution
-  # def call
-  #   search = public_search
-  #   @results = search[:search]
-  #   @total = @results.size
-  #   @total_without_limit = search[:total_without_limit]
-  #   self
-  # end
+  def run
+    query = build_query
+    search_query = query[0]
+    search_sort  = query[1]
+    limit        = query[2]
+    perform(search_query, search_sort, limit)
+  end
 
-  # 
-  # Returns Opportunities search results given a set of parameters
-  # Inputs: --- Optional ---
-  #         term:             the search term, defaults to nil
-  #         filters:          Filter, defaults to blank
-  #         sort:             Sort object; sort column and direction
-  #         limit:            Int, max number of documents to search, per shard.
-  #                           Defaults to zero causing no search to occur
-  #         
-  #         boost: Boolean, makes the search
-  #                           prioritise DIT-sourced results
-  # Returns: an ElasticSearch search results object
-  #
-  def public_search
-    query = OpportunitySearchBuilder.new(term:              @term,
-                                         boost:             @boost,
-                                         sort:              @sort,
-                                         sectors:           @filter.sectors,
-                                         countries:         @filter.countries,
-                                         opportunity_types: @filter.types,
-                                         values:            @filter.values,
-                                         sources:           @filter.sources).call
+  # -- Parameter Sanitisation --
 
-    perform(query[:search_query], query[:search_sort], @limit)
+  # Cleans the term parameter
+  def clean_term(term = nil)
+    term.present? ? term.delete("'").gsub(alphanumeric_words).to_a.join(' ') : ""
+  end
+
+  # Regex to identify suitable words for term parameter
+  def alphanumeric_words
+    /([a-zA-Z0-9]*\w)/
+  end
+
+  # Builds OpportunitySort object based on filter
+  def clean_sort(params)
+    case params[:sort_column_name]
+    when 'response_due_on' # Soonest to end first
+      column = 'response_due_on' and order = 'asc'
+    when 'first_published_at' # Newest posted to oldest
+      column = 'first_published_at' and order = 'desc' 
+    when 'updated_at' # Most recently updated
+      column = 'updated_at' and order = 'desc' 
+    when 'relevance' # Most relevant first
+      column = 'response_due_on' and order = 'asc' # TODO: Add relevance. Temporary fix
+    else
+      column = 'response_due_on' and order = 'asc'
+    end
+    OpportunitySort.new(default_column: column, default_order: order)
+  end
+
+  # -- Runs the appropriate search --
+
+  def build_query
+    if search_includes_sector?
+      query = build_sector_search_query
+      limit = 100
+    else
+      query = OpportunitySearchBuilder.new(term:              @term,
+                                           boost:             @boost,
+                                           sort:              @sort,
+                                           sectors:           @filter.sectors,
+                                           countries:         @filter.countries,
+                                           opportunity_types: @filter.types,
+                                           values:            @filter.values,
+                                           sources:           @filter.sources).call
+      query = [query[:search_query], query[:search_sort]]
+      limit = @limit
+    end
+    query + [limit]
+  end
+
+  # Whether to run the standard search or the industries search
+  def search_includes_sector?
+    @filter.sectors.present?
   end
   
-  # 
-  # Given a set of parameters,
-  # returns Opportunities search results
-  # Note: needs a term and filter.sectors to function correctly
-  #       (this was due to previous way it was built / implemented)
-  #
-  def industries_search
+  # builds search_query, search_sort objects for consumption by elasticsearch
+  def build_sector_search_query
     sector, sources = @filter.sectors.first, @filter.sources
     post_opps_query = {
       "bool": {
@@ -108,7 +130,7 @@ class Search
           },
           {
             "multi_match": {
-              "query": @term,
+              "query": sector.tr('-', ' '),
               "fields": %w[title^5 teaser^2 description],
               "operator": 'or',
             },
@@ -154,36 +176,82 @@ class Search
                    end
 
     search_sort = [{ @sort.column.to_sym => { order: @sort.order.to_sym } }]
-
-    perform(search_query, search_sort, 100)
+    [search_query, search_sort]
   end
 
-  private
+  #
+  # Searches through opportunities
+  # Inputs: a query,
+  #         a Sort object, 
+  #         a limit (int) and a max number of documents per shard to assess
+  #         returns: an elasticsearch object containing opportunities
+  #
+  # NOTE potential issue when using terminate_after
+  # https://stackoverflow.com/questions/40423696/terminate-after-in-elasticsearch
+  # "Terminate after limits the number of search hits per shard so
+  # any document that may have had a hit later could also have had
+  # a higher ranking(higher score) than highest ranked document returned
+  # since the score used for ranking is independent of the other hits."
+  #
 
-    #
-    # Searches through opportunities
-    # Inputs: a query,
-    #         a Sort object, 
-    #         a limit (int) and a max number of documents per shard to assess
-    #         returns: an elasticsearch object containing opportunities
-    #
-    # NOTE potential issue when using terminate_after
-    # https://stackoverflow.com/questions/40423696/terminate-after-in-elasticsearch
-    # "Terminate after limits the number of search hits per shard so
-    # any document that may have had a hit later could also have had
-    # a higher ranking(higher score) than highest ranked document returned
-    # since the score used for ranking is independent of the other hits."
-    #
-    def perform(query, sort, limit)
-      size = Figaro.env.OPPORTUNITY_ES_MAX_RESULT_WINDOW_SIZE || 100_000
+  # 
+  def perform(query, sort, limit)
+    size = Figaro.env.OPPORTUNITY_ES_MAX_RESULT_WINDOW_SIZE || 100_000
+    results = Opportunity.__elasticsearch__.search(size: size, 
+                                                   terminate_after: limit,
+                                                   query: query,
+                                                   sort: sort)
+
+    if @results_only
+      page(results)
+    else
       total_without_limit = Opportunity.__elasticsearch__.search(size: size, 
                                                                  query: query,
                                                                  sort: sort).count
-      search = Opportunity.__elasticsearch__.search(size: size, 
-                                                    terminate_after: limit,
-                                                    query: query,
-                                                    sort: sort)
-      { search: search, total_without_limit: total_without_limit }
+      country_list = countries_in(results) # Run before paging.
+      paged_results = page(results)
+      {
+        term:    @term,        
+        filter:  @filter,
+        sort:    @sort,
+        boost:   @boost,
+        results: paged_results.records,
+        total:   results.records.total,
+        total_without_limit: total_without_limit
+        # country_list: country_list # ADD TEST Probably not needed
+      }
     end
+  end
+
+  def page(results)
+    results.page(@paged).per(Opportunity.default_per_page)
+  end
+
+
+  # Use search results to find and return
+  # only which countries are relevant.
+  # TODO: Refactor this low performance code.
+  def countries_in(results)
+    query = results.records.includes(:countries).includes(:opportunities_countries)
+    countries = []
+    country_list = []
+    query.records.each do |opportunity|
+      opportunity.countries.each do |country|
+        # Array of all countries in all opportunities in result set
+        countries.push(country)
+      end
+    end
+
+    # in memory group by name: {"country_name": [..Country instances..]}
+    countries_grouped_name = countries.group_by(&:name)
+    countries_grouped_name.keys.each do |country_name|
+      # set virtual attribute Country.opportunity_count
+      countries_grouped_name[country_name][0].opportunity_count = countries_grouped_name[country_name].length
+      country_list.push(countries_grouped_name[country_name][0])
+    end
+
+    # sort countries in list by asc name
+    country_list.sort_by(&:name)
+  end
 
 end

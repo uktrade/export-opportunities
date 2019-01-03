@@ -17,7 +17,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
   end
 
   # creates object for use by the country and region inputs
-  def build_filter_data
+  private def build_filter_data
     filter = @data[:filter]
     country_list = @data[:country_list]
     {
@@ -26,6 +26,20 @@ class OpportunitySearchResultsPresenter < FormPresenter
       regions: filter_regions(filter, country_list),
       sources: filter_sources(filter),
     }
+  end
+
+  # FIX
+  private def subscription_form(inputs)
+    filter = inputs[:filter]
+    SubscriptionForm.new(
+      query: {
+        search_term: inputs[:term],
+        sectors: filter.sectors,
+        types: filter.types,
+        countries: filter.countries,
+        values: filter.values,
+      }
+    )
   end
 
   # Data to build search filter input for sectors
