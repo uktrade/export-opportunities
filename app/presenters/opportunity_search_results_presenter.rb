@@ -9,11 +9,91 @@ class OpportunitySearchResultsPresenter < FormPresenter
   def initialize(content, data)
     super(content, {})
     @data = data
-    @filter_data = build_filter_data(@data[:filter])
+    @filter_data = build_filter_data
     @found = data[:results]
     @view_limit = Opportunity.default_per_page
     @total = data[:total]
     @term = data[:term]
+  end
+
+  # creates object for use by the country and region inputs
+  def build_filter_data
+    filter = @data[:filter]
+    country_list = @data[:country_list]
+    {
+      sectors: filter_sectors(filter),
+      countries: filter_countries(filter, country_list),
+      regions: filter_regions(filter, country_list),
+      sources: filter_sources(filter),
+    }
+  end
+
+  # Data to build search filter input for sectors
+  private def filter_sectors(filter)
+    {
+      'name': 'sectors[]',
+      'options': Sector.order(:name),
+      'selected': filter.sectors,
+    }
+  end
+
+  # Data to build search filter input for countries
+  private def filter_countries(filter, country_list = [])
+    countries = if country_list.present?
+                  country_list
+                else
+                  Country.where(slug: filter.countries)
+                end
+    {
+      'name': 'countries[]',
+      'options': countries,
+      'selected': filter.countries,
+    }
+  end
+
+  # Data to build search filter input for sources
+  private def filter_sources(filter)
+    {
+      'name': 'sources[]',
+      'options': sources_list,
+      'selected': filter.sources,
+    }
+  end
+
+  # Data to build search filter input for regions
+  private def filter_regions(filter, country_list = [])
+    regions = if country_list.present?
+                filtered_region_list(country_list)
+              else
+                regions_list
+              end
+    {
+      'name': 'regions[]',
+      'options': regions,
+      'selected': filter.regions,
+    }
+  end
+
+  # Filters all regions (filter[:regions]) down to
+  # return only those that are applicable to countries
+  # showing (so those that apply to the search)
+  def filtered_region_list(countries)
+    regions = []
+    countries.each do |country|
+      region = region_by_country(country)
+      regions.push(region) if region.present?
+    end
+    regions.uniq
+  end
+
+  private def sources_list
+    sources = []
+    disabled_sources = ['buyer']
+    Opportunity.sources.keys.each do |key|
+      next if disabled_sources.include? key
+      sources.push(slug: key)
+    end
+    sources
   end
 
   # Overwriting FormPresenter.field_content to allocate when we need

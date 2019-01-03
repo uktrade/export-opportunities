@@ -130,7 +130,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
 
     it 'renders' do
       get :results
-      result = assigns(:data)
+      result = assigns(:results).instance_variable_get(:@data)
       expect(response.status).to eq(200)
       expect(result[:total]).to eq 10
     end

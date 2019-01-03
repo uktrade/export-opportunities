@@ -1,4 +1,4 @@
-require 'constraints/new_domain_constraint'
+require 'constraints/new_domain_constraint' # Not used?
 require 'set'
 
 class OpportunitiesController < ApplicationController
@@ -62,37 +62,11 @@ class OpportunitiesController < ApplicationController
   #
   # Search results listings page
   # Provides the following to the views:
-  #   @content:             strings to insert into page
-  #   @search_result:       Hash of data for views, of format:
-  #        {
-  #          filter: @search_filter,
-  #          term: @search_term,
-  #          sort: @sort_selection,
-  #          results: results,
-  #          total: total,
-  #          limit: per_page,
-  #          subscription: subscription_form,
-  #          filter_data: {
-  #            sectors: filter_sectors,
-  #            countries: filter_countries(country_list),
-  #            regions: filter_regions(country_list),
-  #            sources: filter_sources,
-  #          }
-  #        }
-  #   Where:
-  #   @search_result[:term]:    String search term
-  #   @search_result[:filter]:  Filter, contains sanitised input from filters
-  #   @search_result[:sort]:    OpportunitySort, contains sanitised data from sort dropdown
-  #   @search_result[:results]: ElasticSearch object with Opportunity results from
-  #                             query with filter params
-  #   @search_result[:total]:   Int number of results
-  #   @search_result[:total_without_limit]: Int maximum number of results for search
-  #   @search_result[:limit]:   Int number of results per page
-  #   @search_result[:subscription]: SubscriptionForm object, receives term and arrays of
-  #                             slugs for sectors, types, countries, values. Provides
-  #                             each of the objects associated with the slugs. Enables
-  #                             creation of the subscription form.
-  #   @search_result[:filter_data]: Data to build search filters for each dimention
+  # --- HTML only ---
+  # @page:    PagePresenter
+  # @results: OpportunitySearchResultsPresenter
+  # --- Atom only ---
+  # @query:   results andmetadata about results
   #
   def results 
     # Clean params
@@ -105,58 +79,53 @@ class OpportunitiesController < ApplicationController
     respond_to do |format|
       format.html do
 
-        # Search
-        if filter.sectors.present?
+        if industry_search?(filter)
           inputs[:term] = filter.sectors.first.tr('-', ' ')
-          search = Search.new(inputs).industries_search
+          result = Search.new(inputs).industries_search
         else
-          search = Search.new(inputs, limit: 100).public_search
+          result = Search.new(inputs, limit: 100).public_search
         end
 
-        query = search[:search]
-        country_list = relevant_countries_from_search(query.records.includes(:countries).includes(:opportunities_countries)) # Run before paging.
-        # Paging
-        paged_query = query.page(filter.params[:paged]).per(Opportunity.default_per_page)
+        results = result[:search]
+        country_list = countries_in(results) # Run before paging.
+        paged_results = page(results, filter.params[:paged])
 
-        @data = {
-          results: paged_query.records,
-          total: query.records.total,
+        data = {
+          results: paged_results.records,
+          total: results.records.total,
           total_without_limit: search[:total_without_limit],
           subscription: subscription_form(inputs),
-          filter_data: {
-            sectors: filter_sectors(filter),
-            countries: filter_countries(filter, country_list),
-            regions: filter_regions(filter, country_list),
-            sources: filter_sources(filter),
-          },
+          country_list: country_list # ADD TEST
         }.merge(inputs)
-        # inputs, records, country_list, total, total_without_limit, subscription
         content = get_content('opportunities/results.yml')
+
         @page = PagePresenter.new(content)
-        # What is used by this presenter?
-        @results = OpportunitySearchResultsPresenter.new(content, @data)
-        # @page.breadcrumbs
-        # @results: .information, .offer_subscription, .subscription
-        #    .sort_input_select, .found, .view_all_link,
-        #   .applied_filters?, .selected_filter_list,
-        #   .input_checkbox_group, .none, .content
+        @results = OpportunitySearchResultsPresenter.new(content, data)
         render layout: 'results'
       end
       format.any(:atom, :xml) do
-        search = Search.new(inputs, limit: 100).public_search
-        query = search[:search]
-        # Only uses @opportunities and @query
-        query = query.records
-        # return 25 results per page for atom feed
-        query = query.page(params[:paged]).per(25)
-        query = AtomOpportunityQueryDecorator.new(query, view_context)
-        @query = query
-        @total = query.records.size
-        @opportunities = query.records
+        results = Search.new(inputs, limit: 100).public_search
+        paged_results = page(results, params[:paged])
+        
+        @query = AtomOpportunityQueryDecorator.new(paged_results, view_context)
+        
         render :index, formats: :atom
       end
     end
   end
+
+
+        # search = Search.new(inputs, limit: 100).public_search
+        # query = search[:search]
+        # # Only uses @opportunities and @query
+        # query = query.records
+        # # return 25 results per page for atom feed
+        # query = query.page(params[:paged]).per(25)
+        # query = AtomOpportunityQueryDecorator.new(query, view_context)
+        # @query = query
+        # @total = query.records.size
+        # @opportunities = query.records
+        # render :index, formats: :atom
 
   def show
     @content = get_content('opportunities/show.yml')
@@ -190,10 +159,6 @@ class OpportunitiesController < ApplicationController
     request && %i[atom xml].include?(request.format.symbol)
   end
 
-  private def new_domain?(request)
-    NewDomainConstraint.new.matches? request
-  end
-
   # Builds OpportunitySort object based on filter
   private def sorting(filter)
     case filter.params[:sort_column_name]
@@ -209,34 +174,23 @@ class OpportunitiesController < ApplicationController
     OpportunitySort.new(default_column: column, default_order: order)
   end
 
-  private def digest_search
-    begin
-      user_id = EncryptedParams.decrypt(params[:id])
-    rescue EncryptedParams::CouldNotDecrypt
-      redirect_to not_found && return
-    end
-
-    results = []
-    today_date = Time.zone.now.strftime('%Y-%m-%d')
-
-    subscription_notification_ids = SubscriptionNotification.joins(:subscription).where('subscription_notifications.created_at >= ?', today_date).where(sent: true).where('subscriptions.user_id = ?', user_id).map(&:id)
-    subscription_notification_ids.each do |sub_not_id|
-      results.push(SubscriptionNotification.find(sub_not_id).opportunity)
-    end
+  private def industries_search?(filter)
+    filter.sectors.present?
   end
 
-  # cache expensive method call for 10 minutes
-  def relevant_countries_from_search(query)
-    relevant_countries_from_search!(query)
-    # Rails.cache.fetch('cache/countries_from_search', expires_in: 10.minutes) do
-    #   relevant_countries_from_search!(query)
-    # end
+  private def countries_in(results)
+    relevant_countries_from_search(results.records.includes(:countries).includes(:opportunities_countries))
   end
+
+  private def page(results, filter)
+    page.page(filter.params[:paged]).per(Opportunity.default_per_page)
+  end
+
 
   # Use search results to find and return
   # only which countries are relevant.
   # TODO: Refactor this low performance code.
-  def relevant_countries_from_search!(query)
+  def relevant_countries_from_search(query)
     countries = []
     country_list = []
     query.records.each do |opportunity|
@@ -291,74 +245,6 @@ class OpportunitiesController < ApplicationController
         values: filter.values,
       }
     )
-  end
-
-  # Data to build search filer for sectors
-  private def filter_sectors(filter)
-    {
-      'name': 'sectors[]',
-      'options': Sector.order(:name),
-      'selected': filter.sectors,
-    }
-  end
-
-  # Data to build search filter for countries
-  private def filter_countries(filter, country_list = [])
-    countries = if country_list.present?
-                  country_list
-                else
-                  Country.where(slug: filter.countries)
-                end
-    {
-      'name': 'countries[]',
-      'options': countries,
-      'selected': filter.countries,
-    }
-  end
-
-  # Data to build search filter for sources
-  private def filter_sources(filter)
-    {
-      'name': 'sources[]',
-      'options': sources_list,
-      'selected': filter.sources,
-    }
-  end
-
-  # Data to build search filter for regions
-  private def filter_regions(filter, country_list = [])
-    regions = if country_list.present?
-                filtered_region_list(country_list)
-              else
-                regions_list
-              end
-    {
-      'name': 'regions[]',
-      'options': regions,
-      'selected': filter.regions,
-    }
-  end
-
-  # Filters all regions (filter[:regions]) down to
-  # return only those that are applicable to countries
-  # showing (so those that apply to the search)
-  def filtered_region_list(countries)
-    regions = []
-    countries.each do |country|
-      region = region_by_country(country)
-      regions.push(region) if region.present?
-    end
-    regions.uniq
-  end
-
-  private def sources_list
-    sources = []
-    disabled_sources = ['buyer']
-    Opportunity.sources.keys.each do |key|
-      next if disabled_sources.include? key
-      sources.push(slug: key)
-    end
-    sources
   end
 
   def opportunities_stats
