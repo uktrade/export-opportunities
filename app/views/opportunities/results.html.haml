@@ -35,7 +35,7 @@
         = results.view_all_link opportunities_path, "button all"
 
       .search-results-filters
-        %h3= results.content['title_filters']
+        %h2.section-heading= results.content['title_filters']
         - if results.applied_filters?
           .selected-filters
             = results.selected_filter_list(results.content['title_filters_selected'])
