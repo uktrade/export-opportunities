@@ -9,7 +9,7 @@ class OpportunitiesController < ApplicationController
 
   def index
     @content = get_content('opportunities/index.yml')
-    @featured_industries = featured_industries
+    @featured_industries = Sector.featured
     @recent_opportunities = recent_opportunities
     @countries = all_countries
     @regions = regions_list
