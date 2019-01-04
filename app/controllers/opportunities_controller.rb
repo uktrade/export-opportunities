@@ -94,16 +94,18 @@ class OpportunitiesController < ApplicationController
 
   private 
 
-    # Builds a subscription form
-    def new_subscription_form(results)
-      SubscriptionForm.new(query: {
-        search_term: results[:term],
-        title: 
-        countries: ,
-        sectors: 
-        types: ,
-        values: 
-      })
+    # Builds a subscription form object that cleans inputs
+    def subscription_form(results)
+      filter = results[:filter]
+      SubscriptionForm.new(
+        query: {
+          search_term: results[:term],
+          sectors: filter.sectors,
+          types: filter.types,
+          countries: filter.countries,
+          values: filter.values,
+        }
+      )
     end
 
     def all_countries
