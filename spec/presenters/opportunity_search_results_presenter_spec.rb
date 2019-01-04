@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe OpportunitySearchResultsPresenter do
+RSpec.describe OpportunitySearchResultsPresenter, focus: true do
   include RegionHelper
   let(:content) { get_content('opportunities/results') }
   let(:region_helper) { TestRegionHelper.new }
@@ -44,14 +44,16 @@ RSpec.describe OpportunitySearchResultsPresenter do
     it 'Returns a link when has more opportunities to show' do
       params = { s: 'food' }
       results = search(params)
+      results[:total] = 15
       presenter = OpportunitySearchResultsPresenter.new(content, results, subscr_form(results))
-      presenter = OpportunitySearchResultsPresenter.new(content, search(params, 15))
       expect(presenter.view_all_link('some/where')).to include('View all (15)')
     end
 
     it 'Returns nil when does not have more opportunities to show' do
       params = { s: 'food' }
-      presenter = OpportunitySearchResultsPresenter.new(content, search(params, 1))
+      results = search(params)
+      results[:total] = 1
+      presenter = OpportunitySearchResultsPresenter.new(content, results, subscr_form(results))
       field = presenter.field_content('countries')
 
       expect(presenter.view_all_link('some/where')).to eql(nil)
@@ -59,7 +61,9 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
     it 'Adds a class name when passed' do
       params = { s: 'food' }
-      presenter = OpportunitySearchResultsPresenter.new(content, search(params, 15))
+      results = search(params)
+      results[:total] = 15
+      presenter = OpportunitySearchResultsPresenter.new(content, results, subscr_form(results))
       class_name = 'with-class'
 
       expect(presenter.view_all_link('some/where')).to_not include(class_name)
@@ -121,7 +125,9 @@ RSpec.describe OpportunitySearchResultsPresenter do
   describe '#information' do
     it 'Returns result found information message with search term' do
       params = { s: 'food' }
-      presenter = OpportunitySearchResultsPresenter.new(content, search(params, 1))
+      results = search(params)
+      results[:total] = 1
+      presenter = OpportunitySearchResultsPresenter.new(content, results, subscr_form(results))
       message = presenter.information
 
       expect(message).to include('1 result found for')
@@ -131,7 +137,9 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
     it 'Returns result found information message with countries' do
       params = { s: 'food', countries: %w[spain mexico] }
-      presenter = OpportunitySearchResultsPresenter.new(content, search(params, 1))
+      results = search(params)
+      results[:total] = 1
+      presenter = OpportunitySearchResultsPresenter.new(content, results, subscr_form(results))
       message = presenter.information
 
       expect(message).to include('1 result found')
@@ -141,7 +149,9 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
     it 'Returns result found information message with search term and countries' do
       params = { s: 'food', countries: %w[spain mexico] }
-      presenter = OpportunitySearchResultsPresenter.new(content, search(params, 1))
+      results = search(params)
+      results[:total] = 1
+      presenter = OpportunitySearchResultsPresenter.new(content, results, subscr_form(results))
       message = presenter.information
 
       expect(message).to include('1 result found for')
@@ -187,7 +197,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
   end
 
-  describe '#searched_in', focus: true do
+  describe '#searched_in' do
     it 'Returns plain text message " in [country]"' do
       params = { s: 'food', countries: %w[spain] }
       results = search(params)
@@ -309,7 +319,9 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
 
     it 'Returns an empty string when searching without a specified term' do
-      presenter = OpportunitySearchResultsPresenter.new(content, search({}))
+      params = {}
+      results = search(params)
+      presenter = OpportunitySearchResultsPresenter.new(content, results, subscr_form(results))
 
       expect(presenter.searched_for_with_html).to eql('')
     end
@@ -345,7 +357,9 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
   describe '#reset_url', type: :request do
     it 'Returns url and params, without filters, as a string' do
-      presenter = OpportunitySearchResultsPresenter.new(content, {})
+      params = {}
+      results = search(params)
+      presenter = OpportunitySearchResultsPresenter.new(content, results, subscr_form(results))
       params = { 's' => 'food and drink', 'sort_column_name' => 'response_due_on', 'countries' => %w[dominica mexico] }
       headers = { 'CONTENT_TYPE' => 'text/html' }
 
@@ -507,7 +521,8 @@ RSpec.describe OpportunitySearchResultsPresenter do
                         'options' => [{ 'label' => 'foo', 'description' => 'label help' }],
                         'description' => 'question help' }
       field_data = { name: 'info', options: [{ slug: 'boo' }], selected: [] }
-      presenter = OpportunitySearchResultsPresenter.new(content, { filter_data: { field_name: field_data } })
+      presenter = OpportunitySearchResultsPresenter.new(content, { filter_data: { field_name: field_data } }, subscr_form(search({})))
+
       checkboxes = presenter.send(:format_filter_checkboxes, field_content, :field_name)
 
       expect(checkboxes[:name]).to eq('info')
