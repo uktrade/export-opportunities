@@ -64,8 +64,9 @@ class OpportunitiesController < ApplicationController
       format.html do
         results = Search.new(params, limit: 100).run
         content = get_content('opportunities/results.yml')
+        subscr_form = subscription_form(results)
         @page = PagePresenter.new(content)
-        @results = OpportunitySearchResultsPresenter.new(content, results)
+        @results = OpportunitySearchResultsPresenter.new(content, results, subscr_form)
       end
       format.any(:atom, :xml) do
         results = Search.new(params, limit: 100, results_only: true).run
@@ -92,6 +93,18 @@ class OpportunitiesController < ApplicationController
   end
 
   private 
+
+    # Builds a subscription form
+    def new_subscription_form(results)
+      SubscriptionForm.new(query: {
+        search_term: results[:term],
+        title: 
+        countries: ,
+        sectors: 
+        types: ,
+        values: 
+      })
+    end
 
     def all_countries
       Country.all.where.not(name: ['DSO HQ', 'DIT HQ', 'NATO', 'UKREP']).order :name

@@ -147,7 +147,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       expect(data[:total]).to eq 1
     end
     describe 'filters by search filters' do
-      it 'by country' do
+      it 'by country', focus: true do
         # One country
         get :results, params: { countries: ['fiji'] } 
         data = assigns(:results).instance_variable_get(:@data)
@@ -160,7 +160,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
         data = assigns(:results).instance_variable_get(:@data)
         expect(data[:filter].countries).to eq(
           SearchFilter.new(countries: ['fiji', 'barbados']).countries)
-        expect(assigns(:data)[:total]).to eq 4
+        expect(data[:total]).to eq 4
         
         # No valid countries
         get :results, params: { countries: ['invalid-country'] }
@@ -209,7 +209,8 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       end
       it 'with the term' do
         get :results, params: { s: 'Title 0' }
-        expect(assigns(:data)[:term]).to eq "Title 0"
+        data = assigns(:results).instance_variable_get(:@data)
+        expect(data[:term]).to eq "Title 0"
       end
       it 'with the sort order' do
         get :results, params: { sort_column_name: 'response_due_on' }

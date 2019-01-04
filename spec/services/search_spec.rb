@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Search, elasticsearch: true, focus: true do
+RSpec.describe Search, elasticsearch: true do
 
   describe 'cleans input parameters and' do
     it "allows only valid seach terms" do
@@ -55,7 +55,7 @@ RSpec.describe Search, elasticsearch: true, focus: true do
       expect(sort.order).to eq "asc"
     end
     it "allows only valid boost" do
-      search = Search.new({ boost_search: 'y' })
+      search = Search.new({ 'boost_search' => 'y' })
       boost = search.instance_variable_get(:@boost)
       expect(boost).to be_truthy
 
@@ -65,7 +65,7 @@ RSpec.describe Search, elasticsearch: true, focus: true do
     end
   end
 
-  describe '#run - no industries_search' do
+  describe '#run - without sector filter' do
     before do
       Opportunity.destroy_all
       @sort = OpportunitySort.new(default_column: 'first_published_at',
@@ -97,7 +97,6 @@ RSpec.describe Search, elasticsearch: true, focus: true do
     describe 'can filter' do
       it 'by countries' do
         results = Search.new({ countries: ['country-slug'] }).run
-
         expect(results[:total]).to eq 1
        end
       it 'by sectors' do
@@ -152,7 +151,7 @@ RSpec.describe Search, elasticsearch: true, focus: true do
     end
   end
 
-  describe 'run - with sectors' do
+  describe 'run - with sector filter' do
     
     before do
       Opportunity.destroy_all
@@ -182,7 +181,7 @@ RSpec.describe Search, elasticsearch: true, focus: true do
       expect(results[:total]).to eq 1
     end
 
-    it 'sources correctly - NOTE needs a search query for volume opps' do
+    it 'sources correctly' do
       # Only post
       results = Search.new({ sources: 'post', sectors: [@sector.slug] }).run
       expect(results[:total]).to eq 2
@@ -212,70 +211,3 @@ RSpec.describe Search, elasticsearch: true, focus: true do
     end
   end
 end
-
-  # before do
-  #   sector  = Sector.create(slug: 'test-sector', name: 'Sector 1')
-  #   country = Country.create(slug: 'fiji', name: 'Fiji')
-  #   10.times do |n|
-  #     opportunity = create(:opportunity, title: "Title #{n}", slug: n.to_s,
-  #                          response_due_on: (n + 1).weeks.from_now,
-  #                          first_published_at: (n + 1).weeks.ago,
-  #                          status: :publish,
-  #                          source: n.even? ? :post : :volume_opps)
-  #     opportunity.sectors   << sector     if n.between?(0,1)
-  #     opportunity.countries << country   if n.between?(0,2)
-  #     # opportunity.countries << @country_2 if n == 3
-  #     opportunity.update(response_due_on: 1.day.from_now) if n == 4
-  #     opportunity.update(first_published_at: 1.day.ago)   if n == 5
-  #   end
-  #   refresh_elasticsearch
-  # end
-
-  # it 'provides search results and total' do
-  #   results = Search.new({ term: 'Title' }).call
-  #   expect(search.results.count).to eq 10
-  #   expect(search.total).to eq 10
-  # end
-  # it 'provides search results and total' do
-  #   results = Search.new({ term: 'Title 1' }).call
-  #   expect(search.total).to eq 1
-  # end
-  # describe "can sort" do
-  #   it "by soonest to close" do
-  #     sort = OpportunitySort.new(default_column: 'response_due_on',
-  #                                default_order: 'asc')
-  #     results = Search.new({ term: 'Title', sort: sort }).call
-  #     expect(search.results[0].title).to eq "Title 4"
-  #     expect(search.total).to eq 10
-  #   end
-  #   it "by most recently published" do
-  #     sort = OpportunitySort.new(default_column: 'first_published_at',
-  #                                default_order: 'desc')
-  #     results = Search.new({ term: 'Title', sort: sort }).call
-  #     expect(search.results[0].title).to eq "Title 5"
-  #     expect(search.total).to eq 10
-  #   end
-  # end
-  # describe "can filter" do
-  #   it "by country" do
-  #     filter = SearchFilter.new(countries: ['fiji'])
-  #     results = Search.new({ term: 'Title', filter: filter }).call
-  #     expect(search.total).to eq 3
-  #   end
-  #   it "by industry" do
-  #     filter = SearchFilter.new(sectors: ['test-sector'])
-  #     results = Search.new({ term: 'Title', filter: filter }).call
-  #     expect(search.total).to eq 2
-  #   end
-  #   it "by sources" do
-  #     filter = SearchFilter.new(sources: ['post'])
-  #     results = Search.new({ term: 'Title', filter: filter }).call
-  #     expect(search.total).to eq 5
-  #   end
-  # end
-  # it "can boost DIT post results" do
-  #   # Only testing that it doesn't error
-  #   results = Search.new({ term: 'Title', boost: true }).call
-  #   expect(search.results.count).to eq 10
-  #   expect(search.total).to eq 10
-  # end

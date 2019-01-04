@@ -6,9 +6,10 @@ class OpportunitySearchResultsPresenter < FormPresenter
 
   # Arguments passed come from the opportunities_controller.rb
   # content, data
-  def initialize(content, data)
+  def initialize(content, data, subscription_form)
     super(content, {})
     @data = data
+    @subscription_form = subscription_form
     @filter_data = build_filter_data
     @found = data[:results]
     @view_limit = Opportunity.default_per_page
@@ -28,19 +29,6 @@ class OpportunitySearchResultsPresenter < FormPresenter
     }
   end
 
-  # FIX
-  private def subscription_form(inputs)
-    filter = inputs[:filter]
-    SubscriptionForm.new(
-      query: {
-        search_term: inputs[:term],
-        sectors: filter.sectors,
-        types: filter.types,
-        countries: filter.countries,
-        values: filter.values,
-      }
-    )
-  end
 
   # Data to build search filter input for sectors
   private def filter_sectors(filter)
@@ -289,11 +277,10 @@ class OpportunitySearchResultsPresenter < FormPresenter
   def subscription
     what = searched_for
     where = searched_in
-    subscription = @data[:subscription]
     {
       title: (what + where).sub(/\sin\s|\sfor\s/, ''), # strip out opening ' in ' or ' for '
-      keywords: subscription.search_term,
-      countries: subscription.subscription_countries,
+      keywords: @subscription_form.search_term,
+      countries: @subscription_form.subscription_countries,
       what: what,
       where: where,
     }
