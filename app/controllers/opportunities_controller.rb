@@ -9,7 +9,7 @@ class OpportunitiesController < ApplicationController
 
   def index
     @content = get_content('opportunities/index.yml')
-    @featured_industries = featured_industries
+    @featured_industries = Sector.featured
     @recent_opportunities = recent_opportunities
     @countries = all_countries
     @regions = regions_list
@@ -20,7 +20,6 @@ class OpportunitiesController < ApplicationController
         filters: SearchFilter.new(params),
         sort: sorting
       )
-
       atom_request_query(query)
     end
 
@@ -246,17 +245,6 @@ class OpportunitiesController < ApplicationController
     opps = [post_opps, volume_opps].flatten
 
     { results: opps, limit: 5, total: 5 }
-  end
-
-  # TODO: How are the featured industries chosen?
-  private def featured_industries
-    # Creative & Media = id(9)
-    # Security = id(31)
-    # Food and drink    = id(14)
-    # Education & Training = id(10)
-    # Oil & Gas = id(25)
-    # Retail and luxury = id(30)
-    Sector.where(id: Figaro.env.GREAT_FEATURED_INDUSTRIES.split(',').map(&:to_i).to_a)
   end
 
   private def subscription_form
