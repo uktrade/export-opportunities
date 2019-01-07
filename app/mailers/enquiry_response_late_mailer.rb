@@ -20,7 +20,7 @@ class EnquiryResponseLateMailer < ApplicationMailer
     opportunity = enquiry.opportunity
     @author = opportunity.author
     @opportunity_country_title = "#{opportunity.country_names} - #{opportunity.title}"
-    @enquiry_company_name = enquiry.user.provider
+    @enquiry_company_name = enquiry.company_name
     mail from: Figaro.env.MAILER_FROM_ADDRESS!,
          name: 'Export opportunities',
          reply_to: Figaro.env.CONTACT_US_EMAIL,
