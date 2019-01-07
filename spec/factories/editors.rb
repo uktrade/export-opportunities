@@ -7,23 +7,23 @@ FactoryBot.define do
     password_confirmation { password }
     name { Faker::Name.name }
     confirmed_at { DateTime.current }
-    role 1
+    role { 1 }
     deactivated_at { nil }
 
     factory :admin do
-      role 4
+      role { 4 }
     end
 
     factory :previewer do
-      role 3
+      role { 3 }
     end
 
     factory :publisher do
-      role 2
+      role { 2 }
     end
 
     factory :uploader do
-      role 1
+      role { 1 }
     end
 
     factory :deactivated do

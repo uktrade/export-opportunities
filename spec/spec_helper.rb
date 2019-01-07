@@ -29,6 +29,18 @@ module Helpers
     end
     content
   end
+
+  # Updates elasticsearch indexes with the latest data from the database
+  # Defaults to only refresh Opportunity, as is the most commonly used
+  def refresh_elasticsearch(models=[Opportunity])
+    models.each{ |m| m.import(refresh: true) }
+  end
+
+  # Returns number of shards for the test database
+  def number_of_shards
+    Elasticsearch::Model.client.cluster.
+      health(index: 'opportunities_test')["active_shards"]
+  end
 end
 
 # Capybara.register_driver :poltergeist do |app|

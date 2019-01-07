@@ -5,10 +5,10 @@ FactoryBot.define do
 
     created_at { 1.minute.ago }
     updated_at { 1.minute.ago }
-    sent false
+    sent { false }
 
     trait :sent do
-      sent true
+      sent { true }
     end
   end
 end
