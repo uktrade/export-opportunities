@@ -151,6 +151,11 @@ class Opportunity < ApplicationRecord
     results
   end
 
+  # Displays a list of names of countries
+  def country_names
+    countries.map(&:name).join(", ")
+  end
+
   def self.public_search(dit_boost_search: false, search_term: nil, filters: NullFilter.new, limit: 0, sort:)
     query = OpportunitySearchBuilder.new(dit_boost_search: dit_boost_search, search_term: search_term, sectors: filters.sectors, countries: filters.countries, opportunity_types: filters.types, values: filters.values, sort: sort, sources: filters.sources).call
 

@@ -1,0 +1,30 @@
+%p Dear #{@enquiry_response.enquiry.first_name},
+%p
+  Thank you for your interest in the export opportunity: 
+  %b=@enquiry_response.enquiry.opportunity.title
+
+%h3 Outcome
+%p You are not eligible. 
+
+%h3 Reason
+%p Your company is not UK registered.
+
+%h3 What next
+
+%p If your company is registered in the UK please resubmit below and include your company details: company name, UK address and phone number.
+
+%p= link_to @enquiry_response.enquiry.opportunity.title, opportunity_url(@enquiry_response.enquiry.opportunity), { :class=>"link" }
+
+- if @enquiry_response.enquiry.opportunity.expired?
+  %p This opportunity expired on #{@enquiry_response.enquiry.opportunity.response_due_on.strftime('%d %B %Y')}
+
+%h3 Review your proposal and additional recommendations 
+
+%p= link_to "#{Figaro.env.DOMAIN}/dashboard/enquiries/#{@enquiry_response.enquiry_id}", "#{Figaro.env.DOMAIN}/dashboard/enquiries/#{@enquiry_response.enquiry_id}", { class: 'link' } 
+
+%br
+
+%p The export opportunities team
+
+=render partial:'enquiry_response_mailer/submit_buttons' unless @mailer_view
+
