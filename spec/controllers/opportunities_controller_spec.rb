@@ -4,9 +4,40 @@ require 'mock_redis'
 RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controller do
   include RegionHelper
 
-  describe 'GET index' do
     it "renders" do
       expect(response.status).to eq(200)
+    end
+    it "provides featured industries" do
+      create(:sector, featured: true, featured_order: 1, 
+             slug: 'creative-media',     name: 'Creative & Media')
+      create(:sector, featured: true, featured_order: 2, 
+             slug: 'education-training', name: 'Education & Training')
+      create(:sector, featured: true, featured_order: 3, 
+             slug: 'food-drink',         name: 'Food and drink')
+      create(:sector, featured: true, featured_order: 4, 
+             slug: 'oil-gas',            name: 'Oil & Gas')
+      create(:sector, featured: true, featured_order: 5, 
+             slug: 'security',           name: 'Security')
+      create(:sector, featured: true, featured_order: 6, 
+             slug: 'retail-and-luxury',  name: 'Retail and luxury')
+      ENV['GREAT_FEATURED_INDUSTRIES']= Sector.all.limit(6).map(&:id).join ","
+      
+      get :index
+      
+      industries = assigns(:featured_industries)
+      expect(industries.count).to eq 6
+    end
+
+    context 'on the new domain' do
+      before(:each) do
+        expect_any_instance_of(NewDomainConstraint).to receive(:matches?).and_return(true)
+      end
+      it 'redirects /opportunities to /' do
+        skip('TODO: coming up next. new domain will be great.gov/opportunities')
+        get_index
+        expect(response).to have_http_status(:redirect)
+        expect(response).to redirect_to('/')
+      end
     end
     it "provides featured industries" do
       create(:sector, name: 'Creative & Media')
