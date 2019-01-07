@@ -100,7 +100,7 @@ group :development, :test do
   gem 'bullet'
   gem 'uglifier'
   gem 'rubocop-rspec'
-  gem "spring"
+  gem 'spring'
   gem 'spring-commands-rspec'
 end
 
