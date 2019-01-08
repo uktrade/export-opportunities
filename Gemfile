@@ -45,7 +45,7 @@ gem 'neat', '1.8.0'
 gem 'autoprefixer-rails'
 gem 'normalize-scss'
 gem 'sass-rails'
-gem 'export_components', '~> 0.10', git: 'https://github.com/uktrade/export_components.git'
+gem 'export_components', '~> 1.0', git: 'https://github.com/uktrade/export_components.git'
 
 # Javascript
 gem 'jquery-rails'
@@ -99,6 +99,9 @@ group :development, :test do
   gem 'pry-stack_explorer'
   gem 'bullet'
   gem 'uglifier'
+  gem 'rubocop-rspec'
+  gem 'spring'
+  gem 'spring-commands-rspec'
 end
 
 group :development do
@@ -130,6 +133,7 @@ group :test do
   gem 'elasticsearch-extensions'
   gem 'show_me_the_cookies'
   gem 'rails-controller-testing'
+  gem 'mock_redis'
 end
 
 group :production do

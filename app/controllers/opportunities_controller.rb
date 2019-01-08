@@ -7,9 +7,29 @@ class OpportunitiesController < ApplicationController
 
   # caches_page :index
 
+  #
+  # Homepage
+  # Provides the following to the views:
+  #   @content:              strings to insert into page
+  #   @featured_industries:  Collection of Sectors
+  #   @recent_opportunities: Hash of 5 recent opportunities with format
+  #                             { results: opps, limit: 5, total: 5 }
+  #   @countries:            Collection of Countries excluding reserved names
+  #   @regions:              Array of hashes of geographic regions, of format
+  #                             [{ slug: 'australia-new-zealand',
+  #                                countries: ["australia", "fiji"...],
+  #                                name: 'Australia/New Zealand' }, {...}...]
+  #   @opportunities_stats   Hash of statistics about opportunities, of format:
+  #                             { total: #, expiring_soon: #, published_recently: #, }
+  #   --- .atom or .xml requests only --
+  #   @query:                ElasticSearch object with Opportunity results from
+  #                          query with filter params
+  #   @total:                Total number of opportunities returned
+  #   @opportunities:        Records from @query
+  #
   def index
     @content = get_content('opportunities/index.yml')
-    @featured_industries = featured_industries
+    @featured_industries = Sector.featured
     @recent_opportunities = recent_opportunities
     @countries = all_countries
     @regions = regions_list
@@ -19,7 +39,7 @@ class OpportunitiesController < ApplicationController
         search_term: '',
         filters: SearchFilter.new(params),
         sort: sorting
-      )
+      )[:search]
 
       atom_request_query(query)
     end
@@ -35,7 +55,43 @@ class OpportunitiesController < ApplicationController
     end
   end
 
-  def results
+  #
+  # Search results listings page
+  # Provides the following to the views:
+  #   @search_term:         String search term
+  #   @dit_boost_search:    Boolean, if true increases prominance of results from
+  #                         source "post" (i.e. internal to DIT)
+  #   @content:             strings to insert into page
+  #   @search_filter:       Filter, contains sanitised input from filters
+  #   @sort_selection:      OpportunitySort, contains sanitised data from sort dropdown
+  #   @search_result:       Hash of data for views, of format:
+  #        {
+  #          filter: @search_filter,
+  #          term: @search_term,
+  #          sort: @sort_selection,
+  #          results: results,
+  #          total: total,
+  #          limit: per_page,
+  #          subscription: subscription_form,
+  #          filter_data: {
+  #            sectors: search_filter_sectors,
+  #            countries: search_filter_countries(country_list),
+  #            regions: search_filter_regions(country_list),
+  #            sources: search_filter_sources,
+  #          }
+  #        }
+  #   Where:
+  #   @search_result[:results]: ElasticSearch object with Opportunity results from
+  #                             query with filter params
+  #   @search_result[:total]:   Int number of results
+  #   @search_result[:limit]:   Int number of results per page
+  #   @search_result[:subscription]: SubscriptionForm object, receives term and arrays of
+  #                             slugs for sectors, types, countries, values. Provides
+  #                             each of the objects associated with the slugs. Enables
+  #                             creation of the subscription form.
+  #   @search_result[:filter_data]: Data to build search filters for each dimention
+  #
+  def results 
     @search_term = search_term(params[:s])
     @dit_boost_search = params['boost_search'].present?
     @content = get_content('opportunities/results.yml')
@@ -136,13 +192,15 @@ class OpportunitiesController < ApplicationController
   # Using a search with adjusted parameters that include mapped_regions.
   private def opportunity_search
     per_page = Opportunity.default_per_page
-    query = Opportunity.public_search(
+    search = Opportunity.public_search(
       search_term: @search_term,
       filters: @search_filter,
       sort: @sort_selection,
       limit: 100,
       dit_boost_search: @dit_boost_search
     )
+    query = search[:search]
+    total_without_limit = search[:total_without_limit]
 
     if atom_request?
       country_list = []
@@ -160,6 +218,7 @@ class OpportunitiesController < ApplicationController
       sort: @sort_selection,
       results: results,
       total: total,
+      total_without_limit: total_without_limit,
       limit: per_page,
       subscription: subscription_form,
       filter_data: {
@@ -173,7 +232,10 @@ class OpportunitiesController < ApplicationController
 
   private def opportunity_featured_industries_search(sector, search_term, sources)
     per_page = Opportunity.default_per_page
-    query = Opportunity.public_featured_industries_search(sector, search_term, sources, @sort_selection)
+    search = Opportunity.public_featured_industries_search(
+              sector, search_term, sources, @sort_selection)
+    query = search[:search]
+    total_without_limit = search[:total_without_limit]
 
     if atom_request?
       country_list = []
@@ -194,6 +256,7 @@ class OpportunitiesController < ApplicationController
       sort: sorting,
       results: results,
       total: total,
+      total_without_limit: total_without_limit,
       limit: per_page,
       subscription: subscription_form,
       filter_data: {
@@ -215,6 +278,7 @@ class OpportunitiesController < ApplicationController
 
   # Use search results to find and return
   # only which countries are relevant.
+  # TODO: Refactor this low performance code.
   def relevant_countries_from_search!(query)
     countries = []
     country_list = []
@@ -246,17 +310,6 @@ class OpportunitiesController < ApplicationController
     opps = [post_opps, volume_opps].flatten
 
     { results: opps, limit: 5, total: 5 }
-  end
-
-  # TODO: How are the featured industries chosen?
-  private def featured_industries
-    # Creative & Media = id(9)
-    # Security = id(31)
-    # Food and drink    = id(14)
-    # Education & Training = id(10)
-    # Oil & Gas = id(25)
-    # Retail and luxury = id(30)
-    Sector.where(id: Figaro.env.GREAT_FEATURED_INDUSTRIES.split(',').map(&:to_i).to_a)
   end
 
   private def subscription_form

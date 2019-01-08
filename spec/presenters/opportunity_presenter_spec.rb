@@ -531,6 +531,23 @@ RSpec.describe OpportunityPresenter do
       expect(lines[1]).to eq("#{partner_name} is our chosen partner to deliver trade services in #{country_name}.")
     end
 
+    # Partner line country exception requires 'the'
+    # name.match?(/Czech Republic OBNI|United Arab Emirates OBNI/)
+    it 'returns partner sign off content for countries requiring \'the\'' do
+      country = create(:country)
+      provider = create(:service_provider, country_id: country.id, partner: 'partner name')
+      opportunity = create(:opportunity)
+      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity, content)
+      lines = presenter.sign_off_content(provider)
+      partner_name = provider.partner
+      country_name = provider.country.name
+
+      expect(lines.length).to eq(3)
+      expect(lines[0]).to eq("Express your interest to the #{partner_name} in #{country_name}.")
+      expect(lines[1]).to eq("The #{partner_name} is our chosen partner to deliver trade services in #{country_name}.")
+      expect(lines[2]).to eq(content['sign_off_extra'])
+    end
+
     # Default partner line
     # partner.present?
     it 'returns default sign off content for opp with partner' do
@@ -577,15 +594,16 @@ RSpec.describe OpportunityPresenter do
     # name.match(/Czech Republic \w+|Dominican Republic \w+|Ivory Coast \w+|Netherlands \w+|Philippines \w+|United Arab Emirates \w+|United States \w+/)
     it 'returns standard sign off content with \'the\' variant required for country name' do
       country = create(:country, name: 'Czech Republic')
-      provider = create(:service_provider, name: 'Czech Republic Prague', country_id: country.id)
+      provider = create(:service_provider, name: 'Czech Republic OBNI', country_id: country.id, partner: 'British Chamber of Commerce')
       opportunity = create(:opportunity)
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity, content)
       lines = presenter.sign_off_content(provider)
       country_name = provider.country.name
 
-      expect(lines.length).to eq(2)
-      expect(lines[0]).to eq("Express your interest to the Department for International Trade team in the #{country_name}.")
-      expect(lines[1]).to eq(content['sign_off_extra'])
+      expect(lines.length).to eq(3)
+      expect(lines[0]).to eq("Express your interest to the #{provider.partner} in the #{country_name}.")
+      expect(lines[1]).to eq("The #{provider.partner} is our chosen partner to deliver trade services in the #{country_name}.")
+      expect(lines[2]).to eq(content['sign_off_extra'])
 
       # And do another one to be sure...
       country = create(:country, name: 'USA')

@@ -25,10 +25,10 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     security_opp = create(:opportunity, title: 'Italy - White hat hacker required', description: 'security food drink', sectors: [security_sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
     post_opp = create(:opportunity, title: 'France - Cow required', sectors: [sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
     oo_opp = create(:opportunity, title: 'Greece - Pimms food drink in Mykonos', description: 'food drink pimms mykonoos', source: :volume_opps, status: :publish, response_due_on: 1.week.from_now)
+    refresh_elasticsearch
 
     visit '/'
 
-    sleep 2
     click_on 'FoodDrink'
 
     expect(page).to have_content('Cow required')
@@ -42,10 +42,9 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     security_opp = create(:opportunity, title: 'Italy - White hat hacker required', description: 'security food drink', sectors: [security_sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
     post_opp = create(:opportunity, title: 'France - Cow required', sectors: [sector], source: :post, status: :publish, response_due_on: 1.week.from_now)
     oo_opp = create(:opportunity, title: 'Greece - Pimms food drink in Mykonos', description: 'food drink pimms mykonoos', source: :volume_opps, status: :publish, response_due_on: 1.week.from_now)
-
+    refresh_elasticsearch
+    
     visit '/'
-
-    sleep 2
 
     click_on 'FoodDrink'
 
@@ -64,10 +63,9 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     create(:opportunity, :published, title: 'Boats for Zouaziland lakes', countries: [fictional_country])
     another_fictional_country = create(:country, name: 'Martonia')
     create(:opportunity, :published, title: 'Ships for Martian oceans', countries: [another_fictional_country])
-
+    refresh_elasticsearch
     visit '/'
 
-    sleep 1
     within first('.search-form') do
       fill_in 's', with: 'oceans'
       click_on 'Find opportunities'
@@ -82,10 +80,9 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     create(:opportunity, :published, title: 'Boats for Zouaziland lakes', countries: [fictional_country])
     another_fictional_country = create(:country, name: 'Martonia')
     create(:opportunity, :published, title: 'Ships for Martian oceans', countries: [another_fictional_country])
-
+    refresh_elasticsearch
     visit '/'
 
-    sleep 1
     within first('.search-form') do
       select('Zouaziland', from: 'areas[]')
       click_on 'Find opportunities'
@@ -100,10 +97,10 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     create(:opportunity, :published, title: 'British pies', countries: [mediterranean_country])
     asian_country = create(:country, name: 'Japan', slug: 'japan')
     create(:opportunity, :published, title: 'British tea', countries: [asian_country])
+    refresh_elasticsearch
 
     visit '/'
 
-    sleep 1
     within first('.search-form') do
       select('Mediterranean Europe', from: 'areas[]')
       click_on 'Find opportunities'
@@ -121,10 +118,10 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     create(:opportunity, :published, title: 'Boats for Zouaziland lakes', countries: [fictional_country])
     another_fictional_country = create(:country, name: 'Martonia')
     create(:opportunity, :published, title: 'Ships for Martian oceans', countries: [another_fictional_country])
+    refresh_elasticsearch
 
     visit '/'
 
-    sleep 1
     within first('.search-form') do
       fill_in 's', with: 'lakes'
       select('Zouaziland', from: 'areas[]')
@@ -140,10 +137,10 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     create(:opportunity, :published, title: 'British pies', countries: [mediterranean_country])
     asian_country = create(:country, name: 'Japan', slug: 'japan')
     create(:opportunity, :published, title: 'British tea', countries: [asian_country])
+    refresh_elasticsearch
 
     visit '/'
 
-    sleep 1
     within first('.search-form') do
       fill_in 's', with: 'pies'
       select('Mediterranean Europe', from: 'areas[]')
@@ -165,11 +162,10 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     create(:opportunity, :published, title: 'Olive oil', countries: [another_mediterranean_country])
     asian_country = create(:country, name: 'Japan', slug: 'japan')
     create(:opportunity, :published, title: 'British tea', countries: [asian_country])
-
+    refresh_elasticsearch
     # just get all opportunities
     visit '/'
 
-    sleep 1
     within first('.search-form') do
       click_on 'Find opportunities'
     end
@@ -291,10 +287,10 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     create(:opportunity, :published, title: 'Olive oil', countries: [another_mediterranean_country])
     asian_country = create(:country, name: 'Japan', slug: 'japan')
     create(:opportunity, :published, title: 'British tea', countries: [asian_country])
+    refresh_elasticsearch
 
     visit '/'
 
-    sleep 1
     within first('.search-form') do
       fill_in 's', with: 'British'
       click_on 'Find opportunities'

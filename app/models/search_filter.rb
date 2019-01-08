@@ -1,4 +1,17 @@
 class SearchFilter
+  #
+  # Contains cleaned data about the filters used for a search request
+  # Inputs: params - hash provided by HTTP request, possibly dirty
+  # Returns: nothing
+  # Methods: #sectors - array of sector slugs (default), or names, or objects
+  #          #regions - as above, but regions
+  #          #countries - as above
+  #          #types - as above
+  #          #values - as above
+  #          #sources - as above
+  #          #reduced_countries - as above
+  #
+
   include RegionHelper
   attr_reader :params
 
@@ -147,6 +160,9 @@ class SearchFilter
   end
 
   # Check requested values against those stored from Opportunity.sources
+  # Input:   @params[:sources] hash of source slugs
+  # Returns: array of hashes, each hash having a slug, name and value
+  #          e.g. [{ slug: 'volume_opps', name: 'Volume_opps', value: 1 }]
   def whitelisted_filters_for_sources
     collection = Opportunity.sources
     requested_parameters = as_array(@params[:sources])
