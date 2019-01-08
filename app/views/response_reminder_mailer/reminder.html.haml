@@ -1,7 +1,7 @@
 - presenter = OpportunityPresenter.new(self, @enquiry.opportunity, @content)
 
 %h1
-  %span= presenter.content_with_inclusion 'title_prefix', [@reminder_number]
+  %span= presenter.content 'title_prefix'
   =presenter.content 'title_main'
 %br
 %p= presenter.content 'greeting'

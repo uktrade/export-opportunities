@@ -1,8 +1,8 @@
-# EnquiryMailer
+# ResponseReminderMailer
 # ------------------------------------
 
 reminder:
-  title_prefix: "[$number] reminder:"
+  title_prefix: "First reminder:"
   title_main: Respond to enquiry
   greeting: Dear colleague,
   why_email: You received an enquiry for [$opportunity_title] from [$company_name], but have yet to respond to it.

@@ -75,46 +75,4 @@ RSpec.describe EnquiryMailer, type: :mailer do
       expect(last_delivery.cc).to eql(nil)
     end
   end
-
-  describe '.reminder' do
-    let(:view_context) { ActionController::Base.helpers }
-
-    it 'sends a reminder email to contacts' do
-      tch = TestContentHelper.new
-      content = tch.get_content('emails/enquiry_mailer.yml')
-      enquiry = create(:enquiry)
-      EnquiryMailer.reminder(enquiry, 1, content['reminder']).deliver_now!
-      last_delivery = ActionMailer::Base.deliveries.last
-      subject = "#{tch.content_with_inclusion('reminder.title_prefix', ['First'])} #{tch.content('reminder.title_main')}"
-      expect(last_delivery.subject).to eql(subject)
-      expect(last_delivery.to).to eql(enquiry.opportunity.contacts.pluck(:email))
-      expect(last_delivery.from).to eql([Figaro.env.MAILER_FROM_ADDRESS])
-      expect(last_delivery.to_s).to include(enquiry.opportunity.title)
-      expect(last_delivery.to_s).to include(enquiry.company_name)
-    end
-  end
-
-  describe '.reminders' do
-
-    it 'sends a reminder email for each' do
-      tch = TestContentHelper.new
-      content = tch.get_content('emails/enquiry_mailer.yml')
-      enquiry1 = create(:enquiry)
-      enquiry2 = create(:enquiry)
-      enquiry_reminders = [{ enquiry: enquiry1, number: 1 }, { enquiry: enquiry2, number: 3 }]
-      EnquiryMailer.reminders(enquiry_reminders).deliver_now!
-      last_delivery = ActionMailer::Base.deliveries.last
-      subject = "#{tch.content_with_inclusion('reminder.title_prefix', ['Third'])} #{tch.content('reminder.title_main')}"
-
-      expect(last_delivery.subject).to eql(subject)
-      expect(last_delivery.to).to eql(enquiry2.opportunity.contacts.pluck(:email))
-      expect(last_delivery.from).to eql([Figaro.env.MAILER_FROM_ADDRESS])
-      expect(last_delivery.to_s).to include(enquiry2.opportunity.title)
-      expect(last_delivery.to_s).to include(enquiry2.company_name)
-    end
-  end
-
-  class TestContentHelper
-    include ContentHelper
-  end
 end
