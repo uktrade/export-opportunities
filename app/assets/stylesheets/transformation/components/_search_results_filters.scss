@@ -2,10 +2,6 @@
   @include body-s;
   margin-bottom: $spacing-3;
 
-  h3 {
-    @include body-m;
-  }
-
   label {
     font: inherit;
   }
@@ -39,6 +35,10 @@
     display: block;
     font: inherit;
     margin: 0 auto;
+  }
+
+  .section-heading {
+    @include body-m;
   }
 
   .separator {

@@ -7,7 +7,7 @@ gem 'bundler', '1.16.3'
 gem 'puma', '3.12.0'
 gem 'pg', '0.21.0'
 gem 'sidekiq'
-gem 'sidekiq-cron', '0.6.3'
+gem 'sidekiq-cron'
 gem 'sidekiq-failures'
 gem 'redis', '3.3.3'
 gem 'redis-namespace'
@@ -99,6 +99,9 @@ group :development, :test do
   gem 'pry-stack_explorer'
   gem 'bullet'
   gem 'uglifier'
+  gem 'rubocop-rspec'
+  gem 'spring'
+  gem 'spring-commands-rspec'
 end
 
 group :development do
@@ -130,6 +133,7 @@ group :test do
   gem 'elasticsearch-extensions'
   gem 'show_me_the_cookies'
   gem 'rails-controller-testing'
+  gem 'mock_redis'
 end
 
 group :production do
