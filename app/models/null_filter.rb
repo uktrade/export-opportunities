@@ -14,4 +14,8 @@ class NullFilter
   def values
     []
   end
+
+  def sources
+    []
+  end
 end

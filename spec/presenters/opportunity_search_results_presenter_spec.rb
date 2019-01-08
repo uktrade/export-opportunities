@@ -47,7 +47,6 @@ RSpec.describe OpportunitySearchResultsPresenter do
     it 'Returns nil when does not have more opportunities to show' do
       url_params = { s: 'food' }
       presenter = OpportunitySearchResultsPresenter.new(content, public_search(url_params, 1))
-      field = presenter.field_content('countries')
 
       expect(presenter.view_all_link('some/where')).to eql(nil)
     end
@@ -86,32 +85,54 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#found_message' do
+    # faking found and returned result numbers for tests
+
+    it 'Returns custom message when results exceed the defined limit' do
+      url_params = { s: 'food' }
+      total_found = 2000
+      total_returned = 500
+      search = public_search(url_params, total_returned, total_found)
+      presenter = OpportunitySearchResultsPresenter.new(content, search)
+      expect(presenter.found_message).to eql(presenter.content_with_inclusion('max_results_exceeded', [total_returned, total_found]))
+    end
+
     it 'Returns the correct message when more than one results is found' do
       url_params = { s: 'food' }
-      presenter = OpportunitySearchResultsPresenter.new(content, public_search(url_params))
+      total_found = 2
+      total_returned = 2
+      search = public_search(url_params, total_returned, total_found)
+      presenter = OpportunitySearchResultsPresenter.new(content, search)
 
-      expect(presenter.found_message(2)).to eql('2 results found')
+      expect(presenter.found_message).to eql('2 results found')
     end
 
     it 'Returns the correct message when one results is found' do
       url_params = { s: 'food' }
-      presenter = OpportunitySearchResultsPresenter.new(content, public_search(url_params))
+      total_found = 1
+      total_returned = 1
+      search = public_search(url_params, total_returned, total_found)
+      presenter = OpportunitySearchResultsPresenter.new(content, search)
 
-      expect(presenter.found_message(1)).to eql('1 result found')
+      expect(presenter.found_message).to eql('1 result found')
     end
 
     it 'Returns the correct message when no results are found' do
       url_params = { s: 'food' }
-      presenter = OpportunitySearchResultsPresenter.new(content, public_search(url_params))
+      total_found = 0
+      total_returned = 0
+      search = public_search(url_params, total_returned, total_found)
+      presenter = OpportunitySearchResultsPresenter.new(content, search)
 
-      expect(presenter.found_message(0)).to eql('0 results found')
+      expect(presenter.found_message).to eql('0 results found')
     end
   end
 
   describe '#information' do
+    # Passing fake found and returned result numbers to public_search to control tests
+
     it 'Returns result found information message with search term' do
       url_params = { s: 'food' }
-      presenter = OpportunitySearchResultsPresenter.new(content, public_search(url_params, 1))
+      presenter = OpportunitySearchResultsPresenter.new(content, public_search(url_params, 1, 1))
       message = presenter.information
 
       expect(message).to include('1 result found for')
@@ -121,7 +142,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
     it 'Returns result found information message with countries' do
       url_params = { s: 'food', countries: %w[spain mexico] }
-      presenter = OpportunitySearchResultsPresenter.new(content, public_search(url_params, 1))
+      presenter = OpportunitySearchResultsPresenter.new(content, public_search(url_params, 1, 1))
       message = presenter.information
 
       expect(message).to include('1 result found')
@@ -189,7 +210,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
       message = presenter.searched_in(true)
       output = [' in Spain or Mexico', ' in Mexico or Spain']
 
-      expect(output).to include(presenter.searched_in) 
+      expect(output).to include(presenter.searched_in)
       expect(has_html?(message)).to be_truthy
     end
 
@@ -221,7 +242,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
       expect(presenter.searched_in).to eql('')
     end
 
-   it 'Returns countries as a region name when a full set is matched' do
+    it 'Returns countries as a region name when a full set is matched' do
       slugs = %w[armenia azerbaijan georgia kazakhstan mongolia russia tajikistan turkey ukraine uzbekistan]
       countries(slugs)
       url_params = { s: 'food', countries: slugs }
@@ -245,7 +266,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
       expect(names.length).to eq(12)
       expect(names.join(' ')).to eq('Mediterranean Europe North East Asia Armenia Azerbaijan Georgia Kazakhstan Mongolia Russia Tajikistan Turkey Ukraine Uzbekistan')
-   end
+    end
   end
 
   describe '#searched_in_with_html' do
@@ -465,7 +486,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
                         'options' => [{ 'label' => 'foo', 'description' => 'label help' }],
                         'description' => 'question help' }
       field_data = { name: 'info', options: [{ slug: 'boo' }], selected: [] }
-      presenter = OpportunitySearchResultsPresenter.new(content, { filter_data: { field_name: field_data } })
+      presenter = OpportunitySearchResultsPresenter.new(content, filter_data: { field_name: field_data })
       checkboxes = presenter.send(:format_filter_checkboxes, field_content, :field_name)
 
       expect(checkboxes[:name]).to eq('info')
@@ -498,12 +519,12 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
   # Helper functions follow...
 
-  def public_search(url_params, total=nil)
+  def public_search(url_params, fake_total_returned = nil, fake_total_found = nil)
     url_params = region_helper.region_and_country_param_conversion(url_params)
     params = ActionController::Parameters.new(url_params)
     search_filter = SearchFilter.new(params)
     controller = TestOpportunitiesController.new(search_filter)
-    controller.opportunity_search(total)
+    controller.opportunity_search(fake_total_returned, fake_total_found)
   end
 
   def has_html?(message)
@@ -548,9 +569,10 @@ RSpec.describe OpportunitySearchResultsPresenter do
       @dit_boost_search = nil
     end
 
-    def opportunity_search(total)
+    def opportunity_search(fake_total_returned, fake_total_found)
       search = OpportunitiesController.instance_method(:opportunity_search).bind(self).call
-      search[:total] = total unless total.nil?
+      search[:total] = fake_total_returned if fake_total_returned.present?
+      search[:total_without_limit] = fake_total_found if fake_total_found.present?
       search
     end
 
