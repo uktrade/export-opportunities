@@ -8,9 +8,9 @@ GIT
 
 GIT
   remote: https://github.com/uktrade/export_components.git
-  revision: fcaa286c8a9450d0d3baf2e3326780e3d8bea69a
+  revision: 0b3b84fb19a1a1e4779b9a9c67e4f63dc782c963
   specs:
-    export_components (0.10.1)
+    export_components (1.0.0)
       rails (~> 5.2)
 
 GEM
@@ -526,7 +526,7 @@ DEPENDENCIES
   elasticsearch-extensions
   elasticsearch-model (= 5.1.0)
   elasticsearch-rails (= 5.1.0)
-  export_components (~> 0.10)!
+  export_components (~> 1.0)!
   factory_bot_rails
   faker
   faraday (= 0.12.2)
