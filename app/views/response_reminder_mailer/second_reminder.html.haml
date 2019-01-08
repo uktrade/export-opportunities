@@ -1,0 +1,23 @@
+%h1 2nd reminder: respond to enquiry
+
+%br
+
+%p Dear colleague,
+
+%p You still need to respond to an enquiry for #{ @opportunity_country_title } from #{ @enquiry_company_name }.
+
+%p Failure to respond without good reason by #{ @response_deadline } may result in restricted access to the admin centre.
+
+%p.action
+  = link_to "Respond to enquiry", new_admin_enquiry_response_url(id: @enquiry.id), { :class=>"link" }
+
+%p
+  If you need assistance with responding to this enquiry, please contact 
+  = mail_to Figaro.env.LATE_RESPONSE_SUPPORT_INBOX
+
+%br
+
+%p The export opportunities team
+
+=render partial:'enquiry_response_mailer/submit_buttons' unless @mailer_view
+

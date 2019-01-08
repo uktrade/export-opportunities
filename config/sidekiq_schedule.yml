@@ -21,3 +21,9 @@ live_counter_job:
   class: "OpportunitiesCounters"
   queue: default
   active_job: true
+
+send_enquiry_response_reminders_job:
+  cron: "0 8 * * *"
+  class: "SendResponseReminders"
+  queue: default
+  active_job: true

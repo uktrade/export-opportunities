@@ -1,0 +1,19 @@
+%h1 Response 21 days overdue
+
+%br
+
+%p Dear colleague,
+
+%p An enquiry for #{ @opportunity_country_title } from #{ @enquiry_company_name } has still not been replied to. 
+
+%p Please contact the owners of the opportunity and request that they reply to the customer immediately. You can also inform them that this issue may be escalated if they have not replied by #{ @deadline }. 
+
+%p.action
+  = link_to "Go to enquiry", admin_enquiry_url(@enquiry.id), { :class=>"link" }
+
+
+%br
+
+%p The export opportunities team
+
+=render partial:'enquiry_response_mailer/submit_buttons' unless @mailer_view
