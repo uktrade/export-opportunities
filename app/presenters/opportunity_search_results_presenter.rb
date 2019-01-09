@@ -65,7 +65,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
     message = ''
     if total_found > total_returned
       message = content_with_inclusion('max_results_exceeded', [total_returned, number_with_delimiter(total_found, delimiter: ',')])
-      message += content_tag('span', content['max_results_hint'])
+      message += content_tag('span', content['max_results_hint'], class: 'hint')
     end
   end
 
