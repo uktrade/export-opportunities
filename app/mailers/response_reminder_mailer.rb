@@ -4,7 +4,7 @@ class ResponseReminderMailer < ApplicationMailer
 
   # Day 7
   def reminder(enquiry)
-    return if enquiry.opportunity.contacts.blank? # TEST
+    return if enquiry.opportunity.contacts.blank?
     @mailer_view = true
 
     @opportunity = enquiry.opportunity

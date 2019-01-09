@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'capybara/email/rspec'
 
-RSpec.describe ResponseReminderMailer, type: :mailer, focus: true do
+RSpec.describe ResponseReminderMailer, type: :mailer do
 
   def mail
     ActionMailer::Base.deliveries.last

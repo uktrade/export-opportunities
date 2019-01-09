@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendResponseReminders,
-  :commit, sidekiq: :inline do
+RSpec.describe SendResponseReminders, sidekiq: :inline, focus: true do
 
   def count
     ActionMailer::Base.deliveries.count
@@ -31,7 +30,7 @@ RSpec.describe SendResponseReminders,
     it 'runs correctly' do
       run
       expect(count).to eq(1)
-      expect(last_email).to include("1st reminder:")
+      expect(last_email).to include("First reminder:")
     end
     it 'only where opportunities are published' do
       @opportunity.update(status: :draft)
@@ -43,10 +42,19 @@ RSpec.describe SendResponseReminders,
       run
       expect(count).to eq(0)
     end
-    it 'only where response not already given' do
+    it 'only where completed response not already given' do
+      EnquiryResponse.destroy_all
+      # Creates an complete response - should NOT send reminder
       response = create(:enquiry_response, enquiry: @enquiry)
       run
       expect(count).to eq(0)
+
+      # Now revert to if response uncompleted - SHOULD send 
+      response.update(completed_at: nil)
+      run
+      expect(count).to eq(1)
+      
+      # Clean up
       response.delete
     end
     it 'enquiries in last 30 days' do
@@ -65,7 +73,7 @@ RSpec.describe SendResponseReminders,
     opportunity.enquiries << create(:enquiry)
 
     # Step through the 32 days
-    32.times do |x|
+    9.times do |x|
       Timecop.freeze(Time.now + x.days + 1.minute) do
         run
         # 1st email
@@ -74,52 +82,56 @@ RSpec.describe SendResponseReminders,
         end
         if x == 7
           expect(count).to eq(1)
-          expect(last_email).to include("1st reminder:")
+          expect(last_email).to include("First reminder:")
         end
         if x == 8
           expect(count).to eq(1)
-          expect(last_email).to include("1st reminder:")
-        end
-        # 2nd email
-        if x == 13
-          expect(count).to eq(1)
-          expect(last_email).to include("1st reminder:")
-        end
-        if x == 14
-          expect(count).to eq(2)
-          expect(last_email).to include("2nd reminder:")
-        end
-        if x == 15
-          expect(count).to eq(2)
-          expect(last_email).to include("2nd reminder:")
-        end
-        # 3rd email
-        if x == 20
-          expect(count).to eq(2)
-          expect(last_email).to include("2nd reminder:")
-        end
-        if x == 21
-          expect(count).to eq(3)
-          expect(last_email).to include("Response 21 days overdue")
-        end
-        if x == 22
-          expect(count).to eq(3)
-          expect(last_email).to include("Response 21 days overdue")
-        end
-        # 4th email
-        if x == 27
-          expect(count).to eq(3)
-          expect(last_email).to include("Response 21 days overdue")
-        end
-        if x == 28
-          expect(count).to eq(4)
-          expect(last_email).to include("Response 28 days overdue")
-        end
-        if x == 29
-          expect(count).to eq(4)
-          expect(last_email).to include("Response 28 days overdue")
+          expect(last_email).to include("First reminder:")
         end
       end
     end
   end
 end
+
+# Code for proposed emails 2, 3 and 4.
+# Not yet used but likely in time, so leaving here [8 Jan 2019]
+#
+# # 2nd email
+# if x == 13
+#   expect(count).to eq(1)
+#   expect(last_email).to include("First reminder:")
+# end
+# if x == 14
+#   expect(count).to eq(2)
+#   expect(last_email).to include("2nd reminder:")
+# end
+# if x == 15
+#   expect(count).to eq(2)
+#   expect(last_email).to include("2nd reminder:")
+# end
+# # 3rd email
+# if x == 20
+#   expect(count).to eq(2)
+#   expect(last_email).to include("2nd reminder:")
+# end
+# if x == 21
+#   expect(count).to eq(3)
+#   expect(last_email).to include("Response 21 days overdue")
+# end
+# if x == 22
+#   expect(count).to eq(3)
+#   expect(last_email).to include("Response 21 days overdue")
+# end
+# # 4th email
+# if x == 27
+#   expect(count).to eq(3)
+#   expect(last_email).to include("Response 21 days overdue")
+# end
+# if x == 28
+#   expect(count).to eq(4)
+#   expect(last_email).to include("Response 28 days overdue")
+# end
+# if x == 29
+#   expect(count).to eq(4)
+#   expect(last_email).to include("Response 28 days overdue")
+# end
