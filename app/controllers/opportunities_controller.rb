@@ -28,6 +28,37 @@ class OpportunitiesController < ApplicationController
   #   @total:                Total number of opportunities returned
   #   @opportunities:        Records from @query
   #
+
+  # def index
+  #   @content = get_content('opportunities/index.yml')
+  #   @featured_industries = Sector.featured
+  #   @recent_opportunities = recent_opportunities
+  #   @countries = all_countries
+  #   @regions = regions_list
+  #   @opportunities_stats = opportunities_stats
+  #   if atom_request?
+  #     query = Opportunity.public_search(
+  #       search_term: '',
+  #       filters: SearchFilter.new(params),
+  #       sort: sorting
+  #     )[:search]
+
+  #     atom_request_query(query)
+  #   end
+
+  #   respond_to do |format|
+  #     format.html do
+  #       render layout: 'landing'
+  #     end
+  #     format.js
+  #     format.any(:atom, :xml) do
+  #       render :index, formats: :atom
+  #     end
+  #   end
+  # end
+
+
+
   def index
     respond_to do |format|
       format.html do
