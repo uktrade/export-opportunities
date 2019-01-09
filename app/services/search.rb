@@ -27,6 +27,7 @@ class Search
     @results_only = results_only
   end
 
+  # Needs BIG tidy
   def run
     query = build_query
     search_query = query[0]
@@ -217,8 +218,8 @@ class Search
         boost:   @boost,
         results: paged_results.records,
         total:   results.records.total,
-        total_without_limit: total_without_limit
-        # country_list: country_list # ADD TEST Probably not needed
+        total_without_limit: total_without_limit,
+        country_list: country_list
       }
     end
   end

@@ -48,6 +48,8 @@ class OpportunitiesController < ApplicationController
 
   #   respond_to do |format|
   #     format.html do
+  #- page = LandingPresenter.new(@content, @featured_industries)
+  #- recent_opportunities = OpportunitySearchResultsPresenter.new(@content, @recent_opportunities)
   #       render layout: 'landing'
   #     end
   #     format.js
@@ -58,24 +60,21 @@ class OpportunitiesController < ApplicationController
   # end
 
 
-
   def index
     respond_to do |format|
       format.html do
         @content = get_content('opportunities/index.yml')
         @recent_opportunities = recent_opportunities
-        subscr_form = subscription_form(@recent_opportunities) # Are we sure?
         @featured_industries = Sector.featured
         @countries = all_countries
         @regions = regions_list
         @opportunities_stats = opportunities_stats
         @page = LandingPresenter.new(@content, @featured_industries)
-        @recent_opportunities = OpportunitySearchResultsPresenter.new(@content, @recent_opportunities, subscr_form)
         render layout: 'landing'
       end
       format.any(:atom, :xml) do
         params.merge!({ sort_default_column: 'updated_at' })
-        query = Search.new(params, results_only: true).public_search
+        query = Search.new(params, results_only: true).run
         query = query.records
         # return 25 results per page for atom feed
         query = query.page(params[:paged]).per(25)
@@ -148,15 +147,13 @@ class OpportunitiesController < ApplicationController
       request && %i[atom xml].include?(request.format.symbol)
     end
 
-    # Get 5 most recent only
+    # 5 most recent opportunities
     def recent_opportunities
       today = Time.zone.today
       post_opps = Opportunity.__elasticsearch__.where(status: :publish).where('response_due_on>?', today).where(source: :post).order(first_published_at: :desc).limit(4).to_a
       volume_opps = Opportunity.__elasticsearch__.where(status: :publish).where('response_due_on>?', today).where(source: :volume_opps).order(first_published_at: :desc).limit(1).to_a
 
-      opps = [post_opps, volume_opps].flatten
-
-      { results: opps, limit: 5, total: 5 }
+      [post_opps, volume_opps].flatten
     end
 
     def opportunities_stats

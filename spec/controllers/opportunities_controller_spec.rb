@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'mock_redis'
 
-RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controller, focus: true do
+RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controller do
   include RegionHelper
 
   describe 'GET #index' do
@@ -69,7 +69,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       get :index
       
       recent = assigns(:recent_opportunities)
-      expect(recent.found.count).to be 5
+      expect(recent.count).to be 5
     end
     it "provides list of countries" do
       create(:country, slug: 'france')
@@ -183,14 +183,14 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       expect(data[:total]).to eq 1
     end
     describe 'filters by search filters' do
-      it 'by country', focus: true do
+      it 'by country' do
         # One country
         get :results, params: { countries: ['fiji'] } 
         data = assigns(:results).instance_variable_get(:@data)
         expect(data[:total]).to eq 3
         expect(data[:filter].countries).to eq(
           SearchFilter.new(countries: ['fiji']).countries)
-        
+       
         # Multiple countries
         get :results, params: { countries: ['fiji', 'barbados'] }
         data = assigns(:results).instance_variable_get(:@data)
@@ -271,8 +271,8 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       describe 'provides a valid subscription form object' do
         it "includes the search term" do
           get :results, params: { s: 'Title 0' }
-          data = assigns(:results).instance_variable_get(:@data)
-          expect(data[:subscription].params).to eq(
+          subscription = assigns(:results).instance_variable_get(:@subscription_form)
+          expect(subscription.params).to eq(
             SubscriptionForm.new(
               query: {
                 search_term: 'Title 0',
@@ -286,11 +286,11 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
         end
         it "includes valid sectors" do
           get :results, params: { sectors: ['test-sector'] } 
-          data = assigns(:results).instance_variable_get(:@data)
-          expect(data[:subscription].params).to eq(
+          subscription = assigns(:results).instance_variable_get(:@subscription_form)
+          expect(subscription.params).to eq(
             SubscriptionForm.new(
               query: {
-                search_term: 'test sector',
+                search_term: "",
                 sectors:     ['test-sector'],
                 types:       [],
                 countries:   [],
@@ -299,11 +299,11 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
             ).params
           )
           get :results, params: { sectors: ['invalid-sector'] } 
-          data = assigns(:results).instance_variable_get(:@data)
-          expect(data[:subscription].params).to eq(
+          subscription = assigns(:results).instance_variable_get(:@subscription_form)
+          expect(subscription.params).to eq(
             SubscriptionForm.new(
               query: {
-                search_term: nil,
+                search_term: "",
                 sectors:     [],
                 types:       [],
                 countries:   [],
@@ -314,11 +314,11 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
         end
         it "includes valid types" do
           get :results, params: { types: ['test-type'] }
-          data = assigns(:results).instance_variable_get(:@data)
-          expect(data[:subscription].params).to eq(
+          subscription = assigns(:results).instance_variable_get(:@subscription_form)
+          expect(subscription.params).to eq(
             SubscriptionForm.new(
               query: {
-                search_term: nil,
+                search_term: "",
                 sectors:     [],
                 types:       ['test-type'],
                 countries:   [],
@@ -327,11 +327,11 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
             ).params
           )
           get :results, params: { types: ['invalid-type'] }
-          data = assigns(:results).instance_variable_get(:@data)
-          expect(data[:subscription].params).to eq(
+          subscription = assigns(:results).instance_variable_get(:@subscription_form)
+          expect(subscription.params).to eq(
             SubscriptionForm.new(
               query: {
-                search_term: nil,
+                search_term: "",
                 sectors:     [],
                 types:       [],
                 countries:   [],
@@ -342,11 +342,11 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
         end
         it "includes valid countries" do
           get :results, params: { countries: ['fiji'] } 
-          data = assigns(:results).instance_variable_get(:@data)
-          expect(data[:subscription].params).to eq(
+          subscription = assigns(:results).instance_variable_get(:@subscription_form)
+          expect(subscription.params).to eq(
             SubscriptionForm.new(
               query: {
-                search_term: nil,
+                search_term: "",
                 sectors:     [],
                 countries:   ['fiji'],
                 types:       [],
@@ -355,11 +355,11 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
             ).params
           )
           get :results, params: { countries: ['invalid-country'] }
-          data = assigns(:results).instance_variable_get(:@data)
-          expect(data[:subscription].params).to eq(
+          subscription = assigns(:results).instance_variable_get(:@subscription_form)
+          expect(subscription.params).to eq(
             SubscriptionForm.new(
               query: {
-                search_term: nil,
+                search_term: "",
                 sectors:     [],
                 countries:   [],
                 types:       [],
@@ -370,11 +370,11 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
         end
         it "includes values" do
           get :results, params: { values: ['test-value'] }
-          data = assigns(:results).instance_variable_get(:@data)
-          expect(data[:subscription].params).to eq(
+          subscription = assigns(:results).instance_variable_get(:@subscription_form)
+          expect(subscription.params).to eq(
             SubscriptionForm.new(
               query: {
-                search_term: nil,
+                search_term: "",
                 sectors:     [],
                 countries:   [],
                 types:       [],
@@ -383,11 +383,11 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
             ).params
           )
           get :results, params: { values: ['invalid-value'] }
-          data = assigns(:results).instance_variable_get(:@data)
-          expect(data[:subscription].params).to eq(
+          subscription = assigns(:results).instance_variable_get(:@subscription_form)
+          expect(subscription.params).to eq(
             SubscriptionForm.new(
               query: {
-                search_term: nil,
+                search_term: "",
                 sectors:     [],
                 countries:   [],
                 types:       [],
@@ -400,8 +400,8 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       describe 'provides the filter_data' do
         it 'with sectors' do
           get :results, params: { sectors: ['test-sector'] } 
-          data = assigns(:results).instance_variable_get(:@data)
-          expect(data[:filter_data][:sectors]).to eq(
+          filter_data = assigns(:results).instance_variable_get(:@filter_data)
+          expect(filter_data[:sectors]).to eq(
             {
               'name': 'sectors[]',
               'options': Sector.order(:name),
@@ -409,8 +409,8 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
             }
           )
           get :results, params: { sectors: ['invalid-sector'] }
-          data = assigns(:results).instance_variable_get(:@data)
-          expect(data[:filter_data][:sectors]).to eq(
+          filter_data = assigns(:results).instance_variable_get(:@filter_data)
+          expect(filter_data[:sectors]).to eq(
             {
               'name': 'sectors[]',
               'options': Sector.order(:name),
@@ -422,8 +422,8 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
           get :results, params: { countries: ['fiji'] } 
           @country.update_attribute(:opportunity_count, 3)
           @country_2.update_attribute(:opportunity_count, 1)
-          data = assigns(:results).instance_variable_get(:@data)
-          expect(data[:filter_data][:countries]).to eq(
+          filter_data = assigns(:results).instance_variable_get(:@filter_data)
+          expect(filter_data[:countries]).to eq(
             {
               'name': 'countries[]',
               'options': [@country],
@@ -433,8 +433,8 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
           # Note: for invalid search, search is blank therefore more results returned
           #       resulting in more countries shown in options
           get :results, params: { countries: ['invalid-country'] }
-          data = assigns(:results).instance_variable_get(:@data)
-          expect(data[:filter_data][:countries]).to eq(
+          filter_data = assigns(:results).instance_variable_get(:@filter_data)
+          expect(filter_data[:countries]).to eq(
             {
               'name': 'countries[]',
               'options': [@country_2, @country],
@@ -445,8 +445,8 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
         it 'with relevant regions shown and valid regions selected' do
           # Without selection
           get :results, params: { countries: ['fiji'] } 
-          data = assigns(:results).instance_variable_get(:@data)
-          expect(data[:filter_data][:regions]).to eq(
+          filter_data = assigns(:results).instance_variable_get(:@filter_data)
+          expect(filter_data[:regions]).to eq(
             {
               'name': 'regions[]',
               'options': [region_by_country_slug('fiji')],
@@ -455,8 +455,8 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
           )
           # With selection
           get :results, params: { countries: ['fiji'], regions: ['australia-new-zealand'] } 
-          data = assigns(:results).instance_variable_get(:@data)
-          expect(data[:filter_data][:regions]).to eq(
+          filter_data = assigns(:results).instance_variable_get(:@filter_data)
+          expect(filter_data[:regions]).to eq(
             {
               'name': 'regions[]',
               'options': [region_by_country_slug('fiji')],
@@ -465,8 +465,8 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
           )
           # Invalid country
           get :results, params: { countries: ['invalid-country'] } 
-          data = assigns(:results).instance_variable_get(:@data)
-          expect(data[:filter_data][:regions]).to eq(
+          filter_data = assigns(:results).instance_variable_get(:@filter_data)
+          expect(filter_data[:regions]).to eq(
             {
               'name': 'regions[]',
               'options': [region_by_country_slug('barbados'),
@@ -478,8 +478,8 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
         it 'with sources' do
           options = Opportunity.sources.keys.map{|k| k == 'buyer' ? nil : { slug: k } }.compact
           get :results, params: { sources: ['post'] } 
-          data = assigns(:results).instance_variable_get(:@data)
-          expect(data[:filter_data][:sources]).to eq(
+          filter_data = assigns(:results).instance_variable_get(:@filter_data)
+          expect(filter_data[:sources]).to eq(
             {
               'name': 'sources[]',
               'options': options,
@@ -487,8 +487,8 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
             }
           )
           get :results, params: { sources: ['invalid-source'] }
-          data = assigns(:results).instance_variable_get(:@data)
-          expect(data[:filter_data][:sources]).to eq(
+          filter_data = assigns(:results).instance_variable_get(:@filter_data)
+          expect(filter_data[:sources]).to eq(
             {
               'name': 'sources[]',
               'options': options,

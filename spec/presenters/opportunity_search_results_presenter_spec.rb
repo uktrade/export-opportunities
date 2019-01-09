@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe OpportunitySearchResultsPresenter do
+RSpec.describe OpportunitySearchResultsPresenter, focus: true do
   include RegionHelper
   let(:content) { get_content('opportunities/results') }
   let(:region_helper) { TestRegionHelper.new }
@@ -546,10 +546,16 @@ RSpec.describe OpportunitySearchResultsPresenter do
       field_content = { 'question' => 'something',
                         'options' => [{ 'label' => 'foo', 'description' => 'label help' }],
                         'description' => 'question help' }
-      field_data = { name: 'info', options: [{ slug: 'boo' }], selected: [] }
-      presenter = OpportunitySearchResultsPresenter.new(content, { filter_data: { field_name: field_data } }, subscr_form(search({})))
+      # field_data = { name: 'info', options: [{ slug: 'boo' }], selected: [] }
+      # presenter = OpportunitySearchResultsPresenter.new(content, { filter_data: { field_name: field_data } }, subscr_form(search({})))
 
-      checkboxes = presenter.send(:format_filter_checkboxes, field_content, :field_name)
+      #RETURN TO HERE
+      # Send normal data
+      params = { countries: ['fiji'] }
+      results = search(params)
+      presenter = OpportunitySearchResultsPresenter.new(content, results, subscr_form(results))
+
+      checkboxes = presenter.send(:format_filter_checkboxes, field_content, :countries)
 
       expect(checkboxes[:name]).to eq('info')
       expect(checkboxes[:options][0][:label]).to eq('foo')
