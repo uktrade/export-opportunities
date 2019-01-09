@@ -1,13 +1,10 @@
 require 'rails_helper'
 require 'mock_redis'
 
-RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controller do
+RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controller, focus: true do
   include RegionHelper
 
-<<<<<<< HEAD
   describe 'GET #index' do
-=======
->>>>>>> develop
     it "renders" do
       expect(response.status).to eq(200)
     end
@@ -24,7 +21,6 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
              slug: 'security',           name: 'Security')
       create(:sector, featured: true, featured_order: 6, 
              slug: 'retail-and-luxury',  name: 'Retail and luxury')
-      ENV['GREAT_FEATURED_INDUSTRIES']= Sector.all.limit(6).map(&:id).join ","
       
       get :index
       
@@ -37,20 +33,25 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
         expect_any_instance_of(NewDomainConstraint).to receive(:matches?).and_return(true)
       end
       it 'redirects /opportunities to /' do
-        skip('TODO: coming up next. new domain will be great.gov/opportunities')
+        skip('TODO: coming up next. new domain will be great.gov/opportunities [Date: 9 Jan 2019]')
         get_index
         expect(response).to have_http_status(:redirect)
         expect(response).to redirect_to('/')
       end
     end
     it "provides featured industries" do
-      create(:sector, name: 'Creative & Media')
-      create(:sector, name: 'Security')
-      create(:sector, name: 'Food and drink')
-      create(:sector, name: 'Education & Training')
-      create(:sector, name: 'Oil & Gas')
-      create(:sector, name: 'Retail and luxury')
-      ENV['GREAT_FEATURED_INDUSTRIES']= Sector.all.limit(6).map(&:id).join ","
+      create(:sector, featured: true, featured_order: 1, 
+             slug: 'creative-media',     name: 'Creative & Media')
+      create(:sector, featured: true, featured_order: 2, 
+             slug: 'education-training', name: 'Education & Training')
+      create(:sector, featured: true, featured_order: 3, 
+             slug: 'food-drink',         name: 'Food and drink')
+      create(:sector, featured: true, featured_order: 4, 
+             slug: 'oil-gas',            name: 'Oil & Gas')
+      create(:sector, featured: true, featured_order: 5, 
+             slug: 'security',           name: 'Security')
+      create(:sector, featured: true, featured_order: 6, 
+             slug: 'retail-and-luxury',  name: 'Retail and luxury')
       
       get :index
       

@@ -29,35 +29,17 @@ class OpportunitiesController < ApplicationController
   #   @opportunities:        Records from @query
   #
   def index
-<<<<<<< HEAD
-=======
-    @content = get_content('opportunities/index.yml')
-    @featured_industries = Sector.featured
-    @recent_opportunities = recent_opportunities
-    @countries = all_countries
-    @regions = regions_list
-    @opportunities_stats = opportunities_stats
-    if atom_request?
-      query = Opportunity.public_search(
-        search_term: '',
-        filters: SearchFilter.new(params),
-        sort: sorting
-      )[:search]
-
-      atom_request_query(query)
-    end
-
->>>>>>> develop
     respond_to do |format|
       format.html do
         @content = get_content('opportunities/index.yml')
         @recent_opportunities = recent_opportunities
-        @featured_industries = featured_industries
+        subscr_form = subscription_form(@recent_opportunities) # Are we sure?
+        @featured_industries = Sector.featured
         @countries = all_countries
         @regions = regions_list
         @opportunities_stats = opportunities_stats
         @page = LandingPresenter.new(@content, @featured_industries)
-        @recent_opportunities = OpportunitySearchResultsPresenter.new(@content, @recent_opportunities)
+        @recent_opportunities = OpportunitySearchResultsPresenter.new(@content, @recent_opportunities, subscr_form)
         render layout: 'landing'
       end
       format.any(:atom, :xml) do
@@ -146,49 +128,12 @@ class OpportunitiesController < ApplicationController
       { results: opps, limit: 5, total: 5 }
     end
 
-    # TODO: How are the featured industries chosen?
-    def featured_industries
-      # Creative & Media = id(9)
-      # Security = id(31)
-      # Food and drink    = id(14)
-      # Education & Training = id(10)
-      # Oil & Gas = id(25)
-      # Retail and luxury = id(30)
-      Sector.where(id: Figaro.env.GREAT_FEATURED_INDUSTRIES.split(',').map(&:to_i).to_a)
-    end
-
-<<<<<<< HEAD
     def opportunities_stats
       stats = opps_counter_stats
       {
         total: stats[:total],
         expiring_soon: stats[:expiring_soon],
-        published_recently: stats[:published_recently],
-=======
-    # sort countries in list by asc name
-    country_list.sort_by(&:name)
-  end
-
-  # Get 5 most recent only
-  private def recent_opportunities
-    today = Time.zone.today
-    post_opps = Opportunity.__elasticsearch__.where(status: :publish).where('response_due_on>?', today).where(source: :post).order(first_published_at: :desc).limit(4).to_a
-    volume_opps = Opportunity.__elasticsearch__.where(status: :publish).where('response_due_on>?', today).where(source: :volume_opps).order(first_published_at: :desc).limit(1).to_a
-
-    opps = [post_opps, volume_opps].flatten
-
-    { results: opps, limit: 5, total: 5 }
-  end
-
-  private def subscription_form
-    SubscriptionForm.new(
-      query: {
-        search_term: @search_term,
-        sectors: @search_filter.sectors,
-        types: @search_filter.types,
-        countries: @search_filter.countries,
-        values: @search_filter.values,
->>>>>>> develop
+        published_recently: stats[:published_recently]
       }
     end
 end
