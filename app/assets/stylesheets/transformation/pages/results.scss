@@ -26,12 +26,12 @@ form {
   p {
     @include body-l;
     font-weight: bold;
+  }
 
-    span {
-      @include body-m;
-      display: block;
-      font-weight: normal;
-    }
+  .hint {
+    @include body-m;
+    display: block;
+    font-weight: normal;
   }
 
   .param {
