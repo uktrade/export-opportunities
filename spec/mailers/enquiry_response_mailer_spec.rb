@@ -66,7 +66,7 @@ RSpec.describe EnquiryResponseMailer, type: :mailer do
     end
   end
 
-  describe '#reminder', focus: true do
+  describe '#reminder' do
 
     def mail
       ActionMailer::Base.deliveries.last

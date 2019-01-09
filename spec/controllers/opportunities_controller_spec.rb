@@ -7,7 +7,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
   it "renders" do
     expect(response.status).to eq(200)
   end
-  it "provides featured industries" do
+  it "provides featured industries", focus: trrue do
     create(:sector, featured: true, featured_order: 1, 
            slug: 'creative-media',     name: 'Creative & Media')
     create(:sector, featured: true, featured_order: 2, 
@@ -20,7 +20,6 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
            slug: 'security',           name: 'Security')
     create(:sector, featured: true, featured_order: 6, 
            slug: 'retail-and-luxury',  name: 'Retail and luxury')
-    ENV['GREAT_FEATURED_INDUSTRIES']= Sector.all.limit(6).map(&:id).join ","
     
     get :index
     

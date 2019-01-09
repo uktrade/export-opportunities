@@ -93,7 +93,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
       total_returned = 500
       search = public_search(url_params, total_returned, total_found)
       presenter = OpportunitySearchResultsPresenter.new(content, search)
-      expect(presenter.found_message).to eql(presenter.content_with_inclusion('max_results_exceeded', [total_returned, total_found]))
+      expect(presenter.found_message(total_found)).to eql(presenter.content_with_inclusion('max_results_exceeded', [total_returned, total_found]))
     end
 
     it 'Returns the correct message when more than one results is found' do
@@ -103,7 +103,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
       search = public_search(url_params, total_returned, total_found)
       presenter = OpportunitySearchResultsPresenter.new(content, search)
 
-      expect(presenter.found_message).to eql('2 results found')
+      expect(presenter.found_message(total_found)).to eql('2 results found')
     end
 
     it 'Returns the correct message when one results is found' do
