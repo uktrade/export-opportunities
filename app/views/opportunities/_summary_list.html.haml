@@ -1,9 +1,13 @@
 .summary-list
   %ul.navigation
     - list.each do |item|
+<<<<<<< HEAD
       - if item.dig(:images, :small).present?
+=======
+      - if item[:images].present?
+>>>>>>> develop
         %li
           %picture
-            %source{:srcset=>"#{image_url(item.dig(:images, :small))}", :media=>"(max-width: 768px)"}
-            %img{:src=>"#{image_url(item.dig(:images, :large))}", :alt=>item[:alt]}
+            %source{:srcset=>"#{image_url(item[:images][:small])}", :media=>"(max-width: 768px)"}
+            %img{:src=>"#{image_url(item[:images][:large])}", :alt=>item[:alt]}
           = link_to  item[:title], item[:url]

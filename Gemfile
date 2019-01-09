@@ -7,7 +7,7 @@ gem 'bundler', '1.16.3'
 gem 'puma', '3.12.0'
 gem 'pg', '0.21.0'
 gem 'sidekiq'
-gem 'sidekiq-cron', '0.6.3'
+gem 'sidekiq-cron'
 gem 'sidekiq-failures'
 gem 'redis', '3.3.3'
 gem 'redis-namespace'
@@ -45,7 +45,7 @@ gem 'neat', '1.8.0'
 gem 'autoprefixer-rails'
 gem 'normalize-scss'
 gem 'sass-rails'
-gem 'export_components', '~> 0.10', git: 'https://github.com/uktrade/export_components.git'
+gem 'export_components', '~> 1.0', git: 'https://github.com/uktrade/export_components.git'
 
 # Javascript
 gem 'jquery-rails'
@@ -100,7 +100,7 @@ group :development, :test do
   gem 'bullet'
   gem 'uglifier'
   gem 'rubocop-rspec'
-  gem "spring"
+  gem 'spring'
   gem 'spring-commands-rspec'
 end
 

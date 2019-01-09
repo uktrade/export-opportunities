@@ -8,6 +8,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
   # content, data
   def initialize(content, data, subscription_form)
     super(content, {})
+<<<<<<< HEAD
     @data = data
     @subscription_form = subscription_form
     @filter_data = build_filter_data
@@ -96,6 +97,12 @@ class OpportunitySearchResultsPresenter < FormPresenter
       sources.push(slug: key)
     end
     sources
+=======
+    @search = search
+    @found = search[:results]
+    @view_limit = search[:limit]
+    @term = search[:term]
+>>>>>>> develop
   end
 
   # Overwriting FormPresenter.field_content to allocate when we need
@@ -119,8 +126,9 @@ class OpportunitySearchResultsPresenter < FormPresenter
 
   # Only show all if there are more than currently viewed
   def view_all_link(url, css_classes = '')
-    if @total > @view_limit
-      link_to "View all (#{@total})", url, 'class': css_classes
+     total = @search[:total]
+     if total > @view_limit
+       link_to "View all (#{total})", url, 'class': css_classes
     end
   end
 
@@ -131,7 +139,8 @@ class OpportunitySearchResultsPresenter < FormPresenter
     end
   end
 
-  def found_message(total)
+  def found_message
+    total = @search[:total]
     if total > 1
       "#{total} results found"
     elsif total.zero?
@@ -141,17 +150,25 @@ class OpportunitySearchResultsPresenter < FormPresenter
     end
   end
 
+  def max_results_exceeded_message
+    total_found = @search[:total_without_limit]
+    total_returned = @search[:total]
+    if total_found > total_returned
+      content_with_inclusion('max_results_exceeded', [total_returned, total_found])
+    else
+      ''
+    end
+  end
+
   # Returns results information message (with HTML)
   # We're not returning a message for empty searches or /opportunities location.
   # e.g. "X results found for [term] in [country] or [country]"
   def information
-    message = ''
-    for_message = searched_for_with_html
-    in_message = searched_in_with_html
-    if for_message.present? || in_message.present?
-      message = found_message(@total)
-      message += for_message
-      message += in_message
+    message = max_results_exceeded_message
+    unless max_results_exceeded_message.present?
+      message = found_message
+      message += searched_for_with_html
+      message += searched_in_with_html
     end
     message.html_safe
   end
@@ -232,7 +249,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
     input
   end
 
-  # Returns list + HTML markup for 'Selected Filter' component. 
+  # Returns list + HTML markup for 'Selected Filter' component.
   def selected_filter_list(title)
     id = "selected-filter-title_#{Time.now.to_i}"
     html = content_tag(:p, title, id: id)

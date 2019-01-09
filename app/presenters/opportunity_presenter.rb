@@ -207,7 +207,7 @@ class OpportunityPresenter < PagePresenter
     # Format of message:
     #   "Message the [PARTNER NAME]."
     #   "The [PARTNER NAME] message in [COUNTRY NAME]."
-    elsif name.match?(/China - CBBC|India OBNI|Kuwait OBNI/)
+    elsif name.match?(/China - CBBC|India OBNI|Kuwait OBNI|Turkey OBNI|Vietnam OBNI/)
       lines.push content_with_inclusion('sign_off_partner_1', [partner])
       lines.push content_with_inclusion('sign_off_partner_2', [partner, country_name])
       lines.push @content['sign_off_extra']
@@ -219,6 +219,15 @@ class OpportunityPresenter < PagePresenter
     elsif name.match?(/Saudi Arabia OBNI/)
       lines.push content_with_inclusion('sign_off_partner_1a', [partner, country_name])
       lines.push content_with_inclusion('sign_off_partner_2', [partner, country_name]).sub(/^The\s/, '')
+      lines.push @content['sign_off_extra']
+
+    # Exceptions for Partner line countries that need 'the' (e.g. Czech Republic OBNI)
+    # Format of message:
+    # "Message the [PARTNER NAME] in the [COUNTRY NAME]."
+    # "The [PARTNER NAME] message in the [COUNTRY NAME]."
+    elsif name.match?(/Czech Republic OBNI|United Arab Emirates OBNI/)
+      lines.push content_with_inclusion('sign_off_partner_1', [partner, "the #{country_name}"])
+      lines.push content_with_inclusion('sign_off_partner_2', [partner, "the #{country_name}"])
       lines.push @content['sign_off_extra']
 
     # Default partner line
