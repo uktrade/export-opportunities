@@ -8,7 +8,7 @@ breadcrumb_current: Search results
 
 title_filters: "Filter results"
 title_filters_selected: "Selected Filters:"
-max_results_exceeded: Showing [$max] of a potential [$total].<br />To narrow down your search use more specific search terms.
+max_results_exceeded: Showing [$max] results of a potential [$total].<br />To narrow down your search use more specific search terms.
 no_results_message: "Sorry, we don't have any matches for your search."
 no_results_instruction: "Please try:"
 no_results_actions:
