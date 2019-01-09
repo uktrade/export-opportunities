@@ -16,7 +16,7 @@ gem 'figaro'
 gem 'friendly_id'
 gem 'immutable-struct'
 
-gem 'nokogiri', '1.8.4'
+gem 'nokogiri', '1.8.5'
 
 # Authentication & authorisation
 gem 'devise', '4.4.3'
