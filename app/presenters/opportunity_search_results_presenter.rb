@@ -63,7 +63,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
     total_found = @search[:total_without_limit]
     total_returned = @search[:total]
     if total_found > total_returned
-      content_with_inclusion('max_results_exceeded', [total_returned, total_found])
+      content_with_inclusion('max_results_exceeded', [total_returned, number_with_delimiter(total_found, delimiter: ',')])
     else
       ''
     end
