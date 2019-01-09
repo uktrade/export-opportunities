@@ -62,10 +62,10 @@ class OpportunitySearchResultsPresenter < FormPresenter
   def max_results_exceeded_message
     total_found = @search[:total_without_limit]
     total_returned = @search[:total]
+    message = ''
     if total_found > total_returned
-      content_with_inclusion('max_results_exceeded', [total_returned, number_with_delimiter(total_found, delimiter: ',')])
-    else
-      ''
+      message = content_with_inclusion('max_results_exceeded', [total_returned, number_with_delimiter(total_found, delimiter: ',')])
+      message += content_tag('span', content['max_results_hint'])
     end
   end
 

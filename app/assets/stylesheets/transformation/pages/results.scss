@@ -26,6 +26,11 @@ form {
   p {
     @include body-l;
     font-weight: bold;
+
+    span {
+      display: block;
+      font-weight: normal;
+    }
   }
 
   .param {
