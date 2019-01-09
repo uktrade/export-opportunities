@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe OpportunitySearchResultsPresenter do
-  let(:content) { get_content('opportunities/results') }
+  let(:content) { getcontent('opportunities/results') }
   let(:region_helper) { TestRegionHelper.new }
 
   before(:each) do
@@ -113,7 +113,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
       search = public_search(url_params, total_returned, total_found)
       presenter = OpportunitySearchResultsPresenter.new(content, search)
 
-      expect(presenter.found_message).to eql('1 result found')
+      expect(presenter.found_message(total_found)).to eql('1 result found')
     end
 
     it 'Returns the correct message when no results are found' do
@@ -123,7 +123,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
       search = public_search(url_params, total_returned, total_found)
       presenter = OpportunitySearchResultsPresenter.new(content, search)
 
-      expect(presenter.found_message).to eql('0 results found')
+      expect(presenter.found_message(total_found)).to eql('0 results found')
     end
   end
 

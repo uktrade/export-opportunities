@@ -5,9 +5,10 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
   include RegionHelper
 
   it "renders" do
+    get :index
     expect(response.status).to eq(200)
   end
-  it "provides featured industries", focus: trrue do
+  it "provides featured industries" do
     create(:sector, featured: true, featured_order: 1, 
            slug: 'creative-media',     name: 'Creative & Media')
     create(:sector, featured: true, featured_order: 2, 
@@ -39,13 +40,18 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
     end
   end
   it "provides featured industries" do
-    create(:sector, name: 'Creative & Media')
-    create(:sector, name: 'Security')
-    create(:sector, name: 'Food and drink')
-    create(:sector, name: 'Education & Training')
-    create(:sector, name: 'Oil & Gas')
-    create(:sector, name: 'Retail and luxury')
-    ENV['GREAT_FEATURED_INDUSTRIES']= Sector.all.limit(6).map(&:id).join ","
+    create(:sector, featured: true, featured_order: 1, 
+           slug: 'creative-media',     name: 'Creative & Media')
+    create(:sector, featured: true, featured_order: 2, 
+           slug: 'education-training', name: 'Education & Training')
+    create(:sector, featured: true, featured_order: 3, 
+           slug: 'food-drink',         name: 'Food and drink')
+    create(:sector, featured: true, featured_order: 4, 
+           slug: 'oil-gas',            name: 'Oil & Gas')
+    create(:sector, featured: true, featured_order: 5, 
+           slug: 'security',           name: 'Security')
+    create(:sector, featured: true, featured_order: 6, 
+           slug: 'retail-and-luxury',  name: 'Retail and luxury')
     
     get :index
     
