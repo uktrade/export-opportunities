@@ -6,6 +6,7 @@ title_new_search: New search
 description: 
 breadcrumb_current: Search results
 
+search_again_button: Find opportunities
 title_filters: "Filter results"
 title_filters_selected: "Selected Filters:"
 max_results_exceeded: Showing [$max] results of a potential [$total].
