@@ -1,4 +1,4 @@
-class SendResponseReminders
+class SendEnquiryResponseReminders
   include Sidekiq::Worker
 
   #

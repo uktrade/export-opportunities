@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendResponseReminders, sidekiq: :inline, focus: true do
+RSpec.describe SendEnquiryResponseReminders, sidekiq: :inline, focus: true do
 
   def count
     ActionMailer::Base.deliveries.count

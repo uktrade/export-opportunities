@@ -1,4 +1,4 @@
-class ResponseReminderMailerPreview < ActionMailer::Preview
+class EnquiryResponseMailerPreview < ActionMailer::Preview
 
   def reminder
     opportunity = Opportunity.last
@@ -21,6 +21,7 @@ class ResponseReminderMailerPreview < ActionMailer::Preview
       company_explanation: 'Business-focused bifurcated budgetary management',
       opportunity: opportunity
     )
-    ResponseReminderMailer.reminder(enquiry)
+    EnquiryResponseMailer.reminder(enquiry)
   end
+  
 end
