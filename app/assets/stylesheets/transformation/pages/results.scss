@@ -28,6 +28,7 @@ form {
     font-weight: bold;
 
     span {
+      @include body-m;
       display: block;
       font-weight: normal;
     }
