@@ -11,7 +11,7 @@ RSpec.describe SendEnquiryResponseReminders, sidekiq: :inline, focus: true do
   end
 
   def run
-    SendResponseReminders.new.perform
+    SendEnquiryResponseReminders.new.perform
   end
 
   describe 'filters to correct enquiries' do

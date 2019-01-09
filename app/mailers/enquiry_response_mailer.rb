@@ -42,11 +42,14 @@ class EnquiryResponseMailer < ApplicationMailer
     @content = get_content('emails/response_reminder_mailer.yml')['reminder']
     enquiry.update(response_reminder_sent_at: DateTime.now)
 
-    mail to: @opportunity.contacts.pluck(:email), #TEST
+    mail(to: @opportunity.contacts.pluck(:email),
          from: Figaro.env.MAILER_FROM_ADDRESS!,
          name: 'Export opportunities',
          reply_to: Figaro.env.CONTACT_US_EMAIL,
-         subject: "#{content 'title_prefix'} #{content('title_main')}"
+         subject: "#{content 'title_prefix'} #{content('title_main')}") do |format|
+      format.html { render(layout: 'email') }
+      format.text
+    end
   end
 end
 

@@ -26,7 +26,7 @@ class SendEnquiryResponseReminders
 
   def reminder(enquiry)
     if enquiry.response_reminder_sent_at.blank?
-      ResponseReminderMailer.reminder(enquiry).deliver_later!
+      EnquiryResponseMailer.reminder(enquiry).deliver_later!
     end
   end
 end
@@ -35,6 +35,7 @@ end
 # Code for proposed emails 2, 3 and 4.
 # Not yet used but likely in time, so leaving here [8 Jan 2019]
 #
+# Add this to if-else block.
 # elsif(created < 14.days.ago && created >= 21.days.ago)
 #   second_reminder(enquiry)
 # elsif(created < 21.days.ago && created >= 28.days.ago)

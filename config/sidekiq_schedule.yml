@@ -24,6 +24,6 @@ live_counter_job:
 
 send_enquiry_response_reminders_job:
   cron: "0 8 * * *"
-  class: "SendResponseReminders"
+  class: "SendEnquiryResponseReminders"
   queue: default
   active_job: true

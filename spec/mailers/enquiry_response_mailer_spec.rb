@@ -66,7 +66,7 @@ RSpec.describe EnquiryResponseMailer, type: :mailer do
     end
   end
 
-  describe '#reminder' do
+  describe '#reminder', focus: true do
 
     def mail
       ActionMailer::Base.deliveries.last
@@ -83,7 +83,7 @@ RSpec.describe EnquiryResponseMailer, type: :mailer do
     it 'sends reminder and updates response reminder sent_at date' do
       expect(@enquiry.opportunity.contacts.any?).to be_truthy
       expect do
-        ResponseReminderMailer.reminder(@enquiry).deliver_now!
+        EnquiryResponseMailer.reminder(@enquiry).deliver_now!
       end.to change{ @enquiry.response_reminder_sent_at }
 
       expect(mail.to).to eq(@enquiry.opportunity.contacts.pluck(:email))
@@ -95,7 +95,7 @@ RSpec.describe EnquiryResponseMailer, type: :mailer do
     it 'does not send reminder if contacts are missing' do
       @enquiry.opportunity.contacts.destroy_all
       expect do
-        ResponseReminderMailer.reminder(@enquiry).deliver_now!
+        EnquiryResponseMailer.reminder(@enquiry).deliver_now!
       end.to_not change{ count }
     end
   end

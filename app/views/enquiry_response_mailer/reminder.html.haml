@@ -1,34 +1,15 @@
-<% presenter = OpportunityPresenter.new(self, @enquiry.opportunity, @content) %>
+- presenter = OpportunityPresenter.new(self, @enquiry.opportunity, @content)
 
-Department for International Trade
+%h1
+  %span= presenter.content 'title_prefix'
+  =presenter.content 'title_main'
+%br
+%p= presenter.content 'greeting'
+%p= presenter.content_with_inclusion 'why_email', [presenter.title_with_country, @enquiry.company_name]
+%p= presenter.content 'what_to_do'
 
+%p.action
+  =link_to presenter.content('button'), admin_enquiry_url(@enquiry.id)
+%br
 
-
-<%= presenter.content_with_inclusion 'title_prefix', [@reminder_number] %>
-<%= presenter.content 'title_main' %>
-
-
-
-<%= presenter.content 'greeting' %>
-
-
-<%= presenter.content_with_inclusion 'why_email', [presenter.title_with_country, @enquiry.company_name] %>
-
-<%= presenter.content 'what_to_do' %>
-
-
-<%= presenter.content 'button' %>
-<%= admin_enquiry_url(@enquiry.id) %>
-
-
-<%= presenter.content_with_inclusion 'contact_help', ['exportopportunities@trade.gsi.gov.uk'] %>
-
-
-
-
-The Exporting is GREAT team
-
-www.great.gov.uk
-
-Exporting is GREAT
-
+%p= presenter.content_with_inclusion 'contact_help', [mail_to('exportopportunities@trade.gsi.gov.uk')]
