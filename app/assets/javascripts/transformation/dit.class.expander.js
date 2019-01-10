@@ -49,7 +49,8 @@
       hover: false, // If enabled opens/closes on hover as well.
       text: "Expand", // Control button text.
       wrap: false,
-      $control: null // Pass a node if you want to specify something.
+      $control: null, // Pass a node if you want to specify something.
+      controlReplacementEnabled: true // Allows prevention of automated control node replacement.
     }, options);
 
     if (arguments.length && $target.length) {
@@ -87,7 +88,7 @@
 
 
       // Make sure the control is not inside of the expanding element.
-      if(Expander.needToMoveControl(this.$node, $control)) {
+      if(this.config.controlReplacementEnabled && Expander.needToMoveControl(this.$node, $control)) {
         this.$node.before($control);
       }
 
@@ -268,7 +269,7 @@
     return $element.get(0).tagName.toLowerCase() === "a";
   }
 
-  /* View will have problems if control is inside the Expanding
+  /* View may have problems if control is inside the Expanding
    * node so need to calculate if should be moved.
    **/ 
   Expander.needToMoveControl = function($node, $control) {
@@ -282,7 +283,6 @@
       }
     }
     return inParents;
-    
   }
 
   Expander.prototype = new Object;
