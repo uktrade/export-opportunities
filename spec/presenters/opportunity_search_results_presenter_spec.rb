@@ -2,12 +2,14 @@
 
 require 'rails_helper'
 
-RSpec.describe OpportunitySearchResultsPresenter, focus: true do
+RSpec.describe OpportunitySearchResultsPresenter do
   include RegionHelper
   let(:content) { get_content('opportunities/results') }
   let(:region_helper) { TestRegionHelper.new }
 
-  before(:each) do
+  before do
+    Opportunity.destroy_all
+    create(:opportunity)
     countries(%w[spain mexico])
   end
 
@@ -98,8 +100,13 @@ RSpec.describe OpportunitySearchResultsPresenter, focus: true do
 
   describe '#found_message' do
     # faking found and returned result numbers for tests
+    before(:each) do
+      Opportunity.destroy_all
+    end
 
     it 'Returns the correct message when more than one results is found' do
+      create(:opportunity, :published, title: 'food')
+      create(:opportunity, :published, title: 'food2')
       params = { s: 'food' }
       results = search(params)
       presenter = OpportunitySearchResultsPresenter.new(content, results, subscr_form(results))
@@ -108,6 +115,7 @@ RSpec.describe OpportunitySearchResultsPresenter, focus: true do
     end
 
     it 'Returns the correct message when one results is found' do
+      create(:opportunity, :published, title: 'food')
       params = { s: 'food' }
       results = search(params)
       presenter = OpportunitySearchResultsPresenter.new(content, results, subscr_form(results))
@@ -128,11 +136,12 @@ RSpec.describe OpportunitySearchResultsPresenter, focus: true do
     # faking found and returned result numbers for tests
 
     it 'Returns custom message when results exceed the defined limit' do
-      url_params = { s: 'food' }
-      total_found = 2000
-      total_returned = 500
-      search = public_search(url_params, total_returned, total_found)
-      presenter = OpportunitySearchResultsPresenter.new(content, search)
+      # total_found = 2000
+      # total_returned = 500
+      params = { s: 'food' }
+      results = search(params)
+      presenter = OpportunitySearchResultsPresenter.new(content, results, subscr_form(results))
+
       expect(presenter.max_results_exceeded_message).to eql(presenter.content_with_inclusion('max_results_exceeded', [total_returned, total_found]))
     end
   end
@@ -141,11 +150,12 @@ RSpec.describe OpportunitySearchResultsPresenter, focus: true do
     # Passing fake found and returned result numbers to public_search to control tests
 
     it 'Returns max_results_exceeded_message when results exceed the defined limit' do
-      url_params = { s: 'food' }
-      total_found = 2000
-      total_returned = 500
-      search = public_search(url_params, total_returned, total_found)
-      presenter = OpportunitySearchResultsPresenter.new(content, search)
+      params = { s: 'food' }
+      results = search(params)
+      results[:total] = 500
+      results[:total_without_limit] = 500
+      presenter = OpportunitySearchResultsPresenter.new(content, results, subscr_form(results))
+
       expect(presenter.information).to eql(presenter.content_with_inclusion('max_results_exceeded', [total_returned, total_found]))
     end
 
@@ -541,29 +551,24 @@ RSpec.describe OpportunitySearchResultsPresenter, focus: true do
     end
   end
 
-  describe '#format_filter_checkboxes' do
+  describe '#format_filter_checkboxes', focus: true do
     it 'Returns a field hash created from a mix of content and data' do
-      field_content = { 'question' => 'something',
-                        'options' => [{ 'label' => 'foo', 'description' => 'label help' }],
-                        'description' => 'question help' }
-      # field_data = { name: 'info', options: [{ slug: 'boo' }], selected: [] }
-      # presenter = OpportunitySearchResultsPresenter.new(content, { filter_data: { field_name: field_data } }, subscr_form(search({})))
+      countries(%w[fiji spain mexico])
 
-      #RETURN TO HERE
-      # Send normal data
       params = { countries: ['fiji'] }
       results = search(params)
       presenter = OpportunitySearchResultsPresenter.new(content, results, subscr_form(results))
+      field_content = content["fields"]["countries"]
 
       checkboxes = presenter.send(:format_filter_checkboxes, field_content, :countries)
 
-      expect(checkboxes[:name]).to eq('info')
-      expect(checkboxes[:options][0][:label]).to eq('foo')
-      expect(checkboxes[:options][0][:name]).to eq('foo')
-      expect(checkboxes[:options][0][:description]).to eq('label help')
-      expect(checkboxes[:options][0][:value]).to eq('boo')
-      expect(checkboxes[:question]).to eq('something')
-      expect(checkboxes[:description]).to eq('question help')
+      expect(checkboxes[:name]).to eq('countries[]')
+      expect(checkboxes[:question]).to eq('Countries')
+      expect(checkboxes[:description]).to eq(nil)
+      expect(checkboxes[:options][0][:label]).to eq('Fiji (0)')
+      expect(checkboxes[:options][0][:name]).to eq('Fiji')
+      expect(checkboxes[:options][0][:description]).to eq(nil)
+      expect(checkboxes[:options][0][:value]).to eq('fiji')
     end
   end
 
