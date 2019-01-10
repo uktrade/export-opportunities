@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe OpportunitySearchResultsPresenter do
-  let(:content) { get_content('opportunities/results') }
+  let(:content) { getcontent('opportunities/results') }
   let(:region_helper) { TestRegionHelper.new }
 
   before(:each) do
@@ -127,8 +127,30 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
   end
 
+  describe '#max_results_exceeded_message' do
+    # faking found and returned result numbers for tests
+
+    it 'Returns custom message when results exceed the defined limit' do
+      url_params = { s: 'food' }
+      total_found = 2000
+      total_returned = 500
+      search = public_search(url_params, total_returned, total_found)
+      presenter = OpportunitySearchResultsPresenter.new(content, search)
+      expect(presenter.max_results_exceeded_message).to eql(presenter.content_with_inclusion('max_results_exceeded', [total_returned, total_found]))
+    end
+  end
+
   describe '#information' do
     # Passing fake found and returned result numbers to public_search to control tests
+
+    it 'Returns max_results_exceeded_message when results exceed the defined limit' do
+      url_params = { s: 'food' }
+      total_found = 2000
+      total_returned = 500
+      search = public_search(url_params, total_returned, total_found)
+      presenter = OpportunitySearchResultsPresenter.new(content, search)
+      expect(presenter.information).to eql(presenter.content_with_inclusion('max_results_exceeded', [total_returned, total_found]))
+    end
 
     it 'Returns result found information message with search term' do
       url_params = { s: 'food' }
@@ -159,13 +181,6 @@ RSpec.describe OpportunitySearchResultsPresenter do
       expect(message).to include('food')
       expect(message).to include(' in ')
       expect(has_html?(message)).to be_truthy
-    end
-
-    it 'Returns blank message when empty search is performed' do
-      url_params = { s: '' }
-      presenter = OpportunitySearchResultsPresenter.new(content, public_search(url_params))
-
-      expect(presenter.information).to eql('')
     end
   end
 
