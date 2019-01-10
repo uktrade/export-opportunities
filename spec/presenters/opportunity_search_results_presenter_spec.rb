@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe OpportunitySearchResultsPresenter do
-  let(:content) { get_content('opportunities/results') }
+  let(:content) { getcontent('opportunities/results') }
   let(:region_helper) { TestRegionHelper.new }
 
   before(:each) do
@@ -87,6 +87,15 @@ RSpec.describe OpportunitySearchResultsPresenter do
   describe '#found_message' do
     # faking found and returned result numbers for tests
 
+    it 'Returns custom message when results exceed the defined limit' do
+      url_params = { s: 'food' }
+      total_found = 2000
+      total_returned = 500
+      search = public_search(url_params, total_returned, total_found)
+      presenter = OpportunitySearchResultsPresenter.new(content, search)
+      expect(presenter.found_message(total_found)).to eql(presenter.content_with_inclusion('max_results_exceeded', [total_returned, total_found]))
+    end
+
     it 'Returns the correct message when more than one results is found' do
       url_params = { s: 'food' }
       total_found = 2
@@ -94,7 +103,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
       search = public_search(url_params, total_returned, total_found)
       presenter = OpportunitySearchResultsPresenter.new(content, search)
 
-      expect(presenter.found_message).to eql('2 results found')
+      expect(presenter.found_message(total_found)).to eql('2 results found')
     end
 
     it 'Returns the correct message when one results is found' do
@@ -104,7 +113,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
       search = public_search(url_params, total_returned, total_found)
       presenter = OpportunitySearchResultsPresenter.new(content, search)
 
-      expect(presenter.found_message).to eql('1 result found')
+      expect(presenter.found_message(total_found)).to eql('1 result found')
     end
 
     it 'Returns the correct message when no results are found' do
@@ -114,7 +123,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
       search = public_search(url_params, total_returned, total_found)
       presenter = OpportunitySearchResultsPresenter.new(content, search)
 
-      expect(presenter.found_message).to eql('0 results found')
+      expect(presenter.found_message(total_found)).to eql('0 results found')
     end
   end
 
