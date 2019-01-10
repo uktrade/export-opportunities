@@ -19,7 +19,7 @@ class EmailNotificationsController < ApplicationController
         filters: SearchFilter.new,
         sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc'),
         limit: 100
-      )
+      )[:search]
       @results = query.records.includes(:countries).includes(:opportunities_countries).to_a
     else
       subscriptions.each do |subscription|
@@ -33,7 +33,7 @@ class EmailNotificationsController < ApplicationController
           search_term: subscription.search_term,
           filters: SearchFilter.new(params),
           sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
-        )
+        )[:search]
         query.records.includes(:countries).includes(:opportunities_countries).to_a.each do |opp|
           result_set.add(opp)
         end
