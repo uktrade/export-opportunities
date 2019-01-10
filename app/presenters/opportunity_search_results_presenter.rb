@@ -100,6 +100,11 @@ class OpportunitySearchResultsPresenter < FormPresenter
 
   # Overwriting FormPresenter.field_content to allocate when we need
   # to mix filter field content with values from the controller.
+  #
+  # Produces hash of data for used by filters for a specific indu
+  # Input:  name: String - can be 'industries', 'regions', etc...
+  # Output: hash
+  #
   def field_content(name)
     field = super(name)
     case name.to_s
@@ -330,6 +335,11 @@ class OpportunitySearchResultsPresenter < FormPresenter
   # We have content from .yml file but want to mix data
   # from filter supplied by the controller, to create
   # individual fields for use in view code.
+  #
+  # Returns hash of data for to generate checkboxes on side of results page
+  # Inputs: field:       String
+  #         filter_name: String, can be :sectors, :countries, etc...
+  #
   def format_filter_checkboxes(field, filter_name)
     filter = @filter_data[filter_name]
     field_options = prop(field, 'options')
@@ -372,6 +382,18 @@ class OpportunitySearchResultsPresenter < FormPresenter
       options: options,
     }
   end
+
+  #  {
+  #    name: filter[:name],
+  #    question: prop(field, 'question'),
+  #    description: prop(field, 'description'),
+  #    options: [{
+  #      label: name OR name ([Opportunity Count]),
+  #      name: name,
+  #      description: description,
+  #      value: option[:slug]
+  #    }, {}...]
+  #  }
 
   # Returns list of names for selected filter options.
   def selected_filter_option_names
