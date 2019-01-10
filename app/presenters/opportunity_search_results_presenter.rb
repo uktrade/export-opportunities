@@ -106,7 +106,6 @@ class OpportunitySearchResultsPresenter < FormPresenter
   # Output: hash
   #
   def field_content(name)
-    field = super(name)
     case name.to_s
     when 'industries'
       field = format_filter_checkboxes(field, :sectors)
@@ -117,9 +116,8 @@ class OpportunitySearchResultsPresenter < FormPresenter
     when 'sources'
       field = format_filter_checkboxes(field, :sources)
     else
-      {}
+      super(name)
     end
-    field
   end
 
   # Only show all if there are more than currently viewed
@@ -340,6 +338,18 @@ class OpportunitySearchResultsPresenter < FormPresenter
   # Inputs: field:       String
   #         filter_name: String, can be :sectors, :countries, etc...
   #
+  # Output:
+  #  {
+  #    name: filter[:name],
+  #    question: prop(field, 'question'),
+  #    description: prop(field, 'description'),
+  #    options: [{
+  #      label: name OR name ([Opportunity Count]),
+  #      name: name,
+  #      description: description,
+  #      value: option[:slug]
+  #    }, {}...]
+  #  }
   def format_filter_checkboxes(field, filter_name)
     filter = @filter_data[filter_name]
     field_options = prop(field, 'options')
@@ -382,18 +392,6 @@ class OpportunitySearchResultsPresenter < FormPresenter
       options: options,
     }
   end
-
-  #  {
-  #    name: filter[:name],
-  #    question: prop(field, 'question'),
-  #    description: prop(field, 'description'),
-  #    options: [{
-  #      label: name OR name ([Opportunity Count]),
-  #      name: name,
-  #      description: description,
-  #      value: option[:slug]
-  #    }, {}...]
-  #  }
 
   # Returns list of names for selected filter options.
   def selected_filter_option_names
