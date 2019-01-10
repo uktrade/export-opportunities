@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe OpportunitySearchResultsPresenter do
-  let(:content) { getcontent('opportunities/results') }
+  let(:content) { get_content('opportunities/results') }
   let(:region_helper) { TestRegionHelper.new }
 
   before(:each) do
