@@ -101,9 +101,22 @@ class OpportunitySearchResultsPresenter < FormPresenter
   # Overwriting FormPresenter.field_content to allocate when we need
   # to mix filter field content with values from the controller.
   #
-  # Produces hash of data for used by filters for a specific indu
+  # Produces 
   # Input:  name String - can be 'industries', 'regions', etc...
-  # Output:      Hash TODO
+  # Output:
+  #  {
+  #    name:        String - filter name e.g. 'type'
+  #    question:    String - label e.g. "Type of opportunity"
+  #    description: String - any description
+  #    options: [   Array of hashes of format:
+  #    {
+  #      name:        #{name}
+  #      label:       #{name} OR "#{name} (#{Opportunity Count})",
+  #      description: #{description}
+  #      value:       #{slug}
+  #      checked:     'true' OR is blank
+  #    }, ... ]
+  #  }
   #
   def field_content(name)
     field = super(name)
@@ -332,12 +345,13 @@ class OpportunitySearchResultsPresenter < FormPresenter
 
   private
 
+  # Returns hash of data for to generate checkboxes on side of results page
+  #
   # We have content from .yml file but want to mix data
   # from filter supplied by the controller, to create
   # individual fields for use in view code.
   #
-  # Returns hash of data for to generate checkboxes on side of results page
-  # Inputs: field:       String
+  # Inputs: field:       String, e.g. 'sectors', 'countries'...
   #         filter_name: String, can be :sectors, :countries, etc...
   #
   # Output:
