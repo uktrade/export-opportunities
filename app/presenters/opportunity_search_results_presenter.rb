@@ -102,10 +102,11 @@ class OpportunitySearchResultsPresenter < FormPresenter
   # to mix filter field content with values from the controller.
   #
   # Produces hash of data for used by filters for a specific indu
-  # Input:  name: String - can be 'industries', 'regions', etc...
-  # Output: hash
+  # Input:  name String - can be 'industries', 'regions', etc...
+  # Output:      Hash TODO
   #
   def field_content(name)
+    field = super(name)
     case name.to_s
     when 'industries'
       field = format_filter_checkboxes(field, :sectors)
@@ -116,8 +117,9 @@ class OpportunitySearchResultsPresenter < FormPresenter
     when 'sources'
       field = format_filter_checkboxes(field, :sources)
     else
-      super(name)
+      {} # else do not override and use parent field_content()
     end
+    field
   end
 
   # Only show all if there are more than currently viewed
@@ -340,15 +342,17 @@ class OpportunitySearchResultsPresenter < FormPresenter
   #
   # Output:
   #  {
-  #    name: filter[:name],
-  #    question: prop(field, 'question'),
-  #    description: prop(field, 'description'),
-  #    options: [{
-  #      label: name OR name ([Opportunity Count]),
-  #      name: name,
-  #      description: description,
-  #      value: option[:slug]
-  #    }, {}...]
+  #    name:        String - filter name e.g. 'type'
+  #    question:    String - label e.g. "Type of opportunity"
+  #    description: String - any description
+  #    options: [   Array of hashes of format:
+  #    {
+  #      name:        #{name}
+  #      label:       #{name} OR "#{name} (#{Opportunity Count})",
+  #      description: #{description}
+  #      value:       #{slug}
+  #      checked:     'true' OR is blank
+  #    }, ... ]
   #  }
   def format_filter_checkboxes(field, filter_name)
     filter = @filter_data[filter_name]
