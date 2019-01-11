@@ -22,6 +22,7 @@ class OpportunitySearchBuilder
   def initialize(term: '',
                  sort: OpportunitySort.new(default_column: 'first_published_at',
                                            default_order: 'asc'),
+                 limit: 100,
                  sectors: [],
                  countries: [],
                  opportunity_types: [],
@@ -31,6 +32,7 @@ class OpportunitySearchBuilder
                  status: :published,
                  boost: false)
     @term = term.to_s.strip
+    @limit = limit
     @sectors = Array(sectors)
     @countries = Array(countries)
     @opportunity_types = Array(opportunity_types)
@@ -58,7 +60,11 @@ class OpportunitySearchBuilder
       },
     }
 
-    { search_query: search_query, search_sort: sort_build }
+    {
+        query: search_query,
+        search_sort: sort_build,
+        terminate_after: @limit
+    }
   end
 
   private

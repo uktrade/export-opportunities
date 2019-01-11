@@ -6,16 +6,16 @@ class Search
   # Provides search functionality for Opportunities
   #
   # Input: params: url parameters Hash, with accepts keys:
-  #                s:                 search term
-  #                regions:           url-encoded array of slugs of regions
-  #                countries:         url-encoded array of slugs of countries
-  #                sources:           url-encoded array of slugs of sources
-  #                types:             url-encoded array of slugs of types
-  #                sort_column_name:  column to filter on
-  #                paged:             Which page number to return results on
+  #          s:                 search term
+  #          regions:           url-encoded array of slugs of regions
+  #          countries:         url-encoded array of slugs of countries
+  #          sources:           url-encoded array of slugs of sources
+  #          types:             url-encoded array of slugs of types
+  #          sort_column_name:  column to filter on
+  #          paged:             Which page number to return results on
   #        limit:  Int number of results to cap at, per shard
   #        results_only: Boolean, if true only provides results of search and not
-  #                      search metadata and input data
+  #                      search metadata, input data, and data for building filters
   #
   def initialize(params, limit: 100, results_only: false)
     @term   = clean_term(params[:s])
@@ -27,13 +27,38 @@ class Search
     @results_only = results_only
   end
 
-  # Needs BIG tidy
   def run
-    query = build_query
-    search_query = query[0]
-    search_sort  = query[1]
-    limit        = query[2]
-    perform(search_query, search_sort, limit)
+    searchable = build_searchable
+    results = search(searchable)
+    debugger
+    if @results_only
+      page(results)
+    else
+      results_and_metadata(results)
+    end
+  end
+  
+  private
+
+  def results_and_metadata(results)
+    country_list = countries_in(results) # Run before paging.
+    paged_results = page(results)
+    {
+      term:    @term,        
+      filter:  @filter,
+      sort:    @sort,
+      boost:   @boost,
+      results: paged_results.records,
+      total:   results.records.total,
+      total_without_limit: get_total_without_limit(searchable),
+      country_list: country_list
+    }
+  end
+
+  def search(searchable)
+    size = Figaro.env.OPPORTUNITY_ES_MAX_RESULT_WINDOW_SIZE || 100_000
+    searchable.merge!({ size: size })
+    Opportunity.__elasticsearch__.search(searchable)
   end
 
   # -- Parameter Sanitisation --
@@ -48,7 +73,7 @@ class Search
     /([a-zA-Z0-9]*\w)/
   end
 
-  # Builds OpportunitySort object based on filter
+  # Builds OpportunitySort based on filter
   def clean_sort(params)
     case params[:sort_column_name]
     when 'response_due_on' # Soonest to end first
@@ -67,172 +92,44 @@ class Search
 
   # -- Runs the appropriate search --
 
-  def build_query
+  def build_searchable
     if search_includes_sector?
-      query = build_sector_search_query
-      limit = 100
+      OpportunityIndustrySearchBuilder.new(filter: @filter,
+                                           sort: @sort).call
     else
-      query = OpportunitySearchBuilder.new(term:              @term,
-                                           boost:             @boost,
-                                           sort:              @sort,
-                                           sectors:           @filter.sectors,
-                                           countries:         @filter.countries,
-                                           opportunity_types: @filter.types,
-                                           values:            @filter.values,
-                                           sources:           @filter.sources).call
-      query = [query[:search_query], query[:search_sort]]
-      limit = @limit
+      OpportunitySearchBuilder.new(term:              @term,
+                                   boost:             @boost,
+                                   sort:              @sort,
+                                   limit:             @limit,
+                                   sectors:           @filter.sectors,
+                                   countries:         @filter.countries,
+                                   opportunity_types: @filter.types,
+                                   values:            @filter.values,
+                                   sources:           @filter.sources).call
     end
-    query + [limit]
   end
 
   # Whether to run the standard search or the industries search
   def search_includes_sector?
     @filter.sectors.present?
   end
-  
-  # builds search_query, search_sort objects for consumption by elasticsearch
-  def build_sector_search_query
-    sector, sources = @filter.sectors.first, @filter.sources
-    post_opps_query = {
-      "bool": {
-        "must": [
-          {
-            "match": {
-              "source": 'post',
-            },
-          },
-          {
-            "match": {
-              "sectors.slug": sector,
-            },
-          },
-          {
-            "match": {
-              "status": 'publish',
-            },
-          },
-          "range": {
-            "response_due_on": {
-              "gte": 'now/d',
-            },
-          },
-        ],
-      },
-    }
 
-    volume_opps_query = {
-      "bool": {
-        "must": [
-          {
-            "match": {
-              "source": 'volume_opps',
-            },
-          },
-          {
-            "multi_match": {
-              "query": sector.tr('-', ' '),
-              "fields": %w[title^5 teaser^2 description],
-              "operator": 'or',
-            },
-          },
-          {
-            "match": {
-              "status": 'publish',
-            },
-          },
-          "range": {
-            "response_due_on": {
-              "gte": 'now/d',
-            },
-          },
-        ],
-      },
-    }
-
-    search_query = if sources&.include? 'post'
-                     {
-                       "bool": {
-                         "should": [
-                           post_opps_query,
-                         ],
-                       },
-                     }
-                   elsif sources&.include? 'volume_opps'
-                     {
-                       "bool": {
-                         "should": [
-                           volume_opps_query,
-                         ],
-                       },
-                     }
-                   else
-                     {
-                       "bool": {
-                         "should": [
-                           volume_opps_query, post_opps_query
-                         ],
-                       },
-                     }
-                   end
-
-    search_sort = [{ @sort.column.to_sym => { order: @sort.order.to_sym } }]
-    [search_query, search_sort]
-  end
-
-  #
-  # Searches through opportunities
-  # Inputs: a query,
-  #         a Sort object, 
-  #         a limit (int) and a max number of documents per shard to assess
-  #         returns: an elasticsearch object containing opportunities
-  #
-  # NOTE potential issue when using terminate_after
-  # https://stackoverflow.com/questions/40423696/terminate-after-in-elasticsearch
-  # "Terminate after limits the number of search hits per shard so
-  # any document that may have had a hit later could also have had
-  # a higher ranking(higher score) than highest ranked document returned
-  # since the score used for ranking is independent of the other hits."
-  #
-
-  # 
-  def perform(query, sort, limit)
-    size = Figaro.env.OPPORTUNITY_ES_MAX_RESULT_WINDOW_SIZE || 100_000
-    results = Opportunity.__elasticsearch__.search(size: size, 
-                                                   terminate_after: limit,
-                                                   query: query,
-                                                   sort: sort)
-
-    if @results_only
-      page(results)
-    else
-      total_without_limit = Opportunity.__elasticsearch__.search(size: size, 
-                                                                 query: query,
-                                                                 sort: sort).count
-      country_list = countries_in(results) # Run before paging.
-      paged_results = page(results)
-      {
-        term:    @term,        
-        filter:  @filter,
-        sort:    @sort,
-        boost:   @boost,
-        results: paged_results.records,
-        total:   results.records.total,
-        total_without_limit: total_without_limit,
-        country_list: country_list
-      }
-    end
-  end
+  # -- Helpers for formatting results --
 
   def page(results)
     results.page(@paged).per(Opportunity.default_per_page)
   end
 
+  def get_total_without_limit(searchable)
+    searchable.delete!(:terminate_after)
+    total_without_limit = Opportunity.__elasticsearch__.search(searchable).count
+  end
 
   # Use search results to find and return
   # only which countries are relevant.
   # TODO: Refactor this low performance code.
   def countries_in(results)
+    debugger
     query = results.records.includes(:countries).includes(:opportunities_countries)
     countries = []
     country_list = []

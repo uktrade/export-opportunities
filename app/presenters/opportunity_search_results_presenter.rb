@@ -146,22 +146,15 @@ class OpportunitySearchResultsPresenter < FormPresenter
     end
   end
 
-  def max_results_exceeded_message
-    total_found = @data[:total_without_limit]
-    total_returned = @data[:total]
-    if total_found > total_returned
-      content_with_inclusion('max_results_exceeded', [total_returned, total_found])
-    else
-      ''
-    end
-  end
-
   # Returns results information message (with HTML)
   # We're not returning a message for empty searches or /opportunities location.
   # e.g. "X results found for [term] in [country] or [country]"
   def information
-    message = max_results_exceeded_message
-    unless max_results_exceeded_message.present?
+    found = @data[:total_without_limit]
+    returned = @data[:total]
+    if found > returned
+      message = content_with_inclusion('max_results_exceeded', [returned, found])
+    else
       message = found_message
       message += searched_for_with_html
       message += searched_in_with_html

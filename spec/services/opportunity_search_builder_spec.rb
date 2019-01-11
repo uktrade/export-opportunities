@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.describe OpportunitySearchBuilder do
 
   before(:each) do
-    @post_1 = create(:opportunity, title: 'Post 1', created_at: 2.months.ago,
+    @post_1 = create(:opportunity, title: 'Post 1', first_published_at: 2.months.ago,
                       response_due_on: 12.months.from_now, status: :publish)
-    create(:opportunity, title: 'Post 2', created_at: 3.months.ago,
+    create(:opportunity, title: 'Post 2', first_published_at: 3.months.ago,
             response_due_on: 24.months.from_now, status: :publish)
-    create(:opportunity, title: 'Post 3', created_at: 1.month.ago,
+    create(:opportunity, title: 'Post 3', first_published_at: 1.month.ago,
             response_due_on: 18.months.from_now, status: :publish)
   end
 
@@ -20,7 +20,7 @@ RSpec.describe OpportunitySearchBuilder do
   # Returns numbers of results for an elastic search
   def results_count(query)
     refresh_elasticsearch
-    Opportunity.__elasticsearch__.search(query: query[:search_query],
+    Opportunity.__elasticsearch__.search(query: query[:query],
                                          sort:  query[:search_sort]).
                                          results.count
   end
@@ -125,27 +125,29 @@ RSpec.describe OpportunitySearchBuilder do
     end
 
     describe 'can sort' do
-      it 'by newest' do
+      it 'by newest', focus: true do
+        refresh_elasticsearch
         sort = OpportunitySort.new(default_column: 'first_published_at',
                                    default_order: 'desc')
         query = new_query(sort: sort)
+        debugger
         results = Opportunity.__elasticsearch__.search(
-          query: query[:search_query],
+          query: query[:query],
           sort:  query[:search_sort]
         ).results
-        debugger
-        expect(results[0].title).to eq "Post 1"
+        expect(results[0].title).to eq "Post 3"
         expect(results[-1].title).to eq "Post 2"
       end
       it 'by soonest to close' do
+        refresh_elasticsearch
         sort = OpportunitySort.new(default_column: 'response_due_on',
                                    default_order: 'asc')
         query = new_query(sort: sort)
         results = Opportunity.__elasticsearch__.search(
-          query: query[:search_query],
+          query: query[:query],
           sort:  query[:search_sort]
         ).results
-        expect(results[0].title).to eq "Post 3"
+        expect(results[0].title).to eq "Post 1"
         expect(results[-1].title).to eq "Post 2"
       end
     end
