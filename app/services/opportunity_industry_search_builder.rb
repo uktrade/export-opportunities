@@ -1,5 +1,6 @@
-class OpportunitySearchBuilder
+class OpportunityIndustrySearchBuilder
 
+  # UNTESTED
   def initialize(filter: NullFilter.new,
                  sort: OpportunitySort.new(default_column: 'first_published_at',
                                            default_order: 'asc')
@@ -9,7 +10,7 @@ class OpportunitySearchBuilder
   end
 
   # builds search_query, search_sort objects for consumption by elasticsearch
-  def build_sector_search_query
+  def call
     sector, sources = @filter.sectors.first, @filter.sources
     post_opps_query = {
       "bool": {
@@ -97,7 +98,7 @@ class OpportunitySearchBuilder
 
     {
       query: search_query,
-      search_sort: search_sort,
+      sort: search_sort,
       terminate_after: 100
     }
   end

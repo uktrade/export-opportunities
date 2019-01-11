@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Viewing the ATOM feed for opportunities', :elasticsearch, :commit, type: :request do
-  it 'returns a valid ATOM feed' do
+  it 'returns a valid ATOM feed', focus: true do
     create(:opportunity,
       :published,
       id: '0a0a7bdc-0da8-439a-978a-758601d7a8ce',

@@ -30,17 +30,16 @@ class Search
   def run
     searchable = build_searchable
     results = search(searchable)
-    debugger
     if @results_only
       page(results)
     else
-      results_and_metadata(results)
+      results_and_metadata(searchable, results)
     end
   end
   
   private
 
-  def results_and_metadata(results)
+  def results_and_metadata(searchable, results)
     country_list = countries_in(results) # Run before paging.
     paged_results = page(results)
     {
@@ -121,7 +120,7 @@ class Search
   end
 
   def get_total_without_limit(searchable)
-    searchable.delete!(:terminate_after)
+    searchable.delete(:terminate_after)
     total_without_limit = Opportunity.__elasticsearch__.search(searchable).count
   end
 
@@ -129,7 +128,6 @@ class Search
   # only which countries are relevant.
   # TODO: Refactor this low performance code.
   def countries_in(results)
-    debugger
     query = results.records.includes(:countries).includes(:opportunities_countries)
     countries = []
     country_list = []

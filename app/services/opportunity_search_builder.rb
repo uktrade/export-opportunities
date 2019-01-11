@@ -62,7 +62,7 @@ class OpportunitySearchBuilder
 
     {
         query: search_query,
-        search_sort: sort_build,
+        sort: sort_build,
         terminate_after: @limit
     }
   end

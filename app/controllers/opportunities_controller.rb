@@ -101,6 +101,8 @@ class OpportunitiesController < ApplicationController
       end
       format.any(:atom, :xml) do
         results = Search.new(params, limit: 100, results_only: true).run
+        debugger
+        
         @page = AtomOpportunityQueryDecorator.new(results, view_context)
         render :index, formats: :atom
       end

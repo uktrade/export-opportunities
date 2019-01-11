@@ -125,12 +125,11 @@ RSpec.describe OpportunitySearchBuilder do
     end
 
     describe 'can sort' do
-      it 'by newest', focus: true do
+      it 'by newest' do
         refresh_elasticsearch
         sort = OpportunitySort.new(default_column: 'first_published_at',
                                    default_order: 'desc')
         query = new_query(sort: sort)
-        debugger
         results = Opportunity.__elasticsearch__.search(
           query: query[:query],
           sort:  query[:search_sort]
