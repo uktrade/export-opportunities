@@ -1,7 +1,7 @@
 atom_feed(schema_date: 2016, language: 'en-GB', root_url: @query.feed_root_url) do |feed|
   feed.title t('site_name')
   feed.subtitle 'The demand is out there. You could be too.'
-  feed.updated(@query.feed_updated_at) if @query.feed_updated_at
+  feed.updated(DateTime.parse(@query.feed_updated_at)) if @query.feed_updated_at
   feed.link(rel: 'prev', href: @query.prev_page, type: 'application/atom+xml') if @query.prev_page?
   feed.link(rel: 'next', href: @query.next_page, type: 'application/atom+xml') if @query.next_page?
 
