@@ -102,6 +102,7 @@ class OpportunitiesController < ApplicationController
       format.any(:atom, :xml) do
         params.merge!({ sort_default_column: 'updated_at' })
         results = Search.new(params, limit: 100, results_only: true).run
+        results = results.records.page(params[:paged]).per(25)
         @query = AtomOpportunityQueryDecorator.new(results, view_context)
         render :index, formats: :atom
       end
