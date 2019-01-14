@@ -1,7 +1,7 @@
 class RetrieveVolumeOpps
   include Sidekiq::Worker
 
-  sidekiq_options retry: false
+  sidekiq_options retry: 4
 
   def perform
     editor = Editor.where(email: Figaro.env.MAILER_FROM_ADDRESS!).first
