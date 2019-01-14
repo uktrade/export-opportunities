@@ -5,19 +5,19 @@ Department for International Trade
 
 
 <%= presenter.content_with_inclusion 'title_prefix', [@reminder_number] %>
-<%= presenter.content 'title_main' %>
+<%= presenter._content 'title_main' %>
 
 
 
-<%= presenter.content 'greeting' %>
+<%= presenter._content 'greeting' %>
 
 
 <%= presenter.content_with_inclusion 'why_email', [presenter.title_with_country, @enquiry.company_name] %>
 
-<%= presenter.content 'what_to_do' %>
+<%= presenter._content 'what_to_do' %>
 
 
-<%= presenter.content 'button' %>
+<%= presenter._content 'button' %>
 <%= admin_enquiry_url(@enquiry.id) %>
 
 

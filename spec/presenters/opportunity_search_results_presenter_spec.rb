@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe OpportunitySearchResultsPresenter, focus: true do
+RSpec.describe OpportunitySearchResultsPresenter do
   let(:content) { get_content('opportunities/results') }
   let(:region_helper) { TestRegionHelper.new }
 
@@ -85,17 +85,6 @@ RSpec.describe OpportunitySearchResultsPresenter, focus: true do
   end
 
   describe '#found_message' do
-    # faking found and returned result numbers for tests
-
-    it 'Returns custom message when results exceed the defined limit' do
-      url_params = { s: 'food' }
-      total_found = 2000
-      total_returned = 500
-      search = public_search(url_params, total_returned, total_found)
-      presenter = OpportunitySearchResultsPresenter.new(content, search)
-      expect(presenter.found_message(total_found)).to eql(presenter.content_with_inclusion('max_results_exceeded', [total_returned, total_found]))
-    end
-
     it 'Returns the correct message when more than one results is found' do
       url_params = { s: 'food' }
       total_found = 2
@@ -103,7 +92,7 @@ RSpec.describe OpportunitySearchResultsPresenter, focus: true do
       search = public_search(url_params, total_returned, total_found)
       presenter = OpportunitySearchResultsPresenter.new(content, search)
 
-      expect(presenter.found_message(total_found)).to eql('2 results found')
+      expect(presenter.found_message).to eql('2 results found')
     end
 
     it 'Returns the correct message when one results is found' do
@@ -113,7 +102,7 @@ RSpec.describe OpportunitySearchResultsPresenter, focus: true do
       search = public_search(url_params, total_returned, total_found)
       presenter = OpportunitySearchResultsPresenter.new(content, search)
 
-      expect(presenter.found_message(total_found)).to eql('1 result found')
+      expect(presenter.found_message).to eql('1 result found')
     end
 
     it 'Returns the correct message when no results are found' do
@@ -123,7 +112,7 @@ RSpec.describe OpportunitySearchResultsPresenter, focus: true do
       search = public_search(url_params, total_returned, total_found)
       presenter = OpportunitySearchResultsPresenter.new(content, search)
 
-      expect(presenter.found_message(total_found)).to eql('0 results found')
+      expect(presenter.found_message).to eql('0 results found')
     end
   end
 
@@ -136,7 +125,10 @@ RSpec.describe OpportunitySearchResultsPresenter, focus: true do
       total_returned = 500
       search = public_search(url_params, total_returned, total_found)
       presenter = OpportunitySearchResultsPresenter.new(content, search)
-      expect(presenter.max_results_exceeded_message).to eql(presenter.content_with_inclusion('max_results_exceeded', [total_returned, total_found]))
+
+      expected = "Showing 500 results of a potential 2,000.<span class=\"hint\">To narrow down your search use more specific search terms.</span>"
+
+      expect(presenter.max_results_exceeded_message).to eql(expected)
     end
   end
 
@@ -149,7 +141,10 @@ RSpec.describe OpportunitySearchResultsPresenter, focus: true do
       total_returned = 500
       search = public_search(url_params, total_returned, total_found)
       presenter = OpportunitySearchResultsPresenter.new(content, search)
-      expect(presenter.information).to eql(presenter.content_with_inclusion('max_results_exceeded', [total_returned, total_found]))
+      
+      expected = "Showing 500 results of a potential 2,000.<span class=\"hint\">To narrow down your search use more specific search terms.</span>"
+      
+      expect(presenter.information).to eql(expected)
     end
 
     it 'Returns result found information message with search term' do

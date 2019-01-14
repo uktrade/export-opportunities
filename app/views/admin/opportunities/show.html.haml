@@ -31,50 +31,50 @@
   .container
     %h2= content['group_2_title']
     %dl
-      %dt= page.content('fields.title.label')
+      %dt= page._content('fields.title.label')
       %dd= @opportunity.title
 
-      %dt= page.content('fields.teaser.label')
+      %dt= page._content('fields.teaser.label')
       %dd= @opportunity.teaser
 
-      %dt= page.content('fields.description.label')
+      %dt= page._content('fields.description.label')
       %dd= present_html_or_formatted_text(@opportunity.description).html_safe
 
-      %dt= page.content('fields.sign_off.label')
+      %dt= page._content('fields.sign_off.label')
       %dd.sign-off
         - opp.sign_off_content(@opportunity.service_provider).each_with_index do |line, index|
           = content_tag("p", line, class: "sign-off-#{index}")
 
-      %dt= page.content('fields.values.question')
+      %dt= page._content('fields.values.question')
       %dd= opp.put(opp.value, '-')
 
-      %dt= page.content('fields.countries.label')
+      %dt= page._content('fields.countries.label')
       %dd= opp.put(@opportunity.countries.map(&:name).join(', '), '-')
 
-      %dt= page.content('fields.sector_ids.label')
+      %dt= page._content('fields.sector_ids.label')
       %dd= opp.put(@opportunity.sectors.map(&:name).join(', '), '-')
 
-      %dt= page.content('fields.types.question')
+      %dt= page._content('fields.types.question')
       %dd= opp.put(@opportunity.types.map(&:name).join(', '), '-')
 
       - if @opportunity.supplier_preferences
-        %dt= page.content('fields.supplier_preferences.question')
+        %dt= page._content('fields.supplier_preferences.question')
         %dd= opp.supplier_preferences
 
-      %dt= page.content('fields.response_due_on.label')
+      %dt= page._content('fields.response_due_on.label')
       %dd= @opportunity.response_due_on.to_s(:admin_date) if @opportunity.response_due_on
 
-      %dt= page.content('fields.service_provider_id.label')
+      %dt= page._content('fields.service_provider_id.label')
       %dd= opp.put(@opportunity.service_provider.try(:name), '-')
 
       - if @opportunity.target_url.present?
-        %dt= page.content('fields.target_url.label')
+        %dt= page._content('fields.target_url.label')
         %dd= present_html_or_formatted_text(@opportunity.target_url).html_safe
 
-      %dt= page.content('fields.contacts.label')
+      %dt= page._content('fields.contacts.label')
       %dd= @opportunity.contacts.map { |contact| "#{contact.name} <#{contact.email}>" }.join(', ')
 
-      %dt= page.content('fields.ragg.question')
+      %dt= page._content('fields.ragg.question')
       %dd.ragg= opp.put(@opportunity.ragg, '-')
 
       -if @opportunity.tender_url.present?

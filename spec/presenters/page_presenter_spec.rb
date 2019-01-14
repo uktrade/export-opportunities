@@ -17,23 +17,23 @@ RSpec.describe PagePresenter do
       content = { hello: 'Hello snoopy' }.with_indifferent_access
       presenter = PagePresenter.new(content)
 
-      expect(presenter.content('hello')).to eq('Hello snoopy')
+      expect(presenter._content('hello')).to eq('Hello snoopy')
     end
 
     it 'returns content from nested-level key' do
       content = { hello: { message: { everyone: 'Hello everyone' } } }.with_indifferent_access
       presenter = PagePresenter.new(content)
 
-      expect(presenter.content('hello.message.everyone')).to eq('Hello everyone')
+      expect(presenter._content('hello.message.everyone')).to eq('Hello everyone')
     end
 
     it 'returns a blank string when key is not found' do
       content = { hello: { message: { everyone: 'Hello everyone' } } }.with_indifferent_access
       presenter = PagePresenter.new(content)
 
-      expect(presenter.content('foo')).to eq('')
-      expect(presenter.content('foo.bar')).to eq('')
-      expect(presenter.content('foo.bar.widget')).to eq('')
+      expect(presenter._content('foo')).to eq('')
+      expect(presenter._content('foo.bar')).to eq('')
+      expect(presenter._content('foo.bar.widget')).to eq('')
     end
   end
 
