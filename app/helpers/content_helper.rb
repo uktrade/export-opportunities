@@ -15,7 +15,7 @@ module ContentHelper
 
   # Gets content by either single 'key' value
   # or nested 'key.is.here' value.
-  def content(key_path)
+  def _content(key_path)
     keys = key_path.split('.')
     content = @content
     keys.each do |key|
@@ -90,7 +90,7 @@ module ContentHelper
   # when includes = ['idea', 'plan']
   #
   def content_with_inclusion(key, includes)
-    str = content(key)
+    str = _content(key)
     re = /\[([^\[\]]*?)\$[a-z]+[\w_]*([^\[\]]*?)\]/i
     includes.each do |include|
       str.sub(re, '') # TODO: Why does it work with this line but not without?

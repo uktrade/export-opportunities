@@ -1,15 +1,15 @@
 - presenter = OpportunityPresenter.new(self, @enquiry.opportunity, @content)
 
 %h1
-  %span= presenter.content 'title_prefix'
-  =presenter.content 'title_main'
+  %span= presenter._content 'title_prefix'
+  =presenter._content 'title_main'
 %br
-%p= presenter.content 'greeting'
+%p= presenter._content 'greeting'
 %p= presenter.content_with_inclusion 'why_email', [presenter.title_with_country, @enquiry.company_name]
-%p= presenter.content 'what_to_do'
+%p= presenter._content 'what_to_do'
 
 %p.action
-  =link_to presenter.content('button'), admin_enquiry_url(@enquiry.id)
+  =link_to presenter._content('button'), admin_enquiry_url(@enquiry.id)
 %br
 
 %p= presenter.content_with_inclusion 'contact_help', [mail_to('exportopportunities@trade.gsi.gov.uk')]

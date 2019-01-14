@@ -46,7 +46,7 @@ class EnquiryResponseMailer < ApplicationMailer
          from: Figaro.env.MAILER_FROM_ADDRESS!,
          name: 'Export opportunities',
          reply_to: Figaro.env.CONTACT_US_EMAIL,
-         subject: "#{content 'title_prefix'} #{content('title_main')}") do |format|
+         subject: "#{_content 'title_prefix'} #{_content('title_main')}") do |format|
       format.html { render(layout: 'email') }
       format.text
     end
