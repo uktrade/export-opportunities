@@ -1,6 +1,6 @@
 - paged_results = @paginatable_results.page(params[:paged]).per(10)
 - page = PagePresenter.new(content)
-- results = OpportunitySearchResultsPresenter.new(content, { results: paged_results, limit: 0, total: 0, sort_by: ""})
+- results = OpportunitySearchResultsPresenter.new(content, { results: paged_results, limit: 0, total: paged_results.total_count, sort_by: ""})
 
 .container
   = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
@@ -10,7 +10,7 @@
   .information
     .container
       %h1.verbose= content['title']
-      %p= results.found_message paged_results.total_count
+      %p= results.found_message
 
   .match-results
     .container
