@@ -4,137 +4,141 @@ require 'mock_redis'
 RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controller do
   include RegionHelper
 
-    it "renders" do
-      expect(response.status).to eq(200)
+  it "renders" do
+    get :index
+    expect(response.status).to eq(200)
+  end
+  it "provides featured industries" do
+    create(:sector, featured: true, featured_order: 1, 
+           slug: 'creative-media',     name: 'Creative & Media')
+    create(:sector, featured: true, featured_order: 2, 
+           slug: 'education-training', name: 'Education & Training')
+    create(:sector, featured: true, featured_order: 3, 
+           slug: 'food-drink',         name: 'Food and drink')
+    create(:sector, featured: true, featured_order: 4, 
+           slug: 'oil-gas',            name: 'Oil & Gas')
+    create(:sector, featured: true, featured_order: 5, 
+           slug: 'security',           name: 'Security')
+    create(:sector, featured: true, featured_order: 6, 
+           slug: 'retail-and-luxury',  name: 'Retail and luxury')
+    
+    get :index
+    
+    industries = assigns(:featured_industries)
+    expect(industries.count).to eq 6
+  end
+
+  context 'on the new domain' do
+    before(:each) do
+      expect_any_instance_of(NewDomainConstraint).to receive(:matches?).and_return(true)
     end
-    it "provides featured industries" do
-      create(:sector, featured: true, featured_order: 1, 
-             slug: 'creative-media',     name: 'Creative & Media')
-      create(:sector, featured: true, featured_order: 2, 
-             slug: 'education-training', name: 'Education & Training')
-      create(:sector, featured: true, featured_order: 3, 
-             slug: 'food-drink',         name: 'Food and drink')
-      create(:sector, featured: true, featured_order: 4, 
-             slug: 'oil-gas',            name: 'Oil & Gas')
-      create(:sector, featured: true, featured_order: 5, 
-             slug: 'security',           name: 'Security')
-      create(:sector, featured: true, featured_order: 6, 
-             slug: 'retail-and-luxury',  name: 'Retail and luxury')
-      ENV['GREAT_FEATURED_INDUSTRIES']= Sector.all.limit(6).map(&:id).join ","
-      
-      get :index
-      
-      industries = assigns(:featured_industries)
-      expect(industries.count).to eq 6
+    it 'redirects /opportunities to /' do
+      skip('TODO: coming up next. new domain will be great.gov/opportunities')
+      get_index
+      expect(response).to have_http_status(:redirect)
+      expect(response).to redirect_to('/')
+    end
+  end
+  it "provides featured industries" do
+    create(:sector, featured: true, featured_order: 1, 
+           slug: 'creative-media',     name: 'Creative & Media')
+    create(:sector, featured: true, featured_order: 2, 
+           slug: 'education-training', name: 'Education & Training')
+    create(:sector, featured: true, featured_order: 3, 
+           slug: 'food-drink',         name: 'Food and drink')
+    create(:sector, featured: true, featured_order: 4, 
+           slug: 'oil-gas',            name: 'Oil & Gas')
+    create(:sector, featured: true, featured_order: 5, 
+           slug: 'security',           name: 'Security')
+    create(:sector, featured: true, featured_order: 6, 
+           slug: 'retail-and-luxury',  name: 'Retail and luxury')
+    
+    get :index
+    
+    industries = assigns(:featured_industries)
+    expect(industries.count).to eq 6
+  end
+  it "provides recent opportunities" do
+    10.times do |n|
+      create(:opportunity, :published, title: "Title #{n}", slug: n.to_s,
+      response_due_on: 1.year.from_now, first_published_at: n.days.ago,
+      source: n.even? ? :post : :volume_opps)
+    end
+    refresh_elasticsearch
+    
+    get :index
+    
+    recent = assigns(:recent_opportunities)
+    expect(recent[:results].count).to be 5
+  end
+  it "provides list of countries" do
+    create(:country, slug: 'france')
+    create(:country, slug: 'germany')
+    
+    get :index
+    
+    countries = assigns(:countries)
+    expect(countries.any?).to be true
+  end
+  it "provides list of regions" do
+    get :index
+    regions = assigns(:regions)
+    expect(regions.class).to eq Array
+    expect(regions[0]).to eq({ slug: 'australia-new-zealand',
+                               countries: %w[australia fiji new-zealand papua-new-guinea],
+                               name: 'Australia/New Zealand' })
+  end
+  context "With MockRedis running" do
+    # Set up 10 opportunities, 2 expiring soon, 3 published recently.
+    before do
+      mock_redis = MockRedis.new
+      mock_redis.set('opps_counters_expiring_soon', '2')
+      mock_redis.set('opps_counters_total', '10')
+      mock_redis.set('opps_counters_published_recently', '3')
+      controller.instance_variable_set(:@redis, mock_redis)
     end
 
-    context 'on the new domain' do
-      before(:each) do
-        expect_any_instance_of(NewDomainConstraint).to receive(:matches?).and_return(true)
-      end
-      it 'redirects /opportunities to /' do
-        skip('TODO: coming up next. new domain will be great.gov/opportunities')
-        get_index
-        expect(response).to have_http_status(:redirect)
-        expect(response).to redirect_to('/')
-      end
-    end
-    it "provides featured industries" do
-      create(:sector, name: 'Creative & Media')
-      create(:sector, name: 'Security')
-      create(:sector, name: 'Food and drink')
-      create(:sector, name: 'Education & Training')
-      create(:sector, name: 'Oil & Gas')
-      create(:sector, name: 'Retail and luxury')
-      ENV['GREAT_FEATURED_INDUSTRIES']= Sector.all.limit(6).map(&:id).join ","
-      
+    it "provides statistics about opportunities" do
       get :index
-      
-      industries = assigns(:featured_industries)
-      expect(industries.count).to eq 6
+      stats = assigns(:opportunities_stats)
+      expect(stats[:total]).to be 10
+      expect(stats[:expiring_soon]).to be 2
+      expect(stats[:published_recently]).to be 3
     end
-    it "provides recent opportunities" do
+  end
+
+  context 'provides an XML-based Atom feed' do
+    it 'provides the correct MIME type' do
+      get :index, params: { format: 'atom' }
+      expect(response.content_type).to eq('application/atom+xml')
+      expect(response.body).to have_css('feed')
+    end
+
+    it 'routes to the feed correctly if you request application/xml' do
+      @request.env['HTTP_ACCEPT'] = 'application/xml'
+      get :index
+      expect(response.content_type).to eq('application/xml')
+      expect(response.body).to have_css('feed')
+    end
+
+    it 'routes to the feed correctly if you request application/atom+xml' do
+      @request.env['HTTP_ACCEPT'] = 'application/atom+xml'
+      get :index
+      expect(response.content_type).to eq('application/atom+xml')
+      expect(response.body).to have_css('feed')
+    end
+    
+    it "provides a set of opportunities" do
       10.times do |n|
         create(:opportunity, :published, title: "Title #{n}", slug: n.to_s,
-        response_due_on: 1.year.from_now, first_published_at: n.days.ago,
-        source: n.even? ? :post : :volume_opps)
+        response_due_on: 1.year.from_now, first_published_at: n.day.ago)
       end
       refresh_elasticsearch
-      
-      get :index
-      
-      recent = assigns(:recent_opportunities)
-      expect(recent[:results].count).to be 5
-    end
-    it "provides list of countries" do
-      create(:country, slug: 'france')
-      create(:country, slug: 'germany')
-      
-      get :index
-      
-      countries = assigns(:countries)
-      expect(countries.any?).to be true
-    end
-    it "provides list of regions" do
-      get :index
-      regions = assigns(:regions)
-      expect(regions.class).to eq Array
-      expect(regions[0]).to eq({ slug: 'australia-new-zealand',
-                                 countries: %w[australia fiji new-zealand papua-new-guinea],
-                                 name: 'Australia/New Zealand' })
-    end
-    context "With MockRedis running" do
-      # Set up 10 opportunities, 2 expiring soon, 3 published recently.
-      before do
-        mock_redis = MockRedis.new
-        mock_redis.set('opps_counters_expiring_soon', '2')
-        mock_redis.set('opps_counters_total', '10')
-        mock_redis.set('opps_counters_published_recently', '3')
-        controller.instance_variable_set(:@redis, mock_redis)
-      end
- 
-      it "provides statistics about opportunities" do
-        get :index
-        stats = assigns(:opportunities_stats)
-        expect(stats[:total]).to be 10
-        expect(stats[:expiring_soon]).to be 2
-        expect(stats[:published_recently]).to be 3
-      end
-    end
 
-    context 'provides an XML-based Atom feed' do
-      it 'provides the correct MIME type' do
-        get :index, params: { format: 'atom' }
-        expect(response.content_type).to eq('application/atom+xml')
-        expect(response.body).to have_css('feed')
-      end
-
-      it 'routes to the feed correctly if you request application/xml' do
-        @request.env['HTTP_ACCEPT'] = 'application/xml'
-        get :index
-        expect(response.content_type).to eq('application/xml')
-        expect(response.body).to have_css('feed')
-      end
-
-      it 'routes to the feed correctly if you request application/atom+xml' do
-        @request.env['HTTP_ACCEPT'] = 'application/atom+xml'
-        get :index
-        expect(response.content_type).to eq('application/atom+xml')
-        expect(response.body).to have_css('feed')
-      end
+      get :index, params: { format: 'atom' }
       
-      it "provides a set of opportunities" do
-        10.times do |n|
-          create(:opportunity, :published, title: "Title #{n}", slug: n.to_s,
-          response_due_on: 1.year.from_now, first_published_at: n.day.ago)
-        end
-        refresh_elasticsearch
-
-        get :index, params: { format: 'atom' }
-        
-        opportunities = assigns(:opportunities)
-        expect(opportunities.count).to be 10
-      end
+      opportunities = assigns(:opportunities)
+      expect(opportunities.count).to be 10
     end
   end
 

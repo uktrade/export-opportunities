@@ -1,7 +1,6 @@
 class EnquiryResponse < ApplicationRecord
   include EnquiryResponseHelper
   mount_uploaders :attachments, EnquiryResponseUploader
-  attr_accessor :completed_at
 
   validate :email_body_length_check
   validates :enquiry_id, uniqueness: true

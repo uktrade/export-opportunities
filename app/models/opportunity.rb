@@ -151,6 +151,11 @@ class Opportunity < ApplicationRecord
     results
   end
 
+  # Displays a list of names of countries
+  def country_names
+    countries.map(&:name).join(", ")
+  end
+
   # 
   # Returns Opportunities search results given a set of parameters
   # Inputs: --- Required ---

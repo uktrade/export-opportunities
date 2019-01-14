@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'capybara/email/rspec'
 
-RSpec.describe OpportunityMailer, type: :mailer do
+RSpec.describe EnquiryMailer, type: :mailer do
   describe '.send_enquiry' do
     it 'sends an enquiry to its contacts' do
       enquiry = create(:enquiry)
