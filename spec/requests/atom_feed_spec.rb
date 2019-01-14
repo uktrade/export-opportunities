@@ -1,6 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe 'Viewing the ATOM feed for opportunities', :elasticsearch, :commit, type: :request do
+RSpec.describe 'Viewing the ATOM feed for opportunities',
+  :elasticsearch, :commit, type: :request do
+  
   it 'returns a valid ATOM feed' do
     create(:opportunity,
       :published,
@@ -26,7 +28,7 @@ RSpec.describe 'Viewing the ATOM feed for opportunities', :elasticsearch, :commi
     expect(body.at_css('feed > id').text).to eql 'tag:www.example.com,2016:/opportunities'
     expect(body.at_css('feed > title').text).to eql 'Export opportunities'
     expect(body.at_css('feed > subtitle').text).to eql 'The demand is out there. You could be too.'
-    expect(body.at_css('feed > updated').text).to eql '2016-09-20T18:00:00+00:00'
+    expect(body.at_css('feed > updated').text).to eql '2016-09-20T18:00:00Z'
 
     expect(body.at_css('feed > link[rel=self]').attr('type')).to eql 'application/atom+xml'
     expect(body.at_css('feed > link[rel=self]').attr('href')).to eql 'http://www.example.com/opportunities.atom'
