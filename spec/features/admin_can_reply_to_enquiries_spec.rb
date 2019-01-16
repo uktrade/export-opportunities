@@ -84,7 +84,8 @@ feature 'admin can reply to enquiries' do
 
     click_on 'Send'
 
-    expect(page).to have_content('Reply sent successfully Remember to record a new interaction in Data Hub')
+    expect(page).to have_content('Reply sent successfully')
+    expect(page).to have_content('Remember to record a new interaction in Data Hub')
     expect(page).to have_content('You have no more enquiries to respond to')
   end
 
@@ -114,7 +115,8 @@ feature 'admin can reply to enquiries' do
 
     click_on 'Send'
 
-    expect(page).to have_content('Reply sent successfully Remember to record a new interaction in Data Hub.')
+    expect(page).to have_content('Reply sent successfully')
+    expect(page).to have_content('Remember to record a new interaction in Data Hub.')
   end
 
   scenario 'reply to an enquiry with attachment pdf, valid, right for opportunity - with js', js: true do
@@ -376,7 +378,8 @@ feature 'admin can reply to enquiries' do
 
     click_on 'Send'
 
-    expect(page).to have_content('Reply sent successfully Remember to record a new interaction in Data Hub')
+    expect(page).to have_content('Reply sent successfully')
+    expect(page).to have_content('Remember to record a new interaction in Data Hub')
 
     # should not see the second enquiry
     expect(page).to_not have_content('Unauthorised')
@@ -411,7 +414,8 @@ feature 'admin can reply to enquiries' do
 
     click_on 'Send'
 
-    expect(page).to have_content('Reply sent successfully Remember to record a new interaction in Data Hub')
+    expect(page).to have_content('Reply sent successfully')
+    expect(page).to have_content('Remember to record a new interaction in Data Hub')
 
     # should not see the second enquiry
     expect(page).to have_content('Reply to next Enquiry')
