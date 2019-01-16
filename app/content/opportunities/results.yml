@@ -6,9 +6,12 @@ title_new_search: New search
 description: 
 breadcrumb_current: Search results
 
+search_again_button: Find opportunities
 title_filters: "Filter results"
 title_filters_selected: "Selected Filters:"
-max_results_exceeded: Showing [$max] of a potential [$total].<br />To narrow down your search use more specific search terms.
+search_again_button: Find opportunities
+max_results_exceeded: Showing [$max] results of a potential [$total].
+max_results_hint: To narrow down your search use more specific search terms.
 no_results_message: "Sorry, we don't have any matches for your search."
 no_results_instruction: "Please try:"
 no_results_actions:

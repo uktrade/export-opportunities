@@ -1,19 +1,18 @@
 class EnquiryMailer < ApplicationMailer
   include Devise::Mailers::Helpers
+  include ContentHelper
 
   def send_enquiry(enquiry)
     @enquiry = enquiry
     return if @enquiry.opportunity.contacts.nil?
 
-    excepted_service_providers = Figaro.env.PTU_EXEMPT_SERVICE_PROVIDERS!
-
     email_addresses = @enquiry.opportunity.contacts.pluck(:email)
 
     subject = "Enquiry from #{@enquiry.company_name}: action required within 5 working days"
 
-    args = if excepted_service_providers.split(',').map(&:to_i).include? @enquiry.opportunity.service_provider.id
+    args = if service_provider_exception(enquiry)
              {
-               template_name: 'send_enquiry_seller_details',
+               template_name: 'sendenquiry_seller_details',
                to: email_addresses,
                subject: subject,
              }
@@ -30,5 +29,11 @@ class EnquiryMailer < ApplicationMailer
     end
 
     mail(args)
+  end
+
+  private def service_provider_exception(enquiry)
+    service_provider_id = enquiry.opportunity.service_provider.id
+    excepted_service_providers = Figaro.env.PTU_EXEMPT_SERVICE_PROVIDERS!
+    excepted_service_providers.split(',').map(&:to_i).include? service_provider_id
   end
 end

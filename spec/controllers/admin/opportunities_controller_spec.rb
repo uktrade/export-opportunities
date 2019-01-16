@@ -72,6 +72,17 @@ describe Admin::OpportunitiesController, type: :controller do
     end
   end
 
+  describe '#show' do
+    login_editor(role: :admin)
+
+    it "renders" do
+      opportunity = create(:opportunity, slug: 'opp-slug')
+      expect(
+        get :show, params: { id: opportunity.id }
+      ).to render_template('admin/opportunities/show')
+    end
+  end
+
   describe '#create' do
     login_editor(role: :admin)
 

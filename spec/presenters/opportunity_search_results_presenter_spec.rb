@@ -139,6 +139,22 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
   end
 
+  describe '#max_results_exceeded_message' do
+    # faking found and returned result numbers for tests
+
+    it 'Returns custom message when results exceed the defined limit' do
+      url_params = { s: 'food' }
+      total_found = 2000
+      total_returned = 500
+      search = public_search(url_params, total_returned, total_found)
+      presenter = OpportunitySearchResultsPresenter.new(content, search)
+
+      expected = "Showing 500 results of a potential 2,000.<span class=\"hint\">To narrow down your search use more specific search terms.</span>"
+
+      expect(presenter.max_results_exceeded_message).to eql(expected)
+    end
+  end
+
   describe '#information' do
 
     it 'Returns max_results_exceeded_message when results exceed the defined limit' do
@@ -148,9 +164,9 @@ RSpec.describe OpportunitySearchResultsPresenter do
       results[:total_without_limit] = 2000
       presenter = OpportunitySearchResultsPresenter.new(
                     content, results, subscr_form(results))
-
-      expect(presenter.information).to eql(
-        presenter.content_with_inclusion('max_results_exceeded', [500, 2000]))
+      
+      expected = "Showing 500 results of a potential 2,000.<span class=\"hint\">To narrow down your search use more specific search terms.</span>"
+      expect(presenter.information).to eql(expected)
     end
 
     it 'Returns result found information message with search term' do

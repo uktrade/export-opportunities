@@ -71,75 +71,81 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       recent = assigns(:recent_opportunities)
       expect(recent.count).to be 5
     end
-    it "provides list of countries" do
-      create(:country, slug: 'france')
-      create(:country, slug: 'germany')
-      
+    refresh_elasticsearch
+    
+    get :index
+    
+    recent = assigns(:recent_opportunities)
+    expect(recent[:results].count).to be 5
+  end
+  it "provides list of countries" do
+    create(:country, slug: 'france')
+    create(:country, slug: 'germany')
+    
+    get :index
+    
+    countries = assigns(:countries)
+    expect(countries.any?).to be true
+  end
+  it "provides list of regions" do
+    get :index
+    regions = assigns(:regions)
+    expect(regions.class).to eq Array
+    expect(regions[0]).to eq({ slug: 'australia-new-zealand',
+                               countries: %w[australia fiji new-zealand papua-new-guinea],
+                               name: 'Australia/New Zealand' })
+  end
+  context "With MockRedis running" do
+    # Set up 10 opportunities, 2 expiring soon, 3 published recently.
+    before do
+      mock_redis = MockRedis.new
+      mock_redis.set('opps_counters_expiring_soon', '2')
+      mock_redis.set('opps_counters_total', '10')
+      mock_redis.set('opps_counters_published_recently', '3')
+      controller.instance_variable_set(:@redis, mock_redis)
+    end
+
+    it "provides statistics about opportunities" do
       get :index
-      
-      countries = assigns(:countries)
-      expect(countries.any?).to be true
+      stats = assigns(:opportunities_stats)
+      expect(stats[:total]).to be 10
+      expect(stats[:expiring_soon]).to be 2
+      expect(stats[:published_recently]).to be 3
     end
-    it "provides list of regions" do
+  end
+
+  context 'provides an XML-based Atom feed' do
+    it 'provides the correct MIME type' do
+      get :index, params: { format: 'atom' }
+      expect(response.content_type).to eq('application/atom+xml')
+      expect(response.body).to have_css('feed')
+    end
+
+    it 'routes to the feed correctly if you request application/xml' do
+      @request.env['HTTP_ACCEPT'] = 'application/xml'
       get :index
-      regions = assigns(:regions)
-      expect(regions.class).to eq Array
-      expect(regions[0]).to eq({ slug: 'australia-new-zealand',
-                                 countries: %w[australia fiji new-zealand papua-new-guinea],
-                                 name: 'Australia/New Zealand' })
-    end
-    context "With MockRedis running" do
-      # Set up 10 opportunities, 2 expiring soon, 3 published recently.
-      before do
-        mock_redis = MockRedis.new
-        mock_redis.set('opps_counters_expiring_soon', '2')
-        mock_redis.set('opps_counters_total', '10')
-        mock_redis.set('opps_counters_published_recently', '3')
-        controller.instance_variable_set(:@redis, mock_redis)
-      end
- 
-      it "provides statistics about opportunities" do
-        get :index
-        stats = assigns(:opportunities_stats)
-        expect(stats[:total]).to be 10
-        expect(stats[:expiring_soon]).to be 2
-        expect(stats[:published_recently]).to be 3
-      end
+      expect(response.content_type).to eq('application/xml')
+      expect(response.body).to have_css('feed')
     end
 
-    context 'provides an XML-based Atom feed' do
-      it 'provides the correct MIME type' do
-        get :index, params: { format: 'atom' }
-        expect(response.content_type).to eq('application/atom+xml')
-        expect(response.body).to have_css('feed')
+    it 'routes to the feed correctly if you request application/atom+xml' do
+      @request.env['HTTP_ACCEPT'] = 'application/atom+xml'
+      get :index
+      expect(response.content_type).to eq('application/atom+xml')
+      expect(response.body).to have_css('feed')
+    end
+    
+    it "provides a set of opportunities" do
+      10.times do |n|
+        create(:opportunity, :published, title: "Title #{n}", slug: n.to_s,
+        response_due_on: 1.year.from_now, first_published_at: n.day.ago)
       end
+      refresh_elasticsearch
 
-      it 'routes to the feed correctly if you request application/xml' do
-        @request.env['HTTP_ACCEPT'] = 'application/xml'
-        get :index
-        expect(response.content_type).to eq('application/xml')
-        expect(response.body).to have_css('feed')
-      end
-
-      it 'routes to the feed correctly if you request application/atom+xml' do
-        @request.env['HTTP_ACCEPT'] = 'application/atom+xml'
-        get :index
-        expect(response.content_type).to eq('application/atom+xml')
-        expect(response.body).to have_css('feed')
-      end
+      get :index, params: { format: 'atom' }
       
-      it "provides a set of opportunities" do
-        10.times do |n|
-          create(:opportunity, :published, title: "Title #{n}", slug: n.to_s,
-          response_due_on: 1.year.from_now, first_published_at: n.day.ago)
-        end
-        refresh_elasticsearch
-
-        get :index, params: { format: 'atom' }
-        
-        opportunities = assigns(:opportunities)
-        expect(opportunities.count).to be 10
-      end
+      opportunities = assigns(:opportunities)
+      expect(opportunities.count).to be 10
     end
   end
 
