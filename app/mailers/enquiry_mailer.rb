@@ -12,7 +12,7 @@ class EnquiryMailer < ApplicationMailer
 
     args = if service_provider_exception(enquiry)
              {
-               template_name: 'sendenquiry_seller_details',
+               template_name: 'send_enquiry_seller_details',
                to: email_addresses,
                subject: subject,
              }
