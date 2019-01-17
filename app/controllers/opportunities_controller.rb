@@ -73,8 +73,7 @@ class OpportunitiesController < ApplicationController
         render layout: 'landing'
       end
       format.any(:atom, :xml) do
-        # params.merge!({ sort_default_column: 'updated_at' })
-        query = Search.new(params, results_only: true).run
+        query = Search.new(params, results_only: true, sort: 'updated_at').run
         query = query.records
         # return 25 results per page for atom feed
         query = query.page(params[:paged]).per(25)
@@ -99,10 +98,12 @@ class OpportunitiesController < ApplicationController
         @page = PagePresenter.new(content)
         @results = OpportunitySearchResultsPresenter.new(content, results, subscr_form)
       end
-      format.any(:atom, :xml) do
-        # params.merge!({ sort_default_column: 'updated_at' })
-        results = Search.new(params, limit: 100, results_only: true).run
+      format.any(:atom, :xml) do        
+        results = Search.new(params, limit: 100, 
+                             results_only: true,
+                             sort: 'updated_at').run
         results = results.records.page(params[:paged]).per(25)
+        debugger
         @query = AtomOpportunityQueryDecorator.new(results, view_context)
         render :index, formats: :atom
       end

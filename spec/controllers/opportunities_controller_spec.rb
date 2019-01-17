@@ -71,12 +71,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       recent = assigns(:recent_opportunities)
       expect(recent.count).to be 5
     end
-    refresh_elasticsearch
-    
-    get :index
-    
-    recent = assigns(:recent_opportunities)
-    expect(recent[:results].count).to be 5
+
   end
   it "provides list of countries" do
     create(:country, slug: 'france')

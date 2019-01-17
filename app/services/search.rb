@@ -13,13 +13,16 @@ class Search
   #          types:             url-encoded array of slugs of types
   #          sort_column_name:  column to filter on
   #          paged:             Which page number to return results on
+  #        sort:   String, overrides params can be one of:
+  #                  response_due_on, first_published_at, updated_at
   #        limit:  Int number of results to cap at, per shard
   #        results_only: Boolean, if true only provides results of search and not
   #                      search metadata, input data, and data for building filters
   #
-  def initialize(params, limit: 100, results_only: false)
+  def initialize(params, limit: 100, results_only: false, sort: nil)
     @term   = clean_term(params[:s])
     @filter = SearchFilter.new(params)
+    @sort_override = sort
     @sort   = clean_sort(params)
     @boost  = params['boost_search'].present? 
     @limit  = limit
@@ -74,7 +77,7 @@ class Search
 
   # Builds OpportunitySort based on filter
   def clean_sort(params)
-    case params[:sort_column_name]
+    case @sort_override || params[:sort_column_name]
     when 'response_due_on' # Soonest to end first
       column = 'response_due_on' and order = 'asc'
     when 'first_published_at' # Newest posted to oldest
