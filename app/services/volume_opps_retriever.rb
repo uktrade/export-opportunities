@@ -128,7 +128,7 @@ class VolumeOppsRetriever
         value_ids: value_id,
         teaser: nil,
         response_due_on: response_due_on,
-        description: sanitise_opportunity_text(description),
+        description: description,
         service_provider_id: 27, # DIT HQ
         contacts_attributes: contact_attributes(buyer),
         buyer_name: buyer['name'],

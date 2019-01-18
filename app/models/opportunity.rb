@@ -18,6 +18,10 @@ class Opportunity < ApplicationRecord
     __elasticsearch__.delete_document
   end
 
+  before_commit on: [:create, :update] do
+    sanitise_description
+  end
+
   settings index: { max_result_window: 100_000 } do
     mappings dynamic: 'false' do
       indexes :title, analyzer: 'english'
@@ -154,6 +158,11 @@ class Opportunity < ApplicationRecord
   # Displays a list of names of countries
   def country_names
     countries.map(&:name).join(", ")
+  end
+
+  # removing nbsp and other breaking characters
+  def sanitise_description
+    self.description = description.try(:gsub, /[[:space:]]+/, ' ').try(:gsub, /&nbsp;/i, ' ')
   end
 
   # 
