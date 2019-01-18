@@ -130,10 +130,10 @@ RSpec.describe 'Viewing the ATOM feed for opportunities',
       end
       refresh_elasticsearch
 
-      get '/opportunities.atom'
-      body = parse_xml(response.body)
+      # get '/opportunities.atom'
+      # body = parse_xml(response.body)
+      # expect(body.css('feed > link[rel=prev]')).to be_empty
 
-      expect(body.css('feed > link[rel=prev]')).to be_empty
       get '/opportunities.atom?paged=2'
       body = parse_xml(response.body)
 

@@ -54,7 +54,7 @@ class Opportunity < ApplicationRecord
   friendly_id :title, use: %i[slugged finders]
 
   CONTACTS_PER_OPPORTUNITY = 2
-  # paginates_per 1000
+  paginates_per 25
   TITLE_LENGTH_LIMIT = 250.freeze
   TEASER_LENGTH_LIMIT = 140.freeze
 
@@ -105,6 +105,7 @@ class Opportunity < ApplicationRecord
   validates :response_due_on, presence: true
   validate :contacts, :contact_validations
   validate :target_url, :enquiry_url_validations
+  validates :slug, presence: true, uniqueness: true
 
   def enquiry_url_validations
     if source == 'post' && custom_url_service_provider?
@@ -129,8 +130,6 @@ class Opportunity < ApplicationRecord
       end
     end
   end
-
-  validates :slug, presence: true, uniqueness: true
 
   # Database triggers to make Postgres rebuild its fulltext search
   # index whenever an opportunity is created or updated
