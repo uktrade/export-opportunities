@@ -93,6 +93,7 @@ class OpportunitiesController < ApplicationController
         subscr_form = subscription_form(results)
         @page = PagePresenter.new(content)
         @results = OpportunitySearchResultsPresenter.new(content, results, subscr_form)
+        render layout: 'results'
       end
       format.any(:atom, :xml) do        
         results = Search.new(params, limit: 100, 

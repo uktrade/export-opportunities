@@ -19,6 +19,7 @@
   <%= render partial: 'export_components/header' %>
 
   <main id="content" role="main">
+    Well hello there
     <%= content_for?(:errors) ? yield(:errors) : "" %>
     <%= content_for?(:content) ? yield(:content) : yield %>
 
