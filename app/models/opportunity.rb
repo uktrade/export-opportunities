@@ -54,7 +54,7 @@ class Opportunity < ApplicationRecord
   friendly_id :title, use: %i[slugged finders]
 
   CONTACTS_PER_OPPORTUNITY = 2
-  paginates_per 10
+  # paginates_per 1000
   TITLE_LENGTH_LIMIT = 250.freeze
   TEASER_LENGTH_LIMIT = 140.freeze
 

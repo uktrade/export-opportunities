@@ -125,7 +125,7 @@ RSpec.describe 'Viewing the ATOM feed for opportunities',
     end
 
     it 'adds links to the previous page when appropriate', focus: true do
-      260.times do |x|
+      26.times do |x|
         create(:opportunity, :published, title: "Post #{x}")
       end
       refresh_elasticsearch
@@ -134,7 +134,6 @@ RSpec.describe 'Viewing the ATOM feed for opportunities',
       body = parse_xml(response.body)
 
       expect(body.css('feed > link[rel=prev]')).to be_empty
-
       get '/opportunities.atom?paged=2'
       body = parse_xml(response.body)
 
