@@ -119,7 +119,7 @@ class Search
   # -- Helpers for formatting results --
 
   def page(results)
-    results.page(@paged).per(Opportunity.default_per_page).records
+    results.page(@paged).per(Opportunity.default_per_page)
   end
 
   def get_total_without_limit(searchable)

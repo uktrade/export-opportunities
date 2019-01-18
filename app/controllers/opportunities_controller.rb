@@ -102,7 +102,6 @@ class OpportunitiesController < ApplicationController
         results = Search.new(params, limit: 100, 
                              results_only: true,
                              sort: 'updated_at').run
-        debugger
         @query = AtomOpportunityQueryDecorator.new(results, view_context)
         render :index, formats: :atom
       end
