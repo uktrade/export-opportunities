@@ -21,7 +21,7 @@ RSpec.describe OpportunitySearchBuilder do
   def results_count(query)
     refresh_elasticsearch
     Opportunity.__elasticsearch__.search(query: query[:query],
-                                         sort:  query[:search_sort]).
+                                         sort:  query[:sort]).
                                          results.count
   end
 
@@ -132,7 +132,7 @@ RSpec.describe OpportunitySearchBuilder do
         query = new_query(sort: sort)
         results = Opportunity.__elasticsearch__.search(
           query: query[:query],
-          sort:  query[:search_sort]
+          sort:  query[:sort]
         ).results
         expect(results[0].title).to eq "Post 3"
         expect(results[-1].title).to eq "Post 2"
@@ -144,7 +144,7 @@ RSpec.describe OpportunitySearchBuilder do
         query = new_query(sort: sort)
         results = Opportunity.__elasticsearch__.search(
           query: query[:query],
-          sort:  query[:search_sort]
+          sort:  query[:sort]
         ).results
         expect(results[0].title).to eq "Post 1"
         expect(results[-1].title).to eq "Post 2"

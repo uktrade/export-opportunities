@@ -10,6 +10,11 @@ RSpec.describe Opportunity do
       expect(Opportunity.new).to have(1).error_on(:title)
     end
 
+    it 'sanitises the description' do
+      subject.update(description: "Hello,&nbsp;world!")
+      expect(subject.description).to eq "Hello, world!"
+    end
+
     it 'has to have a teaser' do
       expect(Opportunity.new(source: :post)).to have(1).error_on(:teaser)
     end

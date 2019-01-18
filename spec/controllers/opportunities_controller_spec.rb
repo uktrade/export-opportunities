@@ -5,9 +5,11 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
   include RegionHelper
 
   describe 'GET #index' do
+    
     it "renders" do
       expect(response.status).to eq(200)
     end
+
     it "provides featured industries" do
       create(:sector, featured: true, featured_order: 1, 
              slug: 'creative-media',     name: 'Creative & Media')
@@ -28,36 +30,6 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       expect(industries.count).to eq 6
     end
 
-    context 'on the new domain' do
-      before(:each) do
-        expect_any_instance_of(NewDomainConstraint).to receive(:matches?).and_return(true)
-      end
-      it 'redirects /opportunities to /' do
-        skip('TODO: coming up next. new domain will be great.gov/opportunities [Date: 9 Jan 2019]')
-        get_index
-        expect(response).to have_http_status(:redirect)
-        expect(response).to redirect_to('/')
-      end
-    end
-    it "provides featured industries" do
-      create(:sector, featured: true, featured_order: 1, 
-             slug: 'creative-media',     name: 'Creative & Media')
-      create(:sector, featured: true, featured_order: 2, 
-             slug: 'education-training', name: 'Education & Training')
-      create(:sector, featured: true, featured_order: 3, 
-             slug: 'food-drink',         name: 'Food and drink')
-      create(:sector, featured: true, featured_order: 4, 
-             slug: 'oil-gas',            name: 'Oil & Gas')
-      create(:sector, featured: true, featured_order: 5, 
-             slug: 'security',           name: 'Security')
-      create(:sector, featured: true, featured_order: 6, 
-             slug: 'retail-and-luxury',  name: 'Retail and luxury')
-      
-      get :index
-      
-      industries = assigns(:featured_industries)
-      expect(industries.count).to eq 6
-    end
     it "provides recent opportunities" do
       10.times do |n|
         create(:opportunity, :published, title: "Title #{n}", slug: n.to_s,
@@ -71,8 +43,8 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       recent = assigns(:recent_opportunities)
       expect(recent.count).to be 5
     end
-
   end
+
   it "provides list of countries" do
     create(:country, slug: 'france')
     create(:country, slug: 'germany')
@@ -82,6 +54,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
     countries = assigns(:countries)
     expect(countries.any?).to be true
   end
+
   it "provides list of regions" do
     get :index
     regions = assigns(:regions)
@@ -90,6 +63,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
                                countries: %w[australia fiji new-zealand papua-new-guinea],
                                name: 'Australia/New Zealand' })
   end
+
   context "With MockRedis running" do
     # Set up 10 opportunities, 2 expiring soon, 3 published recently.
     before do
@@ -236,7 +210,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
                                         order:  'asc')
       end
     end
-    describe 'provides @data' do
+    describe 'provides @results with data' do
       it 'with the filter' do
         get :results, params: { countries: ['fiji'] } 
         data = assigns(:results).instance_variable_get(:@data)

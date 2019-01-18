@@ -10,6 +10,7 @@ class CreateOpportunity
   def call(params)
     opportunity_cpvs = params[:opportunity_cpvs]
     params.delete :opportunity_cpvs
+
     opportunity = Opportunity.new(params)
 
     if params[:slug].nil?

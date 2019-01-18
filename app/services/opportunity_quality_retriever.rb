@@ -1,51 +1,51 @@
 require 'opps_quality_connector'
 
 class OpportunityQualityRetriever
+
+  #
+  # Runs an API-driven check on text, and logs the response.
+  # If no errors are detected, creates an OpportunityCheck with no errors
+  # If errors are detected, creates one OpportunityCheck per error
+  # Returns results in an array
+  #
   def call(opportunity)
-    hostname = Figaro.env.TG_HOSTNAME!
-    quality_api_key = Figaro.env.TG_API_KEY!
-    submitted_text = "#{opportunity.title} #{opportunity.description}"[0..1999]
-
-    response = quality_check(hostname, quality_api_key, submitted_text)
-    result_set = []
-    if response[:status]
-      response[:errors]&.each do |opps_quality_error|
-        opportunity_check = OpportunityCheck.new
-        opportunity_check.error_id = opportunity.id
-        opportunity_check.offset = opps_quality_error['offset'] - 1
-        # length of string to be able to mark it as red in text
-        opportunity_check.length = opps_quality_error['token'].length
-        opportunity_check.offensive_term = opps_quality_error['token']
-
-        # hash with array of values, we pick the first suggestion which has higher probability
-        opportunity_check.suggested_term = opps_quality_error['suggestions'][0]['suggestion']
-
-        opportunity_check.submitted_text = submitted_text
-        opportunity_check.score = response[:score]
-        opportunity_check.opportunity_id = opportunity.id
-
-        opportunity_check.save!
-        result_set.push opportunity_check
-      end
-
-      if response[:errors].blank?
-        no_error_check = OpportunityCheck.new
-        no_error_check.score = response[:score]
-        no_error_check.opportunity_id = opportunity.id
-        no_error_check.submitted_text = submitted_text
-        no_error_check.save!
-        result_set.push no_error_check
-      end
-
-      return result_set
+    text_to_test = "#{opportunity.title} #{opportunity.description}"[0..1999]
+    check = perform_quality_check(text_to_test)
+    
+    if check[:status] != 200
+      error_msg = "QualityCheck API failed. API returned status #{check[:status]}"
+      Rails.logger.error error_msg
+      ["Error"]
     else
-      Rails.logger.info 'log errors from API'
-      'Error'
-      # errors from API
+      log_results(opportunity, check, text_to_test)
     end
   end
 
-  def quality_check(hostname, quality_api_key, submitted_text)
-    OppsQualityConnector.new.call(hostname, quality_api_key, submitted_text)
+  def perform_quality_check(text)
+    hostname = Figaro.env.TG_HOSTNAME!
+    quality_api_key = Figaro.env.TG_API_KEY!
+    OppsQualityConnector.new.call(hostname, quality_api_key, text)
+  end
+
+  # Returns array of OpportunityChecks
+  def log_results(opportunity, check, text_to_test)
+    if check[:errors].blank?
+      [OpportunityCheck.create!(opportunity:    opportunity,
+                                score:          check[:score],
+                                submitted_text: text_to_test)]
+    else
+      check[:errors]&.map do |error|
+        OpportunityCheck.create!(
+          opportunity:    opportunity,
+          error_id:       opportunity.id,
+          score:          check[:score],
+          submitted_text: text_to_test,
+          offset:         error['offset'] - 1,
+          length:         error['token'].length,
+          offensive_term: error['token'],
+          suggested_term: error['suggestions'][0]['suggestion']
+        )
+      end
+    end
   end
 end

@@ -124,7 +124,7 @@ RSpec.describe 'Viewing the ATOM feed for opportunities',
       expect(body.css('feed > link[rel=next]')).to be_empty
     end
 
-    it 'adds links to the previous page when appropriate', focus: true do
+    it 'adds links to the previous page when appropriate' do
       26.times do |x|
         create(:opportunity, :published, title: "Post #{x}")
       end

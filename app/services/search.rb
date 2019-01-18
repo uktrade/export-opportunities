@@ -39,18 +39,17 @@ class Search
       results_and_metadata(searchable, results)
     end
   end
-  
+
   private
 
   def results_and_metadata(searchable, results)
     country_list = countries_in(results) # Run before paging.
-    paged_results = page(results)
     {
       term:    @term,        
       filter:  @filter,
       sort:    @sort,
       boost:   @boost,
-      results: paged_results.records,
+      results: page(results),
       total:   results.records.total,
       total_without_limit: get_total_without_limit(searchable),
       country_list: country_list
@@ -119,7 +118,7 @@ class Search
   # -- Helpers for formatting results --
 
   def page(results)
-    results.page(@paged).per(Opportunity.default_per_page)
+    results.records.page(@paged).per(Opportunity.default_per_page)
   end
 
   def get_total_without_limit(searchable)

@@ -131,7 +131,7 @@ RSpec.describe Search, elasticsearch: true do
         #      Post 2 second most recently,
         #      Post 3 second least recently
         results = Search.new({ sort_column_name: 'first_published_at' }).run
-        expect(results[:results].first).to eq @post_1
+        expect(results[:results][0]).to eq @post_1
         expect(results[:results][-1]).to eq @post_3
       end
       it 'by response_due_on' do
@@ -139,13 +139,12 @@ RSpec.describe Search, elasticsearch: true do
         #      Post 1 second soonest,
         #      Post 3 least soon
         results = Search.new({ sort_column_name: 'response_due_on' }).run
-        expect(results[:results].first).to eq @post_2
+        expect(results[:results][0]).to eq @post_2
         expect(results[:results][-1]).to eq @post_3
-
       end
       it 'by updated_at' do
         results = Search.new({ sort_column_name: 'updated_at' }).run
-        expect(results[:results].first).to eq @post_3
+        expect(results[:results][0]).to eq @post_3
         expect(results[:results][-1]).to eq @post_1
       end
     end

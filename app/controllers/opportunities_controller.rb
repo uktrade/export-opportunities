@@ -73,14 +73,10 @@ class OpportunitiesController < ApplicationController
         render layout: 'landing'
       end
       format.any(:atom, :xml) do
-        query = Search.new(params, results_only: true, sort: 'updated_at').run
-        query = query.records
-        # return 25 results per page for atom feed
-        query = query.page(params[:paged]).per(25)
-        query = AtomOpportunityQueryDecorator.new(query, view_context)
-        @query = query
-        @total = query.records.size
-        @opportunities = query.records
+        results = Search.new(params, results_only: true, sort: 'updated_at').run
+        @query = AtomOpportunityQueryDecorator.new(results, view_context)
+        @total = @query.records.size
+        @opportunities = @query.records
         render :index, formats: :atom
       end
     end
