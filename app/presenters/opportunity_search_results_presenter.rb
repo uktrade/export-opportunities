@@ -20,6 +20,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
   # creates object for use by the country and region inputs
   private def build_filter_data
     filter = @data[:filter]
+    return nil unless filter.present? 
     country_list = @data[:country_list]
     {
       sectors: filter_sectors(filter),

@@ -14,27 +14,19 @@ class EmailNotificationsController < ApplicationController
     subscriptions = Subscription.where(user_id: user_id).where(unsubscribed_at: nil)
 
     if every_opportunity_subscription?(subscriptions)
-      query = Opportunity.public_search(
-        search_term: nil,
-        filters: SearchFilter.new,
-        sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc'),
-        limit: 100
-      )[:search]
-      @results = query.records.includes(:countries).includes(:opportunities_countries).to_a
+      query = Search.new({}, limit: 100, sort: 'updated_at', results_only: true).run
+      @results = query.includes(:countries).includes(:opportunities_countries).to_a
     else
       subscriptions.each do |subscription|
         params = {
+          s: subscription.search_term,
           sectors: subscription.sectors,
           countries: subscription.countries,
           types: subscription.types,
           values: subscription.values,
         }
-        query = Opportunity.public_search(
-          search_term: subscription.search_term,
-          filters: SearchFilter.new(params),
-          sort: OpportunitySort.new(default_column: 'updated_at', default_order: 'desc')
-        )[:search]
-        query.records.includes(:countries).includes(:opportunities_countries).to_a.each do |opp|
+        query = Search.new(params, limit: 100, sort: 'updated_at', results_only: true).run
+        query.includes(:countries).includes(:opportunities_countries).to_a.each do |opp|
           result_set.add(opp)
         end
       end
@@ -43,6 +35,13 @@ class EmailNotificationsController < ApplicationController
     end
     @paginatable_results = Kaminari.paginate_array(@results).page(params[:page]).per(10)
 
+    @paged_results = @paginatable_results.page(params[:paged]).per(10)
+    @page = PagePresenter.new(content)
+    @results = OpportunitySearchResultsPresenter.new(content, { results: @paged_results, limit: 0, total: @paged_results.total_count, sort_by: ""}, nil)
+
+    #@results.found_message - string
+    #@results.found
+    #@paged_results
     render layout: 'results', locals: {
       content: content['show'],
     }

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Sorting opportunities', :elasticsearch, js: true, focus: true do
+feature 'Sorting opportunities', :elasticsearch, js: true do
 
   scenario 'by "Published date" shows most recent first' do
     create(:opportunity, :published,
