@@ -198,13 +198,13 @@ RSpec.describe Search, elasticsearch: true do
         # Note Post 1 was published most recently, Post 3 least recently
         results = Search.new({ sort_column_name: 'first_published_at',
                                sectors: [@sector.slug] }).run
-        expect(results[:results].first).to eq @post_1
+        expect(results[:results][0]).to eq @post_1
         expect(results[:results][-1]).to eq @post_3
       end
       it 'by response_due_on' do
         # Note Post 2 is due soonest, Post 3 least soon
         results = Search.new({ sort_column_name: 'response_due_on', sectors: [@sector.slug]  }).run
-        expect(results[:results].first).to eq @post_2
+        expect(results[:results][0]).to eq @post_2
         expect(results[:results][-1]).to eq @post_3
       end
     end

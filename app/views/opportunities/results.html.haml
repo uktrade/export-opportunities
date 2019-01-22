@@ -7,7 +7,7 @@
     .information
       %p= @results.information
       - if @results.offer_subscription(params[:subscription_url].blank?)
-        = render partial: "components/subscription_link", locals: { subscription: @results.subscription }
+        = render partial: "components/subscription_link", locals: { subscription: @subscription }
 
     %form.search{:action=>opportunities_path, :method=>"get"}
       %label

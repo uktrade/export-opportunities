@@ -1,10 +1,37 @@
 require 'rails_helper'
 
-RSpec.describe SubscriptionForm do
+RSpec.describe SubscriptionForm, focus: true do
+  include RegionHelper
+  let(:region_helper) { TestRegionHelper.new }
+  class TestRegionHelper
+    include RegionHelper
+  end
+
+  def search(params, total=nil)
+    params = region_helper.region_and_country_param_conversion(params)
+    Search.new(params).run
+  end
+
+  describe '#call' do
+    it 'Returns subscription data object' do
+      create(:country, slug: 'spain', name: "Spain")
+      create(:country, slug: 'mexico', name: "Mexico")
+      params = { s: 'food', countries: %w[spain mexico] }
+      results = search(params)
+      subscription = SubscriptionForm.new(results).call
+      expect(subscription[:title]).to eq('food in Mexico or Spain').or eql('food in Spain or Mexico')
+      expect(subscription[:keywords]).to eq('food')
+      expect(subscription[:what]).to eq(' for food')
+      expect(subscription[:where]).to eq(' in Mexico or Spain').or eq(' in Spain or Mexico')
+    end
+  end
+
+
   describe '#search_term' do
     it 'returns the query string' do
-      params = { query: { search_term: 'google' } }
-      expect(SubscriptionForm.new(params).search_term).to eq 'google'
+      params = { s: 'google' }
+      results = search(params)
+      expect(SubscriptionForm.new(results).search_term).to eq 'google'
     end
 
     context 'when a search term and single filters are provided' do
@@ -14,16 +41,15 @@ RSpec.describe SubscriptionForm do
         create(:type, slug: 'public')
         create(:value, slug: '10')
         params = {
-          query: {
-            search_term: 'Industrial Lubricant',
-            countries: %w[france],
-            sectors: %w[industy],
-            types: %w[public],
-            value: %w[10],
-          },
+          s: 'Industrial Lubricant',
+          countries: %w[france],
+          sectors: %w[industy],
+          types: %w[public],
+          values: %w[10],
         }
 
-        form = SubscriptionForm.new(params)
+        results = search(params)
+        form = SubscriptionForm.new(results)
 
         expect(form).to be_valid
         expect(form).to be_minimum_search_criteria
@@ -42,16 +68,15 @@ RSpec.describe SubscriptionForm do
         create(:value, slug: '100')
         create(:value, slug: '150')
         params = {
-          query: {
-            search_term: 'Industial Lubricant',
-            countries: %w[france germany],
-            sectors: %w[industy oils],
-            types: %w[public private],
-            value: %w[10 100 150],
-          },
+          s: 'Industial Lubricant',
+          countries: %w[france germany],
+          sectors: %w[industy oils],
+          types: %w[public private],
+          values: %w[10 100 150]
         }
 
-        form = SubscriptionForm.new(params)
+        results = search(params)
+        form = SubscriptionForm.new(results)
 
         expect(form).to be_valid
         expect(form).to be_minimum_search_criteria
@@ -60,8 +85,9 @@ RSpec.describe SubscriptionForm do
 
     context 'when the search term is an empty string' do
       it 'fails validation' do
-        params = { query: { search_term: ' ' } }
-        form = SubscriptionForm.new(params)
+        params = { s: ' ' }
+        results = search(params)
+        form = SubscriptionForm.new(results)
 
         form.valid?
 
@@ -70,14 +96,10 @@ RSpec.describe SubscriptionForm do
 
       it 'passes validation if a country filter is provided' do
         create(:country, slug: 'france')
-        params = {
-          query: {
-            search_term: '',
-            countries: ['france'],
-          },
-        }
+        results = search(params)
+        params = { s: '', countries: ['france'] }
 
-        form = SubscriptionForm.new(params)
+        form = SubscriptionForm.new(results)
 
         expect(form).to be_valid
         expect(form).to be_minimum_search_criteria
@@ -85,14 +107,10 @@ RSpec.describe SubscriptionForm do
 
       it 'passes validation if a sector filter is provided' do
         create(:sector, slug: 'aerospace')
-        params = {
-          query: {
-            search_term: '',
-            sectors: ['aerospace'],
-          },
-        }
+        results = search(params)
+        params = { s: '', sectors: ['aerospace'] }
 
-        form = SubscriptionForm.new(params)
+        form = SubscriptionForm.new(results)
 
         expect(form).to be_valid
         expect(form).to be_minimum_search_criteria
@@ -100,14 +118,10 @@ RSpec.describe SubscriptionForm do
 
       it 'passes validation if a type filter is provided' do
         create(:type, slug: 'public-sector')
-        params = {
-          query: {
-            search_term: '',
-            types: ['public-sector'],
-          },
-        }
+        params = { s: '', types: ['public-sector'] }
 
-        form = SubscriptionForm.new(params)
+        results = search(params)
+        form = SubscriptionForm.new(results)
 
         expect(form).to be_valid
         expect(form).to be_minimum_search_criteria
@@ -115,14 +129,10 @@ RSpec.describe SubscriptionForm do
 
       it 'passes validation if a value filter is provided' do
         create(:value, slug: 'middle')
-        params = {
-          query: {
-            search_term: '',
-            values: ['middle'],
-          },
-        }
+        params = { s: '', values: ['middle'] }
+        results = search(params)
 
-        form = SubscriptionForm.new(params)
+        form = SubscriptionForm.new(results)
 
         expect(form).to be_valid
         expect(form).to be_minimum_search_criteria
@@ -132,14 +142,10 @@ RSpec.describe SubscriptionForm do
     context 'when the search term is empty' do
       it 'passes validation if a country filter is provided' do
         create(:country, slug: 'france')
-        params = {
-          query: {
-            search_term: '',
-            countries: ['france'],
-          },
-        }
+        params = { s: '', countries: ['france'] }
 
-        form = SubscriptionForm.new(params)
+        results = search(params)
+        form = SubscriptionForm.new(results)
 
         expect(form).to be_valid
         expect(form).to be_minimum_search_criteria
@@ -147,14 +153,10 @@ RSpec.describe SubscriptionForm do
 
       it 'passes validation if a sector filter is provided' do
         create(:sector, slug: 'aerospace')
-        params = {
-          query: {
-            search_term: '',
-            sectors: ['aerospace'],
-          },
-        }
+        params = { s: '', sectors: ['aerospace'] }
 
-        form = SubscriptionForm.new(params)
+        results = search(params)
+        form = SubscriptionForm.new(results)
 
         expect(form).to be_valid
         expect(form).to be_minimum_search_criteria
@@ -162,14 +164,10 @@ RSpec.describe SubscriptionForm do
 
       it 'passes validation if a type filter is provided' do
         create(:type, slug: 'public-sector')
-        params = {
-          query: {
-            search_term: '',
-            types: ['public-sector'],
-          },
-        }
+        params = { s: '', types: ['public-sector'] }
 
-        form = SubscriptionForm.new(params)
+        results = search(params)
+        form = SubscriptionForm.new(results)
 
         expect(form).to be_valid
         expect(form).to be_minimum_search_criteria
@@ -177,14 +175,10 @@ RSpec.describe SubscriptionForm do
 
       it 'passes validation if a value filter is provided' do
         create(:value, slug: 'middle')
-        params = {
-          query: {
-            search_term: '',
-            values: ['middle'],
-          },
-        }
+        params = { s: '', values: ['middle'] }
 
-        form = SubscriptionForm.new(params)
+        results = search(params)
+        form = SubscriptionForm.new(results)
 
         expect(form).to be_valid
         expect(form).to be_minimum_search_criteria
@@ -197,13 +191,15 @@ RSpec.describe SubscriptionForm do
       america = create(:country, slug: 'america')
       france = create(:country, slug: 'france')
 
-      params = { query: { countries: %w[america france] } }
-      expect(SubscriptionForm.new(params).countries).to eq [america, france]
+      params = { countries: %w[america france] }
+      results = search(params)
+      expect(SubscriptionForm.new(results).countries).to eq [america, france]
     end
 
     it 'invalid when a country cannot be not found' do
-      params = { query: { countries: %w[america france] } }
-      subscription = SubscriptionForm.new(params)
+      params = { countries: %w[america france] }
+      results = search(params)
+      subscription = SubscriptionForm.new(results)
       expect(subscription).not_to be_valid
       expect(subscription.errors.full_messages).to include('Countries cannot be found')
     end
@@ -218,13 +214,15 @@ RSpec.describe SubscriptionForm do
       aerospace = create(:sector, slug: 'aerospace')
       fisheries = create(:sector, slug: 'fisheries')
 
-      params = { query: { sectors: %w[aerospace fisheries] } }
-      expect(SubscriptionForm.new(params).sectors).to eq [aerospace, fisheries]
+      params = { sectors: %w[aerospace fisheries] }
+      results = search(params)
+      expect(SubscriptionForm.new(results).sectors).to eq [aerospace, fisheries]
     end
 
     it 'invalid when a sector cannot be not found' do
-      params = { query: { sectors: %w[aerospace fisheries] } }
-      subscription = SubscriptionForm.new(params)
+      params = { sectors: %w[aerospace fisheries] }
+      results = search(params)
+      subscription = SubscriptionForm.new(results)
       expect(subscription).not_to be_valid
       expect(subscription.errors.full_messages).to include('Sectors cannot be found')
     end
@@ -239,13 +237,15 @@ RSpec.describe SubscriptionForm do
       public_sector = create(:type, slug: 'public-sector')
       private_sector = create(:type, slug: 'private-sector')
 
-      params = { query: { types: ['public-sector', 'private-sector'] } }
-      expect(SubscriptionForm.new(params).types).to eq [public_sector, private_sector]
+      params = { types: ['public-sector', 'private-sector'] }
+      results = search(params)
+      expect(SubscriptionForm.new(results).types).to eq [public_sector, private_sector]
     end
 
     it 'invalid when a type cannot be found' do
-      params = { query: { types: ['public-sector', 'private-sector'] } }
-      subscription = SubscriptionForm.new(params)
+      params = { types: ['public-sector', 'private-sector'] }
+      results = search(params)
+      subscription = SubscriptionForm.new(results)
       expect(subscription).not_to be_valid
       expect(subscription.errors.full_messages).to include('Types cannot be found')
     end
@@ -260,13 +260,15 @@ RSpec.describe SubscriptionForm do
       middle = create(:value, slug: 'middle')
       none = create(:value, slug: 'none')
 
-      params = { query: { values: %w[middle none] } }
-      expect(SubscriptionForm.new(params).values).to eq [middle, none]
+      params = { values: %w[middle none] }
+      results = search(params)
+      expect(SubscriptionForm.new(results).values).to eq [middle, none]
     end
 
     it 'invalid when a value cannot be found' do
-      params = { query: { values: %w[middle none] } }
-      subscription = SubscriptionForm.new(params)
+      params = { values: %w[middle none] }
+      results = search(params)
+      subscription = SubscriptionForm.new(results)
       expect(subscription).not_to be_valid
       expect(subscription.errors.full_messages).to include('Values cannot be found')
     end

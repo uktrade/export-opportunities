@@ -37,7 +37,7 @@ class EmailNotificationsController < ApplicationController
 
     @paged_results = @paginatable_results.page(params[:paged]).per(10)
     @page = PagePresenter.new(content)
-    @results = OpportunitySearchResultsPresenter.new(content, { results: @paged_results, limit: 0, total: @paged_results.total_count, sort_by: ""}, nil)
+    @results = OpportunitySearchResultsPresenter.new(content, { results: @paged_results, limit: 0, total: @paged_results.total_count, sort_by: ""})
 
     #@results.found_message - string
     #@results.found

@@ -2,101 +2,22 @@
 
 class OpportunitySearchResultsPresenter < FormPresenter
   include RegionHelper
+  include SearchMessageHelper
   attr_reader :found, :term, :unfiltered_search_url
 
-  # Arguments passed come from the opportunities_controller.rb
-  # content, data
-  def initialize(content, data, subscription_form)
+  #
+  # Formats data from search results for the view
+  #
+  def initialize(content, data)
     super(content, {})
     @data = data
-    @subscription_form = subscription_form
-    @filter_data = build_filter_data
+    @filter_data = FilterFormBuilder.new(
+                     filter: @data[:filter],
+                     country_list: @data[:country_list]).call
     @found = data[:results]
     @view_limit = Opportunity.default_per_page
     @total = data[:total]
     @term = data[:term]
-  end
-
-  # creates object for use by the country and region inputs
-  private def build_filter_data
-    filter = @data[:filter]
-    return nil unless filter.present? 
-    country_list = @data[:country_list]
-    {
-      sectors: filter_sectors(filter),
-      countries: filter_countries(filter, country_list),
-      regions: filter_regions(filter, country_list),
-      sources: filter_sources(filter),
-    }
-  end
-
-
-  # Data to build search filter input for sectors
-  private def filter_sectors(filter)
-    {
-      'name': 'sectors[]',
-      'options': Sector.order(:name),
-      'selected': filter.sectors,
-    }
-  end
-
-  # Data to build search filter input for countries
-  private def filter_countries(filter, country_list = [])
-    countries = if country_list.present?
-                  country_list
-                else
-                  Country.where(slug: filter.countries)
-                end
-    {
-      'name': 'countries[]',
-      'options': countries,
-      'selected': filter.countries,
-    }
-  end
-
-  # Data to build search filter input for sources
-  private def filter_sources(filter)
-    {
-      'name': 'sources[]',
-      'options': sources_list,
-      'selected': filter.sources,
-    }
-  end
-
-  # Data to build search filter input for regions
-  private def filter_regions(filter, country_list = [])
-    regions = if country_list.present?
-                filtered_region_list(country_list)
-              else
-                regions_list
-              end
-    {
-      'name': 'regions[]',
-      'options': regions,
-      'selected': filter.regions,
-    }
-  end
-
-  # Filters all regions (filter[:regions]) down to
-  # return only those that are applicable to countries
-  # showing (so those that apply to the search)
-  def filtered_region_list(countries)
-    regions = []
-    countries.each do |country|
-      region = region_by_country(country)
-      regions.push(region) if region.present?
-    end
-    regions.uniq
-  end
-
-  private def sources_list
-    sources = []
-    disabled_sources = ['buyer']
-    Opportunity.sources.keys.each do |key|
-      next if disabled_sources.include? key
-      sources.push(slug: key)
-    end
-    sources
   end
 
   # This extend FormPresenter.field_content to allocate when we need
@@ -123,9 +44,8 @@ class OpportunitySearchResultsPresenter < FormPresenter
 
   # Only show all if there are more than currently viewed
   def view_all_link(url, css_classes = '')
-     total = @data[:total]
-     if total > @view_limit
-       link_to "View all (#{total})", url, 'class': css_classes
+     if @total > @view_limit
+       link_to "View all (#{@total})", url, 'class': css_classes
     end
   end
 
@@ -137,10 +57,9 @@ class OpportunitySearchResultsPresenter < FormPresenter
   end
 
   def found_message
-    total = @data[:total]
-    if total > 1
-      "#{total} results found"
-    elsif total.zero?
+    if @total > 1
+      "#{@total} results found"
+    elsif @total.zero?
       '0 results found'
     else
       '1 result found'
@@ -152,70 +71,16 @@ class OpportunitySearchResultsPresenter < FormPresenter
   # e.g. "X results found for [term] in [country] or [country]"
   def information
     found = @data[:total_without_limit]
-    returned = @data[:total]
-    if found > returned
+    if found > @total
       found = number_with_delimiter(found, delimiter: ',')
-      message = content_with_inclusion('max_results_exceeded', [returned, found])
+      message = content_with_inclusion('max_results_exceeded', [@total, found])
       message += content_tag('span', content['max_results_hint'], class: 'hint')
     else
       message = found_message
-      message += searched_for_with_html
-      message += searched_in_with_html
+      message += searched_for(@data[:term], with_html: true)
+      message += searched_in(with_html: true)
     end
     message.html_safe
-  end
-
-  # Add to 'X results found' message
-  # Returns ' for [your term here]' or ''
-  def searched_for(with_html = false)
-    message = ''
-    if @term.present?
-      message = ' for '
-      message += if with_html
-                   content_tag('span', @term.to_s, 'class': 'param')
-                 else
-                   @term.to_s
-                 end
-    end
-    message.html_safe
-  end
-
-  # Add to 'X results found' message
-  # Returns ' in [a country name here]' or ''
-  def searched_in(with_html = false)
-    selected = selected_filter_option_names
-    message = ''
-    separator_in = ' in '
-    list = []
-    if selected.length.positive?
-      separator_or = ' or '
-
-      # If HTML is required, wrap things in tags.
-      if with_html
-        separator_in = content_tag('span', separator_in, 'class': 'separator')
-        separator_or = content_tag('span', separator_or, 'class': 'separator')
-        selected.each_index do |i|
-          list.push(content_tag('span', selected[i], 'class': 'param'))
-        end
-      else
-        list = selected
-      end
-
-      # Make it a string and remove any trailing separator_or
-      message = list.join(separator_or)
-      message = message.sub(Regexp.new("(.+)\s" + separator_or + "\s"), '\\1')
-    end
-
-    # Return message (if not empty, add prefix separator)
-    message.sub(/^(.+)$/, separator_in + '\\1').html_safe
-  end
-
-  def searched_in_with_html
-    searched_in(true)
-  end
-
-  def searched_for_with_html
-    searched_for(true)
   end
 
   def sort_input_select
@@ -247,7 +112,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
     html = content_tag(:p, title, id: id)
     html += content_tag(:ul, 'aria-labelledby': id) do
       list_items = ''
-      selected_filter_option_names.each do |filter|
+      selected_filter_option_names(@data[:filter]).each do |filter|
         list_items += content_tag('span', filter, 'class': 'param')
       end
       list_items.html_safe
@@ -278,21 +143,6 @@ class OpportunitySearchResultsPresenter < FormPresenter
       end
     end
     "#{path}?#{keep_params.join('&')}"
-  end
-
-  # Format related subscription data for use in views, e.g.
-  # components/subscription_form
-  # components/subscription_link
-  def subscription
-    what = searched_for
-    where = searched_in
-    {
-      title: (what + where).sub(/\sin\s|\sfor\s/, ''), # strip out opening ' in ' or ' for '
-      keywords: @subscription_form.search_term,
-      countries: @subscription_form.subscription_countries,
-      what: what,
-      where: where,
-    }
   end
 
   # Control whether subscription link should be shown
@@ -388,10 +238,4 @@ class OpportunitySearchResultsPresenter < FormPresenter
     }
   end
 
-  # Returns list of names for selected filter options.
-  def selected_filter_option_names
-    region_names = @data[:filter].regions(:name).sort
-    country_names = @data[:filter].reduced_countries(:name).sort
-    region_names.concat(country_names)
-  end
 end

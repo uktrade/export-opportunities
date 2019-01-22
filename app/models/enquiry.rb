@@ -50,7 +50,7 @@ class Enquiry < ApplicationRecord
 
   def response_status
     if enquiry_response
-      unless enquiry_response['completed_at']
+      if enquiry_response['completed_at'].blank?
         Rails.logger.error("message not sent: #{enquiry_response.inspect}")
         return 'Pending'
       end

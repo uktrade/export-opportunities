@@ -61,15 +61,15 @@ feature 'Admin can sort the list of editors' do
 
     click_on 'Confirmed'
 
-    expect(page.find('tbody tr:nth-child(1)')).to have_content(second_editor.confirmed_at.to_s(:admin_datetime))
-    expect(page.find('tbody tr:nth-child(2)')).to have_content(first_editor.confirmed_at.to_s(:admin_datetime))
-    expect(page.find('tbody tr:nth-child(3)')).to have_content(third_admin.confirmed_at.to_s(:admin_datetime))
+    expect(page.find('tbody tr:nth-child(1)')).to have_content(second_editor.confirmed_at.strftime("%d %h %Y%l:%M %p"))
+    expect(page.find('tbody tr:nth-child(2)')).to have_content(first_editor.confirmed_at.strftime("%d %h %Y%l:%M %p"))
+    expect(page.find('tbody tr:nth-child(3)')).to have_content(third_admin.confirmed_at.strftime("%d %h %Y%l:%M %p"))
 
     click_on 'Confirmed'
 
-    expect(page.find('tbody tr:nth-child(1)')).to have_content(third_admin.confirmed_at.to_s(:admin_datetime))
-    expect(page.find('tbody tr:nth-child(2)')).to have_content(first_editor.confirmed_at.to_s(:admin_datetime))
-    expect(page.find('tbody tr:nth-child(3)')).to have_content(second_editor.confirmed_at.to_s(:admin_datetime))
+    expect(page.find('tbody tr:nth-child(1)')).to have_content(third_admin.confirmed_at.strftime("%d %h %Y%l:%M %p"))
+    expect(page.find('tbody tr:nth-child(2)')).to have_content(first_editor.confirmed_at.strftime("%d %h %Y%l:%M %p"))
+    expect(page.find('tbody tr:nth-child(3)')).to have_content(second_editor.confirmed_at.strftime("%d %h %Y%l:%M %p"))
   end
 
   scenario 'by service provider' do

@@ -5,10 +5,8 @@ class OpportunitiesController < ApplicationController
   protect_from_forgery except: :index
   include RegionHelper
 
-  # caches_page :index
-
   #
-  # Homepage
+  # Homepage (index)
   # Provides the following to the views:
   #   --- html requests only --
   #   @content:              strings to insert into page
@@ -28,38 +26,6 @@ class OpportunitiesController < ApplicationController
   #   @total:                Total number of opportunities returned
   #   @opportunities:        Records from @query
   #
-
-  # def index
-  #   @content = get_content('opportunities/index.yml')
-  #   @featured_industries = Sector.featured
-  #   @recent_opportunities = recent_opportunities
-  #   @countries = all_countries
-  #   @regions = regions_list
-  #   @opportunities_stats = opportunities_stats
-  #   if atom_request?
-  #     query = Opportunity.public_search(
-  #       search_term: '',
-  #       filters: SearchFilter.new(params),
-  #       sort: sorting
-  #     )[:search]
-
-  #     atom_request_query(query)
-  #   end
-
-  #   respond_to do |format|
-  #     format.html do
-  #- page = LandingPresenter.new(@content, @featured_industries)
-  #- recent_opportunities = OpportunitySearchResultsPresenter.new(@content, @recent_opportunities)
-  #       render layout: 'landing'
-  #     end
-  #     format.js
-  #     format.any(:atom, :xml) do
-  #       render :index, formats: :atom
-  #     end
-  #   end
-  # end
-
-
   def index
     respond_to do |format|
       format.html do
@@ -84,15 +50,25 @@ class OpportunitiesController < ApplicationController
 
   #
   # Search results listings page
-  #
+  # Provides the following to the views:
+  #   --- html requests only --
+  #   @page          Presenter object containing page essentials,
+  #                  namely navigation breadcrumbs
+  #   @results       Presenter object containing the containing data associated
+  #                  with search results, search/filter inputs, and 
+  #   @subscr_form   Subscription form object with sanitised data
+  #   --- .atom or .xml requests only --
+  #   @query         Decorator object containing search results and associated
+  #                  pagination and navigation helpers
+  # 
   def results 
     respond_to do |format|
       format.html do
-        results = Search.new(params, limit: 100).run
         content = get_content('opportunities/results.yml')
-        subscr_form = subscription_form(results)
+        results = Search.new(params, limit: 100).run
+        @subscr_form = SubscriptionForm.new(results).call
         @page = PagePresenter.new(content)
-        @results = OpportunitySearchResultsPresenter.new(content, results, subscr_form)
+        @results = OpportunitySearchResultsPresenter.new(content, results)
         render layout: 'results'
       end
       format.any(:atom, :xml) do        
@@ -121,21 +97,7 @@ class OpportunitiesController < ApplicationController
     end
   end
 
-  private 
-
-    # Builds a subscription form object that cleans inputs
-    def subscription_form(results)
-      filter = results[:filter]
-      SubscriptionForm.new(
-        query: {
-          search_term: results[:term],
-          sectors: filter.sectors,
-          types: filter.types,
-          countries: filter.countries,
-          values: filter.values,
-        }
-      )
-    end
+  private
 
     def all_countries
       Country.all.where.not(name: ['DSO HQ', 'DIT HQ', 'NATO', 'UKREP']).order :name

@@ -1,4 +1,5 @@
 class SubscriptionForm
+  include SearchMessageHelper
   include ActiveModel::Validations
   attr_accessor :params
 
@@ -8,24 +9,33 @@ class SubscriptionForm
   validate :types
   validate :values
 
-  def initialize(params)
-    @params = params
+  #
+  # Builds a subscription form object that cleans the given inputs
+  # and presents for the views
+  #
+
+  def initialize(results)
+    @term   = results[:term]
+    @filter = results[:filter]
+  end
+
+  # Format related subscription data for use in views, e.g.
+  # components/subscription_form
+  # components/subscription_link
+  def call
+    what = searched_for(@term)
+    where = searched_in(@filter)
+    {
+      title: (what + where).sub(/\sin\s|\sfor\s/, ''), # strip out opening ' in ' or ' for '
+      keywords: @term,
+      countries: @filter.countries,
+      what: what,
+      where: where,
+    }
   end
 
   def search_term
-    query[:search_term]
-  end
-
-  def title
-    query[:title]
-  end
-
-  def search_term?
-    search_term.present?
-  end
-
-  def subscription_countries
-    query[:countries]
+    @term
   end
 
   def countries
@@ -44,29 +54,27 @@ class SubscriptionForm
     find_all_by_slug(:values, Value)
   end
 
-  private def query
-    @params.fetch(:query, {})
-  end
-
-  private def find_all_by_slug(name, klass)
-    slugs = query[name] || []
-    slugs.map { |slug| klass.find_by!(slug: slug) }
-  rescue ActiveRecord::RecordNotFound
-    errors.add(name, 'cannot be found')
-    []
-  end
-
   def minimum_search_criteria?
-    !search_term.nil?
+    @term.present? || filters_provided?
   end
 
-  private def minimum_search_criteria
-    unless minimum_search_criteria?
+  def minimum_search_criteria
+    if !minimum_search_criteria?
       errors[:base] << 'At least one search criteria is required, none provided.'
     end
   end
 
-  private def filters_provided?
-    sectors.any? || countries.any? || types.any? || values.any?
-  end
+  private
+
+    def find_all_by_slug(name, klass)
+      slugs = @filter ? (@filter.send(name) || []) : []
+      slugs.map { |slug| klass.find_by!(slug: slug) }
+    rescue ActiveRecord::RecordNotFound
+      errors.add(name, 'cannot be found')
+      []
+    end
+
+    def filters_provided?
+      sectors.any? || countries.any? || types.any? || values.any?
+    end
 end

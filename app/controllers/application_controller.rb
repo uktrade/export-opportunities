@@ -44,63 +44,37 @@ class ApplicationController < ActionController::Base
     render json: { status: 'OK' }, status: 200
   end
 
+  #
   # basic checks for data sync between ES and PG DB
+  # Redis has a key 'es_data_sync_error_ts' that stores the first time it timed out
+  # for this outage
+  #
   def data_sync_check
+    # Set up redis
     @redis ||= Redis.new(url: Figaro.env.redis_url)
-    res = {}
+    response = { git_revision: ExportOpportunities::REVISION, status: 'OK', status_code: 200 }
 
-    # opps that have not expired and are published
-    db_opportunities_ids = db_opportunities
-    sort = OpenStruct.new(column: :response_due_on, order: :desc)
-    query = OpportunitySearchBuilder.new(term: '', sort: sort).call
-    es_opportunities_ids = es_opportunities(query)
+    # Do databases match? If not, save disparity data to 'result' key
+    response[:result] = missing_data = get_missing_data
 
-    res_opportunities_count = db_opportunities_ids.size == es_opportunities_ids.size
-    if db_opportunities_ids.size != es_opportunities_ids.size
-      missing_docs = db_opportunities_ids - es_opportunities_ids | es_opportunities_ids - db_opportunities_ids
-      Rails.logger.error('we are missing opportunities docs')
-      Rails.logger.error(missing_docs)
-      res['opportunities'] = { expected_opportunities: db_opportunities_ids.size, actual_opportunities: es_opportunities_ids.size, missing: missing_docs }
-    end
-
-    db_subscriptions_ids = db_subscriptions
-    es_subscriptions_ids = es_subscriptions
-
-    res_subscriptions_count = db_subscriptions_ids.size == es_subscriptions_ids.size
-    if db_subscriptions_ids.size != es_subscriptions_ids.size
-      missing_docs = db_subscriptions_ids - es_subscriptions_ids | es_subscriptions_ids - db_subscriptions_ids
-      Rails.logger.error('we are missing subscriber docs')
-      Rails.logger.error(missing_docs)
-      res['subscriptions'] = { expected_opportunities: db_subscriptions_ids.size, actual_opportunities: es_subscriptions_ids.size, missing: missing_docs }
-    end
-
-    json = { git_revision: ExportOpportunities::REVISION, status: 'OK', result: res }
-    response_status = 200
-
-    if res_opportunities_count && res_subscriptions_count
-      @redis.del(:es_data_sync_error_ts) # unset the counter when data is back in sync
+    if missing_data.empty?
+      # unset the counter when data is back in sync
+      @redis.del(:es_data_sync_error_ts) 
     else
-      previous_state = @redis.get(:es_data_sync_error_ts)
-      timeout_seconds = if previous_state
-                          (Time.now.utc - Time.zone.parse(previous_state)).floor
-                        end
-      json[:timeout_sec] = timeout_seconds
-
-      if previous_state && timeout_seconds > report_es_data_sync_timeout
-        # if we found an error and it's more than 10 minutes since we found it, report the error
-        json[:status] = 'error'
-        response_status = 500
-      end
-
-      unless previous_state
-        # first time we see an error
-        # keep reporting OK for pingdom, show the error in result field
+      if (timeout = @redis.get(:es_data_sync_error_ts)).blank?
         @redis.set(:es_data_sync_error_ts, Time.now.utc)
+      else
+        response[:timeout_sec] = (Time.now.utc - Time.zone.parse(timeout)).floor
+
+        # Report error after 10 minutes
+        if response[:timeout_sec] > 600.freeze
+          response[:status] = 'error'
+          response[:status_code] = 500
+        end
       end
     end
 
-    json[:response_status] = response_status
-    render json: json, status: response_status
+    render json: response, status: response[:status_code]
   end
 
   def api_check
@@ -144,22 +118,64 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def db_opportunities
+  def get_missing_data
+    missing = {}
+    if (ops = databases_match_opportunities?) != true
+      missing['opportunities'] = ops
+    end
+    if (subs = databases_match_subscriptions?) != true
+      missing['subscriptions'] = subs
+    end
+    missing
+  end
+
+  def databases_match_opportunities?
+    # 'db' is the relational database, e.g. PostgreSQL
+    db = get_db_opportunities
+    es = get_es_opportunities
+
+    if db.size == es.size
+      true
+    else
+      missing = db - es | es - db
+      Rails.logger.error('we are missing opportunities')
+      Rails.logger.error(missing)
+      { expected_opportunities: db.size, actual_opportunities: es.size, missing: missing }
+    end
+  end
+
+  def databases_match_subscriptions?
+    # 'db' is the  relational database, e.g. PostgreSQL
+    db = get_db_subscriptions
+    es = get_es_subscriptions
+
+    if db.size == es.size
+      true
+    else
+      missing = db - es | es - db
+      Rails.logger.error('we are missing subscriber docs')
+      Rails.logger.error(missing)
+      { expected_opportunities: db.size, actual_opportunities: es.size, missing: missing }
+    end
+  end
+
+  def get_db_opportunities
     Opportunity.where('response_due_on >= ? and status = ?', DateTime.now.utc, 2).pluck(:id)
   end
 
-  def es_opportunities(query)
+  def get_es_opportunities
+    query = OpportunitySearchBuilder.new().call
     res = []
-    es_opportunities = Opportunity.__elasticsearch__.search(size: 100_000, query: query[:search_query], sort: query[:search_sort])
+    es_opportunities = Opportunity.__elasticsearch__.search(size: 100_000, query: query[:query], sort: query[:sort])
     es_opportunities.each { |record| res.push record.id }
     res
   end
 
-  def db_subscriptions
+  def get_db_subscriptions
     Subscription.count
   end
 
-  def es_subscriptions
+  def get_es_subscriptions
     Subscription.__elasticsearch__.count
   end
 
@@ -189,10 +205,6 @@ class ApplicationController < ActionController::Base
     counter_opps_published_recently = @redis.get(:opps_counters_published_recently)
 
     { total: counter_opps_total.to_i, expiring_soon: counter_opps_expiring_soon.to_i, published_recently: counter_opps_published_recently.to_i }
-  end
-
-  def report_es_data_sync_timeout
-    600.freeze
   end
 
   private

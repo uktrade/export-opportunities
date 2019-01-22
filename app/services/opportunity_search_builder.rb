@@ -1,8 +1,7 @@
 class OpportunitySearchBuilder
 
   # Creates a pair of objects: search query and search sort, for an elastic seach
-  # Inputs: ---Required---
-  #         ---Optional---
+  # Inputs: ---Optional---
   #         term:       Phrase to be searched
   #         sectors:           Array of Sector slugs to filter by
   #         sort:              Sort object
@@ -17,7 +16,8 @@ class OpportunitySearchBuilder
   #         status:            Symbol, if set to :published then only returns Opportunities
   #                            where status='publish', otherwise returns all.
   #                            Defaults to :published
-  # Ouput:  call() generates Hash containing valid :search_query and :search_sort
+  # Ouput:  call() generates Hash containing valid :query, :sort and :terminate_after params
+  #         digestable by Opportunity.__elasticsearch__.search()
 
   def initialize(term: '',
                  sort: OpportunitySort.new(default_column: 'first_published_at',

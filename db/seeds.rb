@@ -576,3 +576,6 @@ FactoryBot.create(:opportunity,
   types: [Type.all.sample],
   values: [Value.all.sample],
   status: :pending)
+
+FactoryBot.create(:supplier_preference)
+

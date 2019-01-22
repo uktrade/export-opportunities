@@ -42,7 +42,7 @@ feature 'Admins manage editors' do
     expect(page).to have_text(existing_editor.name)
     expect(page).to have_text(existing_editor.email)
     expect(page).to have_text(existing_editor.role.capitalize)
-    expect(page).to have_text(existing_editor.last_sign_in_at.to_s(:admin_datetime))
+    expect(page).to have_text(existing_editor.last_sign_in_at.strftime("%d %h %Y%l:%M %p"))
     expect(page).to have_text(existing_editor.service_provider.name)
   end
 
