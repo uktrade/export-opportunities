@@ -96,9 +96,8 @@ RSpec.describe SubscriptionForm, focus: true do
 
       it 'passes validation if a country filter is provided' do
         create(:country, slug: 'france')
-        results = search(params)
         params = { s: '', countries: ['france'] }
-
+        results = search(params)
         form = SubscriptionForm.new(results)
 
         expect(form).to be_valid
@@ -107,9 +106,8 @@ RSpec.describe SubscriptionForm, focus: true do
 
       it 'passes validation if a sector filter is provided' do
         create(:sector, slug: 'aerospace')
-        results = search(params)
         params = { s: '', sectors: ['aerospace'] }
-
+        results = search(params)
         form = SubscriptionForm.new(results)
 
         expect(form).to be_valid
@@ -119,7 +117,6 @@ RSpec.describe SubscriptionForm, focus: true do
       it 'passes validation if a type filter is provided' do
         create(:type, slug: 'public-sector')
         params = { s: '', types: ['public-sector'] }
-
         results = search(params)
         form = SubscriptionForm.new(results)
 
@@ -197,6 +194,9 @@ RSpec.describe SubscriptionForm, focus: true do
     end
 
     it 'invalid when a country cannot be not found' do
+      # Simulate SearchFilter NOT returning cleaned data
+      allow_any_instance_of(SearchFilter).to receive(:countries).and_return(['dirty-data'])
+
       params = { countries: %w[america france] }
       results = search(params)
       subscription = SubscriptionForm.new(results)
@@ -220,6 +220,9 @@ RSpec.describe SubscriptionForm, focus: true do
     end
 
     it 'invalid when a sector cannot be not found' do
+      # Simulate SearchFilter NOT returning cleaned data
+      allow_any_instance_of(SearchFilter).to receive(:sectors).and_return(['dirty-data'])
+
       params = { sectors: %w[aerospace fisheries] }
       results = search(params)
       subscription = SubscriptionForm.new(results)
@@ -243,6 +246,9 @@ RSpec.describe SubscriptionForm, focus: true do
     end
 
     it 'invalid when a type cannot be found' do
+      # Simulate SearchFilter NOT returning cleaned data
+      allow_any_instance_of(SearchFilter).to receive(:types).and_return(['dirty-data'])
+
       params = { types: ['public-sector', 'private-sector'] }
       results = search(params)
       subscription = SubscriptionForm.new(results)
@@ -266,6 +272,9 @@ RSpec.describe SubscriptionForm, focus: true do
     end
 
     it 'invalid when a value cannot be found' do
+      # Simulate SearchFilter NOT returning cleaned data
+      allow_any_instance_of(SearchFilter).to receive(:values).and_return(['dirty-data'])
+
       params = { values: %w[middle none] }
       results = search(params)
       subscription = SubscriptionForm.new(results)

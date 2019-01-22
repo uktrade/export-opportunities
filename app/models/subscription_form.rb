@@ -55,24 +55,26 @@ class SubscriptionForm
   end
 
   def minimum_search_criteria?
-    @term.present? || filters_provided?
-  end
-
-  def minimum_search_criteria
-    if !minimum_search_criteria?
-      errors[:base] << 'At least one search criteria is required, none provided.'
-    end
+    !@term.nil?
   end
 
   private
 
+    def minimum_search_criteria
+      if !minimum_search_criteria?
+        errors[:base] << 'At least one search criteria is required, none provided.'
+      end
+    end
+
     def find_all_by_slug(name, klass)
-      slugs = @filter ? (@filter.send(name) || []) : []
-      slugs.map { |slug| klass.find_by!(slug: slug) }
+      return [] unless @filter
+      slugs = @filter.send(name) || []
+      slugs.map { |slug| klass.find_by!(slug: slug) }.compact
     rescue ActiveRecord::RecordNotFound
       errors.add(name, 'cannot be found')
       []
     end
+
 
     def filters_provided?
       sectors.any? || countries.any? || types.any? || values.any?
