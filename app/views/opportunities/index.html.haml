@@ -13,6 +13,8 @@
 
 %section#recent-opportunities
   .container
+    = render partial: "components/form_steps_indicator.example"
+
     %h2 Latest export opportunities
     = render partial: "opportunities/list", locals: { list: recent_opportunities.found }
 
