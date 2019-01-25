@@ -42,9 +42,7 @@ RSpec.describe SubscriptionsController do
         subscription_attrs = {
           params:{
             subscription: {
-              query: {
-                search_term: 'fish',
-              },
+              s: 'fish',
             },
           },
         }
@@ -69,12 +67,10 @@ RSpec.describe SubscriptionsController do
         subscription_attrs = {
           subscription: {
             params: {
-              query: {
-                sectors: sectors.collect(&:slug),
-                types: types.collect(&:slug),
-                countries: countries.collect(&:slug),
-                values: values.collect(&:slug),
-              },
+              sectors: sectors.collect(&:slug),
+              types: types.collect(&:slug),
+              countries: countries.collect(&:slug),
+              values: values.collect(&:slug),
             },
           },
         }
@@ -102,13 +98,11 @@ RSpec.describe SubscriptionsController do
         subscription_attrs = {
           params: {
             subscription: {
-              query: {
-                search_term: 'compressors',
-                sectors: sectors.collect(&:slug),
-                types: types.collect(&:slug),
-                countries: countries.collect(&:slug),
-                values: values.collect(&:slug),
-              },
+              s: 'compressors',
+              sectors: sectors.collect(&:slug),
+              types: types.collect(&:slug),
+              countries: countries.collect(&:slug),
+              values: values.collect(&:slug),
             },
           },
         }

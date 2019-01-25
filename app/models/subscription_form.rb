@@ -1,7 +1,6 @@
 class SubscriptionForm
   include SearchMessageHelper
   include ActiveModel::Validations
-  attr_accessor :params
 
   validate :minimum_search_criteria
   validate :countries
@@ -10,13 +9,13 @@ class SubscriptionForm
   validate :values
 
   #
-  # Builds a subscription form object that cleans the given inputs
-  # and presents for the views
+  # Cleans inputs and provides wording used by the "create subscription"
+  # form in the Opportunity search results view. Also provides helpers to
+  # validate the form
   #
-
   def initialize(results)
     @term   = results[:term]
-    @filter = results[:filter]
+    @filter = results[:filter].present? ? results[:filter] : NullFilter.new
   end
 
   # Format related subscription data for use in views, e.g.

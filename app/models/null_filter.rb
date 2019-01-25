@@ -18,4 +18,12 @@ class NullFilter
   def sources
     []
   end
+
+  def regions(_)
+    []
+  end
+
+  def reduced_countries(_)
+    []
+  end
 end

@@ -16,7 +16,7 @@ RSpec.describe 'Viewing the ATOM feed for opportunities',
       updated_at: DateTime.new(2016, 9, 20, 18, 0, 0).utc,
       first_published_at: DateTime.new(2016, 9, 11, 18, 0, 0).utc)
 
-    sleep 1
+    refresh_elasticsearch
 
     get '/opportunities.atom'
 
@@ -52,7 +52,7 @@ RSpec.describe 'Viewing the ATOM feed for opportunities',
   it 'returns the correct number of results' do
     create_list(:opportunity, 2, :published)
 
-    sleep 1
+    refresh_elasticsearch
     get '/opportunities.atom'
     body = parse_xml(response.body)
 
@@ -64,7 +64,7 @@ RSpec.describe 'Viewing the ATOM feed for opportunities',
     create(:opportunity, :published, updated_at: 30.minutes.ago)
     create(:opportunity, updated_at: 1.minute.ago)
 
-    sleep 1
+    refresh_elasticsearch
     get '/opportunities.atom'
     body = parse_xml(response.body)
 
@@ -88,7 +88,7 @@ RSpec.describe 'Viewing the ATOM feed for opportunities',
     old_opportunity = create(:opportunity, :published, response_due_on: 1.day.from_now,
                              updated_at: 3.days.ago, title: 'old')
 
-    sleep 1
+    refresh_elasticsearch
     get '/opportunities.atom'
     body = parse_xml(response.body)
 

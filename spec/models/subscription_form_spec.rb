@@ -1,8 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe SubscriptionForm, focus: true do
+RSpec.describe SubscriptionForm do
   include RegionHelper
+  
+  # -- Helpers --
+
   let(:region_helper) { TestRegionHelper.new }
+
   class TestRegionHelper
     include RegionHelper
   end
@@ -23,6 +27,26 @@ RSpec.describe SubscriptionForm, focus: true do
       expect(subscription[:keywords]).to eq('food')
       expect(subscription[:what]).to eq(' for food')
       expect(subscription[:where]).to eq(' in Mexico or Spain').or eq(' in Spain or Mexico')
+    end
+
+    it 'Is valid without a filter' do
+      params = { s: 'food' }
+      results = search(params)
+      subscription = SubscriptionForm.new(results).call
+      expect(subscription[:title]).to eq('food')
+      expect(subscription[:keywords]).to eq('food')
+      expect(subscription[:what]).to eq(' for food')
+      expect(subscription[:where]).to eq('')
+    end
+
+    it 'Is valid without a term' do
+      params = { s: '' }
+      results = search(params)
+      subscription = SubscriptionForm.new(results).call
+      expect(subscription[:title]).to eq('')
+      expect(subscription[:keywords]).to eq('')
+      expect(subscription[:what]).to eq('')
+      expect(subscription[:where]).to eq('')
     end
   end
 

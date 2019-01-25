@@ -181,164 +181,6 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
   end
 
-  describe '#searched_for' do
-    it 'Returns plain text message " for [search term]"' do
-      params = { s: 'food' }
-      results = search(params)
-      presenter = OpportunitySearchResultsPresenter.new(content, results)
-
-      expect(presenter.searched_for).to eql(' for food')
-    end
-
-    it 'Returns HTML markup for message " for [search term]"' do
-      params = { s: 'food' }
-      results = search(params)
-      presenter = OpportunitySearchResultsPresenter.new(content, results)
-      message = presenter.searched_for(true)
-
-      expect(message).to include('food')
-      expect(has_html?(message)).to be_truthy
-    end
-
-    it 'Returns an empty string when searching without a specified term' do
-      params = { s: '' }
-      results = search(params)
-      presenter = OpportunitySearchResultsPresenter.new(content, results)
-
-      expect(presenter.searched_for).to eql('')
-    end
-  end
-
-  describe '#searched_in' do
-    it 'Returns plain text message " in [country]"' do
-      params = { s: 'food', countries: %w[spain] }
-      results = search(params)
-      presenter = OpportunitySearchResultsPresenter.new(content, results)
-      message = presenter.searched_in(true)
-
-      expect(presenter.searched_in).to eql(' in Spain')
-      expect(has_html?(message)).to be_truthy
-    end
-
-    it 'Returns plain text message " in [country] or [country]"' do
-      params = { s: 'food', countries: %w[spain mexico] }
-      results = search(params)
-      presenter = OpportunitySearchResultsPresenter.new(content, results)
-      message = presenter.searched_in(true)
-      output = [' in Spain or Mexico', ' in Mexico or Spain']
-
-      expect(output).to include(presenter.searched_in)
-      expect(has_html?(message)).to be_truthy
-    end
-
-    it 'Returns HTML markup for message " in [country]"' do
-      params = { s: 'food', countries: %w[spain mexico] }
-      results = search(params)
-      presenter = OpportunitySearchResultsPresenter.new(content, results)
-      message = presenter.searched_in(true)
-
-      expect(message).to include(' in ')
-      expect(message).to include('Spain')
-      expect(has_html?(message)).to be_truthy
-    end
-
-    it 'Returns HTML markup for message " in [country] or [country]"' do
-      params = { s: 'food', countries: %w[spain mexico] }
-      results = search(params)
-      presenter = OpportunitySearchResultsPresenter.new(content, results)
-      message = presenter.searched_in(true)
-
-      expect(message).to include(' in ')
-      expect(message).to include('Spain')
-      expect(message).to include(' or ')
-      expect(message).to include('Mexico')
-      expect(has_html?(message)).to be_truthy
-    end
-
-    it 'Returns empty string when no searching without regions or countries' do
-      params = {}
-      results = search(params)
-      presenter = OpportunitySearchResultsPresenter.new(content, results)
-
-      expect(presenter.searched_in).to eql('')
-    end
-
-    it 'Returns countries as a region name when a full set is matched' do
-      slugs = %w[armenia azerbaijan georgia kazakhstan mongolia russia tajikistan turkey ukraine uzbekistan]
-      countries(slugs)
-      params = { s: 'food', countries: slugs }
-      results = search(params)
-      presenter = OpportunitySearchResultsPresenter.new(content, results)
-      searched_in_without_matched_regions = presenter.searched_in
-      names = searched_in_without_matched_regions.gsub(/\s+(or|in)\s+/, '|').split('|').drop(1) # first is empty
-
-      # First run it with countries that won't match a full region
-      expect(names.length).to eq(10)
-      expect(names.join(' ')).to eq('Armenia Azerbaijan Georgia Kazakhstan Mongolia Russia Tajikistan Turkey Ukraine Uzbekistan')
-
-      # Now add some countries that should match regions
-      mediterranean_europe = %w[cyprus greece israel italy portugal spain]
-      north_east_asia = %w[taiwan south-korea japan]
-      countries(mediterranean_europe)
-      countries(north_east_asia)
-      params = { s: 'food', countries: slugs.concat(mediterranean_europe, north_east_asia) }
-      results = search(params)
-      presenter = OpportunitySearchResultsPresenter.new(content, results)
-      searched_in_with_matched_regions = presenter.searched_in
-      names = searched_in_with_matched_regions.gsub(/\s+(or|in)\s+/, '|').split('|').drop(1) # first is empty
-
-      expect(names.length).to eq(12)
-      expect(names.join(' ')).to eq('Mediterranean Europe North East Asia Armenia Azerbaijan Georgia Kazakhstan Mongolia Russia Tajikistan Turkey Ukraine Uzbekistan')
-    end
-  end
-
-  describe '#searched_in_with_html' do
-    it 'Returns HTML markup for message " in [country]"' do
-      params = { s: 'food', countries: %w[spain] }
-      results = search(params)
-      presenter = OpportunitySearchResultsPresenter.new(content, results)
-      message = presenter.searched_in_with_html
-
-      expect(message).to include(' in ')
-      expect(message).to include('Spain')
-      expect(has_html?(message)).to be_truthy
-    end
-
-    it 'Returns HTML markup for message " in [country] or [country]"' do
-      params = { s: 'food', countries: %w[spain mexico] }
-      results = search(params)
-      presenter = OpportunitySearchResultsPresenter.new(content, results)
-      message = presenter.searched_in_with_html
-
-      expect(message).to include(' in ')
-      expect(message).to include('Spain')
-      expect(message).to include(' or ')
-      expect(message).to include('Mexico')
-      expect(has_html?(message)).to be_truthy
-    end
-  end
-
-  describe '#searched_for_with_html' do
-    it 'Returns HTML markup for message " for [search term]"' do
-      params = { s: 'food' }
-      results = search(params)
-      presenter = OpportunitySearchResultsPresenter.new(content, results)
-      message = presenter.searched_for_with_html
-
-      expect(message).to include(' for ')
-      expect(message).to include('food')
-      expect(has_html?(message)).to be_truthy
-    end
-
-    it 'Returns an empty string when searching without a specified term' do
-      params = {}
-      results = search(params)
-      presenter = OpportunitySearchResultsPresenter.new(content, results)
-
-      expect(presenter.searched_for_with_html).to eql('')
-    end
-  end
-
   describe '#sort_input_select' do
     it 'Returns object to construct the chosen sort order' do
       params = { s: 'food', sort_column_name: 'first_published_at' }
@@ -369,12 +211,11 @@ RSpec.describe OpportunitySearchResultsPresenter do
 
   describe '#reset_url', type: :request do
     it 'Returns url and params, without filters, as a string' do
-      params = {}
+      params = { s: 'food and drink', sort_column_name: 'response_due_on', countries: %w[dominica mexico] }
       results = search(params)
       presenter = OpportunitySearchResultsPresenter.new(content, results)
-      params = { 's' => 'food and drink', 'sort_column_name' => 'response_due_on', 'countries' => %w[dominica mexico] }
-      headers = { 'CONTENT_TYPE' => 'text/html' }
 
+      headers = { 'CONTENT_TYPE' => 'text/html' }
       get opportunities_path, params: params, headers: headers
       expect(response.status).to eq 200
       expect(presenter.reset_url(request)).to eql('/opportunities?s=food and drink&sort_column_name=response_due_on')
@@ -534,26 +375,6 @@ RSpec.describe OpportunitySearchResultsPresenter do
     end
   end
 
-  describe '#selected_filter_option_names' do
-    it 'Return a string array of selected filter labels' do
-      params = { countries: %w[spain mexico] }
-      results = search(params)
-      presenter = OpportunitySearchResultsPresenter.new(content, results)
-      selected = presenter.send(:selected_filter_option_names)
-
-      expect(selected).to eq(%w[Mexico Spain]).or eq(%w[Spain Mexico])
-    end
-
-    it 'Return an empty array when no filters selected' do
-      params = {}
-      results = search(params)
-      presenter = OpportunitySearchResultsPresenter.new(content, results)
-      selected = presenter.send(:selected_filter_option_names)
-
-      expect(selected).to eql([])
-    end
-  end
-
   describe 'builds a filter_data hash' do
     before do
       @country   = Country.create(slug: 'fiji', name: 'Fiji')
@@ -593,6 +414,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
         }
       )
     end
+
     it 'with relevant countries shown and valid countries selected' do
       params = { countries: ['fiji'] }
       results = search(params)
@@ -635,33 +457,6 @@ RSpec.describe OpportunitySearchResultsPresenter do
           'selected': [],
         }
       )
-      # # With regions selection
-      # params = { countries: ['fiji'], regions: ['australia-new-zealand'] }
-      # results = search(params)
-      # presenter = OpportunitySearchResultsPresenter.new(content, results)
-      # filter_data = presenter.instance_variable_get(:@filter_data)
-
-      # expect(filter_data[:regions]).to eq(
-      #   {
-      #     'name': 'regions[]',
-      #     'options': [region_by_country_slug('fiji')],
-      #     'selected': ['australia-new-zealand'],
-      #   }
-      # )
-      # # Invalid country - shows all options
-      # params = { countries: ['invalid-country'] }
-      # results = search(params)
-      # presenter = OpportunitySearchResultsPresenter.new(content, results)
-      # filter_data = presenter.instance_variable_get(:@filter_data)
-
-      # expect(filter_data[:regions]).to eq(
-      #   {
-      #     'name': 'regions[]',
-      #     'options': [region_by_country_slug('barbados'),
-      #                 region_by_country_slug('fiji')],
-      #     'selected': [],
-      #   }
-      # )
     end
     it 'with sources' do
       options = Opportunity.sources.keys.map{|k| k == 'buyer' ? nil : { slug: k } }.compact

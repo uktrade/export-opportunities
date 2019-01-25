@@ -5,25 +5,25 @@ RSpec.describe Search, elasticsearch: true do
   describe 'cleans input parameters and' do
     it "allows only valid seach terms" do
       search = Search.new({})
-      expect(search.instance_variable_get(:@term)).to eq ""
+      expect(search.term).to eq ""
 
       search = Search.new({ s: 'Title é 0' })
-      expect(search.instance_variable_get(:@term)).to eq "Title 0"
+      expect(search.term).to eq "Title 0"
     end
     it "allows only valid filters" do
       search = Search.new({ regions: %w[western-europe invalid-country] })
-      filter = search.instance_variable_get(:@filter)
+      filter = search.filter
       expect(filter.regions).to eq ["western-europe"]
 
       search = Search.new({ regions: %w[western-europe invalid-country] })
-      filter = search.instance_variable_get(:@filter)
+      filter = search.filter
       expect(filter.regions).to include "western-europe"
 
       create(:sector, slug: 'airports')
       create(:sector, slug: 'stations')
       params = { sectors: %w[airports stations invalid] }
       search = Search.new(params)
-      filter = search.instance_variable_get(:@filter)
+      filter = search.filter
       expect(filter.sectors).to include("airports")
       expect(filter.sectors).to include("stations")
       expect(filter.sectors).not_to include("invalid")
@@ -66,6 +66,7 @@ RSpec.describe Search, elasticsearch: true do
   end
 
   describe '#run - without sector filter' do
+
     before do
       Opportunity.destroy_all
       @sort = OpportunitySort.new(default_column: 'first_published_at',
@@ -86,6 +87,7 @@ RSpec.describe Search, elasticsearch: true do
       Opportunity.__elasticsearch__.create_index! force: true
       refresh_elasticsearch
     end
+    
     it 'provides a valid set of results' do
       results = Search.new({}).run
       expect(results[:total]).to eq 3

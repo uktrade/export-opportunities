@@ -27,7 +27,8 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
       expect(subscription.search_term).to eq('food')
 
       expect(page).to have_content 'Your daily email alert has been added'
-      expect(page).to have_content 'You currently receive email alerts for the following search terms: food'
+      expect(page).to have_content 'You currently receive email alerts for the following search terms:'
+      expect(page).to have_content 'food'
 
       subscription.reload
       expect(subscription).to be_confirmed

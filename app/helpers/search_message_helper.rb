@@ -1,5 +1,9 @@
 module SearchMessageHelper
 
+  #
+  # Shared functions for constructing strings for the view
+  #
+
   # Add to 'X results found' message
   # Returns ' for [your term here]' or ''
   def searched_for(term, with_html: false)

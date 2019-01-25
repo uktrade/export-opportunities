@@ -1,19 +1,17 @@
 # coding: utf-8
 
 class OpportunitySearchResultsPresenter < FormPresenter
-  include RegionHelper
   include SearchMessageHelper
   attr_reader :found, :term, :unfiltered_search_url
 
   #
-  # Formats data from search results for the view
+  # Formats search results data for the view
+  # Adds view helper functions and accessors
   #
   def initialize(content, data)
     super(content, {})
     @data = data
-    @filter_data = FilterFormBuilder.new(
-                     filter: @data[:filter],
-                     country_list: @data[:country_list]).call
+    @filter_data = FilterFormBuilder.new(@data[:filter], @data[:country_list]).call
     @found = data[:results]
     @view_limit = Opportunity.default_per_page
     @total = data[:total]
@@ -78,7 +76,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
     else
       message = found_message
       message += searched_for(@data[:term], with_html: true)
-      message += searched_in(with_html: true)
+      message += searched_in(@data[:filter], with_html: true)
     end
     message.html_safe
   end

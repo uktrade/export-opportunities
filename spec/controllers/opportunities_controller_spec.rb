@@ -43,78 +43,73 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       recent = assigns(:recent_opportunities)
       expect(recent.count).to be 5
     end
-  end
 
-  it "provides list of countries" do
-    create(:country, slug: 'france')
-    create(:country, slug: 'germany')
-    
-    get :index
-    
-    countries = assigns(:countries)
-    expect(countries.any?).to be true
-  end
+    it "provides list of countries" do
+      create(:country, slug: 'france')
+      create(:country, slug: 'germany')
+      
+      get :index
+      
+      countries = assigns(:countries)
+      expect(countries.any?).to be true
+    end
 
-  it "provides list of regions" do
-    get :index
-    regions = assigns(:regions)
-    expect(regions.class).to eq Array
-    expect(regions[0]).to eq({ slug: 'australia-new-zealand',
-                               countries: %w[australia fiji new-zealand papua-new-guinea],
-                               name: 'Australia/New Zealand' })
-  end
+    it "provides list of regions" do
+      get :index
+      regions = assigns(:regions)
+      expect(regions.class).to eq Array
+      expect(regions[0]).to eq({ slug: 'australia-new-zealand',
+                                 countries: %w[australia fiji new-zealand papua-new-guinea],
+                                 name: 'Australia/New Zealand' })
+    end
 
-  context "With MockRedis running" do
-    # Set up 10 opportunities, 2 expiring soon, 3 published recently.
-    before do
+    it "provides statistics about opportunities" do
       mock_redis = MockRedis.new
       mock_redis.set('opps_counters_expiring_soon', '2')
       mock_redis.set('opps_counters_total', '10')
       mock_redis.set('opps_counters_published_recently', '3')
       controller.instance_variable_set(:@redis, mock_redis)
-    end
 
-    it "provides statistics about opportunities" do
       get :index
       stats = assigns(:opportunities_stats)
       expect(stats[:total]).to be 10
       expect(stats[:expiring_soon]).to be 2
       expect(stats[:published_recently]).to be 3
     end
-  end
 
-  context 'provides an XML-based Atom feed' do
-    it 'provides the correct MIME type' do
-      get :index, params: { format: 'atom' }
-      expect(response.content_type).to eq('application/atom+xml')
-      expect(response.body).to have_css('feed')
-    end
-
-    it 'routes to the feed correctly if you request application/xml' do
-      @request.env['HTTP_ACCEPT'] = 'application/xml'
-      get :index
-      expect(response.content_type).to eq('application/xml')
-      expect(response.body).to have_css('feed')
-    end
-
-    it 'routes to the feed correctly if you request application/atom+xml' do
-      @request.env['HTTP_ACCEPT'] = 'application/atom+xml'
-      get :index
-      expect(response.content_type).to eq('application/atom+xml')
-      expect(response.body).to have_css('feed')
-    end
-    
-    it "provides a set of opportunities" do
-      10.times do |n|
-        create(:opportunity, :published, title: "Title #{n}", slug: n.to_s,
-        response_due_on: 1.year.from_now, first_published_at: n.day.ago)
+    context 'provides an XML-based Atom feed' do
+      it 'provides the correct MIME type' do
+        get :index, params: { format: 'atom' }
+        expect(response.content_type).to eq('application/atom+xml')
+        expect(response.body).to have_css('feed')
       end
-      refresh_elasticsearch
 
-      get :index, params: { format: 'atom' }
+      it 'routes to the feed correctly if you request application/xml' do
+        @request.env['HTTP_ACCEPT'] = 'application/xml'
+        get :index
+        expect(response.content_type).to eq('application/xml')
+        expect(response.body).to have_css('feed')
+      end
+
+      it 'routes to the feed correctly if you request application/atom+xml' do
+        @request.env['HTTP_ACCEPT'] = 'application/atom+xml'
+        get :index
+        expect(response.content_type).to eq('application/atom+xml')
+        expect(response.body).to have_css('feed')
+      end
       
-      opportunities = assigns(:opportunities)
-      expect(opportunities.count).to be 10
+      it "provides a set of opportunities" do
+        10.times do |n|
+          create(:opportunity, :published, title: "Title #{n}", slug: n.to_s,
+          response_due_on: 1.year.from_now, first_published_at: n.day.ago)
+        end
+        refresh_elasticsearch
+
+        get :index, params: { format: 'atom' }
+        
+        opportunities = assigns(:opportunities)
+        expect(opportunities.count).to be 10
+      end
     end
   end
 
@@ -246,130 +241,14 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       describe 'provides a valid subscription form object' do
         it "includes the search term" do
           get :results, params: { s: 'Title 0' }
-          subscription = assigns(:results).instance_variable_get(:@subscription_form)
-          expect(subscription.params).to eq(
-            SubscriptionForm.new(
-              query: {
-                search_term: 'Title 0',
-                sectors:     [],
-                types:       [],
-                countries:   [],
-                values:      []
-              }
-            ).params
-          )
-        end
-        it "includes valid sectors" do
-          get :results, params: { sectors: ['test-sector'] } 
-          subscription = assigns(:results).instance_variable_get(:@subscription_form)
-          expect(subscription.params).to eq(
-            SubscriptionForm.new(
-              query: {
-                search_term: "",
-                sectors:     ['test-sector'],
-                types:       [],
-                countries:   [],
-                values:      []
-              }
-            ).params
-          )
-          get :results, params: { sectors: ['invalid-sector'] } 
-          subscription = assigns(:results).instance_variable_get(:@subscription_form)
-          expect(subscription.params).to eq(
-            SubscriptionForm.new(
-              query: {
-                search_term: "",
-                sectors:     [],
-                types:       [],
-                countries:   [],
-                values:      []
-              }
-            ).params
-          )
-        end
-        it "includes valid types" do
-          get :results, params: { types: ['test-type'] }
-          subscription = assigns(:results).instance_variable_get(:@subscription_form)
-          expect(subscription.params).to eq(
-            SubscriptionForm.new(
-              query: {
-                search_term: "",
-                sectors:     [],
-                types:       ['test-type'],
-                countries:   [],
-                values:      []
-              }
-            ).params
-          )
-          get :results, params: { types: ['invalid-type'] }
-          subscription = assigns(:results).instance_variable_get(:@subscription_form)
-          expect(subscription.params).to eq(
-            SubscriptionForm.new(
-              query: {
-                search_term: "",
-                sectors:     [],
-                types:       [],
-                countries:   [],
-                values:      []
-              }
-            ).params
-          )
-        end
-        it "includes valid countries" do
-          get :results, params: { countries: ['fiji'] } 
-          subscription = assigns(:results).instance_variable_get(:@subscription_form)
-          expect(subscription.params).to eq(
-            SubscriptionForm.new(
-              query: {
-                search_term: "",
-                sectors:     [],
-                countries:   ['fiji'],
-                types:       [],
-                values:      []
-              }
-            ).params
-          )
-          get :results, params: { countries: ['invalid-country'] }
-          subscription = assigns(:results).instance_variable_get(:@subscription_form)
-          expect(subscription.params).to eq(
-            SubscriptionForm.new(
-              query: {
-                search_term: "",
-                sectors:     [],
-                countries:   [],
-                types:       [],
-                values:      []
-              }
-            ).params
-          )
-        end
-        it "includes values" do
-          get :results, params: { values: ['test-value'] }
-          subscription = assigns(:results).instance_variable_get(:@subscription_form)
-          expect(subscription.params).to eq(
-            SubscriptionForm.new(
-              query: {
-                search_term: "",
-                sectors:     [],
-                countries:   [],
-                types:       [],
-                values:      ['test-value']
-              }
-            ).params
-          )
-          get :results, params: { values: ['invalid-value'] }
-          subscription = assigns(:results).instance_variable_get(:@subscription_form)
-          expect(subscription.params).to eq(
-            SubscriptionForm.new(
-              query: {
-                search_term: "",
-                sectors:     [],
-                countries:   [],
-                types:       [],
-                values:      []
-              }
-            ).params
-          )
+          subscription = assigns(:subscription)
+          expect(subscription).to eq({
+                                       title: "Title 0",
+                                       keywords: "Title 0",
+                                       countries: [],
+                                       what: " for Title 0",
+                                       where: "",
+                                     })
         end
       end
       describe 'provides the filter_data' do

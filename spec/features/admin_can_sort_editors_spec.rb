@@ -61,15 +61,18 @@ feature 'Admin can sort the list of editors' do
 
     click_on 'Confirmed'
 
-    expect(page.find('tbody tr:nth-child(1)')).to have_content(second_editor.confirmed_at.strftime("%d %h %Y%l:%M %p"))
-    expect(page.find('tbody tr:nth-child(2)')).to have_content(first_editor.confirmed_at.strftime("%d %h %Y%l:%M %p"))
-    expect(page.find('tbody tr:nth-child(3)')).to have_content(third_admin.confirmed_at.strftime("%d %h %Y%l:%M %p"))
+    # On some developers machines, the %l in "to_s(:admin_datetime)" will have an extra whitespace in the tests
+    # code but not in the view code run by the tests, causing the tests to fail. Therefore substitute for
+    # strftime("%d %h %Y")
+    expect(page.find('tbody tr:nth-child(1)')).to have_content(second_editor.confirmed_at.strftime("%d %h %Y"))
+    expect(page.find('tbody tr:nth-child(2)')).to have_content(first_editor.confirmed_at.strftime("%d %h %Y"))
+    expect(page.find('tbody tr:nth-child(3)')).to have_content(third_admin.confirmed_at.strftime("%d %h %Y"))
 
     click_on 'Confirmed'
 
-    expect(page.find('tbody tr:nth-child(1)')).to have_content(third_admin.confirmed_at.strftime("%d %h %Y%l:%M %p"))
-    expect(page.find('tbody tr:nth-child(2)')).to have_content(first_editor.confirmed_at.strftime("%d %h %Y%l:%M %p"))
-    expect(page.find('tbody tr:nth-child(3)')).to have_content(second_editor.confirmed_at.strftime("%d %h %Y%l:%M %p"))
+    expect(page.find('tbody tr:nth-child(1)')).to have_content(third_admin.confirmed_at.strftime("%d %h %Y"))
+    expect(page.find('tbody tr:nth-child(2)')).to have_content(first_editor.confirmed_at.strftime("%d %h %Y"))
+    expect(page.find('tbody tr:nth-child(3)')).to have_content(second_editor.confirmed_at.strftime("%d %h %Y"))
   end
 
   scenario 'by service provider' do

@@ -52,13 +52,13 @@ class OpportunitiesController < ApplicationController
   # Search results listings page
   # Provides the following to the views:
   #   --- html requests only --
-  #   @page          Presenter object containing page essentials,
+  #   @page          Presenter containing page essentials,
   #                  namely navigation breadcrumbs
-  #   @results       Presenter object containing the containing data associated
-  #                  with search results, search/filter inputs, and 
-  #   @subscr_form   Subscription form object with sanitised data
+  #   @results       Presenter containing the containing data associated
+  #                  with search results and search/filter inputs
+  #   @subscription  SubscriptionForm with sanitised data
   #   --- .atom or .xml requests only --
-  #   @query         Decorator object containing search results and associated
+  #   @query         Decorator containing search results and associated
   #                  pagination and navigation helpers
   # 
   def results 
@@ -66,7 +66,7 @@ class OpportunitiesController < ApplicationController
       format.html do
         content = get_content('opportunities/results.yml')
         results = Search.new(params, limit: 100).run
-        @subscr_form = SubscriptionForm.new(results).call
+        @subscription = SubscriptionForm.new(results).call
         @page = PagePresenter.new(content)
         @results = OpportunitySearchResultsPresenter.new(content, results)
         render layout: 'results'
@@ -101,10 +101,6 @@ class OpportunitiesController < ApplicationController
 
     def all_countries
       Country.all.where.not(name: ['DSO HQ', 'DIT HQ', 'NATO', 'UKREP']).order :name
-    end
-
-    def atom_request?
-      request && %i[atom xml].include?(request.format.symbol)
     end
 
     # 5 most recent opportunities

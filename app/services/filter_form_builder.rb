@@ -1,7 +1,11 @@
 class FilterFormBuilder
+  include RegionHelper
 
-  # creates object for use by the country and region inputs
-  def initialise(filter, country_list)
+  #
+  # Formats data for the country and region checkboxes
+  # on the Opportunity search results page
+  #
+  def initialize(filter, country_list)
     @filter = filter
     @country_list = country_list
   end
@@ -23,7 +27,7 @@ class FilterFormBuilder
       {
         'name': 'sectors[]',
         'options': Sector.order(:name),
-        'selected': filter.sectors,
+        'selected': @filter.sectors,
       }
     end
 
@@ -31,22 +35,22 @@ class FilterFormBuilder
     def filter_countries
       {
         'name': 'countries[]',
-        'options': @country_list || Country.where(slug: filter.countries),
-        'selected': filter.countries,
+        'options': @country_list.any? ? @country_list : Country.where(slug: @filter.countries),
+        'selected': @filter.countries,
       }
     end
 
     # Data to build search filter input for regions
     def filter_regions
       regions = if @country_list.present?
-                  filtered_region_list(@country_list)
+                  filtered_region_list
                 else
                   regions_list
                 end
       {
         'name': 'regions[]',
         'options': regions,
-        'selected': filter.regions,
+        'selected': @filter.regions,
       }
     end
 
@@ -55,16 +59,16 @@ class FilterFormBuilder
       {
         'name': 'sources[]',
         'options': sources_list,
-        'selected': filter.sources,
+        'selected': @filter.sources,
       }
     end
 
     # Filters all regions (@filter[:regions]) down to
     # return only those that are applicable to countries
     # showing (so those that apply to the search)
-    def filtered_region_list(countries)
+    def filtered_region_list
       regions = []
-      countries.each do |country|
+      @country_list.each do |country|
         region = region_by_country(country)
         regions.push(region) if region.present?
       end

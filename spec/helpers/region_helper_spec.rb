@@ -113,7 +113,11 @@ describe RegionHelper do
     it 'returns something if input is valid' do
       regions_and_countries = region_and_country_names_to_h(@countries)
 
-      expect(regions_and_countries).to eq 'Western Europe, Mediterranean Europe, Australia/New Zealand, China, Mexico, Romania, Qatar and Iran'
+      expected = 'Western Europe, Mediterranean Europe, Australia/New Zealand, China, Mexico, Romania, Qatar and Iran'
+      expected.gsub(" and", ",").split(", ").each do |item|
+        expect(regions_and_countries).to include(item),
+          "regions_and_countries did not include #{item}"
+      end
     end
   end
 
