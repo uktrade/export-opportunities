@@ -1,6 +1,5 @@
 class OpportunityIndustrySearchBuilder
 
-  # UNTESTED
   def initialize(filter: NullFilter.new,
                  sort: OpportunitySort.new(default_column: 'first_published_at',
                                            default_order: 'asc')
