@@ -28,7 +28,12 @@ class OpportunitiesController < ApplicationController
     @regions = regions_list
     @opportunities_stats = opportunities_stats
     @page = LandingPresenter.new(@content, @featured_industries)
-    render layout: 'landing'
+
+    respond_to do |format|
+      format.html do
+        render layout: 'landing'
+      end
+    end
   end
 
   #
