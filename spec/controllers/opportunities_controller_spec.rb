@@ -76,41 +76,6 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
       expect(stats[:expiring_soon]).to be 2
       expect(stats[:published_recently]).to be 3
     end
-
-    context 'provides an XML-based Atom feed' do
-      it 'provides the correct MIME type' do
-        get :index, params: { format: 'atom' }
-        expect(response.content_type).to eq('application/atom+xml')
-        expect(response.body).to have_css('feed')
-      end
-
-      it 'routes to the feed correctly if you request application/xml' do
-        @request.env['HTTP_ACCEPT'] = 'application/xml'
-        get :index
-        expect(response.content_type).to eq('application/xml')
-        expect(response.body).to have_css('feed')
-      end
-
-      it 'routes to the feed correctly if you request application/atom+xml' do
-        @request.env['HTTP_ACCEPT'] = 'application/atom+xml'
-        get :index
-        expect(response.content_type).to eq('application/atom+xml')
-        expect(response.body).to have_css('feed')
-      end
-      
-      it "provides a set of opportunities" do
-        10.times do |n|
-          create(:opportunity, :published, title: "Title #{n}", slug: n.to_s,
-          response_due_on: 1.year.from_now, first_published_at: n.day.ago)
-        end
-        refresh_elasticsearch
-
-        get :index, params: { format: 'atom' }
-        
-        opportunities = assigns(:opportunities)
-        expect(opportunities.count).to be 10
-      end
-    end
   end
 
   describe 'GET #results' do

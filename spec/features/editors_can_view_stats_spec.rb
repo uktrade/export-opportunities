@@ -103,7 +103,7 @@ RSpec.feature 'Editors can view stats' do
     expect(page).to have_content(t('admin.stats.opportunities_submitted', count: 0))
     expect(page).to have_content(t('admin.stats.opportunities_published', count: 0))
     expect(page).to have_content(t('admin.stats.enquiries', count: 0))
-    average_age =  t('admin.stats.average_age_when_published', average_age: 'N/A').gsub(": ", ":\n")
+    average_age =  t('admin.stats.average_age_when_published', average_age: 'N/A')
     expect(page).to have_content(average_age)
   end
 

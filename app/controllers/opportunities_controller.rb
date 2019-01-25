@@ -8,7 +8,6 @@ class OpportunitiesController < ApplicationController
   #
   # Homepage (index)
   # Provides the following to the views:
-  #   --- html requests only --
   #   @content:              strings to insert into page
   #   @featured_industries:  Collection of Sectors
   #   @recent_opportunities: Hash of 5 recent opportunities with format
@@ -20,32 +19,16 @@ class OpportunitiesController < ApplicationController
   #                                name: 'Australia/New Zealand' }, {...}...]
   #   @opportunities_stats   Hash of statistics about opportunities, of format:
   #                             { total: #, expiring_soon: #, published_recently: #, }
-  #   --- .atom or .xml requests only --
-  #   @query:                ElasticSearch object with Opportunity results from
-  #                          query with filter params
-  #   @total:                Total number of opportunities returned
-  #   @opportunities:        Records from @query
   #
   def index
-    respond_to do |format|
-      format.html do
-        @content = get_content('opportunities/index.yml')
-        @recent_opportunities = recent_opportunities
-        @featured_industries = Sector.featured
-        @countries = all_countries
-        @regions = regions_list
-        @opportunities_stats = opportunities_stats
-        @page = LandingPresenter.new(@content, @featured_industries)
-        render layout: 'landing'
-      end
-      format.any(:atom, :xml) do
-        results = Search.new(params, results_only: true, sort: 'updated_at').run
-        @query = AtomOpportunityQueryDecorator.new(results, view_context)
-        @total = @query.records.size
-        @opportunities = @query.records
-        render :index, formats: :atom
-      end
-    end
+    @content = get_content('opportunities/index.yml')
+    @recent_opportunities = recent_opportunities
+    @featured_industries = Sector.featured
+    @countries = all_countries
+    @regions = regions_list
+    @opportunities_stats = opportunities_stats
+    @page = LandingPresenter.new(@content, @featured_industries)
+    render layout: 'landing'
   end
 
   #

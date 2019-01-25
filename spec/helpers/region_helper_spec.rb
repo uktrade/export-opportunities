@@ -3,12 +3,14 @@
 require 'rails_helper'
 
 describe RegionHelper do
-  before(:all) do
+  
+  before do
+    Country.destroy_all
     country_list = %w[mexico austria belgium spain france australia germany ireland luxembourg new-zealand papua-new-guinea netherlands fiji switzerland romania qatar china cyprus greece israel italy iran portugal]
     country_list.each do |country|
       create(:country, name: country.tr('-', ' '), slug: country)
     end
-    @countries = Country.all.where(slug: country_list)
+    @countries = Country.all.where(slug: country_list).order(:slug)
   end
 
   describe '#convert_areas_params_into_regions_and_countries' do
@@ -64,8 +66,6 @@ describe RegionHelper do
   describe '#regions_and_countries_from' do
     it 'returns a collection of regions and countries when regions are found' do
       regions_and_countries = regions_and_countries_from(@countries)
-      example_country = @countries.first
-      example_region =  { slug: 'australia-new-zealand', countries: %w[australia fiji new-zealand papua-new-guinea], name: 'Australia/New Zealand' }
 
       region_slugs = []
       regions_and_countries[:regions].each do |region|
@@ -79,28 +79,36 @@ describe RegionHelper do
 
       # Has correct regions
       expect(regions_and_countries[:regions].length).to eq(4)
+      example_region =  { slug: 'australia-new-zealand', countries: %w[australia fiji new-zealand papua-new-guinea], name: 'Australia/New Zealand' }
       expect(regions_and_countries[:regions]).to include(example_region)
       expect(region_slugs).to include('western-europe')
       expect(region_slugs).to include('mediterranean-europe')
       expect(region_slugs).to include('australia-new-zealand')
       expect(region_slugs).to include('china')
 
-      # Has correct countries
+      # Has remaining countries that have not been put into a region
       expect(regions_and_countries[:countries].length).to eq(4)
+      example_country = Country.find_by_slug 'mexico'
       expect(regions_and_countries[:countries]).to include(example_country)
-      expect(country_slugs).to eq(%w[mexico romania qatar iran])
+      %w[mexico romania qatar iran].each do |country_slug|
+        expect(country_slugs).to include(country_slug),
+          "country_slugs did not include #{country_slug}"
+      end
     end
 
     it 'returns a collection of countries and (empty) regions when no regions are matched' do
-      regions_and_countries = regions_and_countries_from(@countries.slice(0, 4))
+      regions_and_countries = regions_and_countries_from(@countries.slice(0, 3))
       country_slugs = []
       regions_and_countries[:countries].each do |country|
         country_slugs.push(country[:slug])
       end
 
       expect(regions_and_countries[:regions].length).to eq(0)
-      expect(regions_and_countries[:countries].length).to eq(4)
-      expect(country_slugs).to eq(%w[mexico austria belgium spain])
+      expect(regions_and_countries[:countries].length).to eq(3)
+      %w[australia austria belgium].each do |country_slug|
+        expect(country_slugs).to include(country_slug),
+          "country_slugs did not include #{country_slug}"
+      end
     end
   end
 
@@ -123,7 +131,7 @@ describe RegionHelper do
 
   describe '#region_by_country' do
     it 'returns a region when one is found' do
-      region = region_by_country(@countries.first)
+      region = region_by_country(Country.find_by_slug 'mexico')
 
       expect(region.present?).to be_truthy
       expect(region[:slug]).to eq('south-america')
