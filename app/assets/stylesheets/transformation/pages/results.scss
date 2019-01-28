@@ -125,11 +125,26 @@ form {
     font-weight: bold;
   }
 
+  .checkbox-group {
+    border: none;
+    max-height: none;
+    margin-bottom: 0;
+    overflow: hidden;
+    padding-bottom: 0;
+  }
+
   .description {
     @include access-hidden;
   }
 
   // JS enchancement
+  .Expander {
+    border-bottom: $stone-30 solid 1px;
+    max-height: 175px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
   .ExpanderControl {
     outline: none;
 
