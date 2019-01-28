@@ -3,7 +3,9 @@
 // required dit.js
 // required dit.utils.js
 //= require transformation/dit.class.selective_lookup.js
+//= require transformation/dit.class.cpv_code_lookup.js
 //= require transformation/dit.class.data_provider.js
+//= require transformation/dit.class.service.js
 //= require transformation/dit.class.filter_multiple_select.js
 //= require transformation/dit.class.expander.js
 
@@ -16,6 +18,7 @@ dit.page.opportunity = (new function () {
     setupTargetUrlField();
     setupFilterMultipleSelectFields();
     setupExpanders();
+    setupCpvLookup();
 
     delete this.init; // Run once
   }
@@ -86,6 +89,42 @@ dit.page.opportunity = (new function () {
       if($wrapper.length && $control.length) {
         new dit.classes.Expander($wrapper, { $control: $control, closed: false, blur: false });
       }
+    }
+  }
+
+  /* Enhance CPV code entry field and create a service
+   * to fetch data from CPV (??where??) API.
+   * NOTE: For dummy development, just using the existing Companies House API
+   **/
+  function setupCpvLookup() {
+    var $cpvInput = $("#opportunity_cpv_id");
+    var lookup;
+    if($cpvInput.length) {
+      service = new dit.classes.Service(dit.constants.CPV_CODE_LOOKUP_URL);
+      lookup = new dit.classes.CpvCodeLookup($cpvInput, service);
+
+/*
+      lookup.bindContentEvents = function() {
+        var instance = this;
+
+        // First allow the normal functionality to run.
+        dit.classes.CompaniesHouseNameLookup.prototype.bindContentEvents.call(instance);
+
+        // Now add the customisations for ExOpps Enquiry form.
+        instance._private.$list.on("click.CompaniesHouseNameLookup", function(event) {
+          var companies = dit.data.getCompanyByName.data;
+          var number = instance._private.$field.val();
+          var postcode;
+          for(var i=0; i<companies.length; ++i) {
+            if(companies[i].company_number == number) {
+              postcode = companies[i].address.postal_code;
+              $("#enquiry_company_postcode").val(postcode);
+              $("#enquiry_company_address").val(companies[i].address_snippet.replace(postcode, ""));
+            }
+          }
+        });
+      }
+*/
     }
   }
 });
