@@ -129,29 +129,16 @@ form {
     @include access-hidden;
   }
 
-  // Enhanced with JS
-  .Expander {
-    background-color: $white;
-    position: relative;
-    width: 100%;
-
-    &.collapsed {
-      border: none;
-      height: 0;
-      margin-bottom: 0;
-      opacity: 1;
-      padding: 0;
-      z-index: 1;
-    }
-  }
-
+  // JS enchancement
   .ExpanderControl {
     outline: none;
+
     &:before {
       @include down-chevron-1($black);
       float: right;
       height: 8px;
       margin: 5px 0 0 0;
+      right: 3px;
       width: 8px;
     }
 

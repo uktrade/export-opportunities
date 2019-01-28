@@ -41,7 +41,7 @@
         // Additional tasks that may be performed on destroy.
       },
       closed: true, // Whether the item has initial closed state.
-      cls: "", // config.wrap ? put on wrapper : put on target.
+      cls: "", // Overwrites default 'wrapper'|| 'target' class added to expanding element.
       complete: function() {
         // You can pass a function to run on open+close
       },
@@ -49,8 +49,7 @@
       hover: false, // If enabled opens/closes on hover as well.
       text: "Expand", // Control button text.
       wrap: false,
-      $control: null, // Pass a node if you want to specify something.
-      controlReplacementEnabled: true // Allows prevention of automated control node replacement.
+      $control: null // Pass a node if you want to specify something.
     }, options);
 
     if (arguments.length && $target.length) {
@@ -62,7 +61,7 @@
       // Figure out and setup the expanding element
       if(this.config.wrap) {
         $wrapper = $(document.createElement("div"));
-        $control.after($wrapper);
+        $wrapper.insertAfter($target.last());
         $wrapper.append($target);
         this.$node = $wrapper;
       }
@@ -88,12 +87,12 @@
 
 
       // Make sure the control is not inside of the expanding element.
-      if(this.config.controlReplacementEnabled && Expander.needToMoveControl(this.$node, $control)) {
+      if(Expander.needToMoveControl(this.$node, $control)) {
         this.$node.before($control);
       }
 
       this.$node.addClass(TYPE);
-      this.$node.addClass(this.config.cls);
+      this.$node.addClass(this.config.cls || this.config.wrap ? 'wrapper' : 'target');
       this.$node.attr("id", id);
 
       // Finish setting up control
