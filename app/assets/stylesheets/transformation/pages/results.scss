@@ -140,6 +140,7 @@ form {
   // JS enchancement
   .Expander {
     border-bottom: $stone-30 solid 1px;
+    margin-bottom: $spacing-4;
     max-height: 175px;
     overflow-x: hidden;
     overflow-y: auto;
