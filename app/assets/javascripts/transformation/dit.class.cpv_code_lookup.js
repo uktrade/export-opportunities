@@ -19,54 +19,86 @@
   }
 
   /* Main Class
-   * @$input (jQuery node) Existing form element to populate with cpv code
+   * @$field (jQuery node) Existing form input element to populate with cpv code
    **/
   classes.CpvCodeLookup = CpvCodeLookup;
-  function CpvCodeLookup($input, service, options) {
+  function CpvCodeLookup($field, service, options) {
     var instance = this;
-    var $form = $input.parents("form");
+    var $form = $field.parents("form");
+    var $input;
     var opts = $.extend({
       //$after: $(), // (jQuery element) Specify an element to insert list after (gets appended to body if nothing passed).
       $errors: $(), // Where do we display errors.
-      $output: $input, // Use something else if preferred but shouldn't be necessary to change..
+      addButtonCssCls: "", // Should you want to add something for CSS.
+      multiple: false, // Adds activator to allow chosing/setting multiple codes.
       param: "term"
     }, options || {}); 
     
+    if($field.length) {
+      // To minimise effort on changing form processing, we
+      // keep the original form input element ($field) but
+      // make it a type:hidden element. We then create a new
+      // input:text element for user lookup entries.
+      // If multiple codes are to be added, there is a
+      // mechanism to allow for multiple additions to the
+      // original form input element.
+      // $field.attr("type", "hidden");
+      $input = $('<input type="text" class="CpvCodeLookupInput" name="cpv_input_text">');
+      $field.attr("readonly", "true");
+      $field.addClass("CpvCodeLookupEmptyOutput"); // Allows for initial hidden state, if required.
+      $field.after($input);
 
-    // To minimise effort on changing form processing, we
-    // try to set the original form input element as the
-    // opts.$output element (this can be changed but should
-    // not matter). The original input is changed to a 
-    // hidden form element. A new input element for the 
-    // lookup text is created and added as a sibling to the
-    // original one.
-    $input.attr("type", "hidden");
-    $input = $('<input type="text" name="cpv_input_text" placeholder="' + $input.attr("placeholder") + '">');
-    opts.$output.attr("type", "hidden");
-    opts.$output.before($input);
-    
+      // If it's going to be multiple entry.
+      if(opts.multiple) {
+        $add = $('<button class="CpvCodeLookupAdd" type="button">Add another code</button>');
+        $add.addClass(opts.addButtonCssCls);
+        CpvCodeLookup.addMultipleButtonEvent.call(this, $add);
+        $input.after($add);
+      }
 
-    // Inherit...
-    SelectiveLookup.call(this,
-      $input,
-      service
-    );
-    
-    // If we are not told where, insert element for showing errors.
-    if (opts.$errors.length < 1) {
-      opts.$errors = $('<p class="error"></p>');
-      $form.prepend(opts.$errors);
+      // Inherit...
+      SelectiveLookup.call(this,
+                           $input,
+                           service
+                          );
+
+      // If we are not told where, insert element for showing errors.
+      if (opts.$errors.length < 1) {
+        opts.$errors = $('<p class="error"></p>');
+        $form.prepend(opts.$errors);
+      }
+
+      // Some inner variable requirement.
+      this._private.$field = $field;
+      this._private.$form = $form;
+      this._private.$errors = opts.$errors;
+      this._private.param = opts.param;
+      this._private.fieldCount = 0;
+      
+      // Clear previously shown errors.
+      this._private.$input.on("focus.CpvCodeLookup", function(e) {
+        instance._private.$errors.empty();
+      });
     }
+  }
 
-    // Some inner variable requirement.
-    this._private.$field = opts.$output;
-    this._private.$form = $form;
-    this._private.$errors = opts.$errors;
-    this._private.param = opts.param;
-  
-    // Clear previously shown errors.
-    this._private.$input.on("focus.CpvCodeLookup", function(e) {
-      instance._private.$errors.empty();
+  CpvCodeLookup.addMultipleButtonEvent = function($button) {
+    var instance = this;
+    $button.on("click.CpvCodeLookup", function() {
+      var $field = instance._private.$field;
+      var $input = instance._private.$input;
+      var $anotherField, id;
+      // TODO: Need to improve the empty value check.
+      if($input.val() != "") {
+        id = $field.attr("id") + "_" + (++instance._private.fieldCount);
+        $anotherField = $field.clone();
+        $anotherField.val("");
+        $anotherField.attr("id", id);
+        $anotherField.addClass("CpvCodeLookupEmptyOutput");
+        $field.before($anotherField);
+        $input.val("");
+        instance._private.$field = $anotherField;
+      }
     });
   }
   
@@ -81,6 +113,7 @@
       if($eventTarget.attr("data-value")) {
         instance._private.$input.val($eventTarget.text());
         instance._private.$field.val($eventTarget.attr("data-value"));
+        instance._private.$field.removeClass("CpvCodeLookupEmptyOutput");
       }
     });
   }
