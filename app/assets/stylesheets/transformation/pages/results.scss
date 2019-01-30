@@ -125,33 +125,36 @@ form {
     font-weight: bold;
   }
 
+  .checkbox-group {
+    border: none;
+    max-height: none;
+    margin-bottom: 0;
+    overflow: hidden;
+    padding-bottom: 0;
+  }
+
   .description {
     @include access-hidden;
   }
 
-  // Enhanced with JS
+  // JS enchancement
   .Expander {
-    background-color: $white;
-    position: relative;
-    width: 100%;
-
-    &.collapsed {
-      border: none;
-      height: 0;
-      margin-bottom: 0;
-      opacity: 1;
-      padding: 0;
-      z-index: 1;
-    }
+    border-bottom: $stone-30 solid 1px;
+    margin-bottom: $spacing-4;
+    max-height: 175px;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
   .ExpanderControl {
     outline: none;
+
     &:before {
       @include down-chevron-1($black);
       float: right;
       height: 8px;
       margin: 5px 0 0 0;
+      right: 3px;
       width: 8px;
     }
 
