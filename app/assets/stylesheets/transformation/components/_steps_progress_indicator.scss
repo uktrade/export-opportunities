@@ -1,0 +1,119 @@
+.steps-progress-indicator {
+  border-left: 3px solid $mid-grey;
+  margin-bottom: $spacing-3;
+  position: relative;
+
+  a {
+    @include body-m;
+    border-bottom: 1px solid $stone-50;
+    color: $grey;
+    display: block;
+    font-weight: bold;
+    margin: 0 0 0 $spacing-3;
+    padding: $spacing-4 0;
+    text-decoration: none;
+  }
+
+  li {
+    counter-increment: progress-indicator-counter;
+    list-style-position: outside;
+    position: relative;
+
+    &:before {
+      @include body-s;
+      background-color: $white;
+      border: 2px solid $mid-grey;
+      border-radius: 50%;
+      color: $mid-grey;
+      content: counter(progress-indicator-counter);
+      display: block;
+      font-weight: bold;
+      height: 28px;
+      left: -17px;
+      line-height: 30px;
+      position: absolute;
+      text-align: center;
+      top: 15px;
+      width: 28px;
+    }
+
+    &:last-child a,
+    &:last-child span {
+      border: none;
+    }
+  }
+
+  span {
+    @include body-m;
+    border-bottom: 1px solid $stone-50;
+    color: $mid-grey;
+    display: block;
+    margin: 0 0 0 $spacing-3;
+    padding: $spacing-4 0;
+  }
+
+  .current {
+    &:before {
+      background-color: $grey;
+      border-color: $white;
+      color: $white;
+      height: 30px;
+      left: -18px;
+      top: 14px;
+      width: 30px;
+    }
+
+    span {
+      color: $grey;
+      font-weight: bold;
+
+      &:before {
+        border: 2px solid $grey;
+        border-radius: 50%;
+        content: '';
+        display: block;
+        height: 34px;
+        left: -20px;
+        position: absolute;
+        top: 12px;
+        width: 34px;
+      }
+    }
+  }
+
+  .done {
+    a:before {
+      border-color: white;
+      border-style: solid;
+      border-width: 0 0 2px 2px;
+      border-radius: 0;
+      content: '';
+      display: block;
+      left: -8px;
+      height: 4px;
+      position: absolute;
+      transform: rotate(-45deg);
+      top: 25px;
+      width: 10px;
+    }
+
+    &:before {
+      background-color: $grey;
+      border: none;
+      color: $grey;
+      left: -16px;
+    }
+  }
+
+  // Don't know what state this is meant to represent
+  .variant {
+    span {
+      color: $grey;
+    }
+
+    &:before {
+      border-color: $white;
+      color: $grey;
+    }
+  }
+}
