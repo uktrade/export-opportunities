@@ -101,7 +101,9 @@ dit.page.opportunity = (new function () {
     var lookup;
     if($cpvInput.length) {
       service = new dit.classes.Service(dit.constants.CPV_CODE_LOOKUP_URL);
-      lookup = new dit.classes.CpvCodeLookup($cpvInput, service);
+      lookup = new dit.classes.CpvCodeLookup($cpvInput, service, {
+         multiple: true
+      });
 
 /*
       lookup.bindContentEvents = function() {

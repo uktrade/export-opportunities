@@ -48,6 +48,10 @@ input {
     position: absolute;
     z-index: -1;
   }
+
+  &[readonly] {
+    border: none;
+  }
 }
 
 label {
