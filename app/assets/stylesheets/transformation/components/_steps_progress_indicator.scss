@@ -1,119 +1,110 @@
 .steps-progress-indicator {
-  border-left: 3px solid $mid-grey;
-  margin-bottom: $spacing-3;
   position: relative;
 
-  a {
-    @include body-m;
-    border-bottom: 1px solid $stone-50;
-    color: $grey;
-    display: block;
-    font-weight: bold;
-    margin: 0 0 0 $spacing-3;
-    padding: $spacing-4 0;
-    text-decoration: none;
-  }
-
   li {
-    counter-increment: progress-indicator-counter;
-    list-style-position: outside;
-    position: relative;
-
-    &:before {
-      @include body-s;
-      background-color: $white;
-      border: 2px solid $mid-grey;
-      border-radius: 50%;
-      color: $mid-grey;
-      content: counter(progress-indicator-counter);
-      display: block;
-      font-weight: bold;
-      height: 28px;
-      left: -17px;
-      line-height: 30px;
-      position: absolute;
-      text-align: center;
-      top: 15px;
-      width: 28px;
-    }
-
-    &:last-child a,
-    &:last-child span {
-      border: none;
-    }
-  }
-
-  span {
-    @include body-m;
-    border-bottom: 1px solid $stone-50;
+    border-left: 0.18em solid $mid-grey;
     color: $mid-grey;
-    display: block;
-    margin: 0 0 0 $spacing-3;
-    padding: $spacing-4 0;
-  }
+    counter-increment: progress-indicator-counter;
+    font-weight: bold;
+    list-style-position: outside;
+    padding: 0 0 1.0em 2em;
+    position: relative;
+    top: -0.5em;
 
-  .current {
-    &:before {
-      background-color: $grey;
-      border-color: $white;
-      color: $white;
-      height: 30px;
-      left: -18px;
-      top: 14px;
-      width: 30px;
-    }
+    &:last-child {
+      border-left-color: $white;
 
-    span {
-      color: $grey;
-      font-weight: bold;
-
-      &:before {
-        border: 2px solid $grey;
-        border-radius: 50%;
-        content: '';
-        display: block;
-        height: 34px;
-        left: -20px;
-        position: absolute;
-        top: 12px;
-        width: 34px;
+      span {
+        border: none;
       }
     }
   }
 
-  .done {
-    a:before {
-      border-color: white;
+  // Adds the separating lines.
+  span {
+    border-color: $stone-50;
+    border-style: solid;
+    border-width: 0 0 1px 0;
+    display: block;
+    padding-bottom: 1.0em;
+
+    // Adds the default numbering
+    &:before {
+      background-color: $white;
+      border: 0.2em solid $mid-grey;
+      border-radius: 50%;
+      color: $mid-grey;
+      content: counter(progress-indicator-counter);
+      display: block;
+      font-size: 80%;
+      height: 1.6em;
+      left: -1.075em;
+      line-height: 1.6em;
+      position: absolute;
+      text-align: center;
+      top: 0;
+      width: 1.6em;
+    }
+  }
+
+  .current {
+    color: $grey;
+
+    &:before {
+      background-color: $white;
+      border: 0.2em solid $grey;
+      border-radius: 50%;
+      content: '';
+      display: block;
+      height: 1.9em;
+      left: -1.2em;
+      position: absolute;
+      top: -0.35em;
+      width: 1.9em;
+    }
+
+    span {
+      &:before {
+        background-color: $grey;
+        border-color: $grey;
+        color: $white;
+      }
+    }
+  }
+
+  .complete {
+    border-left-color: $grey;
+    color: $grey;
+
+    // This is the tick.
+    &:after {
+      border-color: $white;
       border-style: solid;
       border-width: 0 0 2px 2px;
       border-radius: 0;
       content: '';
       display: block;
-      left: -8px;
-      height: 4px;
+      left: -0.4em;
+      height: 0.25em;
       position: absolute;
       transform: rotate(-45deg);
-      top: 25px;
-      width: 10px;
+      top: 0.6em;
+      width: 0.6em;
     }
 
-    &:before {
-      background-color: $grey;
-      border: none;
-      color: $grey;
-      left: -16px;
+    // Colour hides the number.
+    span {
+      &:before {
+        background-color: $grey;
+        border-color: $grey;
+        color: $grey;
+      }
     }
   }
 
-  // Don't know what state this is meant to represent
-  .variant {
-    span {
-      color: $grey;
-    }
-
+  .verbose {
     &:before {
-      border-color: $white;
-      color: $grey;
+      display: none;
     }
   }
 }
