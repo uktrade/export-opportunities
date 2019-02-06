@@ -127,84 +127,85 @@ class Admin::OpportunitiesController < Admin::BaseController
 
   private
 
-  def load_options_for_form(opportunity)
-    @request_types = Opportunity.request_types.keys
-    @tender_bool = %w[true false]
-    @request_usages = Opportunity.request_usages.keys
-    @supplier_preferences = SupplierPreference.all
-    @service_providers = ServiceProvider.all.order(:name)
-    @service_provider = opportunity.service_provider || current_editor.service_provider
-    @countries = Country.all.order(:name)
-    @default_country = @service_provider.country&.id if opportunity.countries.empty?
-    @sectors = Sector.all.order(:name)
-    @types = Type.all.order(:name)
-    @values = Value.all.order(:slug)
-    @enquiry_interactions = Opportunity.enquiry_interactions.keys
-    @ragg = opportunity.ragg
-  end
-
-  def setup_opportunity_contacts(opportunity)
-    (Opportunity::CONTACTS_PER_OPPORTUNITY - opportunity.contacts.length).times do
-      opportunity.contacts.build
-    end
-  end
-
-  def create_opportunity_params
-    opportunity_params(contacts_attributes: create_contacts_attributes)
-  end
-
-  def update_opportunity_params
-    opportunity_params(contacts_attributes: update_contacts_attributes)
-  end
-
-  def opportunity_params(contacts_attributes:)
-    params.require(:opportunity).permit(:title, :slug, { country_ids: [] }, { sector_ids: [] }, { type_ids: [] }, { supplier_preference_ids: [] }, :response_due_on, :request_type, :tender, :request_usage, :enquiry_interaction, :value_ids, :teaser, :description, { contacts_attributes: contacts_attributes }, :service_provider_id, :ragg, :buyer_name, :buyer_address, :language, :tender_value, :source, :tender_content, :tender_url, :target_url, :tender_source, :tender_value, :ocid, :industry_id, :industry_scheme)
-  end
-
-  def create_contacts_attributes
-    %i[name email]
-  end
-
-  def update_contacts_attributes
-    %i[name email id opportunity_id]
-  end
-
-  private def filter_params
-    params.permit(:status, { sort: %i[column order] }, :show_expired, :s, :paged)
-  end
-
-  class OpportunityFilters
-    attr_reader :selected_status, :sort, :hide_expired, :raw_search_term, :page
-
-    def initialize(params)
-      @selected_status = params[:status]
-      @sort_params = params.fetch(:sort, {})
-
-      @sort = if @selected_status == 'pending' && @sort_params.empty?
-                OpportunitySort.new(default_column: 'ragg', default_order: 'asc')
-              else
-                OpportunitySort.new(default_column: 'created_at', default_order: 'desc').update(column: @sort_params[:column], order: @sort_params[:order])
-              end
-      @hide_expired = !params[:show_expired]
-      # Allowing a non-sanitized search input past this layer **only** for the view.
-      # The intent is not to give away how the inputs are being stripped to the user.
-      @raw_search_term = params[:s]
-      @page = params[:paged]
+    def load_options_for_form(opportunity)
+      @request_types = Opportunity.request_types.keys
+      @tender_bool = %w[true false]
+      @request_usages = Opportunity.request_usages.keys
+      @supplier_preferences = SupplierPreference.all
+      @service_providers = ServiceProvider.all.order(:name)
+      @service_provider = opportunity.service_provider || current_editor.service_provider
+      @countries = Country.all.order(:name)
+      @default_country = @service_provider.country&.id if opportunity.countries.empty?
+      @sectors = Sector.all.order(:name)
+      @types = Type.all.order(:name)
+      @values = Value.all.order(:slug)
+      @enquiry_interactions = Opportunity.enquiry_interactions.keys
+      @ragg = opportunity.ragg
     end
 
-    def sanitized_search
-      return unless @raw_search_term
-      @raw_search_term.gsub(alphanumeric_words_and_emails).to_a.join(' ')
+    def setup_opportunity_contacts(opportunity)
+      (Opportunity::CONTACTS_PER_OPPORTUNITY - opportunity.contacts.length).times do
+        opportunity.contacts.build
+      end
     end
 
-    def ignore_sort?
-      @raw_search_term && @sort_params.empty?
+    def create_opportunity_params
+      opportunity_params(contacts_attributes: create_contacts_attributes)
     end
 
-    private
-
-    def alphanumeric_words_and_emails
-      /([a-zA-Z0-9\.\@\-\_]*\w)/
+    def update_opportunity_params
+      opportunity_params(contacts_attributes: update_contacts_attributes)
     end
-  end
+
+    def opportunity_params(contacts_attributes:)
+      params.require(:opportunity).permit(:title, :slug, { country_ids: [] }, { sector_ids: [] }, { type_ids: [] }, { supplier_preference_ids: [] }, :response_due_on, :request_type, :tender, :request_usage, :enquiry_interaction, :value_ids, :teaser, :description, { contacts_attributes: contacts_attributes }, :service_provider_id, :ragg, :buyer_name, :buyer_address, :language, :tender_value, :source, :tender_content, :tender_url, :target_url, :tender_source, :tender_value, :ocid, :industry_id, :industry_scheme)
+    end
+
+    def create_contacts_attributes
+      %i[name email]
+    end
+
+    def update_contacts_attributes
+      %i[name email id opportunity_id]
+    end
+
+    def filter_params
+      params.permit(:status, { sort: %i[column order] }, :show_expired, :s, :paged)
+    end
+
+    class OpportunityFilters
+      attr_reader :selected_status, :sort, :hide_expired, :raw_search_term, :page
+
+      def initialize(params)
+        @selected_status = params[:status]
+        @sort_params = params.fetch(:sort, {})
+
+        @sort = if @selected_status == 'pending' && @sort_params.empty?
+                  OpportunitySort.new(default_column: 'ragg', default_order: 'asc')
+                else
+                  OpportunitySort.new(default_column: 'created_at', default_order: 'desc').update(column: @sort_params[:column], order: @sort_params[:order])
+                end
+        @hide_expired = !params[:show_expired]
+        # Allowing a non-sanitized search input past this layer **only** for the view.
+        # The intent is not to give away how the inputs are being stripped to the user.
+        @raw_search_term = params[:s]
+        @page = params[:paged]
+      end
+
+      def sanitized_search
+        return unless @raw_search_term
+
+        @raw_search_term.gsub(alphanumeric_words_and_emails).to_a.join(' ')
+      end
+
+      def ignore_sort?
+        @raw_search_term && @sort_params.empty?
+      end
+
+      private
+
+        def alphanumeric_words_and_emails
+          /([a-zA-Z0-9\.\@\-\_]*\w)/
+        end
+    end
 end

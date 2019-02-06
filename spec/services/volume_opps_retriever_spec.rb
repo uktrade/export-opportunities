@@ -271,46 +271,48 @@ Les langages utilisés et à considérer comme obsolètes sont Matrix, Matlab, F
     end
   end
 
-  private def build_opportunity_hash
-    return {
-        countryname: 'eSwatini',
-        source: 'test source',
-        ocid: '2018-09-22-vlsgrc',
-        language: 'en',
-        json: {
-            releases: [
-                language: 'en',
-                tender: {
-                    tenderPeriod: {
-                        endDate: '2018-09-13'
-                    },
-                    title: 'test title',
-                    description: 'an optional description..',
-                    documents: [
-                        id: 'tender_url',
-                        url: 'http://great.gov.uk/fantastic_opportunities'
-                    ],
-                    items: [
-                        classification: {
-                            id: '1234',
-                            scheme: 'cpv'
-                        }
-                    ]
-                },
-                planning: {
-                    budget: {
-                        amount: {
-                          amount: 1000,
-                          currency: 'EUR'
-                        }
-                    }
-                },
-                buyer: {
-                    name: 'alex',
-                    address: '50 victoria street'
-                }
-            ]
-        }
-    }.with_indifferent_access
-  end
+  private
+
+    def build_opportunity_hash
+      return {
+          countryname: 'eSwatini',
+          source: 'test source',
+          ocid: '2018-09-22-vlsgrc',
+          language: 'en',
+          json: {
+              releases: [
+                  language: 'en',
+                  tender: {
+                      tenderPeriod: {
+                          endDate: '2018-09-13'
+                      },
+                      title: 'test title',
+                      description: 'an optional description..',
+                      documents: [
+                          id: 'tender_url',
+                          url: 'http://great.gov.uk/fantastic_opportunities'
+                      ],
+                      items: [
+                          classification: {
+                              id: '1234',
+                              scheme: 'cpv'
+                          }
+                      ]
+                  },
+                  planning: {
+                      budget: {
+                          amount: {
+                            amount: 1000,
+                            currency: 'EUR'
+                          }
+                      }
+                  },
+                  buyer: {
+                      name: 'alex',
+                      address: '50 victoria street'
+                  }
+              ]
+          }
+      }.with_indifferent_access
+    end
 end

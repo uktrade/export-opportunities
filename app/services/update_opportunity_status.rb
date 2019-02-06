@@ -25,41 +25,41 @@ class UpdateOpportunityStatus
 
   private
 
-  def change_status(opportunity, status)
-    if opportunity.update(status: status)
-      yield(opportunity) if block_given?
-      SuccessResult.new(opportunity.status)
-    else
-      FailureResult.new
-    end
-  end
-
-  class FailureResult
-    def success?
-      false
-    end
-  end
-
-  class SuccessResult
-    def initialize(new_status)
-      @new_status = new_status
-    end
-
-    def success?
-      true
-    end
-
-    def message
-      case @new_status
-      when 'publish'
-        'has been published'
-      when 'pending'
-        'has been set to pending'
-      when 'draft'
-        'has been set to draft'
+    def change_status(opportunity, status)
+      if opportunity.update(status: status)
+        yield(opportunity) if block_given?
+        SuccessResult.new(opportunity.status)
+      else
+        FailureResult.new
       end
     end
-  end
+
+    class FailureResult
+      def success?
+        false
+      end
+    end
+
+    class SuccessResult
+      def initialize(new_status)
+        @new_status = new_status
+      end
+
+      def success?
+        true
+      end
+
+      def message
+        case @new_status
+        when 'publish'
+          'has been published'
+        when 'pending'
+          'has been set to pending'
+        when 'draft'
+          'has been set to draft'
+        end
+      end
+    end
 end
 
 class SubscriberNotificationSender

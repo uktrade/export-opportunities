@@ -1,5 +1,4 @@
 class OppsQualityValidator
-
   #
   # For a given opportunity,
   # returns the quality score for either the first available quality check or
@@ -27,5 +26,4 @@ class OppsQualityValidator
         checks.first.score
       end
     end
-
 end

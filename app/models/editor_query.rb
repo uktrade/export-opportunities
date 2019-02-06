@@ -12,21 +12,23 @@ class EditorQuery
     @editors = fetch_editors
   end
 
-  private def fetch_editors
-    order_sql = if @sort.column == 'service_provider_name'
-                  "service_providers.name #{@sort.order} NULLS LAST"
-                else
-                  # We trust these values because they were whitelisted in EditorSort
-                  "editors.#{@sort.column} #{@sort.order} NULLS LAST"
-                end
+  private
 
-    query = @scope.order(order_sql)
+    def fetch_editors
+      order_sql = if @sort.column == 'service_provider_name'
+                    "service_providers.name #{@sort.order} NULLS LAST"
+                  else
+                    # We trust these values because they were whitelisted in EditorSort
+                    "editors.#{@sort.column} #{@sort.order} NULLS LAST"
+                  end
 
-    query = query.where(service_provider_id: @service_provider) if @service_provider.present?
-    query = query.where(deactivated_at: nil) if @hide_deactivated
+      query = @scope.order(order_sql)
 
-    query = query.page(@page).per(@per_page)
+      query = query.where(service_provider_id: @service_provider) if @service_provider.present?
+      query = query.where(deactivated_at: nil) if @hide_deactivated
 
-    query
-  end
+      query = query.page(@page).per(@per_page)
+
+      query
+    end
 end

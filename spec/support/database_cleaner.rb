@@ -49,8 +49,10 @@ RSpec.configure do |config|
     end
   end
 
-  private def es_delete_all
-    Opportunity.__elasticsearch__.refresh_index!
-    Opportunity.__elasticsearch__.delete_all
-  end
+  private 
+
+    def es_delete_all
+      Opportunity.__elasticsearch__.refresh_index!
+      Opportunity.__elasticsearch__.delete_all
+    end
 end

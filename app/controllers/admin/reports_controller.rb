@@ -23,19 +23,19 @@ module Admin
 
     private
 
-    def calculate_impact_email_stats(start_date = Time.zone.now.beginning_of_day - 1.day, end_date = Time.zone.now)
-      isc = ImpactStatsCalculator.new.call(start_date, end_date)
+      def calculate_impact_email_stats(start_date = Time.zone.now.beginning_of_day - 1.day, end_date = Time.zone.now)
+        isc = ImpactStatsCalculator.new.call(start_date, end_date)
 
-      @impact_stats = ImpactStatsReport.new(
-        sent: isc.sent,
-        responded: isc.responded,
-        responded_with_feedback: isc.responded_with_feedback,
-        option_0: isc.option_0,
-        option_1: isc.option_1,
-        option_2: isc.option_2,
-        option_3: isc.option_3,
-        option_4: isc.option_4
-      )
-    end
+        @impact_stats = ImpactStatsReport.new(
+          sent: isc.sent,
+          responded: isc.responded,
+          responded_with_feedback: isc.responded_with_feedback,
+          option_0: isc.option_0,
+          option_1: isc.option_1,
+          option_2: isc.option_2,
+          option_3: isc.option_3,
+          option_4: isc.option_4
+        )
+      end
   end
 end

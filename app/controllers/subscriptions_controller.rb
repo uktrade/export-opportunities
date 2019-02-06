@@ -46,15 +46,17 @@ class SubscriptionsController < ApplicationController
     end
   end
 
-  private def require_sso_after_cutoff
-    subscription = Subscription.find(params[:id])
+  private
 
-    require_sso! if subscription.user.provider == 'exporting_is_great'
-  end
+    def require_sso_after_cutoff
+      subscription = Subscription.find(params[:id])
 
-  private def reason_param
-    reason = params.fetch(:reason)
+      require_sso! if subscription.user.provider == 'exporting_is_great'
+    end
 
-    reason if Subscription.unsubscribe_reasons.keys.include?(reason)
-  end
+    def reason_param
+      reason = params.fetch(:reason)
+
+      reason if Subscription.unsubscribe_reasons.key?(reason)
+    end
 end

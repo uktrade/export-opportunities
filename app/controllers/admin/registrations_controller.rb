@@ -44,21 +44,23 @@ class Admin::RegistrationsController < Devise::RegistrationsController
     redirect_to admin_editors_path
   end
 
-  private def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:role])
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:service_provider_id])
-  end
-
   def load_service_providers
     @service_providers = ServiceProvider.select(:id, :name).order(name: :asc)
   end
 
-  def after_inactive_sign_up_path_for(_)
+  def after_inactive_sign_up_path_for(___)
     admin_editors_path
   end
 
   def pundit_user
     current_editor
   end
+
+  private
+
+    def configure_permitted_parameters
+      devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
+      devise_parameter_sanitizer.permit(:sign_up, keys: [:role])
+      devise_parameter_sanitizer.permit(:sign_up, keys: [:service_provider_id])
+    end
 end

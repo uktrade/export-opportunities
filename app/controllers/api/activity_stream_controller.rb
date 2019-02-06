@@ -79,8 +79,10 @@ module Api
   class ActivityStreamController < ApplicationController
     def authenticate(request)
       return [false, 'Connecting from unauthorized IP'] unless request.headers.key?('X-Forwarded-For')
+
       remote_ips = request.headers['X-Forwarded-For'].split(',')
       return [false, 'Connecting from unauthorized IP'] unless remote_ips.length >= 2
+
       authorized_ip_addresses = Figaro.env.ACTIVITY_STREAM_IP_WHITELIST.split(',')
       return [false, 'Connecting from unauthorized IP'] unless authorized_ip_addresses.include?(remote_ips[-2])
 
@@ -159,7 +161,7 @@ module Api
     def respond_200(contents)
       respond_to do |format|
         response.headers['Content-Type'] = 'application/activity+json'
-        format.json { render status: 200, json: Yajl::Encoder.encode(contents) }
+        format.json { render status: :ok, json: Yajl::Encoder.encode(contents) }
       end
     end
 

@@ -9,7 +9,9 @@ class V1::OpportunitiesController < V1::BaseController
     end
   end
 
-  private def id
-    params.require(:id)
-  end
+  private
+
+    def id
+      params.require(:id)
+    end
 end

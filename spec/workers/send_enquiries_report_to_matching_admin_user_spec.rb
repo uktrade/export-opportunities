@@ -46,12 +46,14 @@ RSpec.describe SendEnquiriesReportToMatchingAdminUser, :elasticsearch, :commit, 
     expect(valid_zip?(last_delivery.attachments[0].filename)).to eq(true)
   end
 
-  private def valid_zip?(file)
-    zip = Zip::File.open(file)
-    true
-  rescue StandardError
-    false
-  ensure
-    zip&.close
-  end
+  private 
+
+    def valid_zip?(file)
+      zip = Zip::File.open(file)
+      true
+    rescue StandardError
+      false
+    ensure
+      zip&.close
+    end
 end

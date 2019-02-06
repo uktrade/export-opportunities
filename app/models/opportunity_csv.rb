@@ -48,65 +48,68 @@ class OpportunityCSV
     end
   end
 
-  private def header
-    CSV_HEADERS.join(',') + "\n"
-  end
+  private
 
-  private def row_for(opportunity)
-    line = [
-      format_datetime(opportunity.created_at),
-      format_datetime(opportunity.first_published_at),
-      format_date(opportunity.updated_at),
-      opportunity.title,
-      opportunity.enquiries_count.to_i,
-      @service_provider_lookup[opportunity.service_provider_id],
-      @contacts_lookup[opportunity.id],
-      @author_lookup[opportunity.author_id],
-      format_date(opportunity.response_due_on),
-      @countries_lookup[opportunity.id],
-      @sectors_lookup[opportunity.id],
-      humanize_status(opportunity.status),
-    ]
-
-    CSV.generate_line(line)
-  end
-
-  private def format_datetime(datetime)
-    datetime.nil? ? nil : datetime.to_s(:db)
-  end
-
-  private def format_date(date)
-    date.nil? ? nil : date.strftime('%Y/%m/%d')
-  end
-
-  private def humanize_status(status)
-    return '' unless status
-    case status
-    when 'publish'
-      'Published'
-    else
-      status.titleize
+    def header
+      CSV_HEADERS.join(',') + "\n"
     end
-  end
 
-  private def build_contacts_hash
-    ActiveRecord::Base
-      .connection
-      .select_rows("SELECT opportunity_id, STRING_AGG(email, ',') FROM contacts GROUP BY opportunity_id")
-      .to_h
-  end
+    def row_for(opportunity)
+      line = [
+        format_datetime(opportunity.created_at),
+        format_datetime(opportunity.first_published_at),
+        format_date(opportunity.updated_at),
+        opportunity.title,
+        opportunity.enquiries_count.to_i,
+        @service_provider_lookup[opportunity.service_provider_id],
+        @contacts_lookup[opportunity.id],
+        @author_lookup[opportunity.author_id],
+        format_date(opportunity.response_due_on),
+        @countries_lookup[opportunity.id],
+        @sectors_lookup[opportunity.id],
+        humanize_status(opportunity.status),
+      ]
 
-  private def build_countries_hash
-    ActiveRecord::Base
-      .connection
-      .select_rows("SELECT countries_opportunities.opportunity_id, STRING_AGG(countries.name, ',' ORDER BY name) FROM countries_opportunities INNER JOIN countries on (countries_opportunities.country_id = countries.id) GROUP BY countries_opportunities.opportunity_id")
-      .to_h
-  end
+      CSV.generate_line(line)
+    end
 
-  private def build_sectors_hash
-    ActiveRecord::Base
-      .connection
-      .select_rows("SELECT opportunities_sectors.opportunity_id, STRING_AGG(sectors.name, ',' ORDER BY name) FROM opportunities_sectors INNER JOIN sectors on (opportunities_sectors.sector_id = sectors.id) GROUP BY opportunities_sectors.opportunity_id")
-      .to_h
-  end
+    def format_datetime(datetime)
+      datetime.nil? ? nil : datetime.to_s(:db)
+    end
+
+    def format_date(date)
+      date.nil? ? nil : date.strftime('%Y/%m/%d')
+    end
+
+    def humanize_status(status)
+      return '' unless status
+
+      case status
+      when 'publish'
+        'Published'
+      else
+        status.titleize
+      end
+    end
+
+    def build_contacts_hash
+      ActiveRecord::Base
+        .connection
+        .select_rows("SELECT opportunity_id, STRING_AGG(email, ',') FROM contacts GROUP BY opportunity_id")
+        .to_h
+    end
+
+    def build_countries_hash
+      ActiveRecord::Base
+        .connection
+        .select_rows("SELECT countries_opportunities.opportunity_id, STRING_AGG(countries.name, ',' ORDER BY name) FROM countries_opportunities INNER JOIN countries on (countries_opportunities.country_id = countries.id) GROUP BY countries_opportunities.opportunity_id")
+        .to_h
+    end
+
+    def build_sectors_hash
+      ActiveRecord::Base
+        .connection
+        .select_rows("SELECT opportunities_sectors.opportunity_id, STRING_AGG(sectors.name, ',' ORDER BY name) FROM opportunities_sectors INNER JOIN sectors on (opportunities_sectors.sector_id = sectors.id) GROUP BY opportunities_sectors.opportunity_id")
+        .to_h
+    end
 end

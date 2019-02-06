@@ -29,30 +29,33 @@ class Admin::OpportunityDownloadsController < Admin::BaseController
     redirect_to action: 'new'
   end
 
-  private def from_params
-    params.require(:created_at_from).permit(:year, :month, :day)
-  end
+  private
 
-  private def to_params
-    params.require(:created_at_to).permit(:year, :month, :day)
-  end
+    def from_params
+      params.require(:created_at_from).permit(:year, :month, :day)
+    end
 
-  private def download_filename
-    "eig-opportunities-#{from.strftime('%Y-%m-%d')}-#{to.strftime('%Y-%m-%d')}.csv"
-  end
+    def to_params
+      params.require(:created_at_to).permit(:year, :month, :day)
+    end
 
-  private def from
-    @from ||= parse_date(from_params)
-  end
+    def download_filename
+      "eig-opportunities-#{from.strftime('%Y-%m-%d')}-#{to.strftime('%Y-%m-%d')}.csv"
+    end
 
-  private def to
-    @to ||= parse_date(to_params)
-  end
+    def from
+      @from ||= parse_date(from_params)
+    end
 
-  private def parse_date(params)
-    raise ArgumentError, 'Invalid date: year was blank' if params[:year].blank?
-    raise ArgumentError, 'Invalid date: month was blank' if params[:month].blank?
-    raise ArgumentError, 'Invalid date: day was blank' if params[:day].blank?
-    Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
-  end
+    def to
+      @to ||= parse_date(to_params)
+    end
+
+    def parse_date(params)
+      raise ArgumentError, 'Invalid date: year was blank' if params[:year].blank?
+      raise ArgumentError, 'Invalid date: month was blank' if params[:month].blank?
+      raise ArgumentError, 'Invalid date: day was blank' if params[:day].blank?
+
+      Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
+    end
 end

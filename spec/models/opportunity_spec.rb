@@ -113,22 +113,4 @@ RSpec.describe Opportunity do
     end
   end
 
-  describe '#as_indexed_json' do
-    it 'returns only the keys we want' do
-      require 'set'
-
-      opportunity = create(:opportunity)
-      opportunity.sectors = create_list(:sector, 2)
-      opportunity.countries = create_list(:country, 2)
-      opportunity.types = create_list(:type, 2)
-      opportunity.values = [create(:value)]
-
-      returned = opportunity.as_indexed_json
-
-      permitted_keys = Set.new %w[title teaser description countries sectors types values created_at updated_at status response_due_on first_published_at source]
-      returned_keys = Set.new(returned.keys)
-
-      expect(permitted_keys).to eq returned_keys
-    end
-  end
 end

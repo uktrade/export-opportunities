@@ -2,7 +2,7 @@ class AtomOpportunityQueryDecorator < SimpleDelegator
   def initialize(query, view_context)
     @query = query.preload(:sectors).preload(:author).reorder(updated_at: :desc)
     super(@query)
-    
+
     @view_context = view_context
     @params = view_context.params
   end

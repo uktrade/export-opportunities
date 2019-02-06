@@ -10,19 +10,16 @@ class EnquiryMailer < ApplicationMailer
 
     subject = "Enquiry from #{@enquiry.company_name}: action required within 5 working days"
 
-    args = if service_provider_exception(enquiry)
-             {
-               template_name: 'send_enquiry_seller_details',
-               to: email_addresses,
-               subject: subject,
-             }
-           else
-             {
-               template_name: 'send_enquiry',
-               to: email_addresses,
-               subject: subject,
-             }
-           end
+    args = {
+      to: email_addresses,
+      subject: subject,
+    }
+
+    args[:template_name] = if service_provider_exception(enquiry)
+                             'send_enquiry_seller_details'
+                           else
+                             'send_enquiry'
+                           end
 
     if Figaro.env.enquiries_cc_email.present?
       args[:cc] = Figaro.env.enquiries_cc_email
@@ -31,9 +28,11 @@ class EnquiryMailer < ApplicationMailer
     mail(args)
   end
 
-  private def service_provider_exception(enquiry)
-    service_provider_id = enquiry.opportunity.service_provider.id
-    excepted_service_providers = Figaro.env.PTU_EXEMPT_SERVICE_PROVIDERS!
-    excepted_service_providers.split(',').map(&:to_i).include? service_provider_id
-  end
+  private
+
+    def service_provider_exception(enquiry)
+      service_provider_id = enquiry.opportunity.service_provider.id
+      excepted_service_providers = Figaro.env.PTU_EXEMPT_SERVICE_PROVIDERS!
+      excepted_service_providers.split(',').map(&:to_i).include? service_provider_id
+    end
 end

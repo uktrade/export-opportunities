@@ -50,9 +50,9 @@ class Subscription < ApplicationRecord
   has_and_belongs_to_many :sectors
   has_and_belongs_to_many :types
   has_and_belongs_to_many :values
-  has_many :notifications, class_name: 'SubscriptionNotification'
+  has_many :notifications, class_name: 'SubscriptionNotification', dependent: :destroy
 
-  belongs_to :user, required: true
+  belongs_to :user, optional: false
 
   delegate :email, to: :user
 
@@ -72,21 +72,9 @@ class Subscription < ApplicationRecord
     SubscriptionMailer
   end
 
-  def as_indexed_json(_ = {})
-    as_json(
-      only: %i[search_term confirmed_at unsubscribed_at title],
-      include: {
-        countries: { only: :id },
-        types: { only: :id },
-        sectors: { only: :id },
-        values: { only: :id },
-      }
-    )
-  end
-
   protected
 
-  def confirmation_required?
-    false
-  end
+    def confirmation_required?
+      false
+    end
 end

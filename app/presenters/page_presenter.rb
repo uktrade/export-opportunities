@@ -21,7 +21,7 @@ class PagePresenter < BasePresenter
   end
 
   def highlight_words(content, words)
-    words.reverse.each do |word|
+    words.reverse_each do |word|
       content = content.gsub(Regexp.new("\\b#{word}\\b", 'i'), content_tag('span', word, class: 'highlight'))
     end
     content.html_safe
@@ -29,10 +29,10 @@ class PagePresenter < BasePresenter
 
   private
 
-  def create_breadcrumbs
-    [
-      { title: 'Home', slug: 'https://www.great.gov.uk/' },
-      { title: 'Export Opportunities', slug: '/' },
-    ]
-  end
+    def create_breadcrumbs
+      [
+        { title: 'Home', slug: 'https://www.great.gov.uk/' },
+        { title: 'Export Opportunities', slug: '/' },
+      ]
+    end
 end

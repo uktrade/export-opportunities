@@ -2,7 +2,7 @@ require 'uri'
 require 'csv'
 require 'rubygems'
 require 'net/http'
-require 'uri'
+require 'cgi'
 
 namespace :azure do
   desc 'Update list with sensitive terms definitions from file'
@@ -10,7 +10,8 @@ namespace :azure do
     arr_file = CSV.parse(open(args[:filename]))
     arr_file.each do |line|
       next unless line[0]
-      element = URI.encode(line[0].downcase)
+
+      element = CGI.escape(line[0].downcase)
       uri = uri(element, args[:list_id])
 
       http = Net::HTTP.new(uri.host, uri.port)

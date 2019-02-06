@@ -19,11 +19,11 @@ class NullFilter
     []
   end
 
-  def regions(_)
+  def regions(_country_list)
     []
   end
 
-  def reduced_countries(_)
+  def reduced_countries(_country_list)
     []
   end
 end

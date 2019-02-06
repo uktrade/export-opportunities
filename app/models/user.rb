@@ -7,8 +7,8 @@ class User < ApplicationRecord
     devise :rememberable, :omniauthable, omniauth_providers: [:exporting_is_great]
   end
 
-  has_many :enquiries, -> { order(:created_at) }
-  has_many :subscriptions
+  has_many :enquiries, inverse_of: :user, -> { order(:created_at) }
+  has_many :subscriptions, dependent: :destroy
 
   validates :email, presence: true
   validates :uid, uniqueness: { scope: :provider }, allow_nil: true

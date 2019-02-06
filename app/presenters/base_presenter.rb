@@ -8,7 +8,9 @@ class BasePresenter < ActionView::Base
     value.present? && value != 'undefined' ? value : default
   end
 
-  private def h
-    ApplicationController.helpers
-  end
+  private
+
+    def h
+      ApplicationController.helpers
+    end
 end

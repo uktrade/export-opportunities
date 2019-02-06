@@ -37,11 +37,11 @@ class EmailNotificationsController < ApplicationController
 
     @paged_results = @paginatable_results.page(params[:paged]).per(10)
     @page = PagePresenter.new(content)
-    @results = OpportunitySearchResultsPresenter.new(content, { results: @paged_results, limit: 0, total: @paged_results.total_count, sort_by: ""})
+    @results = OpportunitySearchResultsPresenter.new(content, results: @paged_results, limit: 0, total: @paged_results.total_count, sort_by: '')
 
-    #@results.found_message - string
-    #@results.found
-    #@paged_results
+    # @results.found_message - string
+    # @results.found
+    # @paged_results
     render layout: 'results', locals: {
       content: content['show'],
     }
@@ -70,17 +70,19 @@ class EmailNotificationsController < ApplicationController
     }
   end
 
-  private def reason_param
-    reason = params.fetch(:reason)
-    reason if Subscription.unsubscribe_reasons.keys.include?(reason)
-  end
+  private
 
-  private def every_opportunity_subscription?(subscriptions)
-    subscriptions.each do |subscription|
-      if subscription.search_term.blank? && subscription.countries.size.zero? && subscription.types.size.zero? && subscription.values.size.zero? && subscription.sectors.size.zero?
-        return true
-      end
+    def reason_param
+      reason = params.fetch(:reason)
+      reason if Subscription.unsubscribe_reasons.key?(reason)
     end
-    false
-  end
+
+    def every_opportunity_subscription?(subscriptions)
+      subscriptions.each do |subscription|
+        if subscription.search_term.blank? && subscription.countries.size.zero? && subscription.types.size.zero? && subscription.values.size.zero? && subscription.sectors.size.zero?
+          return true
+        end
+      end
+      false
+    end
 end

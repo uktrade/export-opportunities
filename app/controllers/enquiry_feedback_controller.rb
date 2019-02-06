@@ -27,7 +27,7 @@ class EnquiryFeedbackController < ApplicationController
 
   private
 
-  def enquiry_feedback_params
-    @_enquiry_feedback_params ||= EncryptedParams.decrypt(params[:q])
-  end
+    def enquiry_feedback_params
+      EncryptedParams.decrypt(params[:q])
+    end
 end
