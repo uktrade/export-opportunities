@@ -53,11 +53,11 @@ class ApplicationController < ActionController::Base
   def data_sync_check
     # Set up redis
     @redis ||= Redis.new(url: Figaro.env.redis_url)
-    response = { 
-                  git_revision: ExportOpportunities::REVISION,
-                  status:       'OK', 
-                  status_code:  200 
-                }
+    response = {
+      git_revision: ExportOpportunities::REVISION,
+      status: 'OK',
+      status_code: 200,
+    }
 
     # Do databases match? If not, save disparity data to 'result' key
     response[:result] = missing_data
@@ -77,7 +77,6 @@ class ApplicationController < ActionController::Base
         response[:status] = 'error'
         response[:status_code] = 500
       end
-    end
     end
 
     render json: response, status: response[:status_code]
@@ -313,5 +312,4 @@ class ApplicationController < ActionController::Base
 
       ((Time.zone.now - Time.zone.parse(latest_sidekiq_failure)) / 86_400)
     end
-
 end

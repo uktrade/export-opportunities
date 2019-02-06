@@ -2,7 +2,6 @@ class Enquiry < ApplicationRecord
   belongs_to :opportunity, counter_cache: :enquiries_count, optional: false
   belongs_to :user
   attr_accessor :status
-  attr_accessor :response_status
 
   # enquiry feedback is the response from users at the impact email links
   has_one :feedback, class_name: 'EnquiryFeedback', dependent: :destroy

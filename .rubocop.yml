@@ -89,14 +89,6 @@ Naming/UncommunicativeMethodParamName:
   Exclude:
     - app/controllers/api/activity_stream_controller.rb
 
-Lint/DuplicateMethods:
-  Exclude:
-    - app/models/enquiry.rb
-
-Naming/UncommunicativeMethodParamName:
-  Exclude:
-    - app/controllers/api/activity_stream_controller.rb
-
 Security/Open:
   Exclude:
     - lib/tasks/email_alerts_cleanup.rake

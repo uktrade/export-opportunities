@@ -1,6 +1,8 @@
 class OpportunityPresenter < PagePresenter
   include ApplicationHelper
-  attr_reader :title, :teaser, :description, :source, :buyer_name, :buyer_address, :countries, :tender_value, :tender_url, :target_url, :opportunity_cpvs, :sectors, :sign_off, :created_at
+  attr_reader :title, :teaser, :buyer_name, :buyer_address,
+    :countries, :tender_value, :tender_url, :target_url, :opportunity_cpvs,
+    :sectors, :sign_off, :created_at
 
   delegate :expired?, to: :opportunity
 
@@ -92,7 +94,11 @@ class OpportunityPresenter < PagePresenter
     guides = opportunity.countries.with_exporting_guide
     links = []
     if guides.length > 5
-      links.push(h.link_to('Country guides', 'https://www.gov.uk/government/collections/exporting-country-guides', target: '_blank'), rel: 'noopener'
+      links.push(
+        h.link_to('Country guides',
+          'https://www.gov.uk/government/collections/exporting-country-guides',
+          target: '_blank', rel: 'noopener')
+      )
     else
       guides.each do |country|
         link = link_to country.name, "https://www.gov.uk#{country.exporting_guide_path}", target: '_blank', rel: 'noopener'
