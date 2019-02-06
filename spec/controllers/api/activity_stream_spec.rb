@@ -21,17 +21,15 @@ def auth_header(ts, key_id, secret_key, uri, payload)
   )
 end
 
-RSpec.describe Api::ActivityStreamController, type: :controller do
+RSpec.describe Api::ActivityStreamController, type: :controller, focus: true do
   describe 'GET feed controller if activity_stream is not enabled' do
     it 'responds with a 403 error' do
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       expect(response.status).to eq(403)
       expect(response.body).to eq(%({"message":"Activity Stream is disabled"}))
     end
   end
-end
 
-RSpec.describe Api::ActivityStreamController, type: :controller do
   describe 'GET feed controller if activity_stream is enabled' do
     before :each do
       allow(Figaro.env).to receive('ACTIVITY_STREAM_ENABLED').and_return('true')
@@ -41,32 +39,33 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       # The whitelist is 0.0.0.0, and we reject all requests that don't have
       # 0.0.0.0 as the second-to-last IP in X-Fowarded-For, as this isn't
       # spoofable in PaaS
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       expect(response.body).to eq(%({"message":"Connecting from unauthorized IP"}))
 
       @request.headers['X-Forwarded-For'] = '1.2.3.4'
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       expect(response.body).to eq(%({"message":"Connecting from unauthorized IP"}))
 
       @request.headers['X-Forwarded-For'] = '0.0.0.0'
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       expect(response.body).to eq(%({"message":"Connecting from unauthorized IP"}))
 
       @request.headers['X-Forwarded-For'] = '1.2.3.4, 0.0.0.0'
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       expect(response.body).to eq(%({"message":"Connecting from unauthorized IP"}))
 
       @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4, 123.123.123'
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       expect(response.body).to eq(%({"message":"Connecting from unauthorized IP"}))
 
       @request.headers['X-Forwarded-For'] = '1.2.3.4, 123.123.123, 0.0.0.0'
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       expect(response.body).to eq(%({"message":"Connecting from unauthorized IP"}))
     end
+
     it 'responds with a 401 error if Authorization header is not set' do
       @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Authorization header is missing"}))
     end
@@ -74,52 +73,52 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     it 'responds with a 401 if Authorization header in invalid format' do
       @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk'  # Should have a space after
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Invalid header"}))
 
       @request.headers['Authorization'] = 'Hawk  '  # Should not have two spaces after
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Invalid header"}))
 
       @request.headers['Authorization'] = 'Hawk a'
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Invalid header"}))
 
       @request.headers['Authorization'] = 'Hawk b='
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Invalid header"}))
 
       @request.headers['Authorization'] = 'Hawk b="'
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Invalid header"}))
 
       @request.headers['Authorization'] = 'Hawk b="a" c="d"'  # Should have commas
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Invalid header"}))
 
       @request.headers['Authorization'] = 'Hawk, b="a", c="d"'  # Should not have comma after Hawk
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Invalid header"}))
 
       @request.headers['Authorization'] = 'Hawk b="a",c="d"'  # Should have space after comma
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Invalid header"}))
 
       @request.headers['Authorization'] = 'Hawk b="a", c="d" '  # Should not have trailing space
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Invalid header"}))
 
       @request.headers['Authorization'] = 'Hawk B="a"'  # Keys must be lower case
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Invalid header"}))
 
@@ -127,10 +126,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        '/api/activity_stream',
+        activity_stream_enquiries_path,
         '',
       ).sub('Hawk ', 'AWS ')
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Invalid header"}))
@@ -139,10 +138,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        '/api/activity_stream',
+        activity_stream_enquiries_path,
         '',
       ).sub('Hawk ', ' Hawk ')  # Should not have leading space
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Invalid header"}))
@@ -151,10 +150,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        '/api/activity_stream',
+        activity_stream_enquiries_path,
         '',
       ).sub('Hawk ', '')
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Invalid header"}))
@@ -163,10 +162,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        '/api/activity_stream',
+        activity_stream_enquiries_path,
         '',
       ).sub('Hawk ', ', ')
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Invalid header"}))
@@ -175,10 +174,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        '/api/activity_stream',
+        activity_stream_enquiries_path,
         '',
       ).sub('Hawk ', '", ')
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Invalid header"}))
@@ -190,10 +189,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i - 61,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        '/api/activity_stream',
+        activity_stream_enquiries_path,
         '',
       )
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Stale ts"}))
@@ -202,7 +201,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     it 'responds with a 401 if Authorization header misses ts' do
       @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk mac="a", hash="b", nonce="c", id="d"'
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(response.status).to eq(401)
       expect(response.body).to include("Missing ts")
@@ -211,7 +210,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     it 'responds with a 401 if Authorization header has non integer ts' do
       @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk ts="a", mac="a", hash="b", nonce="c", id="d"'
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(response.status).to eq(401)
       expect(response.body).to include("Invalid ts")
@@ -220,7 +219,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     it 'responds with a 401 if Authorization header has empty ts' do
       @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk ts="", mac="a", hash="b", nonce="c", id="d"'
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(response.status).to eq(401)
       expect(response.body).to include("Missing ts")
@@ -229,7 +228,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     it 'responds with a 401 if Authorization header misses mac' do
       @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk ts="1", hash="b", nonce="c", id="d"'
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(response.status).to eq(401)
       expect(response.body).to include("Missing mac")
@@ -238,7 +237,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     it 'responds with a 401 if Authorization header has empty mac' do
       @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk ts="1", mac="", hash="b", nonce="c", id="d"'
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(response.status).to eq(401)
       expect(response.body).to include("Missing mac")
@@ -247,7 +246,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     it 'responds with a 401 if Authorization header misses hash' do
       @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk ts="1", mac="a", nonce="c", id="d"'
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(response.status).to eq(401)
       expect(response.body).to include("Missing hash")
@@ -256,7 +255,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     it 'responds with a 401 if Authorization header has empty hash' do
       @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk ts="1", mac="a", hash="", nonce="c", id="d"'
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(response.status).to eq(401)
       expect(response.body).to include("Missing hash")
@@ -265,7 +264,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     it 'responds with a 401 if Authorization header misses nonce' do
       @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk ts="1", mac="a", id="d"'
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(response.status).to eq(401)
       expect(response.body).to include("Missing hash")
@@ -274,7 +273,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     it 'responds with a 401 if Authorization header has empty nonce' do
       @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk ts="1", mac="a", nonce="", id="d"'
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(response.status).to eq(401)
       expect(response.body).to include("Missing hash")
@@ -283,7 +282,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     it 'responds with a 401 if Authorization header misses id' do
       @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk ts="1", mac="a", hash="b", nonce="c"'
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(response.status).to eq(401)
       expect(response.body).to include("Missing id")
@@ -292,7 +291,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
     it 'responds with a 401 if Authorization header has empty id' do
       @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
       @request.headers['Authorization'] = 'Hawk ts="1", mac="a", hash="b", nonce="c", id=""'
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(response.status).to eq(401)
       expect(response.body).to include("Missing id")
@@ -304,10 +303,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID + 'something-incorrect',
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        '/api/activity_stream',
+        activity_stream_enquiries_path,
         '',
       )
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Unidentified id"}))
@@ -319,10 +318,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY + 'something-incorrect',
-        '/api/activity_stream',
+        activity_stream_enquiries_path,
         '',
       )
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(response.status).to eq(401)
       expect(response.body).to include("Invalid mac")
@@ -334,10 +333,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        '/api/activity_stream',
+        activity_stream_enquiries_path,
         'something-incorrect',
       )
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(response.status).to eq(401)
       expect(response.body).to include("Invalid hash")
@@ -349,14 +348,14 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        '/api/activity_stream',
+        activity_stream_enquiries_path,
         '',
       )
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(response.status).to eq(200)
 
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       expect(response.status).to eq(401)
       expect(response.body).to eq(%({"message":"Invalid nonce"}))
     end
@@ -373,11 +372,11 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        '/api/activity_stream',
+        activity_stream_enquiries_path,
         '',
       )
       begin
-        get :index, params: { format: :json }
+        get :enquiries, params: { format: :json }
       rescue SocketError => ex
       end
       expect(ex.backtrace.to_s).to include('/redis/')
@@ -389,10 +388,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        '/api/activity_stream',
+        activity_stream_enquiries_path,
         '',
       )
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(JSON.parse(response.body)['orderedItems']).to eq([])
       expect(response.headers['Content-Type']).to eq('application/activity+json')
@@ -406,10 +405,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        '/api/activity_stream',
+        activity_stream_enquiries_path,
         '',
       )
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(JSON.parse(response.body)['orderedItems']).to eq([])
     end
@@ -422,10 +421,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        '/api/activity_stream',
+        activity_stream_enquiries_path,
         '',
       )
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
 
       expect(JSON.parse(response.body)['orderedItems']).to eq([])
     end
@@ -444,10 +443,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        '/api/activity_stream',
+        activity_stream_enquiries_path,
         '',
       )
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       feed_hash = JSON.parse(response.body)
 
       items = feed_hash['orderedItems']
@@ -484,10 +483,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        '/api/activity_stream',
+        activity_stream_enquiries_path,
         '',
       )
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       feed_hash = JSON.parse(response.body)
 
       items = feed_hash['orderedItems']
@@ -516,10 +515,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        '/api/activity_stream',
+        activity_stream_enquiries_path,
         '',
       )
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       feed_hash = JSON.parse(response.body)
 
       items = feed_hash['orderedItems']
@@ -549,10 +548,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        '/api/activity_stream',
+        activity_stream_enquiries_path,
         '',
       )
-      get :index, params: { format: :json }
+      get :enquiries, params: { format: :json }
       feed_hash_1 = JSON.parse(response.body)
 
       expect(feed_hash_1['orderedItems'].length).to eq(20)
@@ -564,10 +563,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        '/api/activity_stream?search_after=1220270462.344590_2943',
+        '/api/activity_stream/enquiries?search_after=1220270462.344590_2943',
         '',
       )
-      get :index, params: { format: :json, search_after: '1220270462.344590_2943' }
+      get :enquiries, params: { format: :json, search_after: '1220270462.344590_2943' }
       feed_hash_2 = JSON.parse(response.body)
       expect(feed_hash_2.key?('next')).to eq(true)
       expect(feed_hash_2['orderedItems'][0]['id']).to eq('dit:exportOpportunities:Enquiry:2944:Create')
@@ -576,10 +575,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Time.now.getutc.to_i,
         Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
         Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-        '/api/activity_stream?search_after=1220270462.344590_2944',
+        '/api/activity_stream/enquiries?search_after=1220270462.344590_2944',
         '',
       )
-      get :index, params: { format: :json, search_after: '1220270462.344590_2944' }
+      get :enquiries, params: { format: :json, search_after: '1220270462.344590_2944' }
       feed_hash_3 = JSON.parse(response.body)
       expect(feed_hash_3.key?('next')).to eq(false)
       expect(feed_hash_3['orderedItems']).to eq([])
