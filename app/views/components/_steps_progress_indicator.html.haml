@@ -1,0 +1,29 @@
+-# Use in template similar to this...
+-# render partial: "components/steps_progress_indicator", locals: { progress: { steps: ['one', 'two', 'three'], current: 2 } }
+
+.steps-progress-indicator
+  %progress.verbose{ :max => progress[:steps].length, :value => progress[:current] }
+    You are on
+    =progress[:current]
+    of
+    =progress[:steps].length
+    in this process
+
+  %p#steps-progress-explanation.verbose
+    List of steps required to complete the process:
+
+  %ol{ :aria => { :labelledby => "steps-progress-explanation" } }
+    - progress[:steps].each.with_index(1) do | step, index |
+      - if index < progress[:current]
+        %li.complete{ item: index }
+          %span.verbose
+            Completed:
+          %span= step
+      - elsif index == progress[:current]
+        %li.current{ item: index }
+          %span.verbose
+            Current:
+          %span= step
+      - else
+        %li{ item: index }
+          %span= step
