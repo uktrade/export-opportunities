@@ -72,7 +72,7 @@ module Api
         if enquiries.empty?
           {}
         else
-          { next: "#{request.base_url}#{request.env['PATH_INFO']}?search_after=#{to_search_after(enquiries[-1])}" }
+          { next: "#{request.base_url}#{request.env['PATH_INFO']}?search_after=#{to_search_after(enquiries[-1], :created_at)}" }
         end
       )
       respond_200 contents
@@ -84,17 +84,19 @@ module Api
       search_after = params.fetch(:search_after, '0.000000_0')
       search_after_time_str, search_after_id_str = search_after.split('_')
       search_after_time = Float(search_after_time_str)
-      search_after_id = Integer(search_after_id_str)
 
-      opportunities = Opportunity.where('created_at > ? OR (created_at = to_timestamp(?) AND id > ?)',
-        search_after_time, search_after_time, search_after_id)
+      opportunities = Opportunity.published.applicable
+        .where('first_published_at > to_timestamp(?) OR (first_published_at = to_timestamp(?) AND cast(id AS varchar) > cast(? AS varchar))',
+          search_after_time, search_after_time, search_after_id_str)
+        .order('first_published_at ASC, id ASC')
+        .take(MAX_PER_PAGE)
 
       items = opportunities.map { |opportunity| opportunity_to_activity(opportunity) }
       contents = to_activity_collection(items).merge(
         if opportunities.empty?
           {}
         else
-          { next: "#{request.base_url}#{request.env['PATH_INFO']}?search_after=#{to_search_after(opportunities[-1])}" }
+          { next: "#{request.base_url}#{request.env['PATH_INFO']}?search_after=#{to_search_after(opportunities[-1], :first_published_at)}" }
         end
       )
       respond_200 contents
@@ -179,132 +181,27 @@ module Api
       end
 
       # Creates a hash of data for an Opportunity
-      # def opportunity_to_activity(opportunity)
-      #   obj_id = 'dit:exportOpportunities:Opportunity:' + opportunity.id.to_s
-      #   activity_id = obj_id + ':Create'
-      #   {
-      #     'id': activity_id, # Unique Id
-      #     'type': 'Create',
-      #     'published': opportunity.created_at.to_datetime.rfc3339,
-      #     'generator': {
-      #       'type': 'Application',
-      #       'name': 'dit:exportOpportunities',
-      #     },
-      #     'actor': [{ # The Editor is the person who creates it. # Buyer is person it belongs to.
-      #       'id': "dit:exportOpportunities:Editor:#{opportunity.editor.id}",
-      #       'type': ['Person', 'dit:exportOpportunities:Editor'],
-      #       'name': opportunity.name,
-      #       'email': opportunity.email,
-      #       'dit:exportOpportunities:username': opportunity.username,
-      #       'dit:ServiceProvider': {
-      #         'name': opportunity.service_provider.name,
-      #         'dit:partner': opportunity.service_provider.partner,
-      #         'dit:country': {
-      #           'name': opportunity.service_provider.country.name,
-      #           'dit:exportingGuidePath': opportunity.service_provider.country.exporting_guide_path,
-      #           'dit:region':{
-      #             'name': opportunity.service_provider.country.region.name
-      #           },
-      #         }
-      #       }
-      #     }, {
-      #       'type': ['Organization', 'dit:exportOpportunities:Buyer']
-      #       'name': opportunity.buyer_name,
-      #       'address': opportunity.buyer_address,
-      #     }],
-      #     'object': {
-      #       'type': ['Document', 'dit:exportOpportunities:Opportunity'],
-      #       'id': obj_id,
-      #       'name': opportunity.title,
-      #       'url': opportunity_url(opportunity),
-      #       'published': opportunity.created_at.to_datetime.rfc3339,
-      #       'attributedTo': {
-      #         'type': ['Organization', 'dit:exportOpportunities:Buyer']
-      #         'name': opportunity.buyer_name,
-      #         'address': opportunity.buyer_address,
-      #       }
-      #       'generator': {
-      #         'id': "dit:exportOpportunities:Editor:#{opportunity.editor.id}"
-      #         'type': "dit:exportOpportunities:Editor"
-      #       }
-      #       'location': {
-      #         "type": "Country",
-      #         "name": opportunity.countries,
-      #       },
-      #       'published': opportunity.first_published_at,
-      #       'replies': {
-      #         "type": "Collection",
-      #         "totalItems": opportunity.enquiries.count,
-      #         "items": opportunity.enquiries.map do |enquiry|
-      #           {
-      #             'id': "dit:exportOpportunities:Enquiry:#{enquiry.id}",
-      #             'type': "dit:exportOpportunities:Enquiry"
-      #           }
-      #         end
-      #       },
-      #       'startTime': opportunity.first_published_at,
-      #       'endTime': opportunity.response_due_on,
-      #       'summary': opportunity.teaser,
-      #       'content': opportunity.description,
-      #       'updated': opportunity.updated_at,
-      #       'dit:exportOpportunities:status': opportunity.status,
-      #       'dit:ServiceProvider': {
-      #         'name': opportunity.service_provider.name,
-      #         'dit:partner': opportunity.service_provider.partner,
-      #         'dit:country': {
-      #           'name': opportunity.service_provider.country.name,
-      #           'dit:exportingGuidePath': opportunity.service_provider.country.exporting_guide_path,
-      #           'dit:region':{
-      #             'name': opportunity.service_provider.country.region.name
-      #           },
-      #         }
-      #       },
-      #       'dit:exportOpportunities:cpv': {
-      #         'id': opportunity.cpv.id,
-      #         "dit:exportOpportunities:industry",
-      #         "dit:exportOpportunities:industryScheme"
-      #       },
-      #       'dit:exportOpportunities:sectors': opportunity.sectors.map do |sector|
-      #         {
-      #           'id': "dit:exportOpportunities:Sector:#{sector.id}",
-      #           'name': sector.name
-      #         }
-      #       end,
-      #       'dit:exportOpportunities:supplierPreferences': opportunity.supplier_preferences.map do |supplier_preference|
-      #         {
-      #           'id': "dit:exportOpportunities:SupplierPreference:#{supplier_preference.id}",
-      #           'name': supplier_preference.name
-      #         }
-      #       end,
-      #       'dit:exportOpportunities:values': opportunity.values.map do |value|
-      #         {
-      #           'id': "dit:exportOpportunities:Value:#{value.id}",
-      #           'name': value.name
-      #         }
-      #       end,
-      #       'dit:exportOpportunities:type': opportunity.types.map do |type|
-      #         {
-      #           'id': "dit:exportOpportunities:Type:#{type.id}",
-      #           'name': type.name
-      #         }
-      #       end,
-      #       'dit:exportOpportunities:source': opportunity.source,
-      #       'dit:exportOpportunities:language': opportunity.language,
-      #       'dit:exportOpportunities:tenderValue': opportunity.tender_value,
-      #       'dit:exportOpportunities:tenderUrl': opportunity.tender_url,
-      #       'dit:exportOpportunities:tenderSource': opportunity.tender_source,
-      #       'dit:exportOpportunities:tenderContent': opportunity.tender_content,
-      #       'dit:exportOpportunities:ocid': opportunity.ocid,
-      #       'dit:exportOpportunities:targetUrl': opportunity.target_url,
-      #       'dit:exportOpportunities:originalLanguage': opportunity.original_language,
-      #       'dit:exportOpportunities:requestType': opportunity.request_type,
-      #       'dit:exportOpportunities:tender': opportunity.tender,
-      #     },
-      #   }
-      # end
+      def opportunity_to_activity(opportunity)
+        obj_id = 'dit:exportOpportunities:Opportunity:' + opportunity.id.to_s
+        activity_id = obj_id + ':Create'
+        {
+          'id': activity_id, # Unique Id
+          'type': 'Create',
+          'published': opportunity.created_at.to_datetime.rfc3339,
+          'object': {
+            'type': ['Document', 'dit:exportOpportunities:Opportunity'],
+            'id': obj_id,
+            'name': opportunity.title,
+            'url': opportunity_url(opportunity),
+            'endTime': opportunity.response_due_on.to_datetime.rfc3339,
+            'summary': opportunity.teaser,
+            'content': opportunity.description,
+          }
+        }
+      end
 
-      def to_search_after(object)
-        timestamp_str = format('%.6f', object.created_at.to_datetime.to_f)
+      def to_search_after(object, method)
+        timestamp_str = format('%.6f', object.send(method).to_datetime.to_f)
         id_str = object.id.to_s
         "#{timestamp_str}_#{id_str}"
       end
