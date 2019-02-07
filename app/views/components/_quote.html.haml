@@ -4,9 +4,11 @@
   %cite
     %span.name 
       = quote["name"]
-    %span.verbose ,
-    %span.company
+    - if quote["company"].present?
+      %span.verbose ,
+    %span.company<
       = quote["company"]
-    %span.separator ,
-    %span.country
-      = quote["country"]
+    - if quote["country"].present?
+      %span.separator>,
+      %span.country
+        = quote["country"]
