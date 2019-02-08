@@ -148,7 +148,6 @@ RSpec.describe SubscriptionFinder, :elasticsearch, :commit, type: :service do
 
       refresh_elasticsearch
       response = SubscriptionFinder.new.call(opportunity)
-      debugger
 
       expect(response).to include(matching_subscription)
       expect(response).to_not include(non_matching_subscription)
