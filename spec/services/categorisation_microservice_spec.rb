@@ -7,34 +7,17 @@ RSpec.describe CategorisationMicroservice, type: :service do
   end
 
   describe "#call" do
-    #
-    # Sample response:
-    # [
-    #   {
-    #       "sector_id": [
-    #           5,
-    #           20
-    #       ],
-    #       "hsid": 9012,
-    #       "description": "Microscopes (excluding optical microscopes); diffraction apparatus",
-    #       "sectorname": [
-    #           "Biotechnology & Pharmaceuticals",
-    #           "Healthcare & Medical"
-    #       ],
-    #       "cpvid": "38511000"
-    #   }
-    # ]
-    #
+
     it "returns array of results when given a cpv code" do
       first_result = CategorisationMicroservice.new(@cpv).call[0]
-      expect(first_result[:sector_id]).to eq [Sector.first.id, 20]
-      expect(first_result[:hsid]).to eq 9012
-      expect(first_result[:description]).to eq "Microscopes (excluding optical microscopes); diffraction apparatus"
-      expect(first_result[:sectorname]).to eq [
+      expect(first_result["sector_id"]).to eq [5, 20]
+      expect(first_result["hsid"]).to eq 9012
+      expect(first_result["description"]).to eq "Microscopes (excluding optical microscopes); diffraction apparatus"
+      expect(first_result["sectorname"]).to eq [
                                                   "Biotechnology & Pharmaceuticals",
                                                   "Healthcare & Medical"
                                                ]
-      expect(first_result[:cpvid]).to eq "38511000"
+      expect(first_result["cpvid"]).to eq "38511000"
     end
     it "returns error when cpv code provided" do
       response = CategorisationMicroservice.new(nil).call
