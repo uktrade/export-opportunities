@@ -21,15 +21,16 @@ dit.page.results = (new function () {
    * to avoid issues with closures.
    **/
   function enhanceResultFilters() {
+    var $groups = $(".search-results-filters fieldset");
     RESULTS.expanders = [];
-    $groups = $(".search-results-filters fieldset");
-    $labels = $groups.find("legend");
+
     $groups.each(function(index) {
-      RESULTS.expanders.push(new dit.classes.Expander($(this), {
+      var $group = $(this);
+      RESULTS.expanders.push(new dit.classes.Expander($group.find(".field"), {
         closed: false,
-        $control: $labels.eq(index),
+        $control: $group.find("legend"),
         blur: false,
-        controlReplacementEnabled: false
+        wrap: true
       }));
     });
   }
