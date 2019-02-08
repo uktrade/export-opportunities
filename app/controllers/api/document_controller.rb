@@ -45,9 +45,9 @@ module Api
         }
       end
       respond_to do |format|
-        format.json { render json: { result: @result }, status: 200 }
-        format.js { render json: { result: @result }, status: 200 }
-        format.html { render json: { result: @result }, status: 200 }
+        format.json { render json: { result: @result }, status: :ok }
+        format.js { render json: { result: @result }, status: :ok }
+        format.html { render json: { result: @result }, status: :ok }
       end
     end
   end

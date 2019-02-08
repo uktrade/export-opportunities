@@ -18,10 +18,10 @@ module SubscriptionHelper
   # PendingSubscriptionsController#update
   def create_subscription(params, content)
     clean_params = Search.new(params) # Does not run; cleans params
-    form = SubscriptionForm.new({
+    form = SubscriptionForm.new(
       term: clean_params.term,
       filter: clean_params.filter
-    })
+    )
     subscription = CreateSubscription.new.call(form, current_user)
     if form.valid?
       yield(subscription) if block_given?

@@ -1,9 +1,8 @@
 require 'elasticsearch'
 
 class Search
-
   attr_reader :term, :filter
-  # 
+  #
   # Provides search functionality for Opportunities
   #
   # Input: params: url parameters Hash, with accepts keys:
@@ -25,7 +24,7 @@ class Search
     @filter = SearchFilter.new(params)
     @sort_override = sort
     @sort   = clean_sort(params)
-    @boost  = params['boost_search'].present? 
+    @boost  = params['boost_search'].present?
     @limit  = limit
     @paged  = params[:paged]
     @results_only = results_only
@@ -46,20 +45,20 @@ class Search
     # Hash of results and metadata required for HTML results view
     def results_and_metadata(searchable, results)
       {
-        term:    @term,        
-        filter:  @filter,
-        sort:    @sort,
-        boost:   @boost,
+        term: @term,
+        filter: @filter,
+        sort: @sort,
+        boost: @boost,
         results: page(results),
-        total:   results.records.total,
+        total: results.records.total,
         total_without_limit: get_total_without_limit(searchable),
-        country_list: countries_in(results)
+        country_list: countries_in(results),
       }
     end
 
     def search(searchable)
       size = Figaro.env.OPPORTUNITY_ES_MAX_RESULT_WINDOW_SIZE || 100_000
-      searchable.merge!({ size: size })
+      searchable[:size] = size
       Opportunity.__elasticsearch__.search(searchable)
     end
 
@@ -67,7 +66,7 @@ class Search
 
     # Cleans the term parameter
     def clean_term(term = nil)
-      term.present? ? term.delete("'").gsub(alphanumeric_words).to_a.join(' ') : ""
+      term.present? ? term.delete("'").gsub(alphanumeric_words).to_a.join(' ') : ''
     end
 
     # Regex to identify suitable words for term parameter
@@ -79,15 +78,15 @@ class Search
     def clean_sort(params)
       case @sort_override || params[:sort_column_name]
       when 'response_due_on' # Soonest to end first
-        column = 'response_due_on' and order = 'asc'
+        (column = 'response_due_on') && (order = 'asc')
       when 'first_published_at' # Newest posted to oldest
-        column = 'first_published_at' and order = 'desc' 
+        (column = 'first_published_at') && (order = 'desc')
       when 'updated_at' # Most recently updated
-        column = 'updated_at' and order = 'desc' 
+        (column = 'updated_at') && (order = 'desc')
       when 'relevance' # Most relevant first
-        column = 'response_due_on' and order = 'asc' # TODO: Add relevance. Temporary fix
+        (column = 'response_due_on') && (order = 'asc') # TODO: Add relevance. Temporary fix
       else
-        column = 'response_due_on' and order = 'asc'
+        (column = 'response_due_on') && (order = 'asc')
       end
       OpportunitySort.new(default_column: column, default_order: order)
     end
@@ -101,15 +100,15 @@ class Search
         OpportunityIndustrySearchBuilder.new(filter: @filter,
                                              sort: @sort).call
       else
-        OpportunitySearchBuilder.new(term:              @term,
-                                     boost:             @boost,
-                                     sort:              @sort,
-                                     limit:             @limit,
-                                     sectors:           @filter.sectors,
-                                     countries:         @filter.countries,
+        OpportunitySearchBuilder.new(term: @term,
+                                     boost: @boost,
+                                     sort: @sort,
+                                     limit: @limit,
+                                     sectors: @filter.sectors,
+                                     countries: @filter.countries,
                                      opportunity_types: @filter.types,
-                                     values:            @filter.values,
-                                     sources:           @filter.sources).call
+                                     values: @filter.values,
+                                     sources: @filter.sources).call
       end
     end
 
@@ -126,7 +125,7 @@ class Search
 
     def get_total_without_limit(searchable)
       searchable.delete(:terminate_after)
-      total_without_limit = Opportunity.__elasticsearch__.search(searchable).count
+      Opportunity.__elasticsearch__.search(searchable).count
     end
 
     # Use search results to find and return
@@ -154,5 +153,4 @@ class Search
       # sort countries in list by asc name
       country_list.sort_by(&:name)
     end
-
 end

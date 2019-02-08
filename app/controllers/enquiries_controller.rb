@@ -36,38 +36,40 @@ class EnquiriesController < ApplicationController
     end
   end
 
-  private def enquiry_params
-    params.require(:enquiry).permit(%i[
-                                      first_name
-                                      last_name
-                                      company_telephone
-                                      company_name
-                                      company_address
-                                      company_house_number
-                                      company_postcode
-                                      company_url
-                                      existing_exporter
-                                      company_sector
-                                      company_explanation
-                                      data_protection
-                                    ])
-  end
+  private
 
-  private def set_no_cache_headers
-    response.headers['Cache-Control'] = 'no-cache, no-store'
-  end
+    def enquiry_params
+      params.require(:enquiry).permit(%i[
+                                        first_name
+                                        last_name
+                                        company_telephone
+                                        company_name
+                                        company_address
+                                        company_house_number
+                                        company_postcode
+                                        company_url
+                                        existing_exporter
+                                        company_sector
+                                        company_explanation
+                                        data_protection
+                                      ])
+    end
 
-  private def log_cloudfront_headers
-    Rails.logger.debug "RequestId: #{request.headers['X-Request-Id']}"
-    Rails.logger.debug "Referrer: #{request.headers['Referer']}"
+    def set_no_cache_headers
+      response.headers['Cache-Control'] = 'no-cache, no-store'
+    end
 
-    request
-      .headers
-      .select { |h| h[0] =~ /Cloudfront/ }
-      .each { |h| Rails.logger.debug h.join(': ') }
-  end
+    def log_cloudfront_headers
+      Rails.logger.debug "RequestId: #{request.headers['X-Request-Id']}"
+      Rails.logger.debug "Referrer: #{request.headers['Referer']}"
 
-  private def enquiry_current_user
-    current_user
-  end
+      request
+        .headers
+        .select { |h| h[0] =~ /Cloudfront/ }
+        .each { |h| Rails.logger.debug h.join(': ') }
+    end
+
+    def enquiry_current_user
+      current_user
+    end
 end

@@ -4,10 +4,10 @@ class OppsQualityConnector
 
     # input text from OO may contain invalid byte sequence in UTF-8
     quality_text = quality_text.encode('UTF-8',
-                                       'binary',
-                                       invalid: :replace,
-                                       undef: :replace,
-                                       replace: '')
+      'binary',
+      invalid: :replace,
+      undef: :replace,
+      replace: '')
 
     response_body = JSON.parse(
       fetch_response(hostname, quality_api_key, quality_text)
@@ -15,10 +15,10 @@ class OppsQualityConnector
 
     if response_body['flaggedTokens']
       number_errors = response_body['flaggedTokens'].length
-      { 
+      {
         status: 200,
         score: calculate_score(quality_text, number_errors),
-        errors: response_body['flaggedTokens']
+        errors: response_body['flaggedTokens'],
       }
     else
       { status: 404 }

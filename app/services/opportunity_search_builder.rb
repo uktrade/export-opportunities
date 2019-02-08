@@ -1,5 +1,4 @@
 class OpportunitySearchBuilder
-
   # Creates a pair of objects: search query and search sort, for an elastic seach
   # Inputs: ---Optional---
   #         term:       Phrase to be searched
@@ -8,7 +7,7 @@ class OpportunitySearchBuilder
   #         boost:             Boolean, increases "source": 'post' posts when sorting by
   #                            relevance, will be overwritten if there is any sorting applied
   #         countries:         Array of Country slugs to filter by
-  #         opportunity_types: Array of Type slugs to filter by  
+  #         opportunity_types: Array of Type slugs to filter by
   #         values:            Array of Value slugs to filter by
   #         sources:           Array of Sources slugs to filter by
   #         expired:           Boolean, defaults to false, if true also returns expired
@@ -20,17 +19,17 @@ class OpportunitySearchBuilder
   #         digestable by Opportunity.__elasticsearch__.search()
 
   def initialize(term: '',
-                 sort: OpportunitySort.new(default_column: 'first_published_at',
-                                           default_order: 'asc'),
-                 limit: 100,
-                 sectors: [],
-                 countries: [],
-                 opportunity_types: [],
-                 values: [],
-                 sources: [],
-                 expired: false,
-                 status: :published,
-                 boost: false)
+    sort: OpportunitySort.new(default_column: 'first_published_at',
+                              default_order: 'asc'),
+    limit: 100,
+    sectors: [],
+    countries: [],
+    opportunity_types: [],
+    values: [],
+    sources: [],
+    expired: false,
+    status: :published,
+    boost: false)
     @term = term.to_s.strip
     @limit = limit
     @sectors = Array(sectors)
@@ -61,153 +60,153 @@ class OpportunitySearchBuilder
     }
 
     {
-        query: search_query,
-        sort: sort_build,
-        terminate_after: @limit
+      query: search_query,
+      sort: sort_build,
+      terminate_after: @limit,
     }
   end
 
   private
 
-  def sort_build
-    [{ @sort.column.to_sym => { order: @sort.order.to_sym } }]
-  end
+    def sort_build
+      [{ @sort.column.to_sym => { order: @sort.order.to_sym } }]
+    end
 
-  def keyword_build
-    if @term.empty?
-      {
-        match_all: {},
-      }
-    elsif @boost
-      {
-        bool: {
-          should: [
-            { match: { title: { "boost": 5, "query": @term } } },
-            { match: { teaser: { "boost": 2, "query": @term } } },
-            { match: { description: @term } },
-            {
-              "boosting": {
-                "positive": {
-                  "term": {
-                    "source": 'post',
+    def keyword_build
+      if @term.empty?
+        {
+          match_all: {},
+        }
+      elsif @boost
+        {
+          bool: {
+            should: [
+              { match: { title: { "boost": 5, "query": @term } } },
+              { match: { teaser: { "boost": 2, "query": @term } } },
+              { match: { description: @term } },
+              {
+                "boosting": {
+                  "positive": {
+                    "term": {
+                      "source": 'post',
+                    },
                   },
-                },
-                "negative": {
-                  "term": {
-                    "source": 'volume_opps',
+                  "negative": {
+                    "term": {
+                      "source": 'volume_opps',
+                    },
                   },
+                  "negative_boost": 0.1,
                 },
-                "negative_boost": 0.1,
+              },
+            ],
+            minimum_should_match: 2,
+          },
+        }
+      else
+        {
+          multi_match: {
+            query: @term,
+            fields: ['title^5', 'teaser^2', 'description'],
+            operator: 'and',
+          },
+        }
+      end
+    end
+
+    def sector_build
+      if @sectors.present?
+        {
+          bool: {
+            should: {
+              terms: {
+                'sectors.slug': @sectors,
               },
             },
-          ],
-          minimum_should_match: 2,
-        },
-      }
-    else
-      {
-        multi_match: {
-          query: @term,
-          fields: ['title^5', 'teaser^2', 'description'],
-          operator: 'and',
-        },
-      }
+          },
+        }
+      end
     end
-  end
 
-  def sector_build
-    if @sectors.present?
-      {
-        bool: {
-          should: {
-            terms: {
-              'sectors.slug': @sectors,
+    def country_build
+      if @countries.present?
+        {
+          bool: {
+            should: {
+              terms: {
+                'countries.slug': @countries,
+              },
             },
           },
-        },
-      }
+        }
+      end
     end
-  end
 
-  def country_build
-    if @countries.present?
-      {
-        bool: {
-          should: {
-            terms: {
-              'countries.slug': @countries,
+    def opportunity_type_build
+      if @opportunity_types.present?
+        {
+          bool: {
+            should: {
+              terms: {
+                'types.slug': @opportunity_types,
+              },
             },
           },
-        },
-      }
+        }
+      end
     end
-  end
 
-  def opportunity_type_build
-    if @opportunity_types.present?
-      {
-        bool: {
-          should: {
-            terms: {
-              'types.slug': @opportunity_types,
+    def value_build
+      if @values.present?
+        {
+          bool: {
+            should: {
+              terms: {
+                'values.slug': @values,
+              },
             },
           },
-        },
-      }
+        }
+      end
     end
-  end
 
-  def value_build
-    if @values.present?
-      {
-        bool: {
-          should: {
-            terms: {
-              'values.slug': @values,
+    def source_build
+      if @sources.present?
+        {
+          bool: {
+            should: {
+              terms: {
+                'source': @sources,
+              },
             },
           },
-        },
-      }
+        }
+      end
     end
-  end
 
-  def source_build
-    if @sources.present?
-      {
-        bool: {
-          should: {
-            terms: {
-              'source': @sources,
+    def expired_build
+      if @not_expired
+        {
+          range: {
+            'response_due_on': {
+              'gte': 'now/d',
             },
           },
-        },
-      }
+        }
+      end
     end
-  end
 
-  def expired_build
-    if @not_expired
-      {
-        range: {
-          'response_due_on': {
-            'gte': 'now/d',
-          },
-        },
-      }
-    end
-  end
-
-  def status_build
-    if @status == :published
-      {
-        bool: {
-          filter: {
-            terms: {
-              status: ['publish'],
+    def status_build
+      if @status == :published
+        {
+          bool: {
+            filter: {
+              terms: {
+                status: ['publish'],
+              },
             },
           },
-        },
-      }
+        }
+      end
     end
-  end
 end

@@ -1,5 +1,4 @@
 class CreateSubscription
-
   #
   # Creates a subscription
   # Inputs: SubscriptionForm and a User

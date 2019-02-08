@@ -11,7 +11,8 @@ class FilterFormBuilder
   end
 
   def call
-    return nil unless @filter.present? 
+    return nil if @filter.blank?
+
     {
       sectors: filter_sectors,
       countries: filter_countries,
@@ -80,6 +81,7 @@ class FilterFormBuilder
       disabled_sources = ['buyer']
       Opportunity.sources.keys.each do |key|
         next if disabled_sources.include? key
+
         sources.push(slug: key)
       end
       sources

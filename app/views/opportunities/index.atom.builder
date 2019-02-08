@@ -4,7 +4,7 @@ atom_feed(schema_date: 2016, language: 'en-GB', root_url: @query.feed_root_url) 
   feed.updated(@query.feed_updated_at) if @query.feed_updated_at
   feed.link(rel: 'prev', href: @query.prev_page, type: 'application/atom+xml') if @query.prev_page?
   feed.link(rel: 'next', href: @query.next_page, type: 'application/atom+xml') if @query.next_page?
-  
+
   @query.each do |opportunity|
     feed.entry(opportunity, published: opportunity.first_published_at) do |entry|
       entry.title(opportunity.title, type: 'text')
@@ -14,7 +14,7 @@ atom_feed(schema_date: 2016, language: 'en-GB', root_url: @query.feed_root_url) 
         xml.cdata! present_html_or_formatted_text(opportunity.description).html_safe
       end
 
-      if opportunity.author && opportunity.author.name
+      if opportunity.author&.name
         entry.author do |author|
           author.name(opportunity.author.name)
         end

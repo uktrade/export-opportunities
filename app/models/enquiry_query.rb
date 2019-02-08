@@ -14,39 +14,41 @@ class EnquiryQuery
     @enquiries = fetch_enquiries
   end
 
-  private def fetch_enquiries
-    query = if @sort.column == 'opportunity' && !status_selected
-              @scope.joins(:opportunity)
-            else
-              @scope.distinct
-            end
+  private
 
-    order_sql = if @sort.column == 'opportunity'
-                  @count = query.count
-                  "opportunities.title #{@sort.order} NULLS LAST"
-                else
-                  @count = query.count(:all)
-                  "enquiries.#{@sort.column} #{@sort.order} NULLS LAST"
-                end
-    query = query.order(order_sql)
+    def fetch_enquiries
+      query = if @sort.column == 'opportunity' && !status_selected
+                @scope.joins(:opportunity)
+              else
+                @scope.distinct
+              end
 
-    if @status == 'replied'
-      query = query.joins('left outer join enquiry_responses on enquiry_responses.enquiry_id=enquiries.id') unless @sort.column == 'opportunity'
-      query = query.where('enquiry_responses.id is not null and completed_at is not null')
-    elsif @status == 'not_replied'
-      query = query.joins('left outer join enquiry_responses on enquiry_responses.enquiry_id=enquiries.id') unless @sort.column == 'opportunity'
-      query = query.where('enquiry_responses.id is null or completed_at is null')
+      order_sql = if @sort.column == 'opportunity'
+                    @count = query.count
+                    "opportunities.title #{@sort.order} NULLS LAST"
+                  else
+                    @count = query.count(:all)
+                    "enquiries.#{@sort.column} #{@sort.order} NULLS LAST"
+                  end
+      query = query.order(order_sql)
+
+      if @status == 'replied'
+        query = query.joins('left outer join enquiry_responses on enquiry_responses.enquiry_id=enquiries.id') unless @sort.column == 'opportunity'
+        query = query.where('enquiry_responses.id is not null and completed_at is not null')
+      elsif @status == 'not_replied'
+        query = query.joins('left outer join enquiry_responses on enquiry_responses.enquiry_id=enquiries.id') unless @sort.column == 'opportunity'
+        query = query.where('enquiry_responses.id is null or completed_at is null')
+      end
+
+      # Secondary sort order to prevent pagination weirdness
+      query = query.order(created_at: :desc)
+
+      # Without an argument, .count will produce invalid SQL in this context
+
+      query.page(@page).per(@per_page)
     end
 
-    # Secondary sort order to prevent pagination weirdness
-    query = query.order(created_at: :desc)
-
-    # Without an argument, .count will produce invalid SQL in this context
-
-    query.page(@page).per(@per_page)
-  end
-
-  private def status_selected
-    @status == 'replied' || @status == 'not_replied'
-  end
+    def status_selected
+      @status == 'replied' || @status == 'not_replied'
+    end
 end

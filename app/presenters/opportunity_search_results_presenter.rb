@@ -1,5 +1,3 @@
-# coding: utf-8
-
 class OpportunitySearchResultsPresenter < FormPresenter
   include SearchMessageHelper
   attr_reader :found, :term, :unfiltered_search_url
@@ -21,7 +19,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
   # This extend FormPresenter.field_content to allocate when we need
   # to mix content with @filter_data from the controller.
   #
-  # This method selects which component of filter_data to 
+  # This method selects which component of filter_data to
   # merge into which field
   def field_content(name)
     field = super(name)
@@ -42,8 +40,8 @@ class OpportunitySearchResultsPresenter < FormPresenter
 
   # Only show all if there are more than currently viewed
   def view_all_link(url, css_classes = '')
-     if @total > @view_limit
-       link_to "View all (#{@total})", url, 'class': css_classes
+    if @total > @view_limit
+      link_to "View all (#{@total})", url, 'class': css_classes
     end
   end
 
@@ -174,66 +172,65 @@ class OpportunitySearchResultsPresenter < FormPresenter
 
   private
 
-  # Merges @filter_data and content strings from .yml file, then
-  # formats it for display
-  #
-  # Inputs: field:       String, e.g. 'sectors', 'countries'...
-  #         filter_name: String, can be :sectors, :countries, etc...
-  # Output:
-  #  {
-  #    name:        String - filter name e.g. 'type'
-  #    question:    String - label e.g. "Type of opportunity"
-  #    description: String - any description
-  #    options: [   Array of hashes of format:
-  #    {
-  #      name:        #{name}
-  #      label:       #{name} OR "#{name} (#{Opportunity Count})",
-  #      description: #{description}
-  #      value:       #{slug}
-  #      checked:     'true' OR is blank
-  #    }, ... ]
-  #  }
-  def format_filter_checkboxes(field, filter_name)
-    filter = @filter_data[filter_name]
-    field_options = prop(field, 'options')
-    options = []
-    filter[:options].each_with_index do |option, index|
-      # Get field label content if available
-      if field_options.present? && field_options.length > index
-        name = prop(field_options[index], 'label')
-        description = prop(field_options[index], 'description')
-      else
-        name = option[:name]
-        description = nil
+    # Merges @filter_data and content strings from .yml file, then
+    # formats it for display
+    #
+    # Inputs: field:       String, e.g. 'sectors', 'countries'...
+    #         filter_name: String, can be :sectors, :countries, etc...
+    # Output:
+    #  {
+    #    name:        String - filter name e.g. 'type'
+    #    question:    String - label e.g. "Type of opportunity"
+    #    description: String - any description
+    #    options: [   Array of hashes of format:
+    #    {
+    #      name:        #{name}
+    #      label:       #{name} OR "#{name} (#{Opportunity Count})",
+    #      description: #{description}
+    #      value:       #{slug}
+    #      checked:     'true' OR is blank
+    #    }, ... ]
+    #  }
+    def format_filter_checkboxes(field, filter_name)
+      filter = @filter_data[filter_name]
+      field_options = prop(field, 'options')
+      options = []
+      filter[:options].each_with_index do |option, index|
+        # Get field label content if available
+        if field_options.present? && field_options.length > index
+          name = prop(field_options[index], 'label')
+          description = prop(field_options[index], 'description')
+        else
+          name = option[:name]
+          description = nil
+        end
+
+        # Some filters have a count added to the label
+        label = if option[:opportunity_count].blank?
+                  name
+                else
+                  "#{name} (#{option[:opportunity_count]})"
+                end
+
+        # Update initial field
+        formatted_option = {
+          label: label,
+          name: name,
+          description: description,
+          value: option[:slug],
+        }
+
+        if filter[:selected].include? option[:slug]
+          formatted_option[:checked] = 'true'
+        end
+
+        options.push(formatted_option)
       end
-
-      # Some filters have a count added to the label
-      label = if option[:opportunity_count].blank?
-                name
-              else
-                "#{name} (#{option[:opportunity_count]})"
-              end
-
-      # Update initial field
-      formatted_option = {
-        label: label,
-        name: name,
-        description: description,
-        value: option[:slug],
+      {
+        name: filter[:name],
+        question: prop(field, 'question'),
+        description: prop(field, 'description'),
+        options: options,
       }
-
-      if filter[:selected].include? option[:slug]
-        formatted_option[:checked] = 'true'
-      end
-
-      options.push(formatted_option)
     end
-    {
-      name: filter[:name],
-      question: prop(field, 'question'),
-      description: prop(field, 'description'),
-      options: options,
-    }
-  end
-
 end

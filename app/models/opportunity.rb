@@ -18,7 +18,7 @@ class Opportunity < ApplicationRecord
     __elasticsearch__.delete_document
   end
 
-  before_commit on: [:create, :update] do
+  before_commit on: %i[create update] do
     sanitise_description
   end
 
@@ -86,21 +86,20 @@ class Opportunity < ApplicationRecord
   scope :applicable, -> { where('response_due_on >= ?', Time.zone.today) }
   scope :drafted, -> { where(status: Opportunity.statuses[:draft]) }
 
-  belongs_to :service_provider, required: true
-  belongs_to :author, class_name: 'Editor', required: true
+  belongs_to :service_provider, optional: false
+  belongs_to :author, class_name: 'Editor', optional: false
   has_and_belongs_to_many :countries
   has_and_belongs_to_many :sectors
   has_and_belongs_to_many :types
   has_and_belongs_to_many :values
   has_and_belongs_to_many :supplier_preferences
   has_many :contacts, dependent: :destroy
-  has_many :comments, -> { order(:created_at) }, class_name: 'OpportunityComment'
-  has_many :enquiries
-  has_many :subscription_notifications
-  has_many :opportunity_checks
-  has_many :opportunity_sensitivity_checks
-  has_many :opportunity_cpvs
-  has_one :opportunity_buyer
+  has_many :comments, -> { order(:created_at) }, class_name: 'OpportunityComment', inverse_of: :opportunity
+  has_many :enquiries, dependent: :nullify
+  has_many :subscription_notifications, dependent: :destroy
+  has_many :opportunity_checks, dependent: :destroy
+  has_many :opportunity_sensitivity_checks, dependent: :destroy
+  has_many :opportunity_cpvs, dependent: :destroy
 
   accepts_nested_attributes_for :contacts, reject_if: :all_blank
 
@@ -143,6 +142,7 @@ class Opportunity < ApplicationRecord
 
   def slug=(slug)
     return if slug.nil?
+
     self[:slug] = slug.parameterize
   end
 
@@ -159,7 +159,7 @@ class Opportunity < ApplicationRecord
     self.description = description.try(:gsub, /[[:space:]]+/, ' ').try(:gsub, /&nbsp;/i, ' ')
   end
 
-  def as_indexed_json(_ = {})
+  def as_indexed_json(___ = {})
     as_json(
       only: %i[title teaser description created_at updated_at status response_due_on first_published_at source],
       include: {
@@ -189,6 +189,7 @@ class Opportunity < ApplicationRecord
 
   def not_a_url?(target_url)
     return false if target_url.blank?
+
     target_url.downcase.match(%r{^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$}).blank?
   end
 

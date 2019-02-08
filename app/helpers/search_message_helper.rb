@@ -1,5 +1,4 @@
 module SearchMessageHelper
-
   #
   # Shared functions for constructing strings for the view
   #
@@ -55,5 +54,4 @@ module SearchMessageHelper
     country_names = filter.reduced_countries(:name).sort
     region_names.concat(country_names)
   end
-
 end

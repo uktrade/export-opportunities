@@ -202,12 +202,12 @@ Sector.create(slug: 'software-computer-services', name: 'Software & Computer Ser
 Sector.create(slug: 'textiles-interior-textiles-carpets', name: 'Textiles, Interior Textiles & Carpets')
 Sector.create(slug: 'water', name: 'Water')
 
-Sector.find_by_slug('creative-media').try(    :update, featured: true, featured_order: 1)
-Sector.find_by_slug('education-training').try(:update, featured: true, featured_order: 2)
-Sector.find_by_slug('food-drink').try(        :update, featured: true, featured_order: 3)
-Sector.find_by_slug('oil-gas').try(           :update, featured: true, featured_order: 4)
-Sector.find_by_slug('security').try(          :update, featured: true, featured_order: 5)
-Sector.find_by_slug('retail-and-luxury').try( :update, featured: true, featured_order: 6)
+Sector.find_by(slug: 'creative-media').try(:update, featured: true, featured_order: 1)
+Sector.find_by(slug: 'education-training').try(:update, featured: true, featured_order: 2)
+Sector.find_by(slug: 'food-drink').try(:update, featured: true, featured_order: 3)
+Sector.find_by(slug: 'oil-gas').try(:update, featured: true, featured_order: 4)
+Sector.find_by(slug: 'security').try(:update, featured: true, featured_order: 5)
+Sector.find_by(slug: 'retail-and-luxury').try(:update, featured: true, featured_order: 6)
 
 Type.create(slug: 'aid-funded-business', name: 'Aid Funded Business')
 Type.create(slug: 'public-sector', name: 'Public Sector')
@@ -578,4 +578,3 @@ FactoryBot.create(:opportunity,
   status: :pending)
 
 FactoryBot.create(:supplier_preference)
-

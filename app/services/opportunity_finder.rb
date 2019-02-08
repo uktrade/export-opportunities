@@ -2,9 +2,9 @@ class OpportunityFinder
   def call(id)
     opportunity = Opportunity.find(id)
 
-    return Success.new(opportunity)
+    Success.new(opportunity)
   rescue ActiveRecord::RecordNotFound => e
-    return Error.new(e.message, :not_found)
+    Error.new(e.message, :not_found)
   end
 
   class Success

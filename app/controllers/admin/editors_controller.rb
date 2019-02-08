@@ -62,15 +62,17 @@ class Admin::EditorsController < Admin::BaseController
     end
   end
 
-  private def id
-    params.require(:id)
-  end
+  private
 
-  private def editor_params
-    params.require(:editor).permit(:role, :service_provider_id)
-  end
+    def id
+      params.require(:id)
+    end
 
-  private def editor_filters
-    params.permit({ sort: %i[column order] }, :name, :email, :role, :last_sign_in_at, :service_provider, :paged, :show_deactivated)
-  end
+    def editor_params
+      params.require(:editor).permit(:role, :service_provider_id)
+    end
+
+    def editor_filters
+      params.permit({ sort: %i[column order] }, :name, :email, :role, :last_sign_in_at, :service_provider, :paged, :show_deactivated)
+    end
 end

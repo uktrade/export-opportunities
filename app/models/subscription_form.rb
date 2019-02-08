@@ -15,7 +15,7 @@ class SubscriptionForm
   #
   def initialize(results)
     @term   = results[:term]
-    @filter = results[:filter].present? ? results[:filter] : NullFilter.new
+    @filter = results[:filter].presence || NullFilter.new
   end
 
   # Format related subscription data for use in views, e.g.
@@ -60,20 +60,20 @@ class SubscriptionForm
   private
 
     def minimum_search_criteria
-      if !minimum_search_criteria?
+      unless minimum_search_criteria?
         errors[:base] << 'At least one search criteria is required, none provided.'
       end
     end
 
     def find_all_by_slug(name, klass)
       return [] unless @filter
+
       slugs = @filter.send(name) || []
       slugs.map { |slug| klass.find_by!(slug: slug) }.compact
     rescue ActiveRecord::RecordNotFound
       errors.add(name, 'cannot be found')
       []
     end
-
 
     def filters_provided?
       sectors.any? || countries.any? || types.any? || values.any?

@@ -48,8 +48,8 @@ class OpportunitiesController < ApplicationController
   #   --- .atom or .xml requests only --
   #   @query         Decorator containing search results and associated
   #                  pagination and navigation helpers
-  # 
-  def results 
+  #
+  def results
     respond_to do |format|
       format.html do
         content = get_content('opportunities/results.yml')
@@ -59,10 +59,10 @@ class OpportunitiesController < ApplicationController
         @results = OpportunitySearchResultsPresenter.new(content, results)
         render layout: 'results'
       end
-      format.any(:atom, :xml) do        
-        results = Search.new(params, limit: 100, 
-                             results_only: true,
-                             sort: 'updated_at').run
+      format.any(:atom, :xml) do
+        results = Search.new(params, limit: 100,
+                                     results_only: true,
+                                     sort: 'updated_at').run
         @query = AtomOpportunityQueryDecorator.new(results, view_context)
         render :index, formats: :atom
       end
@@ -105,7 +105,7 @@ class OpportunitiesController < ApplicationController
       {
         total: stats[:total],
         expiring_soon: stats[:expiring_soon],
-        published_recently: stats[:published_recently]
+        published_recently: stats[:published_recently],
       }
     end
 end

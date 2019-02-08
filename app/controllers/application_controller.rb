@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
 
   def basic_auth
     return unless Figaro.env.staging_http_user? && Figaro.env.staging_http_pass?
+
     authenticate_or_request_with_http_basic do |name, password|
       name == Figaro.env.staging_http_user && password == Figaro.env.staging_http_pass
     end
@@ -41,7 +42,7 @@ class ApplicationController < ActionController::Base
   layout :determine_layout
 
   def check
-    render json: { status: 'OK' }, status: 200
+    render json: { status: 'OK' }, status: :ok
   end
 
   #
@@ -55,22 +56,21 @@ class ApplicationController < ActionController::Base
     response = { git_revision: ExportOpportunities::REVISION, status: 'OK', status_code: 200 }
 
     # Do databases match? If not, save disparity data to 'result' key
-    response[:result] = missing_data = get_missing_data
+    response[:result] = missing_data
 
-    if missing_data.empty?
+    if response[:result].empty?
       # unset the counter when data is back in sync
-      @redis.del(:es_data_sync_error_ts) 
+      @redis.del(:es_data_sync_error_ts)
+    elsif (timeout = @redis.get(:es_data_sync_error_ts)).blank?
+      # set new timer start
+      @redis.set(:es_data_sync_error_ts, Time.now.utc)
     else
-      if (timeout = @redis.get(:es_data_sync_error_ts)).blank?
-        @redis.set(:es_data_sync_error_ts, Time.now.utc)
-      else
-        response[:timeout_sec] = (Time.now.utc - Time.zone.parse(timeout)).floor
+      response[:timeout_sec] = (Time.now.utc - Time.zone.parse(timeout)).floor
 
-        # Report error after 10 minutes
-        if response[:timeout_sec] > 600.freeze
-          response[:status] = 'error'
-          response[:status_code] = 500
-        end
+      # Report error after 10 minutes
+      if response[:timeout_sec] > 600.freeze
+        response[:status] = 'error'
+        response[:status_code] = 500
       end
     end
 
@@ -118,7 +118,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def get_missing_data
+  def missing_data
     missing = {}
     if (ops = databases_match_opportunities?) != true
       missing['opportunities'] = ops
@@ -131,8 +131,8 @@ class ApplicationController < ActionController::Base
 
   def databases_match_opportunities?
     # 'db' is the relational database, e.g. PostgreSQL
-    db = get_db_opportunities
-    es = get_es_opportunities
+    db = db_opportunities
+    es = es_opportunities
 
     if db.size == es.size
       true
@@ -146,8 +146,8 @@ class ApplicationController < ActionController::Base
 
   def databases_match_subscriptions?
     # 'db' is the  relational database, e.g. PostgreSQL
-    db = get_db_subscriptions
-    es = get_es_subscriptions
+    db = db_subscriptions
+    es = es_subscriptions
 
     if db.size == es.size
       true
@@ -159,28 +159,29 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def get_db_opportunities
+  def db_opportunities
     Opportunity.where('response_due_on >= ? and status = ?', DateTime.now.utc, 2).pluck(:id)
   end
 
-  def get_es_opportunities
-    query = OpportunitySearchBuilder.new().call
+  def es_opportunities
+    query = OpportunitySearchBuilder.new.call
     res = []
     es_opportunities = Opportunity.__elasticsearch__.search(size: 100_000, query: query[:query], sort: query[:sort])
     es_opportunities.each { |record| res.push record.id }
     res
   end
 
-  def get_db_subscriptions
+  def db_subscriptions
     Subscription.count
   end
 
-  def get_es_subscriptions
+  def es_subscriptions
     Subscription.__elasticsearch__.count
   end
 
   def determine_layout
     return 'admin' if request.path.start_with?('/admin') && staff?
+
     'application'
   end
 
@@ -209,100 +210,101 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def administrator?
-    current_editor&.administrator?
-  end
-
-  def previewer?
-    current_editor&.previewer?
-  end
-
-  def publisher?
-    current_editor&.publisher?
-  end
-
-  def uploader?
-    current_editor&.uploader?
-  end
-
-  def staff?
-    current_editor&.staff?
-  end
-
-  def check_if_admin
-    not_found unless administrator?
-  end
-
-  def not_found
-    respond_to do |format|
-      format.html { render 'errors/not_found', status: 404 }
-      format.json { render json: { errors: 'Resource not found' }, status: 404 }
-      format.all { head 404 }
+    def administrator?
+      current_editor&.administrator?
     end
-  end
 
-  def unsupported_format
-    respond_to do |format|
-      format.json { render json: { errors: 'JSON is not supported for this resource' }, status: 406 }
-      format.all { head 406 }
+    def previewer?
+      current_editor&.previewer?
     end
-  end
 
-  def user_not_authorized
-    render 'errors/unauthorized', status: 401
-  end
-
-  def internal_server_error
-    render 'errors/internal_server_error', status: 500
-  end
-
-  def invalid_authenticity_token(exception)
-    Raven.capture_exception(exception)
-    set_google_tag_manager
-    # ^ this method call is necessary to render
-    #   the layout. It is usually run in a before_action.
-    # The exception this method rescues from is thrown
-    # before it has the chance.
-    render 'errors/invalid_authenticity_token', status: 422
-  end
-
-  # Returns content provided by .yml files in app/content folder.
-  # Intended use is to keep content separated from the view code.
-  # Should make it easier to switch later to CMS-style content editing.
-  # Note: Rails may already provide a similar service for multiple
-  # language support, so this mechanism might be replaced by that
-  # at some point in the furture.
-  def get_content(*files)
-    content = {}
-    files.each do |file|
-      content = content.merge YAML.load_file('app/content/' + file)
+    def publisher?
+      current_editor&.publisher?
     end
-    content
-  end
 
-  def redis_oo_retry_count(redis)
-    # nil-safe redis fetch from counter
-    redis.get('oo_retry_error_count').to_i
-  end
-
-  def sidekiq_retry_count
-    rs = Sidekiq::RetrySet.new
-    retry_jobs = rs.select { |retri| retri.item['class'] == 'RetrieveVolumeOpps' }
-    retry_jobs.size
-  end
-
-  def update_redis_counter(redis, sidekiq_retry_jobs_count, latest_sidekiq_failure)
-    # set initial value if it's the first time
-    redis.set('sidekiq_retry_jobs_last_failure', Time.zone.now) unless latest_sidekiq_failure
-
-    if days_since_last_failure(latest_sidekiq_failure) > PUBLISH_SIDEKIQ_ERROR_DAYS
-      redis.set('oo_retry_error_count', sidekiq_retry_jobs_count)
-      redis.set('sidekiq_retry_jobs_last_failure', Time.zone.now)
+    def uploader?
+      current_editor&.uploader?
     end
-  end
 
-  def days_since_last_failure(latest_sidekiq_failure)
-    return 0 unless latest_sidekiq_failure
-    ((Time.zone.now - Time.zone.parse(latest_sidekiq_failure)) / 86_400)
-  end
+    def staff?
+      current_editor&.staff?
+    end
+
+    def check_if_admin
+      not_found unless administrator?
+    end
+
+    def not_found
+      respond_to do |format|
+        format.html { render 'errors/not_found', status: :not_found }
+        format.json { render json: { errors: 'Resource not found' }, status: :not_found }
+        format.all { head 404 }
+      end
+    end
+
+    def unsupported_format
+      respond_to do |format|
+        format.json { render json: { errors: 'JSON is not supported for this resource' }, status: :not_acceptable }
+        format.all { head 406 }
+      end
+    end
+
+    def user_not_authorized
+      render 'errors/unauthorized', status: :unauthorized
+    end
+
+    def internal_server_error
+      render 'errors/internal_server_error', status: :internal_server_error
+    end
+
+    def invalid_authenticity_token(exception)
+      Raven.capture_exception(exception)
+      set_google_tag_manager
+      # ^ this method call is necessary to render
+      #   the layout. It is usually run in a before_action.
+      # The exception this method rescues from is thrown
+      # before it has the chance.
+      render 'errors/invalid_authenticity_token', status: :unprocessable_entity
+    end
+
+    # Returns content provided by .yml files in app/content folder.
+    # Intended use is to keep content separated from the view code.
+    # Should make it easier to switch later to CMS-style content editing.
+    # Note: Rails may already provide a similar service for multiple
+    # language support, so this mechanism might be replaced by that
+    # at some point in the furture.
+    def get_content(*files)
+      content = {}
+      files.each do |file|
+        content = content.merge YAML.load_file('app/content/' + file)
+      end
+      content
+    end
+
+    def redis_oo_retry_count(redis)
+      # nil-safe redis fetch from counter
+      redis.get('oo_retry_error_count').to_i
+    end
+
+    def sidekiq_retry_count
+      rs = Sidekiq::RetrySet.new
+      retry_jobs = rs.select { |retri| retri.item['class'] == 'RetrieveVolumeOpps' }
+      retry_jobs.size
+    end
+
+    def update_redis_counter(redis, sidekiq_retry_jobs_count, latest_sidekiq_failure)
+      # set initial value if it's the first time
+      redis.set('sidekiq_retry_jobs_last_failure', Time.zone.now) unless latest_sidekiq_failure
+
+      if days_since_last_failure(latest_sidekiq_failure) > PUBLISH_SIDEKIQ_ERROR_DAYS
+        redis.set('oo_retry_error_count', sidekiq_retry_jobs_count)
+        redis.set('sidekiq_retry_jobs_last_failure', Time.zone.now)
+      end
+    end
+
+    def days_since_last_failure(latest_sidekiq_failure)
+      return 0 unless latest_sidekiq_failure
+
+      ((Time.zone.now - Time.zone.parse(latest_sidekiq_failure)) / 86_400)
+    end
 end
