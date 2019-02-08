@@ -30,6 +30,16 @@ class SubscriptionFinder
         values: @value_ids
       ).call
       Subscription.__elasticsearch__.refresh_index!
+
+# Stuck
+# # Doesn't work
+# query={:search_query=>{:bool=>{:must=>[{:match_all=>{}}, {:bool=>{:filter=>{:exists=>{:field=>:confirmed_at}}}}, {:bool=>{:must_not=>{:exists=>{:field=>:unsubscribed_at}}}}], :should=>[{:terms=>{:"countries.id"=>[1]}}, {:bool=>{:must_not=>{:exists=>{:field=>"countries.id"}}}}], :minimum_should_match=>1}}}
+
+# # Does work
+# query={:search_query=>{:bool=>{:must=>[{:match_all=>{}}, {:bool=>{:must_not=>{:exists=>{:field=>:unsubscribed_at}}}}], :should=>[{:terms=>{:"countries.id"=>[1]}}, {:bool=>{:must_not=>{:exists=>{:field=>"countries.id"}}}}], :minimum_should_match=>1}}}
+
+
+
       # TODO: window size must be <= #of active subscribers
       @matching_subscriptions ||= Subscription.__elasticsearch__.search(
         size: Figaro.env.SUBSCRIPTION_ES_MAX_RESULT_WINDOW_SIZE || 10_000,
