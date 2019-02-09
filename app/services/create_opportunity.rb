@@ -24,11 +24,18 @@ class CreateOpportunity
     begin
       opportunity.save!
       opportunity_cpvs&.each do |opportunity_cpv|
-        opportunity_cpv = OpportunityCpv.new(industry_id: opportunity_cpv[:industry_id], industry_scheme: opportunity_cpv[:industry_scheme], opportunity_id: opportunity.id)
+        cpv_id = opportunity_cpv[:industry_id]
+        opportunity_cpv = OpportunityCpv.new(
+                            industry_id:     cpv_id,
+                            industry_scheme: opportunity_cpv[:industry_scheme], 
+                            opportunity_id:  opportunity.id)
         opportunity_cpv.save!
+        add_sector_from_cpv(opportunity, cpv_id)
       end
     rescue ActiveRecord::RecordNotUnique
-      Rails.logger.error 'Record not unique >>>>> attempting to insert opportunity:' + params.to_s + ' with ocid:' + opportunity.ocid
+      Rails.logger.error 'Record not unique >>>>> \
+         attempting to insert opportunity:' + 
+         params.to_s + ' with ocid:' + opportunity.ocid
       # TODO: continue importing opps if there is an opp being invalid.
     rescue ActiveRecord::RecordInvalid => e
       Rails.logger.error 'error validating opportunity'
@@ -37,4 +44,19 @@ class CreateOpportunity
     end
     opportunity
   end
+
+  private
+
+    # Finds the Sectors corresponding to the cpv code given
+    # and adds these to the Opportunity
+    def add_sector_from_cpv(opportunity, cpv_id)
+      if cpv_id.present?
+        sector_ids = CategorisationMicroservice.new(cpv_id).sector_ids
+        sector_ids.each do |sector_id| 
+          if (sector = Sector.find_by_id(sector_id))          
+            opportunity.sectors << sector
+          end
+        end
+      end
+    end
 end
