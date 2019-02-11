@@ -8,10 +8,10 @@
     %select{:name=>'areas[]', autocomplete:'off'}
       %option{:value=>""}
         All regions and countries
-      - @regions.each do |region|
+      - regions.each do |region|
         %option{:value=>region[:slug]}
           = region[:name]
-      - @countries.each do |country|
+      - countries.each do |country|
         %option{:value=>country[:slug]}
           = country[:name]
 

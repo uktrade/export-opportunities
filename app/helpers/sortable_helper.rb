@@ -11,6 +11,7 @@ module SortableHelper
 
   def __reverse_order(order)
     return unless %(asc desc).include? order
+
     order == 'asc' ? 'desc' : 'asc'
   end
 end

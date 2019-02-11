@@ -1,0 +1,100 @@
+AllCops:
+  DisplayCopNames: true
+  TargetRubyVersion: 2.5
+  TargetRailsVersion: 5.1
+  Exclude:
+    - 'vendor/bundle/**/*'
+    - 'db/migrate/**/*'
+    - 'db/schema.rb'
+    - 'bin/setup'
+    - 'node_modules/**/*'
+    - 'vendor/**/*'
+    - 'spec/**/*'
+    - 'config/**/*'
+    - 'bin/**/*'
+
+Style/StringLiterals:
+  Exclude:
+    - config/application.rb
+
+Style/Documentation:
+  Enabled: false
+
+Metrics:
+  Enabled: false
+
+Style/SymbolProc:
+  Exclude:
+    - spec/factories/*
+
+Layout/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/RedundantFreeze:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Rails:
+  Enabled: true
+
+Rails/HasAndBelongsToMany:
+  Exclude:
+    - app/models/opportunity.rb
+    - app/models/subscription.rb
+
+Rails/HttpPositionalArguments:
+  Enabled: false
+
+Rails/OutputSafety:
+   Exclude:
+    - config/application.rb
+
+Bundler/OrderedGems:
+  Enabled: false
+
+Rails/SkipsModelValidations:
+  Enabled: false
+
+Rails/OutputSafety:
+  Enabled: false
+
+Style/IfInsideElse:
+  Exclude:
+    - app/presenters/opportunity_presenter.rb
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Layout/IndentationConsistency:
+  EnforcedStyle: rails
+
+Naming/UncommunicativeMethodParamName:
+  Exclude:
+    - app/controllers/api/activity_stream_controller.rb
+
+Security/Open:
+  Exclude:
+    - lib/tasks/email_alerts_cleanup.rake
+    - lib/tasks/populate_custom_azure_cm_list.rake
+    - lib/tasks/target_report_matching.rake
+
+Naming/HeredocDelimiterNaming:
+  Exclude:
+    - lib/tasks/ukti_stats.rake

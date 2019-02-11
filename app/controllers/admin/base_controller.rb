@@ -19,16 +19,16 @@ class Admin::BaseController < ApplicationController
 
   private
 
-  def sign_out_if_deactivated!
-    # redirect_to new_editor_session_path unless current_editor
-    if current_editor && current_editor.deactivated?
-      sign_out(current_editor)
-      redirect_to new_editor_session_path
+    def sign_out_if_deactivated!
+      # redirect_to new_editor_session_path unless current_editor
+      if current_editor&.deactivated?
+        sign_out(current_editor)
+        redirect_to new_editor_session_path
+      end
     end
-  end
 
-  def set_raven_context
-    Raven.user_context(user_id: current_editor.id, email: current_editor.email) if current_editor
-    Raven.extra_context(params: params.to_unsafe_h, url: request.url)
-  end
+    def set_raven_context
+      Raven.user_context(user_id: current_editor.id, email: current_editor.email) if current_editor
+      Raven.extra_context(params: params.to_unsafe_h, url: request.url)
+    end
 end

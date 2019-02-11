@@ -10,11 +10,13 @@ Warden::Strategies.add(:deactivated) do
     fail!('This account has been deactivated')
   end
 
-  private def editor_logging_in?
-    params['commit'].eql?('Log in') && email
-  end
+  private
 
-  private def email
-    params['editor']['email']
-  end
+    def editor_logging_in?
+      params['commit'].eql?('Log in') && email
+    end
+
+    def email
+      params['editor']['email']
+    end
 end

@@ -1,3 +1,3 @@
 class Region < ApplicationRecord
-  has_many :countries
+  has_many :countries, dependent: :nullify
 end

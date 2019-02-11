@@ -31,9 +31,11 @@ class EnquiryMailer < ApplicationMailer
     mail(args)
   end
 
-  private def service_provider_exception(enquiry)
-    service_provider_id = enquiry.opportunity.service_provider.id
-    excepted_service_providers = Figaro.env.PTU_EXEMPT_SERVICE_PROVIDERS!
-    excepted_service_providers.split(',').map(&:to_i).include? service_provider_id
-  end
+  private
+
+    def service_provider_exception(enquiry)
+      service_provider_id = enquiry.opportunity.service_provider.id
+      excepted_service_providers = Figaro.env.PTU_EXEMPT_SERVICE_PROVIDERS!
+      excepted_service_providers.split(',').map(&:to_i).include? service_provider_id
+    end
 end

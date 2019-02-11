@@ -17,6 +17,7 @@ class OpportunityPolicy < ApplicationPolicy
 
   def edit?
     return true if editor_is_record_owner? && (@record.pending? || @record.trash? || @record.draft?)
+
     editor_is_admin_or_publisher?
   end
 
@@ -66,28 +67,30 @@ class OpportunityPolicy < ApplicationPolicy
 
   private
 
-  def editor_is_record_owner?
-    @editor == @record.author
-  end
-
-  def editor_has_same_service_provider?
-    return false if @editor.service_provider.blank?
-    @record.service_provider == @editor.service_provider
-  end
-
-  class Scope
-    attr_reader :editor, :scope
-
-    def initialize(editor, scope)
-      @editor = editor
-      @scope = scope
+    def editor_is_record_owner?
+      @editor == @record.author
     end
 
-    def resolve
-      return scope.all if %w[administrator publisher previewer].include? editor.role
-      scope.published
-        .union(scope.where(author: @editor))
-        .union(scope.where.not(service_provider: nil).where(service_provider: @editor.service_provider))
+    def editor_has_same_service_provider?
+      return false if @editor.service_provider.blank?
+
+      @record.service_provider == @editor.service_provider
     end
-  end
+
+    class Scope
+      attr_reader :editor, :scope
+
+      def initialize(editor, scope)
+        @editor = editor
+        @scope = scope
+      end
+
+      def resolve
+        return scope.all if %w[administrator publisher previewer].include? editor.role
+
+        scope.published
+          .union(scope.where(author: @editor))
+          .union(scope.where.not(service_provider: nil).where(service_provider: @editor.service_provider))
+      end
+    end
 end

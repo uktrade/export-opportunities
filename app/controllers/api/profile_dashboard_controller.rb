@@ -38,22 +38,22 @@ module Api
         }
       end
       respond_to do |format|
-        format.json { render status: 200, json: @result }
+        format.json { render status: :ok, json: @result }
       end
     end
 
     private
 
-    def bad_request!
-      render status: 400, json: { status: 'Bad Request', code: 400 }.freeze
-    end
+      def bad_request!
+        render status: :bad_request, json: { status: 'Bad Request', code: 400 }.freeze
+      end
 
-    def forbidden!
-      render status: 403, json: { status: 'Forbidden', code: 403 }.freeze
-    end
+      def forbidden!
+        render status: :forbidden, json: { status: 'Forbidden', code: 403 }.freeze
+      end
 
-    def internal_error!
-      render status: 500, json: { status: 'Internal Error', code: 500 }.freeze
-    end
+      def internal_error!
+        render status: :internal_server_error, json: { status: 'Internal Error', code: 500 }.freeze
+      end
   end
 end

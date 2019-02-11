@@ -35,12 +35,13 @@ class EnquiryResponseMailer < ApplicationMailer
 
   def reminder(enquiry)
     return if enquiry.opportunity.contacts.blank?
+
     @mailer_view = true
 
     @opportunity = enquiry.opportunity
     @enquiry = enquiry
     @content = get_content('emails/response_reminder_mailer.yml')['reminder']
-    enquiry.update(response_reminder_sent_at: DateTime.now)
+    enquiry.update(response_reminder_sent_at: Time.zone.now)
 
     mail(to: @opportunity.contacts.pluck(:email),
          from: Figaro.env.MAILER_FROM_ADDRESS!,
@@ -57,14 +58,14 @@ end
 # Day 14
 # def second_reminder(enquiry)
 #   @mailer_view = true
-  
+
 #   @opportunity = enquiry.opportunity
 #   @opportunity_country_title = opportunity_country_title
 #   @enquiry_company_name = enquiry.company_name
 #   @response_deadline = (enquiry.created_at + 28.days).strftime("%A %-d %B")
 #   @enquiry = enquiry
 #   @author = @opportunity.author
-  
+
 #   enquiry.update(response_second_reminder_sent_at: DateTime.now)
 #   mail to: @author.email,
 #        from: Figaro.env.MAILER_FROM_ADDRESS!,

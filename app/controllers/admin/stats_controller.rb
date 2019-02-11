@@ -33,24 +33,24 @@ module Admin
 
     private
 
-    def stats_search_form_params
-      params.permit!
-    end
-
-    def load_service_provider(search_form)
-      if search_form.all_service_providers?
-        StatsSearchForm::AllServiceProviders
-      else
-        ServiceProvider.find(search_form.service_provider_id)
+      def stats_search_form_params
+        params.permit!
       end
-    end
 
-    def load_country(search_form)
-      Country.find(search_form.country_id)
-    end
+      def load_service_provider(search_form)
+        if search_form.all_service_providers?
+          StatsSearchForm::AllServiceProviders
+        else
+          ServiceProvider.find(search_form.service_provider_id)
+        end
+      end
 
-    def load_region(search_form)
-      Region.find(search_form.region_id)
-    end
+      def load_country(search_form)
+        Country.find(search_form.country_id)
+      end
+
+      def load_region(search_form)
+        Region.find(search_form.region_id)
+      end
   end
 end

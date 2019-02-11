@@ -33,29 +33,29 @@ class Admin::HelpController < Admin::BaseController
 
   private
 
-  def render_error_not_found
-    render 'errors/not_found'
-  end
+    def render_error_not_found
+      render 'errors/not_found'
+    end
 
-  def id_to_file(str = '')
-    str = str.tr '-', '_'
-    str.gsub(/[^0-9a-z] /i, '')
-  end
+    def id_to_file(str = '')
+      str = str.tr '-', '_'
+      str.gsub(/[^0-9a-z] /i, '')
+    end
 
-  def article_list
-    [
-      { id: 'how-to-write-an-export-opportunity',
-        section_id: 'overview',
-        title: 'How to write an export opportunity' },
-      { id: 'how-to-assess-a-company',
-        title: 'How to assess a company',
-        section_id: 'overview' },
-      { id: 'right-for-opportunity-responses',
-        title: 'How to respond to UK companies that are \'Right for opportunity\'',
-        section_id: 'overview' },
-      { id: 'not-right-for-opportunity-responses',
-        title: 'How to respond to UK companies that are \'Not right for opportunity\'',
-        section_id: 'overview' },
-    ]
-  end
+    def article_list
+      [
+        { id: 'how-to-write-an-export-opportunity',
+          section_id: 'overview',
+          title: 'How to write an export opportunity' },
+        { id: 'how-to-assess-a-company',
+          title: 'How to assess a company',
+          section_id: 'overview' },
+        { id: 'right-for-opportunity-responses',
+          title: 'How to respond to UK companies that are \'Right for opportunity\'',
+          section_id: 'overview' },
+        { id: 'not-right-for-opportunity-responses',
+          title: 'How to respond to UK companies that are \'Not right for opportunity\'',
+          section_id: 'overview' },
+      ]
+    end
 end

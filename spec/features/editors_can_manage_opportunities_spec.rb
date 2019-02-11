@@ -29,8 +29,8 @@ feature 'Administering opportunities' do
     fill_in 'opportunity_contacts_attributes_1_name', with: 'Joe Bloggs'
     fill_in 'opportunity_contacts_attributes_1_email', with: 'joe.bloggs@example.com'
 
-    find_by_id('opportunity_value_ids_1', visible: false).trigger('click')
-    find_by_id('opportunity_type_ids_1', visible: false).trigger('click')
+    find_by_id("opportunity_value_ids_#{value.id}", visible: false).trigger('click')
+    find_by_id("opportunity_type_ids_#{type.id}", visible: false).trigger('click')
 
     select country.name, from: 'opportunity_country_ids'
     select sector.name, from: 'opportunity_sector_ids'
@@ -84,8 +84,8 @@ feature 'Administering opportunities' do
     fill_in 'opportunity_contacts_attributes_1_name', with: 'Joe Bloggs'
     fill_in 'opportunity_contacts_attributes_1_email', with: 'joe.bloggs@example.com'
 
-    find_by_id('opportunity_value_ids_1', visible: false).trigger('click')
-    find_by_id('opportunity_type_ids_1', visible: false).trigger('click')
+    find_by_id("opportunity_value_ids_#{value.id}", visible: false).trigger('click')
+    find_by_id("opportunity_type_ids_#{type.id}", visible: false).trigger('click')
 
     select country.name, from: 'opportunity_country_ids'
     select sector.name, from: 'opportunity_sector_ids'

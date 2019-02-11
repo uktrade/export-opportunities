@@ -19,6 +19,7 @@ module RegionHelper
         not_region = true
         regions_list.each do |region|
           next if region[:slug] != area
+
           regions.push area
           not_region = false
           break
@@ -31,13 +32,14 @@ module RegionHelper
 
     # Create region slugs if we have enough countries to make a full set.
     if params[:countries].present?
-      regions = (params[:regions].present? ? params[:regions] : [])
+      regions = (params[:regions].presence || [])
       potential_regions = {}
 
       # Get potential regions by grouping countries
       params[:countries].each do |country_slug|
         region = region_by_country_slug(country_slug)
         next if region.nil?
+
         potential_regions[region[:slug]] = [] unless potential_regions.key? region[:slug]
         potential_regions[region[:slug]].push(country_slug)
       end
@@ -178,6 +180,7 @@ module RegionHelper
     matched = nil
     regions_list.each do |region|
       next if region[:countries].sort != country_slugs.sort # sort both for comparison
+
       matched = region
       break
     end
