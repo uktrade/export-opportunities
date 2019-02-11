@@ -5,7 +5,18 @@ $brand-font-standard: 'Roboto', arial, helvetica, sans-serif;
 $brand-font-serif: georgia, serif;
 
 
-$font-size-body-xl: 36px;
+$font-size-xxl: 48px;
+$font-size-xl:  36px;
+$font-size-l :  24px;
+$font-size-m :  19px;
+$font-size-s :  16px;
+$font-size-xs:  13px;
+
+
+// START: Need to phase these out 
+// and replace with above (more 
+// generic) variable names
+// -----------------------------
 $font-size-body-l : 24px;
 $font-size-body-m : 19px;
 $font-size-body-s : 16px;
@@ -14,13 +25,13 @@ $font-size-body-xs: 14px;
 $font-size-heading-xl: 48px;
 $font-size-heading-l : 24px;
 $font-size-heading-m : 19px;
-
+// END -------------------------
 
 
 // HEADING mixins
 @mixin heading-l {
   font-family: $brand-font-standard;
-  font-size:   48px;
+  font-size:   $font-size-xxl;
   font-weight: 600;
   line-height: 1.15em;
   margin: 0 0 $spacing-2 0;
@@ -35,7 +46,7 @@ $font-size-heading-m : 19px;
 
 @mixin heading-m {
   font-family: $brand-font-standard;
-  font-size:   36px;
+  font-size:   $font-size-xl;
   font-weight: 600;
   line-height: 1.1em;
   margin: 0 0 $spacing-3 0;
@@ -43,7 +54,7 @@ $font-size-heading-m : 19px;
 
 @mixin heading-m-mob {
   font-family: $brand-font-standard;
-  font-size: 24px;
+  font-size: $font-size-l;
   font-weight: 600;
   line-height: 1.25em;
   letter-spacing: 0.3px;
@@ -51,7 +62,7 @@ $font-size-heading-m : 19px;
 
 @mixin heading-s {
   font-family: $brand-font-standard;
-  font-size:   24px;
+  font-size:   $font-size-l;
   font-weight: 600;
   line-height: 1.42em;
   margin: 0 0 1em 0;
@@ -59,7 +70,7 @@ $font-size-heading-m : 19px;
 
 @mixin heading-s-mob {
   font-family: $brand-font-standard;
-  font-size:   19px;
+  font-size:   $font-size-m;
   font-weight: 600;
   line-height: 1.58em;
   margin: 0 0 0.5em 0;
@@ -75,21 +86,21 @@ $font-size-heading-m : 19px;
 
 @mixin body-l {
   font-family: $brand-font-standard;
-  font-size:   24px;
+  font-size:   $font-size-l;
   font-weight: 400;
   line-height: 1.5em;
 }
 
 @mixin body-m {
   font-family: $brand-font-standard;
-  font-size:   19px;
+  font-size:   $font-size-m;
   font-weight: 400;
   line-height: 1.58em;
 }
 
 @mixin body-m-mob {
   font-family: $brand-font-standard;
-  font-size: 16px;
+  font-size: $font-size-s;
   font-weight: 400;
   line-height: 1.38em;
 }
@@ -103,7 +114,7 @@ $font-size-heading-m : 19px;
 
 @mixin body-s-mob {
   font-family: $brand-font-standard;
-  font-size: 13px;
+  font-size: $font-size-xs;
   font-weight: 400;
   line-height: 1.54em;
 }
@@ -111,14 +122,14 @@ $font-size-heading-m : 19px;
 // SPECAL
 @mixin quote {
   font-family: $brand-font-serif;
-  font-size:   24px;
+  font-size:   $font-size-l;
   font-weight: 400;
   line-height: 32px;
 }
 
 @mixin quote-mob {
   font-family: $brand-font-serif;
-  font-size:   16px;
+  font-size:   $font-size-s;
   font-weight: 400;
   line-height: 1.88em;
 }
