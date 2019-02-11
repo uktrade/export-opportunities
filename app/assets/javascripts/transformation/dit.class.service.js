@@ -13,6 +13,21 @@
  /* Constructor.
   * @url (String) From where to fetch data.
   * @options (Object) AJAX configurations. 
+  *
+  * Usage example:
+  * -----------------
+  * // 1. Create a service by pointing to a URL.
+  * service = new dit.classes.Service('https://www.bing.com/search');
+  *
+  * // 2. Configure a listener (can set multiple) to do something with response.
+  * service.listender(function() {
+  *   console.log(service.json); // Raw JSON response
+  *   console.log(service.data); // Response converted to object
+  * });
+  * 
+  * // 3. Triggers a request to updaate the data (service.json)
+  * service.update('q=something')
+  *
   **/ 
   classes.Service = Service;
   function Service(url, options) {
