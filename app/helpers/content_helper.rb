@@ -20,6 +20,7 @@ module ContentHelper
     content = @content
     keys.each do |key|
       break unless content.key? key
+
       content = content[key]
     end
     content.class == String ? content : ''

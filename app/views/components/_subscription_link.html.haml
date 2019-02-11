@@ -1,8 +1,8 @@
 = form_tag create_subscription_path, :class=>'subscription-link' do
-  = hidden_field_tag 'subscription[query[title]]', subscription[:title]
-  = hidden_field_tag 'subscription[query[search_term]]', subscription[:keywords]
+  = hidden_field_tag 'subscription[title]', subscription[:title]
+  = hidden_field_tag 'subscription[s]', subscription[:keywords]
   - subscription[:countries].each do |country|
-    = hidden_field_tag 'subscription[query[countries]][]', country, multiple: true
+    = hidden_field_tag 'subscription[countries][]', country, multiple: true
 
   = submit_tag "Subscribe to email alerts#{subscription[:what]}#{subscription[:where]}", :class=>"link"
 

@@ -14,9 +14,9 @@ class EncryptedParams
 
     private
 
-    def encryption_secret
-      Figaro.env.feedback_encryption_secret!
-    end
+      def encryption_secret
+        Figaro.env.feedback_encryption_secret!
+      end
   end
 
   class CouldNotDecrypt < StandardError; end

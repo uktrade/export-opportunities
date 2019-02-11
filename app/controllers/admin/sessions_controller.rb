@@ -1,11 +1,7 @@
 class Admin::SessionsController < Devise::SessionsController
   def after_sign_in_path_for(resource)
     loc = stored_location_for(resource)
-    if loc
-      loc
-    else
-      admin_opportunities_path
-    end
+    loc || admin_opportunities_path
   end
 
   def after_sign_out_path_for(_resource)

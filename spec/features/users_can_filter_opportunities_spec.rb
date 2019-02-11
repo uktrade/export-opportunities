@@ -5,8 +5,8 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
     country = create(:country, name: 'Iran')
     opportunity = create(:opportunity, :published)
     opportunity_with_market = create(:opportunity, :published, countries: [country])
-
-    sleep 1
+    refresh_elasticsearch
+    
     visit opportunities_path
 
     expect(page).to have_content 'Iran (1)'
@@ -24,7 +24,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
     opportunity = create(:opportunity, :published)
     opportunity_with_market = create(:opportunity, :published, countries: [country])
 
-    sleep 1
+    refresh_elasticsearch
     visit opportunities_path
 
     # select Iran
@@ -39,7 +39,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
     opportunity_with_market.countries = [another_country]
     opportunity_with_market.save!
 
-    sleep 1
+    refresh_elasticsearch
     visit opportunities_path
 
     # select Italy
@@ -57,7 +57,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
     another_country = create(:country, name: 'Italy')
     opportunity_with_market = create(:opportunity, :published, countries: [country, another_country])
 
-    sleep 1
+    refresh_elasticsearch
     visit opportunities_path
 
     # select Iran
@@ -87,7 +87,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
     create(:opportunity, status: 'publish', sectors: [sector])
     create(:opportunity, status: 'publish', countries: [country], sectors: [sector])
 
-    sleep 1
+    refresh_elasticsearch
     visit(opportunities_path)
 
     expect(page).to have_content 'Find and apply'
@@ -117,7 +117,7 @@ feature 'Filtering opportunities', :elasticsearch, :commit do
     ignored_country = create(:country, name: 'Not Selected')
     create_list(:opportunity, 4, status: 'publish', countries: [ignored_country])
 
-    sleep 1
+    refresh_elasticsearch
 
     visit opportunities_path
 

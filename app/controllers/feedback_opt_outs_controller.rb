@@ -8,7 +8,7 @@ class FeedbackOptOutsController < ApplicationController
 
   private
 
-  def feedback_opt_out_params
-    @_feedback_opt_out_params ||= EncryptedParams.decrypt(params[:q])
-  end
+    def feedback_opt_out_params
+      @feedback_opt_out_params ||= EncryptedParams.decrypt(params[:q])
+    end
 end

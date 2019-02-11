@@ -76,31 +76,31 @@ class SubscriptionPresenter < SimpleDelegator
 
   private
 
-  def filters?
-    countries.any? || sectors.any? || types.any? || values.any?
-  end
-
-  def country_names_array
-    countries.map(&:name)
-  end
-
-  def sector_names_array
-    sectors.map(&:name)
-  end
-
-  def type_names_array
-    types.map(&:name)
-  end
-
-  def value_names_array
-    values.map(&:name)
-  end
-
-  def slugs_from(collection)
-    arr = []
-    collection.each do |item|
-      arr.push(item[:slug]) if item[:slug].present?
+    def filters?
+      countries.any? || sectors.any? || types.any? || values.any?
     end
-    arr
-  end
+
+    def country_names_array
+      countries.map(&:name)
+    end
+
+    def sector_names_array
+      sectors.map(&:name)
+    end
+
+    def type_names_array
+      types.map(&:name)
+    end
+
+    def value_names_array
+      values.map(&:name)
+    end
+
+    def slugs_from(collection)
+      arr = []
+      collection.each do |item|
+        arr.push(item[:slug]) if item[:slug].present?
+      end
+      arr
+    end
 end

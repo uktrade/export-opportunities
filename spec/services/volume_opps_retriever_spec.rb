@@ -52,14 +52,16 @@ RSpec.describe VolumeOppsRetriever do
   end
 
   describe '#opportunity_params' do
-    it 'validates and saves a valid opp' do
+    before do
       create(:country, name: 'eSwatini')
-      service_provider = create(:service_provider, id: 27, name: 'DIT HQ')
-      editor = create(:editor, service_provider: service_provider)
+      @service_provider = create(:service_provider, id: 27, name: 'DIT HQ')
+      @editor = create(:editor, service_provider: @service_provider)
       create(:sector, id: 2)
       create(:type, id: 2)
       create(:value, id: 2)
+    end
 
+    it 'validates and saves a valid opp' do
       opp = build_opportunity_hash
 
       params = VolumeOppsRetriever.new.opportunity_params(opp)
@@ -68,7 +70,7 @@ RSpec.describe VolumeOppsRetriever do
 
       expect(res).to eq(true)
 
-      CreateOpportunity.new(editor, :draft, :volume_opps).call(params)
+      CreateOpportunity.new(@editor, :draft, :volume_opps).call(params)
 
       saved_opp = Opportunity.first
 
@@ -79,13 +81,6 @@ RSpec.describe VolumeOppsRetriever do
     end
 
     it 'saves an opportunity without description' do
-      create(:country, name: 'eSwatini')
-      service_provider = create(:service_provider, id: 27, name: 'DIT HQ')
-      editor = create(:editor, service_provider: service_provider)
-      create(:sector, id: 2)
-      create(:type, id: 2)
-      create(:value, id: 2)
-
       opp = build_opportunity_hash
 
       opp['json']['releases'][0]['tender']['description'] = nil
@@ -95,7 +90,7 @@ RSpec.describe VolumeOppsRetriever do
 
       expect(res).to eq(true)
 
-      CreateOpportunity.new(editor, :draft, :volume_opps).call(params)
+      CreateOpportunity.new(@editor, :draft, :volume_opps).call(params)
 
       saved_opp = Opportunity.first
 

@@ -142,40 +142,40 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
 
   private
 
-  def radio_collection(method, collection, config = {})
-    inputs = ''
-    # Is there a better way to detect difference?
-    if collection.class.to_s == 'Array'
-      # collection is Array data constructed with content .yml file
-      collection.each_with_index do |option, index|
-        label = option[:label]
-        inputs += @template.content_tag(
-          :div,
-          @template.radio_button(@object_name, method, option[:value]) +
-            @template.label(@object_name, method, label[:text], value: option[:value]),
-          class: "radio field-#{method}-#{index}"
-        )
+    def radio_collection(method, collection, config = {})
+      inputs = ''
+      # Is there a better way to detect difference?
+      if collection.class.to_s == 'Array'
+        # collection is Array data constructed with content .yml file
+        collection.each_with_index do |option, index|
+          label = option[:label]
+          inputs += @template.content_tag(
+            :div,
+            @template.radio_button(@object_name, method, option[:value]) +
+              @template.label(@object_name, method, label[:text], value: option[:value]),
+            class: "radio field-#{method}-#{index}"
+          )
+        end
+      else
+        # collection is Value::ActiveRecord_Relation
+        inputs = collection_radio_buttons(method, collection, :id, :name, config) do |option|
+          @template.content_tag(
+            :div,
+            option.radio_button +
+              option.label,
+            class: 'radio'
+          )
+        end
       end
-    else
-      # collection is Value::ActiveRecord_Relation
-      inputs = collection_radio_buttons(method, collection, :id, :name, config) do |option|
-        @template.content_tag(
-          :div,
-          option.radio_button +
-            option.label,
-          class: 'radio'
-        )
-      end
+      inputs.html_safe
     end
-    inputs.html_safe
-  end
 
-  def checkbox_collection(method, collection)
-    collection_check_boxes(method, collection, :id, :name) do |option|
-      @template.content_tag(:div,
-        option.check_box +
-        option.label,
-        class: 'checkbox')
+    def checkbox_collection(method, collection)
+      collection_check_boxes(method, collection, :id, :name) do |option|
+        @template.content_tag(:div,
+          option.check_box +
+          option.label,
+          class: 'checkbox')
+      end
     end
-  end
 end

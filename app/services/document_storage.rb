@@ -20,6 +20,6 @@ class DocumentStorage
   def read_file(filename)
     @s3_client.get_object(bucket: @bucket_name, key: filename)
   rescue Aws::S3::Errors::NoSuchKey
-    return 'error, specified file does not exist'
+    'error, specified file does not exist'
   end
 end

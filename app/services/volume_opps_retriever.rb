@@ -97,9 +97,7 @@ class VolumeOppsRetriever
       value_id = 3
     end
     response_due_on = opportunity_release['tender']['tenderPeriod']['endDate'] if opportunity_release['tender']['tenderPeriod']
-    description = if opportunity_release['tender']['description'].present?
-                    opportunity_release['tender']['description']
-                  end
+    description = opportunity_release['tender']['description'].presence
 
     title = if opportunity_release['tender']['title'].present?
               clean_title(opportunity_release['tender']['title'])
@@ -133,7 +131,7 @@ class VolumeOppsRetriever
         contacts_attributes: contact_attributes(buyer),
         buyer_name: buyer['name'],
         buyer_address: buyer['address'].present? ? address_from_buyer(buyer['address']) : nil,
-        language: opportunity_release['language'].present? ? opportunity_release['language'] : nil,
+        language: opportunity_release['language'].presence,
         tender_value: gbp_value.present? ? Integer(gbp_value).floor : nil,
         source: :volume_opps,
         tender_content: opportunity['json'].to_json,
@@ -184,7 +182,7 @@ class VolumeOppsRetriever
              else
                'NOT APPLICABLE'
              end
-      email = buyer['contactPoint']['email'] ? buyer['contactPoint']['email'] : ''
+      email = buyer['contactPoint']['email'] || ''
 
       return [
         {
@@ -262,25 +260,6 @@ class VolumeOppsRetriever
     end
   end
 
-  private def value_to_gbp(value, currency)
-    @exchange_rates ||= begin
-      JSON.parse(File.read('db/seed_data/exchange_rates.json'))
-      # response = Net::HTTP.get_response(URI.parse(Figaro.env.EXCHANGE_RATE_URI))
-      # JSON.parse(response.body)
-    rescue
-      JSON.parse(File.read('db/seed_data/exchange_rates.json'))
-    end
-
-    # base rate is USD, we need to convert to GBP
-    gbp_rate = @exchange_rates['rates']['GBP']
-    rate = @exchange_rates['rates'][currency]
-    if rate
-      ((value / rate) * gbp_rate).floor(2)
-    else
-      -1
-    end
-  end
-
   def translate(opportunity_params, fields, original_language)
     hostname = Figaro.env.DL_HOSTNAME!
     api_key = Figaro.env.DL_API_KEY!
@@ -294,13 +273,35 @@ class VolumeOppsRetriever
     !((language != 'en') ^ (language != 'en-GB')) && ActiveModel::Type::Boolean.new.cast(Figaro.env.TRANSLATE_OPPORTUNITIES) && SUPPORTED_LANGUAGES.include?(language)
   end
 
-  def opportunity_doesnt_exist?(ocid)
-    raise unless ocid
-    count = Opportunity.where(ocid: ocid).count
-    if count.zero?
-      true
-    else
-      false
+  private
+
+    def value_to_gbp(value, currency)
+      @exchange_rates ||= begin
+        JSON.parse(File.read('db/seed_data/exchange_rates.json'))
+                          # response = Net::HTTP.get_response(URI.parse(Figaro.env.EXCHANGE_RATE_URI))
+                          # JSON.parse(response.body)
+                          rescue StandardError
+                            JSON.parse(File.read('db/seed_data/exchange_rates.json'))
+      end
+
+      # base rate is USD, we need to convert to GBP
+      gbp_rate = @exchange_rates['rates']['GBP']
+      rate = @exchange_rates['rates'][currency]
+      if rate
+        ((value / rate) * gbp_rate).floor(2)
+      else
+        -1
+      end
     end
-  end
+
+    def opportunity_doesnt_exist?(ocid)
+      raise unless ocid
+
+      count = Opportunity.where(ocid: ocid).count
+      if count.zero?
+        true
+      else
+        false
+      end
+    end
 end

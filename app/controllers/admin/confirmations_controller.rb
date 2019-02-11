@@ -46,33 +46,35 @@ class Admin::ConfirmationsController < Devise::ConfirmationsController
 
   protected
 
-  def with_unconfirmed_editor
-    @editor = Editor.find_or_initialize_with_error_by(:confirmation_token, confirmation_token)
-    @editor.only_if_unconfirmed { yield } unless @editor.new_record?
-  end
+    def with_unconfirmed_editor
+      @editor = Editor.find_or_initialize_with_error_by(:confirmation_token, confirmation_token)
+      @editor.only_if_unconfirmed { yield } unless @editor.new_record?
+    end
 
-  def do_show
-    @requires_password = true
-    set_minimum_password_length
-    render 'admin/confirmations/show' # Changed from devise path to our custom path
-  end
+    def do_show
+      @requires_password = true
+      set_minimum_password_length
+      render 'admin/confirmations/show' # Changed from devise path to our custom path
+    end
 
-  def do_confirm
-    @editor.confirm
-    set_flash_message :notice, :confirmed
-    sign_in(@editor)
-    respond_with_navigational(resource) { redirect_to after_confirmation_path_for(resource_name, resource) }
-  end
+    def do_confirm
+      @editor.confirm
+      set_flash_message :notice, :confirmed
+      sign_in(@editor)
+      respond_with_navigational(resource) { redirect_to after_confirmation_path_for(resource_name, resource) }
+    end
 
-  private def editor_confirmation_token
-    params.require(:editor).require(:confirmation_token)
-  end
+  private
 
-  private def confirmation_token
-    params.fetch(:confirmation_token) { editor_confirmation_token }
-  end
+    def editor_confirmation_token
+      params.require(:editor).require(:confirmation_token)
+    end
 
-  private def after_confirmation_path_for(_resource_name, _resource)
-    admin_opportunities_path
-  end
+    def confirmation_token
+      params.fetch(:confirmation_token) { editor_confirmation_token }
+    end
+
+    def after_confirmation_path_for(_resource_name, _resource)
+      admin_opportunities_path
+    end
 end

@@ -73,7 +73,7 @@ feature 'admin can view enquiries' do
     admin = create(:admin)
 
     enquiry = create(:enquiry, company_name: 'UK Boathouses Inc', created_at: DateTime.new(2017, 5, 1).utc)
-    create(:enquiry_response, enquiry: enquiry)
+    create(:enquiry_response, enquiry: enquiry, completed_at: nil)
 
     create(:enquiry, company_name: 'UK Leaky Boathouses', created_at: DateTime.new(2017, 6, 1).utc)
 
@@ -92,11 +92,11 @@ feature 'admin can view enquiries' do
     first_row = page.find('tbody tr:nth-child(1)')
     second_row = page.find('tbody tr:nth-child(2)')
 
-    expect(first_row).to have_content('days overdue')
     expect(first_row).to have_content('UK Leaky Boathouses')
+    expect(first_row).to have_content('days overdue')
 
-    expect(second_row).to have_content('Pending')
     expect(second_row).to have_content('UK Boathouses Inc')
+    expect(second_row).to have_content('Pending')
   end
 
   scenario 'list of enquiries can be paginated' do

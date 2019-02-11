@@ -7,9 +7,8 @@ MAX_PER_PAGE = 500
 
 module Api
   class ActivityStreamController < ApplicationController
-
     def enquiries
-      check_auth and return
+      check_auth && return
 
       search_after = params.fetch(:search_after, '0.000000_0')
       search_after_time_str, search_after_id_str = search_after.split('_')
@@ -79,7 +78,7 @@ module Api
     end
 
     def opportunities
-      check_auth and return
+      check_auth && return
 
       search_after = params.fetch(:search_after, '0.000000_0')
       search_after_time_str, search_after_id_str = search_after.split('_')
@@ -196,7 +195,7 @@ module Api
             'endTime': opportunity.response_due_on.to_datetime.rfc3339,
             'summary': opportunity.teaser,
             'content': opportunity.description,
-          }
+          },
         }
       end
 
@@ -206,11 +205,12 @@ module Api
         "#{timestamp_str}_#{id_str}"
       end
 
-
       def authenticate(request)
         return [false, 'Connecting from unauthorized IP'] unless request.headers.key?('X-Forwarded-For')
+
         remote_ips = request.headers['X-Forwarded-For'].split(',')
         return [false, 'Connecting from unauthorized IP'] unless remote_ips.length >= 2
+
         authorized_ip_addresses = Figaro.env.ACTIVITY_STREAM_IP_WHITELIST.split(',')
         return [false, 'Connecting from unauthorized IP'] unless authorized_ip_addresses.include?(remote_ips[-2])
 
@@ -289,10 +289,8 @@ module Api
       def respond_200(contents)
         respond_to do |format|
           response.headers['Content-Type'] = 'application/activity+json'
-          format.json { render status: 200, json: Yajl::Encoder.encode(contents) }
+          format.json { render status: :ok, json: Yajl::Encoder.encode(contents) }
         end
       end
-
-
   end
 end

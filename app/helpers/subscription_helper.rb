@@ -10,16 +10,20 @@ module SubscriptionHelper
   end
 
   def subscription_params
-    params.require(:subscription).permit(query: [:title, :search_term, sectors: [], countries: [], types: [], values: []])
+    params.require(:subscription).permit(:title, :s, sectors: [], countries: [], types: [], values: [])
   end
 
   # Shared between:
   # SubscriptionsController#create
   # PendingSubscriptionsController#update
   def create_subscription(params, content)
-    subscription_form = SubscriptionForm.new(params)
-    subscription = CreateSubscription.new.call(subscription_form, current_user)
-    if subscription_form.valid?
+    clean_params = Search.new(params) # Does not run; cleans params
+    form = SubscriptionForm.new(
+      term: clean_params.term,
+      filter: clean_params.filter
+    )
+    subscription = CreateSubscription.new.call(form, current_user)
+    if form.valid?
       yield(subscription) if block_given?
       render 'subscriptions/create', layout: 'notification', locals: {
         subscriptions: Subscription.where(user_id: current_user.id).where(unsubscribed_at: nil),
@@ -27,7 +31,7 @@ module SubscriptionHelper
         content: content['create'],
       }
     else
-      redirect_to opportunities_path(s: subscription_form.search_term), alert: subscription_form.errors.full_messages
+      redirect_to opportunities_path(s: clean_params.term), alert: subscription_form.errors.full_messages
     end
   end
 end
