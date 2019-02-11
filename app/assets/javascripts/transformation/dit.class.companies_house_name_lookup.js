@@ -31,14 +31,15 @@
       $after: $(), // (jQuery element) Specify an element to insert list after (gets appended to body if nothing passed).
       $errors: $(), // Where do we display errors.
       $output: $(), // Form field to receive the company number.
-      param: "term"
-    }, options || {}); 
+      datamapping: { text: "title", value: "company_number" }, // See notes in SelectiveLookup
+      param: "term",
+    }, options || {});
     
     // Inherit...
     SelectiveLookup.call(this,
       $input,
-      dit.data.getCompanyByName, 
-      { $after: opts.$after }
+      dit.data.getCompanyByName,
+      opts
     );
 
     // What captures the company number or use default.
@@ -82,13 +83,6 @@
   
   CompaniesHouseNameLookup.prototype.param = function() {
     return this._private.param + "=" + this._private.$input.val();
-  }
-  
-  CompaniesHouseNameLookup.prototype.setContent = function() {
-    SelectiveLookup.prototype.setContent.call(this, {
-      text: "title",
-      value: "company_number"
-    });
   }
 
 })(jQuery, dit.utils, dit.classes);
