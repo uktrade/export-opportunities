@@ -97,7 +97,7 @@ dit.page.opportunity = (new function () {
    * NOTE: For dummy development, just using the existing Companies House API
    **/
   function setupCpvLookup() {
-    var $cpvInput = $("#opportunity_cpv_id");
+    var $cpvInput = $("#opportunity_opportunity_cpv_ids");
     var lookup;
     if($cpvInput.length) {
       service = new dit.classes.Service(dit.constants.CPV_CODE_LOOKUP_URL);

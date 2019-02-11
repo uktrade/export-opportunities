@@ -14,7 +14,7 @@
 
   var SelectiveLookup = classes.SelectiveLookup;
   var errors = {
-    // TODO: Create mechanism to get these from BE/content. 
+    // TODO: Create mechanism to get these from content.
     noInputOrSelection: "No input or selection."
   }
 
@@ -23,16 +23,17 @@
    **/
   classes.CpvCodeLookup = CpvCodeLookup;
   function CpvCodeLookup($field, service, options) {
+    var $input, $add, $multipleDisplay, $ul, $currentOutput;
     var instance = this;
     var $form = $field.parents("form");
-    var $input;
     var opts = $.extend({
-      //$after: $(), // (jQuery element) Specify an element to insert list after (gets appended to body if nothing passed).
+      title: "Selected codes", // Title for choices display area.
       $errors: $(), // Where do we display errors.
       addButtonCssCls: "", // Should you want to add something for CSS.
       multiple: false, // Adds activator to allow chosing/setting multiple codes.
-      param: "term"
-    }, options || {}); 
+      datamapping: { text: "english_text", value: "code" }, // See notes in SelectiveLookup
+      param: "format=json&description="
+    }, options || {});
     
     if($field.length) {
       // To minimise effort on changing form processing, we
@@ -42,10 +43,9 @@
       // If multiple codes are to be added, there is a
       // mechanism to allow for multiple additions to the
       // original form input element.
-      // $field.attr("type", "hidden");
       $input = $('<input type="text" class="CpvCodeLookupInput" name="cpv_input_text">');
-      $field.attr("readonly", "true");
-      $field.addClass("CpvCodeLookupEmptyOutput"); // Allows for initial hidden state, if required.
+      $field.attr("id", ""); // Clear this because there might be multiple.
+      $field.attr("type", "hidden");
       $field.after($input);
 
       // If it's going to be multiple entry.
@@ -54,12 +54,25 @@
         $add.addClass(opts.addButtonCssCls);
         CpvCodeLookup.addMultipleButtonEvent.call(this, $add);
         $input.after($add);
+
+        // Create a visible output for multiple selected codes.
+        $multipleDisplay = $('<div class="CpvCodeLookupFieldAndDisplay"></div>');
+        $multipleDisplay.append($('<p class="CpvCodeLookupEmptyOutput">' + opts.title  + '</p>'));
+        $ul = $('<ul></ul>');
+        $currentOutput = $("<li></li>");
+        $currentOutput.addClass("CpvCodeLookupEmptyOutput");
+        $ul.append($currentOutput);
+        $multipleDisplay.append($ul);
+        $input.before($multipleDisplay);
+        $multipleDisplay.append($input);
+        $multipleDisplay.append($add);
       }
 
       // Inherit...
       SelectiveLookup.call(this,
                            $input,
-                           service
+                           service,
+                           opts
                           );
 
       // If we are not told where, insert element for showing errors.
@@ -70,6 +83,8 @@
 
       // Some inner variable requirement.
       this._private.$field = $field;
+      this._private.$currentOutput = $currentOutput;
+      this._private.$multipleDisplay = $multipleDisplay;
       this._private.$form = $form;
       this._private.$errors = opts.$errors;
       this._private.param = opts.param;
@@ -85,19 +100,27 @@
   CpvCodeLookup.addMultipleButtonEvent = function($button) {
     var instance = this;
     $button.on("click.CpvCodeLookup", function() {
-      var $field = instance._private.$field;
-      var $input = instance._private.$input;
-      var $anotherField, id;
+      var _p = instance._private;
+      var $anotherField, $anotherCurrentOutput;
+
       // TODO: Need to improve the empty value check.
-      if($input.val() != "") {
-        id = $field.attr("id") + "_" + (++instance._private.fieldCount);
-        $anotherField = $field.clone();
+      if(_p.$input.val() != "") {
+        // Arrange a new input field.
+        $anotherField = _p.$field.clone();
         $anotherField.val("");
-        $anotherField.attr("id", id);
         $anotherField.addClass("CpvCodeLookupEmptyOutput");
-        $field.before($anotherField);
-        $input.val("");
-        instance._private.$field = $anotherField;
+        _p.$field.before($anotherField);
+        _p.$input.val("");
+        _p.$field = $anotherField;
+
+        // If we're in multiple display mode, we need
+        // to arrange a new output element.
+        if(_p.$currentOutput) {
+          $anotherCurrentOutput = _p.$currentOutput.clone();
+          $anotherCurrentOutput.addClass("CpvCodeLookupEmptyOutput");
+          _p.$currentOutput.after($anotherCurrentOutput);
+          _p.$currentOutput = $anotherCurrentOutput;
+        }
       }
     });
   }
@@ -107,27 +130,26 @@
     var instance = this;
     instance._private.$list.off("click.SelectiveLookupContent");
     instance._private.$list.on("click.CpvCodeLookup", function(event) {
+      var _p = instance._private;
       var $eventTarget = $(event.target);
+      var value = $eventTarget.attr("data-value");
+      var text = $eventTarget.text();
 
+      // Add choice values to form fields.
       // TODO: Adapt this to get a CPV code when data format is known.
-      if($eventTarget.attr("data-value")) {
-        instance._private.$input.val($eventTarget.text());
-        instance._private.$field.val($eventTarget.attr("data-value"));
-        instance._private.$field.removeClass("CpvCodeLookupEmptyOutput");
+      _p.$input.val(text);
+      _p.$field.val(value);
+
+      // Adjust the output if using multiple display
+      if(_p.$currentOutput) {
+        _p.$multipleDisplay.find(".CpvCodeLookupEmptyOutput").removeClass("CpvCodeLookupEmptyOutput");
+        _p.$currentOutput.text(value + " - " + text);
       }
     });
   }
   
   CpvCodeLookup.prototype.param = function() {
-    return this._private.param + "=" + this._private.$input.val();
-  }
-  
-  CpvCodeLookup.prototype.setContent = function() {
-    SelectiveLookup.prototype.setContent.call(this, {
-      // TODO: Adapt when data format is known.
-      text: "title",
-      value: "company_number"
-    });
+    return this._private.param + this._private.$input.val();
   }
 
 })(jQuery, dit.utils, dit.classes);
