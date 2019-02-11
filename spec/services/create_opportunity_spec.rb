@@ -81,7 +81,7 @@ describe CreateOpportunity, type: :service do
       expect(opportunity.slug).to eql 'badly-formatted-slug'
     end
 
-    context 'can add Sectors by CPV code', focus: true do
+    context 'can add Sectors by CPV code' do
       
       before do
         # Mock the external API; this API is tested elsewhere

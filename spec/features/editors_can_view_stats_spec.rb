@@ -104,7 +104,7 @@ RSpec.feature 'Editors can view stats' do
     expect(page).to have_content(t('admin.stats.opportunities_published', count: 0))
     expect(page).to have_content(t('admin.stats.enquiries', count: 0))
     average_age =  t('admin.stats.average_age_when_published', average_age: 'N/A')
-    expect(page).to have_content(average_age)
+    expect(page).to have_content(average_age).or(have_content(average_age.gsub(": ", ":\n")))
   end
 
   scenario 'when the editor has no service provider' do
