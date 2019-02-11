@@ -1,5 +1,4 @@
 class CategorisationMicroservice
-  
   #
   # Calls the Categorisation Microservice.
   # This takes a CPV code as an input and returns multiple sector codes
@@ -27,9 +26,9 @@ class CategorisationMicroservice
 
   # Calls the service and provides a sanitised response
   def call
-    return "Error: CPV code not given" unless @cpv
+    return 'Error: CPV code not given' unless @cpv
 
-    url = "#{ENV["CATEGORISATION_URL"]}/api/matchers/cpv/?cpv_id=#{@cpv}&format=json"
+    url = "#{ENV['CATEGORISATION_URL']}/api/matchers/cpv/?cpv_id=#{@cpv}&format=json"
     response = Faraday.get url
 
     if response.status == 200
@@ -41,7 +40,6 @@ class CategorisationMicroservice
 
   # Gets an array of all of the sector ids from the response
   def sector_ids
-    # call.map{|result| result["sector_id"] }.flatten
+    call.map { |result| result['sector_id'] }.flatten
   end
-
 end
