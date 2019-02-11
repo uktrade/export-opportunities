@@ -1,14 +1,25 @@
-
-
 .CpvCodeLookupAdd {
   @include link;
   margin-top: $spacing-4;
 }
 
-.CpvCodeLookupInput {
+.CpvCodeLookupFieldAndDisplay {
+  background-color: $stone-40;
+  padding: $spacing-4;
+
+  li {
+    font-size: $font-size-xs;
+    line-height: 1.2em;
+    margin-bottom: 5px;
+  }
+
+  p, ul {
+    margin-bottom: $spacing-4;
+  }
 }
 
 .CpvCodeLookupEmptyOutput {
   position: absolute;
   visibility: hidden;
+  width: inherit;
 }
