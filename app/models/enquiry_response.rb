@@ -20,6 +20,7 @@ class EnquiryResponse < ApplicationRecord
 
   def documents_list
     return 'Not available' unless response_type == 1
+
     file_list = ''
     begin
       docs = JSON.parse(documents || '')

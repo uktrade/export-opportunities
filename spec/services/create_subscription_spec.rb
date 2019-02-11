@@ -3,85 +3,129 @@ require 'rails_helper'
 RSpec.describe CreateSubscription do
   before do
     @user = create(:user)
-    @subscription = class_double('Subscription')
-    allow(@subscription).to receive(:create!)
-    stub_const('Subscription', @subscription)
+    create(:country, name: "Wales", slug: 'wales')
+    create(:country, name: "Scotland", slug: 'scotland')
+    create(:sector, name: "Circus", slug: 'circus')
+    create(:sector, name: "Playground Apparatus", slug: 'playground-apparatus')
+    create(:value, name: "High", slug: 'high')
+    create(:value, name: "Low", slug: 'low')
+    create(:type, name: "Public Sector", slug: 'public-sector')
+    create(:type, name: "Private Sector", slug: 'private-sector')
   end
 
   describe '#call' do
     it 'creates a subscription with a user' do
-      form = fake_form
-
-      expect(@subscription).to receive(:create!)
-        .with(a_hash_including(user: @user))
+      clean_params = Search.new({}) # Does not run; cleans params
+      form = SubscriptionForm.new({
+        term: clean_params.term,
+        filter: clean_params.filter
+      })
 
       CreateSubscription.new.call(form, @user)
+      subscription = Subscription.last
+
+      expect(subscription.user                 ).to eq @user
+      expect(subscription.title                ).to eq ''
+      expect(subscription.search_term          ).to eq ''
+      expect(subscription.countries.map(&:slug)).to eq []
+      expect(subscription.sectors.map(&:slug)  ).to eq []
+      expect(subscription.types.map(&:slug)    ).to eq []
+      expect(subscription.values.map(&:slug)   ).to eq []
     end
 
     it 'creates a subscription with a search term' do
-      form = fake_form(search_term: 'lycos')
-
-      expect(@subscription).to receive(:create!)
-        .with(a_hash_including(search_term: 'lycos'))
+      clean_params = Search.new({ s: 'lycos' }) # Does not run; cleans params
+      form = SubscriptionForm.new({
+        term: clean_params.term,
+        filter: clean_params.filter
+      })
 
       CreateSubscription.new.call(form, @user)
+      subscription = Subscription.last
+
+      expect(subscription.user       ).to eq @user
+      expect(subscription.title      ).to eq 'lycos'
+      expect(subscription.search_term).to eq 'lycos'
+      expect(subscription.countries.map(&:slug)).to eq []
+      expect(subscription.sectors.map(&:slug)  ).to eq []
+      expect(subscription.types.map(&:slug)    ).to eq []
+      expect(subscription.values.map(&:slug)   ).to eq []
     end
 
     it 'creates a subscription with a list of countries' do
-      wales = instance_double('Country')
-      scotland = instance_double('Country')
-      form = fake_form(countries: [wales, scotland])
-
-      expect(@subscription).to receive(:create!)
-        .with(a_hash_including(countries: [wales, scotland]))
+      clean_params = Search.new({ countries: ['wales', 'scotland'] }) # Does not run; cleans params
+      form = SubscriptionForm.new({
+        term: clean_params.term,
+        filter: clean_params.filter
+      })
 
       CreateSubscription.new.call(form, @user)
+      subscription = Subscription.last
+      
+      expect(subscription.user       ).to eq @user
+      expect(subscription.title      ).to eq "Scotland or Wales"
+      expect(subscription.search_term).to eq ''
+      expect(subscription.countries.map(&:slug)).to eq ['wales', 'scotland']
+      expect(subscription.sectors.map(&:slug)  ).to eq []
+      expect(subscription.types.map(&:slug)    ).to eq []
+      expect(subscription.values.map(&:slug)   ).to eq []
     end
 
     it 'creates a subscription with a list of sectors' do
-      circus_equipment = instance_double('Sector')
-      playground_apparatus = instance_double('Sector')
-
-      form = fake_form(sectors: [circus_equipment, playground_apparatus])
-
-      expect(@subscription).to receive(:create!)
-        .with(a_hash_including(sectors: [circus_equipment, playground_apparatus]))
+      clean_params = Search.new({ sectors: ['circus', 'playground-apparatus'] }) # Does not run; cleans params
+      form = SubscriptionForm.new({
+        term: clean_params.term,
+        filter: clean_params.filter
+      })
 
       CreateSubscription.new.call(form, @user)
+      subscription = Subscription.last
+
+      expect(subscription.user       ).to eq @user
+      expect(subscription.title      ).to eq ''
+      expect(subscription.search_term).to eq ''
+      expect(subscription.countries.map(&:slug)).to eq []
+      expect(subscription.sectors.map(&:slug)  ).to eq ['circus', 'playground-apparatus']
+      expect(subscription.types.map(&:slug)    ).to eq []
+      expect(subscription.values.map(&:slug)   ).to eq []
     end
 
     it 'creates a subscription with a list of types' do
-      public_sector = instance_double('Type')
-      private_sector = instance_double('Type')
-      form = fake_form(types: [public_sector, private_sector])
-
-      expect(@subscription).to receive(:create!)
-        .with(a_hash_including(types: [public_sector, private_sector]))
+      clean_params = Search.new({ types: ['public-sector', 'private-sector'] }) # Does not run; cleans params
+      form = SubscriptionForm.new({
+        term: clean_params.term,
+        filter: clean_params.filter
+      })
 
       CreateSubscription.new.call(form, @user)
+      subscription = Subscription.last
+
+      expect(subscription.user       ).to eq @user
+      expect(subscription.title      ).to eq ''
+      expect(subscription.search_term).to eq ''
+      expect(subscription.countries.map(&:slug)).to eq []
+      expect(subscription.sectors.map(&:slug)  ).to eq []
+      expect(subscription.types.map(&:slug)    ).to eq ['public-sector', 'private-sector']
+      expect(subscription.values.map(&:slug)   ).to eq []
     end
 
     it 'creates a subscription with a list of values' do
-      high = instance_double('Value')
-      low = instance_double('Value')
-      form = fake_form(values: [high, low])
-
-      expect(@subscription).to receive(:create!)
-        .with(a_hash_including(values: [high, low]))
+      clean_params = Search.new({ values: ['high', 'low'] }) # Does not run; cleans params
+      form = SubscriptionForm.new({
+        term: clean_params.term,
+        filter: clean_params.filter
+      })
 
       CreateSubscription.new.call(form, @user)
-    end
+      subscription = Subscription.last
 
-    def fake_form(search_term: nil, countries: [], sectors: [], types: [], values: [])
-      instance_double(
-        'SubscriptionForm',
-        search_term: search_term,
-        title: "#{search_term} in #{countries}",
-        countries: countries,
-        sectors: sectors,
-        types: types,
-        values: values
-      )
+      expect(subscription.user       ).to eq @user
+      expect(subscription.title      ).to eq ''
+      expect(subscription.search_term).to eq ''
+      expect(subscription.countries.map(&:slug)).to eq []
+      expect(subscription.sectors.map(&:slug)  ).to eq []
+      expect(subscription.types.map(&:slug)    ).to eq []
+      expect(subscription.values.map(&:slug)   ).to eq ['high', 'low']
     end
   end
 end

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe 'Viewing the ATOM feed for opportunities', :elasticsearch, :commit, type: :request do
+RSpec.describe 'Viewing the ATOM feed for opportunities',
+  :elasticsearch, type: :request do
+  
   it 'returns a valid ATOM feed' do
     create(:opportunity,
       :published,
@@ -14,7 +16,7 @@ RSpec.describe 'Viewing the ATOM feed for opportunities', :elasticsearch, :commi
       updated_at: DateTime.new(2016, 9, 20, 18, 0, 0).utc,
       first_published_at: DateTime.new(2016, 9, 11, 18, 0, 0).utc)
 
-    sleep 1
+    refresh_elasticsearch
 
     get '/opportunities.atom'
 
@@ -31,7 +33,7 @@ RSpec.describe 'Viewing the ATOM feed for opportunities', :elasticsearch, :commi
     expect(body.at_css('feed > link[rel=self]').attr('type')).to eql 'application/atom+xml'
     expect(body.at_css('feed > link[rel=self]').attr('href')).to eql 'http://www.example.com/opportunities.atom'
     expect(body.at_css('feed > link[rel=alternate]').attr('type')).to eql 'text/html'
-    expect(body.at_css('feed > link[rel=alternate]').attr('href')).to eql 'http://www.example.com/opportunities'
+    expect(body.at_css('feed > link[rel=alternate]').attr('href')).to eql "http://www.example.com/opportunities"
 
     expect(body.at_css('feed > entry > title').text).to eql 'Atom Feed Required'
     expect(body.at_css('feed > entry > id').text).to eql 'tag:www.example.com,2016:Opportunity/0a0a7bdc-0da8-439a-978a-758601d7a8ce'
@@ -50,7 +52,7 @@ RSpec.describe 'Viewing the ATOM feed for opportunities', :elasticsearch, :commi
   it 'returns the correct number of results' do
     create_list(:opportunity, 2, :published)
 
-    sleep 1
+    refresh_elasticsearch
     get '/opportunities.atom'
     body = parse_xml(response.body)
 
@@ -62,7 +64,7 @@ RSpec.describe 'Viewing the ATOM feed for opportunities', :elasticsearch, :commi
     create(:opportunity, :published, updated_at: 30.minutes.ago)
     create(:opportunity, updated_at: 1.minute.ago)
 
-    sleep 1
+    refresh_elasticsearch
     get '/opportunities.atom'
     body = parse_xml(response.body)
 
@@ -79,11 +81,14 @@ RSpec.describe 'Viewing the ATOM feed for opportunities', :elasticsearch, :commi
   end
 
   it 'returns the opportunities ordered by updated_at, with newest first' do
-    newest_opportunity = create(:opportunity, :published, response_due_on: 3.days.from_now, updated_at: 1.day.ago, title: 'newest')
-    new_opportunity = create(:opportunity, :published, response_due_on: 2.days.from_now, updated_at: 2.days.ago, title: 'new')
-    old_opportunity = create(:opportunity, :published, response_due_on: 1.day.from_now, updated_at: 3.days.ago, title: 'old')
+    newest_opportunity = create(:opportunity, :published, response_due_on: 3.days.from_now,
+                                updated_at: 1.day.ago, title: 'newest')
+    new_opportunity = create(:opportunity, :published, response_due_on: 2.days.from_now,
+                             updated_at: 2.days.ago, title: 'new')
+    old_opportunity = create(:opportunity, :published, response_due_on: 1.day.from_now,
+                             updated_at: 3.days.ago, title: 'old')
 
-    sleep 1
+    refresh_elasticsearch
     get '/opportunities.atom'
     body = parse_xml(response.body)
 
@@ -97,8 +102,8 @@ RSpec.describe 'Viewing the ATOM feed for opportunities', :elasticsearch, :commi
   context 'pagination' do
     it 'adds links to the next page when appropriate' do
       create_list(:opportunity, 25, :published)
+      refresh_elasticsearch
 
-      sleep 1
       get '/opportunities.atom'
 
       body = parse_xml(response.body)
@@ -106,14 +111,13 @@ RSpec.describe 'Viewing the ATOM feed for opportunities', :elasticsearch, :commi
       expect(body.css('feed > link[rel=next]')).to be_empty
 
       create(:opportunity, :published)
+      refresh_elasticsearch
 
-      sleep 1
       get '/opportunities.atom'
       body = parse_xml(response.body)
 
       expect(body.css('feed > link[rel=next]').attr('href').text).to eql 'http://www.example.com/opportunities.atom?paged=2'
 
-      sleep 1
       get '/opportunities.atom?paged=2'
       body = parse_xml(response.body)
 
@@ -121,13 +125,14 @@ RSpec.describe 'Viewing the ATOM feed for opportunities', :elasticsearch, :commi
     end
 
     it 'adds links to the previous page when appropriate' do
-      create_list(:opportunity, 26, :published)
+      26.times do |x|
+        create(:opportunity, :published, title: "Post #{x}")
+      end
+      refresh_elasticsearch
 
-      sleep 1
-      get '/opportunities.atom'
-      body = parse_xml(response.body)
-
-      expect(body.css('feed > link[rel=prev]')).to be_empty
+      # get '/opportunities.atom'
+      # body = parse_xml(response.body)
+      # expect(body.css('feed > link[rel=prev]')).to be_empty
 
       get '/opportunities.atom?paged=2'
       body = parse_xml(response.body)

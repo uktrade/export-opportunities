@@ -13,6 +13,7 @@ class EnquiryPolicy < ApplicationPolicy
 
   def editor_is_in_opportunity_service_provider?
     return false if @editor.service_provider.blank?
+
     @record.opportunity.service_provider == @editor.service_provider
   end
 

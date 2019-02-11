@@ -5,7 +5,7 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     create(:opportunity, status: 'publish', title: 'Super opportunity')
     create(:opportunity, status: 'publish', title: 'Boring opportunity')
 
-    sleep 1
+    refresh_elasticsearch
     visit opportunities_path
 
     within '.search' do
@@ -22,7 +22,7 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     create(:opportunity, status: 'publish', title: 'Children\'s opportunity')
     create(:opportunity, status: 'publish', title: 'Childrens opportunity')
 
-    sleep 1
+    refresh_elasticsearch
     visit opportunities_path
 
     within '.search' do
@@ -39,7 +39,7 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     create(:opportunity, status: 'publish', title: 'Innovative products for fish catching')
     create(:opportunity, status: 'publish', title: 'Award-winning jam and marmalade required')
 
-    sleep 1
+    refresh_elasticsearch
     visit opportunities_path
 
     within '.search' do
@@ -54,7 +54,7 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
   scenario 'users can still find an opportunity if its content changes' do
     opportunity = create(:opportunity, status: 'publish', title: 'France requires back bacon')
 
-    sleep 1
+    refresh_elasticsearch
     visit opportunities_path
 
     within '.search' do
@@ -80,7 +80,7 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
 
   scenario 'users cannot perform an empty search from home page', js: true do
     visit root_path
-    sleep 1
+    refresh_elasticsearch
 
 
     # Check we're on home and have no error showing.
@@ -90,7 +90,7 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     # Form each search form...
     page.all('.search-form').each do |form|
       form.find('.submit').click
-      sleep 1
+      refresh_elasticsearch
 
       # Check we stay on home and have the error in content.
       expect(current_breadcrumb).to eql('Export Opportunities')
@@ -100,7 +100,7 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
 
   scenario 'users cannot perform an empty search from search results page', js: true do
     visit opportunities_path
-    sleep 1
+    refresh_elasticsearch
 
     # Check we're on search results page.
     expect(current_breadcrumb).to eql('Search results')
@@ -108,7 +108,7 @@ RSpec.feature 'searching opportunities', :elasticsearch, :commit do
     within '.search' do
       find('.submit').click
     end
-    sleep 1
+    refresh_elasticsearch
 
     # Check we are still on search results page but error does not show.
     expect(current_breadcrumb).to eql('Search results')

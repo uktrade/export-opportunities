@@ -1,57 +1,54 @@
-- page = PagePresenter.new(@content)
-- results = OpportunitySearchResultsPresenter.new(@content, @search_result)
-
 .container
-  = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
+  = render partial: 'components/breadcrumbs', locals: { breadcrumbs: @page.breadcrumbs }
 
 #opportunity-search-results
   .container
-    %h1.verbose= @content['title']
+    %h1.verbose= @results.content['title']
     .information
-      %p= results.information
-      - if results.offer_subscription(params[:subscription_url].blank?)
-        = render partial: "components/subscription_link", locals: { subscription: results.subscription }
+      %p= @results.information
+      - if @results.offer_subscription(params[:subscription_url].blank?)
+        = render partial: "components/subscription_link", locals: { subscription: @subscription }
 
     %form.search{:action=>opportunities_path, :method=>"get"}
       %label
-        %span= results.content['title_new_search']
+        %span= @results.content['title_new_search']
         %input{:name=>"s", :autocomplete=>"off", :class=>"text", :type=>"search", :value=>"", :placeholder=>"What are you selling?"}
-      %input.submit{:value=>results.content['search_again_button'], :type=>"submit"}
+      %input.submit{:value=>@results.content['search_again_button'], :type=>"submit"}
 
 
 %form{:action=>opportunities_path, :method=>"get"}
-  = results.hidden_search_fields(request.params)
+  = @results.hidden_search_fields(request.params)
   
   .container
-    - if results.found.length > 0
+    - if @results.found.length > 0
 
       .search-results
-        %h2.verbose= results.content['title_results_list']
-        = results.displayed "information"
+        %h2.verbose= @results.content['title_results_list']
+        = @results.displayed "information"
         .sort
-          = render partial: "forms/input_select", locals: { input: results.sort_input_select }
-        = render partial: "opportunities/list", locals: { list: results.found }
-        = render partial: "components/pagination", locals: { items: results.found }
-        = results.view_all_link opportunities_path, "button all"
+          = render partial: "forms/input_select", locals: { input: @results.sort_input_select }
+        = render partial: "opportunities/list", locals: { list: @results.found }
+        = render partial: "components/pagination", locals: { items: @results.found }
+        = @results.view_all_link opportunities_path, "button all"
 
       .search-results-filters
-        %h2.section-heading= results.content['title_filters']
-        - if results.applied_filters?
+        %h2.section-heading= @results.content['title_filters']
+        - if @results.applied_filters?
           .selected-filters
-            = results.selected_filter_list(results.content['title_filters_selected'])
-            = link_to "Clear all filters", results.reset_url(request), { :class=>"reset" }
-        = render partial: "forms/input_checkbox_group", locals: { group: results.input_checkbox_group('regions') }
-        = render partial: "forms/input_checkbox_group", locals: { group: results.input_checkbox_group('countries') }
-        = render partial: "forms/input_checkbox_group", locals: { group: results.input_checkbox_group('sources') }
+            = @results.selected_filter_list(@results.content['title_filters_selected'])
+            = link_to "Clear all filters", @results.reset_url(request), { :class=>"reset" }
+        = render partial: "forms/input_checkbox_group", locals: { group: @results.input_checkbox_group('regions') }
+        = render partial: "forms/input_checkbox_group", locals: { group: @results.input_checkbox_group('countries') }
+        = render partial: "forms/input_checkbox_group", locals: { group: @results.input_checkbox_group('sources') }
 
         %input.submit.button{:type=>"submit", :value=>"Update results"}
         %input.reset.link{:type=>"reset", :value=>"Reset"}
 
     - else
-      .search-results.none
-        %h2.verbose= results.content['title']
-        %p.information= results.content['no_results_message']
-        %p#no-results-instruction= results.content['no_results_instruction']
+      .search-@results.none
+        %h2.verbose= @results.content['title']
+        %p.information= @results.content['no_results_message']
+        %p#no-results-instruction= @results.content['no_results_instruction']
         %ul{"aria-labelledby"=>"no-results-instruction"}
-          - results.content['no_results_actions'].each do |action|
+          - @results.content['no_results_actions'].each do |action|
             %li= action

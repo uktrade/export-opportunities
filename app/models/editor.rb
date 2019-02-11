@@ -1,10 +1,10 @@
 class Editor < ApplicationRecord
   include DeviseUserMethods
   belongs_to :service_provider
-  has_many :opportunities, foreign_key: 'author_id'
+  has_many :opportunities, foreign_key: 'author_id', dependent: :nullify, inverse_of: :editor
 
-  has_many :enquiry_responses
-  has_many :report_audits
+  has_many :enquiry_responses, dependent: :nullify
+  has_many :report_audits, dependent: :destroy
 
   enum role: { uploader: 1, publisher: 2, previewer: 3, administrator: 4 }
 

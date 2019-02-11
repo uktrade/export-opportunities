@@ -91,7 +91,7 @@ feature 'Logging in as an editor' do
       click_on 'Set my password'
 
       within '#error_explanation' do
-        expect(page).to have_content I18n.t('errors.guessable_password')
+        expect(page).to have_content I18n.t('errors.guessable_password').chomp.tr("\n"," ")
       end
 
       expect(@editor.reload.confirmed_at).to be_nil

@@ -19,7 +19,7 @@ class Admin::OpportunityCommentsController < Admin::BaseController
 
   private
 
-  def comment_params
-    params.require(:opportunity_comment_form).permit(:message, :opportunity)
-  end
+    def comment_params
+      params.require(:opportunity_comment_form).permit(:message, :opportunity)
+    end
 end

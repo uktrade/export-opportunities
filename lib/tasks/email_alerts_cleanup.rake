@@ -15,6 +15,7 @@ namespace :reports do
       puts email
       user = User.where(email: email).first
       next unless user&.id
+
       matched_subscriptions = Subscription.where(user_id: user.id)
 
       matched_subscriptions.each do |matched_subscription|
@@ -42,6 +43,7 @@ namespace :reports do
       puts email
       user = User.where(email: email).first
       next unless user&.id
+
       FeedbackOptOut.new(user_id: user.id).save!
     end
   end

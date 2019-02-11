@@ -157,6 +157,7 @@ namespace :reports do
       service_provider.save!
 
       next unless row['id_obni']
+
       puts "[2]Adding OBNI to #{current_country}"
 
       service_provider_obni = ServiceProvider.find(row['id_obni'])
