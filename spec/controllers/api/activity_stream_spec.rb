@@ -707,7 +707,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         expect(items[1]['object']['name']).to eq(Opportunity.order(:id).second.title)
       end
 
-      it 'is paginated with a link element if there are MAX_PER_PAGE opportunities', focus: true do
+      it 'is paginated with a link element if there are MAX_PER_PAGE opportunities' do
         Opportunity.destroy_all
         ServiceProvider.create(name: "British Embassy")
 

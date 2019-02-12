@@ -38,7 +38,7 @@ module Api
 
       opportunity_ids = enquiries.map(&:opportunity_id)
       country_names = get_country_names(opportunity_ids)
-      service_providers = get_service_providers(opportunity_ids)
+      service_provider_names = get_service_provider_names(opportunity_ids)
       items = enquiries.map { |enquiry| enquiry_to_activity(country_names, service_provider_names, enquiry) }
 
       contents = to_activity_collection(items).merge(
