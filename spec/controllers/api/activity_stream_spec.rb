@@ -21,7 +21,7 @@ def auth_header(ts, key_id, secret_key, uri, payload)
   )
 end
 
-RSpec.describe Api::ActivityStreamController, type: :controller do
+RSpec.describe Api::ActivityStreamController, type: :controller, focus: true do
   before :each do
     allow(Figaro.env).to receive('ACTIVITY_STREAM_ENABLED').and_return('true')
   end
@@ -675,7 +675,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         # Create two an opportunities
         for i in 0..1 do
           create_opportunity(:published, {
-            first_published_at: Time.now + i.days,
+            updated_at: Time.now + i.days,
             title:              "2x4 Wood #{i}",
             slug:               "2x4-wood-#{i}"
           })
@@ -692,10 +692,11 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Opportunity.destroy_all
 
         for i in 0..1 do
-          create_opportunity(:published, {
+          op = create_opportunity(:published, {
             title:              "2x4 Wood #{i}",
             slug:               "2x4-wood-#{i}"
           })
+          op.update_column(:updated_at, Time.now + i.days)
         end
 
         items = get_feed(activity_stream_opportunities_path)
@@ -711,22 +712,22 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         stub_const("MAX_PER_PAGE", 20)
         Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2, 344590)) do
           for i in 1..21 do
-            create_opportunity(:published, {
-              first_published_at: Time.now + i.days,
+            op = create_opportunity(:published, {
               title:              "2x4 Wood #{i}",
               slug:               "2x4-wood-#{i}"
             })
+            op.update_column(:updated_at, Time.now + i.days)
           end
         end
 
-        # Fetch search_after inputs for URL
-        twenty = Opportunity.order(:first_published_at)[19]
-        id_20 = twenty.id
-        timestamp_20 = format('%.6f', twenty.first_published_at.to_datetime.to_f)
 
-        twenty_one = Opportunity.order(:first_published_at)[20]
+        # Fetch data for search_after() to help generate 'next' URL
+        twenty = Opportunity.order(:updated_at)[19]
+        id_20 = twenty.id
+        timestamp_20 = format('%.6f', twenty.updated_at.to_datetime.to_f)
+        twenty_one = Opportunity.order(:updated_at)[20]
         id_21 = twenty_one.id
-        timestamp_21 = format('%.6f', twenty_one.first_published_at.to_datetime.to_f)
+        timestamp_21 = format('%.6f', twenty_one.updated_at.to_datetime.to_f)
 
         @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
         @request.headers['Authorization'] = auth_header(

@@ -7,6 +7,11 @@ MAX_PER_PAGE = 500
 
 module Api
   class ActivityStreamController < ApplicationController
+    
+    def index
+      redirect_to({ action: :enquiries, params: params })
+    end
+
     def enquiries
       check_auth && return
 
@@ -32,41 +37,9 @@ module Api
         .order('enquiries.created_at ASC, enquiries.id ASC')
       enquiries = companies_with_number.take(MAX_PER_PAGE)
 
-      # To avoid...
-      # - A query per activity
-      # - select * (as opposed to specifying column names)
-      # - unnecessary joins
-      # ... there doesn't seem to be a pure ActiveRecord way of doing this. Specifically, it
-      # seems to be due to the fact that the countries of an opportunity is quite a "deep"
-      # relation.
-      # Note the WHERE IN (...) as opposted to WHERE IN (VALUES ...). The VALUES version was
-      # tested on staging with 1000 IDs, and was found to be slower, and from EXPLAIN ANALYZE
-      # it involved a full table scan, while the current version was faster and did not
-      # involve a full table scan (other than on the countries table itself, but it's small
-      # so that makes sense)
-      #
-      # Also, wake sure to not error with cases where both there are no opportunity IDs,
-      # and if the opportunity has no associated countries.
       opportunity_ids = enquiries.map { |enquiry| [nil, enquiry.opportunity_id] }
-      where_clause = enquiries.map.with_index { |_enquiry, i| "$#{i + 1}::uuid" }.join(',')
-      country_names_str = \
-        if opportunity_ids.empty? then {} else ActiveRecord::Base
-          .connection
-          .select_rows(
-            'SELECT countries_opportunities.opportunity_id, STRING_AGG(countries.name, \'__SEP__\' ORDER BY name) as country_name ' \
-            'FROM countries_opportunities ' \
-            'INNER JOIN countries ON (countries_opportunities.country_id = countries.id) ' \
-            'WHERE countries_opportunities.opportunity_id IN (' + where_clause + ') ' \
-            'GROUP BY countries_opportunities.opportunity_id ',
-            nil, opportunity_ids
-          )
-          .to_h
-        end
-      country_names_empty_str = Hash[enquiries.map { |enquiry, _| [enquiry.opportunity_id, ''] }]
-      country_names_all = country_names_empty_str.merge(country_names_str)
-      country_names = Hash[country_names_all.map { |opp_id, country_str| [opp_id, country_str.split('__SEP__')] }]
 
-      items = enquiries.map { |enquiry| enquiry_to_activity(country_names, enquiry) }
+      items = enquiries.map { |enquiry| enquiry_to_activity(get_country_names(opportunity_ids), enquiry) }
       contents = to_activity_collection(items).merge(
         if enquiries.empty?
           {}
@@ -85,17 +58,18 @@ module Api
       search_after_time = Float(search_after_time_str)
 
       opportunities = Opportunity.published.applicable
-        .where('first_published_at > to_timestamp(?) OR (first_published_at = to_timestamp(?) AND cast(id AS varchar) > cast(? AS varchar))',
+        .where('updated_at > to_timestamp(?) OR (updated_at = to_timestamp(?) AND cast(id AS varchar) > cast(? AS varchar))',
           search_after_time, search_after_time, search_after_id_str)
-        .order('first_published_at ASC, id ASC')
+        .order('updated_at ASC, id ASC')
         .take(MAX_PER_PAGE)
 
-      items = opportunities.map { |opportunity| opportunity_to_activity(opportunity) }
+      country_names = get_country_names(opportunities.map(&:id))
+      items = opportunities.map { |opportunity| opportunity_to_activity(country_names, opportunity) }
       contents = to_activity_collection(items).merge(
         if opportunities.empty?
           {}
         else
-          { next: "#{request.base_url}#{request.env['PATH_INFO']}?search_after=#{to_search_after(opportunities[-1], :first_published_at)}" }
+          { next: "#{request.base_url}#{request.env['PATH_INFO']}?search_after=#{to_search_after(opportunities[-1], :updated_at)}" }
         end
       )
       respond_200 contents
@@ -165,39 +139,83 @@ module Api
             'id': obj_id,
             'published': enquiry.created_at.to_datetime.rfc3339,
             'url': admin_enquiry_url(enquiry),
-            'inReplyTo': {
-              'type': ['Document', 'dit:exportOpportunities:Opportunity'],
-              'dit:exportOpportunities:Opportunity:id': enquiry.opportunity_id,
-              'dit:country': country_names[enquiry.opportunity_id],
-              'name': enquiry.opportunity_title,
-              'generator': {
-                'type': ['Organization', 'dit:ServiceProvider'],
-                'name': enquiry.opportunity_service_provider_name,
-              },
-            },
+            'inReplyTo': opportunity_object(country_names, enquiry.opportunity)
           },
         }
       end
 
       # Creates a hash of data for an Opportunity
-      def opportunity_to_activity(opportunity)
+      def opportunity_to_activity(country_names, opportunity)
         obj_id = 'dit:exportOpportunities:Opportunity:' + opportunity.id.to_s
         activity_id = obj_id + ':Create'
         {
           'id': activity_id, # Unique Id
           'type': 'Create',
           'published': opportunity.created_at.to_datetime.rfc3339,
-          'object': {
-            'type': ['Document', 'dit:exportOpportunities:Opportunity'],
-            'id': obj_id,
-            'name': opportunity.title,
-            'url': opportunity_url(opportunity),
-            'endTime': opportunity.response_due_on.to_datetime.rfc3339,
-            'summary': opportunity.teaser,
-            'content': opportunity.description,
-          },
+          'object': opportunity_object(country_names, opportunity)
         }
       end
+
+      def opportunity_object(country_names, opportunity)
+        obj_id = 'dit:exportOpportunities:Opportunity:' + opportunity.id.to_s
+        {
+          'type': ['Document', 'dit:exportOpportunities:Opportunity'],
+          # The following is used by Enquiry stream, may be deprecated soon - 11 Feb 2019
+          'dit:exportOpportunities:Opportunity:id': opportunity.id.to_s, 
+          'id': obj_id,
+          'name': opportunity.title,
+          'url': opportunity_url(opportunity),
+          'endTime': opportunity.response_due_on.to_datetime.rfc3339,
+          'summary': opportunity.teaser,
+          'content': opportunity.description,
+          'dit:country': country_names[opportunity.id],
+          'generator': {
+            'type': ['Organization', 'dit:ServiceProvider'],
+            'name': opportunity.service_provider.try(:name),
+          }
+        }
+      end
+
+      # Returns a hash of country names with ids of opportunities beside
+      #
+      # Notes:
+      # To avoid...
+      # - A query per activity
+      # - select * (as opposed to specifying column names)
+      # - unnecessary joins
+      # ... there doesn't seem to be a pure ActiveRecord way of doing this. Specifically, it
+      # seems to be due to the fact that the countries of an opportunity is quite a "deep"
+      # relation.
+      # Note the WHERE IN (...) as opposted to WHERE IN (VALUES ...). The VALUES version was
+      # tested on staging with 1000 IDs, and was found to be slower, and from EXPLAIN ANALYZE
+      # it involved a full table scan, while the current version was faster and did not
+      # involve a full table scan (other than on the countries table itself, but it's small
+      # so that makes sense)
+      #
+      # Also, wake sure to not error with cases where both there are no opportunity IDs,
+      # and if the opportunity has no associated countries.
+      def get_country_names(opportunity_ids)
+        opportunity_ids = opportunity_ids.map{|id| [nil, id] }
+        where_clause = opportunity_ids.map.with_index { |_, i| "$#{i + 1}::uuid" }.join(',')
+
+        country_names_str = \
+          if opportunity_ids.empty? then {} else ActiveRecord::Base
+            .connection
+            .select_rows(
+              'SELECT countries_opportunities.opportunity_id, STRING_AGG(countries.name, \'__SEP__\' ORDER BY name) as country_name ' \
+              'FROM countries_opportunities ' \
+              'INNER JOIN countries ON (countries_opportunities.country_id = countries.id) ' \
+              'WHERE countries_opportunities.opportunity_id IN (' + where_clause + ') ' \
+              'GROUP BY countries_opportunities.opportunity_id ',
+              nil, opportunity_ids
+            )
+            .to_h
+          end
+        country_names_empty_str = Hash[opportunity_ids.map { |id, _| [id, ''] }]
+        country_names_all = country_names_empty_str.merge(country_names_str)
+        Hash[country_names_all.map { |opp_id, country_str| [opp_id, country_str.split('__SEP__')] }]
+      end
+
 
       def to_search_after(object, method)
         timestamp_str = format('%.6f', object.send(method).to_datetime.to_f)

@@ -156,6 +156,8 @@ Rails.application.routes.draw do
   patch '/email_notifications/unsubscribe_all/:id', to: 'email_notifications#update', as: :update_email_notification
 
   get '/api/profile_dashboard', action: :index, controller: 'api/profile_dashboard', format: 'json', via: [:get]
+  get '/api/activity_stream/', action: :index,
+    controller: 'api/activity_stream', format: 'json', via: [:get] # Old route
   get '/api/activity_stream/enquiries', action: :enquiries,
     controller: 'api/activity_stream', format: 'json', via: [:get], as: :activity_stream_enquiries
   get '/api/activity_stream/opportunities', action: :opportunities,
