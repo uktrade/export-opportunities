@@ -63,9 +63,9 @@ fields:
     description: Select the relevant industries for this opportunity.
     placeholder: Search the relevant industries
 
-  cpv_id:
+  opportunity_cpvs:
     label: Cpv codes (optional)
-    description: Add cpv codes for the products you need to help suppliers to find your opportunity. Look up <a href="/foobar">cpv codes</a>.
+    description: Add cpv codes for the products you need to help suppliers to find your opportunity.
     placeholder: Enter CPV code
 
   types:
