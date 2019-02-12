@@ -27,10 +27,10 @@ dit.page.opportunity = (new function () {
    * lifetime of the page or used across several functions.
    **/
   function cacheComponents() {
-    _cache.$serviceProvider = $("[data-node='service-provider']");
-    _cache.$targetUrlParent = $("[data-node='target-url']").parent();
-    _cache.$companyInput = $("[data-node='countries']")
-    _cache.$sectorInput = $("[data-node='sectors']")
+    _cache.$serviceProvider = $("[data-node=service-provider]");
+    _cache.$targetUrlParent = $("[data-node=target-url]").parent();
+    _cache.$companyInput = $("[data-node=countries]")
+    _cache.$sectorInput = $("[data-node=sectors]")
     _cache.$process = $(".process");
     _cache.$history = $(".history");
   }
@@ -92,43 +92,39 @@ dit.page.opportunity = (new function () {
     }
   }
 
-  /* Enhance CPV code entry field and create a service
-   * to fetch data from CPV (??where??) API.
-   * NOTE: For dummy development, just using the existing Companies House API
+  /* Enhance CPV code entry field providing a lookup service
+   * and ability to add multiple entries.
    **/
   function setupCpvLookup() {
-    var $cpvInput = $("#opportunity_opportunity_cpv_ids");
-    var lookup;
-    if($cpvInput.length) {
-      service = new dit.classes.Service(dit.constants.CPV_CODE_LOOKUP_URL);
-      lookup = new dit.classes.CpvCodeLookup($cpvInput, service, {
-         multiple: true
-      });
+    var service = new dit.classes.Service(dit.constants.CPV_CODE_LOOKUP_URL);
+    var $cpvInputElements = $("[data-node=cpv-lookup]");
+    var $button = $('<button class="CpvLookupController" type="button">Add another code</button>');
+    var $fieldset = $('<fieldset class="CpvLookups"></fieldset>')
+    if($cpvInputElements.length) {
+      $cpvInputElements.wrap($fieldset);
+      $cpvInputElements.each(function(i) {
+        var $input = $(this);
+        new dit.classes.CpvCodeLookup($input, service);
 
-/*
-      lookup.bindContentEvents = function() {
-        var instance = this;
-
-        // First allow the normal functionality to run.
-        dit.classes.CompaniesHouseNameLookup.prototype.bindContentEvents.call(instance);
-
-        // Now add the customisations for ExOpps Enquiry form.
-        instance._private.$list.on("click.CompaniesHouseNameLookup", function(event) {
-          var companies = dit.data.getCompanyByName.data;
-          var number = instance._private.$field.val();
-          var postcode;
-          for(var i=0; i<companies.length; ++i) {
-            if(companies[i].company_number == number) {
-              postcode = companies[i].address.postal_code;
-              $("#enquiry_company_postcode").val(postcode);
-              $("#enquiry_company_address").val(companies[i].address_snippet.replace(postcode, ""));
+        // If it's the last one, add button to allow more fields.
+        if(i == $cpvInputElements.length - 1) {
+          $input.after($button);
+          $button.on("click.CpvLookupController", function() {
+            var $last = $(".CpvLookups input").last();
+            var $clone;
+            if($last.length) {
+              $clone = $last.clone();
+              $clone.attr("id", "");
+              $clone.val("");
+              $last.after($clone);
+              new dit.classes.CpvCodeLookup($clone, service);
             }
-          }
-        });
-      }
-*/
+          });
+        }
+      });
     }
   }
+
 });
 
 $(document).ready(function() {
