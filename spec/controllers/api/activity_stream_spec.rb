@@ -691,7 +691,6 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       it 'in ID order if two opportunities are made at the same time' do
         Opportunity.destroy_all
 
-
         for i in 0..1 do
           op = create_opportunity(:published, {
             title:              "2x4 Wood #{i}",
@@ -772,6 +771,17 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         feed_hash_3 = JSON.parse(response.body)
         expect(feed_hash_3.key?('next')).to eq(false)
         expect(feed_hash_3['orderedItems']).to eq([])
+      end
+
+    end
+
+    describe "authorization" do
+
+      it 'responds with a 401 error if Authorization header is not set' do
+        @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
+        get :opportunities, params: { format: :json }
+        expect(response.status).to eq(401)
+        expect(response.body).to eq(%({"message":"Authorization header is missing"}))
       end
 
     end
