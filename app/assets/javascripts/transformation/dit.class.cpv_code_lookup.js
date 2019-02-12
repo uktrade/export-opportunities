@@ -22,8 +22,7 @@
     var instance = this;
     var opts = $.extend({
       addButtonCssCls: "", // Should you want to add something for CSS.
-      datamapping: { text: "english_text", value: "code" }, // See notes in SelectiveLookup
-      param: "format=json&description="
+      datamapping: { text: "english_text", value: "code" } // See notes in SelectiveLookup
     }, options || {});
     
 
