@@ -7,9 +7,8 @@ MAX_PER_PAGE = 500
 
 module Api
   class ActivityStreamController < ApplicationController
-    
     def index
-      redirect_to({ action: :enquiries, params: params })
+      redirect_to(action: :enquiries, params: params)
     end
 
     def enquiries
@@ -37,9 +36,8 @@ module Api
         .order('enquiries.created_at ASC, enquiries.id ASC')
       enquiries = companies_with_number.take(MAX_PER_PAGE)
 
-      opportunity_ids = enquiries.map { |enquiry| [nil, enquiry.opportunity_id] }
+      items = enquiries.map { |enquiry| enquiry_to_activity(enquiries.map(&:opportunity_id), enquiry) }
 
-      items = enquiries.map { |enquiry| enquiry_to_activity(get_country_names(opportunity_ids), enquiry) }
       contents = to_activity_collection(items).merge(
         if enquiries.empty?
           {}
@@ -63,8 +61,7 @@ module Api
         .order('updated_at ASC, id ASC')
         .take(MAX_PER_PAGE)
 
-      country_names = get_country_names(opportunities.map(&:id))
-      items = opportunities.map { |opportunity| opportunity_to_activity(country_names, opportunity) }
+      items = opportunities.map { |opportunity| opportunity_to_activity(opportunities.map(&:id), opportunity) }
       contents = to_activity_collection(items).merge(
         if opportunities.empty?
           {}
@@ -101,7 +98,8 @@ module Api
         }
       end
 
-      def enquiry_to_activity(country_names, enquiry)
+      def enquiry_to_activity(opportunity_ids, enquiry)
+        country_names = get_country_names(opportunity_ids)
         # When making changes, be mindful to use .joins, .includes,
         # .preload or .eager_load in the query that has produced
         # `enquiry` in order to avoid any queries per activity.
@@ -139,20 +137,22 @@ module Api
             'id': obj_id,
             'published': enquiry.created_at.to_datetime.rfc3339,
             'url': admin_enquiry_url(enquiry),
-            'inReplyTo': opportunity_object(country_names, enquiry.opportunity)
+            'inReplyTo': opportunity_object(country_names, enquiry.opportunity),
           },
         }
       end
 
       # Creates a hash of data for an Opportunity
-      def opportunity_to_activity(country_names, opportunity)
+      def opportunity_to_activity(opportunity_ids, opportunity)
+        country_names = get_country_names(opportunity_ids)
+
         obj_id = 'dit:exportOpportunities:Opportunity:' + opportunity.id.to_s
         activity_id = obj_id + ':Create'
         {
           'id': activity_id, # Unique Id
           'type': 'Create',
           'published': opportunity.created_at.to_datetime.rfc3339,
-          'object': opportunity_object(country_names, opportunity)
+          'object': opportunity_object(country_names, opportunity),
         }
       end
 
@@ -161,7 +161,7 @@ module Api
         {
           'type': ['Document', 'dit:exportOpportunities:Opportunity'],
           # The following is used by Enquiry stream, may be deprecated soon - 11 Feb 2019
-          'dit:exportOpportunities:Opportunity:id': opportunity.id.to_s, 
+          'dit:exportOpportunities:Opportunity:id': opportunity.id.to_s,
           'id': obj_id,
           'name': opportunity.title,
           'url': opportunity_url(opportunity),
@@ -172,7 +172,7 @@ module Api
           'generator': {
             'type': ['Organization', 'dit:ServiceProvider'],
             'name': opportunity.service_provider.try(:name),
-          }
+          },
         }
       end
 
@@ -195,7 +195,7 @@ module Api
       # Also, wake sure to not error with cases where both there are no opportunity IDs,
       # and if the opportunity has no associated countries.
       def get_country_names(opportunity_ids)
-        opportunity_ids = opportunity_ids.map{|id| [nil, id] }
+        opportunity_ids = opportunity_ids.map { |id| [nil, id] }
         where_clause = opportunity_ids.map.with_index { |_, i| "$#{i + 1}::uuid" }.join(',')
 
         country_names_str = \
@@ -215,7 +215,6 @@ module Api
         country_names_all = country_names_empty_str.merge(country_names_str)
         Hash[country_names_all.map { |opp_id, country_str| [opp_id, country_str.split('__SEP__')] }]
       end
-
 
       def to_search_after(object, method)
         timestamp_str = format('%.6f', object.send(method).to_datetime.to_f)

@@ -21,7 +21,7 @@ def auth_header(ts, key_id, secret_key, uri, payload)
   )
 end
 
-RSpec.describe Api::ActivityStreamController, type: :controller, focus: true do
+RSpec.describe Api::ActivityStreamController, type: :controller do
   before :each do
     allow(Figaro.env).to receive('ACTIVITY_STREAM_ENABLED').and_return('true')
   end
@@ -674,11 +674,11 @@ RSpec.describe Api::ActivityStreamController, type: :controller, focus: true do
       it 'returns opportunities in date order' do
         # Create two an opportunities
         for i in 0..1 do
-          create_opportunity(:published, {
-            updated_at: Time.now + i.days,
+          op = create_opportunity(:published, {
             title:              "2x4 Wood #{i}",
             slug:               "2x4-wood-#{i}"
           })
+          op.update_column(:updated_at, Time.now + i.days)
         end
         
         items = get_feed(activity_stream_opportunities_path)
@@ -696,7 +696,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller, focus: true do
             title:              "2x4 Wood #{i}",
             slug:               "2x4-wood-#{i}"
           })
-          op.update_column(:updated_at, Time.now + i.days)
+          op.update_column(:updated_at, Time.now)
         end
 
         items = get_feed(activity_stream_opportunities_path)
