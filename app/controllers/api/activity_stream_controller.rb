@@ -36,7 +36,10 @@ module Api
         .order('enquiries.created_at ASC, enquiries.id ASC')
       enquiries = companies_with_number.take(MAX_PER_PAGE)
 
-      items = enquiries.map { |enquiry| enquiry_to_activity(enquiries.map(&:opportunity_id), enquiry) }
+      opportunity_ids = enquiries.map(&:opportunity_id)
+      country_names = get_country_names(opportunity_ids)
+      service_providers = get_service_providers(opportunity_ids)
+      items = enquiries.map { |enquiry| enquiry_to_activity(country_names, service_provider_names, enquiry) }
 
       contents = to_activity_collection(items).merge(
         if enquiries.empty?
@@ -61,7 +64,10 @@ module Api
         .order('updated_at ASC, id ASC')
         .take(MAX_PER_PAGE)
 
-      items = opportunities.map { |opportunity| opportunity_to_activity(opportunities.map(&:id), opportunity) }
+      opportunity_ids = opportunities.map(&:id)
+      country_names = get_country_names(opportunity_ids)
+      service_provider_names = get_service_provider_names(opportunity_ids)
+      items = opportunities.map { |opportunity| opportunity_to_activity(country_names, service_provider_names, opportunity) }
       contents = to_activity_collection(items).merge(
         if opportunities.empty?
           {}
@@ -98,8 +104,7 @@ module Api
         }
       end
 
-      def enquiry_to_activity(opportunity_ids, enquiry)
-        country_names = get_country_names(opportunity_ids)
+      def enquiry_to_activity(country_names, service_provider_names, enquiry)
         # When making changes, be mindful to use .joins, .includes,
         # .preload or .eager_load in the query that has produced
         # `enquiry` in order to avoid any queries per activity.
@@ -137,26 +142,24 @@ module Api
             'id': obj_id,
             'published': enquiry.created_at.to_datetime.rfc3339,
             'url': admin_enquiry_url(enquiry),
-            'inReplyTo': opportunity_object(country_names, enquiry.opportunity),
+            'inReplyTo': opportunity_object(country_names, service_provider_names, enquiry.opportunity),
           },
         }
       end
 
       # Creates a hash of data for an Opportunity
-      def opportunity_to_activity(opportunity_ids, opportunity)
-        country_names = get_country_names(opportunity_ids)
-
+      def opportunity_to_activity(country_names, service_provider_names, opportunity)
         obj_id = 'dit:exportOpportunities:Opportunity:' + opportunity.id.to_s
         activity_id = obj_id + ':Create'
         {
           'id': activity_id, # Unique Id
           'type': 'Create',
           'published': opportunity.created_at.to_datetime.rfc3339,
-          'object': opportunity_object(country_names, opportunity),
+          'object': opportunity_object(country_names, service_provider_names, opportunity),
         }
       end
 
-      def opportunity_object(country_names, opportunity)
+      def opportunity_object(country_names, service_provider_names, opportunity)
         obj_id = 'dit:exportOpportunities:Opportunity:' + opportunity.id.to_s
         {
           'type': ['Document', 'dit:exportOpportunities:Opportunity'],
@@ -171,7 +174,7 @@ module Api
           'dit:country': country_names[opportunity.id],
           'generator': {
             'type': ['Organization', 'dit:ServiceProvider'],
-            'name': opportunity.service_provider.try(:name),
+            'name': service_provider_names[opportunity.id],
           },
         }
       end
@@ -214,6 +217,29 @@ module Api
         country_names_empty_str = Hash[opportunity_ids.map { |id, _| [id, ''] }]
         country_names_all = country_names_empty_str.merge(country_names_str)
         Hash[country_names_all.map { |opp_id, country_str| [opp_id, country_str.split('__SEP__')] }]
+      end
+
+
+      def get_service_provider_names(opportunity_ids)
+        # Create a hash connecting service providers to their names. Hash is of format:
+        # {
+        #   "1": "British Embassy",
+        #   "3": "British Consulate"
+        # }
+        provider_ids = Opportunity.where(id: opportunity_ids).map(&:service_provider_id)
+        provider_names = Hash[
+          ServiceProvider.where(id: provider_ids).map{|sp| [sp.id, sp.name] }
+        ]
+        # Perform a search connecting opportunities to the appropriate service provider name. Hash is of format:
+        # {
+        #   "1a6c1471-3efa-40bb-a807-5823008100f0": "British Embassy",
+        #   "da231334-8790-3243-1111-5dsadasd2313": "British Embassy",...
+        # }
+        #
+        #
+        opportunity_to_providers = Hash[
+          Opportunity.where(id: opportunity_ids).map{|op| [op.id, provider_names[op.service_provider_id]] }
+        ]
       end
 
       def to_search_after(object, method)

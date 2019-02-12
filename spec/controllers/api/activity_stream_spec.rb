@@ -691,10 +691,11 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       it 'in ID order if two opportunities are made at the same time' do
         Opportunity.destroy_all
 
+
         for i in 0..1 do
           op = create_opportunity(:published, {
             title:              "2x4 Wood #{i}",
-            slug:               "2x4-wood-#{i}"
+            slug:               "2x4-wood-#{i}",
           })
           op.update_column(:updated_at, Time.now)
         end
@@ -706,15 +707,17 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         expect(items[1]['object']['name']).to eq(Opportunity.order(:id).second.title)
       end
 
-      it 'is paginated with a link element if there are MAX_PER_PAGE opportunities' do
+      it 'is paginated with a link element if there are MAX_PER_PAGE opportunities', focus: true do
         Opportunity.destroy_all
+        ServiceProvider.create(name: "British Embassy")
 
         stub_const("MAX_PER_PAGE", 20)
         Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2, 344590)) do
           for i in 1..21 do
             op = create_opportunity(:published, {
               title:              "2x4 Wood #{i}",
-              slug:               "2x4-wood-#{i}"
+              slug:               "2x4-wood-#{i}",
+              service_provider:   ServiceProvider.find(ServiceProvider.ids.shuffle.first)
             })
             op.update_column(:updated_at, Time.now + i.days)
           end
