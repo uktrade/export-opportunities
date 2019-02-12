@@ -20,15 +20,19 @@
   classes.CpvCodeLookup = CpvCodeLookup;
   function CpvCodeLookup($input, service, options) {
     var instance = this;
+    var $output= $('<input type="hidden">');
     var opts = $.extend({
       addButtonCssCls: "", // Should you want to add something for CSS.
-      datamapping: { text: "english_text", value: "code" } // See notes in SelectiveLookup
+      datamapping: { text: "english_text", value: "code" }, // See notes in SelectiveLookup
+      name: "" // Pass in a custom field name if you $input.name not wanted.
     }, options || {});
-    
 
     if($input.length) {
+      $output.attr("name", opts.name || $input.attr("name"));
       $input.addClass("CpvCodeLookup");
       $input.attr("placeholder", "Enter a CPV code or search by text to find one");
+      $input.attr("name", "");
+      $input.before($output);
 
       // Inherit...
       SelectiveLookup.call(this,
@@ -39,6 +43,7 @@
 
       // Some inner variable requirement.
       this._private.param = opts.param;
+      this._private.$output = $output;
     }
   }
   
@@ -51,6 +56,7 @@
       var $eventTarget = $(event.target);
       var value = $eventTarget.attr("data-value");
       var text = $eventTarget.text();
+      _p.$output.val(value);
       _p.$input.val(value + " - " + text);
     });
   }
