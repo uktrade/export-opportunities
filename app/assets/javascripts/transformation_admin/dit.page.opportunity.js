@@ -105,7 +105,10 @@ dit.page.opportunity = (new function () {
       $cpvInputElements.wrap($fieldset);
       $cpvInputElements.each(function(i) {
         var $input = $(this);
-        new dit.classes.CpvCodeLookup($input, service, { param: "format=json&description=" });
+        new dit.classes.CpvCodeLookup($input, service, {
+          param: "format=json&description=",
+          name: "opportunity[opportunity_cpv_ids][]"
+        });
 
         // If it's the last one, add button to allow more fields.
         if(i == $cpvInputElements.length - 1) {
@@ -118,7 +121,10 @@ dit.page.opportunity = (new function () {
               $clone.attr("id", "");
               $clone.val("");
               $last.after($clone);
-              new dit.classes.CpvCodeLookup($clone, service, { param: "format=json&description=" });
+              new dit.classes.CpvCodeLookup($clone, service, {
+                param: "format=json&description=",
+                name: "opportunity[opportunity_cpv_ids][]"
+              });
             }
           });
         }
