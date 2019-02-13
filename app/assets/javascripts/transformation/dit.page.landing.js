@@ -86,9 +86,10 @@ dit.page.landing = (new function () {
     if ($quotes.length) {
       clearTimeout(_carouselResetTimer);
       _cache.effects.push(new dit.classes.Carousel($quotes, {
-        auto: 5000,
+        auto: 9000,
         controls: true,
-        duration: 1000
+        duration: 1250,
+        fade: 1000
       }));
     }
   }
