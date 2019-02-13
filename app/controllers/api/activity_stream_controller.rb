@@ -54,13 +54,13 @@ module Api
     def opportunities
       check_auth && return
 
-      search_after = params.fetch(:search_after, '0.000000_0')
+      search_after = params.fetch(:search_after, '0.000000_00000000-0000-4000-0000-000000000000')
       search_after_time_str, search_after_id_str = search_after.split('_')
       search_after_time = Float(search_after_time_str)
       search_after_id = String(search_after_id_str)
 
       opportunities = Opportunity.published.applicable
-        .where('updated_at > to_timestamp(?) OR (updated_at = to_timestamp(?) AND cast(id AS varchar) > ?)',
+        .where('updated_at > to_timestamp(?) OR (updated_at = to_timestamp(?) AND id > ?::uuid)',
           search_after_time, search_after_time, search_after_id)
         .order('updated_at ASC, id ASC')
         .take(MAX_PER_PAGE)

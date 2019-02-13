@@ -21,7 +21,7 @@ def auth_header(ts, key_id, secret_key, uri, payload)
   )
 end
 
-RSpec.describe Api::ActivityStreamController, type: :controller do
+RSpec.describe Api::ActivityStreamController, type: :controller, focus: true do
   before :each do
     allow(Figaro.env).to receive('ACTIVITY_STREAM_ENABLED').and_return('true')
   end
