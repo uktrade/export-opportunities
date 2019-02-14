@@ -7,6 +7,8 @@ created_information: Created by [$author] on [$date]
 
 description: 
 
+enhanced_cpv_field_placeholder: Search by text to find CPV code
+
 group_1_title: Type of opportunity
 group_2_title: Opportunity details
 group_2_description: Provide details for this opportunity
