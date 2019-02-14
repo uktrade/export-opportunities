@@ -35,6 +35,18 @@
       $input.attr("name", "");
       $input.before($output);
 
+      $input.on("keydown.CpvCodeLookup", function(event) {
+        switch(event.which) {
+          case 27: // Esc
+          case 8: // Backspace
+            $output.val("");
+            $input.val("");
+            $input.attr("readonly", false);
+            break;
+          default: // Nothing
+        }
+      });
+
       // Inherit...
       SelectiveLookup.call(this,
                            $input,
