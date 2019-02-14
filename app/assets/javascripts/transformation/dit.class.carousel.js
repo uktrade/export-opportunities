@@ -41,6 +41,7 @@
       buttons: false, // Add Prev/Next?
       controls: false, // Add pause and slide buttons?
       duration: 400, // Animation length.
+      fade: 0, // Duration to fades out current as next slides in (zero value will disable fade completely).
       pauseOnHover: true, // Pretty obvious - Mouseover stops, Mouseout starts. 
       wrapper: $() // If a jQuery object is passed, it gets used as $node (useful if items are list elements - pass the UL)
     }, options);
@@ -219,14 +220,23 @@
     var leaving = this.controller.movement === NEXT ? "-100%" : "100%";
 
     this.$items.eq(this.controller.next).css("left", queued);
+    this.$items.eq(this.controller.next).fadeIn( { duration: 1 } ); // Make it visible immediately
     this.$items.eq(this.controller.next).animate({
       left: 0 },{
-      duration: self.config.duration
+      duration: self.config.duration,
+      queue: false,
     });
+    
+    if(self.config.fade > 0) {
+      self.$items.eq(self.controller.current).fadeOut({
+        duration: self.config.fade
+      });
+    }
 
     this.$items.eq(this.controller.current).animate({
       left: leaving },{
       duration: self.config.duration,
+      queue: false,
       complete: function() {
         self.moving = false;
       }
