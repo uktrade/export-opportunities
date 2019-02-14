@@ -1,6 +1,9 @@
 - form = FormPresenter.new(content, {})
 - opp = AdminOpportunityPresenter.new(self, @opportunity, content)
 
+:javascript
+  dit.constants.CPV_FIELD_PLACEHOLDER = "#{content['enhanced_cpv_field_placeholder']}";
+
 %section.process
   .container
     %h2= content['group_2_title']
