@@ -59,6 +59,7 @@
       var text = $eventTarget.text();
       _p.$output.val(value);
       _p.$input.val(value + " - " + text);
+      _p.$input.attr("readonly", true);
     });
   }
   

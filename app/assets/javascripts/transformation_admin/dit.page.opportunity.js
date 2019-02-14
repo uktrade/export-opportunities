@@ -120,6 +120,7 @@ dit.page.opportunity = (new function () {
             if($last.length) {
               $clone = $last.clone();
               $clone.attr("id", "");
+              $clone.attr("readonly", false);
               $clone.val("");
               $last.after($clone);
               new dit.classes.CpvCodeLookup($clone, service, {

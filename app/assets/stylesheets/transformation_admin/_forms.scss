@@ -55,6 +55,8 @@ input {
 
   &[readonly] {
     border: none;
+    height: auto;
+    padding: 0;
   }
 }
 
