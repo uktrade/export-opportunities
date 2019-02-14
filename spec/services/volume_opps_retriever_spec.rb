@@ -101,6 +101,7 @@ RSpec.describe VolumeOppsRetriever do
     end
 
     it 'rejects an opportunity without country' do
+      create(:country, name: 'eSwatini')
       opp = build_opportunity_hash
       opp['countryname'] = nil
 
