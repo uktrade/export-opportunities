@@ -2,7 +2,6 @@ require 'aws-sdk'
 
 class DocumentStorage
   def initialize
-    # we need our data to be stored in London, UK
     @s3 = Aws::S3::Resource.new(
       region: Figaro.env.aws_region_ptu!,
       credentials: Aws::Credentials.new(Figaro.env.aws_access_key_id!,
