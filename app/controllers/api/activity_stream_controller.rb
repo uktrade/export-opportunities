@@ -58,12 +58,15 @@ module Api
       search_after_time_str, search_after_id_str = search_after.split('_')
       search_after_time = Float(search_after_time_str)
       search_after_id = String(search_after_id_str)
+      response_due_on_time = Float(Time.now)
+      status = Opportunity.statuses["publish"]
 
-      opportunities = Opportunity.published.applicable
-        .where('updated_at > to_timestamp(?) OR (updated_at = to_timestamp(?) AND id > ?::uuid)',
-          search_after_time, search_after_time, search_after_id)
-        .order('updated_at ASC, id ASC')
-        .take(MAX_PER_PAGE)
+      opportunities = Opportunity.where(
+        'status=? AND (response_due_on, updated_at, id)'\
+        ' > (to_timestamp(?), to_timestamp(?), ?::uuid)',
+        status, response_due_on_time, search_after_time, search_after_id).
+        order('updated_at ASC, id ASC').
+        take(MAX_PER_PAGE)
 
       opportunity_ids = opportunities.map(&:id)
       country_names = get_country_names(opportunity_ids)
