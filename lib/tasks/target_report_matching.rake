@@ -10,6 +10,7 @@ namespace :reports do
     arr_file = CSV.parse(open(Figaro.env.REPORT_TARGETS_URL))
     arr_file.each_with_index do |data, line|
       next if line.zero?
+
       if line == arr_file.size - 1
         # puts "NBN"
         # puts data

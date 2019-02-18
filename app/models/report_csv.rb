@@ -43,54 +43,57 @@ class ReportCSV
       yield row_for_responses(result_line.drop(1).first)
     end
   end
-  private def header
-    @csv_headers.join(',') + "\n"
-  end
 
-  private def row_for_opportunities(result_line)
-    ytd_actual = result_line.opportunities_published.inject(0, :+)
-    line = [
-      result_line.country_id,
-      result_line.name,
-    ]
+  private
 
-    result_line.opportunities_published.each { |elem| line << elem }
+    def header
+      @csv_headers.join(',') + "\n"
+    end
 
-    [
-      ytd_actual,
-      result_line.opportunities_published_target,
-      report_format_progress(
+    def row_for_opportunities(result_line)
+      ytd_actual = result_line.opportunities_published.inject(0, :+)
+      line = [
+        result_line.country_id,
+        result_line.name,
+      ]
+
+      result_line.opportunities_published.each { |elem| line << elem }
+
+      [
         ytd_actual,
-        result_line.opportunities_published_target
-      ),
-    ].each { |elem| line << elem }
+        result_line.opportunities_published_target,
+        report_format_progress(
+          ytd_actual,
+          result_line.opportunities_published_target
+        ),
+      ].each { |elem| line << elem }
 
-    CSV.generate_line(line)
-  end
+      CSV.generate_line(line)
+    end
 
-  private def row_for_responses(result_line)
-    ytd_actual = result_line.responses.inject(0, :+)
-    line = [
-      result_line.country_id,
-      result_line.name,
-    ]
+    def row_for_responses(result_line)
+      ytd_actual = result_line.responses.inject(0, :+)
+      line = [
+        result_line.country_id,
+        result_line.name,
+      ]
 
-    result_line.responses.each { |elem| line << elem }
+      result_line.responses.each { |elem| line << elem }
 
-    # result_line.responses.join(','),
-    [
-      ytd_actual,
-      result_line.responses_target,
-      report_format_progress(
+      # result_line.responses.join(','),
+      [
         ytd_actual,
-        result_line.responses_target
-      ),
-    ].each { |elem| line << elem }
+        result_line.responses_target,
+        report_format_progress(
+          ytd_actual,
+          result_line.responses_target
+        ),
+      ].each { |elem| line << elem }
 
-    CSV.generate_line(line)
-  end
+      CSV.generate_line(line)
+    end
 
-  private def format_datetime(datetime)
-    datetime.nil? ? nil : datetime.to_s(:db)
-  end
+    def format_datetime(datetime)
+      datetime.nil? ? nil : datetime.to_s(:db)
+    end
 end

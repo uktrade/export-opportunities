@@ -42,117 +42,117 @@ class SubscriptionSearchBuilder
 
   private
 
-  def keyword_build
-    {
-      match_all: {},
-    }
-  end
+    def keyword_build
+      {
+        match_all: {},
+      }
+    end
 
-  def sector_build
-    if @sectors.present?
-      [
-        {
-          terms: {
-            'sectors.id': @sectors,
+    def sector_build
+      if @sectors.present?
+        [
+          {
+            terms: {
+              'sectors.id': @sectors,
+            },
           },
-        },
-        {
-          bool: {
-            must_not: {
-              exists: {
-                field: 'sectors.id',
+          {
+            bool: {
+              must_not: {
+                exists: {
+                  field: 'sectors.id',
+                },
               },
             },
           },
-        },
-      ].compact
+        ].compact
+      end
     end
-  end
 
-  def country_build
-    if @countries.present?
-      [
-        {
-          terms: {
-            'countries.id': @countries,
+    def country_build
+      if @countries.present?
+        [
+          {
+            terms: {
+              'countries.id': @countries,
+            },
           },
-        },
-        {
-          bool: {
-            must_not: {
-              exists: {
-                field: 'countries.id',
+          {
+            bool: {
+              must_not: {
+                exists: {
+                  field: 'countries.id',
+                },
               },
             },
           },
-        },
-      ].compact
+        ].compact
+      end
     end
-  end
 
-  def opportunity_build
-    if @opportunity_types.present?
-      [
-        {
-          terms: {
-            'types.id': @opportunity_types,
+    def opportunity_build
+      if @opportunity_types.present?
+        [
+          {
+            terms: {
+              'types.id': @opportunity_types,
+            },
           },
-        },
-        {
-          bool: {
-            must_not: {
-              exists: {
-                field: 'types.id',
+          {
+            bool: {
+              must_not: {
+                exists: {
+                  field: 'types.id',
+                },
               },
             },
           },
-        },
-      ].compact
+        ].compact
+      end
     end
-  end
 
-  def value_build
-    if @values.present?
-      [
-        {
-          terms: {
-            'values.id': @values,
+    def value_build
+      if @values.present?
+        [
+          {
+            terms: {
+              'values.id': @values,
+            },
           },
-        },
-        {
-          bool: {
-            must_not: {
-              exists: {
-                field: 'values.id',
+          {
+            bool: {
+              must_not: {
+                exists: {
+                  field: 'values.id',
+                },
               },
             },
           },
-        },
-      ].compact
+        ].compact
+      end
     end
-  end
 
-  def confirmed_at_build
-    {
-      bool: {
-        filter: {
-          exists: {
-            field: :confirmed_at,
+    def confirmed_at_build
+      {
+        bool: {
+          filter: {
+            exists: {
+              field: :confirmed_at,
+            },
           },
         },
-      },
-    }
-  end
+      }
+    end
 
-  def unsubscribed_at_build
-    {
-      bool: {
-        must_not: {
-          exists: {
-            field: :unsubscribed_at,
+    def unsubscribed_at_build
+      {
+        bool: {
+          must_not: {
+            exists: {
+              field: :unsubscribed_at,
+            },
           },
         },
-      },
-    }
-  end
+      }
+    end
 end

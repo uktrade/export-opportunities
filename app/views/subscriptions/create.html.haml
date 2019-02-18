@@ -1,9 +1,7 @@
 - page = PagePresenter.new(content)
-
 .container
   = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
   %h1.verbose= content["title"]
-
   .confirmation-notice
     %p.notice= content["confirmation"]
     %p.message= page.content_with_inclusion "message", [current_user.email]

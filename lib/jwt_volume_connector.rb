@@ -6,6 +6,7 @@ class JwtVolumeConnector
 
   def token(username, password, hostname, url)
     raise Exception, 'invalid input' unless username && password && hostname && url
+
     connection = Faraday.new(url: hostname) do |f|
       f.response :logger
       f.adapter  Faraday.default_adapter
@@ -20,6 +21,7 @@ class JwtVolumeConnector
 
   def data(token, hostname, url, from_date, to_date)
     raise Exception, 'invalid input' unless token && hostname && url
+
     connection = Faraday.new(url: hostname) do |f|
       f.response :logger
       f.options[:timeout] = 15

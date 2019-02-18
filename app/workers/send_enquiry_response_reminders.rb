@@ -7,18 +7,19 @@ class SendEnquiryResponseReminders
   # every 8 days
   #
   def perform
-    enquiries = Enquiry.where('enquiries.created_at > ?', 30.days.ago).
-                        left_outer_joins(:enquiry_response).
-                        joins(:opportunity).
-                        where('opportunities.response_due_on > ?', DateTime.now).
-                        where(opportunities: { status: :publish })
+    enquiries = Enquiry.where('enquiries.created_at > ?', 30.days.ago)
+      .left_outer_joins(:enquiry_response)
+      .joins(:opportunity)
+      .where('opportunities.response_due_on > ?', Time.zone.now)
+      .where(opportunities: { status: :publish })
 
     enquiries.where(enquiry_responses: { enquiry_id: nil }).or(
-      enquiries.where(enquiry_responses: { completed_at: nil })). 
-        each do |enquiry|
+      enquiries.where(enquiry_responses: { completed_at: nil })
+    )
+      .each do |enquiry|
 
       created = enquiry.created_at
-      if(created < 7.days.ago && created >= 14.days.ago)
+      if created < 7.days.ago && created >= 14.days.ago
         reminder(enquiry)
       end
     end
@@ -30,7 +31,6 @@ class SendEnquiryResponseReminders
     end
   end
 end
-
 
 # Code for proposed emails 2, 3 and 4.
 # Not yet used but likely in time, so leaving here [8 Jan 2019]

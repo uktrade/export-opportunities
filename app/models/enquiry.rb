@@ -1,14 +1,13 @@
 class Enquiry < ApplicationRecord
-  belongs_to :opportunity, counter_cache: :enquiries_count, required: true
+  belongs_to :opportunity, counter_cache: :enquiries_count, optional: false
   belongs_to :user
   attr_accessor :status
-  attr_accessor :response_status
 
   # enquiry feedback is the response from users at the impact email links
-  has_one :feedback, class_name: 'EnquiryFeedback'
+  has_one :feedback, class_name: 'EnquiryFeedback', dependent: :nullify
 
   # enquiry response is the response a post will provide back to the enquiry from the admin centre
-  has_one :enquiry_response
+  has_one :enquiry_response, dependent: :nullify
 
   COMPANY_EXPLANATION_MAXLENGTH = 1100.freeze
   EXISTING_EXPORTER_CHOICES = [
@@ -37,6 +36,7 @@ class Enquiry < ApplicationRecord
 
   def self.initialize_from_existing(old_enquiry)
     return Enquiry.new unless old_enquiry
+
     Enquiry.new(old_enquiry.attributes.except('company_explanation', 'id'))
   end
 
@@ -50,7 +50,7 @@ class Enquiry < ApplicationRecord
 
   def response_status
     if enquiry_response
-      unless enquiry_response['completed_at']
+      if enquiry_response['completed_at'].blank?
         Rails.logger.error("message not sent: #{enquiry_response.inspect}")
         return 'Pending'
       end

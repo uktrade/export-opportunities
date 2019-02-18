@@ -198,11 +198,8 @@ section {
 }
 
 #testimonials {
-  background-image: image_url('backgrounds/EXOpps_Quote1290x450@2x.jpg');
-  background-position: top center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  padding-bottom: 0;
+  background-color: $stone-30;
+  padding: 70px 0 $spacing-3 0;
   position: relative;
 
   .Carousel {
@@ -211,18 +208,6 @@ section {
 
   .controls {
     @include access-hidden;
-  }
-
-  &:before {
-    background-color: $stone-20;
-    content: "";
-    height: 100%;
-    left: 0;
-    opacity: 0.9;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: auto;
   }
 }
 

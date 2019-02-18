@@ -28,7 +28,7 @@ class FormPresenter < PagePresenter
   def hidden_fields
     fields = hidden_field_tag 'view', @view
     @entries.each_pair do |key, value|
-      unless @fields.nil? || @fields.keys.include?(key)
+      unless @fields.nil? || @fields.key?(key)
         fields += hidden_field_tag key, value
       end
     end
@@ -50,13 +50,7 @@ class FormPresenter < PagePresenter
       group[:question] = prop(field, 'question')
       group[:name] = field_name
       group[:question] = prop(field, 'question')
-      group[:checkboxes] = if options.present?
-                             # Should be we're getting data from BE controller
-                             options
-                           else
-                             # Should be we're getting data from FE field construction
-                             options_group(prop(field, 'options'), field_name)
-                           end
+      group[:checkboxes] = options.presence || options_group(prop(field, 'options'), field_name)
     end
     group
   end
@@ -162,90 +156,90 @@ class FormPresenter < PagePresenter
 
   private
 
-  # Return lowercase string with alphanumeric+hyphen only.
-  # Adds the current @view value, if exists.
-  # e.g. "This -  [is]    a_string" into "this-is-a-string"
-  def field_id(str)
-    cleaned = if @view.present?
-                "#{clean_str(@view)}-#{clean_str(str)}"
-              else
-                clean_str(str)
-              end
-    cleaned.tr('_', '-')
-  end
+    # Return lowercase string with alphanumeric+hyphen only.
+    # Adds the current @view value, if exists.
+    # e.g. "This -  [is]    a_string" into "this-is-a-string"
+    def field_id(str)
+      cleaned = if @view.present?
+                  "#{clean_str(@view)}-#{clean_str(str)}"
+                else
+                  clean_str(str)
+                end
+      cleaned.tr('_', '-')
+    end
 
-  # Return lowercase string with alphanumeric+underscore only.
-  # e.g. "This -  [is]    a_string" into "this_is_a_string"
-  def clean_str(str)
-    str = str.gsub(/[^\w\s]/, '').downcase
-    str.gsub(/[\s]+/, '_')
-  end
+    # Return lowercase string with alphanumeric+underscore only.
+    # e.g. "This -  [is]    a_string" into "this_is_a_string"
+    def clean_str(str)
+      str = str.gsub(/[^\w\s]/, '').downcase
+      str.gsub(/[\s]+/, '_')
+    end
 
-  # Return label data
-  def label(field, name)
-    id = field_id(name)
-    {
-      field_id: id,
-      description: prop(field, 'description')&.html_safe,
-      description_id: "#{id}_description",
-      text: prop(field, 'label'),
-    }
-  end
+    # Return label data
+    def label(field, name)
+      id = field_id(name)
+      {
+        field_id: id,
+        description: prop(field, 'description')&.html_safe,
+        description_id: "#{id}_description",
+        text: prop(field, 'label'),
+      }
+    end
 
-  def options_group(content_options, name, data_options = [])
-    options = []
-    if content_options.present?
-      # We going to try and make options with a combination of FE content.
-      # Three possible options:
-      # 1. Use content label + value from data_options (if available, likely to be enum on model)
-      # 2. Use content label + content value
-      # 3. Use content label + loop index as value
-      content_options.each_with_index do |item, index|
-        id = clean_str("#{name}_#{index}")
-        option = option_item(item, id, name, (data_options[index] || index + 1))
-        options.push(option)
+    def options_group(content_options, name, data_options = [])
+      options = []
+      if content_options.present?
+        # We going to try and make options with a combination of FE content.
+        # Three possible options:
+        # 1. Use content label + value from data_options (if available, likely to be enum on model)
+        # 2. Use content label + content value
+        # 3. Use content label + loop index as value
+        content_options.each_with_index do |item, index|
+          id = clean_str("#{name}_#{index}")
+          option = option_item(item, id, name, (data_options[index] || index + 1))
+          options.push(option)
+        end
+      else
+        # Should be getting everyting from BE and expectig to pass off to form builders
+        options = data_options
       end
-    else
-      # Should be getting everyting from BE and expectig to pass off to form builders
-      options = data_options
+      options
     end
-    options
-  end
 
-  # Return radio/checkbox data
-  def option_item(field, id, name, value = '0')
-    item = {
-      id: id,
-      label: label(field, name),
-      name: name,
-      value: prop(field, 'value') || value,
-    }
-    item[:checked] = true if prop(field, 'checked')
-    item[:label][:field_id] = id # Needs to be different in a group
-    item
-  end
-
-  # Return property value or nil
-  def prop(field, name)
-    value = nil
-    unless field.nil?
-      value = value_by_key(field, name)
-      value = value&.html_safe if value.is_a?(String)
+    # Return radio/checkbox data
+    def option_item(field, id, name, value = '0')
+      item = {
+        id: id,
+        label: label(field, name),
+        name: name,
+        value: prop(field, 'value') || value,
+      }
+      item[:checked] = true if prop(field, 'checked')
+      item[:label][:field_id] = id # Needs to be different in a group
+      item
     end
-    value
-  end
 
-  # Returns form field content or empty hash
-  def field_content(name)
-    if field_exists?(name)
-      value_by_key(@fields, name)
-    else
-      {}
+    # Return property value or nil
+    def prop(field, name)
+      value = nil
+      unless field.nil?
+        value = value_by_key(field, name)
+        value = value&.html_safe if value.is_a?(String)
+      end
+      value
     end
-  end
 
-  # Fix stupid Ruby handling of keys in a hash
-  def value_by_key(hash, key)
-    hash[key.to_s] || hash[key.to_sym]
-  end
+    # Returns form field content or empty hash
+    def field_content(name)
+      if field_exists?(name)
+        value_by_key(@fields, name)
+      else
+        {}
+      end
+    end
+
+    # Fix stupid Ruby handling of keys in a hash
+    def value_by_key(hash, key)
+      hash[key.to_s] || hash[key.to_sym]
+    end
 end

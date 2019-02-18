@@ -5,16 +5,16 @@ class StrongPasswordValidator < ActiveModel::EachValidator
 
   private
 
-  def guessable_password?(password)
-    return false unless password
+    def guessable_password?(password)
+      return false unless password
 
-    PasswordChecker.new(banned_passwords).matches?(password) ||
-      PasswordPrefixChecker.new.matches?(password)
-  end
+      PasswordChecker.new(banned_passwords).matches?(password) ||
+        PasswordPrefixChecker.new.matches?(password)
+    end
 
-  def banned_passwords
-    PasswordBlacklistLoader.new.load_passwords || []
-  end
+    def banned_passwords
+      PasswordBlacklistLoader.new.load_passwords || []
+    end
 end
 
 # Responsible for checking whether a password is in a list of banned passwords
@@ -29,9 +29,9 @@ class PasswordChecker
 
   private
 
-  def case_insensitive_match?(string1, string2)
-    string1.casecmp(string2).zero?
-  end
+    def case_insensitive_match?(string1, string2)
+      string1.casecmp(string2).zero?
+    end
 end
 
 # Responsible for checking whether a password matches any of a list of banned prefixes

@@ -54,49 +54,51 @@ class Admin::EnquiriesController < Admin::BaseController
 
   def help; end
 
-  class EnquiryFilters
-    attr_reader :selected_status, :sort, :page ##
+  private
 
-    def initialize(params)
-      @selected_status = params[:status]
-      @sort_params = params.fetch(:sort, {})
+    class EnquiryFilters
+      attr_reader :selected_status, :sort, :page ##
 
-      @sort = EnquirySort.new(default_column: 'created_at', default_order: 'desc').update(column: @sort_params[:column], order: @sort_params[:order])
+      def initialize(params)
+        @selected_status = params[:status]
+        @sort_params = params.fetch(:sort, {})
 
-      @page = params[:paged]
+        @sort = EnquirySort.new(default_column: 'created_at', default_order: 'desc').update(column: @sort_params[:column], order: @sort_params[:order])
+
+        @page = params[:paged]
+      end
+
+      private
+
+        def alphanumeric_words_and_emails
+          /([a-zA-Z0-9\.\@\-\_]*\w)/
+        end
     end
 
-    private
-
-    def alphanumeric_words_and_emails
-      /([a-zA-Z0-9\.\@\-\_]*\w)/
+    def enquiry_form
+      @enquiry_form ||= EnquiryForm.new(params.permit(created_at_from: %i[year month day], created_at_to: %i[year month day]))
     end
-  end
 
-  private def enquiry_form
-    @enquiry_form ||= EnquiryForm.new(params.permit(created_at_from: %i[year month day], created_at_to: %i[year month day]))
-  end
-
-  private def download_filename
-    "eig-enquiries-#{enquiry_form.from.strftime('%Y-%m-%d')}-#{enquiry_form.to.strftime('%Y-%m-%d')}.csv"
-  end
-
-  private def filter_params
-    params.permit(:status, { sort: %i[column order] }, :company_name, :created_at, :paged, opportunity: :title)
-  end
-
-  def next_enquiry
-    query = EnquiryQuery.new(
-      scope: policy_scope(Enquiry).includes(:enquiry_response),
-      sort: EnquirySort.new(default_column: 'created_at', default_order: 'asc'),
-      page: 1,
-      per_page: 100
-    )
-    enquiries = query.enquiries
-
-    enquiries.each do |enq|
-      return { url: admin_enquiry_url(enq), id: enq['id'] } if !enq.enquiry_response || enq.enquiry_response['completed_at'].blank?
+    def download_filename
+      "eig-enquiries-#{enquiry_form.from.strftime('%Y-%m-%d')}-#{enquiry_form.to.strftime('%Y-%m-%d')}.csv"
     end
-    nil
-  end
+
+    def filter_params
+      params.permit(:status, { sort: %i[column order] }, :company_name, :created_at, :paged, opportunity: :title)
+    end
+
+    def next_enquiry
+      query = EnquiryQuery.new(
+        scope: policy_scope(Enquiry).includes(:enquiry_response),
+        sort: EnquirySort.new(default_column: 'created_at', default_order: 'asc'),
+        page: 1,
+        per_page: 100
+      )
+      enquiries = query.enquiries
+
+      enquiries.each do |enq|
+        return { url: admin_enquiry_url(enq), id: enq['id'] } if !enq.enquiry_response || enq.enquiry_response['completed_at'].blank?
+      end
+      nil
+    end
 end

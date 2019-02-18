@@ -62,7 +62,8 @@ RSpec.feature 'Editors can view stats' do
       expect(page).to have_content(t('admin.stats.opportunities_submitted', count: 1))
       expect(page).to have_content(t('admin.stats.opportunities_published', count: 2))
       expect(page).to have_content(t('admin.stats.enquiries', count: 1))
-      expect(page).to have_content(t('admin.stats.average_age_when_published', average_age: '85 days'))
+      average_age =  t('admin.stats.average_age_when_published', average_age: '85 days')
+      expect(page).to have_content(average_age).or(have_content(average_age.gsub(": ", ":\n")))
 
       select '1970', from: 'stats_from_year'
       select 'September', from: 'stats_from_month'
@@ -81,7 +82,8 @@ RSpec.feature 'Editors can view stats' do
       expect(page).to have_content(t('admin.stats.opportunities_submitted', count: 0))
       expect(page).to have_content(t('admin.stats.opportunities_published', count: 1))
       expect(page).to have_content(t('admin.stats.enquiries', count: 0))
-      expect(page).to have_content(t('admin.stats.average_age_when_published', average_age: '85 days'))
+      average_age =  t('admin.stats.average_age_when_published', average_age: '85 days')
+      expect(page).to have_content(average_age).or(have_content(average_age.gsub(": ", ":\n")))
     end
   end
 
@@ -101,7 +103,8 @@ RSpec.feature 'Editors can view stats' do
     expect(page).to have_content(t('admin.stats.opportunities_submitted', count: 0))
     expect(page).to have_content(t('admin.stats.opportunities_published', count: 0))
     expect(page).to have_content(t('admin.stats.enquiries', count: 0))
-    expect(page).to have_content(t('admin.stats.average_age_when_published', average_age: 'N/A'))
+    average_age =  t('admin.stats.average_age_when_published', average_age: 'N/A')
+    expect(page).to have_content(average_age).or(have_content(average_age.gsub(": ", ":\n")))
   end
 
   scenario 'when the editor has no service provider' do

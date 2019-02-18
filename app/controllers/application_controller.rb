@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
 
   def basic_auth
     return unless Figaro.env.staging_http_user? && Figaro.env.staging_http_pass?
+
     authenticate_or_request_with_http_basic do |name, password|
       name == Figaro.env.staging_http_user && password == Figaro.env.staging_http_pass
     end
@@ -41,66 +42,39 @@ class ApplicationController < ActionController::Base
   layout :determine_layout
 
   def check
-    render json: { status: 'OK' }, status: 200
+    render json: { status: 'OK' }, status: :ok
   end
 
+  #
   # basic checks for data sync between ES and PG DB
+  # Redis has a key 'es_data_sync_error_ts' that stores the first time it timed out
+  # for this outage
+  #
   def data_sync_check
+    # Set up redis
     @redis ||= Redis.new(url: Figaro.env.redis_url)
-    res = {}
+    response = { git_revision: ExportOpportunities::REVISION, status: 'OK', status_code: 200 }
 
-    # opps that have not expired and are published
-    db_opportunities_ids = db_opportunities
-    sort = OpenStruct.new(column: :response_due_on, order: :desc)
-    query = OpportunitySearchBuilder.new(search_term: '', sort: sort, dit_boost_search: false).call
-    es_opportunities_ids = es_opportunities(query)
+    # Do databases match? If not, save disparity data to 'result' key
+    response[:result] = missing_data
 
-    res_opportunities_count = db_opportunities_ids.size == es_opportunities_ids.size
-    if db_opportunities_ids.size != es_opportunities_ids.size
-      missing_docs = db_opportunities_ids - es_opportunities_ids | es_opportunities_ids - db_opportunities_ids
-      Rails.logger.error('we are missing opportunities docs')
-      Rails.logger.error(missing_docs)
-      res['opportunities'] = { expected_opportunities: db_opportunities_ids.size, actual_opportunities: es_opportunities_ids.size, missing: missing_docs }
-    end
-
-    db_subscriptions_ids = db_subscriptions
-    es_subscriptions_ids = es_subscriptions
-
-    res_subscriptions_count = db_subscriptions_ids.size == es_subscriptions_ids.size
-    if db_subscriptions_ids.size != es_subscriptions_ids.size
-      missing_docs = db_subscriptions_ids - es_subscriptions_ids | es_subscriptions_ids - db_subscriptions_ids
-      Rails.logger.error('we are missing subscriber docs')
-      Rails.logger.error(missing_docs)
-      res['subscriptions'] = { expected_opportunities: db_subscriptions_ids.size, actual_opportunities: es_subscriptions_ids.size, missing: missing_docs }
-    end
-
-    json = { git_revision: ExportOpportunities::REVISION, status: 'OK', result: res }
-    response_status = 200
-
-    if res_opportunities_count && res_subscriptions_count
-      @redis.del(:es_data_sync_error_ts) # unset the counter when data is back in sync
+    if response[:result].empty?
+      # unset the counter when data is back in sync
+      @redis.del(:es_data_sync_error_ts)
+    elsif (timeout = @redis.get(:es_data_sync_error_ts)).blank?
+      # set new timer start
+      @redis.set(:es_data_sync_error_ts, Time.now.utc)
     else
-      previous_state = @redis.get(:es_data_sync_error_ts)
-      timeout_seconds = if previous_state
-                          (Time.now.utc - Time.zone.parse(previous_state)).floor
-                        end
-      json[:timeout_sec] = timeout_seconds
+      response[:timeout_sec] = (Time.now.utc - Time.zone.parse(timeout)).floor
 
-      if previous_state && timeout_seconds > report_es_data_sync_timeout
-        # if we found an error and it's more than 10 minutes since we found it, report the error
-        json[:status] = 'error'
-        response_status = 500
-      end
-
-      unless previous_state
-        # first time we see an error
-        # keep reporting OK for pingdom, show the error in result field
-        @redis.set(:es_data_sync_error_ts, Time.now.utc)
+      # Report error after 10 minutes
+      if response[:timeout_sec] > 600.freeze
+        response[:status] = 'error'
+        response[:status_code] = 500
       end
     end
 
-    json[:response_status] = response_status
-    render json: json, status: response_status
+    render json: response, status: response[:status_code]
   end
 
   def api_check
@@ -144,13 +118,55 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def missing_data
+    missing = {}
+    if (ops = databases_match_opportunities?) != true
+      missing['opportunities'] = ops
+    end
+    if (subs = databases_match_subscriptions?) != true
+      missing['subscriptions'] = subs
+    end
+    missing
+  end
+
+  def databases_match_opportunities?
+    # 'db' is the relational database, e.g. PostgreSQL
+    db = db_opportunities
+    es = es_opportunities
+
+    if db.size == es.size
+      true
+    else
+      missing = db - es | es - db
+      Rails.logger.error('we are missing opportunities')
+      Rails.logger.error(missing)
+      { expected_opportunities: db.size, actual_opportunities: es.size, missing: missing }
+    end
+  end
+
+  def databases_match_subscriptions?
+    # 'db' is the  relational database, e.g. PostgreSQL
+    db = db_subscriptions
+    es = es_subscriptions
+
+    if db.size == es.size
+      true
+    else
+      missing = db - es | es - db
+      Rails.logger.error('we are missing subscriber docs')
+      Rails.logger.error(missing)
+      { expected_opportunities: db.size, actual_opportunities: es.size, missing: missing }
+    end
+  end
+
   def db_opportunities
     Opportunity.where('response_due_on >= ? and status = ?', DateTime.now.utc, 2).pluck(:id)
   end
 
-  def es_opportunities(query)
+  def es_opportunities
+    query = OpportunitySearchBuilder.new.call
     res = []
-    es_opportunities = Opportunity.__elasticsearch__.search(size: 100_000, query: query[:search_query], sort: query[:search_sort])
+    es_opportunities = Opportunity.__elasticsearch__.search(size: 100_000, query: query[:query], sort: query[:sort])
     es_opportunities.each { |record| res.push record.id }
     res
   end
@@ -165,6 +181,7 @@ class ApplicationController < ActionController::Base
 
   def determine_layout
     return 'admin' if request.path.start_with?('/admin') && staff?
+
     'application'
   end
 
@@ -191,106 +208,103 @@ class ApplicationController < ActionController::Base
     { total: counter_opps_total.to_i, expiring_soon: counter_opps_expiring_soon.to_i, published_recently: counter_opps_published_recently.to_i }
   end
 
-  def report_es_data_sync_timeout
-    600.freeze
-  end
-
   private
 
-  def administrator?
-    current_editor&.administrator?
-  end
-
-  def previewer?
-    current_editor&.previewer?
-  end
-
-  def publisher?
-    current_editor&.publisher?
-  end
-
-  def uploader?
-    current_editor&.uploader?
-  end
-
-  def staff?
-    current_editor&.staff?
-  end
-
-  def check_if_admin
-    not_found unless administrator?
-  end
-
-  def not_found
-    respond_to do |format|
-      format.html { render 'errors/not_found', status: 404 }
-      format.json { render json: { errors: 'Resource not found' }, status: 404 }
-      format.all { head 404 }
+    def administrator?
+      current_editor&.administrator?
     end
-  end
 
-  def unsupported_format
-    respond_to do |format|
-      format.json { render json: { errors: 'JSON is not supported for this resource' }, status: 406 }
-      format.all { head 406 }
+    def previewer?
+      current_editor&.previewer?
     end
-  end
 
-  def user_not_authorized
-    render 'errors/unauthorized', status: 401
-  end
-
-  def internal_server_error
-    render 'errors/internal_server_error', status: 500
-  end
-
-  def invalid_authenticity_token(exception)
-    Raven.capture_exception(exception)
-    set_google_tag_manager
-    # ^ this method call is necessary to render
-    #   the layout. It is usually run in a before_action.
-    # The exception this method rescues from is thrown
-    # before it has the chance.
-    render 'errors/invalid_authenticity_token', status: 422
-  end
-
-  # Returns content provided by .yml files in app/content folder.
-  # Intended use is to keep content separated from the view code.
-  # Should make it easier to switch later to CMS-style content editing.
-  # Note: Rails may already provide a similar service for multiple
-  # language support, so this mechanism might be replaced by that
-  # at some point in the furture.
-  def get_content(*files)
-    content = {}
-    files.each do |file|
-      content = content.merge YAML.load_file('app/content/' + file)
+    def publisher?
+      current_editor&.publisher?
     end
-    content
-  end
 
-  def redis_oo_retry_count(redis)
-    # nil-safe redis fetch from counter
-    redis.get('oo_retry_error_count').to_i
-  end
-
-  def sidekiq_retry_count
-    rs = Sidekiq::RetrySet.new
-    retry_jobs = rs.select { |retri| retri.item['class'] == 'RetrieveVolumeOpps' }
-    retry_jobs.size
-  end
-
-  def update_redis_counter(redis, sidekiq_retry_jobs_count, latest_sidekiq_failure)
-    # set initial value if it's the first time
-    redis.set('sidekiq_retry_jobs_last_failure', Time.zone.now) unless latest_sidekiq_failure
-
-    if days_since_last_failure(latest_sidekiq_failure) > PUBLISH_SIDEKIQ_ERROR_DAYS
-      redis.set('oo_retry_error_count', sidekiq_retry_jobs_count)
-      redis.set('sidekiq_retry_jobs_last_failure', Time.zone.now)
+    def uploader?
+      current_editor&.uploader?
     end
-  end
 
-  def days_since_last_failure(latest_sidekiq_failure)
-    return 0 unless latest_sidekiq_failure
-    ((Time.zone.now - Time.zone.parse(latest_sidekiq_failure)) / 86_400)
-  end
+    def staff?
+      current_editor&.staff?
+    end
+
+    def check_if_admin
+      not_found unless administrator?
+    end
+
+    def not_found
+      respond_to do |format|
+        format.html { render 'errors/not_found', status: :not_found }
+        format.json { render json: { errors: 'Resource not found' }, status: :not_found }
+        format.all { head 404 }
+      end
+    end
+
+    def unsupported_format
+      respond_to do |format|
+        format.json { render json: { errors: 'JSON is not supported for this resource' }, status: :not_acceptable }
+        format.all { head 406 }
+      end
+    end
+
+    def user_not_authorized
+      render 'errors/unauthorized', status: :unauthorized
+    end
+
+    def internal_server_error
+      render 'errors/internal_server_error', status: :internal_server_error
+    end
+
+    def invalid_authenticity_token(exception)
+      Raven.capture_exception(exception)
+      set_google_tag_manager
+      # ^ this method call is necessary to render
+      #   the layout. It is usually run in a before_action.
+      # The exception this method rescues from is thrown
+      # before it has the chance.
+      render 'errors/invalid_authenticity_token', status: :unprocessable_entity
+    end
+
+    # Returns content provided by .yml files in app/content folder.
+    # Intended use is to keep content separated from the view code.
+    # Should make it easier to switch later to CMS-style content editing.
+    # Note: Rails may already provide a similar service for multiple
+    # language support, so this mechanism might be replaced by that
+    # at some point in the furture.
+    def get_content(*files)
+      content = {}
+      files.each do |file|
+        content = content.merge YAML.load_file('app/content/' + file)
+      end
+      content
+    end
+
+    def redis_oo_retry_count(redis)
+      # nil-safe redis fetch from counter
+      redis.get('oo_retry_error_count').to_i
+    end
+
+    def sidekiq_retry_count
+      rs = Sidekiq::RetrySet.new
+      retry_jobs = rs.select { |retri| retri.item['class'] == 'RetrieveVolumeOpps' }
+      retry_jobs.size
+    end
+
+    def update_redis_counter(redis, sidekiq_retry_jobs_count, latest_sidekiq_failure)
+      # set initial value if it's the first time
+      redis.set('sidekiq_retry_jobs_last_failure', Time.zone.now) unless latest_sidekiq_failure
+
+      if days_since_last_failure(latest_sidekiq_failure) > PUBLISH_SIDEKIQ_ERROR_DAYS
+        redis.set('oo_retry_error_count', sidekiq_retry_jobs_count)
+        redis.set('sidekiq_retry_jobs_last_failure', Time.zone.now)
+      end
+    end
+
+    def days_since_last_failure(latest_sidekiq_failure)
+      return 0 unless latest_sidekiq_failure
+
+      ((Time.zone.now - Time.zone.parse(latest_sidekiq_failure)) / 86_400)
+    end
 end
