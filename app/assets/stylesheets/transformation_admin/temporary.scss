@@ -341,3 +341,51 @@ main#content {
     margin-top: 10px;
   }
 }
+
+
+
+
+
+
+
+
+
+
+.stats {
+  padding-left: 0;
+
+  li {
+    background-color: $grey-3;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 1.2em;
+    margin: 0 $spacing-4 $spacing-4 0;
+    min-width: 250px;
+    padding: $spacing-4 $spacing-4 $spacing-3 $spacing-4;
+    vertical-align: top;
+  }
+
+  small {
+    display: block;
+    font-size: $font-size-body-xs;
+  }
+
+  .age-when-published {
+    background-color: transparent;
+    display: block;
+    font-weight: normal;
+    max-width: none;
+    vertical-align: top;
+  }
+
+  .enquiry-responses {
+    background-color: transparent;
+  }
+
+  .number {
+    display: block;
+    font-size: $font-size-heading-xl;
+    line-height: $font-size-heading-xl;
+    margin: $spacing-4 0;
+  }
+}

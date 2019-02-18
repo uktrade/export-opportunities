@@ -1,42 +1,38 @@
-%h1.heading-large
-  Stats
+%h1 Stats
+%p
+  = "Statistics by #{@stats_search_form.granularity}"
+  = "and #{@stats_search_form.to_h}"
+  - if @stats_search_form.date_from == @stats_search_form.date_to
+    = "on #{@stats_search_form.date_from.to_s(:admin_date)}"
+  - else
+    = "over the period #{@stats_search_form.date_from.to_s(:admin_date)} to #{@stats_search_form.date_to.to_s(:admin_date)}"
 
-%section
-  %p
-    = "Statistics by #{@stats_search_form.granularity}"
-    = "and #{@stats_search_form.to_h}"
-    - if @stats_search_form.date_from == @stats_search_form.date_to
-      = "on #{@stats_search_form.date_from.to_s(:admin_date)}"
-    - else
-      = "over the period #{@stats_search_form.date_from.to_s(:admin_date)} to #{@stats_search_form.date_to.to_s(:admin_date)}"
+%ul.stats
+  %li.opportunities-submitted
+    %span.number
+      = number_with_delimiter(@stats.opportunities_submitted)
+    Opportunities submitted
 
-%section
-  .grid-row
-    .column-one-quarter
-      %div.data.data-panel
-        %span.data-item.bold-xxlarge
-          = number_with_delimiter(@stats.opportunities_submitted)
-        %span.data-item.bold-xsmall Opportunities submitted
-    .column-one-quarter
-      %div.data.data-panel
-        %span.data-item.bold-xxlarge
-          = number_with_delimiter(@stats.opportunities_published)
-        %span.data-item.bold-xsmall Opportunities published
-    .column-one-quarter
-      %div.data.data-panel
-        %span.data-item.bold-xxlarge
-          = number_with_delimiter(@stats.enquiries)
-        %span.data-item.bold-xsmall Enquiries
-    .column-one-quarter
-      %div.data
-        %span.data-item.bold-xxlarge
-          = number_with_delimiter(@stats.enquiry_response)
-        %span.data-item.bold-xsmall Enquiry Responses (counted at Enquiry Response created at date)
+  %li.opportunities-published
+    %span.number
+      = number_with_delimiter(@stats.opportunities_published)
+    Opportunities published
 
-%section
-  %h3 Average time to publish an opportunity following submission:
-  %div.data
-    %span.data-item.bold-xlarge
+  %li.enquiries
+    %span.number
+      = number_with_delimiter(@stats.enquiries)
+    Enquiries
+
+  %li.enquiry-responses
+    %span.number
+      = number_with_delimiter(@stats.enquiry_response)
+    Enquiry Responses
+    %small
+      (counted at Enquiry Response created at date)
+
+  %li.age-when-published
+    Average time to publish an opportunity following submission:
+    %span.number
       = @stats.average_age_when_published
 
 = render partial: 'stats_search_form', locals: { stats_search_form: @stats_search_form }
