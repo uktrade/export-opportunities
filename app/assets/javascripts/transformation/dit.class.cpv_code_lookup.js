@@ -23,16 +23,29 @@
     var $output= $('<input type="hidden">');
     var opts = $.extend({
       addButtonCssCls: "", // Should you want to add something for CSS.
-      datamapping: { text: "english_text", value: "code" }, // See notes in SelectiveLookup
-      name: "" // Pass in a custom field name if you $input.name not wanted.
+      datamapping: { text: "english_text", value: "code" }, // See notes in SelectiveLookup.
+      name: "", // Pass in a custom field name if you $input.name not wanted.
+      placeholder: "Find CPV code" // For altered visible form field.
     }, options || {});
 
     if($input.length) {
       $output.attr("name", opts.name || $input.attr("name"));
       $input.addClass("CpvCodeLookup");
-      $input.attr("placeholder", "Enter a CPV code or search by text to find one");
+      $input.attr("placeholder", opts.placeholder);
       $input.attr("name", "");
       $input.before($output);
+
+      $input.on("keydown.CpvCodeLookup", function(event) {
+        switch(event.which) {
+          case 27: // Esc
+          case 8: // Backspace
+            $output.val("");
+            $input.val("");
+            $input.attr("readonly", false);
+            break;
+          default: // Nothing
+        }
+      });
 
       // Inherit...
       SelectiveLookup.call(this,
@@ -58,6 +71,7 @@
       var text = $eventTarget.text();
       _p.$output.val(value);
       _p.$input.val(value + " - " + text);
+      _p.$input.attr("readonly", true);
     });
   }
   

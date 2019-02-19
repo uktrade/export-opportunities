@@ -107,7 +107,8 @@ dit.page.opportunity = (new function () {
         var $input = $(this);
         new dit.classes.CpvCodeLookup($input, service, {
           param: "format=json&description=",
-          name: "opportunity[opportunity_cpv_ids][]"
+          name: "opportunity[opportunity_cpv_ids][]",
+          placeholder: dit.constants.CPV_FIELD_PLACEHOLDER
         });
 
         // If it's the last one, add button to allow more fields.
@@ -119,11 +120,13 @@ dit.page.opportunity = (new function () {
             if($last.length) {
               $clone = $last.clone();
               $clone.attr("id", "");
+              $clone.attr("readonly", false);
               $clone.val("");
               $last.after($clone);
               new dit.classes.CpvCodeLookup($clone, service, {
                 param: "format=json&description=",
-                name: "opportunity[opportunity_cpv_ids][]"
+                name: "opportunity[opportunity_cpv_ids][]",
+                placeholder: dit.constants.CPV_FIELD_PLACEHOLDER
               });
             }
           });
