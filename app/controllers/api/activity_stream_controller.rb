@@ -62,8 +62,8 @@ module Api
       status = Opportunity.statuses['publish']
 
       opportunities = Opportunity.where(
-        'status=? AND (response_due_on, updated_at, id)'\
-        ' > (to_timestamp(?), to_timestamp(?), ?::uuid)',
+        'status=? AND response_due_on > to_timestamp(?) AND'\
+        '(updated_at, id) > (to_timestamp(?), ?::uuid)',
         status, response_due_on_time, search_after_time, search_after_id
       )
         .order('updated_at ASC, id ASC')
