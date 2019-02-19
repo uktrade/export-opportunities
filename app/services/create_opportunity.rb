@@ -27,7 +27,7 @@ class CreateOpportunity
       opportunity_cpvs&.each do |opportunity_cpv|
         cpv_id = opportunity_cpv[:industry_id]
         opportunity_cpv = OpportunityCpv.new(
-          industry_id: cpv_id,
+          industry_id: cpv_id.to_s,
           industry_scheme: opportunity_cpv[:industry_scheme],
           opportunity_id: opportunity.id
         )
