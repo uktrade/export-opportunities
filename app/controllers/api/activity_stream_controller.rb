@@ -290,6 +290,7 @@ module Api
                             request.host              + "\n" \
                             '443'                     + "\n" +
                             correct_payload_hash      + "\n" + "\n"
+
         correct_mac = Base64.encode64(
           OpenSSL::HMAC.digest(
             OpenSSL::Digest.new('sha256'), correct_credentials[:key], canonical_request
