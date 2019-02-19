@@ -151,6 +151,37 @@ feature 'Administering opportunities' do
     expect(page).to have_selector(:link_or_button, 'Unpublish')
   end
 
+  context 'admins can create opportunities with CPVs' do
+    scenario 'and add 1 cpv code', js: true do
+      form = setup_opportunity_form
+      uploader = create(:uploader)
+      service_provider = create_service_provider('Italy Rome')
+
+      login_as(uploader)
+      visit admin_opportunities_path
+      click_on 'New opportunity'
+
+      fill_in 'opportunity_title', with: 'A chance to begin again in a golden land of opportunity and adventure'
+      fill_in 'opportunity_teaser', with: 'A new life awaits you in the off-world colonies!'
+      fill_in_response_due_on '2016', '06', '04'
+      fill_in 'opportunity_description', with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
+      select service_provider.name, from: 'Service provider'
+      fill_in_contact_details
+      fill_in "opportunity_opportunity_cpv_ids", with: "150110100080 - \"Lard"
+      hidden_field = find :xpath, "//input[@name='opportunity[opportunity_cpv_ids]']", visible: false
+      hidden_field.set '150110100080'
+
+      click_on form['submit_draft']
+
+      expect(page.status_code).to eq 200
+      expect(page).to have_text('Saved to draft: "A chance to begin again in a golden land of opportunity and adventure"')
+      expect(Opportunity.last.opportunity_cpvs.size).to equal(1)
+    end
+    scenario 'and add multiple cpv codes' do
+
+    end
+  end
+
   context 'service provider dropdown behaviour' do
     scenario 'is not automatically populated by default' do
       setup_opportunity_form
