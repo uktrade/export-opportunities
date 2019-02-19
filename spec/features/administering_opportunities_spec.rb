@@ -168,7 +168,8 @@ feature 'Administering opportunities' do
       select service_provider.name, from: 'Service provider'
       fill_in_contact_details
       fill_in "opportunity_opportunity_cpv_ids", with: "150110100080 - \"Lard"
-      hidden_field = find :xpath, "//input[@name='opportunity[opportunity_cpv_ids]']", visible: false
+
+      hidden_field = find :xpath, "//input[@name='opportunity[opportunity_cpv_ids][]']", visible: false
       hidden_field.set '150110100080'
 
       click_on form['submit_draft']
