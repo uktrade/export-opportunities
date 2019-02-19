@@ -241,7 +241,7 @@ module Api
         # }
         #
         #
-        opportunity_to_providers = Hash[
+        Hash[
           Opportunity.where(id: opportunity_ids).map { |op| [op.id, provider_names[op.service_provider_id]] }
         ]
       end
