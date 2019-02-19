@@ -64,7 +64,8 @@ module Api
       opportunities = Opportunity.where(
         'status=? AND (response_due_on, updated_at, id)'\
         ' > (to_timestamp(?), to_timestamp(?), ?::uuid)',
-        status, response_due_on_time, search_after_time, search_after_id)
+        status, response_due_on_time, search_after_time, search_after_id
+      )
         .order('updated_at ASC, id ASC')
         .take(MAX_PER_PAGE)
 
