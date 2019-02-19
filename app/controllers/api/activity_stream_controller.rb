@@ -224,7 +224,6 @@ module Api
         Hash[country_names_all.map { |opp_id, country_str| [opp_id, country_str.split('__SEP__')] }]
       end
 
-
       def get_service_provider_names(opportunity_ids)
         # Create a hash connecting service providers to their names. Hash is of format:
         # {
