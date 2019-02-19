@@ -232,7 +232,7 @@ module Api
         # }
         provider_ids = Opportunity.where(id: opportunity_ids).map(&:service_provider_id)
         provider_names = Hash[
-          ServiceProvider.where(id: provider_ids).map{|sp| [sp.id, sp.name] }
+          ServiceProvider.where(id: provider_ids).map { |sp| [sp.id, sp.name] }
         ]
         # Perform a search connecting opportunities to the appropriate service provider name. Hash is of format:
         # {
@@ -242,7 +242,7 @@ module Api
         #
         #
         opportunity_to_providers = Hash[
-          Opportunity.where(id: opportunity_ids).map{|op| [op.id, provider_names[op.service_provider_id]] }
+          Opportunity.where(id: opportunity_ids).map { |op| [op.id, provider_names[op.service_provider_id]] }
         ]
       end
 
