@@ -107,6 +107,7 @@ dit.page.opportunity = (new function () {
         var $input = $(this);
         new dit.classes.CpvCodeLookup($input, service, {
           param: "format=json&description=",
+          name: "opportunity[opportunity_cpv_ids][]",
           placeholder: dit.constants.CPV_FIELD_PLACEHOLDER
         });
 
@@ -124,6 +125,7 @@ dit.page.opportunity = (new function () {
               $last.after($clone);
               new dit.classes.CpvCodeLookup($clone, service, {
                 param: "format=json&description=",
+                name: "opportunity[opportunity_cpv_ids][]",
                 placeholder: dit.constants.CPV_FIELD_PLACEHOLDER
               });
             }
