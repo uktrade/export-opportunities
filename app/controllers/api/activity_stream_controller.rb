@@ -59,7 +59,7 @@ module Api
       search_after_time = Float(search_after_time_str)
       search_after_id = String(search_after_id_str)
       response_due_on_time = Float(Time.now)
-      status = Opportunity.statuses["publish"]
+      status = Opportunity.statuses['publish']
 
       opportunities = Opportunity.where(
         'status=? AND (response_due_on, updated_at, id)'\
