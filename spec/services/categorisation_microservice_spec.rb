@@ -32,7 +32,7 @@ RSpec.describe CategorisationMicroservice, type: :service do
 
     it "returns a flattened array of ids #2" do
       sector_ids = CategorisationMicroservice.new(34121100).sector_ids
-      expect(sector_ids).to eq [4]
+      expect(sector_ids).to eq [4, 4, 4]
     end
 
     it "returns an empty array of ids if service cant find the sector ids" do

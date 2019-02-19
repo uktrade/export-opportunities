@@ -8,8 +8,9 @@ class CreateOpportunity
   end
 
   def call(params)
-    opportunity_cpvs = params[:opportunity_cpvs]
+    opportunity_cpvs = params[:opportunity_cpvs] || [{industry_id: params[:opportunity_cpv_ids], industry_scheme: 'cpv'}]
     params.delete :opportunity_cpvs
+    params.delete :opportunity_cpv_ids
 
     opportunity = Opportunity.new(params)
 
