@@ -31,8 +31,8 @@ module Api
           'users.email as user_email' \
         )
         .where("enquiries.company_house_number IS NOT NULL AND enquiries.company_house_number != ''")
-        .where('enquiries.created_at > to_timestamp(?) OR (enquiries.created_at = to_timestamp(?) AND enquiries.id > ?)',
-          search_after_time, search_after_time, search_after_id)
+        .where('(enquiries.created_at, enquiries.id) > (to_timestamp(?), ?)',
+          search_after_time, search_after_id)
         .order('enquiries.created_at ASC, enquiries.id ASC')
       enquiries = companies_with_number.take(MAX_PER_PAGE)
 
