@@ -31,10 +31,14 @@
     if($input.length) {
       $output.attr("name", opts.name || $input.attr("name"));
       $output.val($input.val());
+
       $input.addClass("CpvCodeLookup");
       $input.attr("placeholder", opts.placeholder);
       $input.attr("name", "");
       $input.before($output);
+      if($input.val()) {
+        $input.attr("readonly", true);
+      }
 
       $input.on("keydown.CpvCodeLookup", function(event) {
         switch(event.which) {
