@@ -107,8 +107,7 @@ textarea {
 
 .date legend,
 .date-month-year legend,
-.multi-currency-amount legend,
-.radio-group legend {
+.multi-currency-amount legend {
   @include body-m;
   color: $grey;
   display: inline-block;
@@ -157,6 +156,7 @@ textarea {
 .field {
   clear: both;
   margin-bottom: $spacing-3;
+  max-width: 650px;
 
   &.output input,
   &.output textarea {
@@ -164,6 +164,16 @@ textarea {
     border: none;
     color: inherit;
     padding: 0;
+  }
+}
+
+.field-group {
+  max-width: 650px;
+
+  legend {
+    @include body-m;
+    color: $grey;
+    font-weight: bold;
   }
 }
 
