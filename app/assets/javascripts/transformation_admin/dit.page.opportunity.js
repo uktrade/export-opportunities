@@ -98,11 +98,9 @@ dit.page.opportunity = (new function () {
   function setupCpvLookup() {
     var $cpvInputElements = $("[data-node=cpv-lookup]");
     var $button = $('<button class="CpvLookupController" type="button">Add another code</button>');
-    var $fieldset = $('<fieldset class="CpvLookups"></fieldset>')
     var service = new dit.classes.Service(dit.constants.CPV_CODE_LOOKUP_URL);
 
     if($cpvInputElements.length) {
-      $cpvInputElements.wrap($fieldset);
       $cpvInputElements.each(function(i) {
         var $input = $(this);
         new dit.classes.CpvCodeLookup($input, service, {
@@ -115,7 +113,7 @@ dit.page.opportunity = (new function () {
         if(i == $cpvInputElements.length - 1) {
           $input.after($button);
           $button.on("click.CpvLookupController", function() {
-            var $last = $(".CpvLookups input").last();
+            var $last = $(".CpvCodeLookup").last();
             var $clone;
             if($last.length) {
               $clone = $last.clone();
