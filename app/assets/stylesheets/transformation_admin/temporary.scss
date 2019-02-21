@@ -346,13 +346,11 @@ main#content {
 
 
 
-
-
-
-
-
+/* MOVE TO stylesheets/transformation_admin/pages/stats.scss WHEN
+ * PAGE HAS BEEN CONVERTED TO NO LONGER USE ANY LEGACY CSS.
+ *****************************************************************/
 .stats {
-  padding-left: 0;
+  font-size: $font-size-body-m;
 
   li {
     background-color: $grey-3;
@@ -370,22 +368,51 @@ main#content {
     font-size: $font-size-body-xs;
   }
 
+  ul {
+   padding-left: 0;
+  }
+
   .age-when-published {
     background-color: transparent;
     display: block;
     font-weight: normal;
     max-width: none;
+    padding: 0 0 $spacing-4 0;
     vertical-align: top;
   }
 
   .enquiry-responses {
     background-color: transparent;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .number {
     display: block;
     font-size: $font-size-heading-xl;
     line-height: $font-size-heading-xl;
-    margin: $spacing-4 0;
+    margin: 0 0 $spacing-4 0;
+
+    span {
+      display: inline-block;
+      margin: $spacing-4 0 0 0;
+      white-space: nowrap;
+    }
   }
+
+
+  @media (max-width: 480px) {
+    li {
+      display: block;
+      margin-right: 0;
+    }
+
+    .age-when-published {
+      .number {
+        font-size: $font-size-body-xl;
+      }
+    }
+  }
+
 }

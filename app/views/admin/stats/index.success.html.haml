@@ -1,38 +1,38 @@
-%h1 Stats
-%p
-  = "Statistics by #{@stats_search_form.granularity}"
-  = "and #{@stats_search_form.to_h}"
-  - if @stats_search_form.date_from == @stats_search_form.date_to
-    = "on #{@stats_search_form.date_from.to_s(:admin_date)}"
-  - else
-    = "over the period #{@stats_search_form.date_from.to_s(:admin_date)} to #{@stats_search_form.date_to.to_s(:admin_date)}"
+.stats
+  %h1 Stats
+  %p
+    = "Statistics by #{@stats_search_form.granularity}"
+    = "and #{@stats_search_form.to_h}"
+    - if @stats_search_form.date_from == @stats_search_form.date_to
+      = "on #{@stats_search_form.date_from.to_s(:admin_date)}"
+    - else
+      = "over the period #{@stats_search_form.date_from.to_s(:admin_date)} to #{@stats_search_form.date_to.to_s(:admin_date)}"
 
-%ul.stats
-  %li.opportunities-submitted
-    %span.number
-      = number_with_delimiter(@stats.opportunities_submitted)
-    Opportunities submitted
+  %ul
+    %li.opportunities-submitted
+      %span.number
+        = number_with_delimiter(@stats.opportunities_submitted)
+      Opportunities submitted
 
-  %li.opportunities-published
-    %span.number
-      = number_with_delimiter(@stats.opportunities_published)
-    Opportunities published
+    %li.opportunities-published
+      %span.number
+        = number_with_delimiter(@stats.opportunities_published)
+      Opportunities published
 
-  %li.enquiries
-    %span.number
-      = number_with_delimiter(@stats.enquiries)
-    Enquiries
+    %li.enquiries
+      %span.number
+        = number_with_delimiter(@stats.enquiries)
+      Enquiries
 
-  %li.enquiry-responses
-    %span.number
-      = number_with_delimiter(@stats.enquiry_response)
-    Enquiry Responses
-    %small
-      (counted at Enquiry Response created at date)
+    %li.enquiry-responses
+      %span.number
+        = number_with_delimiter(@stats.enquiry_response)
+      Enquiry Responses
+      %small
+        (counted at Enquiry Response created at date)
 
-  %li.age-when-published
-    Average time to publish an opportunity following submission:
-    %span.number
-      = @stats.average_age_when_published
+    %li.age-when-published
+      Average time to publish an opportunity following submission:
+      = @stats.average_age_when_published_as_html('number')
 
-= render partial: 'stats_search_form', locals: { stats_search_form: @stats_search_form }
+  = render partial: 'stats_search_form', locals: { stats_search_form: @stats_search_form }
