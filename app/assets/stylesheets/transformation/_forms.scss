@@ -347,6 +347,11 @@ textarea {
   }
 }
 
+.text-group {
+  .field {
+    margin-bottom: $spacing-4;
+  }
+}
 
 // RESPONSIVE
 @media (min-width: 768px) {
