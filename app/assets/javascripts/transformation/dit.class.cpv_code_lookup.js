@@ -30,6 +30,7 @@
 
     if($input.length) {
       $output.attr("name", opts.name || $input.attr("name"));
+      $output.val($input.val());
       $input.addClass("CpvCodeLookup");
       $input.attr("placeholder", opts.placeholder);
       $input.attr("name", "");
