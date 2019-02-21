@@ -359,6 +359,12 @@ textarea {
   }
 }
 
+.text-group {
+  .field {
+    margin-bottom: $spacing-4;
+  }
+}
+
 
 // RESPONSIVE
 @media (max-width: 767px) {
