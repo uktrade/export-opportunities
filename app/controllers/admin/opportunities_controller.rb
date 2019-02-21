@@ -140,21 +140,7 @@ class Admin::OpportunitiesController < Admin::BaseController
       @values = Value.all.order(:slug)
       @enquiry_interactions = Opportunity.enquiry_interactions.keys
       @ragg = opportunity.ragg
-
-      # Hacky workaround until Alex sorts the opportunity_cpvs to return the desired objects.
-      @opportunity_cpvs = if opportunity.opportunity_cpvs.length > 0
-                            opportunity_cpvs = []
-                            ids = opportunity.opportunity_cpvs[0].industry_id.gsub(/[^\d,]/, '').split(',')
-                            ids.each do |id|
-                              opportunity_cpvs.push({
-                                id: opportunity.opportunity_cpvs[0].id,
-                                industry_id: id
-                              })
-                            end
-                            opportunity_cpvs
-                          else
-                            []
-                          end
+      @opportunity_cpvs = opportunity.opportunity_cpvs
     end
 
     def setup_opportunity_contacts(opportunity)
