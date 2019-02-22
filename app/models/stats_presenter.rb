@@ -15,4 +15,20 @@ class StatsPresenter < SimpleDelegator
     parts << pluralize(average.hours, 'hour') if average.hours.positive?
     parts.join ' and '
   end
+
+  # Outputs the average_age_when_published string in two parts,
+  # and wrapped in a <span> tag, purely for display flexibility.
+  def average_age_when_published_as_html(css_class = '')
+    html = ''
+    parts = average_age_when_published.split(' and ')
+    parts.each_index do |i|
+      html += if i > 0
+                content_tag('span', "and #{parts[i]}")
+              else
+                # Trims trailing space so adding the HTML entity instead.
+                content_tag('span', "#{parts[i]}&nbsp;".html_safe)
+              end
+    end
+    content_tag('span', html.html_safe, class: css_class).html_safe
+  end
 end
