@@ -121,7 +121,7 @@ class VolumeOppsRetriever
       {
         title: title,
         country_ids: country.id,
-        sector_ids: ['2'],
+        sector_ids: [],
         type_ids: ['2'], # type is always public
         value_ids: value_id,
         teaser: nil,
