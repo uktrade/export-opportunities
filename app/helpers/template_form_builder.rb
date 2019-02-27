@@ -192,7 +192,6 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
       end
     end
 
-
     def input_text_collection(method, props, attributes)
       attrs = {
         placeholder: props[:placeholder],
@@ -204,7 +203,6 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
         html += @template.content_tag(
           :div,
           @template.content_tag(:input, nil, { name: "#{@object_name}[#{method}][]", value: item }.merge(attrs)),
-          #@template.text_field(@object_name, item, objectify_options(attrs)),
           class: "field text field-#{method}"
         )
       end
