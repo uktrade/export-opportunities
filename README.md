@@ -46,7 +46,7 @@ Install [PhantomJS](http://phantomjs.org/), then run tests with `bundle exec rsp
 
 ## Style checking
 
-Run style checks with `bundle exec rubocop`. This checks code against the [Ruby Style Guide](https://github.com/bbatsov/ruby-style-guide), with a couple of customisations.
+Run style checks with `rubocop -c rubocop.yml`. This checks code against the [Ruby Style Guide](https://github.com/bbatsov/ruby-style-guide), with a couple of customisations.
 
 Configure your editor's syntax checker to flag up rubocop rules.
 

@@ -95,6 +95,14 @@ describe CreateOpportunity, type: :service do
         expect(opportunity.sectors.count).to eq 2
       end
 
+      it 'if CPV code provided but does not duplicate sectore from microservice' do
+        allow_any_instance_of(CategorisationMicroservice).to receive(:sector_ids).and_return([2, 2, 2, 5])
+
+        params_without_sector = opportunity_params.except(:sector_ids)
+        opportunity = CreateOpportunity.new(@editor).call(params_without_sector)
+        expect(opportunity.sectors.count).to eq 2
+      end
+
       it 'unless CPV code not provided' do
         params_without_cpv_or_sector = 
           opportunity_params(opportunity_cpvs: nil).except(:sector_ids)

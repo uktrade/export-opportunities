@@ -9,11 +9,13 @@ feature 'admin can reply to enquiries' do
     end
   end
 
-  scenario 'reply to an enquiry with blank mail - FAIL' do
+  scenario 'reply to an enquiry with blank mail - FAIL', js: true do
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
     visit '/admin/enquiries/' + enquiry.id.to_s
+
+    wait_for_ajax
 
     click_on 'Reply'
     expect(page).to have_content('Email body')
@@ -37,6 +39,8 @@ feature 'admin can reply to enquiries' do
     login_as(uploader)
     visit '/admin/enquiries/' + enquiry.id.to_s
 
+    wait_for_ajax
+    
     click_on 'Reply'
     expect(page).to have_content('Email body')
 
@@ -120,6 +124,8 @@ feature 'admin can reply to enquiries' do
   end
 
   scenario 'reply to an enquiry with attachment pdf, valid, right for opportunity - with js', js: true do
+    skip('cant attach files from local environment with Govt. PaaS')
+    
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
@@ -149,6 +155,7 @@ feature 'admin can reply to enquiries' do
   end
 
   scenario 'reply to an enquiry with attachment zip, valid, right for opportunity - with js', js: true do
+    skip('cant attach files from local environment with Govt. PaaS')
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
@@ -179,10 +186,13 @@ feature 'admin can reply to enquiries' do
   end
 
   scenario 'reply to an enquiry with attachment xls, valid, right for opportunity - with js', js: true do
+    skip('cant attach files from local environment with Govt. PaaS')
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
     visit '/admin/enquiries/' + enquiry.id.to_s
+
+    wait_for_ajax
 
     click_on 'Reply'
     expect(page).to have_content('Email body')
@@ -208,6 +218,7 @@ feature 'admin can reply to enquiries' do
   end
 
   scenario 'reply to an enquiry with attachment xlsx, valid, right for opportunity - with js', js: true do
+    skip('cant attach files from local environment with Govt. PaaS')
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)

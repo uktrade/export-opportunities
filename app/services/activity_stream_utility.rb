@@ -2,20 +2,20 @@ require 'hawk'
 require 'uri'
 
 class ActivityStreamUtility
-
   #
   # This general class is designed to allow you to manually test
   # any Hawk authenticated activity stream endpoint
   # Note all AS endpoints require requests to port 443
   #
 
-  def initialize(id:Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID, secret:Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY)
+  def initialize(id:     Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+                 secret: Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY)
     @id = id
     @secret = secret
   end
 
   def request(url)
-    url = "http://#{url}" unless url[0..3] == "http"
+    url = "http://#{url}" unless url[0..3] == 'http'
     response = Faraday.get do |request|
       request.url url
       request.headers['Content-Type'] = 'application/json'
@@ -45,5 +45,4 @@ class ActivityStreamUtility
         payload: ''
       )
     end
-
 end
