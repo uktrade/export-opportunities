@@ -85,7 +85,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def edit
-   content = get_content('opportunities/show.yml', 'admin/opportunities.yml')
+    content = get_content('opportunities/show.yml', 'admin/opportunities.yml')
     @opportunity = Opportunity.includes(comments: [:author]).find(params[:id])
     @comment_form = OpportunityCommentForm.new(opportunity: @opportunity, author: current_editor)
     @history = OpportunityHistory.new(opportunity: @opportunity)
@@ -102,7 +102,7 @@ class Admin::OpportunitiesController < Admin::BaseController
   end
 
   def update
-   content = get_content('opportunities/show.yml', 'admin/opportunities.yml')
+    content = get_content('opportunities/show.yml', 'admin/opportunities.yml')
     @opportunity = Opportunity.find(params[:id])
     authorize @opportunity
 

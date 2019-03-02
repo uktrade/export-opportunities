@@ -9,11 +9,11 @@ class CreateOpportunity
 
   def call(params)
     opportunity_cpv_ids_arr = []
-    #TODO: this works for the spec, but is this what the actual form would submit?
+    # TODO: this works for the spec, but is this what the actual form would submit?
     if params[:opportunity_cpv_ids].present? && params[:opportunity_cpv_ids].size <= 1
-      opportunity_cpv_ids_arr << {industry_id: params[:opportunity_cpv_ids][0], industry_scheme: 'cpv' }
+      opportunity_cpv_ids_arr << { industry_id: params[:opportunity_cpv_ids][0], industry_scheme: 'cpv' }
     elsif params[:opportunity_cpv_ids].present?
-      params[:opportunity_cpv_ids].map { |cpv_id| opportunity_cpv_ids_arr << {industry_id: cpv_id.to_s, industry_scheme: 'cpv' } }
+      params[:opportunity_cpv_ids].map { |cpv_id| opportunity_cpv_ids_arr << { industry_id: cpv_id.to_s, industry_scheme: 'cpv' } }
     end
 
     opportunity_cpvs = params[:opportunity_cpvs] || opportunity_cpv_ids_arr
@@ -64,8 +64,7 @@ class CreateOpportunity
       if cpv_id.present?
         sector_ids = CategorisationMicroservice.new(cpv_id).sector_ids
         sector_ids.each do |sector_id|
-          if (sector = Sector.find_by(id: sector_id)) &&
-              !opportunity.sectors.include?(sector)
+          if (sector = Sector.find_by(id: sector_id)) && !opportunity.sectors.include?(sector)
             opportunity.sectors << sector
           end
         end
