@@ -199,10 +199,20 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
       }.merge(attributes)
 
       html = ''
-      @object.public_send(method).each do |item|
+      values = @object.public_send(method)
+
+      if values.present?
+        values.each do |item|
+          html += @template.content_tag(
+            :div,
+            @template.content_tag(:input, nil, { name: "#{@object_name}[#{method}][]", value: item }.merge(attrs)),
+            class: "field text field-#{method}"
+          )
+        end
+      else
         html += @template.content_tag(
           :div,
-          @template.content_tag(:input, nil, { name: "#{@object_name}[#{method}][]", value: item }.merge(attrs)),
+          @template.content_tag(:input, nil, { name: "#{@object_name}[#{method}][]"}.merge(attrs)),
           class: "field text field-#{method}"
         )
       end
