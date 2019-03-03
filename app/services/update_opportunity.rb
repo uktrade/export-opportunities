@@ -20,12 +20,16 @@ class UpdateOpportunity
 
     opportunity_cpv_ids_arr&.each do |opportunity_cpv|
       cpv_id = opportunity_cpv[:industry_id]
-      opportunity_cpv = OpportunityCpv.new(
-        industry_id: cpv_id.to_s,
-        industry_scheme: opportunity_cpv[:industry_scheme],
-        opportunity_id: @opportunity.id
-      )
-      opportunity_cpv.save!
+      if OpportunityCpv.where(industry_id: cpv_id).where(opportunity_id: @opportunity.id).length.positive?
+        Rails.logger.debug "cpv id #{cpv_id} already exists for opportunity #{@opportunity.id}"
+      else
+        opportunity_cpv = OpportunityCpv.new(
+          industry_id: cpv_id.to_s,
+          industry_scheme: opportunity_cpv[:industry_scheme],
+          opportunity_id: @opportunity.id
+        )
+        opportunity_cpv.save!
+      end
     end
 
     @opportunity
