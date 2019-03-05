@@ -104,12 +104,22 @@ select {
 }
 
 textarea {
+  @include focus;
   @include body-m;
   border: 2px solid $grey-1;
+  color: inherit;
   display: block;
   margin-bottom: $spacing-3;
   padding: 5px;
   width: 100%;
+
+  &[readonly] {
+    border: none;
+    height: auto;
+    overflow: hidden;
+    padding: 0;
+    resize: none;
+  }
 }
 
 .error {
