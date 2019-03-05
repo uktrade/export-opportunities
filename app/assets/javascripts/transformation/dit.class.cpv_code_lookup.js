@@ -20,7 +20,6 @@
   classes.CpvCodeLookup = CpvCodeLookup;
   function CpvCodeLookup($input, service, options) {
     var instance = this;
-    var $output= $('<input type="hidden">');
     var opts = $.extend({
       addButtonCssCls: "", // Should you want to add something for CSS.
       name: "", // Pass in a custom field name if you $input.name not wanted.
@@ -28,13 +27,9 @@
     }, options || {});
 
     if($input.length) {
-      $output.attr("name", opts.name || $input.attr("name"));
-      $output.val($input.val());
-
       $input.addClass("CpvCodeLookup");
+      $input.attr("name", opts.name || $input.attr("name"));
       $input.attr("placeholder", opts.placeholder);
-      $input.attr("name", "");
-      $input.before($output);
       if($input.val()) {
         $input.attr("readonly", true);
       }
@@ -43,7 +38,6 @@
         switch(event.which) {
           case 27: // Esc
           case 8: // Backspace
-            $output.val("");
             $input.val("");
             $input.attr("readonly", false);
             break;
@@ -60,7 +54,6 @@
 
       // Some inner variable requirement.
       this._private.param = opts.param;
-      this._private.$output = $output;
     }
   }
   
@@ -75,7 +68,6 @@
       var $eventTarget = $(event.target);
       var value = $eventTarget.attr("data-value");
       var text = $eventTarget.text();
-      _p.$output.val(value);
       _p.$input.val(value);
       _p.$input.attr("readonly", true);
     });
