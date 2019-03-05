@@ -212,7 +212,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
       else
         html += @template.content_tag(
           :div,
-          @template.content_tag(:input, nil, { name: "#{@object_name}[#{method}][]"}.merge(attrs)),
+          @template.content_tag(:input, nil, { name: "#{@object_name}[#{method}][]" }.merge(attrs)),
           class: "field text field-#{method}"
         )
       end
