@@ -23,7 +23,6 @@
     var $output= $('<input type="hidden">');
     var opts = $.extend({
       addButtonCssCls: "", // Should you want to add something for CSS.
-      datamapping: { text: "english_text", value: "code" }, // See notes in SelectiveLookup.
       name: "", // Pass in a custom field name if you $input.name not wanted.
       placeholder: "Find CPV code" // For altered visible form field.
     }, options || {});
@@ -66,6 +65,8 @@
   }
   
   CpvCodeLookup.prototype = new SelectiveLookup;
+
+  // Overwrite inherited.
   CpvCodeLookup.prototype.bindContentEvents = function() {
     var instance = this;
     instance._private.$list.off("click.SelectiveLookupContent");
@@ -75,13 +76,25 @@
       var value = $eventTarget.attr("data-value");
       var text = $eventTarget.text();
       _p.$output.val(value);
-      _p.$input.val(value + " - " + text);
+      _p.$input.val(value);
       _p.$input.attr("readonly", true);
     });
   }
-  
+
+  // Overwrite inherited.  
   CpvCodeLookup.prototype.param = function() {
     return this._private.param + this._private.$input.val();
+  }
+
+  // Overwrite inherited.
+  // Note 1: Have not bothered with opts.datamapping because we can 
+  //       simply change right here in this function.
+  // Note 2: Includes some data cleanup which should really happen
+  //         before the data response is received
+  CpvCodeLookup.prototype.processWithDataMapping = function(data) {
+    var text = (data["english_text"] + " " + data["description"]).replace(/\"/g, "");
+    text = text.replace(/[-]+/, "-");
+    return { value: data["code"] + ": " + text, text: text }
   }
 
 })(jQuery, dit.utils, dit.classes);
