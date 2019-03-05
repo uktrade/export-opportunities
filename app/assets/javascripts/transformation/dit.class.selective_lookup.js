@@ -227,20 +227,35 @@
    **/
   SelectiveLookup.prototype.setContent = function() {
     var data = this._private.service.data;
-    var $list = this._private.$list;
-    var map = this._private.datamapping;
-    $list.empty();
+    var $list = this._private.$list.empty();
+    var map;
     if(data && data.length) {
       for(var i=0; i<data.length; ++i) {
         // Note:
         // Only need to set a tabindex attribute to allow focus.
         // The value is not important here.
-        $list.append('<li role="option" data-value="' + data[i][map.value] + '" tabindex="-1">' + data[i][map.text] + '</li>');
+        map = this.processWithDataMapping(data[i]);
+        $list.append('<li role="option" data-value="' + map.value + '" tabindex="-1">' + map.text + '</li>');
       }
     }
     else {
       $list.append('<li role="option" data-value="" tabindex="-1">No results found</li>');
     }
+  }
+
+  /* Allow for some processing of data using the datamapping.
+   * Default doesn't change anything but this function is important
+   * to allow for inheriting components to have greater flexibility.
+   * We don't really need datamapping here, as inheriting components 
+   * could simply overwrite this method, but CompaniesHouseLookup 
+   * already exists with data mapping, for example, so making this 
+   * change backwards compatible.
+   *
+   * @data (Object) One of the results/rows returned from JSON response.
+   **/
+  SelectiveLookup.prototype.processWithDataMapping = function(data) {
+    var map = this._private.datamapping;
+    return { value: data[map.value], text: data[map.text] }
   }
   
   SelectiveLookup.prototype.setSizeAndPosition = function() {
