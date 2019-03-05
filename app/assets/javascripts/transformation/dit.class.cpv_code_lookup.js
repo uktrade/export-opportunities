@@ -23,13 +23,19 @@
     var opts = $.extend({
       addButtonCssCls: "", // Should you want to add something for CSS.
       name: "", // Pass in a custom field name if you $input.name not wanted.
-      placeholder: "Find CPV code" // For altered visible form field.
+      placeholder: "Find CPV code", // For altered visible form field.
+      useTextAreaInput: false
     }, options || {});
 
     if($input.length) {
+      if($input.get(0).nodeName.toLowerCase != "textarea" && opts.useTextAreaInput) {
+        $input = CpvCodeLookup.textarea($input);
+      }
+
       $input.addClass("CpvCodeLookup");
       $input.attr("name", opts.name || $input.attr("name"));
       $input.attr("placeholder", opts.placeholder);
+
       if($input.val()) {
         $input.attr("readonly", true);
       }
@@ -57,6 +63,41 @@
     }
   }
   
+  // Sometimes the populating value might be more than
+  // one line in length so it might be preferable to
+  // use a <textarea> element instead. Code will handle
+  // whether it should try to display as a single line
+  // input[type=text] element, or expaned to meet the
+  // populating content length. It does that by assigning
+  // rows=1 when created and assigining rows=0 when
+  // populated (readonly mode).
+  CpvCodeLookup.textarea = function($input) {
+    var $textarea = $("<textarea></textarea>");
+    $textarea.attr("name", $input.attr("name"));
+    $textarea.val($input.val());
+    $input.before($textarea);
+    $input.remove();
+    CpvCodeLookup.setTextareaHeight($textarea); // Has to go after $textarea has been added to get right CSS.
+    return $textarea;
+  }
+
+  // 1. Set a hidden <p> element.
+  // 2. Populate with textarea value.
+  // 3. Set the height of textarea to match <p>.
+  // 4. Remove <p> to cleanup.
+  CpvCodeLookup.setTextareaHeight = function($textarea) {
+     var $p = $("<p></p>");
+     $p.text($textarea.val());
+     $p.css({
+       position: "absolute",
+       visibility: "hidden"
+     });
+
+     $textarea.before($p);
+     $textarea.height($p.height());
+     $p.remove();
+  }
+
   CpvCodeLookup.prototype = new SelectiveLookup;
 
   // Overwrite inherited.
@@ -68,12 +109,14 @@
       var $eventTarget = $(event.target);
       var value = $eventTarget.attr("data-value");
       var text = $eventTarget.text();
+
       _p.$input.val(value);
       _p.$input.attr("readonly", true);
+      CpvCodeLookup.setTextareaHeight(_p.$input);
     });
   }
 
-  // Overwrite inherited.  
+  // Overwrite inherited.
   CpvCodeLookup.prototype.param = function() {
     return this._private.param + this._private.$input.val();
   }
