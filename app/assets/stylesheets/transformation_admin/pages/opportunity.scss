@@ -1,5 +1,6 @@
 @import 'transformation/components/filter_multiple_select';
 @import 'transformation/components/selective_lookup';
+@import 'transformation/components/cpv_code_lookup';
 @import 'transformation_admin/config';
 @import 'transformation_admin/forms';
 @import 'transformation_admin/components/history';
@@ -37,10 +38,6 @@ main {
     display: inline-block;
     padding: 10px;
   }
-}
-
-.CpvCodeLookup {
-  margin-bottom: $spacing-4;
 }
 
 .CpvLookupController {

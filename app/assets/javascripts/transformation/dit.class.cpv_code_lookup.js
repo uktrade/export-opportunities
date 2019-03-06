@@ -20,6 +20,7 @@
   classes.CpvCodeLookup = CpvCodeLookup;
   function CpvCodeLookup($input, service, options) {
     var instance = this;
+    var $clear = $("<button class=\"CpvCodeLookupClear\">Clear value</button>");
     var opts = $.extend({
       addButtonCssCls: "", // Should you want to add something for CSS.
       name: "", // Pass in a custom field name if you $input.name not wanted.
@@ -36,19 +37,28 @@
       $input.attr("name", opts.name || $input.attr("name"));
       $input.attr("placeholder", opts.placeholder);
 
-      if($input.val()) {
-        $input.attr("readonly", true);
-      }
-
-      $input.on("keydown.CpvCodeLookup", function(event) {
+      $input.on("keydown.CpvCodeLookup", function(event, clearInput) {
+        // Handle specific keys.
         switch(event.which) {
           case 27: // Esc
           case 8: // Backspace
-            $input.val("");
-            $input.attr("readonly", false);
+            clearInput = true;
             break;
-          default: // Nothing
+          default: // Nothing to do.
         }
+
+        if(clearInput) {
+          $input.val("");
+          $input.focus();
+          CpvCodeLookup.setTextareaHeight($input)
+        }
+      });
+
+      // Add a clearing button to make the UI more obvious.
+      $input.after($clear);
+      $clear.on("click.CpvCodeLookup", function(event) {
+        event.preventDefault();
+        $input.trigger("keydown.CpvCodeLookup", true);
       });
 
       // Inherit...
@@ -68,9 +78,7 @@
   // use a <textarea> element instead. Code will handle
   // whether it should try to display as a single line
   // input[type=text] element, or expaned to meet the
-  // populating content length. It does that by assigning
-  // rows=1 when created and assigining rows=0 when
-  // populated (readonly mode).
+  // populating content length.
   CpvCodeLookup.textarea = function($input) {
     var $textarea = $("<textarea></textarea>");
     $textarea.attr("name", $input.attr("name"));
@@ -87,10 +95,12 @@
   // 4. Remove <p> to cleanup.
   CpvCodeLookup.setTextareaHeight = function($textarea) {
      var $p = $("<p></p>");
-     $p.text($textarea.val());
+     var text = $textarea.val() || "&nbps;"; // Require something to at least get a single line
+     $p.text(text);
      $p.css({
        position: "absolute",
-       visibility: "hidden"
+       visibility: "hidden",
+       width: $textarea.width()
      });
 
      $textarea.before($p);
@@ -111,7 +121,6 @@
       var text = $eventTarget.text();
 
       _p.$input.val(value);
-      _p.$input.attr("readonly", true);
       CpvCodeLookup.setTextareaHeight(_p.$input);
     });
   }
