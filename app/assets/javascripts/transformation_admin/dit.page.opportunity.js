@@ -106,8 +106,7 @@ dit.page.opportunity = (new function () {
         new dit.classes.CpvCodeLookup($input, service, {
           param: "format=json&description=",
           name: "opportunity[opportunity_cpv_ids][]",
-          placeholder: dit.constants.CPV_FIELD_PLACEHOLDER,
-          useTextAreaInput: true
+          placeholder: dit.constants.CPV_FIELD_PLACEHOLDER
         });
 
         // If it's the last one, add button to allow more fields.
@@ -125,8 +124,7 @@ dit.page.opportunity = (new function () {
               new dit.classes.CpvCodeLookup($clone, service, {
                 param: "format=json&description=",
                 name: "opportunity[opportunity_cpv_ids][]",
-                placeholder: dit.constants.CPV_FIELD_PLACEHOLDER,
-                useTextAreaInput: true
+                placeholder: dit.constants.CPV_FIELD_PLACEHOLDER
               });
             }
           });

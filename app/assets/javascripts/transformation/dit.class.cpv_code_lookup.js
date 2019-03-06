@@ -25,12 +25,13 @@
       addButtonCssCls: "", // Should you want to add something for CSS.
       name: "", // Pass in a custom field name if you $input.name not wanted.
       placeholder: "Find CPV code", // For altered visible form field.
-      useTextAreaInput: false
+      supportMultilineInputs: true
     }, options || {});
 
     if($input.length) {
-      if($input.get(0).nodeName.toLowerCase != "textarea" && opts.useTextAreaInput) {
-        $input = CpvCodeLookup.textarea($input);
+      if(opts.supportMultilineInputs) {
+        $input = CpvCodeLookup.convertToTextarea($input);
+        CpvCodeLookup.setTextareaHeight($input)
       }
 
       $input.addClass("CpvCodeLookup");
@@ -79,13 +80,16 @@
   // whether it should try to display as a single line
   // input[type=text] element, or expaned to meet the
   // populating content length.
-  CpvCodeLookup.textarea = function($input) {
-    var $textarea = $("<textarea></textarea>");
-    $textarea.attr("name", $input.attr("name"));
-    $textarea.val($input.val());
-    $input.before($textarea);
-    $input.remove();
-    CpvCodeLookup.setTextareaHeight($textarea); // Has to go after $textarea has been added to get right CSS.
+  CpvCodeLookup.convertToTextarea = function($field) {
+    var $textarea = $field;
+    if($field.get(0).nodeName.toLowerCase() != "textarea") {
+      $textarea = $("<textarea></textarea>");
+      $textarea.attr("name", $field.attr("name"));
+      $textarea.val($field.val());
+      $field.before($textarea);
+      $field.remove();
+      CpvCodeLookup.setTextareaHeight($textarea); // Has to go after $textarea has been added to get right CSS.
+    }
     return $textarea;
   }
 
@@ -93,19 +97,21 @@
   // 2. Populate with textarea value.
   // 3. Set the height of textarea to match <p>.
   // 4. Remove <p> to cleanup.
-  CpvCodeLookup.setTextareaHeight = function($textarea) {
-     var $p = $("<p></p>");
-     var text = $textarea.val() || "&nbps;"; // Require something to at least get a single line
-     $p.text(text);
-     $p.css({
-       position: "absolute",
-       visibility: "hidden",
-       width: $textarea.width()
-     });
+  CpvCodeLookup.setTextareaHeight = function($field) {
+    var $p;
+    if($field.get(0).nodeName.toLowerCase() == "textarea") {
+      $p = $("<p></p>");
+      $p.text($field.val() || "&nbps;"); // Require something to at least get a single line
+      $p.css({
+        position: "absolute",
+        visibility: "hidden",
+        width: $field.width()
+      });
 
-     $textarea.before($p);
-     $textarea.height($p.height());
-     $p.remove();
+      $field.before($p);
+      $field.height($p.height());
+      $p.remove();
+    }
   }
 
   CpvCodeLookup.prototype = new SelectiveLookup;
@@ -119,7 +125,6 @@
       var $eventTarget = $(event.target);
       var value = $eventTarget.attr("data-value");
       var text = $eventTarget.text();
-
       _p.$input.val(value);
       CpvCodeLookup.setTextareaHeight(_p.$input);
     });
