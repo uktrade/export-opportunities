@@ -35,8 +35,8 @@ class LandingPresenter < PagePresenter
       name = key.to_sym
       map = {
         "creative-media": {
-          large: 'sectors/ExOpps-CTA_Sixth_7_170x255_12@2x.jpg',
-          small: 'sectors/ExOpps-CTA_Sixth_7_170x255_12-mob@2x.jpg',
+          large: 'sectors/ExOpps-CTA_Mobile_CreativeandMedia_175x262.jpg',
+          small: 'sectors/ExOpps-CTA_Mobile_CreativeandMedia_170x170.jpg',
         },
         "education-training": {
           large: 'sectors/ExOpps_CTA_Education_170x255@2x.jpg',
