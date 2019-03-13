@@ -54,7 +54,8 @@ class CreateOpportunity
       if cpv_id.present?
         sector_ids = CategorisationMicroservice.new(cpv_id).sector_ids
         sector_ids.each do |sector_id|
-          if (sector = Sector.find_by(id: sector_id))
+          if (sector = Sector.find_by(id: sector_id)) &&
+             !opportunity.sectors.include?(sector)
             opportunity.sectors << sector
           end
         end

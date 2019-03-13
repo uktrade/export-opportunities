@@ -31,8 +31,8 @@ module Api
           'users.email as user_email' \
         )
         .where("enquiries.company_house_number IS NOT NULL AND enquiries.company_house_number != ''")
-        .where('enquiries.created_at > to_timestamp(?) OR (enquiries.created_at = to_timestamp(?) AND enquiries.id > ?)',
-          search_after_time, search_after_time, search_after_id)
+        .where('(enquiries.created_at, enquiries.id) > (to_timestamp(?), ?)',
+          search_after_time, search_after_id)
         .order('enquiries.created_at ASC, enquiries.id ASC')
       enquiries = companies_with_number.take(MAX_PER_PAGE)
 
@@ -58,15 +58,16 @@ module Api
       search_after_time_str, search_after_id_str = search_after.split('_')
       search_after_time = Float(search_after_time_str)
       search_after_id = String(search_after_id_str)
-      response_due_on_time = Float(Time.now)
-      status = Opportunity.statuses["publish"]
+      response_due_on_time = Float(Time.now.utc)
+      status = Opportunity.statuses['publish']
 
       opportunities = Opportunity.where(
-        'status=? AND (response_due_on, updated_at, id)'\
-        ' > (to_timestamp(?), to_timestamp(?), ?::uuid)',
-        status, response_due_on_time, search_after_time, search_after_id).
-        order('updated_at ASC, id ASC').
-        take(MAX_PER_PAGE)
+        'status=? AND response_due_on > to_timestamp(?) AND'\
+        '(updated_at, id) > (to_timestamp(?), ?::uuid)',
+        status, response_due_on_time, search_after_time, search_after_id
+      )
+        .order('updated_at ASC, id ASC')
+        .take(MAX_PER_PAGE)
 
       opportunity_ids = opportunities.map(&:id)
       country_names = get_country_names(opportunity_ids)
@@ -223,7 +224,6 @@ module Api
         Hash[country_names_all.map { |opp_id, country_str| [opp_id, country_str.split('__SEP__')] }]
       end
 
-
       def get_service_provider_names(opportunity_ids)
         # Create a hash connecting service providers to their names. Hash is of format:
         # {
@@ -232,7 +232,7 @@ module Api
         # }
         provider_ids = Opportunity.where(id: opportunity_ids).map(&:service_provider_id)
         provider_names = Hash[
-          ServiceProvider.where(id: provider_ids).map{|sp| [sp.id, sp.name] }
+          ServiceProvider.where(id: provider_ids).map { |sp| [sp.id, sp.name] }
         ]
         # Perform a search connecting opportunities to the appropriate service provider name. Hash is of format:
         # {
@@ -241,8 +241,8 @@ module Api
         # }
         #
         #
-        opportunity_to_providers = Hash[
-          Opportunity.where(id: opportunity_ids).map{|op| [op.id, provider_names[op.service_provider_id]] }
+        Hash[
+          Opportunity.where(id: opportunity_ids).map { |op| [op.id, provider_names[op.service_provider_id]] }
         ]
       end
 
@@ -290,6 +290,7 @@ module Api
                             request.host              + "\n" \
                             '443'                     + "\n" +
                             correct_payload_hash      + "\n" + "\n"
+
         correct_mac = Base64.encode64(
           OpenSSL::HMAC.digest(
             OpenSSL::Digest.new('sha256'), correct_credentials[:key], canonical_request
