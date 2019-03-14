@@ -42,6 +42,8 @@ main {
 
 .CpvLookupController {
   @include link;
+  display: block;
+  margin-top: $spacing-3;
 }
 
 .help,

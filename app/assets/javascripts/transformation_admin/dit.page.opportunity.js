@@ -96,14 +96,14 @@ dit.page.opportunity = (new function () {
    * and ability to add multiple entries.
    **/
   function setupCpvLookup() {
+    var $cpvFieldset = $(".field-opportunity_cpv_codes.field-group");
     var $cpvInputElements = $("[data-node=cpv-lookup]");
     var $button = $('<button class="CpvLookupController" type="button">Add another code</button>');
     var service = new dit.classes.Service(dit.constants.CPV_CODE_LOOKUP_URL);
 
     if($cpvInputElements.length) {
       $cpvInputElements.each(function(i) {
-        var $input = $(this);
-        new dit.classes.CpvCodeLookup($input, service, {
+        var cpvLookup = new dit.classes.CpvCodeLookup($(this), service, {
           param: "format=json&description=",
           name: "opportunity[opportunity_cpv_ids][]",
           placeholder: dit.constants.CPV_FIELD_PLACEHOLDER
@@ -111,17 +111,19 @@ dit.page.opportunity = (new function () {
 
         // If it's the last one, add button to allow more fields.
         if(i == $cpvInputElements.length - 1) {
-          $input.after($button);
+          $cpvFieldset.append($button);
           $button.on("click.CpvLookupController", function() {
-            var $last = $(".CpvCodeLookup").last();
-            var $clone;
-            if($last.length) {
-              $clone = $last.clone();
-              $clone.attr("id", "");
-              $clone.attr("readonly", false);
-              $clone.val("");
-              $last.after($clone);
-              new dit.classes.CpvCodeLookup($clone, service, {
+            var $lastField = $(".CpvCodeLookup").last().parents(".field");
+            var $cloneField, $cloneInput;
+            if($lastField.length) {
+              $cloneField = $lastField.clone();
+              $cloneInput = $cloneField.find(".CpvCodeLookup");
+              $cloneInput.attr("id", "");
+              $cloneInput.attr("readonly", false);
+              $cloneInput.val("");
+              $cloneField.find("button").remove();
+              $(this).before($cloneField);
+              new dit.classes.CpvCodeLookup($cloneInput, service, {
                 param: "format=json&description=",
                 name: "opportunity[opportunity_cpv_ids][]",
                 placeholder: dit.constants.CPV_FIELD_PLACEHOLDER
