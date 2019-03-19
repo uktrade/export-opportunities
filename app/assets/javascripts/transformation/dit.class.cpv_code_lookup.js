@@ -20,6 +20,7 @@
   classes.CpvCodeLookup = CpvCodeLookup;
   function CpvCodeLookup($input, service, options) {
     var instance = this;
+    var id = $input.attr('id') || utils.generateUniqueStr("_");
     var $clear = $("<button class=\"CpvCodeLookupClear\">Clear value</button>");
     var opts = $.extend({
       addButtonCssCls: "", // Should you want to add something for CSS.
@@ -35,6 +36,7 @@
       }
 
       $input.addClass("CpvCodeLookup");
+      $input.attr("id", id);
       $input.attr("name", opts.name || $input.attr("name"));
       $input.attr("placeholder", opts.placeholder);
 
@@ -56,6 +58,7 @@
       });
 
       // Add a clearing button to make the UI more obvious.
+      $clear.attr("aria-controls", id);
       $input.after($clear);
       $clear.on("click.CpvCodeLookup", function(event) {
         event.preventDefault();
