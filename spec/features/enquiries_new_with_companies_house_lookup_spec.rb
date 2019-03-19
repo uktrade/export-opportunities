@@ -81,60 +81,6 @@ feature 'JS-on adds Companies House API lookup', js: true do
     expect(company_number_field.value).to eql('03166121')
   end
 
-
-  # Return JS value for checking.
-  def js_variable(name)
-    id = name.gsub(/[^\w]/, '_')
-    page.execute_script("(function() { \
-      var text = document.createTextNode(" + name + "); \
-      var element = document.createElement('span'); \
-      element.setAttribute('id', '" + id + "'); \
-      element.appendChild(text); \
-      document.body.appendChild(element); \
-    })()")
-    text = page.find('#' + id).text
-    page.execute_script("(function() { \
-      var element = document.getElementById('" + id + "'); \
-      if(element) { \
-        document.body.removeChild(element); \
-      } \
-    })()")
-    text
-  end
-
-  # This is complex but can be understood by reading jQuery documentation.
-  # https://api.jquery.com/jQuery.ajaxTransport/
-  #
-  # Essentially, it is creating functionality that will check upon each AJAX
-  # request if the requested URL matches the passed url.
-  #
-  # If URL matches, it will register the request as successful so the success
-  # handler will kick in, but it will return the json value that was passed
-  # to stub_ajax_request as though it was the retrieved data.
-  #
-  # The real request will be aborted because we have now faked a response.
-  #
-  # IMPORTANT: You will get a silent fail (in JS) if the gsub effort is removed.
-  def stub_jquery_ajax(url, json)
-    page.execute_script("$.ajaxTransport('json', function( options, originalOptions, jqXHR ) { \
-        if(options.url == '" + url + "') { \
-          return { \
-            send: function( headers, completeCallback ) { \
-              completeCallback(200, 'success', { text: '" + json.gsub(/"/, '\"') + "' } ); \ 
-              jqXHR.abort(); \
-            } \
-          } \
-        } \
-        else { \
-          console.log('THE URL DID NOT MATCH IN stub_ajax_request\\n'); \
-          console.log('options.url: ' + options.url + '\\n'); \
-          console.log('passed url: ' + '" + url + "' + '\\n'); \
-        } \
-      }); \
-    ")
-  end
-
-
   # EXAMPLE Companies House search URL and RESPONSE
   # -----------------------------------------------------------------------
   # URL = 

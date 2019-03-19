@@ -61,7 +61,7 @@ feature 'JS-on adds CPV code lookup functionality', js: true do
   scenario 'Entering some text will fetch CPV data' do
     query = 'food'
     url = js_variable('dit.constants.CPV_CODE_LOOKUP_URL') + '?format=json&description=' + query
-    stub_ajax_request(url, cpv_search_response)
+    stub_jquery_ajax(url, cpv_search_response)
 
     # Make sure we're on the right page
     expect(page.body).to have_text('Create a new export opportunity')
@@ -128,59 +128,6 @@ feature 'JS-on adds CPV code lookup functionality', js: true do
     # Check initial elements (again)
     page.assert_selector('.CpvCodeLookup', count: 2)
     page.assert_selector('.CpvCodeLookupClear', count: 2)
-  end
-
-
-  # Return JS value for checking.
-  def js_variable(name)
-    id = name.gsub(/[^\w]/, '_')
-    page.execute_script("(function() { \
-      var text = document.createTextNode(" + name + "); \
-      var element = document.createElement('span'); \
-      element.setAttribute('id', '" + id + "'); \
-      element.appendChild(text); \
-      document.body.appendChild(element); \
-    })()")
-    text = page.find('#' + id).text
-    page.execute_script("(function() { \
-      var element = document.getElementById('" + id + "'); \
-      if(element) { \
-        document.body.removeChild(element); \
-      } \
-    })()")
-    text
-  end
-
-  # This is complex but can be understood by reading jQuery documentation.
-  # https://api.jquery.com/jQuery.ajaxTransport/
-  #
-  # Essentially, it is creating functionality that will check upon each AJAX
-  # request if the requested URL matches the passed url.
-  #
-  # If URL matches, it will register the request as successful so the success
-  # handler will kick in, but it will return the json value that was passed
-  # to stub_ajax_request as though it was the retrieved data.
-  #
-  # The real request will be aborted because we have now faked a response.
-  #
-  # IMPORTANT: You will get a silent fail (in JS) if the gsub effort is removed.
-  def stub_ajax_request(url, json)
-    page.execute_script("$.ajaxTransport('json', function( options, originalOptions, jqXHR ) { \
-        if(options.url == '" + url + "') { \
-          return { \
-            send: function( headers, completeCallback ) { \
-              completeCallback(200, 'success', { text: '" + json.gsub(/"/, '\"') + "' } ); \
-              jqXHR.abort(); \
-            } \
-          } \
-        } \
-        else { \
-          console.log('THE URL DID NOT MATCH IN stub_ajax_request\\n'); \
-          console.log('options.url: ' + options.url + '\\n'); \
-          console.log('passed url: ' + '" + url + "' + '\\n'); \
-        } \
-      }); \
-    ")
   end
 
   # EXAMPLE CPV search URL and RESPONSE
