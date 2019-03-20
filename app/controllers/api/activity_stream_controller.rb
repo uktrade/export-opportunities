@@ -90,11 +90,16 @@ module Api
         # 403 is only sent if the activity stream is disabled, since there is
         # no finer granularity for this endpoint: the holder of the secret key
         # is allowed to access the data
-
-        return respond(403, 'Activity Stream is disabled') unless ExportOpportunities.flipper.enabled?(:activity_stream)
+        unless ExportOpportunities.flipper.enabled?(:activity_stream)
+          logger.error "Status 403, Activity Stream is disabled"
+          return respond(403, 'Activity Stream is disabled')
+        end
 
         is_authentic, message = authenticate(request)
-        return respond(401, message) unless is_authentic
+        unless is_authentic
+          logger.error "Status 401, #{message}"
+          return respond(401, message) 
+        end
       end
 
       def to_activity_collection(activities)
