@@ -2,9 +2,7 @@
 require 'rails_helper'
 require 'capybara/email/rspec'
 
-
 feature 'JS-on adds CPV code lookup functionality', js: true do
-
   before do
     # @TODO
     # These tests were written with this set to `false`, so
@@ -22,11 +20,11 @@ feature 'JS-on adds CPV code lookup functionality', js: true do
   before :each do
     @content = get_content('admin/opportunities')
 
-    type = create(:type, name: 'Public Sector')
-    value = create(:value, name: 'More than £100k')
-    country = create(:country, name: 'America')
-    sector = create(:sector, name: 'Aerospace')
-    supplier_preference = create(:supplier_preference)
+    create(:type, name: 'Public Sector')
+    create(:value, name: 'More than £100k')
+    create(:country, name: 'America')
+    create(:sector, name: 'Aerospace')
+    create(:supplier_preference)
     service_provider = create(:service_provider, name: 'Italy Rome')
     uploader = create(:uploader, service_provider: service_provider)
     login_as(uploader)
@@ -37,7 +35,6 @@ feature 'JS-on adds CPV code lookup functionality', js: true do
 
   # JS functionality is available and active
   scenario 'input will be enhanced with lookup functionality' do
-
     # Make sure we're on the right page
     expect(page.body).to have_text('Create a new export opportunity')
 
@@ -68,7 +65,6 @@ feature 'JS-on adds CPV code lookup functionality', js: true do
 
     # Get the enhancement elements
     cpv_input_field = find_field('opportunity[opportunity_cpv_ids][]')
-    cpv_input_clear = find_button('Clear value')
     cpv_input_dropdown = find('#' + cpv_input_field['aria-controls'])
 
     # Check the initial state
@@ -81,7 +77,7 @@ feature 'JS-on adds CPV code lookup functionality', js: true do
     # Wait for $.ajax functionality and DOM manipulation to finish
     sleep 1
 
-    # Lookup data is presented to user 
+    # Lookup data is presented to user
     expect(cpv_input_field['aria-expanded']).to eql('true')
     expect(cpv_input_dropdown['innerHTML']).to include('150120100080: Pig fat - For industrial uses other than manufacture')
 
@@ -94,7 +90,6 @@ feature 'JS-on adds CPV code lookup functionality', js: true do
 
   # JS functionality will clear CPV selections
   scenario 'Value can be cleared by the provided button' do
-
     # Make sure we're on the right page
     expect(page.body).to have_text('Create a new export opportunity')
 
@@ -113,7 +108,6 @@ feature 'JS-on adds CPV code lookup functionality', js: true do
 
   # Page specific JS functionality will add multiple field capability
   scenario 'Can add more than one CPV field and value' do
-
     # Make sure we're on the right page
     expect(page.body).to have_text('Create a new export opportunity')
 
@@ -132,101 +126,96 @@ feature 'JS-on adds CPV code lookup functionality', js: true do
 
   # EXAMPLE CPV search URL and RESPONSE
   # -----------------------------------------------------------------------
-  # URL = 
+  # URL =
   # https://www.great.gov.uk/search?q=food
   #
   # RESPONSE =
   def cpv_search_response
-    JSON.generate([
-      {
-        "order":"1971397",
-        "level":"5",
-        "code":"150110100080",
-        "parent":"150110000080",
-        "code2":"1501 10 10",
-        "parent2":"1501 10",
-        "description":"\"-- For industrial uses other than manufacture\"",
-        "english_text":"\"Lard"
-      },
-      {"order":"1971400",
-        "level":"5",
-        "code":"150120100080",
-        "parent":"150120000080",
-        "code2":"1501 20 10",
-        "parent2":"1501 20",
-        "description":"\"-- For industrial uses other than manufacture\"",
-        "english_text":"\"Pig fat"
-      },
-      {
-        "order":"1971405",
-        "level":"5",
-        "code":"150210100080",
-        "parent":"150210000080",
-        "code2":"1502 10 10",
-        "parent2":"1502 10",
-        "description":"\"-- For industrial uses other than manufacture\"",
-        "english_text":"\"Tallow of bovine animals"
-      },
-      {
-        "order":"1971408",
-        "level":"5",
-        "code":"150290100080",
-        "parent":"150290000080",
-        "code2":"1502 90 10",
-        "parent2":"1502 90",
-        "description":"\"-- For industrial uses other than manufacture\"",
-        "english_text":"\"Fats of bovine animals"
-      },
-      {
-        "order":"1971414",
-        "level":"4",
-        "code":"150300300080",
-        "parent":"150300000080",
-        "code2":"1503 00 30",
-        "parent2":"1503 00",
-        "description":"\"- Tallow oil for industrial uses other than the manufacture of foodstuffs for human consumption\"",
-        "english_text":"\"Tallow oil for industrial uses (excl. for production of foodstuffs and emulsified"
-      },
-      {
-        "order":"1971434",
-        "level":"5",
-        "code":"150710100080",
-        "parent":"150710000080",
-        "code2":"1507 10 10",
-        "parent2":"1507 10",
-        "description":"\"-- For technical or industrial uses other than the manufacture of foodstuffs for human consumption\"",
-        "english_text":"\"Crude soya-bean oil"
-      },
-      {
-        "order":"1971437",
-        "level":"5",
-        "code":"150790100080",
-        "parent":"150790000080",
-        "code2":"1507 90 10",
-        "parent2":"1507 90",
-        "description":"\"-- For technical or industrial uses other than the manufacture of foodstuffs for human consumption\"",
-        "english_text":"\"Soya-bean oil and its fractions"
-      },
-      {
-        "order":"1971441",
-        "level":"5",
-        "code":"150810100080",
-        "parent":"150810000080",
-        "code2":"1508 10 10",
-        "parent2":"1508 10",
-        "description":"\"-- For technical or industrial uses other than the manufacture of foodstuffs for human consumption\"",
-        "english_text":"\"Crude groundnut oil for technical or industrial uses (excl. for production of foodstuffs)\""
-      },
-      {
-        "order":"1971444",
-        "level":"5",
-        "code":"150890100080",
-        "parent":"150890000080",
-        "code2":"1508 90 10",
-        "parent2":"1508 90",
-        "description":"\"-- For technical or industrial uses other than the manufacture of foodstuffs for human consumption\"",
-        "english_text":"\"Groundnut oil and its fractions"
-      }
-    ])
+    JSON.generate(
+      [
+        {
+          'order': '1971397',
+          'level': '5',
+          'code': '150110100080',
+          'parent': '150110000080',
+          'code2': '1501 10 10',
+          'parent2': '1501 10',
+          'description': '-- For industrial uses other than manufacture',
+          'english_text': 'Lard',
+        }, {
+          'order': '1971400',
+          'level': '5',
+          'code': '150120100080',
+          'parent': '150120000080',
+          'code2': '1501 20 10',
+          'parent2': '1501 20',
+          'description': '-- For industrial uses other than manufacture',
+          'english_text': 'Pig fat',
+        }, {
+          'order': '1971405',
+          'level': '5',
+          'code': '150210100080',
+          'parent': '150210000080',
+          'code2': '1502 10 10',
+          'parent2': '1502 10',
+          'description': '-- For industrial uses other than manufacture',
+          'english_text': 'Tallow of bovine animals',
+        }, {
+          'order': '1971408',
+          'level': '5',
+          'code': '150290100080',
+          'parent': '150290000080',
+          'code2': '1502 90 10',
+          'parent2': '1502 90',
+          'description': '-- For industrial uses other than manufacture',
+          'english_text': 'Fats of bovine animals',
+        }, {
+          'order': '1971414',
+          'level': '4',
+          'code': '150300300080',
+          'parent': '150300000080',
+          'code2': '1503 00 30',
+          'parent2': '1503 00',
+          'description': '- Tallow oil for industrial uses other than the manufacture of foodstuffs for human consumption',
+          'english_text': 'Tallow oil for industrial uses (excl. for production of foodstuffs and emulsified',
+        }, {
+          'order': '1971434',
+          'level': '5',
+          'code': '150710100080',
+          'parent': '150710000080',
+          'code2': '1507 10 10',
+          'parent2': '1507 10',
+          'description': '-- For technical or industrial uses other than the manufacture of foodstuffs for human consumption',
+          'english_text': 'Crude soya-bean oil',
+        }, {
+          'order': '1971437',
+          'level': '5',
+          'code': '150790100080',
+          'parent': '150790000080',
+          'code2': '1507 90 10',
+          'parent2': '1507 90',
+          'description': '-- For technical or industrial uses other than the manufacture of foodstuffs for human consumption',
+          'english_text': 'Soya-bean oil and its fractions',
+        }, {
+          'order': '1971441',
+          'level': '5',
+          'code': '150810100080',
+          'parent': '150810000080',
+          'code2': '1508 10 10',
+          'parent2': '1508 10',
+          'description': '-- For technical or industrial uses other than the manufacture of foodstuffs for human consumption',
+          'english_text': 'Crude groundnut oil for technical or industrial uses (excl. for production of foodstuffs)',
+        }, {
+          'order': '1971444',
+          'level': '5',
+          'code': '150890100080',
+          'parent': '150890000080',
+          'code2': '1508 90 10',
+          'parent2': '1508 90',
+          'description': '-- For technical or industrial uses other than the manufacture of foodstuffs for human consumption',
+          'english_text': 'Groundnut oil and its fractions',
+        }
+      ]
+    )
   end
 end
