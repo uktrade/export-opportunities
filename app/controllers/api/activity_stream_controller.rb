@@ -260,7 +260,7 @@ module Api
       def authenticate(request)
         return [false, 'Connecting from unauthorized IP'] unless request.headers.key?('X-Forwarded-For')
 
-        remote_ips = request.headers['X-Forwarded-For'].split(',')
+        remote_ips = request.headers['X-Forwarded-For'].gsub(/\s+/, "").split(',')
         return [false, 'Connecting from unauthorized IP'] unless remote_ips.length >= 2
 
         authorized_ip_addresses = Figaro.env.ACTIVITY_STREAM_IP_WHITELIST.split(',')
