@@ -139,10 +139,12 @@
       });
 
       // Add some accessibility support
-      $input.attr("aria-autocomplete", "list");
       $input.attr("role", "combobox");
-      $input.attr("aria-expanded", "false");
+      $input.attr("aria-autocomplete", "list");
+      $input.attr("aria-controls", popupId);
       $input.attr("aria-owns", popupId);
+      $input.attr("aria-expanded", "false");
+      $input.attr("aria-haspopup", "listbox");
 
       // Add display element
       if(opts.$after.length) {
