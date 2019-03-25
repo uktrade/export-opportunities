@@ -62,6 +62,12 @@ Rails.application.configure do
     Bullet.rails_logger = true
   end
 
+  # Enable stdout logger
+  config.logger = Logger.new(STDOUT)
+
+  # Set log level
+  config.log_level = :ERROR
+
   # Run background jobs inline
   config.active_job.queue_adapter = :inline
 

@@ -5,7 +5,6 @@ RSpec.describe VolumeOppsRetriever do
     it 'retrieves opps in volume' do
       editor = create(:editor)
       country = create(:country, id: '11')
-      create(:sector, id: '2')
       create(:type, id: '3')
       create(:value, id: '3')
       create(:service_provider, id: '150', country: country)
@@ -27,7 +26,6 @@ RSpec.describe VolumeOppsRetriever do
     it 'retrieves opps in volume, an opp that already exists' do
       editor = create(:editor)
       country = create(:country, id: '11', name: 'New Zealand')
-      create(:sector, id: '2')
       create(:type, id: '3')
       create(:type, id: '2')
       create(:value, id: '2')
@@ -56,7 +54,6 @@ RSpec.describe VolumeOppsRetriever do
       create(:country, name: 'eSwatini')
       @service_provider = create(:service_provider, id: 27, name: 'DIT HQ')
       @editor = create(:editor, service_provider: @service_provider)
-      create(:sector, id: 2)
       create(:type, id: 2)
       create(:value, id: 2)
     end
