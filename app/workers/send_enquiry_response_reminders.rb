@@ -15,8 +15,7 @@ class SendEnquiryResponseReminders
 
     enquiries.where(enquiry_responses: { enquiry_id: nil }).or(
       enquiries.where(enquiry_responses: { completed_at: nil })
-    )
-      .each do |enquiry|
+    ).each do |enquiry|
 
       created = enquiry.created_at
       if created < 7.days.ago && created >= 14.days.ago

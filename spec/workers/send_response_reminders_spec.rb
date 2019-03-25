@@ -65,7 +65,7 @@ RSpec.describe SendEnquiryResponseReminders, sidekiq: :inline do
   end
 
 
-  it "sends correct emails at the correct times, and only once each" do
+  it "sends correct emails at the correct times, and only once each", focus: true do
     Enquiry.destroy_all
     ActionMailer::Base.deliveries.clear
     opportunity = create(:opportunity, status: :publish,
@@ -74,7 +74,7 @@ RSpec.describe SendEnquiryResponseReminders, sidekiq: :inline do
 
     # Step through the 32 days
     9.times do |x|
-      Timecop.freeze(Time.now + x.days + 1.minute) do
+      Timecop.freeze(Time.now + x.days + 1.hour + 1.minute) do
         run
         # 1st email
         if x == 6
