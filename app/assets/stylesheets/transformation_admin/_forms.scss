@@ -52,6 +52,12 @@ input {
     position: absolute;
     z-index: -1;
   }
+
+  &[readonly] {
+    border: none;
+    height: auto;
+    padding: 0;
+  }
 }
 
 input::-moz-placeholder { color: $grey-5; }
@@ -98,12 +104,21 @@ select {
 }
 
 textarea {
+  @include focus;
   @include body-m;
   border: 2px solid $grey-1;
+  color: inherit;
   display: block;
   margin-bottom: $spacing-3;
   padding: 5px;
   width: 100%;
+
+  &[readonly] {
+    border: none;
+    height: auto;
+    overflow: hidden;
+    padding: 0;
+  }
 }
 
 .error {
@@ -175,6 +190,20 @@ textarea {
     .description {
       max-width: 650px;
     }
+  }
+}
+
+.field-group {
+  max-width: 650px;
+
+  legend {
+    @include body-m;
+    color: $grey-1;
+    font-weight: bold;
+  }
+
+  .field:last-child {
+    margin-bottom: 0;
   }
 }
 
@@ -313,14 +342,6 @@ textarea {
   }
 }
 
-.checkbox-group {
-  legend {
-    @include body-m;
-    color: $grey-1;
-    font-weight: bold;
-  }
-}
-
 .radio {
   input:checked + label {
     &::after {
@@ -347,12 +368,10 @@ textarea {
   }
 }
 
-.radio-group legend {
-  @include body-m;
-  color: $grey-1;
-  display: inline-block;
-  font-weight: bold;
-  margin-bottom: $spacing-4;
+.text-group {
+  .field {
+    margin-bottom: $spacing-4;
+  }
 }
 
 

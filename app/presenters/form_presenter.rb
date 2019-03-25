@@ -49,7 +49,6 @@ class FormPresenter < PagePresenter
     unless field.nil?
       group[:question] = prop(field, 'question')
       group[:name] = field_name
-      group[:question] = prop(field, 'question')
       group[:checkboxes] = options.presence || options_group(prop(field, 'options'), field_name)
     end
     group
@@ -135,6 +134,22 @@ class FormPresenter < PagePresenter
       label: label(field, name),
       placeholder: prop(field, 'placeholder'),
     }
+  end
+
+  # Return formatted data for text field grouped input
+  def input_text_group(name, values = [])
+    field = field_content(name)
+    field_name = prop(field, 'name') || name
+    group = {}
+    unless field.nil?
+      group[:legend] = prop(field, 'label')
+      group[:description] = prop(field, 'description')
+      group[:description_id] = "label-description-#{name}"
+      group[:label] = label(field, name)
+      group[:name] = field_name
+      group[:values] = values
+    end
+    group
   end
 
   # Return formatted data for Textarea component

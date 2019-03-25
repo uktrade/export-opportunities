@@ -5,17 +5,25 @@ $brand-font-alternative: 'Overpass', arial, helvetica, sans-serif;
 $brand-font-serif: georgia, serif;
 
 
+$font-size-xxl: 48px;
+$font-size-xl:  36px;
+$font-size-l :  24px;
+$font-size-m :  19px;
+$font-size-s :  16px;
+$font-size-xs:  13px;
+
+
 // HEADING mixins
 @mixin heading-hero {
   font-family: $brand-font-alternative;
-  font-size: 48px;
+  font-size: $font-size-xxl;
   font-weight: bold;
   line-height: 45px;
 }
 
 @mixin heading-l {
   font-family: $brand-font-standard;
-  font-size:   48px;
+  font-size:   $font-size-xxl;
   font-weight: bold;
   line-height: 1.15em;
   margin: 0 0 1em 0;
@@ -23,7 +31,7 @@ $brand-font-serif: georgia, serif;
 
 @mixin heading-m {
   font-family: $brand-font-standard;
-  font-size:   36px;
+  font-size:   $font-size-xl;
   font-weight: bold;
   line-height: 1.2em;
   margin: 0 0 1em 0;
@@ -31,7 +39,7 @@ $brand-font-serif: georgia, serif;
 
 @mixin heading-s {
   font-family: $brand-font-standard;
-  font-size:   24px;
+  font-size:   $font-size-l;
   font-weight: bold;
   line-height: 1.42em;
   margin: 0 0 1em 0;
@@ -48,13 +56,13 @@ $brand-font-serif: georgia, serif;
 }
 
 @mixin heading-m-mob {
-  font-size: 24px;
+  font-size: $font-size-l;
   line-height: 1.25em;
   letter-spacing: 0.3px;
 }
 
 @mixin heading-s-mob {
-  font-size:   19px;
+  font-size:   $font-size-m;
   line-height: 1.58em;
   margin: 0 0 0.5em 0;
 }
@@ -69,46 +77,46 @@ $brand-font-serif: georgia, serif;
 
 @mixin body-l {
   font-family: $brand-font-standard;
-  font-size:   24px;
+  font-size:   $font-size-l;
   font-weight: normal;
   line-height: 1.4em;
 }
 
 @mixin body-m {
   font-family: $brand-font-standard;
-  font-size:   19px;
+  font-size:   $font-size-m;
   font-weight: normal;
   line-height: 1.58em;
 }
 
 @mixin body-s {
   font-family: $brand-font-standard;
-  font-size:   16px;
+  font-size:   $font-size-s;
   font-weight: normal;
   line-height: 1.47em;
 }
 
 @mixin body-m-mob {
-  font-size: 16px;
+  font-size: $font-size-s;
   line-height: 1.38em;
 }
 
 @mixin body-s-mob {
-  font-size: 13px;
+  font-size: $font-size-xs;
   line-height: 1.54em;
 }
 
 // SPECAL
 @mixin quote {
   font-family: $brand-font-serif;
-  font-size:   24px;
+  font-size:   $font-size-l;
   font-style: italic;
   line-height: 32px;
 }
 
 @mixin quote-mob {
   font-family: $brand-font-serif;
-  font-size:   16px;
+  font-size:   $font-size-s;
   line-height: 1.88em;
 }
 

@@ -48,6 +48,10 @@ input {
     position: absolute;
     z-index: -1;
   }
+
+  &[readonly] {
+    border: none;
+  }
 }
 
 label {
@@ -92,19 +96,27 @@ select {
 }
 
 textarea {
+  @include focus;
   @include body-m;
   border: 2px solid $grey;
+  color: inherit;
   display: block;
   margin-bottom: $spacing-3;
   max-width: 570px;
   padding: 5px;
   width: 100%;
+
+  &[readonly] {
+    border: none;
+    height: auto;
+    overflow: hidden;
+    padding: 0;
+  }
 }
 
 .date legend,
 .date-month-year legend,
-.multi-currency-amount legend,
-.radio-group legend {
+.multi-currency-amount legend {
   @include body-m;
   color: $grey;
   display: inline-block;
@@ -153,6 +165,7 @@ textarea {
 .field {
   clear: both;
   margin-bottom: $spacing-3;
+  max-width: 650px;
 
   &.output input,
   &.output textarea {
@@ -160,6 +173,16 @@ textarea {
     border: none;
     color: inherit;
     padding: 0;
+  }
+}
+
+.field-group {
+  max-width: 650px;
+
+  legend {
+    @include body-m;
+    color: $grey;
+    font-weight: bold;
   }
 }
 
@@ -333,6 +356,11 @@ textarea {
   }
 }
 
+.text-group {
+  .field {
+    margin-bottom: $spacing-4;
+  }
+}
 
 // RESPONSIVE
 @media (min-width: 768px) {

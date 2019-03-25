@@ -3,7 +3,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
     @template.content_tag(
       :fieldset,
       @template.content_tag(:legend, props[:question]) + checkbox_collection(method, props[:checkboxes]),
-      class: "field checkbox-group field-#{method}"
+      class: "field-group checkbox-group field-#{method}"
     )
   end
 
@@ -80,7 +80,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
       :fieldset,
       @template.content_tag(:legend, props[:question]) +
       radio_collection(method, props[:options], config),
-      class: "field radio-group field-#{method}"
+      class: "field-group radio-group field-#{method}"
     )
   end
 
@@ -113,6 +113,19 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
       input_label(method, props[:label]) +
       @template.text_field(@object_name, method, objectify_options(attrs)),
       class: "field text field-#{method}"
+    )
+  end
+
+  # Allows multiple string values to be output as 'collection' of input:text form elements.
+  def input_text_group(method, props, attributes = {})
+    legend_id = "group_legend_#{method}"
+    legend = @template.content_tag(:legend, props[:legend], id: legend_id)
+    description = @template.content_tag(:p, props[:description], class: 'description', id: props[:description_id])
+    props[:legend_id] = legend_id
+    @template.content_tag(
+      :fieldset,
+      legend + description + input_text_collection(method, props, attributes),
+      class: "field-group text-group field-#{method}"
     )
   end
 
@@ -153,7 +166,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
             :div,
             @template.radio_button(@object_name, method, option[:value]) +
               @template.label(@object_name, method, label[:text], value: option[:value]),
-            class: "radio field-#{method}-#{index}"
+            class: "field radio field-#{method}-#{index}"
           )
         end
       else
@@ -163,7 +176,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
             :div,
             option.radio_button +
               option.label,
-            class: 'radio'
+            class: 'field radio'
           )
         end
       end
@@ -175,7 +188,34 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
         @template.content_tag(:div,
           option.check_box +
           option.label,
-          class: 'checkbox')
+          class: 'field checkbox')
       end
+    end
+
+    def input_text_collection(method, props, attributes)
+      attrs = {
+        placeholder: props[:placeholder],
+        aria: { labelled_by: props[:legend_id] },
+      }.merge(attributes)
+
+      html = ''
+      values = @object.public_send(method)
+
+      if values.present?
+        values.each do |item|
+          html += @template.content_tag(
+            :div,
+            @template.content_tag(:input, nil, { name: "#{@object_name}[#{method}][]", value: item }.merge(attrs)),
+            class: "field text field-#{method}"
+          )
+        end
+      else
+        html += @template.content_tag(
+          :div,
+          @template.content_tag(:input, nil, { name: "#{@object_name}[#{method}][]" }.merge(attrs)),
+          class: "field text field-#{method}"
+        )
+      end
+      html.html_safe
     end
 end

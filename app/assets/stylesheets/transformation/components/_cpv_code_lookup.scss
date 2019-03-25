@@ -1,0 +1,8 @@
+.CpvCodeLookup {
+  margin-bottom: 0;
+}
+
+.CpvCodeLookupClear {
+  @include link;
+  font-size: $font-size-s;
+}

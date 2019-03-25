@@ -196,4 +196,10 @@ class Opportunity < ApplicationRecord
   def tender?
     false
   end
+
+  def opportunity_cpv_codes
+    codes = []
+    opportunity_cpvs.each { |cpv| codes.push cpv.industry_id }
+    codes
+  end
 end

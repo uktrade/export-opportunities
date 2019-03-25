@@ -1,4 +1,6 @@
 @import 'transformation/components/filter_multiple_select';
+@import 'transformation/components/selective_lookup';
+@import 'transformation/components/cpv_code_lookup';
 @import 'transformation_admin/config';
 @import 'transformation_admin/forms';
 @import 'transformation_admin/components/history';
@@ -31,6 +33,19 @@ main {
   max-width: none;
 }
 
+.controls {
+  span {
+    display: inline-block;
+    padding: 10px;
+  }
+}
+
+.CpvLookupController {
+  @include link;
+  display: block;
+  margin-top: $spacing-3;
+}
+
 .help,
 .history {
   border-bottom: 1px solid $grey-3;
@@ -51,13 +66,6 @@ main {
 
   p {
     @include container;
-  }
-}
-
-.controls {
-  span {
-    display: inline-block;
-    padding: 10px;
   }
 }
 

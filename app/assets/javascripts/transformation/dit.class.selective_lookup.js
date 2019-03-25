@@ -26,13 +26,15 @@
     // Configure options.
     var opts = $.extend({
       $after: $(), // (jQuery element) Specify an element to insert list after.
-      lookupOnCharacter: 4 // (Integer) At what character input to trigger the request for data
+      lookupOnCharacter: 4, // (Integer) At what character input to trigger the request for data
+      datamapping: { text: "text", value: "value" } // See notes on setContent function.
     }, options || {});
 
     // Some inner variable requirement.
     instance._private = {
       active: false, // State management to isolate the listener.
       service: service, // Service that retrieves and stores the data
+      datamapping: opts.datamapping,
       $list: $('<ul class="SelectiveLookupDisplay" style="display:none;" id="' + popupId + '" role="listbox" tabindex="-1"></ul>'),
       $input: $input,
       timer: null
@@ -196,26 +198,64 @@
   
   /* Uses the data set on associated service to build HTML
    * result output. Since data keys are quite likely to vary
-   * across services, you can pass through a mappingn object
+   * across services, you can pass through a mapping object
    * to avoid the default/expected key names.
+   *
+   * Expected default response format example:
+   * [
+   *   { text: 'foo', value: 1 }
+   *   { text: 'bar', value: 2 }
+   * ]
+   *
+   *
+   * Possible alternative response format would require a custom mapping.
+   * E.g. this response...
+   * [
+   *   { name: 'foo', code: 1 }
+   *   { name: 'bar', code: 2 }
+   * ]
+   * 
+   * ...would require a custom mapping being passed to setContent.
+   * Something like this:
+   *
+   * SelectiveLookup.prototype.setContent.call({
+   *   text: 'name',
+   *   value: 'code'
+   * })
+   *
    * @datamapping (Object) Allow change of required key name
    **/
-  SelectiveLookup.prototype.setContent = function(datamapping) {
+  SelectiveLookup.prototype.setContent = function() {
     var data = this._private.service.data;
-    var $list = this._private.$list;
-    var map = datamapping || { text: "text", value: "value" };
-    $list.empty();
+    var $list = this._private.$list.empty();
+    var map;
     if(data && data.length) {
       for(var i=0; i<data.length; ++i) {
         // Note:
         // Only need to set a tabindex attribute to allow focus.
         // The value is not important here.
-        $list.append('<li role="option" data-value="' + data[i][map.value] + '" tabindex="-1">' + data[i][map.text] + '</li>');
+        map = this.processWithDataMapping(data[i]);
+        $list.append('<li role="option" data-value="' + map.value + '" tabindex="-1">' + map.text + '</li>');
       }
     }
     else {
       $list.append('<li role="option" data-value="" tabindex="-1">No results found</li>');
     }
+  }
+
+  /* Allow for some processing of data using the datamapping.
+   * Default doesn't change anything but this function is important
+   * to allow for inheriting components to have greater flexibility.
+   * We don't really need datamapping here, as inheriting components 
+   * could simply overwrite this method, but CompaniesHouseLookup 
+   * already exists with data mapping, for example, so making this 
+   * change backwards compatible.
+   *
+   * @data (Object) One of the results/rows returned from JSON response.
+   **/
+  SelectiveLookup.prototype.processWithDataMapping = function(data) {
+    var map = this._private.datamapping;
+    return { value: data[map.value], text: data[map.text] }
   }
   
   SelectiveLookup.prototype.setSizeAndPosition = function() {

@@ -7,6 +7,8 @@ created_information: Created by [$author] on [$date]
 
 description: 
 
+enhanced_cpv_field_placeholder: Search by text to find CPV code
+
 group_1_title: Type of opportunity
 group_2_title: Opportunity details
 group_2_description: Provide details for this opportunity
@@ -62,6 +64,11 @@ fields:
     label: Industry
     description: Select the relevant industries for this opportunity.
     placeholder: Search the relevant industries
+
+  opportunity_cpvs:
+    label: Cpv codes (optional)
+    description: Add cpv codes for the products you need to help suppliers to find your opportunity.
+    placeholder: Enter CPV code
 
   types:
     question: Type of organisation
