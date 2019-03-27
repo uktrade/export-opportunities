@@ -37,7 +37,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
 
     describe "authorization" do
 
-      it 'responds with a 401 error if connecting from unauthorized IP',focus: true do
+      it 'responds with a 401 error if connecting from unauthorized IP' do
         # The whitelist is 0.0.0.0, and we reject all requests that don't have
         # 0.0.0.0 as the second-to-last IP in X-Fowarded-For, as this isn't
         # spoofable in PaaS
