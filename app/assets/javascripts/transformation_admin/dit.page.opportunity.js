@@ -3,7 +3,9 @@
 // required dit.js
 // required dit.utils.js
 //= require transformation/dit.class.selective_lookup.js
+//= require transformation/dit.class.cpv_code_lookup.js
 //= require transformation/dit.class.data_provider.js
+//= require transformation/dit.class.service.js
 //= require transformation/dit.class.filter_multiple_select.js
 //= require transformation/dit.class.expander.js
 
@@ -16,6 +18,7 @@ dit.page.opportunity = (new function () {
     setupTargetUrlField();
     setupFilterMultipleSelectFields();
     setupExpanders();
+    setupCpvLookup();
 
     delete this.init; // Run once
   }
@@ -24,10 +27,10 @@ dit.page.opportunity = (new function () {
    * lifetime of the page or used across several functions.
    **/
   function cacheComponents() {
-    _cache.$serviceProvider = $("[data-node='service-provider']");
-    _cache.$targetUrlParent = $("[data-node='target-url']").parent();
-    _cache.$companyInput = $("[data-node='countries']")
-    _cache.$sectorInput = $("[data-node='sectors']")
+    _cache.$serviceProvider = $("[data-node=service-provider]");
+    _cache.$targetUrlParent = $("[data-node=target-url]").parent();
+    _cache.$companyInput = $("[data-node=countries]")
+    _cache.$sectorInput = $("[data-node=sectors]")
     _cache.$process = $(".process");
     _cache.$history = $(".history");
   }
@@ -88,6 +91,50 @@ dit.page.opportunity = (new function () {
       }
     }
   }
+
+  /* Enhance CPV code entry field providing a lookup service
+   * and ability to add multiple entries.
+   **/
+  function setupCpvLookup() {
+    var $cpvFieldset = $(".field-opportunity_cpv_codes.field-group");
+    var $cpvInputElements = $("[data-node=cpv-lookup]");
+    var $button = $('<button class="CpvLookupController" type="button">Add another code</button>');
+    var service = new dit.classes.Service(dit.constants.CPV_CODE_LOOKUP_URL);
+
+    if($cpvInputElements.length) {
+      $cpvInputElements.each(function(i) {
+        var cpvLookup = new dit.classes.CpvCodeLookup($(this), service, {
+          param: "format=json&description=",
+          name: "opportunity[opportunity_cpv_ids][]",
+          placeholder: dit.constants.CPV_FIELD_PLACEHOLDER
+        });
+
+        // If it's the last one, add button to allow more fields.
+        if(i == $cpvInputElements.length - 1) {
+          $cpvFieldset.append($button);
+          $button.on("click.CpvLookupController", function() {
+            var $lastField = $(".CpvCodeLookup").last().parents(".field");
+            var $cloneField, $cloneInput;
+            if($lastField.length) {
+              $cloneField = $lastField.clone();
+              $cloneInput = $cloneField.find(".CpvCodeLookup");
+              $cloneInput.attr("id", "");
+              $cloneInput.attr("readonly", false);
+              $cloneInput.val("");
+              $cloneField.find("button").remove();
+              $(this).before($cloneField);
+              new dit.classes.CpvCodeLookup($cloneInput, service, {
+                param: "format=json&description=",
+                name: "opportunity[opportunity_cpv_ids][]",
+                placeholder: dit.constants.CPV_FIELD_PLACEHOLDER
+              });
+            }
+          });
+        }
+      });
+    }
+  }
+
 });
 
 $(document).ready(function() {

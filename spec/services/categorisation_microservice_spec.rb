@@ -19,7 +19,7 @@ RSpec.describe CategorisationMicroservice, type: :service do
                                                ]
       expect(first_result["cpvid"]).to eq "38511000"
     end
-    it "returns error when cpv code provided" do
+    it "returns error when no cpv code provided" do
       response = CategorisationMicroservice.new(nil).call
       expect(response).to eq "Error: CPV code not given"
     end
@@ -29,6 +29,15 @@ RSpec.describe CategorisationMicroservice, type: :service do
       sector_ids = CategorisationMicroservice.new(@cpv).sector_ids
       expect(sector_ids).to eq [5, 20]
     end
-  end
 
+    it "returns a flattened array of ids #2" do
+      sector_ids = CategorisationMicroservice.new(34121100).sector_ids
+      expect(sector_ids).to eq [4, 4, 4]
+    end
+
+    it "returns an empty array of ids if service cant find the sector ids" do
+      sector_ids = CategorisationMicroservice.new(34121110).sector_ids
+      expect(sector_ids).to eq []
+    end
+  end
 end

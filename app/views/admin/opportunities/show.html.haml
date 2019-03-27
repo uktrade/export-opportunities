@@ -54,6 +54,12 @@
       %dt= page._content('fields.sector_ids.label')
       %dd= opp.put(@opportunity.sectors.map(&:name).join(', '), '-')
 
+      %dt= page._content('fields.opportunity_cpvs.label')
+      %dd
+        %ul
+          - opp.opportunity_cpvs.each do |cpv|
+            %li= cpv.industry_id
+
       %dt= page._content('fields.types.question')
       %dd= opp.put(@opportunity.types.map(&:name).join(', '), '-')
 

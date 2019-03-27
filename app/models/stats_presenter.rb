@@ -22,7 +22,7 @@ class StatsPresenter < SimpleDelegator
     html = ''
     parts = average_age_when_published.split(' and ')
     parts.each_index do |i|
-      html += if i > 0
+      html += if i.positive?
                 content_tag('span', "and #{parts[i]}")
               else
                 # Trims trailing space so adding the HTML entity instead.

@@ -1,6 +1,9 @@
 - form = FormPresenter.new(content, {})
 - opp = AdminOpportunityPresenter.new(self, @opportunity, content)
 
+:javascript
+  dit.constants.CPV_FIELD_PLACEHOLDER = "#{content['enhanced_cpv_field_placeholder']}";
+
 %section.process
   .container
     %h2= content['group_2_title']
@@ -37,6 +40,9 @@
 
       = f.input_select :country_ids, form.input_select('countries', @countries), { default: @default_country, multiple: true, size: '5', data: { node: 'countries', unselected: content['countries_unselected'], display: content['countries_selected_title'] } }
       = f.input_select :sector_ids, form.input_select('sector_ids', @sectors), { multiple: true, size: '5', data: { node: 'sectors', unselected: content['sectors_unselected'], display: content['sectors_selected_title'] } }
+
+      = f.input_text_group :opportunity_cpv_codes, form.input_text_group('opportunity_cpvs'), { data: { node: 'cpv-lookup' } }
+
       = f.input_checkbox_group :type_ids, form.input_checkbox_group('types', @types)
       = f.input_checkbox_group :supplier_preference_ids, form.input_checkbox_group('supplier_preferences', @supplier_preferences)
       = f.input_date_month_year :response_due_on, form.input_date_month_year('response_due_on'), required: true
