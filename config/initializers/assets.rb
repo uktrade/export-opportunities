@@ -9,12 +9,13 @@ Rails.application.config.assets.version = '1.4'
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
 
 # Rails.application.config.sass.precision = 8
-Rails.application.config.assets.precompile += %w[dfit-logo-white.png]
-Rails.application.config.assets.precompile += %w[eig-logo-stacked.png]
-Rails.application.config.assets.precompile += %w[export-components-header.js]
+Rails.application.config.assets.precompile += %w[search-icon.svg]
+Rails.application.config.assets.precompile += %w[great.svg]
+Rails.application.config.assets.precompile += %w[dit-logo.svg]
+Rails.application.config.assets.precompile += %w[eig-logo-stacked.svg]
+Rails.application.config.assets.precompile += %w[dit.components.greatDomesticHeader.js]
+Rails.application.config.assets.precompile += %w[dit.classes.Dropdown.js]
 Rails.application.config.assets.precompile += %w[dit.components.cookie-notice.js]
-Rails.application.config.assets.precompile += %w[export-components.css]
-Rails.application.config.assets.precompile += %w[export-components-no-js.css]
 Rails.application.config.assets.precompile += %w[application-admin.css]
 Rails.application.config.assets.precompile += %w[application.css application-legacy.css email.css]
 Rails.application.config.assets.precompile += %w[dit-ie8-2017.css]
@@ -25,7 +26,6 @@ Rails.application.config.assets.precompile += %w[classlist.polyfill.min]
 Rails.application.config.assets.precompile += %w[eventListener.polyfill.min]
 Rails.application.config.assets.precompile += %w[selectivizr.min.js]
 Rails.application.config.assets.precompile += %w[admin.js]
-Rails.application.config.assets.precompile += %w[header-footer.js]
 Rails.application.config.assets.precompile += %w[jquery-3.3.1.min.js]
 
 # Add additional assets to the asset load path.
