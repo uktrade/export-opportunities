@@ -177,7 +177,7 @@ module Api
           'dit:exportOpportunities:Opportunity:id': opportunity.id.to_s,
           'id': obj_id,
           'name': opportunity.title,
-          'url': opportunity_url(opportunity),
+          'url': opportunity_url(opportunity, host: Figaro.env.DOMAIN),
           'endTime': opportunity.response_due_on.to_datetime.rfc3339,
           'summary': opportunity.teaser,
           'content': opportunity.description,

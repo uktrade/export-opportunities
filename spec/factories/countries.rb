@@ -4,6 +4,6 @@ FactoryBot.define do
     name { Faker::Address.country }
     published_target { Faker::Number.between(1, 10) }
     responses_target { Faker::Number.between(1, 5) }
-    region
+    region { Region.create(name: "Eurasia") }
   end
 end

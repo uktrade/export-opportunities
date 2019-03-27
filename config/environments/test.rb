@@ -65,7 +65,7 @@ Rails.application.configure do
   # Enable stdout logger
   config.logger = Logger.new(STDOUT)
 
-  # Set log level
+  # Enable more sensitive logging level when helpful
   config.log_level = :ERROR
 
   # Run background jobs inline
