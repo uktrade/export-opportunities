@@ -132,6 +132,16 @@ dit.page.opportunity = (new function () {
           });
         }
       });
+
+      // Add a little check to remove any blank CPV fields to
+      // fix issue with empty values being stored.
+      $cpvFieldset.parent("form").on("submit", function() {
+        $(".CpvCodeLookup").each(function() {
+          if(this.value=='') {
+            $(this).remove();
+          }
+        });
+      });
     }
   }
 
