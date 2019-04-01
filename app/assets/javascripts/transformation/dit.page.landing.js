@@ -108,7 +108,7 @@ dit.page.landing = (new function () {
   function addTaggings() {
     addTaggingForTopCTA();
     addTaggingForBottomCTA();
-    addTaggingForFeaturedIndustries;
+    addTaggingForFeaturedIndustries();
   }
 
   function addTaggingForTopCTA() {
