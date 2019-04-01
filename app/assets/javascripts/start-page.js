@@ -51,25 +51,3 @@ document.addEventListener('DOMContentLoaded', function() {
 		ukti.ScrollTo.init('#opportunities-subscribe-form');	
 	}
 }, false);
-
-
-
-window.dataLayer.push({
-    'siteSection': 'landing',
-    'siteSubSection': '',
-    'someVar' : 'someVal'
-});
-
-
-// "dataLayer.push({
-// ""businessUnit"" : ""%businessUnit%"",
-//     ""siteSection"" : ""%siteSection%"",
-//     ""siteSubSection"" : ""%siteSubSection%"",
-//     ""siteLanguage"" : ""%siteLanguage%"",
-//     ""userID"" : ""%userID%"",
-//     ""loginStatus"" : ""%loginStatus%"",
-//     ""formName"" : ""%formName%"",
-//     ""formStep"" : ""%formStep%"",
-//     ""eventName"" : ""%eventName%"",
-//     ""eventID"" : ""%eventID%"",
-

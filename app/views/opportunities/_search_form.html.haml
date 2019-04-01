@@ -18,4 +18,4 @@
         %option{:value=>country[:slug]}
           = country[:name]
 
-  %input.button.submit{:id => 'landing_cta', :name=>"commit", :class=>"cta_search cta_search_#{search_position}", :value=>"Find opportunities", :type=>"submit"}
+  %input.button.submit{:name=>"commit", :class=>"cta_search", :id=>"#{id}", :value=>"Find opportunities", :type=>"submit"}

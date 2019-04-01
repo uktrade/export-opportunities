@@ -108,20 +108,60 @@ dit.page.landing = (new function () {
   function addTaggings() {
     addTaggingForTopCTA();
     addTaggingForBottomCTA();
+    addTaggingForFeaturedIndustries;
   }
 
   function addTaggingForTopCTA() {
-  $(".cta_search_top").on("click", function(e) {
+  $("#hero-banner-search").on("click", function(e) {
         window.dataLayer.push({'eventName': 'clicking on Export Opportunities landing page top CTA (above fold)'});
-        window.dataLayer.push({'eventID': 'landing_cta_search_top'});
+        window.dataLayer.push({'eventID': 'landing_cta_search_hero'});
       });
   }
 
   function addTaggingForBottomCTA() {
-    $(".cta_search_bottom").on("click", function(e) {
+    $("#auxiliary-search").on("click", function(e) {
         window.dataLayer.push({'eventName': 'clicking on Export Opportunities landing page bottom CTA (below fold)'});
-        window.dataLayer.push({'eventID': 'landing_cta_search_bottom'});
+        window.dataLayer.push({'eventID': 'landing_cta_search_auxiliary'});
     });
+  }
+
+  function addTaggingForLogin() {
+      $("#header-sign-in-link").on("click", function(e) {
+          window.dataLayer.push({'eventName': 'clicking on top right sign in SSO link'});
+          window.dataLayer.push({'eventID': 'landing_sso_signin'});
+      });
+      $("#header-register-link").on("click", function(e) {
+          window.dataLayer.push({'eventName': 'clicking on top right register SSO link'});
+          window.dataLayer.push({'eventID': 'langing_sso_register'});
+          console.log(window.dataLayer);
+      });
+  }
+
+  function addTaggingForFeaturedIndustries() {
+      $('a[href*="/opportunities?sectors[]=creative-media"]').on("click", function(e){
+          window.dataLayer.push({'eventName': 'clicking on landing page featured industries'});
+          window.dataLayer.push({'eventID': 'creative-media'});
+      });
+      $('a[href*="/opportunities?sectors[]=education-training"]').on("click", function(e){
+          window.dataLayer.push({'eventName': 'clicking on landing page featured industries'});
+          window.dataLayer.push({'eventID': 'education-training'});
+      });
+      $('a[href*="/opportunities?sectors[]=food-drink"]').on("click", function(e){
+          window.dataLayer.push({'eventName': 'clicking on landing page featured industries'});
+          window.dataLayer.push({'eventID': 'food-drink'});
+      });
+      $('a[href*="/opportunities?sectors[]=oil-gas"]').on("click", function(e){
+          window.dataLayer.push({'eventName': 'clicking on landing page featured industries'});
+          window.dataLayer.push({'eventID': 'oil-gas'});
+      });
+      $('a[href*="/opportunities?sectors[]=security"]').on("click", function(e){
+          window.dataLayer.push({'eventName': 'clicking on landing page featured industries'});
+          window.dataLayer.push({'eventID': 'security'});
+      });
+      $('a[href*="/opportunities?sectors[]=retail-and-luxury"]').on("click", function(e){
+          window.dataLayer.push({'eventName': 'clicking on landing page featured industries'});
+          window.dataLayer.push({'eventID': 'retail-and-luxury'});
+      });
   }
 
 });

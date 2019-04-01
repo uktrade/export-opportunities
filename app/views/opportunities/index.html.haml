@@ -4,7 +4,7 @@
     
     %h1= @content["title"]
     %p= @page.description @opportunities_stats[:total]
-    = render partial: "opportunities/search_form", locals: {  search_position: 'top', regions: @regions, countries: @countries }
+    = render partial: "opportunities/search_form", locals: {id:'hero-banner-search',  search_position: 'top', regions: @regions, countries: @countries }
 
 
 %section#recent-opportunities
@@ -67,4 +67,4 @@
 %section.search-section
   .container
     %h2= @content["title"]
-    = render partial: "opportunities/search_form", locals: { search_position: 'bottom', regions: @regions, countries: @countries }
+    = render partial: "opportunities/search_form", locals: {id:'auxiliary-search',   search_position: 'bottom', regions: @regions, countries: @countries }
