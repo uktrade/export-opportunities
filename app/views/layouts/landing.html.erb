@@ -10,7 +10,9 @@
   <%= stylesheet_link_tag 'transformation/pages/landing' %>
   <%= javascript_include_tag 'transformation/dit.page.landing' %>
   <%= yield :action_specific_head %>
-
+  <script>
+      window.dataLayer.push({'pageCategory': 'LandingPage'});
+  </script>
 </head>
 <body>
   <%= render partial: 'google_analytics' %>

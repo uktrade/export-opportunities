@@ -18,8 +18,8 @@ dit.page.landing = (new function () {
     cacheComponents();
     viewAdjustments(dit.responsive.mode());
     bindResponsiveListener();
+    addTaggings();
     addSearchFormRestriction();
-    
     delete this.init; // Run once
   }
   
@@ -105,6 +105,24 @@ dit.page.landing = (new function () {
     }
   }
 
+  function addTaggings() {
+    addTaggingForTopCTA();
+    addTaggingForBottomCTA();
+  }
+
+  function addTaggingForTopCTA() {
+  $(".cta_search_top").on("click", function(e) {
+        window.dataLayer.push({'eventName': 'clicking on Export Opportunities landing page top CTA (above fold)'});
+        window.dataLayer.push({'eventID': 'landing_cta_search_top'});
+      });
+  }
+
+  function addTaggingForBottomCTA() {
+    $(".cta_search_bottom").on("click", function(e) {
+        window.dataLayer.push({'eventName': 'clicking on Export Opportunities landing page bottom CTA (below fold)'});
+        window.dataLayer.push({'eventID': 'landing_cta_search_bottom'});
+    });
+  }
 
 });
 
