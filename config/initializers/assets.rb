@@ -9,13 +9,6 @@ Rails.application.config.assets.version = '1.4'
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
 
 # Rails.application.config.sass.precision = 8
-Rails.application.config.assets.precompile += %w[search-icon.svg]
-Rails.application.config.assets.precompile += %w[great.svg]
-Rails.application.config.assets.precompile += %w[dit-logo.svg]
-Rails.application.config.assets.precompile += %w[eig-logo-stacked.svg]
-Rails.application.config.assets.precompile += %w[dit.components.greatDomesticHeader.js]
-Rails.application.config.assets.precompile += %w[dit.classes.Dropdown.js]
-Rails.application.config.assets.precompile += %w[dit.components.cookie-notice.js]
 Rails.application.config.assets.precompile += %w[application-admin.css]
 Rails.application.config.assets.precompile += %w[application.css application-legacy.css email.css]
 Rails.application.config.assets.precompile += %w[dit-ie8-2017.css]
@@ -81,13 +74,18 @@ Rails.application.config.assets.precompile += %w[transformation_admin/dit.page.o
 Rails.application.config.assets.precompile += %w[transformation_admin/dit.page.opportunity_show.js]
 
 
-# POC - originally on develop_zeus.
-# Not used as part of the Transformation project
+###################################
+# 2019 External supporting files
+###################################
+
+# Export Components
 # ---------------------------------
+Rails.application.config.assets.precompile += %w[export-components.css]
+Rails.application.config.assets.precompile += %w[search-icon.svg]
+Rails.application.config.assets.precompile += %w[great.svg]
+Rails.application.config.assets.precompile += %w[dit-logo.svg]
+Rails.application.config.assets.precompile += %w[eig-logo-stacked.svg]
 
-#Rails.application.config.assets.precompile += %w[poc/main.scss]
-#Rails.application.config.assets.precompile += %w[poc/pages/international.scss]
-#Rails.application.config.assets.precompile += %w[poc/dit.page.international.js]
-
-#Rails.application.config.assets.precompile += %w['poc/*.js']
-#Rails.application.config.assets.precompile += %w['poc/layouts/*.js']
+Rails.application.config.assets.precompile += %w[dit.classes.Dropdown.js]
+Rails.application.config.assets.precompile += %w[dit.components.greatDomesticHeader.js]
+Rails.application.config.assets.precompile += %w[dit.components.cookie-notice.js]

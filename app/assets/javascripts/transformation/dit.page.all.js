@@ -11,11 +11,6 @@
 //= require transformation/dit.class.select_tracker
 //= require transformation/dit.component.language_selector
 //= require transformation/dit.component.menu
-//= require dit.components.cookie-notice
-
-// Header & footer
-// = require dit.classes.Dropdown
-// = require dit.components.greatDomesticHeader
 
 
 dit.page.all = (new function () {
