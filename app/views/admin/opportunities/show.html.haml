@@ -56,9 +56,12 @@
 
       %dt= page._content('fields.opportunity_cpvs.label')
       %dd
-        %ul
-          - opp.opportunity_cpvs.each do |cpv|
-            %li= cpv.industry_id
+        - if opp.opportunity_cpvs.present?
+          %ul
+            - opp.opportunity_cpvs.each do |cpv|
+              %li= cpv.industry_id
+        - else
+          = 'none'
 
       %dt= page._content('fields.types.question')
       %dd= opp.put(@opportunity.types.map(&:name).join(', '), '-')
