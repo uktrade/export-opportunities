@@ -54,8 +54,6 @@
           %dt.category
             Category
           %dd.category
-
-          %dd.category
             = opportunity.put(@opportunity.opportunity_cpvs.map(&:industry_id).join(', '), '-')
 
         - unless opportunity.source('volume_opps')
