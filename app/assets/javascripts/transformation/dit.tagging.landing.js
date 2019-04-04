@@ -14,23 +14,24 @@ dit.tagging.landing = (new function() {
   // Event Tagging will be applied upon
   // calling this function.
   this.init = function() {
-    addTaggingForTopCTA();
-    addTaggingForBottomCTA();
+    addTaggingForSearch();
     addTaggingForFeaturedIndustries();
   }
 
 
-  function addTaggingForTopCTA() {
+  function addTaggingForSearch() {
     $("#hero-banner .submit").on("click", function(e) {
-      window.dataLayer.push({'eventName': 'clicking on Export Opportunities landing page top CTA (above fold)'});
-      window.dataLayer.push({'eventID': 'landing_cta_search_hero'});
+      window.dataLayer.push({
+        eventName: 'clicking on Export Opportunities landing page top CTA (above fold)',
+        eventID: 'landing_cta_search_hero'
+      });
     });
-  }
 
-  function addTaggingForBottomCTA() {
     $("#auxiliary-search .submit").on("click", function(e) {
-      window.dataLayer.push({'eventName': 'clicking on Export Opportunities landing page bottom CTA (below fold)'});
-      window.dataLayer.push({'eventID': 'landing_cta_search_auxiliary'});
+      window.dataLayer.push({
+        eventName: 'clicking on Export Opportunities landing page bottom CTA (below fold)',
+        eventID: 'landing_cta_search_auxiliary'
+      });
     });
   }
 
