@@ -49,30 +49,13 @@ dit.tagging.landing = (new function() {
     }
 
     function addTaggingForFeaturedIndustries() {
-        $('a[href*="/opportunities?sectors[]=creative-media"]').on("click", function(e){
-            window.dataLayer.push({'eventName': 'clicking on landing page featured industries'});
-            window.dataLayer.push({'eventID': 'creative-media'});
+      $("#featured-industries a").on("click", function() {
+        var sector = this.href.replace(/.*?sectors\[\]=([\w]+)/, "$1");
+        window.dataLayer.push({
+          eventName: 'clicking on landing page featured industries',
+          eventID: sector
         });
-        $('a[href*="/opportunities?sectors[]=education-training"]').on("click", function(e){
-            window.dataLayer.push({'eventName': 'clicking on landing page featured industries'});
-            window.dataLayer.push({'eventID': 'education-training'});
-        });
-        $('a[href*="/opportunities?sectors[]=food-drink"]').on("click", function(e){
-            window.dataLayer.push({'eventName': 'clicking on landing page featured industries'});
-            window.dataLayer.push({'eventID': 'food-drink'});
-        });
-        $('a[href*="/opportunities?sectors[]=oil-gas"]').on("click", function(e){
-            window.dataLayer.push({'eventName': 'clicking on landing page featured industries'});
-            window.dataLayer.push({'eventID': 'oil-gas'});
-        });
-        $('a[href*="/opportunities?sectors[]=security"]').on("click", function(e){
-            window.dataLayer.push({'eventName': 'clicking on landing page featured industries'});
-            window.dataLayer.push({'eventID': 'security'});
-        });
-        $('a[href*="/opportunities?sectors[]=retail-and-luxury"]').on("click", function(e){
-            window.dataLayer.push({'eventName': 'clicking on landing page featured industries'});
-            window.dataLayer.push({'eventID': 'retail-and-luxury'});
-        });
+      });
     }
 
 });
