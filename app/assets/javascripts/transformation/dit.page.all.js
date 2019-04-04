@@ -104,5 +104,5 @@ dit.page.all = (new function () {
 
 $(document).ready(function() {
   dit.page.all.init();
-  dit.tagging.landing.init();
+  dit.tagging.all.init();
 });

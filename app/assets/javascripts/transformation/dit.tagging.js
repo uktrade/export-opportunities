@@ -6,6 +6,28 @@
 
 dit.tagging = {};
 
+dit.tagging.all = (new function() {
+
+  // Event Tagging will be applied upon
+  // calling this function.
+  this.init = function() {
+    addTaggingForLogin();
+  }
+
+  function addTaggingForLogin() {
+    $("#header-sign-in-link").on("click", function(e) {
+      window.dataLayer.push({'eventName': 'clicking on top right sign in SSO link'});
+      window.dataLayer.push({'eventID': 'landing_sso_signin'});
+    });
+    $("#header-register-link").on("click", function(e) {
+      window.dataLayer.push({'eventName': 'clicking on top right register SSO link'});
+      window.dataLayer.push({'eventID': 'langing_sso_register'});
+      console.log(window.dataLayer);
+    });
+  }
+});
+
+
 dit.tagging.landing = (new function() {
 
     // Page Tagging specific for landing
@@ -33,18 +55,6 @@ dit.tagging.landing = (new function() {
         $("#auxiliary-search .submit").on("click", function(e) {
             window.dataLayer.push({'eventName': 'clicking on Export Opportunities landing page bottom CTA (below fold)'});
             window.dataLayer.push({'eventID': 'landing_cta_search_auxiliary'});
-        });
-    }
-
-    function addTaggingForLogin() {
-        $("#header-sign-in-link").on("click", function(e) {
-            window.dataLayer.push({'eventName': 'clicking on top right sign in SSO link'});
-            window.dataLayer.push({'eventID': 'landing_sso_signin'});
-        });
-        $("#header-register-link").on("click", function(e) {
-            window.dataLayer.push({'eventName': 'clicking on top right register SSO link'});
-            window.dataLayer.push({'eventID': 'langing_sso_register'});
-            console.log(window.dataLayer);
         });
     }
 
