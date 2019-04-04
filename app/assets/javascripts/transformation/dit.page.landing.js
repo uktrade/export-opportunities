@@ -5,6 +5,7 @@
 //= require transformation/dit.class.selective_lookup
 //= require transformation/dit.class.filter_select
 //= require transformation/dit.class.simple_form_restrictor
+//= require transformation/dit.tagging.landing
 
 dit.page.landing = (new function () {
   var _landing = this;
