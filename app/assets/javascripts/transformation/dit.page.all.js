@@ -5,13 +5,13 @@
 //= require transformation/dit.utils
 //= require transformation/dit.responsive
 //= require transformation/dit.geolocation
+//= require transformation/dit.tagging
 //= require transformation/dit.class.expander
 //= require transformation/dit.class.accordion
 //= require transformation/dit.class.modal
 //= require transformation/dit.class.select_tracker
 //= require transformation/dit.component.language_selector
 //= require transformation/dit.component.menu
-//= require transformation/dit.tagging
 //= require dit.components.cookie-notice
 
 
@@ -104,4 +104,5 @@ dit.page.all = (new function () {
 
 $(document).ready(function() {
   dit.page.all.init();
+  dit.tagging.landing.init();
 });

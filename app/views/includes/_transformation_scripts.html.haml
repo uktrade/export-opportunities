@@ -7,17 +7,19 @@
 -# would result in duplicating some required (dit namespace) JS files.
 -# 
 -#= javascript_include_tag 'header-footer.js'
-= javascript_include_tag 'transformation/dit.page.all'
 
--# You can add constants for use in JS here:
+// Placing before dit.page.all because is used within that.
 :javascript
   window.dataLayer = window.dataLayer || [];
-  dit.constants.COMPANIES_HOUSE_SEARCH = "#{Figaro.env.EXPORT_COMPANIES_HOUSE_SEARCH}";
-
-:javascript
   window.dataLayer.push({
     'businessUnit': 'ExportOpportunities',
     'siteLanguage': 'en-gb',
     'userID': '#{current_user&.id}',
     'loginStatus': #{current_user ? true : false},
   });
+
+= javascript_include_tag 'transformation/dit.page.all'
+
+-# You can add constants for use in JS here:
+:javascript
+  dit.constants.COMPANIES_HOUSE_SEARCH = "#{Figaro.env.EXPORT_COMPANIES_HOUSE_SEARCH}";

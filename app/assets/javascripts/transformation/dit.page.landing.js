@@ -15,11 +15,9 @@ dit.page.landing = (new function () {
   
   // Page init
   this.init = function() {
-    window.dataLayer.push({'pageCategory': 'LandingPage'});
     cacheComponents();
     viewAdjustments(dit.responsive.mode());
     bindResponsiveListener();
-    addTaggings();
     addSearchFormRestriction();
     delete this.init; // Run once
   }
@@ -110,4 +108,5 @@ dit.page.landing = (new function () {
 
 $(document).ready(function() {
   dit.page.landing.init();
+  dit.tagging.landing.init();
 });

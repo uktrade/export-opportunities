@@ -6,10 +6,16 @@
 
 dit.tagging = {};
 
-dit.tagging.landing = (new function(e) {
+dit.tagging.landing = (new function() {
 
+    // Page Tagging specific for landing
+    // Do not wrap in a function because we want
+    // this to run immediately on script load.
+    window.dataLayer.push({'pageCategory': 'LandingPage'});
+
+    // Event Tagging will be applied upon
+    // calling this function.
     this.init = function() {
-        window.dataLayer.push({'eventName': $("#{id}").attr("class") } );
         addTaggingForTopCTA();
         addTaggingForBottomCTA();
         addTaggingForFeaturedIndustries();
@@ -69,5 +75,4 @@ dit.tagging.landing = (new function(e) {
         });
     }
 
-
-})
+});
