@@ -1,6 +1,3 @@
-%script{:type=>"text/javascript"}
-  window.dataLayer.push({'eventName': $("#id").attr("class") } );
-
 %form.search-form{:action=>opportunities_path, :method=>"get", :data=>{"error-empty": "Please type in a product or service and/or select a region or country"}}
   %label.term
     %span.verbose Product or service keyword
@@ -18,4 +15,4 @@
         %option{:value=>country[:slug]}
           = country[:name]
 
-  %input.button.submit{:name=>"commit", :class=>"cta_search", :id=>"#{id}", :value=>"Find opportunities", :type=>"submit"}
+  %input.button.submit{:name=>"commit", :class=>"cta_search", :value=>"Find opportunities", :type=>"submit"}

@@ -11,6 +11,7 @@
 //= require transformation/dit.class.select_tracker
 //= require transformation/dit.component.language_selector
 //= require transformation/dit.component.menu
+//= require transformation/dit.tagging
 //= require dit.components.cookie-notice
 
 
