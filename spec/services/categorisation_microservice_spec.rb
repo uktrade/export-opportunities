@@ -10,7 +10,7 @@ RSpec.describe CategorisationMicroservice, type: :service do
 
     it "returns array of results when given a cpv code" do
       first_result = CategorisationMicroservice.new(@cpv).call[0]
-      expect(first_result["sector_id"]).to eq [5, 20]
+      expect(first_result["sector_id"]).to eq [10, 23, 24, 25, 7, 26, 27, 29]
       expect(first_result["hsid"]).to eq 9012
       expect(first_result["description"]).to eq "Microscopes (excluding optical microscopes); diffraction apparatus"
       expect(first_result["sectorname"]).to eq [
@@ -27,7 +27,7 @@ RSpec.describe CategorisationMicroservice, type: :service do
   describe "#sector_ids" do
     it "returns a flattened array of ids" do
       sector_ids = CategorisationMicroservice.new(@cpv).sector_ids
-      expect(sector_ids).to eq [5, 20]
+      expect(sector_ids).to eq [10, 23, 24, 25, 7, 26, 27, 29]
     end
 
     it "returns a flattened array of ids #2" do
