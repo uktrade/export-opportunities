@@ -17,14 +17,14 @@ dit.tagging.landing = (new function(e) {
 
 
     function addTaggingForTopCTA() {
-        $("#hero-banner-search").on("click", function(e) {
+        $("#hero-banner .submit").on("click", function(e) {
             window.dataLayer.push({'eventName': 'clicking on Export Opportunities landing page top CTA (above fold)'});
             window.dataLayer.push({'eventID': 'landing_cta_search_hero'});
         });
     }
 
     function addTaggingForBottomCTA() {
-        $("#auxiliary-search").on("click", function(e) {
+        $("#auxiliary-search .submit").on("click", function(e) {
             window.dataLayer.push({'eventName': 'clicking on Export Opportunities landing page bottom CTA (below fold)'});
             window.dataLayer.push({'eventID': 'landing_cta_search_auxiliary'});
         });

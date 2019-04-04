@@ -1,10 +1,10 @@
-%section.hero-section.search-section
+%section#hero-banner.hero-section.search-section
   .container
     = render partial: 'components/breadcrumbs', locals: { breadcrumbs: @page.breadcrumbs }
     
     %h1= @content["title"]
     %p= @page.description @opportunities_stats[:total]
-    = render partial: "opportunities/search_form", locals: {id:'hero-banner-search',  search_position: 'top', regions: @regions, countries: @countries }
+    = render partial: "opportunities/search_form", locals: { regions: @regions, countries: @countries }
 
 
 %section#recent-opportunities
@@ -64,7 +64,7 @@
       = image_tag "ExOpps_HowItWorks470x580_13@2x.jpg", { alt: '' }
 
 
-%section.search-section
+%section#auxiliary-search.search-section
   .container
     %h2= @content["title"]
-    = render partial: "opportunities/search_form", locals: {id:'auxiliary-search',   search_position: 'bottom', regions: @regions, countries: @countries }
+    = render partial: "opportunities/search_form", locals: { regions: @regions, countries: @countries }
