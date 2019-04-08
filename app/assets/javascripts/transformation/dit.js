@@ -8,5 +8,6 @@ var dit = {
   data: {},
   page: {},
   constants: {},
-  admin: {}
+  admin: {},
+  tagging: {}
 }
