@@ -6,3 +6,12 @@
   @include link;
   font-size: $font-size-s;
 }
+
+.CpvCodeLookupDisplay {
+  span {
+    color: $grey-2;
+    display: block;
+    font-size: $font-size-s;
+    font-weight: bold;
+  }
+}

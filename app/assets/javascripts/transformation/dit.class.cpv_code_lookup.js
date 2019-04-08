@@ -66,11 +66,8 @@
       });
 
       // Inherit...
-      SelectiveLookup.call(this,
-                           $input,
-                           service,
-                           opts
-                          );
+      SelectiveLookup.call(this, $input, service, opts);
+      this._private.$list.addClass("CpvCodeLookupDisplay");
 
       // Some inner variable requirement.
       this._private.param = opts.param;
@@ -176,6 +173,12 @@
     // descriptions.indexOf(text) is not good enough to get partial
     // string matches so running through each individual string.
     var notDuplicated = true;
+
+    // A little custom clean up after noticing some
+    // string were only different by inclusion of
+    // parenthesis. 
+    text = text.replace(/[\(\)]/, "");
+
     for(var i=0; i < comparisonStrings.length; ++i) {
       if(comparisonStrings[i].toLowerCase().indexOf(text.toLowerCase()) >= 0) {
         notDuplicated = false;
@@ -207,15 +210,27 @@
   }
 
   /* Overwrite inherited.
-   * Note: Have not bothered with opts.datamapping because we can 
-   *       simply change right here in this function.
+   * Note: Have not bothered with opts.datamapping because we can
+   *       simply change right here in this function. Code here is
+   *       heavily tied in with data from the specific service.
+   *       Be prepared to change it if data format changes.
    *
    * data (Object) Retreived json data converted to object form.
    **/
   CpvCodeLookup.prototype.processWithDataMapping = function(data) {
     var text = CpvCodeLookup.createDescriptionText(data["english_text"], data["description"]);
-    var output = data["code"] + ": " + text;
-    return { value: output, text: output }
+    var parentDescription = CpvCodeLookup.cleanString(data["parent_description"]);
+    var value = data["code"] + ": " + text;
+    if(parentDescription != "") {
+      text = "<span>" + parentDescription + "</span>" + value; // Not elegant but should work.
+    }
+    else {
+      text = value;
+    }
+    return {
+      value: value,
+      text: text
+    }
   }
 
 })(jQuery, dit.utils, dit.classes);
