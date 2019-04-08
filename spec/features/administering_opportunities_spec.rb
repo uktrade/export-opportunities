@@ -167,10 +167,7 @@ feature 'Administering opportunities' do
       fill_in 'opportunity_description', with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
       select service_provider.name, from: 'Service provider'
       fill_in_contact_details
-      fill_in "opportunity_opportunity_cpv_ids", with: "150110100080 - \"Lard"
-
-      hidden_field = find :xpath, "//input[@name='opportunity[opportunity_cpv_ids][]']", visible: false
-      hidden_field.set %w('150110100080')
+      fill_in "opportunity[opportunity_cpv_ids][]", with: "150110100080: - Lard"
 
       click_on form['submit_draft']
 
