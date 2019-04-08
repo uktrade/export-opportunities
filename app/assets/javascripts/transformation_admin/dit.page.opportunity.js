@@ -96,9 +96,9 @@ dit.page.opportunity = (new function () {
    * and ability to add multiple entries.
    **/
   function setupCpvLookup() {
-    var $cpvFieldset = $(".field-opportunity_cpv_codes.field-group");
+    var $cpvFieldset = $(".field-opportunity_cpv_ids.field-group");
     var $cpvInputElements = $("[data-node=cpv-lookup]");
-    var $button = $('<button class="CpvLookupController" type="button">Add another code</button>');
+    var $cpvLookupController = $('<button class="CpvLookupController" type="button">Add another code</button>');
     var service = new dit.classes.Service(dit.constants.CPV_CODE_LOOKUP_URL);
 
     if($cpvInputElements.length) {
@@ -111,8 +111,8 @@ dit.page.opportunity = (new function () {
 
         // If it's the last one, add button to allow more fields.
         if(i == $cpvInputElements.length - 1) {
-          $cpvFieldset.append($button);
-          $button.on("click.CpvLookupController", function() {
+          $cpvFieldset.append($cpvLookupController);
+          $cpvLookupController.on("click.CpvLookupController", function() {
             var $lastField = $(".CpvCodeLookup").last().parents(".field");
             var $cloneField, $cloneInput;
             if($lastField.length) {
