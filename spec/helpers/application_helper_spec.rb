@@ -88,16 +88,4 @@ describe ApplicationHelper do
       expect(result).to eq(nil)
     end
   end
-
-  describe '#cpv_description' do
-    it 'returns nil for an invalid cpv' do
-      result = cpv_description(32120001111)
-      expect(result['error']).to eq('Not found')
-    end
-
-    it 'returns description for a valid cpv' do
-      result = cpv_description(14732000)
-      expect(result['cpv']['description']).to eq('Manganese')
-    end
-  end
 end

@@ -8,8 +8,8 @@ class ActivityStreamUtility
   # Note all AS endpoints require requests to port 443
   #
 
-  def initialize(id:     Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
-                 secret: Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY)
+  def initialize(id: Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+    secret: Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY)
     @id = id
     @secret = secret
   end
