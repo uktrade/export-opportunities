@@ -19,6 +19,7 @@ Rails.application.config.assets.precompile += %w[classlist.polyfill.min]
 Rails.application.config.assets.precompile += %w[eventListener.polyfill.min]
 Rails.application.config.assets.precompile += %w[selectivizr.min.js]
 Rails.application.config.assets.precompile += %w[admin.js]
+Rails.application.config.assets.precompile += %w[header-footer.js]
 Rails.application.config.assets.precompile += %w[jquery-3.3.1.min.js]
 
 # Add additional assets to the asset load path.

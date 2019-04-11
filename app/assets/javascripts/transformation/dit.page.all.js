@@ -5,7 +5,6 @@
 //= require transformation/dit.utils
 //= require transformation/dit.responsive
 //= require transformation/dit.geolocation
-//= require transformation/dit.tagging.all
 //= require transformation/dit.class.expander
 //= require transformation/dit.class.accordion
 //= require transformation/dit.class.modal
@@ -75,5 +74,4 @@ dit.page.all = (new function () {
 
 $(document).ready(function() {
   dit.page.all.init();
-  dit.tagging.all.init();
 });

@@ -21,9 +21,6 @@
     = content_for(:head)
     %title= t('site_name')
 
-    -# Global header-footer styles
-    -#- unless request.fullpath.include?('/admin')
-
     = stylesheet_link_tag 'application', media: 'all'
     /[if lte IE 9]
       = javascript_include_tag 'oldie-support.min'
