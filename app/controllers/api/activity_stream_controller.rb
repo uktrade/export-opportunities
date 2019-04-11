@@ -173,6 +173,7 @@ module Api
         obj_id = 'dit:exportOpportunities:Opportunity:' + opportunity.id.to_s
         {
           'type': 'Opportunity',
+          'dit:greatDomesticUI:searchResultType': 'Opportunity',
           # The following is used by Enquiry stream, may be deprecated soon - 11 Feb 2019
           'dit:exportOpportunities:Opportunity:id': opportunity.id.to_s,
           'id': obj_id,
