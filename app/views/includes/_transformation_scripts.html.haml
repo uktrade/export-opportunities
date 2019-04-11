@@ -7,8 +7,36 @@
 -# would result in duplicating some required (dit namespace) JS files.
 -# 
 -#= javascript_include_tag 'header-footer.js'
+
+// Placing before dit.page.all because is used within that.
+:javascript
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    'businessUnit': 'ExportOpportunities',
+    'siteLanguage': 'en-gb',
+    'userID': '#{current_user&.id}',
+    'loginStatus': #{current_user ? true : false},
+  });
+
+// ExOpps Transformation layer.
+// -------------------------------- 
+// The transformation code was built on top of original ExRed files so natively support
+// the dit namespace, continuing on and enhancing files originally created within ExRed. 
+// Those files now live under app/assets/javascript/transformation/ folder location of this repo.
 = javascript_include_tag 'transformation/dit.page.all'
 
--# You can add constants for use in JS here:
+// Header & footer supporting files.
+// ---------------------------------
+// Changes to original header-footer namespaced and separate file(s) mean they now add to the dit
+// namespace, native to ExOpps and inherited from original ExRed code.
+// These files live outside ExOpps in the export-components repo.
+= javascript_include_tag  'dit.components.cookie-notice'
+= javascript_include_tag  'dit.classes.Dropdown'
+= javascript_include_tag  'dit.components.greatDomesticHeader'
+
+
+// View specific JS
+// ---------------------------------
+// Constants added here get values from dynamically assigned by the BE code for use in JS files.
 :javascript
   dit.constants.COMPANIES_HOUSE_SEARCH = "#{Figaro.env.EXPORT_COMPANIES_HOUSE_SEARCH}";

@@ -54,10 +54,7 @@
           %dt.category
             Category
           %dd.category
-            %ul
-              - opportunity.opportunity_cpvs.each do |cpv|
-                - if cpv.industry_id.present?
-                  %li= cpv.industry_id
+            = opportunity.put(@opportunity.opportunity_cpvs.map(&:industry_id).join(', '), '-')
 
         - unless opportunity.source('volume_opps')
           %dt.enquiries

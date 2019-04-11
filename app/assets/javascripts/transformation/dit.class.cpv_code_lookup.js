@@ -77,12 +77,14 @@
     }
   }
   
-  // Sometimes the populating value might be more than
-  // one line in length so it might be preferable to
-  // use a <textarea> element instead. Code will handle
-  // whether it should try to display as a single line
-  // input[type=text] element, or expaned to meet the
-  // populating content length.
+  /* Sometimes the populating value might be more than
+   * one line in length so it might be preferable to
+   * use a <textarea> element instead. Code will handle
+   * whether it should try to display as a single line
+   * input[type=text] element, or expaned to meet the
+   * populating content length.
+   * $field (jQuery element) HTML form input to convert to textarea
+   **/
   CpvCodeLookup.convertToTextarea = function($field) {
     var $textarea = $field;
     if($field.get(0).nodeName.toLowerCase() != "textarea") {
@@ -96,10 +98,14 @@
     return $textarea;
   }
 
-  // 1. Set a hidden <p> element.
-  // 2. Populate with textarea value.
-  // 3. Set the height of textarea to match <p>.
-  // 4. Remove <p> to cleanup.
+  /* Calculate how much height we need to set on a textarea
+   * 1. Set a hidden <p> element.
+   * 2. Populate with textarea value.
+   * 3. Set the height of textarea to match <p>.
+   * 4. Remove <p> to cleanup.
+   *
+   * $field (jQuery element) HTML textarea to affect
+   **/
   CpvCodeLookup.setTextareaHeight = function($field) {
     var $p;
     if($field.get(0).nodeName.toLowerCase() == "textarea") {
@@ -115,6 +121,68 @@
       $field.height($p.height());
       $p.remove();
     }
+  }
+
+  /* Occasionally there are returned values that have
+   * duplicated areas of text. Run through this function
+   * to attempt to seek out and prevent that happening.
+   * Note: Includes some data cleanup which should really happen
+   *       before the data response is received
+   *
+   * Allows multiple arguments (Strings) to use for text.
+   **/
+  CpvCodeLookup.createDescriptionText = function() {
+    var descriptions = [];
+    for(var i=0, text=""; i<arguments.length; ++i) {
+       text = CpvCodeLookup.cleanString(arguments[i])
+       if(CpvCodeLookup.notDuplicatedString(descriptions, text) && text != "") {
+         descriptions.push(text);
+       }
+    }
+    return descriptions.join(" - ");
+  }
+
+  /* Return cleaned data string (from CPV information).
+   * - Strips out double-quote marks (which seem to break the JSON handling).
+   * - Reduces multiple hyphens to a single.
+   * - Trims strings.
+   * - Trims leading hyphens.
+   * - Set to lower case.
+   * - Initialize first character.
+   **/
+  CpvCodeLookup.cleanString = function(str) {
+    str = str.replace(/\"/g, "");
+    str = str.replace(/[-]+/, "-");
+    str = str.replace(/[\s-]*(.*)[\s]*/, "$1");
+    str = str.toLowerCase();
+    str = str.charAt(0).toUpperCase() + str.slice(1);
+    return str;
+  }
+
+  /* Testing saw these two outputs:
+   * "160290510080: Prepared or preserved meat or meat offal containing meat  or offal
+   *  of domestic swine (excl. of poultry - Containing meat or meat offal of domestic swine"
+   * and
+   * "843850000080: Machinery for the industrial preparation of meat or poultry
+   *  (excl. cooking and other heating appliances and refrigerating or freezing equipment)
+   *   - Machinery for the preparation of meat or poultry"
+   *
+   * Where there is still a lot of duplicated text.
+   * We can attempt to prevent extra content by matching and preventing extra description
+   * in 160290510080, but not 843850000080, where there is an extra word ('industrial') that
+   * prevents a direct match.
+   **/
+  CpvCodeLookup.notDuplicatedString = function(comparisonStrings, text) {
+    // descriptions.indexOf(text) is not good enough to get partial
+    // string matches so running through each individual string.
+    var notDuplicated = true;
+    for(var i=0; i < comparisonStrings.length; ++i) {
+      if(comparisonStrings[i].toLowerCase().indexOf(text.toLowerCase()) >= 0) {
+        notDuplicated = false;
+        break;
+      }
+    }
+    return notDuplicated;
   }
 
   CpvCodeLookup.prototype = new SelectiveLookup;
@@ -138,15 +206,16 @@
     return this._private.param + this._private.$input.val();
   }
 
-  // Overwrite inherited.
-  // Note 1: Have not bothered with opts.datamapping because we can 
-  //       simply change right here in this function.
-  // Note 2: Includes some data cleanup which should really happen
-  //         before the data response is received
+  /* Overwrite inherited.
+   * Note: Have not bothered with opts.datamapping because we can 
+   *       simply change right here in this function.
+   *
+   * data (Object) Retreived json data converted to object form.
+   **/
   CpvCodeLookup.prototype.processWithDataMapping = function(data) {
-    var text = (data["english_text"] + " " + data["description"]).replace(/\"/g, "");
-    text = text.replace(/[-]+/, "-");
-    return { value: data["code"] + ": " + text, text: text }
+    var text = CpvCodeLookup.createDescriptionText(data["english_text"], data["description"]);
+    var output = data["code"] + ": " + text;
+    return { value: output, text: output }
   }
 
 })(jQuery, dit.utils, dit.classes);

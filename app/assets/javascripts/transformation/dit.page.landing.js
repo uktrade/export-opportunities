@@ -5,6 +5,7 @@
 //= require transformation/dit.class.selective_lookup
 //= require transformation/dit.class.filter_select
 //= require transformation/dit.class.simple_form_restrictor
+//= require transformation/dit.tagging.landing
 
 dit.page.landing = (new function () {
   var _landing = this;
@@ -19,7 +20,6 @@ dit.page.landing = (new function () {
     viewAdjustments(dit.responsive.mode());
     bindResponsiveListener();
     addSearchFormRestriction();
-    
     delete this.init; // Run once
   }
   
@@ -105,9 +105,9 @@ dit.page.landing = (new function () {
     }
   }
 
-
 });
 
 $(document).ready(function() {
   dit.page.landing.init();
+  dit.tagging.landing.init();
 });
