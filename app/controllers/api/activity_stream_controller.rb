@@ -91,14 +91,14 @@ module Api
         # no finer granularity for this endpoint: the holder of the secret key
         # is allowed to access the data
         unless ExportOpportunities.flipper.enabled?(:activity_stream)
-          logger.error "Status 403, Activity Stream is disabled"
+          logger.error 'Status 403, Activity Stream is disabled'
           return respond(403, 'Activity Stream is disabled')
         end
 
         is_authentic, message = authenticate(request)
         unless is_authentic
           logger.error "Status 401, #{message}"
-          return respond(401, message) 
+          return respond(401, message)
         end
       end
 
@@ -260,7 +260,7 @@ module Api
       def authenticate(request)
         return [false, 'Connecting from unauthorized IP'] unless request.headers.key?('X-Forwarded-For')
 
-        remote_ips = request.headers['X-Forwarded-For'].gsub(/\s+/, "").split(',')
+        remote_ips = request.headers['X-Forwarded-For'].gsub(/\s+/, '').split(',')
         return [false, 'Connecting from unauthorized IP'] unless remote_ips.length >= 2
 
         authorized_ip_addresses = Figaro.env.ACTIVITY_STREAM_IP_WHITELIST.split(',')

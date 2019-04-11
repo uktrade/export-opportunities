@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 
-ruby '2.5.1'
+ruby '2.5.5'
 
 gem 'rails', '5.2.1'
 gem 'bundler', '1.16.3'
 gem 'puma', '3.12.0'
-gem 'pg', '0.21.0'
+gem 'pg', '1.1.4'
 gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'sidekiq-failures'
@@ -16,7 +16,7 @@ gem 'figaro'
 gem 'friendly_id'
 gem 'immutable-struct'
 
-gem 'nokogiri', '1.8.5'
+gem 'nokogiri', '1.10.2'
 
 # Authentication & authorisation
 gem 'devise', '4.4.3'
@@ -106,7 +106,7 @@ end
 
 group :development do
   gem 'web-console'
-  gem 'rubocop', '~> 0.63.1', require: false
+  gem 'rubocop', '~> 0.66.0', require: false
   gem 'listen'
 end
 

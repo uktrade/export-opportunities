@@ -6,7 +6,7 @@ RSpec.feature 'visiting the site on different domains', :elasticsearch, :commit 
     context 'when not logged in' do
       scenario 'visiting / displays opportunities' do
         visit '/'
-        expect(page).to have_content 'Find and apply for overseas opportunities'
+        expect(page).to have_content 'Find export opportunities'
       end
     end
 
@@ -18,7 +18,7 @@ RSpec.feature 'visiting the site on different domains', :elasticsearch, :commit 
 
       scenario 'visiting / displays opportunities, not the dashboard' do
         visit '/'
-        expect(page).to have_content 'Find and apply for overseas opportunities'
+        expect(page).to have_content 'Find export opportunities'
       end
     end
 
@@ -30,7 +30,7 @@ RSpec.feature 'visiting the site on different domains', :elasticsearch, :commit 
 
       scenario 'visiting / displays opportunities, not the admin login page' do
         visit '/'
-        expect(page).to have_content 'Find and apply for overseas opportunities'
+        expect(page).to have_content 'Find export opportunities'
       end
     end
 
@@ -39,7 +39,7 @@ RSpec.feature 'visiting the site on different domains', :elasticsearch, :commit 
         allow_any_instance_of(NewDomainConstraint).to receive(:matches?).and_return(false)
         visit '/opportunities'
         expect(current_path).to eq '/opportunities'
-        expect(page).to have_content 'Find and apply for overseas opportunities'
+        expect(page).to have_content 'Search results'
       end
     end
   end

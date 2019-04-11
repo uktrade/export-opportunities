@@ -5,7 +5,6 @@ RSpec.describe Subscription do
   it { is_expected.to have_and_belong_to_many(:sectors) }
   it { is_expected.to have_and_belong_to_many(:types) }
   it { is_expected.to have_and_belong_to_many(:values) }
-  it { is_expected.to belong_to(:user) }
   it { is_expected.to have_many(:notifications) }
 
   describe '.confirmed' do
