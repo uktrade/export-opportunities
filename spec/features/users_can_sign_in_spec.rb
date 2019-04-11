@@ -15,7 +15,7 @@ feature 'Signing in as a user', :elasticsearch do
     visit '/sign_in'
     visit '/'
 
-    expect(page).to have_content 'Find and apply'
+    expect(page).to have_content 'Find export opportunities'
   end
 
   scenario 'Signing in successfully' do
