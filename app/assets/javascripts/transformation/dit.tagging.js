@@ -55,6 +55,7 @@ dit.tagging.headerFooter = (new function() {
 
   this.init = function() {
     addTaggingForLogin();
+    addTaggingForMenu();
   }
 
   function addTaggingForLogin() {
@@ -71,6 +72,16 @@ dit.tagging.headerFooter = (new function() {
         'eventAction': 'Register',
         'eventCategory': 'Account',
         'eventLabel': 'HeaderRegisterLink'
+      });
+    });
+  }
+
+  function addTaggingForMenu() {
+    $("#great-header-nav li").on("click", function() {
+      window.dataLayer.push({
+        'eventAction': 'Navigation',
+        'eventLabel': 'HeaderMenuLink',
+        'eventValue': $(this).text()
       });
     });
   }
