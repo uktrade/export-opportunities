@@ -207,8 +207,17 @@ dit.tagging.soo = (new function() {
       window.dataLayer.push({
         'eventAction': 'Search',
         'eventCategory': 'Marketplace',
-        'eventLabel': 'SearchResults',
+        'eventLabel': 'SearchForm',
         'eventValue': $(this).find("#search-product").val() + "|" + $(this).find("#search-country").val()
+      });
+    });
+
+    $("button:contains('Start your search now')[data-scrollto]").on("click", function() {
+      window.dataLayer.push({
+        'eventAction': 'Cta',
+        'eventCategory': 'Search',
+        'eventLabel': 'Link',
+        'eventValue': $(this).text()
       });
     });
   }
