@@ -199,6 +199,7 @@ dit.tagging.soo = (new function() {
   this.marketplace = function() {
     dit.tagging.headerFooter.init();
     addTaggingForApply();
+    addTaggingForMarketLink();
   }
 
   function addTaggingForStories() {
@@ -247,6 +248,17 @@ dit.tagging.soo = (new function() {
         'eventCategory': 'MarketApplication',
         'eventLabel': 'Link',
         'eventValue': $(this).attr("href").replace(/.*\?market=([\w\s]+)/, "$1")
+      });
+    });
+  }
+
+  function addTaggingForMarketLink() {
+    $(".markets-group .link").on("click", function() {
+      window.dataLayer.push({
+        'eventAction': 'ContentLink',
+        'eventCategory': 'Marketplace',
+        'eventLabel': 'MarketDetailsLink',
+        'eventValue': $(this).text()
       });
     });
   }
