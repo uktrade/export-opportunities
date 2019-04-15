@@ -3,9 +3,9 @@
 // REQUIRES
 // jQuery
 
-dit.tagging.landing = (new function() {
+dit.tagging.exopps = (new function() {
 
-  this.init = function() {
+  this.landing = function() {
     addTaggingForSearch();
     addTaggingForFeaturedIndustries();
   }
@@ -43,22 +43,18 @@ dit.tagging.landing = (new function() {
 });
 
 
-dit.tagging.results = (new function() {
-
-  this.init = function() {}
-});
-
 
 // Header and footer pages.
 // ------------------------
 dit.tagging.headerFooter = (new function() {
 
   this.init = function() {
-    addTaggingForLogin();
+    addTaggingForAccountLinks();
     addTaggingForMenu();
+    addTaggingForSearch();
   }
 
-  function addTaggingForLogin() {
+  function addTaggingForAccountLinks() {
     $("#header-sign-in-link").on("click", function() {
       window.dataLayer.push({
         'eventAction': 'SignIn',
@@ -85,6 +81,17 @@ dit.tagging.headerFooter = (new function() {
       });
     });
   }
+
+  function addTaggingForSearch() {
+    $("#great-header form").on("submit", function() {
+      window.dataLayer.push({
+        'eventAction': 'Search',
+        'eventCategory': 'Domestic',
+        'eventLabel': 'HeaderSearchBar',
+        'eventValue': $(this).find("input[type='text']").val()
+      });
+    });
+  }
 });
 
 
@@ -93,22 +100,69 @@ dit.tagging.headerFooter = (new function() {
 // ------------------------
 dit.tagging.domestic = (new function() {
 
-  this.init = function() {
-    addTaggingForLogin();
+  this.home = function() {
+    dit.tagging.headerFooter.init();
+    addTaggingForEuExitBanner();
+    addTaggingForHeroBannerVideo();
+    addTaggingForServiceTeasers();
+    addTaggingForAdviceTeasers();
+    addTaggingForExporterStories();
   }
 
-  function addTaggingForLogin() {
-    $("#header-sign-in-link").on("click", function() {
+  this.searchResults = function() {
+    dit.tagging.headerFooter.init();
+  }
+
+  function addTaggingForEuExitBanner() {
+    $(".eu-exit-banner a").on("click", function() {
       window.dataLayer.push({
-        'eventAction': 'Login',
-        'eventLabel': 'HeaderLoginLink'
+        'eventAction': 'ContentLink',
+        'eventCategory': 'EuExit',
+        'eventLabel': 'EuExitBanner',
+        'eventValue': $(this).text()
       });
     });
+  }
 
-    $("#header-register-link").on("click", function() {
+  function addTaggingForHeroBannerVideo() {
+    $("#hero-campaign-section a").on("click", function() {
       window.dataLayer.push({
-        'eventAction': 'Register',
-        'eventLabel': 'HeaderRegisterLink'
+        'eventAction': 'ContentLink',
+        'eventCategory': 'Video',
+        'eventLabel': 'HeroBannerVideoLink'
+      });
+    });
+  }
+
+  function addTaggingForServiceTeasers() {
+    $("#services a").on("click", function() {
+      window.dataLayer.push({
+        'eventAction': 'Cta',
+        'eventCategory': 'Service',
+        'eventLabel': 'Link',
+        'eventValue': $(this).find('h3').text()
+      });
+    });
+  }
+
+  function addTaggingForAdviceTeasers() {
+    $("#resource-advice a").on("click", function() {
+      window.dataLayer.push({
+        'eventAction': 'Cta',
+        'eventCategory': 'Advice',
+        'eventLabel': 'Link'
+        'eventValue': $(this).find('h3').text()
+      });
+    });
+  }
+
+  function addTaggingForExporterStories() {
+    $("#carousel h3 a").on("click", function() {
+      window.dataLayer.push({
+        'eventAction': 'Cta',
+        'eventCategory': 'ExporterStory',
+        'eventLabel': 'Link'
+        'eventValue': $(this).text()
       });
     });
   }

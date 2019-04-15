@@ -13,6 +13,9 @@ dit.page.landing = (new function () {
   var _cache = {
     effects: []
   }
+
+  // Outside function to run immediately
+  window.dataLayer.push({'pageCategory': 'LandingPage'});
   
   // Page init
   this.init = function() {
@@ -109,5 +112,5 @@ dit.page.landing = (new function () {
 
 $(document).ready(function() {
   dit.page.landing.init();
-  dit.tagging.landing.init();
+  dit.tagging.exopps.landing();
 });
