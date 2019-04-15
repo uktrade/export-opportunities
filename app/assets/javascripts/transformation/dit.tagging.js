@@ -191,6 +191,11 @@ dit.tagging.soo = (new function() {
     addTaggingForSearch();
   }
 
+  this.results = function() {
+    dit.tagging.headerFooter.init();
+    addTaggingForSearch();
+  }
+
   function addTaggingForStories() {
     $(".more-stories a").on("click", function() {
       window.dataLayer.push({
@@ -221,5 +226,6 @@ dit.tagging.soo = (new function() {
       });
     });
   }
+
 });
 
