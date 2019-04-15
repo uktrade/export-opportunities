@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '2.5.5'
 
 gem 'rails', '5.2.1'
-gem 'bundler', '1.16.3'
+gem 'bundler'
 gem 'puma', '3.12.0'
 gem 'pg', '1.1.4'
 gem 'sidekiq'
@@ -45,7 +45,7 @@ gem 'neat', '1.8.0'
 gem 'autoprefixer-rails'
 gem 'normalize-scss'
 gem 'sass-rails'
-gem 'export_components', '~> 2.0.0', git: 'https://github.com/uktrade/export_components.git'
+gem 'export_components', '2.0.0', git: 'https://github.com/uktrade/export_components.git'
 
 # Javascript
 gem 'jquery-rails'
