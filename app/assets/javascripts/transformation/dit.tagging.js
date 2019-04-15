@@ -111,6 +111,7 @@ dit.tagging.domestic = (new function() {
 
   this.searchResults = function() {
     dit.tagging.headerFooter.init();
+    addTaggingForSearch();
   }
 
   function addTaggingForEuExitBanner() {
@@ -163,6 +164,17 @@ dit.tagging.domestic = (new function() {
         'eventCategory': 'ExporterStory',
         'eventLabel': 'Link',
         'eventValue': $(this).text()
+      });
+    });
+  }
+
+  function addTaggingForSearch() {
+    $("#search-results-information .search").on("submit", function() {
+      window.dataLayer.push({
+        'eventAction': 'Search',
+        'eventCategory': 'Domestic',
+        'eventLabel': 'SearchResults',
+        'eventValue': $(this).find("input[type='text']").val()
       });
     });
   }
