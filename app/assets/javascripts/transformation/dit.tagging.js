@@ -86,7 +86,7 @@ dit.tagging.headerFooter = (new function() {
     $("#great-header form").on("submit", function() {
       window.dataLayer.push({
         'eventAction': 'Search',
-        'eventCategory': 'Domestic',
+        'eventCategory': 'General',
         'eventLabel': 'HeaderSearchBar',
         'eventValue': $(this).find("input[type='text']").val()
       });
@@ -172,7 +172,7 @@ dit.tagging.domestic = (new function() {
     $("#search-results-information .search").on("submit", function() {
       window.dataLayer.push({
         'eventAction': 'Search',
-        'eventCategory': 'Domestic',
+        'eventCategory': 'General',
         'eventLabel': 'SearchResults',
         'eventValue': $(this).find("input[type='text']").val()
       });
@@ -188,6 +188,7 @@ dit.tagging.soo = (new function() {
   this.home = function() {
     dit.tagging.headerFooter.init();
     addTaggingForStories();
+    addTaggingForSearch();
   }
 
   function addTaggingForStories() {
@@ -197,6 +198,17 @@ dit.tagging.soo = (new function() {
         'eventCategory': 'ExporterStory',
         'eventLabel': 'Link',
         'eventValue': $(this).find("h3").text()
+      });
+    });
+  }
+
+  function addTaggingForSearch() {
+    $("#results-form").on("submit", function() {
+      window.dataLayer.push({
+        'eventAction': 'Search',
+        'eventCategory': 'Marketplace',
+        'eventLabel': 'SearchResults',
+        'eventValue': $(this).find("#search-product").val() + "|" + $(this).find("#search-country").val()
       });
     });
   }
