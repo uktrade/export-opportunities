@@ -196,6 +196,11 @@ dit.tagging.soo = (new function() {
     addTaggingForSearch();
   }
 
+  this.marketplace = function() {
+    dit.tagging.headerFooter.init();
+    addTaggingForApply();
+  }
+
   function addTaggingForStories() {
     $(".more-stories a").on("click", function() {
       window.dataLayer.push({
@@ -227,5 +232,23 @@ dit.tagging.soo = (new function() {
     });
   }
 
+  function addTaggingForApply() {
+    $("#apply-to-join").on("click", function() {
+      window.dataLayer.push({
+        'eventAction': 'Cta',
+        'eventCategory': 'MarketApplication',
+        'eventLabel': 'Link',
+        'eventValue': $(this).attr("href").replace(/.*\?market=([\w\s]+)/, "$1")
+      });
+    });
+    $("#bottom-apply-to-join").on("click", function() {
+      window.dataLayer.push({
+        'eventAction': 'Cta',
+        'eventCategory': 'MarketApplication',
+        'eventLabel': 'Link',
+        'eventValue': $(this).attr("href").replace(/.*\?market=([\w\s]+)/, "$1")
+      });
+    });
+  }
 });
 
