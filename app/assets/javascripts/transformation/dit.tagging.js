@@ -150,7 +150,7 @@ dit.tagging.domestic = (new function() {
       window.dataLayer.push({
         'eventAction': 'Cta',
         'eventCategory': 'Advice',
-        'eventLabel': 'Link'
+        'eventLabel': 'Link',
         'eventValue': $(this).find('h3').text()
       });
     });
@@ -161,7 +161,7 @@ dit.tagging.domestic = (new function() {
       window.dataLayer.push({
         'eventAction': 'Cta',
         'eventCategory': 'ExporterStory',
-        'eventLabel': 'Link'
+        'eventLabel': 'Link',
         'eventValue': $(this).text()
       });
     });
