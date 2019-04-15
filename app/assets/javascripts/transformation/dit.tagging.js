@@ -180,3 +180,25 @@ dit.tagging.domestic = (new function() {
   }
 });
 
+
+// Selling Online Overseas
+// ------------------------
+dit.tagging.soo = (new function() {
+
+  this.home = function() {
+    dit.tagging.headerFooter.init();
+    addTaggingForStories();
+  }
+
+  function addTaggingForStories() {
+    $(".more-stories a").on("click", function() {
+      window.dataLayer.push({
+        'eventAction': 'Cta',
+        'eventCategory': 'ExporterStory',
+        'eventLabel': 'Link',
+        'eventValue': $(this).find("h3").text()
+      });
+    });
+  }
+});
+
