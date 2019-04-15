@@ -189,17 +189,20 @@ dit.tagging.soo = (new function() {
     dit.tagging.headerFooter.init();
     addTaggingForStories();
     addTaggingForSearch();
+    addTaggingForFeedbackForm();
   }
 
   this.results = function() {
     dit.tagging.headerFooter.init();
     addTaggingForSearch();
+    addTaggingForFeedbackForm();
   }
 
   this.marketplace = function() {
     dit.tagging.headerFooter.init();
     addTaggingForApply();
     addTaggingForMarketLink();
+    addTaggingForFeedbackForm();
   }
 
   function addTaggingForStories() {
@@ -258,6 +261,18 @@ dit.tagging.soo = (new function() {
         'eventAction': 'ContentLink',
         'eventCategory': 'Marketplace',
         'eventLabel': 'MarketDetailsLink',
+        'eventValue': $(this).text()
+      });
+    });
+  }
+
+
+  function addTaggingForFeedbackForm() {
+    $(".thumber-form button").on("click", function() {
+      window.dataLayer.push({
+        'eventAction': 'Cta',
+        'eventCategory': 'Feedback',
+        'eventLabel': 'ThumberButton',
         'eventValue': $(this).text()
       });
     });
