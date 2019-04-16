@@ -125,6 +125,11 @@ dit.tagging.domestic = (new function() {
     addTaggingForNextSteps();
   }
 
+  this.marketListing = function() {
+    dit.tagging.headerFooter.init();
+    addTaggingForMarketCtas();
+  }
+
   function addTaggingForEuExitBanner() {
     $(".eu-exit-banner a").on("click", function() {
       window.dataLayer.push({
@@ -222,13 +227,22 @@ dit.tagging.domestic = (new function() {
     });
   }
 
-
   function addTaggingForNextSteps() {
     $("#country-guide-need-help-section .cta-link").on("click", function() {
       window.dataLayer.push({
         'eventAction': 'Cta',
         'eventLabel': 'NextStepCta',
         'eventValue': $(this).text()
+      });
+    });
+  }
+
+  function addTaggingForMarketCtas() {
+    $(".topic-list-section .card-link").on("click", function() {
+      window.dataLayer.push({
+        'eventAction': 'Cta',
+        'eventLabel': 'MarketCta',
+        'eventValue': $(this).find("h3").text()
       });
     });
   }
