@@ -1,4 +1,5 @@
 <% unless @google_tag_manager.empty? %>
+  <%= javascript_include_tag 'transformation/dit.tagging' %>
   <% @google_tag_manager.each_with_index do |id, index| %>
     <!-- Google Tag Manager (<%= index %>) -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
