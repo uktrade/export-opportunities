@@ -125,7 +125,7 @@ dit.tagging.domestic = (new function() {
     addTaggingForNextSteps();
   }
 
-  this.marketLanding = function() {
+  this.marketsLanding = function() {
     dit.tagging.headerFooter.init();
     addTaggingForMarketCtas();
   }
@@ -133,6 +133,11 @@ dit.tagging.domestic = (new function() {
   this.adviceLanding = function() {
     dit.tagging.headerFooter.init();
     addTaggingForAdviceCtas();
+  }
+
+  this.servicesLanding = function() {
+    dit.tagging.headerFooter.init();
+    addTaggingForServiceCtas();
   }
 
   function addTaggingForEuExitBanner() {
@@ -257,6 +262,16 @@ dit.tagging.domestic = (new function() {
       window.dataLayer.push({
         'eventAction': 'Cta',
         'eventLabel': 'AdviceCta',
+        'eventValue': $(this).find("h3").text()
+      });
+    });
+  }
+
+  function addTaggingForServiceCtas() {
+    $(".card-link").on("click", function() {
+      window.dataLayer.push({
+        'eventAction': 'Cta',
+        'eventLabel': 'ServiceCta',
         'eventValue': $(this).find("h3").text()
       });
     });
