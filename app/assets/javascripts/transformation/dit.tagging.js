@@ -114,6 +114,11 @@ dit.tagging.domestic = (new function() {
     addTaggingForSearch();
   }
 
+  this.articleListing = function() {
+    dit.tagging.headerFooter.init();
+    addTaggingForArticleList();
+  }
+
   function addTaggingForEuExitBanner() {
     $(".eu-exit-banner a").on("click", function() {
       window.dataLayer.push({
@@ -175,6 +180,18 @@ dit.tagging.domestic = (new function() {
         'eventCategory': 'General',
         'eventLabel': 'SearchResults',
         'eventValue': $(this).find("input[type='text']").val()
+      });
+    });
+  }
+
+
+  function addTaggingForArticleList() {
+    $("#search-results-information .search").on("submit", function() {
+      window.dataLayer.push({
+        'eventAction': 'ArticleSelection',
+        'eventCategory': $(".article-list-page h1").text(),
+        'eventLabel': 'Link',
+        'eventValue': $(this).text()
       });
     });
   }
