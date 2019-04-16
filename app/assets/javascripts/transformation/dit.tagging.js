@@ -188,9 +188,9 @@ dit.tagging.domestic = (new function() {
   function addTaggingForArticleList() {
     $("#search-results-information .search").on("submit", function() {
       window.dataLayer.push({
-        'eventAction': 'ArticleSelection',
+        'eventAction': 'ContentLink',
         'eventCategory': $(".article-list-page h1").text(),
-        'eventLabel': 'Link',
+        'eventLabel': 'Article',
         'eventValue': $(this).text()
       });
     });
