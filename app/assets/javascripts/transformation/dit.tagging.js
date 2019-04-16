@@ -122,6 +122,7 @@ dit.tagging.domestic = (new function() {
   this.market = function() {
     dit.tagging.headerFooter.init();
     addTaggingForOpportunities();
+    addTaggingForNextSteps();
   }
 
   function addTaggingForEuExitBanner() {
@@ -200,7 +201,6 @@ dit.tagging.domestic = (new function() {
     });
   }
 
-
   function addTaggingForOpportunities() {
     $("#country-guide-accordions .ExpanderControl").on("click", function() {
       window.dataLayer.push({
@@ -217,6 +217,17 @@ dit.tagging.domestic = (new function() {
         'eventAction': 'Cta',
         'eventCategory': $(this).parents("li").children().eq(0).text().trim(),
         'eventLabel': 'SectorRelatedCta',
+        'eventValue': $(this).text()
+      });
+    });
+  }
+
+
+  function addTaggingForNextSteps() {
+    $("#country-guide-need-help-section .cta-link").on("click", function() {
+      window.dataLayer.push({
+        'eventAction': 'Cta',
+        'eventLabel': 'NextStepCta',
         'eventValue': $(this).text()
       });
     });
