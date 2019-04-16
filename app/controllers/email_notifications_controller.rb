@@ -1,4 +1,6 @@
 class EmailNotificationsController < ApplicationController
+  before_action :require_sso!, only: [:show, :update]
+
   def show
     content = get_content('email_notifications.yml')
     begin
