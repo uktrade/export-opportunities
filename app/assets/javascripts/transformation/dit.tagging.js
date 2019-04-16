@@ -119,6 +119,11 @@ dit.tagging.domestic = (new function() {
     addTaggingForArticleList();
   }
 
+  this.market = function() {
+    dit.tagging.headerFooter.init();
+    addTaggingForOpportunities();
+  }
+
   function addTaggingForEuExitBanner() {
     $(".eu-exit-banner a").on("click", function() {
       window.dataLayer.push({
@@ -184,13 +189,34 @@ dit.tagging.domestic = (new function() {
     });
   }
 
-
   function addTaggingForArticleList() {
-    $("#search-results-information .search").on("submit", function() {
+    $("#search-results-information .search").on("click", function() {
       window.dataLayer.push({
         'eventAction': 'ContentLink',
         'eventCategory': $(".article-list-page h1").text(),
         'eventLabel': 'Article',
+        'eventValue': $(this).text()
+      });
+    });
+  }
+
+
+  function addTaggingForOpportunities() {
+    $("#country-guide-accordions .ExpanderControl").on("click", function() {
+      window.dataLayer.push({
+        'eventAction': 'ExpressInterest',
+        'eventLabel': 'ExpanderControl',
+        'eventValue': $(this).text()
+      });
+    });
+
+    $(".sector-ctas a").on("click", function() {
+      // Selector is quite fragile and could be benefit from
+      // use of functional class names in the target code.
+      window.dataLayer.push({
+        'eventAction': 'Cta',
+        'eventCategory': $(this).parents("li").children().eq(0).text().trim(),
+        'eventLabel': 'SectorRelatedCta',
         'eventValue': $(this).text()
       });
     });
