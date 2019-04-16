@@ -21,3 +21,20 @@
   text-indent: -1000px;
   z-index: -1;
 }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto
+}
+
+@media (max-width: 1260px) {
+  .container {
+    margin: 0 30px
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    margin: 0 20px
+  }
+}
