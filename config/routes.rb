@@ -152,7 +152,7 @@ Rails.application.routes.draw do
 
 
   get '/email_notifications/:user_id', to: 'email_notifications#show'
-  get '/email_notifications/unsubscribe_all/:user_id', to: 'email_notifications#destroy'
+  get '/email_notifications/unsubscribe_all/:user_id', to: 'email_notifications#destroy', as: :delete_email_notifications
   patch '/email_notifications/unsubscribe_all/:id', to: 'email_notifications#update', as: :update_email_notification
 
   get '/api/profile_dashboard', action: :index, controller: 'api/profile_dashboard', format: 'json', via: [:get]
