@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'capybara/email/rspec'
 
 RSpec.feature 'Users can opt out of emails' do
-  scenario 'by clicking a link in a feedback email', focus: true do
+  scenario 'by clicking a link in a feedback email' do
     user = create(:user, email: 'opt-out@example.com')
     enquiry = create(:enquiry, user: user)
 
@@ -11,8 +11,5 @@ RSpec.feature 'Users can opt out of emails' do
     current_email.click_on 'Unsubscribe'
 
     expect(page).to have_content 'You will no longer receive requests for feedback'
-
-    # Expect confirmation email
-    raise
   end
 end
