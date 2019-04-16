@@ -85,13 +85,13 @@ class VolumeOppsRetriever
       cpv = classification_tender_opportunity_release['id'].to_i if classification_tender_opportunity_release
       cpv_obj = CategorisationMicroservice.new(cpv).call
       cpv_with_description = if cpv_obj && cpv_obj[0] && cpv_obj[0]['description'] then
-                               "#{cpv}:#{cpv_obj[0]['description']}"
+                               "#{cpv}: #{cpv_obj[0]['description']}"
                              else
                                cpv
                              end
       cpv_scheme = classification_tender_opportunity_release['scheme'] if classification_tender_opportunity_release
 
-      opportunity_cpvs << { industry_id: cpv_with_description, industry_scheme: cpv_scheme }
+      opportunity_cpvs << { industry_id: cpv_with_description, industry_scheme: cpv_scheme } if cpv
     end
 
     if opportunity_release['planning'] && opportunity_release['planning']['budget']
