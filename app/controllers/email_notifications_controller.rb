@@ -1,5 +1,5 @@
 class EmailNotificationsController < ApplicationController
-  before_action :require_sso!
+  before_action :require_sso! 
 
   def show
     content = get_content('email_notifications.yml')

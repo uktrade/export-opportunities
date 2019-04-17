@@ -6,7 +6,7 @@ RSpec.feature 'Users can opt out of emails' do
     user = create(:user, email: 'opt-out@example.com')
     enquiry = create(:enquiry, user: user)
     mock_sso_with(email: 'opt-out@example.com')
-
+    
     EnquiryFeedbackSender.new.call(enquiry)
     open_email('opt-out@example.com')
     current_email.click_on 'Unsubscribe'
