@@ -8,11 +8,11 @@ Elasticsearch::Model.client = if Rails.env.production?
                                                 Figaro.env.aws_access_key_id,
                                                 Figaro.env.aws_secret_access_key
                                             ),
-                                            service_name: 'es',
+                                            service: 'es',
                                             region: Figaro.env.aws_region
 
                                   f.adapter Faraday.default_adapter
                                 end
-                                else
-                                  Elasticsearch::Client.new host: '127.0.0.1:9200'
-                                end
+                              else
+                                Elasticsearch::Client.new host: '127.0.0.1:9200'
+                              end
