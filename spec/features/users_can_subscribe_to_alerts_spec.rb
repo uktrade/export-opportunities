@@ -143,19 +143,5 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
       expect(page).to have_content content['confirmation']
       expect(page).to have_content content['alert_summary_message']
     end
-
-    scenario 'can unsubscribe to email alerts' do
-      # Create a subscription
-      user = create(:user, email: 'test@example.com')
-      opportunity = create(:opportunity, title: 'Food')
-      create(:subscription, user: @user, opportunity: opportunity)
-
-      # Go to unsubscription link
-      visit delete_email_notifications_path(user_id: user.id)
-      expect(page).to have_content "You have been unsubscribed from this alert"
-
-      expect(user.subscriptions.count).to eq 0
-
-    end
   end
 end
