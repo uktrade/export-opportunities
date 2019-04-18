@@ -44,8 +44,19 @@ dit.tagging.exopps = (new function() {
 
 
 
-// Header and footer pages.
-// ------------------------
+
+// Header and footer pages specific Tagging Functionality.
+// -------------------------------------------------------
+// REQUIRES
+// jQuery
+// dit.js
+
+
+// dit namespace should exist as this script should be inserted
+// after initialisation but, little defensive coding just in case.
+var dit = dit || {};
+dit.tagging = dit.tagging || {};
+
 dit.tagging.headerFooter = (new function() {
 
   this.init = function() {
@@ -94,5 +105,10 @@ dit.tagging.headerFooter = (new function() {
   }
 });
 
-
+// Instead of calling from existing page type initialisations
+// just adding it directly here so inclusion of file should
+// be all that is required. 
+$(document).ready(function() {
+  dit.tagging.headerFooter.init();
+});
 
