@@ -3,7 +3,7 @@ require 'faraday_middleware/aws_sigv4'
 # https://github.com/omniauth/omniauth/issues/872
 Hashie.logger = Logger.new(nil)
 
-Elasticsearch::Model.client = if true# Rails.env.production?
+Elasticsearch::Model.client = if Rails.env.production?
                                 Elasticsearch::Client.new(url: Figaro.env.elastic_search_url) do |f|
                                   f.request :aws_sigv4,
                                              service: 'es',
