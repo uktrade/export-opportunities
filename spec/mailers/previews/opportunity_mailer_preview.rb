@@ -20,4 +20,13 @@ class OpportunityMailerPreview < ActionMailer::Preview
       {count: 1090, subscriptions: subscription_struct}
     )
   end
+
+  def unsubscription_confirmation
+    @user = User.first_or_create(
+      email: 'test@example.com',
+      provider: 'exporting_is_great'
+    )
+    OpportunityMailer.unsubscription_confirmation(@user.id)
+  end
+
 end
