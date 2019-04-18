@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.5.5'
 
-gem 'rails', '5.2.1'
+gem 'rails', '5.2.2'
 gem 'bundler'
 gem 'puma', '3.12.0'
 gem 'pg', '1.1.4'
@@ -56,7 +56,6 @@ gem 'stringex', require: false
 gem 'addressable'
 
 # ActiveRecord tools
-gem 'activerecord', '5.2.1'
 gem 'hairtrigger', '0.2.21'
 gem 'active_record_union'
 
