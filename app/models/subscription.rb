@@ -52,7 +52,7 @@ class Subscription < ApplicationRecord
   has_and_belongs_to_many :values
   has_many :notifications, class_name: 'SubscriptionNotification', dependent: :nullify
 
-  belongs_to :user
+  belongs_to :user, required: true
 
   delegate :email, to: :user
 
