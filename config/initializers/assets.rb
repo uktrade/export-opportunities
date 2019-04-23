@@ -26,7 +26,7 @@ Rails.application.config.assets.precompile += %w[jquery-3.3.1.min.js]
 # Rails.application.config.assets.paths << Emoji.images_path
 # Add Yarn node_modules folder to the asset load path.
 Rails.application.config.assets.paths << Rails.root.join('node_modules')
-Rails.application.config.assets.paths << Rails.root.join('export-opportunities')
+Rails.application.config.assets.prefix << '/export-opportunities/assets'
 
 
 ###################################
