@@ -16,10 +16,10 @@ class OpportunityMailer < ApplicationMailer
   end
 
   def unsubscription_confirmation(user_id)
-    if @user = User.find_by_id(user_id)
+    if (@user = User.find_by(id: user_id))
       mail from: "Export Opportunities <#{Figaro.env.MAILER_FROM_ADDRESS!}>",
            to: @user.email,
-           subject: "You have been unsubscribed from all email alerts"
+           subject: 'You have been unsubscribed from all email alerts'
     end
   end
 end
