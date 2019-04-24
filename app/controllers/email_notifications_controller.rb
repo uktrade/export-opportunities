@@ -51,6 +51,8 @@ class EmailNotificationsController < ApplicationController
 
     Subscription.where(user_id: user_id).where(unsubscribed_at: nil).update_all(unsubscribed_at: Time.zone.now)
 
+    OpportunityMailer.unsubscription_confirmation(user_id).deliver_later
+
     render 'email_notifications/destroy', layout: 'notification', locals: {
       content: content['destroy'],
     }

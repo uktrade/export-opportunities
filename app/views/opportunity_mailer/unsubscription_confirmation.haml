@@ -1,0 +1,36 @@
+%h1 You have been unsubscribed from all email alerts
+%br
+
+%p
+  You have been unsubscribed from all alerts.
+
+%p
+  = link_to "Search for other opportunities", root_url, { style: "font-weight:bold;" }
+
+%br
+
+%p{ style: "font-weight:bold;" }
+  To get daily email alerts for specific opportunities:
+%ol
+  %li{ style: "margin-bottom:15px;" }
+    Go to
+    =link_to "your account", Figaro.env.SUD_PROFILE_PAGE_EMAIL_ALERTS.to_s
+    and unsubscribe from any alerts for "all opportunities".
+  %li{ style: "margin-bottom:15px;" }
+    Go to
+    =link_to "export opportunities", root_url
+    and enter the products, services, or countries you want to get notifications for.
+  %li{ style: "margin-bottom:15px;" }
+    You will then be prompted to subscribe to email alerts for the search terms you have entered.
+
+
+- content_for :email_sub_footer do
+  %table{ border: "0", cellpadding: "30", cellspacing: "0", width: "600" }
+    %tr
+      %td
+        %center
+          %p You are receiving this email because you unsubscribed to Export Opportunities email alerts.
+          %p
+            = link_to "View privacy statement", Figaro.env.PRIVACY_AND_COOKIES_URL.to_s
+            %br
+            = link_to "Give feedback", Figaro.env.CONTACT_US_FORM.to_s
