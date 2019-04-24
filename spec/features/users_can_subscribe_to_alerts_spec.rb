@@ -161,6 +161,5 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
 
       expect(user.subscriptions.where(unsubscribed_at: nil).count).to eq 0
     end
-
   end
 end

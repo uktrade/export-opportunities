@@ -4,7 +4,6 @@
 //= require transformation/dit
 //= require transformation/dit.utils
 //= require transformation/dit.responsive
-//= require transformation/dit.geolocation
 //= require transformation/dit.class.expander
 //= require transformation/dit.class.accordion
 //= require transformation/dit.class.modal
