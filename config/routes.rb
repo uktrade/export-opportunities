@@ -1,8 +1,7 @@
 # coding: utf-8
 Rails.application.routes.draw do
-  mount Sidekiq::Web => '/sidekiq'
   scope 'export-opportunities' do
-
+    mount Sidekiq::Web => '/sidekiq'
 
     # site's root page
     root to: 'opportunities#index'
