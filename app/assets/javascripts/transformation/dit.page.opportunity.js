@@ -5,6 +5,9 @@
 
 dit.page.opportunity = (new function () {
 
+  // Outside function to run immediately
+  window.dataLayer.push({'pageCategory': 'OpportunityPage'});
+
   // Page init
   this.init = function() {
     clipDescription();
@@ -19,4 +22,5 @@ dit.page.opportunity = (new function () {
 // Init needs to wait for domReady.
 $(document).ready(function() {
   dit.page.opportunity.init();
+  dit.tagging.exopps.init("OpportunityPage");
 });

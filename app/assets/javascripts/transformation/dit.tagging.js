@@ -5,6 +5,27 @@
 
 dit.tagging.exopps = (new function() {
 
+  this.init = function(page) {
+    switch(page) {
+      case 'LandingPage':
+        addTaggingForSearch();
+        addTaggingForFeaturedIndustries();
+      break;
+
+      case 'SearchResultsPage':
+        // No event tagging implemented, yet.
+        break;
+
+      case 'OpportunityPage':
+      case 'EnquiriesPage':
+      case 'NotificationPage':
+        // No event tagging implemented, yet.
+        break;
+
+      default: // nothing
+    }
+  }
+
   this.landing = function() {
     addTaggingForSearch();
     addTaggingForFeaturedIndustries();

@@ -112,5 +112,5 @@ dit.page.landing = (new function () {
 
 $(document).ready(function() {
   dit.page.landing.init();
-  dit.tagging.exopps.landing();
+  dit.tagging.exopps.init("LandingPage");
 });
