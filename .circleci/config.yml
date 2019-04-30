@@ -1,0 +1,65 @@
+version: 2
+  jobs:
+    build:
+      parallelism: 3
+      working_directory: ~/export-opportunities
+        - image: circleci/ruby:2.5.5
+          environment:
+            BUNDLE_JOBS: 3
+            BUNDLE_RETRY: 3
+            BUNDLE_PATH: vendor/bundle
+            PGHOST: localhost
+            PGUSER: exops
+            RAILS_ENV: test
+        - image: circleci/postgres:latest
+          environment:
+            POSTGRES_USER: user
+            POSTGRES_DB:  export_opportunities_test
+            POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      branches:
+        only: development
+      steps:
+        - checkout:
+        # restore bundle cache  
+        - restore_cache:
+            keys:
+              - exops-{{ checksum "Gemfile.lock" }}
+
+        - run:
+            name: Bundle Install
+            command: bundle check || bundle install
+
+        # store bundle cache
+        - save_cache:
+            key: exops-{{ checksum "Gemfile.lock" }}
+            paths: 
+              - vendor/bundle
+        
+        # Database setup
+        - run:
+            name: Wait for DB
+            command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+        - run:
+            name: Database setup
+            command: bin/rails db:schema:load --trace
+         
+        # Run rspec in parallel 
+        - run: |
+            echo Running test ...
+            bundle exec rspec --profile 10 \
+                        --format RspecJunitFormatter \
+                        --out test_results/rspec.xml \
+                        --format progress \
+                        $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+        
+        # Save test results for timing analysis
+        - store_test_results:
+            path: test_results 
+
+
+  workflows:
+    version: 2
+    build-and-test:
+      jobs:
+        - build
