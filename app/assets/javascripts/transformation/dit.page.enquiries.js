@@ -11,6 +11,9 @@ dit.page.enquiries = (new function () {
   var SelectiveLookup = dit.classes.SelectiveLookup;
   var _cache = {
   }
+
+  // Outside function to run immediately
+  window.dataLayer.push({'pageCategory': 'EnquiriesPage'});
   
   // Page init
   this.init = function() {
@@ -109,5 +112,6 @@ dit.page.enquiries = (new function () {
 /* Initiate script */
 $(document).ready(function() {
   dit.page.enquiries.init();
+  dit.tagging.exopps.init("EnquiriesPage");
 });
 
