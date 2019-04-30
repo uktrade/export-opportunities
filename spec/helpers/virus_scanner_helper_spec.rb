@@ -34,6 +34,7 @@ describe VirusScannerHelper do
     end
 
     it 'scan a clean zip pw protected file' do
+      # Password protected should return "has a virus"
       result = scan_clean('test_clean_file', File.open('spec/files/tender_sample_file_pw.zip', 'rb'))
       expect(result['malware']).to eq(true)
       expect(result['reason']).to eq('Heuristics.Encrypted.Zip')

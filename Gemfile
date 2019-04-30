@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.5.5'
 
-gem 'rails', '5.2.1'
+gem 'rails', '5.2.2'
 gem 'bundler'
 gem 'puma', '3.12.0'
 gem 'pg', '1.1.4'
@@ -19,7 +19,7 @@ gem 'immutable-struct'
 gem 'nokogiri', '1.10.2'
 
 # Authentication & authorisation
-gem 'devise', '4.4.3'
+gem 'devise', '4.6.0'
 gem 'devise-async'
 gem 'hawk-auth'
 gem 'omniauth'
@@ -34,7 +34,7 @@ gem 'sdoc'
 # Search
 gem 'pg_search'
 gem 'kaminari'
-gem 'faraday_middleware-aws-signers-v4'
+gem 'faraday_middleware-aws-sigv4'
 gem 'elasticsearch-rails', '5.1.0'
 gem 'elasticsearch-model', '5.1.0'
 gem 'devise_security_extension', git: 'https://github.com/phatworx/devise_security_extension.git'
@@ -56,7 +56,6 @@ gem 'stringex', require: false
 gem 'addressable'
 
 # ActiveRecord tools
-gem 'activerecord', '5.2.1'
 gem 'hairtrigger', '0.2.21'
 gem 'active_record_union'
 

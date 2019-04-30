@@ -26,6 +26,7 @@ Rails.application.config.assets.precompile += %w[jquery-3.3.1.min.js]
 # Rails.application.config.assets.paths << Emoji.images_path
 # Add Yarn node_modules folder to the asset load path.
 Rails.application.config.assets.paths << Rails.root.join('node_modules')
+Rails.application.config.assets.prefix = '/export-opportunities/assets'
 
 
 ###################################
@@ -56,6 +57,7 @@ Rails.application.config.assets.precompile += %w[transformation/dit.page.landing
 Rails.application.config.assets.precompile += %w[transformation/dit.page.results.js]
 Rails.application.config.assets.precompile += %w[transformation/dit.page.opportunity.js]
 Rails.application.config.assets.precompile += %w[transformation/dit.page.enquiries.js]
+Rails.application.config.assets.precompile += %w[transformation/dit.tagging.js]
 Rails.application.config.assets.precompile += %w[transformation/third_party/*.js]
 
 # Transformation Admin

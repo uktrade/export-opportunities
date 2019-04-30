@@ -144,7 +144,7 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
       expect(page).to have_content content['alert_summary_message']
     end
 
-    scenario 'can unsubscribe to email alerts', focus: true do
+    scenario 'can unsubscribe to email alerts' do
       ActiveJob::Base.queue_adapter = :test
       
       # Create a subscription
@@ -161,6 +161,5 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
 
       expect(user.subscriptions.where(unsubscribed_at: nil).count).to eq 0
     end
-
   end
 end

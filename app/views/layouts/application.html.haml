@@ -21,6 +21,10 @@
     = content_for(:head)
     %title= t('site_name')
 
+    -# Global header-footer styles
+    - unless request.fullpath.include?('/admin')
+      = stylesheet_link_tag('export-components')
+
     = stylesheet_link_tag 'application', media: 'all'
     /[if lte IE 9]
       = javascript_include_tag 'oldie-support.min'
@@ -28,7 +32,12 @@
       = javascript_include_tag 'eventListener.polyfill.min'
 
     = javascript_include_tag 'jquery-3.3.1.min.js'
-    = javascript_include_tag 'export-components-header.js'
+
+    -# Global header-footer styles
+    - unless request.fullpath.include?('/admin')
+      = javascript_include_tag  'dit.components.cookie-notice'
+      = javascript_include_tag  'dit.classes.Dropdown'
+      = javascript_include_tag  'dit.components.greatDomesticHeader'
 
 
   %body{id: ExportOpportunities.flipper.enabled?(:new_header_and_footer) ? nil : 'dit'}
