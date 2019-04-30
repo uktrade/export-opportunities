@@ -2,7 +2,7 @@
 //
 
 dit.page.notifications = (new function () {
-  
+
   // Page init
   this.init = function() {
   }
@@ -11,4 +11,5 @@ dit.page.notifications = (new function () {
 
 $(document).ready(function() {
   dit.page.notifications.init();
+  dit.tagging.exopps.init("NotificationPage");
 });

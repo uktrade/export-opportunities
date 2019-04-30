@@ -109,5 +109,6 @@ dit.page.enquiries = (new function () {
 /* Initiate script */
 $(document).ready(function() {
   dit.page.enquiries.init();
+  dit.tagging.exopps.init("EnquiriesPage");
 });
 

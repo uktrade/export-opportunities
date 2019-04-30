@@ -204,7 +204,7 @@ ukti.UploadWidget = (function() {
 
       var request = new XMLHttpRequest();
       request.onerror = handleUploadFileError;
-      request.open('POST', '/api/document', true);
+      request.open('POST', '/export-opportunities/api/document', true);
       request.onreadystatechange = function () {
         if ( request.readyState === 4 ) {
           if ( request.status == 200 ) {

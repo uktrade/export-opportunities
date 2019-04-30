@@ -40,7 +40,7 @@ feature 'Uploaders are restricted' do
     anothers_published_opportunity = create(:opportunity, :published, author: create(:uploader))
     login_as(create(:uploader))
 
-    visit '/admin/opportunities'
+    visit '/export-opportunities/admin/opportunities'
 
     expect(page).not_to have_content(anothers_pending_opportunity.title)
     expect(page).to have_content(anothers_published_opportunity.title)
@@ -52,7 +52,7 @@ feature 'Uploaders are restricted' do
     uploader = create(:uploader, service_provider: shared_service_provider)
     login_as(uploader)
 
-    visit '/admin/opportunities'
+    visit '/export-opportunities/admin/opportunities'
 
     expect(page).to have_content(opportunity_from_same_provider.title)
   end
@@ -75,7 +75,7 @@ feature 'Uploaders are restricted' do
     create(:enquiry, company_name: 'Universal Exports', opportunity: third_opportunity)
 
     login_as(uploader)
-    visit '/admin/enquiries'
+    visit '/export-opportunities/admin/enquiries'
 
     # an enquiry not matching an opportunity the uploader created is not visible
     expect(page).not_to have_content('Universal Exports')
@@ -99,7 +99,7 @@ feature 'Uploaders are restricted' do
     another_uploader = create(:uploader, service_provider: another_service_provider)
 
     login_as(another_uploader)
-    visit '/admin/opportunities'
+    visit '/export-opportunities/admin/opportunities'
 
     click_on opportunity.title
 
@@ -124,7 +124,7 @@ feature 'Uploaders are restricted' do
     another_uploader = create(:uploader, service_provider: shared_service_provider)
 
     login_as(another_uploader)
-    visit '/admin/opportunities'
+    visit '/export-opportunities/admin/opportunities'
 
     click_on opportunity.title
 
@@ -141,7 +141,7 @@ feature 'Uploaders are restricted' do
     create(:enquiry, company_name: 'Universal Exports')
 
     login_as(uploader)
-    visit '/admin/enquiries'
+    visit '/export-opportunities/admin/enquiries'
 
     click_on 'Enquiries'
     click_on 'Generate report'
@@ -156,7 +156,7 @@ feature 'Uploaders are restricted' do
     create(:opportunity, :published, created_at: 1.day.ago, title: 'Ready opportunity')
 
     login_as(uploader)
-    visit '/admin/opportunities'
+    visit '/export-opportunities/admin/opportunities'
 
     click_on 'Download'
     click_on 'Download as CSV'
@@ -169,7 +169,7 @@ feature 'Uploaders are restricted' do
     uploader = create(:uploader)
 
     login_as(uploader)
-    visit '/admin/editors'
+    visit '/export-opportunities/admin/editors'
 
     expect(page.status_code).to eq(404)
     expect(page).to have_text('This page cannot be found')
@@ -180,7 +180,7 @@ feature 'Uploaders are restricted' do
     uploader = create(:uploader)
 
     login_as(uploader)
-    visit 'admin/editors/new'
+    visit '/export-opportunities/admin/editors/new'
 
     expect(page.status_code).to eq(404)
     expect(page).to have_text('This page cannot be found')
@@ -198,7 +198,7 @@ feature 'Uploaders are restricted' do
     anothers_published_opportunity = create(:opportunity, :published, source: :volume_opps, author: uploader_volume_opps)
     login_as(uploader_post)
 
-    visit '/admin/opportunities'
+    visit '/export-opportunities/admin/opportunities'
 
     expect(page).not_to have_content(anothers_pending_opportunity.title)
     expect(page).not_to have_content(anothers_published_opportunity.title)

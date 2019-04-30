@@ -8,7 +8,7 @@ feature 'Logging in as an admin' do
   end
 
   scenario 'Unauthenticated editor visits help and enquiries pages' do
-    visit '/admin/help/how-to-write-an-export-opportunity/overview'
+    visit '/export-opportunities/admin/help/how-to-write-an-export-opportunity/overview'
     expect_editor_to_be_logged_out
     expect(page).to_not have_text('This page cannot be found')
     expect(page).to have_text('Log in')
@@ -31,7 +31,7 @@ feature 'Logging in as an admin' do
   scenario 'Logging in successfully to help guide' do
     create(:editor, email: 'email@example.com', password: 'wibble-sidecar-sling')
 
-    visit '/admin/help/how-to-write-an-export-opportunity/overview'
+    visit '/export-opportunities/admin/help/how-to-write-an-export-opportunity/overview'
 
     within '#new_editor' do
       fill_in 'Email',    with: 'email@example.com'
@@ -46,7 +46,7 @@ feature 'Logging in as an admin' do
     editor = create(:editor)
     login_as(editor)
 
-    visit '/admin/help/how-to-write-an-export-opportunity/overview'
+    visit '/export-opportunities/admin/help/how-to-write-an-export-opportunity/overview'
 
     expect(page.body).to include('This guidance will help you write export opportunities.')
     expect(page.body).to include('How to write an export opportunity')
@@ -56,7 +56,7 @@ feature 'Logging in as an admin' do
     editor = create(:editor)
     login_as(editor)
 
-    visit '/admin/help/how-to-assess-a-company/overview'
+    visit '/export-opportunities/admin/help/how-to-assess-a-company/overview'
 
     # we are logged in but can't see the Log out option without js.
     expect(page).to have_content('Opportunities Enquiries Stats')
@@ -67,13 +67,13 @@ feature 'Logging in as an admin' do
     editor = create(:editor)
     login_as(editor)
 
-    visit '/admin/help/how-to-assess-a-company/overview'
+    visit '/export-opportunities/admin/help/how-to-assess-a-company/overview'
 
     # we are logged in but can't see the Log out option without js.
     expect(page).to have_content('Opportunities Enquiries Stats')
     expect(page).to have_content('You will need to assess whether a company is both eligible and suitable')
 
-    visit '/admin/editors/sign_in'
+    visit '/export-opportunities/admin/editors/sign_in'
 
     expect_editor_to_be_logged_in
   end

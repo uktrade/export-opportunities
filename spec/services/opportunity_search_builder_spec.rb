@@ -4,7 +4,7 @@ RSpec.describe OpportunitySearchBuilder do
 
   before(:each) do
     @post_1 = create(:opportunity, title: 'Post 1', first_published_at: 2.months.ago,
-                      response_due_on: 12.months.from_now, status: :publish)
+                      response_due_on: 12.months.from_now, status: :publish, source: 0)
     create(:opportunity, title: 'Post 2', first_published_at: 3.months.ago,
             response_due_on: 24.months.from_now, status: :publish)
     create(:opportunity, title: 'Post 3', first_published_at: 1.month.ago,
@@ -37,55 +37,69 @@ RSpec.describe OpportunitySearchBuilder do
     end
 
     it 'filters by sectors' do
-      # First check no response if filter not present present
-      query = new_query(sectors: ["sectors-slug"])
+      # First check no response if filter not present
+      query = new_query(sectors: ["medicine"])
       expect(results_count(query)).to eq 0
 
-      # Then check finds correctly if filter present present
-      @post_1.sectors << Sector.create(slug: "sectors-slug", name: "name") 
+      # For opportunities from post, there will be a sector.
+      # For opportunities from volumeops, there will not be a sector,
+      # Therefore we look inside the text for volumeops
+
+      # Finds one from Post, with a sector...
+      expect(@post_1.source).to eq("post")
+      test_sector = Sector.create(slug: "medicine", name: "medicine") 
+      @post_1.sectors << test_sector
+      expect(results_count(query)).to eq 1
+
+      # Does not find one from VolumeOps (without sector)
+      test_sector.destroy
+      @post_1.update(source: 1)
       refresh_elasticsearch
+      expect(results_count(query)).to eq 0
+
+      # ... Unless the title matches
+      @post_1.update(title: "medicine")
       expect(results_count(query)).to eq 1
     end
 
     it 'filters by countries' do
-      # First check no response if filter not present present
+      # First check no response if filter not present
       query = new_query(countries: ["countries-slug"])
       expect(results_count(query)).to eq 0
 
-      # Then check finds correctly if filter present present
+      # Then check finds correctly if filter present
       @post_1.countries << Country.create(slug: "countries-slug", name: "name") 
-      refresh_elasticsearch
       expect(results_count(query)).to eq 1
     end
 
     it 'filters by types' do
-      # First check no response if filter not present present
+      # First check no response if filter not present
       query = new_query(opportunity_types: ["type-slug"])
       expect(results_count(query)).to eq 0
 
-      # Then check finds correctly if filter present present
+      # Then check finds correctly if filter present
       @post_1.types << Type.create(slug: "type-slug", name: "name") 
       refresh_elasticsearch
       expect(results_count(query)).to eq 1
     end
 
     it 'filters by values' do
-      # First check no response if filter not present present
+      # First check no response if filter not present
       query = new_query(values: ["values-slug"])
       expect(results_count(query)).to eq 0
 
-      # Then check finds correctly if filter present present
+      # Then check finds correctly if filter present
       @post_1.values << Value.create(slug: "values-slug", name: "name") 
       refresh_elasticsearch
       expect(results_count(query)).to eq 1
     end
 
     it 'filters by sources' do
-      # First check no response if filter not present present
+      # First check no response if filter not present
       query = new_query(sources: ['volume_opps'])
       expect(results_count(query)).to eq 0
 
-      # Then check finds correctly if filter present present
+      # Then check finds correctly if filter present
       @post_1.update(source: 'volume_opps')
       refresh_elasticsearch
       expect(results_count(query)).to eq 1

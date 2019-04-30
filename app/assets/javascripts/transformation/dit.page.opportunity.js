@@ -19,4 +19,5 @@ dit.page.opportunity = (new function () {
 // Init needs to wait for domReady.
 $(document).ready(function() {
   dit.page.opportunity.init();
+  dit.tagging.exopps.init("OpportunityPage");
 });

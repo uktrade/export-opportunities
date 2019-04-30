@@ -7,7 +7,7 @@ RSpec.feature 'User can download Post User Communication Documents' do
 
   scenario 'The link is invalid' do
     mock_sso_with(email: 'enquirer@exporter.com')
-    visit '/dashboard/downloads/a_url_does_not_exist'
+    visit '/export-opportunities/dashboard/downloads/a_url_does_not_exist'
 
     expect(page).to have_content('This document could not be found or is no longer available to download')
   end

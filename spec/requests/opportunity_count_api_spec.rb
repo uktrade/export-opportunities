@@ -8,7 +8,7 @@ describe 'Viewing the number of opportunities', type: :request do
       create(:opportunity)
       create(:opportunity, :published, response_due_on: 1.month.ago)
 
-      get '/v1/opportunities/count.json'
+      get '/export-opportunities/v1/opportunities/count.json'
       expected_hash = { 'opportunities_count' => 3 }
 
       expect(response.status).to eql(200)

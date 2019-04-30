@@ -18,27 +18,27 @@ RSpec.describe 'Viewing the ATOM feed for opportunities',
 
     refresh_elasticsearch
 
-    get '/opportunities.atom'
+    get '/export-opportunities/opportunities.atom'
 
     body = parse_xml(response.body)
 
     expect(response.status).to eql 200
     expect(response.headers['Content-Type']).to eql 'application/atom+xml; charset=utf-8'
 
-    expect(body.at_css('feed > id').text).to eql 'tag:www.example.com,2016:/opportunities'
+    expect(body.at_css('feed > id').text).to eql 'tag:www.example.com,2016:/export-opportunities/opportunities'
     expect(body.at_css('feed > title').text).to eql 'Export opportunities'
     expect(body.at_css('feed > subtitle').text).to eql 'The demand is out there. You could be too.'
     expect(body.at_css('feed > updated').text).to eql '2016-09-20T18:00:00Z'
 
     expect(body.at_css('feed > link[rel=self]').attr('type')).to eql 'application/atom+xml'
-    expect(body.at_css('feed > link[rel=self]').attr('href')).to eql 'http://www.example.com/opportunities.atom'
+    expect(body.at_css('feed > link[rel=self]').attr('href')).to eql 'http://www.example.com/export-opportunities/opportunities.atom'
     expect(body.at_css('feed > link[rel=alternate]').attr('type')).to eql 'text/html'
-    expect(body.at_css('feed > link[rel=alternate]').attr('href')).to eql "http://www.example.com/opportunities"
+    expect(body.at_css('feed > link[rel=alternate]').attr('href')).to eql "http://www.example.com/export-opportunities/opportunities"
 
     expect(body.at_css('feed > entry > title').text).to eql 'Atom Feed Required'
     expect(body.at_css('feed > entry > id').text).to eql 'tag:www.example.com,2016:Opportunity/0a0a7bdc-0da8-439a-978a-758601d7a8ce'
     expect(body.at_css('feed > entry > link').attr('rel')).to eql 'alternate'
-    expect(body.at_css('feed > entry > link').attr('href')).to eql 'http://www.example.com/opportunities/atom-feed-required'
+    expect(body.at_css('feed > entry > link').attr('href')).to eql 'http://www.example.com/export-opportunities/opportunities/atom-feed-required'
     expect(body.at_css('feed > entry > link').attr('type')).to eql 'text/html'
     expect(body.at_css('feed > entry > updated').text).to eql '2016-09-20T18:00:00Z'
     expect(body.at_css('feed > entry > published').text).to eql '2016-09-11T18:00:00Z'
@@ -53,7 +53,7 @@ RSpec.describe 'Viewing the ATOM feed for opportunities',
     create_list(:opportunity, 2, :published)
 
     refresh_elasticsearch
-    get '/opportunities.atom'
+    get '/export-opportunities/opportunities.atom'
     body = parse_xml(response.body)
 
     expect(body.css('feed > entry').count).to eql 2
@@ -65,14 +65,14 @@ RSpec.describe 'Viewing the ATOM feed for opportunities',
     create(:opportunity, updated_at: 1.minute.ago)
 
     refresh_elasticsearch
-    get '/opportunities.atom'
+    get '/export-opportunities/opportunities.atom'
     body = parse_xml(response.body)
 
     expect(body.at_css('feed > updated').text).to eql(recently_updated.updated_at.iso8601)
   end
 
   it 'returns an empty list when there are no results' do
-    get '/opportunities.atom'
+    get '/export-opportunities/opportunities.atom'
     body = parse_xml(response.body)
 
     expect(response.status).to eql 200
@@ -89,7 +89,7 @@ RSpec.describe 'Viewing the ATOM feed for opportunities',
                              updated_at: 3.days.ago, title: 'old')
 
     refresh_elasticsearch
-    get '/opportunities.atom'
+    get '/export-opportunities/opportunities.atom'
     body = parse_xml(response.body)
 
     expect(body.css('feed > entry:eq(1) > title').text).to eql newest_opportunity.title
@@ -104,7 +104,7 @@ RSpec.describe 'Viewing the ATOM feed for opportunities',
       create_list(:opportunity, 25, :published)
       refresh_elasticsearch
 
-      get '/opportunities.atom'
+      get '/export-opportunities/opportunities.atom'
 
       body = parse_xml(response.body)
 
@@ -113,12 +113,12 @@ RSpec.describe 'Viewing the ATOM feed for opportunities',
       create(:opportunity, :published)
       refresh_elasticsearch
 
-      get '/opportunities.atom'
+      get '/export-opportunities/opportunities.atom'
       body = parse_xml(response.body)
 
-      expect(body.css('feed > link[rel=next]').attr('href').text).to eql 'http://www.example.com/opportunities.atom?paged=2'
+      expect(body.css('feed > link[rel=next]').attr('href').text).to eql 'http://www.example.com/export-opportunities/opportunities.atom?paged=2'
 
-      get '/opportunities.atom?paged=2'
+      get '/export-opportunities/opportunities.atom?paged=2'
       body = parse_xml(response.body)
 
       expect(body.css('feed > link[rel=next]')).to be_empty
@@ -130,14 +130,14 @@ RSpec.describe 'Viewing the ATOM feed for opportunities',
       end
       refresh_elasticsearch
 
-      # get '/opportunities.atom'
+      # get '/export-opportunities/opportunities.atom'
       # body = parse_xml(response.body)
       # expect(body.css('feed > link[rel=prev]')).to be_empty
 
-      get '/opportunities.atom?paged=2'
+      get '/export-opportunities/opportunities.atom?paged=2'
       body = parse_xml(response.body)
 
-      expect(body.css('feed > link[rel=prev]').attr('href').text).to eql 'http://www.example.com/opportunities.atom?paged=1'
+      expect(body.css('feed > link[rel=prev]').attr('href').text).to eql 'http://www.example.com/export-opportunities/opportunities.atom?paged=1'
     end
   end
 

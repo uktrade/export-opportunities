@@ -41,7 +41,7 @@ module Api
         @result = {
           status: 200,
           id: short_url,
-          base_url: Figaro.env.domain! + '/dashboard/downloads/',
+          base_url: Figaro.env.domain! + '/export-opportunities/dashboard/downloads/',
         }
       end
       respond_to do |format|

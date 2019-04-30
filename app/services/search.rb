@@ -96,31 +96,23 @@ class Search
     # Receives cleaned @term, @filter, @sort, @limit, @boost
     # and returns objects in Elasticsearch Syntax
     def build_searchable
-      if search_includes_sector?
-        OpportunityIndustrySearchBuilder.new(filter: @filter,
-                                             sort: @sort).call
-      else
-        OpportunitySearchBuilder.new(term: @term,
-                                     boost: @boost,
-                                     sort: @sort,
-                                     limit: @limit,
-                                     sectors: @filter.sectors,
-                                     countries: @filter.countries,
-                                     opportunity_types: @filter.types,
-                                     values: @filter.values,
-                                     sources: @filter.sources).call
-      end
-    end
-
-    # Whether to run the standard search or the industries search
-    def search_includes_sector?
-      @filter.sectors.present?
+      OpportunitySearchBuilder.new(term: @term,
+                                   boost: @boost,
+                                   sort: @sort,
+                                   limit: @limit,
+                                   sectors: @filter.sectors,
+                                   countries: @filter.countries,
+                                   opportunity_types: @filter.types,
+                                   values: @filter.values,
+                                   sources: @filter.sources).call
     end
 
     # -- Helpers for formatting results --
 
     def page(results)
-      results.records.page(@paged).per(Opportunity.default_per_page)
+      # N.b. Kaminari pagination requires the records to be sorted again.
+      results.records.order("#{@sort.column} #{@sort.order}").
+        page(@paged).per(Opportunity.default_per_page)
     end
 
     def get_total_without_limit(searchable)

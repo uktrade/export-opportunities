@@ -5,7 +5,7 @@ RSpec.describe 'unsupported formats' do
 
   context 'on an opportunity page' do
     it 'returns a 406 for json' do
-      get '/opportunities/future-days.json'
+      get '/export-opportunities/opportunities/future-days.json'
       expect(response).to have_http_status(406)
       expect(response.header['Content-Type']).to include 'application/json'
       expect(JSON.parse(response.body)).to eq('errors' => 'JSON is not supported for this resource')
@@ -13,14 +13,14 @@ RSpec.describe 'unsupported formats' do
 
     it 'returns a 406 for xml' do
       skip('Rails 5')
-      get '/opportunities/future-days.xml'
+      get '/export-opportunities/opportunities/future-days.xml'
       expect(response).to have_http_status(406)
       expect(response.header['Content-Type']).to include 'application/xml'
       expect(response.body).to be_empty
     end
 
     it 'returns a 406 for unknown formats' do
-      get '/opportunities/future-days.wibble'
+      get '/export-opportunities/opportunities/future-days.wibble'
       expect(response).to have_http_status(406)
       expect(response.body).to be_empty
     end

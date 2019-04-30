@@ -49,10 +49,7 @@ class SubscriptionPresenter < SimpleDelegator
   end
 
   def search_path
-    params = url_for(
-      only_path: true,
-      controller: :opportunities,
-      action: :index,
+    url_params = {
       s: search_term,
       regions: slugs_from(@regions_and_countries[:regions]),
       countries: slugs_from(@regions_and_countries[:countries]),
@@ -60,8 +57,8 @@ class SubscriptionPresenter < SimpleDelegator
       types: types.map(&:slug),
       values: values.map(&:slug),
       subscription_url: true
-    )
-    "#{opportunities_path}#{params}"
+    }.to_query
+    "/export-opportunities/opportunities/?#{url_params}"
   end
 
   def short_description

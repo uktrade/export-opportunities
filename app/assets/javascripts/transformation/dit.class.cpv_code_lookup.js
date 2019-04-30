@@ -194,11 +194,11 @@
   CpvCodeLookup.prototype.bindContentEvents = function() {
     var instance = this;
     instance._private.$list.off("click.SelectiveLookupContent");
-    instance._private.$list.on("click.CpvCodeLookup", function(event) {
+    instance._private.$list.on("click.CpvCodeLookup", "li", function(event) {
       var _p = instance._private;
-      var $eventTarget = $(event.target);
-      var value = $eventTarget.attr("data-value");
-      var text = $eventTarget.text();
+      var $this = $(this);
+      var value = $this.attr("data-value");
+      var text = $this.text();
       _p.$input.val(value);
       CpvCodeLookup.setTextareaHeight(_p.$input);
     });

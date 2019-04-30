@@ -6,7 +6,7 @@
 
 dit.page.results = (new function () {
   var RESULTS = this;
-  
+
   // Page init
   this.init = function() {
     enhanceResultFilters();
@@ -53,5 +53,6 @@ dit.page.results = (new function () {
 
 $(document).ready(function() {
   dit.page.results.init();
+  dit.tagging.exopps.init("SearchResultsPage");
 });
 

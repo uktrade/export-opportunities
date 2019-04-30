@@ -4,7 +4,7 @@ feature 'Signing in as a user', :elasticsearch do
   scenario 'Signing in via the old /sign_in path' do
     mock_sso_with(email: 'email@example.com')
 
-    visit '/sign_in'
+    visit '/export-opportunities/sign_in'
 
     expect(page).to have_link 'Sign out'
   end
@@ -12,8 +12,8 @@ feature 'Signing in as a user', :elasticsearch do
   scenario 'Signed in user visits /', :elasticsearch, :commit do
     create(:opportunity, :published, title: 'Food')
     mock_sso_with(email: 'email@example.com')
-    visit '/sign_in'
-    visit '/'
+    visit '/export-opportunities/sign_in'
+    visit '/export-opportunities/'
 
     expect(page).to have_content 'Find export opportunities'
   end
@@ -21,7 +21,7 @@ feature 'Signing in as a user', :elasticsearch do
   scenario 'Signing in successfully' do
     mock_sso_with(email: 'email@example.com')
 
-    visit '/dashboard'
+    visit '/export-opportunities/dashboard'
 
     expect(page).to have_flash_message 'You are now signed in'
   end
@@ -31,7 +31,7 @@ feature 'Signing in as a user', :elasticsearch do
 
     mock_sso_with(email: 'stub@example.com')
 
-    visit '/dashboard'
+    visit '/export-opportunities/dashboard'
 
     expect(page).to have_flash_message 'You are now signed in'
   end
@@ -39,11 +39,11 @@ feature 'Signing in as a user', :elasticsearch do
   scenario 'Signing out' do
     mock_sso_with(email: 'email@example.com')
 
-    visit '/dashboard'
+    visit '/export-opportunities/dashboard'
 
     expect(page).to have_flash_message 'You are now signed in'
     
-    visit '/sign_out'
+    visit '/export-opportunities/sign_out'
 
     expect(page).to have_no_link 'Sign out'
   end

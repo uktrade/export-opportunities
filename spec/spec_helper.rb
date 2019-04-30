@@ -3,6 +3,7 @@ require 'elasticsearch/extensions/test/cluster'
 require 'capybara'
 require 'webmock/rspec'
 require 'yaml'
+require 'phantomjs'
 
 module Helpers
   def select2_select_multiple(select_these, _id)
@@ -98,6 +99,18 @@ end
 # Capybara.register_driver :poltergeist do |app|
 #   Capybara::Poltergeist::Driver.new(app, timeout: 2.minutes, phantomjs_options: ['--load-images=no'], phantomjs_logger: Rails.root.join('/log/test_phantomjs.log'), 'a')
 # end
+
+# For CircleCi
+begin
+  require 'capybara/poltergeist'
+rescue => LoadError 
+  raise "Poltergeist support requires the poltergeist gem to be available."
+end
+
+Phantomjs.path # Force install on require
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, :phantomjs => Phantomjs.path)
+end
 
 RSpec.configure do |config|
   config.include Helpers
