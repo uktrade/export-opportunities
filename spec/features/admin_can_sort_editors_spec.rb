@@ -13,7 +13,7 @@ feature 'Admin can sort the list of editors' do
     third_admin = create(:admin, service_provider_id: 1, name: 'catherine')
 
     login_as(third_admin)
-    visit '/admin/editors'
+    visit '/export-opportunities/admin/editors'
 
     expect(page.find('tbody tr:nth-child(1)')).to have_content(first_editor.name)
     expect(page.find('tbody tr:nth-child(2)')).to have_content(second_editor.name)
@@ -37,7 +37,7 @@ feature 'Admin can sort the list of editors' do
     second_editor = create(:editor, service_provider_id: 1, email: 'bobby@bo.com')
     third_admin = create(:admin, service_provider_id: 1, email: 'cathy@cee.com')
     login_as(third_admin)
-    visit '/admin/editors'
+    visit '/export-opportunities/admin/editors'
 
     click_on 'Email'
 
@@ -57,7 +57,7 @@ feature 'Admin can sort the list of editors' do
     second_editor = create(:editor, service_provider_id: 1, confirmed_at: 3.days.ago)
     third_admin = create(:admin, service_provider_id: 1, confirmed_at: 1.day.ago)
     login_as(third_admin)
-    visit '/admin/editors'
+    visit '/export-opportunities/admin/editors'
 
     click_on 'Confirmed'
 
@@ -80,7 +80,7 @@ feature 'Admin can sort the list of editors' do
     create(:editor, name: 'bobby', service_provider_id: 2)
     admin = create(:admin, name: 'catherine', service_provider_id: 3)
     login_as(admin)
-    visit '/admin/editors'
+    visit '/export-opportunities/admin/editors'
 
     click_on 'Service Provider'
 
@@ -101,7 +101,7 @@ feature 'Admin can sort the list of editors' do
     end
     admin = create(:admin, service_provider_id: 1, name: 'catherine')
     login_as(admin)
-    visit '/admin/editors'
+    visit '/export-opportunities/admin/editors'
     within('.pagination') { click_link '2' }
 
     expect(page).to have_selector('tr.editor', count: 1)

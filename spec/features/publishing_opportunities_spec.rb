@@ -7,7 +7,7 @@ RSpec.feature 'Publishing opportunities:' do
     opportunity = create(:opportunity, status: :pending, author: uploader)
 
     login_as(uploader)
-    visit '/admin/opportunities'
+    visit '/export-opportunities/admin/opportunities'
     click_on opportunity.title
     expect(page).to have_no_button('Publish')
   end
@@ -17,7 +17,7 @@ RSpec.feature 'Publishing opportunities:' do
     opportunity = create(:opportunity, status: :pending)
 
     login_as(publisher)
-    visit '/admin/opportunities'
+    visit '/export-opportunities/admin/opportunities'
     click_on opportunity.title
     expect(page).to have_button('Publish')
   end
@@ -27,7 +27,7 @@ RSpec.feature 'Publishing opportunities:' do
     opportunity = create_opportunity(status: 'pending')
 
     login_as(admin)
-    visit '/admin/opportunities'
+    visit '/export-opportunities/admin/opportunities'
     click_on opportunity.title
     expect(page).to have_button('Publish')
   end
@@ -37,7 +37,7 @@ RSpec.feature 'Publishing opportunities:' do
     opportunity = create_opportunity(status: 'pending')
 
     login_as(publisher)
-    visit '/admin/opportunities'
+    visit '/export-opportunities/admin/opportunities'
     click_on opportunity.title
     expect(page).to have_text('Pending')
     click_on 'Publish'
@@ -51,7 +51,7 @@ RSpec.feature 'Publishing opportunities:' do
     opportunity = create_opportunity(status: 'publish')
 
     login_as(uploader)
-    visit '/admin/opportunities'
+    visit '/export-opportunities/admin/opportunities'
     click_on opportunity.title
     expect(page).to have_no_button('Unpublish')
   end
@@ -61,7 +61,7 @@ RSpec.feature 'Publishing opportunities:' do
     opportunity = create_opportunity(status: 'publish')
 
     login_as(publisher)
-    visit '/admin/opportunities'
+    visit '/export-opportunities/admin/opportunities'
     click_on opportunity.title
     expect(page).to have_button('Unpublish')
   end
@@ -71,7 +71,7 @@ RSpec.feature 'Publishing opportunities:' do
     opportunity = create_opportunity(status: 'publish')
 
     login_as(admin)
-    visit '/admin/opportunities'
+    visit '/export-opportunities/admin/opportunities'
     click_on opportunity.title
     expect(page).to have_button('Unpublish')
   end
@@ -81,7 +81,7 @@ RSpec.feature 'Publishing opportunities:' do
     opportunity = create_opportunity(status: 'publish')
 
     login_as(publisher)
-    visit '/admin/opportunities'
+    visit '/export-opportunities/admin/opportunities'
     click_on opportunity.title
     expect(page).to have_text('Publish')
     click_on 'Unpublish'

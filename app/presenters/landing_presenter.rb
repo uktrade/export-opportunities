@@ -19,7 +19,7 @@ class LandingPresenter < PagePresenter
     @sector_list.each do |sector|
       industries.push(
         title: sector.name,
-        url: "/opportunities?sectors[]=#{sector.slug}",
+        url: "/export-opportunities/opportunities?sectors[]=#{sector.slug}",
         images: sector_images_map(sector.slug),
         alt: '' # Not currently used
       )

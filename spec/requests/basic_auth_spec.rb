@@ -2,39 +2,39 @@ require 'rails_helper'
 
 RSpec.describe 'Basic auth', :elasticsearch, :commit, type: :request do
   PUBLIC_VIEW_ROUTES = [
-    '/',
-    '/opportunities.atom',
-    '/opportunities/foo-bar',
-    '/company_details',
-    '/subscriptions',
-    '/pending_subscriptions',
+    '/export-opportunities/',
+    '/export-opportunities/opportunities.atom',
+    '/export-opportunities/opportunities/foo-bar',
+    '/export-opportunities/company_details',
+    '/export-opportunities/subscriptions',
+    '/export-opportunities/pending_subscriptions',
   ].freeze
 
   ADMIN_VIEW_ROUTES = [
-    '/admin/opportunities',
-    '/admin/opportunities/downloads',
-    '/admin/opportunities/new',
-    '/admin/opportunities/123456792348578234758/',
-    '/admin/opportunities/123456792348578234758/edit',
-    '/admin/enquiries',
-    '/admin/enquiries/123456792348578234758',
-    '/admin/editors',
-    '/admin/editors/1',
-    '/admin/editors/1/edit',
-    '/admin/editors/sign_in',
-    '/admin/editors/password/new',
-    '/admin/editors/password/edit',
-    '/admin/editor/confirmation?confirmation_token=abcdef',
+    '/export-opportunities/admin/opportunities',
+    '/export-opportunities/admin/opportunities/downloads',
+    '/export-opportunities/admin/opportunities/new',
+    '/export-opportunities/admin/opportunities/123456792348578234758/',
+    '/export-opportunities/admin/opportunities/123456792348578234758/edit',
+    '/export-opportunities/admin/enquiries',
+    '/export-opportunities/admin/enquiries/123456792348578234758',
+    '/export-opportunities/admin/editors',
+    '/export-opportunities/admin/editors/1',
+    '/export-opportunities/admin/editors/1/edit',
+    '/export-opportunities/admin/editors/sign_in',
+    '/export-opportunities/admin/editors/password/new',
+    '/export-opportunities/admin/editors/password/edit',
+    '/export-opportunities/admin/editor/confirmation?confirmation_token=abcdef',
   ].freeze
 
   V1API_ROUTES = [
-    '/v1/subscriptions/1234192837498127349871',
-    '/v1/opportunities/182391827381',
-    '/v1/subscriptions/unsubscribe/172381278hj88u',
+    '/export-opportunities/v1/subscriptions/1234192837498127349871',
+    '/export-opportunities/v1/opportunities/182391827381',
+    '/export-opportunities/v1/subscriptions/unsubscribe/172381278hj88u',
   ].freeze
 
   V1API_LOGIN_ROUTES = [
-    '/v1/subscriptions/unsubscribe/',
+    '/export-opportunities/v1/subscriptions/unsubscribe/',
   ].freeze
 
   context 'in production' do
@@ -82,17 +82,17 @@ RSpec.describe 'Basic auth', :elasticsearch, :commit, type: :request do
     end
 
     it 'should always return 200 on /check' do
-      get '/check'
+      get '/export-opportunities/check'
       expect(response.status).to eq(200)
     end
 
     it 'should always return 404 on /poc/international' do
-      get '/poc/international'
+      get '/export-opportunities/poc/international'
       expect(response.status).to eq(404)
     end
 
     it 'should always return 404 on /poc/opportunities/new' do
-      get '/poc/opportunities/new'
+      get '/export-opportunities/poc/opportunities/new'
       expect(response.status).to eq(404)
     end
   end
@@ -117,7 +117,7 @@ RSpec.describe 'Basic auth', :elasticsearch, :commit, type: :request do
     end
 
     it 'should always return 200 on /check' do
-      get '/check'
+      get '/export-opportunities/check'
       expect(response.status).to eq(200)
     end
   end

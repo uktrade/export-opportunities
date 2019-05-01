@@ -66,7 +66,7 @@ RSpec.describe LandingPresenter do
 
       expect(presenter.featured_industries.length).to eql(2)
       expect(presenter.featured_industries[0][:title]).to eql('sector one')
-      expect(presenter.featured_industries[0][:url]).to eql('/opportunities?sectors[]=sector-1')
+      expect(presenter.featured_industries[0][:url]).to eql('/export-opportunities/opportunities?sectors[]=sector-1')
     end
   end
 end

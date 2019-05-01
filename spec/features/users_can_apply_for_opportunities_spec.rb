@@ -9,7 +9,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
 
   scenario 'application is not possible when the opportunity has expired' do
     expired_opportunity = create(:opportunity, :expired, status: :publish, slug: 'expired-opp')
-    visit 'enquiries/expired-opp'
+    visit '/export-opportunities/enquiries/expired-opp'
 
     expect(page).not_to be_an_enquiry_form
     expect(page).to have_content expired_opportunity.title
@@ -25,7 +25,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
     scenario 'if they are logged in' do
       mock_sso_with(email: 'enquirer@exporter.com')
 
-      visit 'enquiries/great-opportunity'
+      visit '/export-opportunities/enquiries/great-opportunity'
 
       expect(page).not_to have_field 'Email Address'
 
@@ -35,7 +35,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
       expect(page).to have_content 'Your expression of interest has been submitted and will be reviewed'
       expect(page).to have_link 'View your expressions of interest to date'
 
-      visit 'enquiries/great-opportunity'
+      visit '/export-opportunities/enquiries/great-opportunity'
     end
 
     scenario 'if they are logged in, apply with company house number', js: true do
@@ -48,7 +48,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
       }
       allow_any_instance_of(CompanyHouseFinder).to receive(:call).and_return([company_detail])
 
-      visit 'enquiries/great-opportunity'
+      visit '/export-opportunities/enquiries/great-opportunity'
 
       expect(page).not_to have_field 'Email Address'
 
@@ -71,7 +71,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
       expect(page).to have_content 'Your expression of interest has been submitted and will be reviewed'
       expect(page).to have_link 'View your expressions of interest to date'
 
-      visit 'enquiries/great-opportunity'
+      visit '/export-opportunities/enquiries/great-opportunity'
 
       expect(find_field('enquiry_company_house_number').value).to eq '12345678'
     end
@@ -79,7 +79,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
     scenario 'if they are not logged in' do
       mock_sso_with(email: 'enquirer@exporter.com')
 
-      visit 'enquiries/great-opportunity'
+      visit '/export-opportunities/enquiries/great-opportunity'
 
       expect(page).to be_an_enquiry_form
     end
@@ -88,7 +88,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
       create(:user, email: 'apple@fruit.com', uid: '123456', provider: 'exporting_is_great')
       mock_sso_with(email: 'apple@fruit.com', uid: '123456')
 
-      visit 'enquiries/great-opportunity'
+      visit '/export-opportunities/enquiries/great-opportunity'
 
       expect(page).to be_an_enquiry_form
     end
@@ -96,7 +96,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
     scenario 'when a user does not exist on our end' do
       mock_sso_with(email: 'apple@fruit.com', uid: '123456')
 
-      visit 'enquiries/great-opportunity'
+      visit '/export-opportunities/enquiries/great-opportunity'
 
       expect(page).to be_an_enquiry_form
     end
@@ -109,7 +109,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
       end
       OmniAuth.config.mock_auth[provider] = :invalid_credentials
 
-      visit 'enquiries/great-opportunity'
+      visit '/export-opportunities/enquiries/great-opportunity'
 
       expect(page).to have_content 'We couldn’t sign you in'
       expect(page).to have_content 'invalid_credentials'
@@ -118,7 +118,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
     scenario 'when the user doesnt have a trade profile' do
       mock_sso_with(email: 'enquirer@exporter.com')
 
-      visit 'enquiries/great-opportunity'
+      visit '/export-opportunities/enquiries/great-opportunity'
 
       fill_in_form
       click_on 'Submit'
@@ -131,7 +131,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
     opportunity = create(:opportunity, status: 'publish')
     create(:sector)
 
-    visit "enquiries/#{opportunity.slug}"
+    visit "/export-opportunities/enquiries/#{opportunity.slug}"
 
     fill_in_form
     fake_description = Faker::Lorem.characters(1102)
@@ -149,7 +149,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
     opportunity = create(:opportunity, status: 'publish')
     create(:sector)
 
-    visit "enquiries/#{opportunity.slug}"
+    visit "/export-opportunities/enquiries/#{opportunity.slug}"
 
     fill_in_form
     fake_description = Faker::Lorem.characters(1100)
@@ -204,7 +204,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
   scenario 'invalid enquiries should be bounced back to edit form' do
     opportunity = create(:opportunity, status: 'publish')
     create(:sector)
-    visit "enquiries/#{opportunity.slug}"
+    visit "/export-opportunities/enquiries/#{opportunity.slug}"
 
     click_on 'Submit'
     expect(page).not_to have_content('Thank you')
@@ -248,7 +248,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
   end
 
   def apply_to_opportunity(opportunity)
-    visit "enquiries/#{opportunity.slug}"
+    visit "/export-opportunities/enquiries/#{opportunity.slug}"
 
     fill_in_form
     click_on 'Submit'

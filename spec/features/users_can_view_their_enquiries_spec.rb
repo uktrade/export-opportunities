@@ -24,7 +24,7 @@ feature 'User can view their enquiries' do
 
     login_as(user, scope: :user)
 
-    visit '/dashboard/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/dashboard/enquiries/' + enquiry.id.to_s
 
     expect(page).to have_text('Great Opportunity')
 
@@ -63,7 +63,7 @@ feature 'User can view their enquiries' do
 
     login_as(user, scope: :user)
 
-    visit '/dashboard/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/dashboard/enquiries/' + enquiry.id.to_s
 
     expect(page).to have_text('Your animals are safe with us')
     expect(page).to have_text('Animal husbandry')
@@ -100,7 +100,7 @@ feature 'User can view their enquiries' do
 
     login_as(user, scope: :user)
 
-    visit '/dashboard/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/dashboard/enquiries/' + enquiry.id.to_s
 
     expect(page).to have_text('Your animals are safe with us')
     expect(page).to have_text('Animal husbandry')
@@ -140,7 +140,7 @@ feature 'User can view their enquiries' do
 
     login_as(user, scope: :user)
 
-    visit '/dashboard/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/dashboard/enquiries/' + enquiry.id.to_s
 
     expect(page).to have_text('Your animals are safe with us')
     expect(page).to have_text('Animal husbandry')
@@ -184,7 +184,7 @@ feature 'User can view their enquiries' do
 
     login_as(user, scope: :user)
 
-    visit '/dashboard/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/dashboard/enquiries/' + enquiry.id.to_s
 
     expect(page).to have_text('Your animals are safe with us')
     expect(page).to have_text('Animal husbandry')
@@ -229,7 +229,7 @@ feature 'User can view their enquiries' do
 
     login_as(user, scope: :user)
 
-    visit '/dashboard/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/dashboard/enquiries/' + enquiry.id.to_s
 
     expect(page).to have_text('Your animals are safe with us')
     expect(page).to have_text('Animal husbandry')
@@ -260,7 +260,7 @@ feature 'User can view their enquiries' do
     enquiry = create(:enquiry, opportunity: opportunity, user: user)
 
     login_as(user, scope: :user)
-    visit '/dashboard/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/dashboard/enquiries/' + enquiry.id.to_s
 
     expect(page).to have_content('Opportunity details')
     expect(page).to have_content('Hello World')
@@ -278,11 +278,11 @@ feature 'User can view their enquiries' do
       user: user)
 
     login_as(user, scope: :user)
-    visit '/dashboard/enquiries/' + enquiry_expired_opportunity.id.to_s
+    visit '/export-opportunities/dashboard/enquiries/' + enquiry_expired_opportunity.id.to_s
 
     expect(page).to have_content 'Opportunity expired on'
 
-    visit '/dashboard/enquiries/' + enquiry_live_opportunity.id.to_s
+    visit '/export-opportunities/dashboard/enquiries/' + enquiry_live_opportunity.id.to_s
 
     expect(page).to have_content 'Opportunity expires on'
   end
@@ -297,11 +297,11 @@ feature 'User can view their enquiries' do
     other_enquiry = create(:enquiry, opportunity: opportunity, user: other_user)
 
     login_as(user, scope: :user)
-    visit '/dashboard/enquiries/' + my_enquiry.id.to_s
+    visit '/export-opportunities/dashboard/enquiries/' + my_enquiry.id.to_s
 
     expect(page).to have_content(my_enquiry.company_sector)
 
-    visit '/dashboard/enquiries/' + other_enquiry.id.to_s
+    visit '/export-opportunities/dashboard/enquiries/' + other_enquiry.id.to_s
 
     expect(page).to have_content('This page cannot be found')
   end
@@ -328,7 +328,7 @@ feature 'User can view their enquiries' do
       data_protection: false)
 
     login_as(user, scope: :user)
-    visit '/dashboard/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/dashboard/enquiries/' + enquiry.id.to_s
 
     expect(page).to have_text('John Green')
     expect(page).to have_text('John Green Plc')
@@ -350,7 +350,7 @@ feature 'User can view their enquiries' do
     admin = create(:admin)
     create(:opportunity, author: admin)
     login_as(admin)
-    visit '/admin/enquiries/' + id
+    visit '/export-opportunities/admin/enquiries/' + id
     click_on 'Reply'
     page.find('#li4').click
     wait_for_ajax
@@ -363,7 +363,7 @@ feature 'User can view their enquiries' do
     opportunity = create(:opportunity, author: uploader)
     create(:enquiry, opportunity: opportunity)
     login_as(uploader)
-    visit '/admin/enquiries/' + id
+    visit '/export-opportunities/admin/enquiries/' + id
 
     click_on 'Reply'
     choose 'Not for third party'

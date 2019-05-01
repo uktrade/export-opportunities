@@ -13,7 +13,7 @@ feature 'webops can monitor services' do
     allow_any_instance_of(ApplicationController).to receive(:db_subscriptions).and_return ['8c11755c-3c39-44cd-8b4e-7527bbc7aa10', '5bb688c2-391e-490a-9e4b-d0183040e9de']
     allow_any_instance_of(ApplicationController).to receive(:es_subscriptions).and_return ['8c11755c-3c39-44cd-8b4e-7527bbc7aa10', '5bb688c2-391e-490a-9e4b-d0183040e9de']
 
-    visit '/data_sync_check'
+    visit '/export-opportunities/data_sync_check'
 
     res = JSON.parse(page.body)
     expect(res['status']).to eq('OK')
@@ -25,7 +25,7 @@ feature 'webops can monitor services' do
     allow_any_instance_of(ApplicationController).to receive(:es_opportunities).and_return ['8c11755c-3c39-44cd-8b4e-7527bbc7aa10']
     
     # first time we see an error, we set redis['es_data_sync_error_ts'] timestamp and return OK, with the missing items in the response
-    visit '/data_sync_check'
+    visit '/export-opportunities/data_sync_check'
 
     res = JSON.parse(page.body)
     expect(res['status']).to eq('OK')
@@ -34,7 +34,7 @@ feature 'webops can monitor services' do
 
     # After 10 minutes we see an error
     Timecop.freeze(15.minutes.from_now) do
-      visit '/data_sync_check'
+      visit '/export-opportunities/data_sync_check'
 
       res2 = JSON.parse(page.body)
       expect(res2['status']).to eq('error')
@@ -46,7 +46,7 @@ feature 'webops can monitor services' do
     allow_any_instance_of(ApplicationController).to receive(:db_opportunities).and_return ['8c11755c-3c39-44cd-8b4e-7527bbc7aa10']
     allow_any_instance_of(ApplicationController).to receive(:es_opportunities).and_return ['8c11755c-3c39-44cd-8b4e-7527bbc7aa10', '5bb688c2-391e-490a-9e4b-d0183040e9de']
 
-    visit '/data_sync_check'
+    visit '/export-opportunities/data_sync_check'
 
     res = JSON.parse(page.body)
     expect(res['status']).to eq('OK')
@@ -55,7 +55,7 @@ feature 'webops can monitor services' do
 
     # After 10 minutes we see an error
     Timecop.freeze(15.minutes.from_now) do
-      visit '/data_sync_check'
+      visit '/export-opportunities/data_sync_check'
 
       res2 = JSON.parse(page.body)
       expect(res2['status']).to eq('error')
@@ -67,14 +67,14 @@ feature 'webops can monitor services' do
     allow_any_instance_of(ApplicationController).to receive(:db_opportunities).and_return ['8c11755c-3c39-44cd-8b4e-7527bbc7aa10', '5bb688c2-391e-490a-9e4b-d0183040e9de']
     allow_any_instance_of(ApplicationController).to receive(:es_opportunities).and_return ['8c11755c-3c39-44cd-8b4e-7527bbc7aa10']
 
-    visit '/data_sync_check'
+    visit '/export-opportunities/data_sync_check'
 
     res = JSON.parse(page.body)
     expect(res['timeout_sec']).to eq(nil)
 
     # After 1 minutes we do not see an error
     Timecop.freeze(1.minute.from_now) do
-      visit '/data_sync_check'
+      visit '/export-opportunities/data_sync_check'
 
       res2 = JSON.parse(page.body)
       expect(res2['timeout_sec'].to_i).to be < 200
@@ -87,14 +87,14 @@ feature 'webops can monitor services' do
     allow_any_instance_of(ApplicationController).to receive(:db_opportunities).and_return ['8c11755c-3c39-44cd-8b4e-7527bbc7aa10']
     allow_any_instance_of(ApplicationController).to receive(:es_opportunities).and_return ['8c11755c-3c39-44cd-8b4e-7527bbc7aa10', '5bb688c2-391e-490a-9e4b-d0183040e9de']
 
-    visit '/data_sync_check'
+    visit '/export-opportunities/data_sync_check'
 
     res = JSON.parse(page.body)
     expect(res['timeout_sec']).to eq(nil)
 
     # After 1 minutes we do not see an error
     Timecop.freeze(1.minute.from_now) do
-      visit '/data_sync_check'
+      visit '/export-opportunities/data_sync_check'
 
       res2 = JSON.parse(page.body)
       expect(res2['timeout_sec'].to_i).to be < 200
@@ -107,14 +107,14 @@ feature 'webops can monitor services' do
     allow_any_instance_of(ApplicationController).to receive(:db_subscriptions).and_return ['8c11755c-3c39-44cd-8b4e-7527bbc7aa10', '5bb688c2-391e-490a-9e4b-d0183040e9de']
     allow_any_instance_of(ApplicationController).to receive(:es_subscriptions).and_return ['8c11755c-3c39-44cd-8b4e-7527bbc7aa10']
 
-    visit '/data_sync_check'
+    visit '/export-opportunities/data_sync_check'
 
     res = JSON.parse(page.body)
     expect(res['timeout_sec']).to eq(nil)
 
     # After 15 minutes we see an error
     Timecop.freeze(15.minute.from_now) do
-      visit '/data_sync_check'
+      visit '/export-opportunities/data_sync_check'
 
       res2 = JSON.parse(page.body)
       expect(res2['status']).to eq('error')
@@ -126,7 +126,7 @@ feature 'webops can monitor services' do
     allow_any_instance_of(ApplicationController).to receive(:db_subscriptions).and_return ['8c11755c-3c39-44cd-8b4e-7527bbc7aa10']
     allow_any_instance_of(ApplicationController).to receive(:es_subscriptions).and_return ['8c11755c-3c39-44cd-8b4e-7527bbc7aa10', '5bb688c2-391e-490a-9e4b-d0183040e9de']
 
-    visit '/data_sync_check'
+    visit '/export-opportunities/data_sync_check'
 
     res = JSON.parse(page.body)
     expect(res['timeout_sec']).to eq(nil)
@@ -134,7 +134,7 @@ feature 'webops can monitor services' do
 
     # After 15 minutes we see an error
     Timecop.freeze(15.minute.from_now) do
-      visit '/data_sync_check'
+      visit '/export-opportunities/data_sync_check'
 
       res2 = JSON.parse(page.body)
       expect(res2['status']).to eq('error')
@@ -146,7 +146,7 @@ feature 'webops can monitor services' do
     allow_any_instance_of(ApplicationController).to receive(:sidekiq_retry_count).and_return 0
     allow_any_instance_of(ApplicationController).to receive(:redis_oo_retry_count).and_return 0
 
-    visit '/api_check'
+    visit '/export-opportunities/api_check'
 
     expect(page.body).to have_content("OK")
   end
@@ -155,7 +155,7 @@ feature 'webops can monitor services' do
     allow_any_instance_of(ApplicationController).to receive(:sidekiq_retry_count).and_return 1
     allow_any_instance_of(ApplicationController).to receive(:redis_oo_retry_count).and_return 0
 
-    visit '/api_check'
+    visit '/export-opportunities/api_check'
 
     expect(page.body).to have_content("error")
   end
@@ -164,7 +164,7 @@ feature 'webops can monitor services' do
     allow_any_instance_of(ApplicationController).to receive(:sidekiq_retry_count).and_return 1
     allow_any_instance_of(ApplicationController).to receive(:redis_oo_retry_count).and_return 0
 
-    visit '/api_check'
+    visit '/export-opportunities/api_check'
 
     expect(page.body).to have_content("error")
 
@@ -173,7 +173,7 @@ feature 'webops can monitor services' do
       allow_any_instance_of(ApplicationController).to receive(:sidekiq_retry_count).and_return 1
       allow_any_instance_of(ApplicationController).to receive(:redis_oo_retry_count).and_return 0
 
-      visit '/api_check'
+      visit '/export-opportunities/api_check'
 
       expect(page.body).to have_content("OK")
     end

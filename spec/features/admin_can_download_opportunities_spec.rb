@@ -43,7 +43,7 @@ feature 'admins can download opportunities' do
     admin = create(:admin)
 
     login_as(admin)
-    visit 'admin/opportunities/downloads/new'
+    visit '/export-opportunitiesadmin/opportunities/downloads/new'
 
     expect(page).to have_button('Download as CSV')
 
@@ -88,7 +88,7 @@ feature 'admins can download opportunities' do
     admin = create(:admin)
 
     login_as(admin)
-    visit '/admin/opportunities/downloads/new'
+    visit '/export-opportunities/admin/opportunities/downloads/new'
 
     select '2016', from: 'created_at_from_year'
     select 'February', from: 'created_at_from_month'
@@ -107,7 +107,7 @@ feature 'admins can download opportunities' do
     admin = create(:admin)
 
     login_as(admin)
-    visit '/admin/opportunities/downloads/new'
+    visit '/export-opportunities/admin/opportunities/downloads/new'
 
     select '2016', from: 'created_at_from_year'
     select 'February', from: 'created_at_from_month'
@@ -127,7 +127,7 @@ feature 'admins can download opportunities' do
     admin = create(:admin)
 
     login_as(admin)
-    visit '/admin/opportunities/downloads/new'
+    visit '/export-opportunities/admin/opportunities/downloads/new'
 
     select '2016', from: 'created_at_from_year'
     select 'February', from: 'created_at_from_month'
@@ -146,7 +146,7 @@ feature 'admins can download opportunities' do
     admin = create(:admin)
 
     login_as(admin)
-    visit '/admin/opportunities/downloads/new'
+    visit '/export-opportunities/admin/opportunities/downloads/new'
 
     select '2016', from: 'created_at_from_year'
     select 'February', from: 'created_at_from_month'
@@ -166,7 +166,7 @@ feature 'admins can download opportunities' do
     admin = create(:admin)
 
     login_as(admin)
-    visit '/admin/opportunities/downloads/new'
+    visit '/export-opportunities/admin/opportunities/downloads/new'
 
     select '2016', from: 'created_at_from_year'
     select 'February', from: 'created_at_from_month'

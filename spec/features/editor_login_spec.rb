@@ -104,20 +104,20 @@ feature 'Logging in as an editor' do
     in_browser(:one) do
       login_as(admin)
 
-      visit '/admin/opportunities'
+      visit '/export-opportunities/admin/opportunities'
       expect(page).to have_content('Opportunities')
     end
 
     in_browser(:two) do
       login_as(admin)
 
-      visit '/admin/enquiries'
+      visit '/export-opportunities/admin/enquiries'
       expect(page).to have_content('Enquiries')
     end
 
     in_browser(:one) do
       # devise_security_extensions should log out the first user's session.
-      visit '/admin/enquiries'
+      visit '/export-opportunities/admin/enquiries'
 
       expect(page).to have_content('Your login credentials were used in another browser. Please sign in again to continue in this browser.')
       expect(page).to_not have_content('opportunities')

@@ -467,7 +467,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         expect(item['actor'][0]['dit:companiesHouseNumber']).to eq('123')
         expect(item['object']['type']).to include('dit:exportOpportunities:Enquiry')
         expect(item['object']['id']).to eq("dit:exportOpportunities:Enquiry:#{enquiry.id}")
-        expect(item['object']['url']).to eq("http://test.host/admin/enquiries/#{enquiry.id}")
+        expect(item['object']['url']).to eq("http://test.host/export-opportunities/admin/enquiries/#{enquiry.id}")
         expect(item['object']['inReplyTo']['dit:country'][0]).to eq('a')
         expect(item['object']['inReplyTo']['dit:country'][1]).to eq('b')
       end
@@ -568,7 +568,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Time.now.getutc.to_i,
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-          '/api/activity_stream/enquiries?search_after=1220270462.344590_2943',
+          '/export-opportunities/api/activity_stream/enquiries?search_after=1220270462.344590_2943',
           '',
         )
         get :enquiries, params: { format: :json, search_after: '1220270462.344590_2943' }
@@ -580,7 +580,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Time.now.getutc.to_i,
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-          '/api/activity_stream/enquiries?search_after=1220270462.344590_2944',
+          '/export-opportunities/api/activity_stream/enquiries?search_after=1220270462.344590_2944',
           '',
         )
         get :enquiries, params: { format: :json, search_after: '1220270462.344590_2944' }
@@ -646,7 +646,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         expect(item['object']['dit:greatDomesticUI:searchResultType']).to include('Opportunity')
         expect(item['object']['id']).to eq("dit:exportOpportunities:Opportunity:#{opportunity.id}")
         expect(item['object']['name']).to eq('2x4 Wood')
-        expect(item['object']['url']).to eq("http://localhost/opportunities/2x4-wood")
+        expect(item['object']['url']).to eq("http://localhost/export-opportunities/opportunities/2x4-wood")
         expect(item['object']['endTime']).to eq('2008-12-01T00:00:00+00:00')
         expect(item['object']['summary']).to eq('Looking for 50kg of 2x4 Oak Wood Blocks')
         expect(item['object']['content']).to eq('We are proud to announce the tender for our annual wood block requirement. 
@@ -749,7 +749,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Time.now.getutc.to_i,
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-          "/api/activity_stream/opportunities?search_after=#{timestamp_20}_#{id_20}",
+          "/export-opportunities/api/activity_stream/opportunities?search_after=#{timestamp_20}_#{id_20}",
           '',
         )
         get :opportunities, params: { format: :json, search_after: "#{timestamp_20}_#{id_20}" }
@@ -762,7 +762,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Time.now.getutc.to_i,
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-          "/api/activity_stream/opportunities?search_after=#{timestamp_21}_#{id_21}",
+          "/export-opportunities/api/activity_stream/opportunities?search_after=#{timestamp_21}_#{id_21}",
           '',
         )
         get :opportunities, params: { format: :json, search_after: "#{timestamp_21}_#{id_21}" }

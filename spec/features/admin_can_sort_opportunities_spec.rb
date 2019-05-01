@@ -164,7 +164,7 @@ feature 'Admins sorting the list of opportunities', :elasticsearch, :commit do
     create_list(:opportunity, Admin::OpportunitiesController::OPPORTUNITIES_PER_PAGE)
 
     login_as(create(:publisher))
-    visit '/admin/opportunities?paged=2'
+    visit '/export-opportunities/admin/opportunities?paged=2'
     within('.pagination') { click_link '2' }
 
     column_sort_link = page.find_link('Title')[:href]

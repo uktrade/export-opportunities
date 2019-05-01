@@ -5,7 +5,7 @@ RSpec.describe 'Downloading a CSV' do
     it 'raises a sensible error when no dates are provided' do
       login_as create(:admin)
 
-      url = '/admin/opportunities/downloads'
+      url = '/export-opportunities/admin/opportunities/downloads'
 
       expect { post url, params: {} }.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: created_at_from')
     end
@@ -14,7 +14,7 @@ RSpec.describe 'Downloading a CSV' do
       login_as create(:admin)
 
       params = { params: { created_at_to: { year: '2017', month: '1', day: '16' } } }
-      url = '/admin/opportunities/downloads.csv'
+      url = '/export-opportunities/admin/opportunities/downloads.csv'
 
       expect { post url, params }.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: created_at_from')
     end
@@ -23,7 +23,7 @@ RSpec.describe 'Downloading a CSV' do
       login_as create(:admin)
 
       params = { params: { created_at_from: { year: '2017', month: '1', day: '16' } } }
-      url = '/admin/opportunities/downloads.csv'
+      url = '/export-opportunities/admin/opportunities/downloads.csv'
 
       expect { post url, params }.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: created_at_to')
     end
@@ -32,7 +32,7 @@ RSpec.describe 'Downloading a CSV' do
       login_as create(:admin)
 
       params = { params: { created_at_from: { year: '', month: '1', day: '16' } } }
-      url = '/admin/opportunities/downloads.csv'
+      url = '/export-opportunities/admin/opportunities/downloads.csv'
 
       expect { post url, params }.to raise_error(ArgumentError, 'Invalid date: year was blank')
     end

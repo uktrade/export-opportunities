@@ -6,7 +6,7 @@ RSpec.feature 'Editors can view an opportunity’s history' do
     create(:opportunity, title: 'Grand pianos wanted', status: :pending)
     login_as(publisher)
 
-    visit '/admin/opportunities'
+    visit '/export-opportunities/admin/opportunities'
     click_on 'Grand pianos wanted'
 
     expect(page).to have_content t('admin.opportunity.history.unavailable')
@@ -35,7 +35,7 @@ RSpec.feature 'Editors can view an opportunity’s history' do
     create(:opportunity, title: 'Grand pianos wanted', status: :pending)
     login_as(publisher)
 
-    visit '/admin/opportunities'
+    visit '/export-opportunities/admin/opportunities'
     click_on 'Grand pianos wanted'
 
     expect(page).to have_content t('admin.opportunity.history.unavailable')

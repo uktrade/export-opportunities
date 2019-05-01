@@ -212,6 +212,7 @@ feature 'Administering opportunities' do
       wait_for_ajax
 
       cpv_dropdown = find('#' + cpv_fields[0]['aria-controls'], :visible => false)
+      
       cpv_option = cpv_dropdown.find(:css, 'li:first-child')
       cpv_option.trigger('click')
 
@@ -253,7 +254,7 @@ feature 'Administering opportunities' do
 
       login_as(uploader)
 
-      visit '/admin/opportunities'
+      visit '/export-opportunities/admin/opportunities'
       click_on 'New opportunity'
 
       expect(page).to have_select('opportunity_service_provider_id')
@@ -264,7 +265,7 @@ feature 'Administering opportunities' do
       uploader = create(:editor, role: :uploader, service_provider: create(:service_provider, name: 'Zanzibar'))
       login_as(uploader)
 
-      visit '/admin/opportunities'
+      visit '/export-opportunities/admin/opportunities'
       click_on 'New opportunity'
 
       expect(page).to have_select('opportunity[service_provider_id]', selected: ['Zanzibar'])
