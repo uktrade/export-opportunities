@@ -25,7 +25,7 @@ RSpec.feature 'Prepopulate the enquiry form for logged-in Users with past applic
 
     login_as(user, scope: :user)
 
-    visit '/enquiries/south-africa-widgets-wanted'
+    visit '/export-opportunities/enquiries/south-africa-widgets-wanted'
 
     within '#new_enquiry' do
       expect(page).to have_field('enquiry[first_name]', with: 'Roger')

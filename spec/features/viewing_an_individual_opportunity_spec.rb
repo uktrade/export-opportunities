@@ -10,7 +10,7 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
     ]
 
     opportunities.each do |opportunity|
-      visit "opportunities/#{opportunity.slug}"
+      visit "/export-opportunities/opportunities/#{opportunity.slug}"
       expect(page).to have_content t('errors.not_found')
     end
   end
@@ -18,7 +18,7 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
   scenario 'published but expired opportunities are accessible' do
     create(:opportunity, :expired, status: :publish, title: 'Hairdressers wanted', slug: 'hairdressers-wanted', service_provider_id: service_provider.id)
 
-    visit 'opportunities/hairdressers-wanted'
+    visit '/export-opportunities/opportunities/hairdressers-wanted'
 
     expect(page).to have_content 'Hairdressers wanted'
     expect(page).to have_content t('opportunity.expired')

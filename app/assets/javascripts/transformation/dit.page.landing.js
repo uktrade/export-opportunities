@@ -1,11 +1,11 @@
-// Layout: opportunities#international
+// Layout: opportunities#index
+// ---------------------------------------------
 //
 //= require transformation/dit.class.carousel
 //= require transformation/dit.class.tabbed_area
 //= require transformation/dit.class.selective_lookup
 //= require transformation/dit.class.filter_select
 //= require transformation/dit.class.simple_form_restrictor
-//= require transformation/dit.tagging.landing
 
 dit.page.landing = (new function () {
   var _landing = this;
@@ -13,6 +13,9 @@ dit.page.landing = (new function () {
   var _cache = {
     effects: []
   }
+
+  // Outside function to run immediately
+  window.dataLayer.push({'pageCategory': 'LandingPage'});
   
   // Page init
   this.init = function() {
@@ -109,5 +112,5 @@ dit.page.landing = (new function () {
 
 $(document).ready(function() {
   dit.page.landing.init();
-  dit.tagging.landing.init();
+  dit.tagging.exopps.init("LandingPage");
 });

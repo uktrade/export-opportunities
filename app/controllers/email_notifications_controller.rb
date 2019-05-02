@@ -1,5 +1,5 @@
 class EmailNotificationsController < ApplicationController
-  before_action :require_sso! 
+  before_action :require_sso!, only: %i[show update]
 
   def show
     content = get_content('email_notifications.yml')
@@ -52,6 +52,8 @@ class EmailNotificationsController < ApplicationController
     user_id = EncryptedParams.decrypt(params[:user_id])
 
     Subscription.where(user_id: user_id).where(unsubscribed_at: nil).update_all(unsubscribed_at: Time.zone.now)
+
+    OpportunityMailer.unsubscription_confirmation(user_id).deliver_later
 
     render 'email_notifications/destroy', layout: 'notification', locals: {
       content: content['destroy'],

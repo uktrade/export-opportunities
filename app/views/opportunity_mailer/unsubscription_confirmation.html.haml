@@ -1,0 +1,32 @@
+%h1 You are unsubscribed
+%br
+
+%p
+  You have been unsubscribed from all email alerts for the Export Opportunities service.
+
+%p
+  = link_to "Search thousands of export opportunities", root_url, { style: "font-weight:bold;" }
+
+%br
+
+%p{ style: "font-weight:bold;" }
+  To set new email alerts for specific opportunities:
+%ol
+  %li{ style: "margin-bottom:15px;" }
+    Visit the
+    = link_to "Export Opportunities service", root_url
+    and type in the product or service you're interested in. You will then be prompted to sign up for email alerts for this search term.
+  %li{ style: "margin-bottom:15px;" }
+    You will be asked to sign into your great.gov.uk account to complete the process. If you don't have an account you will be prompted to create one.
+
+
+- content_for :email_sub_footer do
+  %table{ border: "0", cellpadding: "30", cellspacing: "0", width: "600" }
+    %tr
+      %td
+        %center
+          %p You are receiving this email because you unsubscribed to Export Opportunities email alerts.
+          %p
+            = link_to "View privacy statement", Figaro.env.PRIVACY_AND_COOKIES_URL.to_s
+            %br
+            = link_to "Give feedback", Figaro.env.CONTACT_US_FORM.to_s

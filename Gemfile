@@ -19,7 +19,7 @@ gem 'immutable-struct'
 gem 'nokogiri', '1.10.2'
 
 # Authentication & authorisation
-gem 'devise', '4.4.3'
+gem 'devise', '4.6.0'
 gem 'devise-async'
 gem 'hawk-auth'
 gem 'omniauth'

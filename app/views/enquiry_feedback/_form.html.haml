@@ -1,7 +1,6 @@
 - form = FormPresenter.new(content, {})
 
-= form_for @enquiry_feedback, url: enquiry_feedback_path(@enquiry_feedback), :builder => TemplateFormBuilder do |f|
+= form_for @enquiry_feedback, url: patch_enquiry_feedback_path(@enquiry_feedback), :builder => TemplateFormBuilder do |f|
   %input{ type: "hidden", name: "response", value: @response_text }
   = f.input_textarea :message, form.input_text('message'), { rows: '8', required: true }
   %input{ type: "submit", value: content['response_submit'], class: "button" }
-

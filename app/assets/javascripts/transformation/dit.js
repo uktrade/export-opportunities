@@ -3,11 +3,11 @@
 
 var dit = {
   // Namespace to be populated by external files
+  admin: {},
   classes: {},
   components: {},
+  constants: {},
   data: {},
   page: {},
-  constants: {},
-  admin: {},
   tagging: {}
 }

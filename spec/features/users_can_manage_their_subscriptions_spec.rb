@@ -15,7 +15,7 @@ feature 'User can manage their subscriptions' do
     login_as(user, scope: :user)
     sleep 1
 
-    visit '/email_notifications/' + user_id
+    visit '/export-opportunities/email_notifications/' + user_id
 
     expect(page.body).to include(opportunity.title)
   end
@@ -32,7 +32,7 @@ feature 'User can manage their subscriptions' do
 
     login_as(user, scope: :user)
 
-    visit '/email_notifications/unsubscribe_all/' + user_id
+    visit '/export-opportunities/email_notifications/unsubscribe_all/' + user_id
 
     expect(page.body).to include('You have been unsubscribed from all email alerts')
   end
@@ -49,7 +49,7 @@ feature 'User can manage their subscriptions' do
 
     login_as(user, scope: :user)
 
-    visit '/email_notifications/unsubscribe_all/' + user_id
+    visit '/export-opportunities/email_notifications/unsubscribe_all/' + user_id
 
     expect(page.body).to include('You have been unsubscribed from all email alerts')
 
@@ -76,7 +76,7 @@ feature 'User can manage their subscriptions' do
 
     login_as(user, scope: :user)
 
-    visit '/email_notifications/unsubscribe_all/' + user_id
+    visit '/export-opportunities/email_notifications/unsubscribe_all/' + user_id
 
     expect(page.body).to include('You have been unsubscribed from all email alerts')
 
@@ -103,7 +103,7 @@ feature 'User can manage their subscriptions' do
 
     login_as(user, scope: :user)
 
-    visit '/email_notifications/unsubscribe_all/' + user_id
+    visit '/export-opportunities/email_notifications/unsubscribe_all/' + user_id
 
     expect(page.body).to include('You have been unsubscribed from all email alerts')
     expect(subscription_unsubscribed.unsubscribed_at).to eq(unsubscription_timestamp)

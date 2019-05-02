@@ -143,5 +143,23 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true do
       expect(page).to have_content content['confirmation']
       expect(page).to have_content content['alert_summary_message']
     end
+
+    scenario 'can unsubscribe to email alerts' do
+      ActiveJob::Base.queue_adapter = :test
+      
+      # Create a subscription
+      user = create(:user, email: 'test@example.com')
+      opportunity = create(:opportunity, title: 'Food')
+      create(:subscription, user: user, search_term: 'Food')
+      expect(user.subscriptions.where(unsubscribed_at: nil).count).to eq 1
+
+      # Go to unsubscription link, expect email queued
+      expect{
+        visit delete_email_notifications_path(user_id: EncryptedParams.encrypt(user.id))
+      }.to have_enqueued_job
+      expect(page).to have_content "You have been unsubscribed from all email alerts"
+
+      expect(user.subscriptions.where(unsubscribed_at: nil).count).to eq 0
+    end
   end
 end

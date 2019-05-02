@@ -209,7 +209,7 @@ RSpec.feature 'Admin can filter opportunities' do
     create(:opportunity, :unpublished, title: 'pending opportunity')
     create(:opportunity, :published, :expired, title: 'expired opportunity')
 
-    visit '/admin/opportunities'
+    visit '/export-opportunities/admin/opportunities'
 
     within('.admin__filter-panel') { click_link('Published') }
     click_on 'Title'
@@ -235,7 +235,7 @@ RSpec.feature 'Admin can filter opportunities' do
     create(:value, name: 'More than £100k')
     create(:supplier_preference)
 
-    visit '/admin/opportunities'
+    visit '/export-opportunities/admin/opportunities'
 
     # Default state:
     expect('pending opportunity').to appear_before('published opportunity')
@@ -264,7 +264,7 @@ RSpec.feature 'Admin can filter opportunities' do
     create(:opportunity, title: 'last opp')
     create_list(:opportunity, Admin::OpportunitiesController::OPPORTUNITIES_PER_PAGE)
 
-    visit '/admin/opportunities'
+    visit '/export-opportunities/admin/opportunities'
     within('.pagination') { click_link '2' }
 
     expect(page).to have_selector('tr.opportunity', count: 1)

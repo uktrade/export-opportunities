@@ -13,7 +13,7 @@ RSpec.feature 'Editors can view reports' do
     login_as(create(:editor, service_provider: service_provider, role: :administrator))
 
     Timecop.freeze(now) do
-      visit '/admin/reports'
+      visit '/export-opportunities/admin/reports'
 
       click_on 'Start'
 
@@ -31,7 +31,7 @@ RSpec.feature 'Editors can view reports' do
   scenario 'cant view the report when the editor is not an admin' do
     login_as(create(:previewer))
 
-    visit '/admin/reports'
+    visit '/export-opportunities/admin/reports'
 
     expect(page).to_not have_content('Start')
   end
@@ -45,7 +45,7 @@ RSpec.feature 'Editors can view reports' do
     create(:opportunity, :published, service_provider: mexico, first_published_at: Date.new(2017, 5, 20))
 
     login_as(create(:editor, role: :administrator))
-    visit '/admin/reports'
+    visit '/export-opportunities/admin/reports'
 
     click_on 'Generate'
 

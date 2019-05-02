@@ -7,7 +7,7 @@ feature 'subscribers can unsubscribe' do
     mock_sso_with(email: user.email)
     subscription = create(:subscription, user: user)
 
-    visit "/subscriptions/unsubscribe/#{subscription.id}"
+    visit "/export-opportunities/subscriptions/unsubscribe/#{subscription.id}"
 
     expect(page).to have_content('unsubscribed')
 
@@ -19,7 +19,7 @@ feature 'subscribers can unsubscribe' do
     user = create(:user, email: 'email@example.com', uid: nil, provider: nil)
     subscription = create(:subscription, user: user)
 
-    visit "/subscriptions/unsubscribe/#{subscription.id}"
+    visit "/export-opportunities/subscriptions/unsubscribe/#{subscription.id}"
     expect(page.status_code).to eq(202)
     expect(page).to have_content('unsubscribed')
 
@@ -31,7 +31,7 @@ feature 'subscribers can unsubscribe' do
     user = create(:user)
     mock_sso_with(email: user.email)
     subscription = create(:subscription, user: user, id: '8e5528f7-0c23-4ede-a491-44af02171591')
-    visit '/v1/subscriptions/unsubscribe/8e5528f7-0c23-4ede-a491-44af02171591'
+    visit '/export-opportunities/v1/subscriptions/unsubscribe/8e5528f7-0c23-4ede-a491-44af02171591'
 
     expect(page.status_code).to eq(202)
     expect(page).to have_content('unsubscribed')

@@ -90,18 +90,18 @@ feature 'Admins manage editors' do
 
     Capybara.using_session(:editor) do
       login_as(editor)
-      visit '/admin/opportunities'
+      visit '/export-opportunities/admin/opportunities'
       expect(page).to have_link 'New opportunity'
     end
 
     Capybara.using_session(:admin) do
       login_as(admin)
-      visit "/admin/editors/#{editor.id}"
+      visit "/export-opportunities/admin/editors/#{editor.id}"
       click_button 'Deactivate Editor'
     end
 
     Capybara.using_session(:editor) do
-      visit '/admin/opportunities'
+      visit '/export-opportunities/admin/opportunities'
       expect(page).to have_content 'Log in'
     end
   end
@@ -169,10 +169,10 @@ feature 'Admins manage editors' do
 
       login_as(admin)
 
-      visit "/admin/editors/#{uploader.id}/edit"
+      visit "/export-opportunities/admin/editors/#{uploader.id}/edit"
       expect(page).to have_select 'editor[service_provider_id]'
 
-      visit "/admin/editors/#{publisher.id}/edit"
+      visit "/export-opportunities/admin/editors/#{publisher.id}/edit"
       expect(page).not_to have_select 'editor[service_provider_id]'
     end
 
@@ -183,10 +183,10 @@ feature 'Admins manage editors' do
 
       login_as(admin)
 
-      visit "/admin/editors/#{uploader.id}"
+      visit "/export-opportunities/admin/editors/#{uploader.id}"
       expect(page).to have_selector('th', text: 'Service provider')
 
-      visit "/admin/editors/#{publisher.id}"
+      visit "/export-opportunities/admin/editors/#{publisher.id}"
       expect(page).not_to have_selector('th', text: 'Service provider')
     end
   end

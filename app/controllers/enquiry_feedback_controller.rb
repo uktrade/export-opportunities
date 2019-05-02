@@ -22,7 +22,7 @@ class EnquiryFeedbackController < ApplicationController
     @enquiry_feedback_form.update!(
       message: params[:enquiry_feedback][:message]
     )
-    redirect_to '/', notice: 'Thanks, your feedback has been recorded'
+    redirect_to '/export-opportunities/', notice: 'Thanks, your feedback has been recorded'
   end
 
   private
