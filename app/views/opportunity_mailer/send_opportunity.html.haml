@@ -82,7 +82,7 @@
           %p
             = link_to "Manage your alerts", Figaro.env.SUD_PROFILE_PAGE_EMAIL_ALERTS.to_s
             %br
-            = link_to "Unsubscribe from all alerts", "#{Figaro.env.DOMAIN}/email_notifications/unsubscribe_all/#{@encrypted_user_id}"
+            = link_to "Unsubscribe from all alerts", "#{Figaro.env.DOMAIN}/export-opportunities/email_notifications/unsubscribe_all/#{@encrypted_user_id}"
             %br
             = link_to "View privacy statement", Figaro.env.PRIVACY_AND_COOKIES_URL.to_s
             %br
