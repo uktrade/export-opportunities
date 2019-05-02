@@ -218,7 +218,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
       headers = { 'CONTENT_TYPE' => 'text/html' }
       get opportunities_path, params: params, headers: headers
       expect(response.status).to eq 200
-      expect(presenter.reset_url(request)).to eql('/opportunities?s=food and drink&sort_column_name=response_due_on')
+      expect(presenter.reset_url(request)).to eql('/export-opportunities/opportunities?s=food and drink&sort_column_name=response_due_on')
     end
   end
 

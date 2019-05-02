@@ -26,7 +26,7 @@ Rails.application.routes.draw do
                }
 
     get '/dashboard' => 'users/dashboard#index', as: 'dashboard'
-    # get '/dashboard/downloads' => 'users/downloads'
+    # get '/export-opportunities/dashboard/downloads' => 'users/downloads'
     scope '/dashboard', as: :dashboard do
       resources :enquiries, only: [:show], controller: 'users/enquiries'
       resources :downloads, only: [:show], controller: 'users/downloads'
@@ -138,7 +138,7 @@ Rails.application.routes.draw do
     # Enquiry feedback
     get '/feedback', to: 'enquiry_feedback#new', as: :enquiry_feedback
     get '/feedback/opt_out', to: 'feedback_opt_outs#create', via: :get, as: :feedback_opt_out
-    patch '/feedback.:id', to: 'enquiry_feedback#patch'
+    patch '/feedback/:id', to: 'enquiry_feedback#patch', as: :patch_enquiry_feedback
 
     # Error pages
     match '/500' => 'errors#internal_server_error', via: :all

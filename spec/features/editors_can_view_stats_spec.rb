@@ -19,7 +19,7 @@ RSpec.feature 'Editors can view stats' do
     create(:enquiry, opportunity: enquired_opp, created_at: now - 15.days)
 
     Timecop.freeze(now) do
-      visit '/admin'
+      visit '/export-opportunities/admin'
 
       click_on 'Stats'
 
@@ -91,7 +91,7 @@ RSpec.feature 'Editors can view stats' do
     service_provider = create(:service_provider, name: 'A provider of services')
     login_as(create(:editor, service_provider: service_provider))
 
-    visit '/admin/stats'
+    visit '/export-opportunities/admin/stats'
 
     choose 'granularity_ServiceProvider'
 
@@ -111,7 +111,7 @@ RSpec.feature 'Editors can view stats' do
     create(:service_provider, name: 'A random service provider so that the list is not empty')
     login_as(create(:editor, service_provider: nil))
 
-    visit '/admin/stats'
+    visit '/export-opportunities/admin/stats'
 
     expect(page).to have_content(t('admin.stats.errors.missing_service_provider_country_or_region'))
 
@@ -127,7 +127,7 @@ RSpec.feature 'Editors can view stats' do
     login_as(create(:editor, service_provider: service_provider))
 
     Timecop.freeze(Date.new(2015, 10, 1)) do
-      visit '/admin/stats'
+      visit '/export-opportunities/admin/stats'
 
       select '2015', from: 'stats_from_year'
       select 'September', from: 'stats_from_month'
@@ -148,7 +148,7 @@ RSpec.feature 'Editors can view stats' do
   end
 
   scenario 'when a non-editor tries to view the page' do
-    visit '/admin/stats'
+    visit '/export-opportunities/admin/stats'
 
     expect(page).to have_no_content('Stats')
     expect(page).to have_content(t('devise.failure.unauthenticated'))
@@ -167,7 +167,7 @@ RSpec.feature 'Editors can view stats' do
 
     login_as(create(:editor, service_provider: nassau))
     Timecop.freeze(Date.new(2015, 10, 1)) do
-      visit '/admin/stats'
+      visit '/export-opportunities/admin/stats'
 
       select '2015', from: 'stats_from_year'
       select 'September', from: 'stats_from_month'
@@ -205,7 +205,7 @@ RSpec.feature 'Editors can view stats' do
 
     login_as(create(:editor, service_provider: iztapalapa))
     Timecop.freeze(Date.new(2015, 10, 1)) do
-      visit '/admin/stats'
+      visit '/export-opportunities/admin/stats'
 
       select '2015', from: 'stats_from_year'
       select 'September', from: 'stats_from_month'
@@ -243,7 +243,7 @@ RSpec.feature 'Editors can view stats' do
 
     login_as(create(:editor, service_provider: iztapalapa))
     Timecop.freeze(Date.new(2015, 10, 1)) do
-      visit '/admin/stats'
+      visit '/export-opportunities/admin/stats'
 
       select '2015', from: 'stats_from_year'
       select 'September', from: 'stats_from_month'
@@ -280,7 +280,7 @@ RSpec.feature 'Editors can view stats' do
 
     login_as(create(:editor, service_provider: nassau))
     Timecop.freeze(Date.new(2015, 10, 1)) do
-      visit '/admin/stats'
+      visit '/export-opportunities/admin/stats'
 
       select '2015', from: 'stats_from_year'
       select 'September', from: 'stats_from_month'
@@ -318,7 +318,7 @@ RSpec.feature 'Editors can view stats' do
 
     login_as(create(:editor, service_provider: nassau))
     Timecop.freeze(Date.new(2015, 10, 1)) do
-      visit '/admin/stats'
+      visit '/export-opportunities/admin/stats'
 
       select '2015', from: 'stats_from_year'
       select 'September', from: 'stats_from_month'
@@ -355,7 +355,7 @@ RSpec.feature 'Editors can view stats' do
 
     login_as(create(:editor, service_provider: nassau))
     Timecop.freeze(Date.new(2015, 10, 1)) do
-      visit '/admin/stats'
+      visit '/export-opportunities/admin/stats'
 
       select '2015', from: 'stats_from_year'
       select 'September', from: 'stats_from_month'
@@ -385,7 +385,7 @@ RSpec.feature 'Editors can view stats' do
 
     login_as(create(:editor, service_provider: nassau))
     Timecop.freeze(Date.new(2015, 10, 1)) do
-      visit '/admin/stats'
+      visit '/export-opportunities/admin/stats'
 
       select '2015', from: 'stats_from_year'
       select 'September', from: 'stats_from_month'

@@ -6,7 +6,7 @@ RSpec.feature 'Managing feature flags' do
     admin = create(:admin, email: 'administrator@dit.gov')
     login_as(admin)
 
-    visit '/admin/feature-flags'
+    visit '/export-opportunities/admin/feature-flags'
 
     expect(page).to have_link 'Add Feature'
   end
@@ -16,7 +16,7 @@ RSpec.feature 'Managing feature flags' do
     unauthorized = create(:admin, email: 'someoneelse@dit.gov')
     login_as(unauthorized)
 
-    visit '/admin/feature-flags'
+    visit '/export-opportunities/admin/feature-flags'
 
     expect(page).to have_no_content 'Add Feature'
     expect(page).to have_content t('errors.not_found')

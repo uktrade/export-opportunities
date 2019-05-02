@@ -7,7 +7,7 @@ RSpec.feature 'Commenting on opportunities' do
     create(:opportunity_comment, opportunity: opportunity, message: 'Hello world!')
     login_as(uploader)
 
-    visit '/admin/opportunities'
+    visit '/export-opportunities/admin/opportunities'
     click_on opportunity.title
 
     expect(page).to have_content 'Hello world!'
@@ -19,7 +19,7 @@ RSpec.feature 'Commenting on opportunities' do
       opportunity = create(:opportunity, author: uploader)
       login_as(uploader)
 
-      visit '/admin/opportunities'
+      visit '/export-opportunities/admin/opportunities'
       click_on opportunity.title
 
       Timecop.freeze(Time.utc(2016, 6, 23, 12, 0, 0)) do
@@ -42,7 +42,7 @@ RSpec.feature 'Commenting on opportunities' do
 
       login_as(uploader)
 
-      visit '/admin/opportunities'
+      visit '/export-opportunities/admin/opportunities'
       click_on opportunity.title
       click_on 'Edit opportunity'
 

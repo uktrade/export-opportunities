@@ -11,13 +11,13 @@ RSpec.describe 'CSRF behaviour', type: :request do
   end
 
   it 'shows a human-readable error when CSRF token is invalid' do
-    post '/admin/editors/sign_in', params: { authenticity_token: 'rubbish' }
+    post '/export-opportunities/admin/editors/sign_in', params: { authenticity_token: 'rubbish' }
     expect(response).to have_http_status(422)
     expect(response.body).to include('Your session timed out')
   end
 
   it 'notifies Sentry with exception data' do
     expect(Raven).to receive(:capture_exception)
-    post '/admin/editors/sign_in', params: { authenticity_token: 'rubbish' }
+    post '/export-opportunities/admin/editors/sign_in', params: { authenticity_token: 'rubbish' }
   end
 end

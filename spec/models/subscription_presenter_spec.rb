@@ -68,7 +68,7 @@ RSpec.describe SubscriptionPresenter do
       subscription = create(:subscription, countries: [], search_term: 'feta')
       presenter = SubscriptionPresenter.new(subscription)
 
-      expect(presenter.search_path).to eq('/opportunities/?s=feta&subscription_url=true')
+      expect(presenter.search_path).to eq('/export-opportunities/opportunities/?s=feta&subscription_url=true')
     end
 
     it 'creates the correct url for a subscription with countries only' do
@@ -76,7 +76,7 @@ RSpec.describe SubscriptionPresenter do
       subscription = create(:subscription, countries: countries, search_term: '')
       presenter = SubscriptionPresenter.new(subscription)
 
-      expect(presenter.search_path).to eq('/opportunities/?countries%5B%5D=Greece&countries%5B%5D=Macedonia&s=&subscription_url=true')
+      expect(presenter.search_path).to eq('/export-opportunities/opportunities/?countries%5B%5D=Greece&countries%5B%5D=Macedonia&s=&subscription_url=true')
     end
 
     it 'creates the correct url for a subscription with search term and countries' do
@@ -84,7 +84,7 @@ RSpec.describe SubscriptionPresenter do
       subscription = create(:subscription, countries: countries, search_term: 'halva')
       presenter = SubscriptionPresenter.new(subscription)
 
-      expect(presenter.search_path).to eq('/opportunities/?countries%5B%5D=Greece&countries%5B%5D=Macedonia&s=halva&subscription_url=true')
+      expect(presenter.search_path).to eq('/export-opportunities/opportunities/?countries%5B%5D=Greece&countries%5B%5D=Macedonia&s=halva&subscription_url=true')
     end
   end
 

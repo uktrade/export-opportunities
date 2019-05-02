@@ -5,15 +5,14 @@ feature 'non-existing pages return 404 with an error message' do
     admin = create(:admin)
     login_as(admin)
 
-    visit '/admin/seriously-this-page-cannot-exist'
+    visit '/export-opportunities/admin/seriously-this-page-cannot-exist'
 
     expect(page).to have_http_status(:not_found)
-    expect(page).to have_content('Export Opportunities')
     expect(page).to have_content('This page cannot be found')
   end
 
   scenario 'public 404 page' do
-    visit '/seriously-this-page-cannot-exist'
+    visit '/export-opportunities/seriously-this-page-cannot-exist'
     expect(page).to have_http_status(:not_found)
     expect(page).to have_content('This page cannot be found')
   end

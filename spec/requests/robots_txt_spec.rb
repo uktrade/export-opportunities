@@ -21,7 +21,7 @@ describe 'robots.txt' do
   context 'when not blocking all web crawlers' do
     it 'allows all crawlers' do
       if prevent_search_engines.nil?
-        get '/robots.txt'
+        get '/export-opportunities/robots.txt'
 
         expect(response.code).to eq '404'
         expect(response.headers['X-Robots-Tag']).to be_nil
@@ -32,7 +32,7 @@ describe 'robots.txt' do
   context 'when blocking all web crawlers' do
     it 'blocks all crawlers' do
       if prevent_search_engines.present?
-        get '/robots.txt'
+        get '/export-opportunities/robots.txt'
 
         expect(response).to render_template 'disallow_all'
         expect(response.headers['X-Robots-Tag']).to eq 'noindex, nofollow'

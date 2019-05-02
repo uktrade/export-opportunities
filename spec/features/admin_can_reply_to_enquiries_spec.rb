@@ -14,7 +14,7 @@ feature 'admin can reply to enquiries' do
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
-    visit '/admin/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/admin/enquiries/' + enquiry.id.to_s
 
     wait_for_ajax
 
@@ -39,7 +39,7 @@ feature 'admin can reply to enquiries' do
     opportunity = create(:opportunity, author: uploader)
     enquiry = create(:enquiry, opportunity: opportunity)
     login_as(uploader)
-    visit '/admin/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/admin/enquiries/' + enquiry.id.to_s
 
     wait_for_ajax
     
@@ -74,7 +74,7 @@ feature 'admin can reply to enquiries' do
     enquiry = create(:enquiry, opportunity: opportunity)
 
     login_as(previewer)
-    visit '/admin/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/admin/enquiries/' + enquiry.id.to_s
 
     click_on 'Reply'
     expect(page).to have_content('Email body')
@@ -104,7 +104,7 @@ feature 'admin can reply to enquiries' do
     opportunity = create(:opportunity, author: previewer)
     enquiry = create(:enquiry, opportunity: opportunity)
     login_as(previewer)
-    visit '/admin/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/admin/enquiries/' + enquiry.id.to_s
     click_on 'Reply'
 
     wait_for_ajax
@@ -131,7 +131,7 @@ feature 'admin can reply to enquiries' do
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
-    visit '/admin/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/admin/enquiries/' + enquiry.id.to_s
 
     click_on 'Reply'
     expect(page).to have_content('Email body')
@@ -161,7 +161,7 @@ feature 'admin can reply to enquiries' do
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
-    visit '/admin/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/admin/enquiries/' + enquiry.id.to_s
 
     click_on 'Reply'
     expect(page).to have_content('Email body')
@@ -192,7 +192,7 @@ feature 'admin can reply to enquiries' do
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
-    visit '/admin/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/admin/enquiries/' + enquiry.id.to_s
 
     wait_for_ajax
 
@@ -224,7 +224,7 @@ feature 'admin can reply to enquiries' do
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
-    visit '/admin/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/admin/enquiries/' + enquiry.id.to_s
 
     click_on 'Reply'
     expect(page).to have_content('Email body')
@@ -253,7 +253,7 @@ feature 'admin can reply to enquiries' do
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
-    visit '/admin/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/admin/enquiries/' + enquiry.id.to_s
 
     click_on 'Reply'
     expect(page).to have_content('Email body')
@@ -277,7 +277,7 @@ feature 'admin can reply to enquiries' do
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
-    visit '/admin/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/admin/enquiries/' + enquiry.id.to_s
 
     click_on 'Reply'
     expect(page).to have_content('Email body')
@@ -326,7 +326,7 @@ feature 'admin can reply to enquiries' do
     admin = create(:admin)
     enquiry = create(:enquiry)
     login_as(admin)
-    visit '/admin/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/admin/enquiries/' + enquiry.id.to_s
 
     click_on 'Reply'
     expect(page).to have_content('Email body')
@@ -353,7 +353,7 @@ feature 'admin can reply to enquiries' do
 
     # visit enquiry page
     login_as(admin)
-    visit '/admin/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/admin/enquiries/' + enquiry.id.to_s
 
     # reply button should not be visible
     expect(page).not_to have_content('Reply')
@@ -375,7 +375,7 @@ feature 'admin can reply to enquiries' do
     enquiry = create(:enquiry, opportunity: opportunity)
 
     login_as(uploader)
-    visit '/admin/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/admin/enquiries/' + enquiry.id.to_s
 
     click_on 'Reply'
     expect(page).to have_content('Email body')
@@ -411,7 +411,7 @@ feature 'admin can reply to enquiries' do
     enquiry = create(:enquiry, opportunity: opportunity)
 
     login_as(admin)
-    visit '/admin/enquiries/' + enquiry.id.to_s
+    visit '/export-opportunities/admin/enquiries/' + enquiry.id.to_s
 
     click_on 'Reply'
     expect(page).to have_content('Email body')

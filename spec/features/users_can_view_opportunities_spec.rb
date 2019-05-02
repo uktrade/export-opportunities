@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
   scenario 'navigates to root', :elasticsearch, :commit do
-    visit '/'
+    visit '/export-opportunities/'
 
     expect(page).to have_content('Latest export opportunities')
   end
@@ -14,7 +14,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
 
     visit opportunities_path
 
-    expect(page).to have_current_path('/opportunities')
+    expect(page).to have_current_path('/export-opportunities/opportunities')
     expect(page).to have_content('Displaying items 1 - 10 of 500')
   end
 
@@ -27,7 +27,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     oo_opp = create(:opportunity, title: 'Greece - Pimms food drink in Mykonos', description: 'food drink pimms mykonoos', source: :volume_opps, status: :publish, response_due_on: 1.week.from_now)
     refresh_elasticsearch
 
-    visit '/'
+    visit '/export-opportunities/'
 
     click_on 'FoodDrink'
 
@@ -44,7 +44,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     oo_opp = create(:opportunity, title: 'Greece - Pimms food drink in Mykonos', description: 'food drink pimms mykonoos', source: :volume_opps, status: :publish, response_due_on: 1.week.from_now)
     refresh_elasticsearch
     
-    visit '/'
+    visit '/export-opportunities/'
 
     click_on 'FoodDrink'
 
@@ -64,7 +64,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     another_fictional_country = create(:country, name: 'Martonia')
     create(:opportunity, :published, title: 'Ships for Martian oceans', countries: [another_fictional_country])
     refresh_elasticsearch
-    visit '/'
+    visit '/export-opportunities/'
 
     within first('.search-form') do
       fill_in 's', with: 'oceans'
@@ -81,7 +81,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     another_fictional_country = create(:country, name: 'Martonia')
     create(:opportunity, :published, title: 'Ships for Martian oceans', countries: [another_fictional_country])
     refresh_elasticsearch
-    visit '/'
+    visit '/export-opportunities/'
 
     within first('.search-form') do
       select('Zouaziland', from: 'areas[]')
@@ -99,7 +99,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     create(:opportunity, :published, title: 'British tea', countries: [asian_country])
     refresh_elasticsearch
 
-    visit '/'
+    visit '/export-opportunities/'
 
     within first('.search-form') do
       select('Mediterranean Europe', from: 'areas[]')
@@ -120,7 +120,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     create(:opportunity, :published, title: 'Ships for Martian oceans', countries: [another_fictional_country])
     refresh_elasticsearch
 
-    visit '/'
+    visit '/export-opportunities/'
 
     within first('.search-form') do
       fill_in 's', with: 'lakes'
@@ -139,7 +139,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     create(:opportunity, :published, title: 'British tea', countries: [asian_country])
     refresh_elasticsearch
 
-    visit '/'
+    visit '/export-opportunities/'
 
     within first('.search-form') do
       fill_in 's', with: 'pies'
@@ -164,7 +164,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     create(:opportunity, :published, title: 'British tea', countries: [asian_country])
     refresh_elasticsearch
     # just get all opportunities
-    visit '/'
+    visit '/export-opportunities/'
 
     within first('.search-form') do
       click_on 'Find opportunities'
@@ -289,7 +289,7 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
     create(:opportunity, :published, title: 'British tea', countries: [asian_country])
     refresh_elasticsearch
 
-    visit '/'
+    visit '/export-opportunities/'
 
     within first('.search-form') do
       fill_in 's', with: 'British'
@@ -339,21 +339,21 @@ RSpec.feature 'User can view opportunities in list', :elasticsearch, :commit do
   scenario 'counters for landing page, all counters set' do
     expect_any_instance_of(ApplicationController).to receive(:opps_counter_stats).and_return({total: 1000})
 
-    visit '/'
+    visit '/export-opportunities/'
     expect(page).to have_content('Search 1,000 export sales leads')
   end
 
   scenario 'counters for landing page, total counter missing' do
     expect_any_instance_of(ApplicationController).to receive(:opps_counter_stats).and_return({total: 0})
 
-    visit '/'
+    visit '/export-opportunities/'
     expect(page).to have_content('Find export opportunities')
   end
 
   scenario 'counters for landing page, total counter nil' do
     expect_any_instance_of(ApplicationController).to receive(:opps_counter_stats).and_return({total: nil})
 
-    visit '/'
+    visit '/export-opportunities/'
     expect(page).to have_content('Find export opportunities')
   end
 

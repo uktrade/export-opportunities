@@ -5,7 +5,7 @@ RSpec.feature 'visiting the site on different domains', :elasticsearch, :commit 
   context 'opportunities.export.great.gov.uk' do
     context 'when not logged in' do
       scenario 'visiting / displays opportunities' do
-        visit '/'
+        visit '/export-opportunities/'
         expect(page).to have_content 'Find export opportunities'
       end
     end
@@ -13,11 +13,11 @@ RSpec.feature 'visiting the site on different domains', :elasticsearch, :commit 
     context 'when logged in as a user' do
       before :each do
         mock_sso_with(email: 'email@example.com')
-        visit '/sign_in'
+        visit '/export-opportunities/sign_in'
       end
 
       scenario 'visiting / displays opportunities, not the dashboard' do
-        visit '/'
+        visit '/export-opportunities/'
         expect(page).to have_content 'Find export opportunities'
       end
     end
@@ -29,7 +29,7 @@ RSpec.feature 'visiting the site on different domains', :elasticsearch, :commit 
       end
 
       scenario 'visiting / displays opportunities, not the admin login page' do
-        visit '/'
+        visit '/export-opportunities/'
         expect(page).to have_content 'Find export opportunities'
       end
     end
@@ -37,8 +37,8 @@ RSpec.feature 'visiting the site on different domains', :elasticsearch, :commit 
     context 'exportingisgreat.gov.uk' do
       scenario 'visiting /opportunities does not redirect' do
         allow_any_instance_of(NewDomainConstraint).to receive(:matches?).and_return(false)
-        visit '/opportunities'
-        expect(current_path).to eq '/opportunities'
+        visit '/export-opportunities/opportunities'
+        expect(current_path).to eq '/export-opportunities/opportunities'
         expect(page).to have_content 'Search results'
       end
     end

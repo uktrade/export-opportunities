@@ -6,7 +6,7 @@ feature 'Trashing opportunities' do
     opportunity = create(:opportunity, title: 'Unpublishable Opportunity', status: :pending)
     login_as(admin)
 
-    visit "/admin/opportunities/#{opportunity.id}"
+    visit "/export-opportunities/admin/opportunities/#{opportunity.id}"
 
     click_on('Trash')
 
@@ -23,7 +23,7 @@ feature 'Trashing opportunities' do
     opportunity = create(:opportunity, author: uploader, title: 'Unpublishable Opportunity', status: :pending)
     login_as(uploader)
 
-    visit "/admin/opportunities/#{opportunity.id}"
+    visit "/export-opportunities/admin/opportunities/#{opportunity.id}"
 
     expect(page).to have_content('Unpublishable Opportunity')
     expect(page).to have_no_link('Trash')
@@ -35,7 +35,7 @@ feature 'Trashing opportunities' do
     opportunity = create(:opportunity, title: 'Unpublishable Opportunity', status: :publish)
     login_as(admin)
 
-    visit "/admin/opportunities/#{opportunity.id}"
+    visit "/export-opportunities/admin/opportunities/#{opportunity.id}"
 
     expect(page).to have_content('Unpublishable Opportunity')
     expect(page).to have_no_link('Trash')
@@ -47,7 +47,7 @@ feature 'Trashing opportunities' do
     opportunity = create(:opportunity, title: 'Unpublishable Opportunity, returning to Post', status: :pending)
     login_as(admin)
 
-    visit "/admin/opportunities/#{opportunity.id}"
+    visit "/export-opportunities/admin/opportunities/#{opportunity.id}"
 
     click_on('Draft')
 
@@ -59,7 +59,7 @@ feature 'Trashing opportunities' do
     opportunity = create(:opportunity, title: 'Unpublishable Opportunity, returning to Post', status: :pending)
     login_as(admin)
 
-    visit "/admin/opportunities/#{opportunity.id}"
+    visit "/export-opportunities/admin/opportunities/#{opportunity.id}"
 
     fill_in 'opportunity_comment_form_message', with: 'your opportunity cannot be published, please add clear criteria and resubmit'
 
@@ -77,7 +77,7 @@ feature 'Trashing opportunities' do
 
     login_as(admin)
 
-    visit "/admin/opportunities/#{opportunity.id}"
+    visit "/export-opportunities/admin/opportunities/#{opportunity.id}"
     click_on('Restore')
     expect(page).to have_content('This opportunity has been set to pending')
 
@@ -92,7 +92,7 @@ feature 'Trashing opportunities' do
 
     login_as(admin)
 
-    visit "/admin/opportunities/#{opportunity.id}"
+    visit "/export-opportunities/admin/opportunities/#{opportunity.id}"
     click_on('Pending')
     expect(page).to have_content('This opportunity has been set to pending')
 
@@ -107,7 +107,7 @@ feature 'Trashing opportunities' do
 
     login_as(uploader)
 
-    visit "/admin/opportunities/#{opportunity.id}"
+    visit "/export-opportunities/admin/opportunities/#{opportunity.id}"
     expect(page).to have_content('Trashed Opportunity')
     expect(page).to have_no_button('Restore')
   end
@@ -118,7 +118,7 @@ feature 'Trashing opportunities' do
 
     login_as(uploader)
 
-    visit "/admin/opportunities/#{opportunity.id}"
+    visit "/export-opportunities/admin/opportunities/#{opportunity.id}"
     expect(page).to have_content('Trashed Opportunity')
     expect(page).to have_button('Draft')
     expect(page).to have_no_button('Restore')
