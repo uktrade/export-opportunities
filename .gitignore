@@ -81,7 +81,7 @@ vendor/bundle/*
 *.zip
 *.xls
 *.xlsx
-
+test_clean_file
 output.png
 
 # IDE files

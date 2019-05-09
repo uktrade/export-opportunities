@@ -35,8 +35,8 @@ gem 'sdoc'
 gem 'pg_search'
 gem 'kaminari'
 gem 'faraday_middleware-aws-sigv4'
-gem 'elasticsearch-rails', '5.1.0'
-gem 'elasticsearch-model', '5.1.0'
+gem 'elasticsearch-rails', '6.0.0'
+gem 'elasticsearch-model', '6.0.0'
 gem 'devise_security_extension', git: 'https://github.com/phatworx/devise_security_extension.git'
 
 # Styling
