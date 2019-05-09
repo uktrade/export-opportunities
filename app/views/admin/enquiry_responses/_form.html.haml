@@ -84,7 +84,7 @@
         .form-group
           = f.label :email_body, class: 'visuallyhidden'
           %span.error-message
-          = f.text_area(:email_body, cols: 40, rows: 30, required: true, class: 'form-control js-text-editor')
+          = f.text_area(:email_body, cols: 40, rows: 30, class: 'form-control js-text-editor')
 
   %fieldset#signature.hidden
     .grid-row
