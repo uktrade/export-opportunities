@@ -17,6 +17,7 @@ jobs:
           POSTGRES_USER: user
           POSTGRES_DB:  export_opportunities_test
           POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      - image: circleci/node:latest
     branches:
       only: XOT-597-circleci
     steps:
@@ -50,7 +51,7 @@ jobs:
       - run:
           name: Database setup
           command: bin/rails db:schema:load --trace
-       
+
       # Run rspec in parallel 
       - run: |
           echo Running test ...
