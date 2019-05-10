@@ -34,6 +34,7 @@ dit.tagging.exopps = (new function() {
   function addTaggingForSearch() {
     $("#hero-banner .search-form").on("submit", function() {
       window.dataLayer.push({
+        'event': 'gaEvent',
         'eventAction': 'Search',
         'eventCategory': 'Opportunity',
         'eventLabel': 'HeroBanner',
@@ -43,6 +44,7 @@ dit.tagging.exopps = (new function() {
 
     $("#auxiliary-search .search-form").on("submit", function() {
       window.dataLayer.push({
+        'event': 'gaEvent',
         'eventAction': 'Search',
         'eventCategory': 'Opportunity',
         'eventLabel': 'AuxillarySearch',
@@ -55,6 +57,7 @@ dit.tagging.exopps = (new function() {
     $("#featured-industries a").on("click", function() {
       var sector = this.href.replace(/.*?sectors\[\]=([\w]+)/, "$1");
       window.dataLayer.push({
+        'event': 'gaEvent',
         'eventAction': 'Cta',
         'eventLabel': 'FeaturedIndustryTeaser',
         'eventValue': sector
