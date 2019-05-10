@@ -1,8 +1,25 @@
 version: 2
 jobs:
   build:
-    docker: # use the docker executor type; machine and macos executors are also supported
-      - image: circleci/node:4.8.2 # the primary container, where your job's commands are run
+    # docker: # use the docker executor type; machine and macos executors are also supported
+    #   - image: circleci/node:4.8.2 # the primary container, where your job's commands are run
+    parallelism: 3
+    working_directory: ~/export-opportunities
+      - image: circleci/ruby:2.5.5
+        environment:
+          BUNDLE_JOBS: 3
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
+          PGHOST: localhost
+          PGUSER: exops
+          RAILS_ENV: test
+      - image: circleci/postgres:latest
+        environment:
+          POSTGRES_USER: user
+          POSTGRES_DB:  export_opportunities_test
+          POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    branches:
+      only: XOT-597-circleci
     steps:
       - checkout # check out the code in the project directory
       - run: echo "hello world" # run the `echo` command
