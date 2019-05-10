@@ -1,8 +1,6 @@
 version: 2
 jobs:
   build:
-    # docker: # use the docker executor type; machine and macos executors are also supported
-    #   - image: circleci/node:4.8.2 # the primary container, where your job's commands are run
     parallelism: 3
     working_directory: ~/export-opportunities
     docker:
@@ -23,4 +21,19 @@ jobs:
       only: XOT-597-circleci
     steps:
       - checkout # check out the code in the project directory
+      # restore bundle cache  
+      - restore_cache:
+          keys:
+            - exops-{{ checksum "Gemfile.lock" }}
+
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install
+
+      # store bundle cache
+      - save_cache:
+          key: exops-{{ checksum "Gemfile.lock" }}
+          paths: 
+            - vendor/bundle
+
       - run: echo "hello world" # run the `echo` command
