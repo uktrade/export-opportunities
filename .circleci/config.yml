@@ -36,4 +36,32 @@ jobs:
           paths: 
             - vendor/bundle
 
+      # Database setup
+      - run:
+          name: install dockerize
+          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          environment:
+            DOCKERIZE_VERSION: v0.3.0
+
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
+          name: Database setup
+          command: bin/rails db:schema:load --trace
+       
+      # Run rspec in parallel 
+      - run: |
+          echo Running test ...
+          bundle exec rspec --profile 10 \
+                      --format RspecJunitFormatter \
+                      --out test_results/rspec.xml \
+                      --format progress \
+                      $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      
+      # Save test results for timing analysis
+      - store_test_results:
+          path: test_results 
+
       - run: echo "hello world" # run the `echo` command
