@@ -17,11 +17,11 @@ jobs:
           POSTGRES_USER: user
           POSTGRES_DB:  circle_test
           POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-     - image: circleci/redis:4.0.9
-       environment:
+      - image: circleci/redis:4.0.9
+        environment:
           REDIS_URL: "redis://localhost:6379/"
-     - image: docker.elastic.co/elasticsearch/elasticsearch:5.6
-       environment:
+      - image: docker.elastic.co/elasticsearch/elasticsearch:5.6
+        environment:
           cluster.name: elasticsearch
           xpack.security.enabled: false
           transport.host: localhost
