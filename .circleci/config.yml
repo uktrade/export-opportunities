@@ -10,11 +10,11 @@ jobs:
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
           PGHOST: localhost
-          PGUSER: root
+          PGUSER: user
           RAILS_ENV: test
       - image: circleci/postgres:latest
         environment:
-          POSTGRES_USER: root
+          POSTGRES_USER: user
           POSTGRES_DB:  circle_test
           POSTGRES_PASSWORD: $POSTGRES_PASSWORD
     branches:
