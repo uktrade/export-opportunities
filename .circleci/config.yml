@@ -10,7 +10,7 @@ jobs:
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
           PGHOST: localhost
-          PGUSER: exops
+          PGUSER: root
           RAILS_ENV: test
       - image: circleci/postgres:latest
         environment:
