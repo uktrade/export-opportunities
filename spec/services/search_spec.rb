@@ -65,7 +65,7 @@ RSpec.describe Search, elasticsearch: true do
     end
   end
 
-  describe '#run - without sector filter' do
+  describe '#run' do
 
     before do
       Opportunity.destroy_all
@@ -148,66 +148,6 @@ RSpec.describe Search, elasticsearch: true do
         results = Search.new({ sort_column_name: 'updated_at' }).run
         expect(results[:results][0]).to eq @post_3
         expect(results[:results][-1]).to eq @post_1
-      end
-    end
-  end
-
-  describe 'run - with sector filter' do
-    
-    before do
-      Opportunity.destroy_all
-      @post_1 = create(:opportunity, title: 'Title 1 - sector slug', first_published_at: 1.months.ago,
-                        response_due_on: 12.months.from_now, status: :publish, source: 'volume_opps')
-      @post_2 = create(:opportunity, title: 'Title 2', first_published_at: 2.months.ago,
-                        response_due_on: 6.months.from_now, status: :publish, source: 'post')
-      @post_3 = create(:opportunity, title: 'Title 3', first_published_at: 3.month.ago,
-                       response_due_on: 18.months.from_now, status: :publish, source: 'post')
-      @sector  = Sector.create(slug: 'sector-slug', name: 'Sector 1')
-      sector_2 = Sector.create(slug: 'new-sector', name: 'Sector 2')
-      @post_1.sectors << @sector
-      @post_2.sectors << @sector
-      @post_3.sectors << @sector
-      @post_1.sectors << sector_2
-      Opportunity.__elasticsearch__.create_index! force: true
-      refresh_elasticsearch
-    end
-
-    it 'provides a valid set of results' do
-      results = Search.new({ sectors: [@sector.slug] }).run
-      expect(results[:total]).to eq 3
-    end
-
-    it 'filters by industry' do
-      results = Search.new({ sectors: ['new-sector'] }).run
-      expect(results[:total]).to eq 1
-    end
-
-    it 'sources correctly' do
-      # Only post
-      results = Search.new({ sources: 'post', sectors: [@sector.slug] }).run
-      expect(results[:total]).to eq 2
-
-      # Only volume opps AND has a search query
-      results = Search.new({ sources: 'volume_opps', sectors: [@sector.slug] }).run
-      expect(results[:total]).to eq 1
-
-      # All
-      results = Search.new({ sectors: [@sector.slug], sectors: [@sector.slug] }).run
-      expect(results[:total]).to eq 3
-    end
-    describe 'sorts results' do
-      it 'by first_published_at' do
-        # Note Post 1 was published most recently, Post 3 least recently
-        results = Search.new({ sort_column_name: 'first_published_at',
-                               sectors: [@sector.slug] }).run
-        expect(results[:results][0]).to eq @post_1
-        expect(results[:results][-1]).to eq @post_3
-      end
-      it 'by response_due_on' do
-        # Note Post 2 is due soonest, Post 3 least soon
-        results = Search.new({ sort_column_name: 'response_due_on', sectors: [@sector.slug]  }).run
-        expect(results[:results][0]).to eq @post_2
-        expect(results[:results][-1]).to eq @post_3
       end
     end
   end
