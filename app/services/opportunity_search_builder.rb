@@ -116,15 +116,87 @@ class OpportunitySearchBuilder
 
     def sector_build
       if @sectors.present?
-        {
-          bool: {
-            should: {
-              terms: {
-                'sectors.slug': @sectors,
+        post_opps_query = {
+          "bool": {
+            "must": [
+              {
+                "term": {
+                  "source": 'post',
+                },
               },
-            },
+              {
+                "terms": {
+                  "sectors.slug": @sectors,
+                },
+              },
+              {
+                "term": {
+                  "status": 'publish',
+                },
+              },
+              "range": {
+                "response_due_on": {
+                  "gte": 'now/d',
+                },
+              },
+            ],
           },
         }
+
+        volume_opps_query = {
+          "bool": {
+            "must": [
+              {
+                "term": {
+                  "source": 'volume_opps',
+                },
+              },
+              {
+                "multi_match": {
+                  "query": @sectors.join(" ").tr('-', ' '),
+                  "fields": %w[title^5 teaser^2 description],
+                  "operator": 'or',
+                },
+              },
+              {
+                "term": {
+                  "status": 'publish',
+                },
+              },
+              "range": {
+                "response_due_on": {
+                  "gte": 'now/d',
+                },
+              },
+            ],
+          },
+        }
+
+        if @sources&.include? 'post'
+          {
+            "bool": {
+              "should": [
+                post_opps_query,
+              ],
+            },
+          }
+        elsif @sources&.include? 'volume_opps'
+          {
+            "bool": {
+              "should": [
+                volume_opps_query,
+              ],
+            },
+          }
+        else
+          {
+            "bool": {
+              "should": [
+                volume_opps_query, post_opps_query
+              ],
+            },
+          }
+        end
       end
     end
 
