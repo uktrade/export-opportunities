@@ -14,8 +14,8 @@ jobs:
           RAILS_ENV: test
       - image: circleci/postgres:latest
         environment:
-          POSTGRES_USER: user
-          POSTGRES_DB:  export_opportunities_test
+          POSTGRES_USER: root
+          POSTGRES_DB:  circle_test
           POSTGRES_PASSWORD: $POSTGRES_PASSWORD
     branches:
       only: XOT-597-circleci
