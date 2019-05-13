@@ -17,6 +17,9 @@ dit.tagging.exopps = (new function() {
         break;
 
       case 'OpportunityPage':
+        addTaggingForOpportunityButton();
+        break;
+
       case 'EnquiriesPage':
       case 'NotificationPage':
         // No event tagging implemented, yet.
@@ -54,6 +57,17 @@ dit.tagging.exopps = (new function() {
         'eventAction': 'Cta',
         'eventLabel': 'FeaturedIndustryTeaser',
         'eventValue': sector
+      });
+    });
+  }
+
+  function addTaggingForOpportunityButton() {
+    $(".bid .button").on("click", function() {
+      window.dataLayer.push({
+        'event': 'gaEvent',
+        'eventAction': 'Cta',
+        'eventLabel': 'InterestInOpportunity',
+        'eventValue': $(this).attr("href").charAt(0) == "/" ? "DIT" : "ThirdParty"
       });
     });
   }
