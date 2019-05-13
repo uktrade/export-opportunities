@@ -110,7 +110,7 @@
                     %p 
                       The Exporting is GREAT team
                       %br
-                      = link_to "www.great.gov.uk", "www.great.gov.uk"
+                      = link_to "www.great.gov.uk", Figaro.env.EXPORT_READINESS_URL.to_s
                   %td{:style=>"text-align:right;"}
                     = image_tag "email/EIGLogo@2x.jpg", { :alt=>"Exporting is GREAT", :style=>"display:block; margin-bottom:10px;", :height=>"70" }
 
