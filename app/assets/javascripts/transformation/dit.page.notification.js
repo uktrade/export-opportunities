@@ -3,9 +3,6 @@
 
 dit.page.notifications = (new function () {
 
-  // Outside function to run immediately
-  window.dataLayer.push({'pageCategory': 'NotificationPage'});
-
   // Page init
   this.init = function() {
   }

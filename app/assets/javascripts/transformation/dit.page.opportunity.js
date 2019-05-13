@@ -5,9 +5,6 @@
 
 dit.page.opportunity = (new function () {
 
-  // Outside function to run immediately
-  window.dataLayer.push({'pageCategory': 'OpportunityPage'});
-
   // Page init
   this.init = function() {
     clipDescription();

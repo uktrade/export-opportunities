@@ -33,12 +33,19 @@
 
 
 -# Initialise GTM dataLayer variable
+-# Note: Using string 'True/False'
+-# to mimic same values as in Django
 -# ---------------------------------
+= javascript_include_tag  'transformation/dit.tagging'
+
 :javascript
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
     'businessUnit': 'ExportOpportunities',
     'siteLanguage': 'en-gb',
     'userID': '#{current_user&.id}',
-    'loginStatus': #{current_user ? true : false},
+    'loginStatus': '#{current_user ? "True" : "False"}',
+    'pageCategory': '#{@page_type}'
   });
+
+

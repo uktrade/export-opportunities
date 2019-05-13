@@ -11,9 +11,6 @@ dit.page.enquiries = (new function () {
   var SelectiveLookup = dit.classes.SelectiveLookup;
   var _cache = {
   }
-
-  // Outside function to run immediately
-  window.dataLayer.push({'pageCategory': 'EnquiriesPage'});
   
   // Page init
   this.init = function() {

@@ -13,9 +13,6 @@ dit.page.landing = (new function () {
   var _cache = {
     effects: []
   }
-
-  // Outside function to run immediately
-  window.dataLayer.push({'pageCategory': 'LandingPage'});
   
   // Page init
   this.init = function() {

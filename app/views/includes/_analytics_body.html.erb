@@ -1,7 +1,7 @@
 <% unless @google_tag_manager.empty? %>
   <% @google_tag_manager.each_with_index do |id, index| %>
     <!-- Google Tag Manager (<%= index %>) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<%= id %>&gtm_auth=<%= Figaro.env.GOOGLE_TAG_MANAGER_AUTH %>&gtm_preview=<%= Figaro.env.GOOGLE_TAG_MANAGER_ENVIRONMENT %>&gtm_cookies_win=x"
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<%= id %>&gtm_auth=<%= Figaro.env.GOOGLE_TAG_MANAGER_AUTH %>&gtm_preview=<%= Figaro.env.GOOGLE_TAG_MANAGER_ENVIRONMENT %>&gtm_cookies_win=x&businessUnit=ExportOpportunities&siteLanguage=en-gb&userID=<%= current_user&.id %>&loginStatus=<%= current_user ? true : false %>&pageCategory=<%= @page_type %>"
       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (<%= index %>) -->
   <% end %>
