@@ -651,7 +651,6 @@ GEM
     kaminari-core (1.1.1)
     launchy (2.4.3)
       addressable (~> 2.3)
-    libv8 (3.16.14.19)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -786,7 +785,6 @@ GEM
     redis (3.3.3)
     redis-namespace (1.6.0)
       redis (>= 3.0.4)
-    ref (2.0.0)
     regexp_parser (1.4.0)
     request_store (1.4.1)
       rack (>= 1.4)
@@ -888,9 +886,6 @@ GEM
       sprockets (>= 3.0.0)
     stringex (2.8.5)
     temple (0.8.1)
-    therubyracer (0.12.3)
-      libv8 (~> 3.16.14.15)
-      ref
     thor (0.20.3)
     thread_safe (0.3.6)
     tilt (2.0.9)
@@ -1011,7 +1006,6 @@ DEPENDENCIES
   spring
   spring-commands-rspec
   stringex
-  therubyracer
   timecop
   uglifier
   vcr

@@ -91,9 +91,6 @@ gem 'jwt'
 # caching
 gem 'actionpack-page_caching'
 
-# For CircleCI
-gem "therubyracer"
-
 group :development, :test do
   gem 'byebug'
   gem 'faker'
