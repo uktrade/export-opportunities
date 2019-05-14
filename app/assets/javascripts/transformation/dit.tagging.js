@@ -40,10 +40,10 @@ dit.tagging.exopps = (new function() {
       $(".search, .search-form", this).on("submit", function() {
         window.dataLayer.push({
           'event': 'gaEvent',
-          'eventAction': 'Search',
-          'eventCategory': 'Opportunity',
-          'eventLabel': dit.utils.camelcase(id.split("-")),
-          'eventValue': $(this).find("input[type='search']").val()
+          'action': 'Search',
+          'type': 'Opportunity',
+          'element': dit.utils.camelcase(id.split("-")),
+          'value': $(this).find("input[type='search']").val()
         });
       });
     });
@@ -54,9 +54,9 @@ dit.tagging.exopps = (new function() {
       var sector = this.href.replace(/.*?sectors\[\]=([\w]+)/, "$1");
       window.dataLayer.push({
         'event': 'gaEvent',
-        'eventAction': 'Cta',
-        'eventLabel': 'FeaturedIndustryTeaser',
-        'eventValue': sector
+        'action': 'Cta',
+        'element': 'FeaturedIndustryTeaser',
+        'value': sector
       });
     });
   }
@@ -65,9 +65,9 @@ dit.tagging.exopps = (new function() {
     $(".bid .button").on("click", function() {
       window.dataLayer.push({
         'event': 'gaEvent',
-        'eventAction': 'Cta',
-        'eventLabel': 'InterestInOpportunity',
-        'eventValue': $(this).attr("href").charAt(0) == "/" ? "DIT" : "ThirdParty"
+        'action': 'Cta',
+        'element': 'InterestInOpportunity',
+        'value': $(this).attr("href").charAt(0) == "/" ? "DIT" : "ThirdParty"
       });
     });
   }
