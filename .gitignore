@@ -28,8 +28,6 @@ coverage/
 
 # Ignore examples persistence file
 /spec/examples.txt
-/spec/files/tender_sample_file.txt
-spec/files/tender_sample_file.txt
 
 # Ignore schema
 /db/schema.rb
