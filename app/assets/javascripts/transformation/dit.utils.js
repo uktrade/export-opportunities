@@ -135,4 +135,22 @@ dit.utils = (new function () {
     // No longer need the old ones
     $images.remove();
   }
+
+  /* Returns capitalised version of passed string.
+   * @str (String) String to be converted.
+   **/
+   this.capitalise = function(str) {
+     return (str.charAt(0).toUpperCase() + str.slice(1));
+   }
+
+  /* Returns CamelCase (initial capitalised) string version of passed string array.
+   * @strArr (Array) Array of strings to be converted to single camelcase string.
+   **/
+   this.camelcase = function(strArr) {
+     var capitalised = [];
+     for(var i=0; i<strArr.length; ++i) {
+       capitalised.push(this.capitalise(strArr[i]));
+     }
+     return capitalised.join('');
+   }
 });

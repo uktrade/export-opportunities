@@ -10,13 +10,16 @@ dit.tagging.exopps = (new function() {
       case 'LandingPage':
         addTaggingForSearch();
         addTaggingForFeaturedIndustries();
-      break;
+        break;
 
       case 'SearchResultsPage':
-        // No event tagging implemented, yet.
+        addTaggingForSearch();
         break;
 
       case 'OpportunityPage':
+        addTaggingForOpportunityButton();
+        break;
+
       case 'EnquiriesPage':
       case 'NotificationPage':
         // No event tagging implemented, yet.
@@ -32,21 +35,16 @@ dit.tagging.exopps = (new function() {
   }
 
   function addTaggingForSearch() {
-    $("#hero-banner .search-form").on("submit", function() {
-      window.dataLayer.push({
-        'eventAction': 'Search',
-        'eventCategory': 'Opportunity',
-        'eventLabel': 'HeroBanner',
-        'eventValue': $(this).find("input[type='search']").val()
-      });
-    });
-
-    $("#auxiliary-search .search-form").on("submit", function() {
-      window.dataLayer.push({
-        'eventAction': 'Search',
-        'eventCategory': 'Opportunity',
-        'eventLabel': 'AuxillarySearch',
-        'eventValue': $(this).find("input[type='search']").val()
+    $("#hero-banner, #auxiliary-search, #opportunity-search-results").each(function() {
+      var id = $(this).attr("id");
+      $(".search, .search-form", this).on("submit", function() {
+        window.dataLayer.push({
+          'event': 'gaEvent',
+          'eventAction': 'Search',
+          'eventCategory': 'Opportunity',
+          'eventLabel': dit.utils.camelcase(id.split("-")),
+          'eventValue': $(this).find("input[type='search']").val()
+        });
       });
     });
   }
@@ -55,9 +53,21 @@ dit.tagging.exopps = (new function() {
     $("#featured-industries a").on("click", function() {
       var sector = this.href.replace(/.*?sectors\[\]=([\w]+)/, "$1");
       window.dataLayer.push({
+        'event': 'gaEvent',
         'eventAction': 'Cta',
         'eventLabel': 'FeaturedIndustryTeaser',
         'eventValue': sector
+      });
+    });
+  }
+
+  function addTaggingForOpportunityButton() {
+    $(".bid .button").on("click", function() {
+      window.dataLayer.push({
+        'event': 'gaEvent',
+        'eventAction': 'Cta',
+        'eventLabel': 'InterestInOpportunity',
+        'eventValue': $(this).attr("href").charAt(0) == "/" ? "DIT" : "ThirdParty"
       });
     });
   }
