@@ -11,7 +11,9 @@ class Opportunity < ApplicationRecord
 
   after_commit on: [:update] do
     __elasticsearch__.delete_document
-    __elasticsearch__.index_document
+    unless expired?
+      __elasticsearch__.index_document
+    end
   end
 
   after_commit on: [:destroy] do
