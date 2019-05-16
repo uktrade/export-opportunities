@@ -142,6 +142,7 @@ feature 'JS-on adds CPV code lookup functionality', js: true do
           'parent2': '1501 10',
           'description': '-- For industrial uses other than manufacture',
           'english_text': 'Lard',
+          'parent_description': 'Lard',
         }, {
           'order': '1971400',
           'level': '5',
@@ -151,6 +152,7 @@ feature 'JS-on adds CPV code lookup functionality', js: true do
           'parent2': '1501 20',
           'description': '-- For industrial uses other than manufacture',
           'english_text': 'Pig fat',
+          'parent_description': 'Pig fat',
         }, {
           'order': '1971405',
           'level': '5',
@@ -160,6 +162,7 @@ feature 'JS-on adds CPV code lookup functionality', js: true do
           'parent2': '1502 10',
           'description': '-- For industrial uses other than manufacture',
           'english_text': 'Tallow of bovine animals',
+          'parent_description': 'Tallow of bovine animals',
         }, {
           'order': '1971408',
           'level': '5',
@@ -169,6 +172,7 @@ feature 'JS-on adds CPV code lookup functionality', js: true do
           'parent2': '1502 90',
           'description': '-- For industrial uses other than manufacture',
           'english_text': 'Fats of bovine animals',
+          'parent_description': 'Fats of bovine animals',
         }, {
           'order': '1971414',
           'level': '4',
@@ -178,6 +182,7 @@ feature 'JS-on adds CPV code lookup functionality', js: true do
           'parent2': '1503 00',
           'description': '- Tallow oil for industrial uses other than the manufacture of foodstuffs for human consumption',
           'english_text': 'Tallow oil for industrial uses (excl. for production of foodstuffs and emulsified',
+          'parent_description': 'lard oil',
         }, {
           'order': '1971434',
           'level': '5',
@@ -187,6 +192,7 @@ feature 'JS-on adds CPV code lookup functionality', js: true do
           'parent2': '1507 10',
           'description': '-- For technical or industrial uses other than the manufacture of foodstuffs for human consumption',
           'english_text': 'Crude soya-bean oil',
+          'parent_description': 'whether or not degummed',
         }, {
           'order': '1971437',
           'level': '5',
@@ -196,6 +202,7 @@ feature 'JS-on adds CPV code lookup functionality', js: true do
           'parent2': '1507 90',
           'description': '-- For technical or industrial uses other than the manufacture of foodstuffs for human consumption',
           'english_text': 'Soya-bean oil and its fractions',
+          'parent_description': 'Soya-bean oil and its fractions',
         }, {
           'order': '1971441',
           'level': '5',
@@ -205,6 +212,7 @@ feature 'JS-on adds CPV code lookup functionality', js: true do
           'parent2': '1508 10',
           'description': '-- For technical or industrial uses other than the manufacture of foodstuffs for human consumption',
           'english_text': 'Crude groundnut oil for technical or industrial uses (excl. for production of foodstuffs)',
+          'parent_description': 'Crude groundnut oil',
         }, {
           'order': '1971444',
           'level': '5',
@@ -214,6 +222,7 @@ feature 'JS-on adds CPV code lookup functionality', js: true do
           'parent2': '1508 90',
           'description': '-- For technical or industrial uses other than the manufacture of foodstuffs for human consumption',
           'english_text': 'Groundnut oil and its fractions',
+          'parent_description': 'Groundnut oil and its fractions',
         }
       ]
     )
