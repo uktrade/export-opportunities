@@ -6,7 +6,9 @@ class Opportunity < ApplicationRecord
 
   # built in callbacks won't work with our custom indexed taxonomies
   after_commit on: [:create] do
-    __elasticsearch__.index_document
+    unless expired?
+      __elasticsearch__.index_document
+    end
   end
 
   after_commit on: [:update] do
