@@ -708,7 +708,6 @@ GEM
     pg_search (2.1.6)
       activerecord (>= 4.2)
       activesupport (>= 4.2)
-    phantomjs (2.1.1.0)
     poltergeist (1.18.1)
       capybara (>= 2.1, < 4)
       cliver (~> 0.3.1)
@@ -974,7 +973,6 @@ DEPENDENCIES
   paper_trail (= 9.2.0)
   pg (= 1.1.4)
   pg_search
-  phantomjs
   poltergeist
   premailer-rails
   pry-rails

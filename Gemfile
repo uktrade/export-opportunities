@@ -91,9 +91,6 @@ gem 'jwt'
 # caching
 gem 'actionpack-page_caching'
 
-# Circleci
-gem 'phantomjs', :require => 'phantomjs/poltergeist'
-
 group :development, :test do
   gem 'byebug'
   gem 'faker'
