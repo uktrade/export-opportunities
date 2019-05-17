@@ -73,6 +73,15 @@ RSpec.configure do |config|
   config.before(:each, js: true) do
     create_cookie('UPDATE-JANUARY-2018-ACCEPTED', true)
   end
+  
+  # Build initial indices if not present, e.g. CircleCI
+  [Opportunity, Subscription].each do |model|
+    unless model.__elasticsearch__.index_exists? index: model.__elasticsearch__.index_name
+      model.__elasticsearch__.create_index!(force: true)
+      sleep 2
+    end
+  end
+
 end
 
 RSpec::Sidekiq.configure do |config|

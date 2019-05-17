@@ -71,4 +71,15 @@ dit.tagging.exopps = (new function() {
       });
     });
   }
+
+  function addTaggingForOpportunityButton() {
+    $(".bid .button").on("click", function() {
+      window.dataLayer.push({
+        'event': 'gaEvent',
+        'eventAction': 'Cta',
+        'eventLabel': 'InterestInOpportunity',
+        'eventValue': $(this).attr("href").charAt(0) == "/" ? "DIT" : "ThirdParty"
+      });
+    });
+  }
 });

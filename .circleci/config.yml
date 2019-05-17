@@ -1,0 +1,122 @@
+version: 2
+jobs:
+  build:
+    parallelism: 3
+    working_directory: ~/export-opportunities
+    docker:
+      - image: circleci/ruby:2.5.5-node
+        environment:
+          BUNDLE_JOBS: 3
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
+          PGHOST: localhost
+          PGUSER: user
+          RAILS_ENV: test
+          EXPORT_READINESS_URL: debug
+          EXPORT_OPPORTUNITIES_URL: debug
+          POST_FORM_DEPLOYMENT_DATE: 2018-10-18
+          CATEGORISATION_URL: $CATEGORISATION_URL
+          TRADE_PROFILE_CREATE_WITH_NUMBER: $TRADE_PROFILE_CREATE_WITH_NUMBER
+          TG_HOSTNAME: $TG_HOSTNAME
+          AZ_API_KEY: $AZ_API_KEY
+          SIGNOFF_LINES_DEPLOYMENT_DATE: 2018-12-03
+          CONTACT_US_EMAIL: test@example.com
+          OO_USERNAME: $OO_USERNAME
+          OO_PASSWORD: $OO_PASSWORD
+          OO_HOSTNAME: $OO_HOSTNAME
+          OO_TOKEN_ENDPOINT: $OO_TOKEN_ENDPOINT
+          DISALLOW_ALL_WEB_CRAWLERS: true
+          TG_API_KEY: $TG_API_KEY
+          TG_HOSTNAME: $TG_HOSTNAME
+          AZ_CUSTOM_LIST_ID: $AZ_CUSTOM_LIST_ID
+          AZ_HOSTNAME: $AZ_HOSTNAME
+          MAILER_FROM_ADDRESS: test@example.com
+          DOMAIN: $DOMAIN
+          EXPORT_COMPANIES_HOUSE_SEARCH: $EXPORT_COMPANIES_HOUSE_SEARCH
+          CPV_CODE_LOOKUP_URL: $CPV_CODE_LOOKUP_URL
+          CLAM_AV_HOST: $CLAM_AV_HOST
+          CLAM_AV_USERNAME: $CLAM_AV_USERNAME
+          CLAM_AV_PASSWORD: $CLAM_AV_PASSWORD
+          DL_HOSTNAME: $DL_HOSTNAME
+          DL_API_KEY: $DL_API_KEY
+          TRANSLATE_OPPORTUNITIES: true
+      - image: circleci/postgres:latest
+        environment:
+          POSTGRES_USER: user
+          POSTGRES_DB:  circle_test
+          POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      - image: circleci/redis:4.0.9
+        environment:
+          REDIS_URL: "redis://localhost:6379/"
+      - image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
+        environment:
+          cluster.name: elasticsearch
+          xpack.security.enabled: false
+          transport.host: localhost
+          network.host: 127.0.0.1
+          http.port: 9200
+          discovery.type: single-node
+    branches:
+      only: chore/XOT-597-circleci
+    steps:
+      - checkout # check out the code in the project directory
+      # restore bundle cache  
+      - restore_cache:
+          keys:
+            - exops-{{ checksum "Gemfile.lock" }}
+
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install
+
+      # store bundle cache
+      - save_cache:
+          key: exops-{{ checksum "Gemfile.lock" }}
+          paths: 
+            - vendor/bundle
+
+      # Database setup
+      - run:
+          name: install dockerize
+          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          environment:
+            DOCKERIZE_VERSION: v0.3.0
+
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
+          name: Database setup
+          command: |
+            bundle exec rake db:create
+            bundle exec rake db:migrate
+       
+      # Redis setup
+      - run:
+          name: Wait for Redis
+          command: dockerize -wait tcp://localhost:6379 -timeout 1m
+
+      # PhantomJS Setup
+      # https://discuss.circleci.com/t/phantomjs-on-circleci-2-0/10708/12
+      - run:
+          name: Install 'phantomjs'
+          command: |
+            sudo curl --output /tmp/phantomjs https://s3.amazonaws.com/circle-downloads/phantomjs-2.1.1
+            sudo chmod ugo+x /tmp/phantomjs
+            sudo ln -sf /tmp/phantomjs /usr/local/bin/phantomjs
+
+      # Run rspec in parallel 
+      - run: |
+          echo Running test ...
+          bundle exec rspec --profile 10 \
+                      --format RspecJunitFormatter \
+                      --out test_results/rspec.xml \
+                      --format progress \
+                      $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      
+      # Save test results for timing analysis
+      - store_test_results:
+          path: test_results 
+
+      - run: echo "hello world" # run the `echo` command
