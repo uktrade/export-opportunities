@@ -21,17 +21,23 @@ class OpportunitiesController < ApplicationController
   #                             { total: #, expiring_soon: #, published_recently: #, }
   #
   def index
-    @content = get_content('opportunities/index.yml')
-    @recent_opportunities = recent_opportunities
-    @featured_industries = Sector.featured
-    @countries = all_countries
-    @regions = regions_list
-    @opportunities_stats = opportunities_stats
-    @page = LandingPresenter.new(@content, @featured_industries)
-
     respond_to do |format|
       format.html do
+        @content = get_content('opportunities/index.yml')
+        @recent_opportunities = recent_opportunities
+        @featured_industries = Sector.featured
+        @countries = all_countries
+        @regions = regions_list
+        @opportunities_stats = opportunities_stats
+        @page = LandingPresenter.new(@content, @featured_industries)
         render layout: 'landing'
+      end
+      format.any(:atom, :xml) do
+        results = Search.new(params, results_only: true, sort: 'updated_at').run
+        @query = AtomOpportunityQueryDecorator.new(results, view_context)
+        @total = @query.records.size
+        @opportunities = @query.records
+        render :index, formats: :atom
       end
     end
   end
