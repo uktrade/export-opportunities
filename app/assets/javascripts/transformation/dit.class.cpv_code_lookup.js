@@ -229,7 +229,7 @@
   CpvCodeLookup.parentDescription = function(description, text) {
     var parentDescription = "";
     text = CpvCodeLookup.cleanString(text);
-    if(description.indexOf(text) < 0) {
+    if(!CpvCodeLookup.duplicatedText(description, text)) {
       parentDescription = "<span>" + text + "</span>"; // Not elegant but should work.
     }
     return parentDescription;
