@@ -269,7 +269,7 @@
     var parentDescription = CpvCodeLookup.parentDescription(description, data["parent_description"]);
     var code = data["code"];
     return {
-      value: code,
+      value: code + ": " + description,
       text: parentDescription + code + ": " + description
     }
   }
