@@ -188,6 +188,30 @@
     return notDuplicated;
   }
 
+  /* Testing saw data like this:
+   * code               = "220430100080"
+   * description        = "In fermentation or with fermentation arrested..."
+   * english_text       = "Grape must"
+   * parent_description = "Grape must"
+   * This resulted in display output like this:
+   *
+   * Grape must
+   * 220430100080 Grape must - In fermentation or with fermentation arrested...
+   *
+   * So we want to try and avoid parent text duplication in this situation.
+   *
+   * @description (String) Prepared description from createDescriptionText()
+   * @text (String) the value of parent_description from data.
+   **/
+  CpvCodeLookup.parentDescription = function(description, text) {
+    var parentDescription = "";
+    text = CpvCodeLookup.cleanString(text);
+    if(description.indexOf(text) < 0) {
+      parentDescription = "<span>" + text + "</span>"; // Not elegant but should work.
+    }
+    return parentDescription;
+  }
+
   CpvCodeLookup.prototype = new SelectiveLookup;
 
   // Overwrite inherited.
@@ -218,18 +242,12 @@
    * data (Object) Retreived json data converted to object form.
    **/
   CpvCodeLookup.prototype.processWithDataMapping = function(data) {
-    var text = CpvCodeLookup.createDescriptionText(data["english_text"], data["description"]);
-    var parentDescription = CpvCodeLookup.cleanString(data["parent_description"]);
-    var value = data["code"] + ": " + text;
-    if(parentDescription != "") {
-      text = "<span>" + parentDescription + "</span>" + value; // Not elegant but should work.
-    }
-    else {
-      text = value;
-    }
+    var description = CpvCodeLookup.createDescriptionText(data["english_text"], data["description"]);
+    var parentDescription = CpvCodeLookup.parentDescription(description, data["parent_description"]);
+    var code = data["code"];
     return {
-      value: value,
-      text: text
+      value: code,
+      text: parentDescription + code + ": " + description
     }
   }
 
