@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     root to: 'opportunities#index'
 
     get 'check' => 'application#check'
-    get 'data_sync_check' => 'application#data_sync_check'
+    get 'data_sync_check' => 'data_sync#check'
     get 'api_check' => 'application#api_check'
     get "robots.txt" => "robots_txts#show"
 
