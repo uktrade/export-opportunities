@@ -18,6 +18,6 @@
 
     = link_to content["alert_summary_link"], dashboard_path(anchor: 'alerts', target: :alerts)
 
-  %p= page.content_with_inclusion("advice", [link_to("Account", "/dashboard")]).html_safe
+  %p= page.content_with_inclusion("advice", [link_to("Account", dashboard_path)]).html_safe
   %p.back
     =link_to content["back"], request.referrer, :class=>"button"
