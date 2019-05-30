@@ -56,8 +56,6 @@ jobs:
           network.host: 127.0.0.1
           http.port: 9200
           discovery.type: single-node
-    branches:
-      only: chore/XOT-597-circleci
     steps:
       - checkout # check out the code in the project directory
       # restore bundle cache  
