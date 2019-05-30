@@ -21,7 +21,7 @@ main {
   display: inline-block;
 
   &:before {
-    @include arrow-left(#{$font-size-body-s / 2}, $white, $grey-1);
+    @include arrow-left(#{$font-size-s / 2}, $white, $grey-1);
     margin-right: 0.4em;
   }
 }
@@ -37,7 +37,7 @@ main {
   }
 
   p {
-    font-size: $font-size-body-s;
+    font-size: $font-size-s;
   }
 
   .back {
@@ -52,7 +52,7 @@ main {
 
   .expired {
     color: $great-red;
-    font-size: $font-size-body-l;
+    font-size: $font-size-l;
     font-weight: bold;
   }
 }
@@ -81,7 +81,7 @@ main {
     clear: left;
     color: $grey-5;
     float: left;
-    font-size: $font-size-body-s;
+    font-size: $font-size-s;
     margin-right: $spacing-4;
     min-width: 300px;
   }
@@ -91,7 +91,7 @@ main {
   }
 
   .bst-label {
-    font-size: $font-size-body-s;
+    font-size: $font-size-s;
     margin-bottom: $spacing-4;
   }
 
@@ -116,7 +116,7 @@ main {
   }
 
   .list {
-    font-size: $font-size-body-s;
+    font-size: $font-size-s;
     color: $grey-5;
     display: inline-block;
     min-width: 150px;
@@ -172,17 +172,17 @@ main {
   }
 
   p {
-    font-size: $font-size-body-s;
+    font-size: $font-size-s;
     font-weight: bold;
   }
 
   .button {
-    font-size: $font-size-body-m;
+    font-size: $font-size-m;
     margin-right: $spacing-4;
   }
 
   .state {
-    font-size: $font-size-body-l;
+    font-size: $font-size-l;
     font-weight: normal;
     display: block;
   }
