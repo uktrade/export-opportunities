@@ -12,7 +12,7 @@ feature 'Administering opportunities' do
     visit admin_opportunities_path
 
     expect(page).to have_text(opportunity.title)
-    expect(page).to have_selector('td.numeric', text: '4')
+    expect(page).to have_selector('tbody tr', text: '1')
     expect(page).to have_selector('th', text: 'Title')
     expect(page).to have_selector('th', text: 'Status')
     expect(page).to have_selector('th', text: 'Service provider')

@@ -49,8 +49,8 @@
         - if @filters.selected_status
           = hidden_field_tag 'status', @filters.selected_status
 
-        - if @filters.hide_expired
-          = hidden_field_tag 'hide_expired', true
+        - if !@filters.hide_expired
+          = hidden_field_tag 'hide_expired', false
 
         = text_field_tag 's', @filters.raw_search_term, placeholder: 'Search opportunities', class: 'text'
         = submit_tag 'Search', class: 'button'
