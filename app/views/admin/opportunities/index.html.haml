@@ -18,7 +18,7 @@
               - if name.to_s == @filters.selected_status.to_s
                 %span= opportunity_status_link(name)
 
-        %ul.filters
+        %ul
           - if !@filters.selected_status.nil?
             %li= link_to('All', admin_opportunities_path(hide_expired: @filters.hide_expired, s: @filters.raw_search_term))
           - @available_status.each do |name, _|
