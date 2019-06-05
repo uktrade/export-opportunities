@@ -161,11 +161,11 @@ feature 'Admins sorting the list of opportunities', :elasticsearch, :commit do
 
   scenario 'sorting when paginated' do
     create(:opportunity, title: 'last opp')
-    create_list(:opportunity, Admin::OpportunitiesController::OPPORTUNITIES_PER_PAGE)
+    create_list(:opportunity, Admin::OpportunitiesController::OPPORTUNITIES_PER_PAGE * 4)
 
     login_as(create(:publisher))
     visit '/export-opportunities/admin/opportunities?paged=2'
-    within('.pagination') { click_link '2' }
+    within('.pagination') { click_link '3' }
 
     column_sort_link = page.find_link('Title')[:href]
     page_number = CGI.parse(URI.parse(column_sort_link).query)['paged'].first
