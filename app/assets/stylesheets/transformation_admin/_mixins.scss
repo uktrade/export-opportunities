@@ -38,6 +38,7 @@
   box-shadow: none;
   cursor: pointer;
   display: inline-block;
+  font-size: $font-size-m;
   font-weight: normal;
   line-height: 26px;
   overflow: hidden;
@@ -62,12 +63,9 @@
   }
 }
 
-@mixin button-disabled($colour-1, $colour-2) {
-  @include button-base;
-  background-color: $colour-2;
-  border-color: $colour-2;
-  color: $colour-1;
+@mixin button-disabled {
   cursor: default;
+  opacity: 0.5;
 }
 
 @mixin button-ghost($colour-1, $colour-2) {
@@ -110,11 +108,6 @@
     top: 10%;
     width: 80%;
   }
-}
-
-@mixin button-disabled {
-  cursor: default;
-  opacity: 0.5;
 }
 
 // ARROWS
