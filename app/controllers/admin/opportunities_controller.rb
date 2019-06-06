@@ -189,7 +189,7 @@ class Admin::OpportunitiesController < Admin::BaseController
                 else
                   OpportunitySort.new(default_column: 'created_at', default_order: 'desc').update(column: @sort_params[:column], order: @sort_params[:order])
                 end
-        @hide_expired = if params[:hide_expired] && params[:hide_expired].downcase == 'false'
+        @hide_expired = if params[:hide_expired] && params[:hide_expired] == 'false'
                           false
                         else
                           true
