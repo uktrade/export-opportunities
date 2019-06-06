@@ -153,7 +153,7 @@ class OpportunitySearchBuilder
               },
               {
                 "multi_match": {
-                  "query": @sectors.join(" ").tr('-', ' '),
+                  "query": @sectors.join(' ').tr('-', ' '),
                   "fields": %w[title^5 teaser^2 description],
                   "operator": 'or',
                 },
