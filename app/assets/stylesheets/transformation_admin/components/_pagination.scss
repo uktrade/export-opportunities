@@ -1,0 +1,38 @@
+.pagination {
+  text-align: center;
+
+  a {
+    @include button-ghost($blue-3, $white);
+    margin-bottom: $spacing-4;
+    padding-left: $spacing-4;
+    padding-right: $spacing-4;
+  }
+
+  li {
+    display: inline-block;
+  }
+
+  .current {
+    // TODO: Sort this out so that it works same as transformation version
+    // @include button-disabled;
+    @include button-base;
+    background-color: $blue-3;
+    border-color: $blue-3;
+    color: $white;
+    cursor: default;
+    padding-left: $spacing-4;
+    padding-right: $spacing-4;
+  }
+
+  .next {
+    float: right;
+  }
+
+  .previous {
+    float: left;
+  }
+
+  ul {
+    display: inline-block;
+  }
+}

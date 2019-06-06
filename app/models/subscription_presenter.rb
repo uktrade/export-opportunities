@@ -56,7 +56,7 @@ class SubscriptionPresenter < SimpleDelegator
       sectors: sectors.map(&:slug),
       types: types.map(&:slug),
       values: values.map(&:slug),
-      subscription_url: true
+      subscription_url: true,
     }.to_query
     "/export-opportunities/opportunities/?#{url_params}"
   end
