@@ -55,16 +55,18 @@ class FormPresenter < PagePresenter
   end
 
   # Return formatted data for separated datecomponent
-  def input_date_month_year(name)
+  def input_date_month_year(name, date=nil)
     field = field_content(name)
     id = field_id(name)
     {
       id: id,
+      name: name,
       name_dd: "#{id}_dd",
       name_mm: "#{id}_mm",
       name_yy: "#{id}_yy",
       description: prop(field, 'description'),
       label: prop(field, 'label'),
+      date: date,
     }
   end
 
