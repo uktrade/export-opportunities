@@ -26,6 +26,10 @@ class Admin::EnquiriesController < Admin::BaseController
         @enquiries = @enquiries.includes(:opportunity).page(params[:paged])
 
         @next_enquiry = next_enquiry if params[:reply_sent]
+
+        render layout: 'admin_transformed', locals: {
+          content: get_content('admin/enquiries.yml'),
+        }
       end
       format.csv do
         enquiries = policy_scope(Enquiry).includes(:enquiry_response).where('enquiries.created_at >= ?', @enquiry_form.from).where('enquiries.created_at < ?', @enquiry_form.to).order(created_at: :desc)

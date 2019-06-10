@@ -1,3 +1,10 @@
+- form = FormPresenter.new(content, {})
+
+- content_for :action_specific_head  do
+  = stylesheet_link_tag 'transformation_admin/pages/enquiries_index'
+  = javascript_include_tag 'transformation_admin/dit.page.enquiries_index'
+
+= render partial: 'admin/includes/flash_notice'
 - if params[:reply_sent]
   %div.alert.flash.info
     %h2.margin-top-0 Reply sent successfully
@@ -10,39 +17,60 @@
       - else
         You have no more enquiries to respond to
 
-%h1.heading-xlarge Enquiries
+%section.intro
+  .container
+    %h1 Enquiries
 
-.admin__filter-panel
-  Filter by status:
-  %ul
-    %li{class: (@filters.selected_status.nil? ? 'admin__filter-selected' : '')}
-      = link_to('All', admin_enquiries_path())
-    %li{class: (@filters.selected_status == 'replied' ? 'admin__filter-selected' : '')}
-      = link_to('Replied', admin_enquiries_url(status: 'replied'))
-    %li{class: (@filters.selected_status == 'not_replied' ? 'admin__filter-selected' : '')}
-      = link_to('To reply', admin_enquiries_path(status: 'not_replied'))
+    .controls
+      .filters
+        %p
+          Filter by status:
+          - if @filters.selected_status.nil?
+            %span= content['status']['all']
+          - else
+            - content['status'].each do |name, _|
+              - if name.to_s == @filters.selected_status.to_s && name != 'all'
+                %span= content['status'][name]
 
-%div
-  = form_tag admin_enquiries_path(format: :csv), method: :get, format: :csv do
-    = render :partial => "errors/form_validation.html"
-    = label_tag :created_at_from, 'From'
-    = select_date 1.day.ago, prefix: :created_at_from, class: 'form-control', id: 'created_at_from'
-    = label_tag :created_at_to, 'To'
-    = select_date Date.today, prefix: :created_at_to, class: 'form-control', id: 'created_at_to'
-    = submit_tag 'Generate report', class: 'button'
+        %ul
+          - if !@filters.selected_status.nil?
+            %li= link_to('All', admin_enquiries_path())
+          - content['status'].each do |name, _|
+            - if name.to_s != @filters.selected_status.to_s && name != 'all'
+              %li= link_to(content['status'][name], admin_enquiries_url(status: name))
 
-%table
-  %thead
-    %th{width: '35%'}= sortable(:enquiry_filters, 'company_name', 'Company', 'asc', @filters.sort)
-    %th{width: '35%'}= sortable(:enquiry_filters, 'opportunity', 'Opportunity', 'asc', @filters.sort)
-    %th.numeric{width: '10%'} Applied On
-    %th{status: '10%'} Status
-  %tbody
-    - @enquiries.each do |enquiry|
-      %tr
-        %td= link_to enquiry.company_name, admin_enquiry_path(enquiry)
-        %td= enquiry.opportunity.title
-        %td.numeric= enquiry.created_at.to_s(:admin_datetime)
-        %td= enquiry.response_status
+    .search
+      = form_for admin_enquiries_path(format: :csv), method: :get, format: :csv do
+        = render :partial => 'forms/input_date_month_year', locals: { input: form.input_date_month_year('created_at_from', 1.day.ago) }
+        = render :partial => 'forms/input_date_month_year', locals: { input: form.input_date_month_year('created_at_to', Date.today) }
+        = submit_tag 'Generate report', class: 'button'
 
-= paginate @enquiries
+%section.results
+  .container
+    %table
+      %thead
+        %th.enquiry
+          = sortable(:enquiry_filters, 'id', 'Enquiry', 'asc', @filters.sort)
+        %th.company
+          = sortable(:enquiry_filters, 'company_name', 'Company', 'asc', @filters.sort)
+        %th.title
+          = sortable(:enquiry_filters, 'opportunity', 'Opportunity', 'asc', @filters.sort)
+        %th.created
+          = sortable(:enquiry_filters, 'created_at', 'Applied On', 'asc', @filters.sort)
+        %th.status
+          Status
+      %tbody
+        - @enquiries.each do |enquiry|
+          %tr
+            %td.enquiry
+              = link_to enquiry.id, admin_enquiry_path(enquiry)
+            %td.company
+              = enquiry.company_name
+            %td.title
+              = link_to enquiry.opportunity.title, admin_opportunity_path(enquiry.opportunity)
+            %td.created
+              = enquiry.created_at.to_s(:admin_datetime)
+            %td.status
+              = enquiry.response_status
+
+    = render partial: "components/pagination", locals: { items: @enquiries }
