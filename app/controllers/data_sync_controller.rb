@@ -1,5 +1,4 @@
 class DataSyncController < ApplicationController
-
   # Protect by basic auth on staging
   # Use basic auth if set in the environment
   before_action :basic_auth
@@ -98,5 +97,4 @@ class DataSyncController < ApplicationController
     def es_subscriptions
       Subscription.__elasticsearch__.count
     end
-
 end

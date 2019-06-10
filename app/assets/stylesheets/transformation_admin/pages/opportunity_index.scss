@@ -1,0 +1,180 @@
+@import 'transformation_admin/config';
+@import 'transformation_admin/forms';
+@import 'transformation_admin/components/pagination';
+@import 'transformation_admin/components/ragg';
+
+
+h2 {
+  @include heading-m;
+}
+
+h3 {
+  @include heading-s;
+}
+
+main {
+  max-width: none;
+}
+
+.actions {
+  float: right;
+
+  .button {
+    border: 1px solid $white;
+    font-size: inherit;
+  }
+}
+
+.controls {
+  background-color: $white;
+  border: 1px solid $grey-3;
+  margin-bottom: $spacing-3;
+  overflow: hidden;
+  padding: $spacing-3 $spacing-3 0 $spacing-3;
+  position: relative;
+
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.displayed {
+  float: left;
+  margin: 0 $spacing-3 $spacing-3 0;
+
+  span {
+    display: block;
+  }
+}
+
+.filters {
+  float: left;
+  margin: 0 $spacing-3 $spacing-3 0;
+
+  li {
+    display: inline-block;
+    margin-bottom: 0;
+  }
+
+  span {
+    font-weight: bold;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.intro {
+  background-color: $stone-40;
+  margin-bottom: $spacing-3;
+  overflow: hidden;
+  padding-top: $spacing-3;
+
+  a {
+    font-size: $font-size-s;
+  }
+}
+
+.search {
+  form {
+    float: right;
+    position: relative;
+    width: 50%;
+  }
+
+  .button {
+    background-color: transparent;
+    background-image: asset_url("icons/search.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 50px;
+    border: none;
+    bottom: 2px;
+    cursor: pointer;
+    height: 46px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    right: 2px;
+    text-indent: 50px;
+    width: 50px;
+  }
+}
+
+.results {
+  table {
+    font-size: $font-size-s;
+    line-height: 1.2em;
+    margin-bottom: $spacing-3;
+    text-align: left;
+  }
+
+  td {
+    border-bottom: 1px solid $grey-3;
+    padding: #{$spacing-4 / 2};
+  }
+
+  th {
+    padding: #{$spacing-4 / 2};
+  }
+
+  th.ragg {
+    padding-right: 0;
+  }
+
+  .created,
+  .published,
+  .response {
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .enquiries {
+    text-align: right;
+  }
+
+  .expired {
+    color: $grey-5;
+  }
+
+  .ragg {
+    padding-left: 0;
+    text-align: center;
+  }
+}
+
+
+// RESPONSIVE
+@media (max-width: 420px) {
+  .actions {
+    .button {
+      width: 100%;
+    }
+  }
+
+  .controls {
+    padding: $spacing-4;
+  }
+}
+
+@media (max-width: 1100px) {
+  .actions {
+    float: left;
+    margin-bottom: $spacing-3;
+  }
+
+  .displayed {
+    a {
+      white-space: nowrap;
+    }
+  }
+
+  .search {
+    form {
+      float: none;
+      width: auto;
+    }
+  }
+}

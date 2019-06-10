@@ -11,7 +11,7 @@ feature 'Searching opportunities' do
     fill_in 's', with: 'bacon'
     click_on 'Search'
 
-    within '.admin__search-form' do
+    within '.search' do
       expect(page.find("input[type='text']").value).to eql 'bacon'
     end
 
@@ -34,7 +34,7 @@ feature 'Searching opportunities' do
     fill_in 's', with: 'eggs'
     click_on 'Search'
 
-    within '.admin__search-form' do
+    within '.search' do
       expect(page.find("input[type='text']").value).to eql 'eggs'
     end
 
@@ -64,7 +64,7 @@ feature 'Searching opportunities' do
     fill_in 's', with: 'smith'
     click_on 'Search'
 
-    within '.admin__search-form' do
+    within '.search' do
       expect(page.find("input[type='text']").value).to eq 'smith'
     end
 
@@ -87,7 +87,7 @@ feature 'Searching opportunities' do
     fill_in 's', with: 'jo.smith@example.com'
     click_on 'Search'
 
-    within '.admin__search-form' do
+    within '.search' do
       expect(page.find("input[type='text']").value).to eq 'jo.smith@example.com'
     end
 
@@ -99,37 +99,40 @@ feature 'Searching opportunities' do
 
   scenario 'changing search criteria maintains filters' do
     login_as(create(:uploader))
-
-    visit admin_opportunities_path
-
     matching_published_opportunity = create(:opportunity, :published, title: 'matching published')
     matching_unpublished_opportunity = create(:opportunity, :unpublished, title: 'matching unpublished')
     non_matching_published_opportunity = create(:opportunity, :published, title: 'bacon')
     matching_published_expired_opportunity = create(:opportunity, :published, :expired, title: 'matching published expired')
 
-    click_on 'Published'
-    click_on 'Show expired'
+    visit admin_opportunities_path
 
-    expect(page).to have_content(matching_published_opportunity.title)
-    expect(page).to have_content(non_matching_published_opportunity.title)
-    expect(page).to have_content(matching_published_expired_opportunity.title)
-    expect(page).to have_no_content(matching_unpublished_opportunity.title)
+    click_on 'Published'
+
+    expect(page).to have_text(matching_published_opportunity.title)
+    expect(page).to have_text(non_matching_published_opportunity.title)
+    expect(page).to have_no_text(matching_unpublished_opportunity.title)
+    expect(page).to have_no_text(matching_published_expired_opportunity.title)
+
+    click_on 'Show expired opportunities'
+
+    expect(page).to have_text(matching_published_opportunity.title)
+    expect(page).to have_text(matching_published_expired_opportunity.title)
 
     fill_in :s, with: 'matching'
     click_on 'Search'
 
-    expect(page).to have_content(matching_published_opportunity.title)
-    expect(page).to have_content(matching_published_expired_opportunity.title)
-    expect(page).to have_no_content(non_matching_published_opportunity.title)
-    expect(page).to have_no_content(matching_unpublished_opportunity.title)
+    expect(page).to have_text(matching_published_opportunity.title)
+    expect(page).to have_text(matching_published_expired_opportunity.title)
+    expect(page).to have_no_text(non_matching_published_opportunity.title)
+    expect(page).to have_no_text(matching_unpublished_opportunity.title)
 
     fill_in :s, with: 'bacon'
     click_on 'Search'
 
-    expect(page).to have_content(non_matching_published_opportunity.title)
-    expect(page).to have_no_content(matching_published_expired_opportunity.title)
-    expect(page).to have_no_content(matching_published_opportunity.title)
-    expect(page).to have_no_content(matching_unpublished_opportunity.title)
+    expect(page).to have_text(non_matching_published_opportunity.title)
+    expect(page).to have_no_text(matching_published_expired_opportunity.title)
+    expect(page).to have_no_text(matching_published_opportunity.title)
+    expect(page).to have_no_text(matching_unpublished_opportunity.title)
   end
 
   scenario 'changing sort criteria maintains search' do

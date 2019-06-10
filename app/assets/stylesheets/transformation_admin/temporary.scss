@@ -19,7 +19,7 @@ a,
   color: $blue-1;
   cursor: pointer;
   font-family: $brand-font-standard;
-  font-size: $font-size-body-s;
+  font-size: $font-size-s;
   padding: 0;
   text-decoration: underline;
 
@@ -42,7 +42,7 @@ body {
   box-sizing: border-box;
   color: $grey-1;
   font-family: $brand-font-standard;
-  font-size: $font-size-body-m;
+  font-size: $font-size-m;
   font-weight: normal;
   line-height: 1.5em;
   margin: 0;
@@ -52,20 +52,20 @@ body {
 }
 
 h1 {
-  font-size: $font-size-heading-xl;
+  font-size: $font-size-xxl;
   font-weight: bold;
   line-height: 1.1em;
   margin: 0 0 $spacing-2 0;
 }
 
 h2 {
-  font-size: $font-size-heading-l;
+  font-size: $font-size-l;
   font-weight: bold;
   margin: 0 0 $spacing-3 0;
 }
 
 h3 {
-  font-size: $font-size-heading-m;
+  font-size: $font-size-m;
   font-weight: bold;
   margin: 0 0 $spacing-4 0;
 }
@@ -133,7 +133,7 @@ ul {
 .flash {
   border-style: solid;
   border-width: 0 0 0 5px;
-  font-size: $font-size-body-s;
+  font-size: $font-size-s;
   margin: 0 0 $spacing-3 0;
   padding: $spacing-4;
 
@@ -183,7 +183,7 @@ main#content {
   padding-bottom: $spacing-1;
 
   a {
-    font-size: $font-size-body-l;
+    font-size: $font-size-l;
     font-weight: bold;
     text-decoration: none;
   }
@@ -193,7 +193,7 @@ main#content {
   }
 
   .title {
-    font-size: $font-size-body-l;
+    font-size: $font-size-l;
     font-weight: normal;
     margin-bottom: $spacing-2;
   }
@@ -207,14 +207,14 @@ main#content {
 
   dd {
     float: left;
-    font-size: $font-size-body-s;
+    font-size: $font-size-s;
     margin: 0 0 10px 0;
   }
 
   dt {
     clear: left;
     float: left;
-    font-size: $font-size-body-s;
+    font-size: $font-size-s;
     margin: 0 $spacing-3 10px 0;
 
     &:after {
@@ -233,7 +233,7 @@ main#content {
 
   a {
     color: $white;
-    font-size: $font-size-body-xs;
+    font-size: $font-size-s;
     font-weight: bold;
     text-decoration: none;
 
@@ -250,7 +250,7 @@ main#content {
   .title {
     color: $white;
     display: inline-block;
-    font-size: $font-size-body-l;
+    font-size: $font-size-l;
     margin: 0;
   }
 
@@ -297,7 +297,7 @@ main#content {
 
 #phase-banner {
   border-top: $red-1 solid 10px;
-  font-size: $font-size-body-s;
+  font-size: $font-size-s;
   margin-bottom: $spacing-3;
   padding-top: 7px;
 
@@ -316,7 +316,7 @@ main#content {
  ************************/
 .feedback-section {
   p {
-    font-size: $font-size-body-s;
+    font-size: $font-size-s;
   }
 }
 
@@ -350,7 +350,7 @@ main#content {
  * PAGE HAS BEEN CONVERTED TO NO LONGER USE ANY LEGACY CSS.
  *****************************************************************/
 .stats {
-  font-size: $font-size-body-m;
+  font-size: $font-size-m;
 
   li {
     background-color: $grey-3;
@@ -365,7 +365,7 @@ main#content {
 
   small {
     display: block;
-    font-size: $font-size-body-xs;
+    font-size: $font-size-xs;
   }
 
   ul {
@@ -390,8 +390,8 @@ main#content {
 
   .number {
     display: block;
-    font-size: $font-size-heading-xl;
-    line-height: $font-size-heading-xl;
+    font-size: $font-size-xxl;
+    line-height: $font-size-xxl;
     margin: 0 0 $spacing-4 0;
 
     span {
