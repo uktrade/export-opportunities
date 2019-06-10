@@ -4,7 +4,6 @@
   = stylesheet_link_tag 'transformation_admin/pages/enquiries_index'
   = javascript_include_tag 'transformation_admin/dit.page.enquiries_index'
 
-= render partial: 'admin/includes/flash_notice'
 - if params[:reply_sent]
   %div.alert.flash.info
     %h2.margin-top-0 Reply sent successfully
@@ -40,7 +39,7 @@
               %li= link_to(content['status'][name], admin_enquiries_url(status: name))
 
     .search
-      = form_for admin_enquiries_path(format: :csv), method: :get, format: :csv do
+      = form_tag admin_enquiries_path(format: :csv), method: :get, format: :csv do
         = render :partial => 'forms/input_date_month_year', locals: { input: form.input_date_month_year('created_at_from', 1.day.ago) }
         = render :partial => 'forms/input_date_month_year', locals: { input: form.input_date_month_year('created_at_to', Date.today) }
         = submit_tag 'Generate report', class: 'button'
