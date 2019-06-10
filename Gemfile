@@ -34,7 +34,6 @@ gem 'sdoc'
 # Search
 gem 'pg_search'
 gem 'kaminari'
-gem 'faraday_middleware-aws-sigv4'
 gem 'elasticsearch-rails', '5.1.0'
 gem 'elasticsearch-model', '5.1.0'
 gem 'devise_security_extension', git: 'https://github.com/phatworx/devise_security_extension.git'
