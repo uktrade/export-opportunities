@@ -12,7 +12,7 @@ feature 'Administering opportunities' do
     visit admin_opportunities_path
 
     expect(page).to have_text(opportunity.title)
-    expect(page).to have_selector('td.numeric', text: '4')
+    expect(page).to have_selector('tbody tr', text: '1')
     expect(page).to have_selector('th', text: 'Title')
     expect(page).to have_selector('th', text: 'Status')
     expect(page).to have_selector('th', text: 'Service provider')
@@ -467,56 +467,5 @@ feature 'Administering opportunities' do
     select yyyy, from: 'opportunity_response_due_on_1i'
     select mm, from: 'opportunity_response_due_on_2i'
     select dd, from: 'opportunity_response_due_on_3i'
-  end
-
-
-  # EXAMPLE CPV search URL and RESPONSE
-  # -----------------------------------------------------------------------
-  # URL =
-  # https://www.great.gov.uk/search?q=food
-  #
-  # RESPONSE =
-  def cpv_search_response
-    JSON.generate(
-      [
-        {
-          'order': '1971397',
-          'level': '5',
-          'code': '150110100080',
-          'parent': '150110000080',
-          'code2': '1501 10 10',
-          'parent2': '1501 10',
-          'description': '-- For industrial uses other than manufacture',
-          'english_text': 'Lard',
-        }, {
-          'order': '1971414',
-          'level': '4',
-          'code': '150300300080',
-          'parent': '150300000080',
-          'code2': '1503 00 30',
-          'parent2': '1503 00',
-          'description': '- Tallow oil for industrial uses other than the manufacture of foodstuffs for human consumption',
-          'english_text': 'Tallow oil for industrial uses (excl. for production of foodstuffs and emulsified',
-        }, {
-          'order': '1971434',
-          'level': '5',
-          'code': '150710100080',
-          'parent': '150710000080',
-          'code2': '1507 10 10',
-          'parent2': '1507 10',
-          'description': '-- For technical or industrial uses other than the manufacture of foodstuffs for human consumption',
-          'english_text': 'Crude soya-bean oil',
-        }, {
-          'order': '1971444',
-          'level': '5',
-          'code': '150890100080',
-          'parent': '150890000080',
-          'code2': '1508 90 10',
-          'parent2': '1508 90',
-          'description': '-- For technical or industrial uses other than the manufacture of foodstuffs for human consumption',
-          'english_text': 'Groundnut oil and its fractions',
-        }
-      ]
-    )
   end
 end

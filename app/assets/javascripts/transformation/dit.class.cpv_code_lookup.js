@@ -120,22 +120,50 @@
     }
   }
 
-  /* Occasionally there are returned values that have
-   * duplicated areas of text. Run through this function
-   * to attempt to seek out and prevent that happening.
-   * Note: Includes some data cleanup which should really happen
-   *       before the data response is received
+  /* Testing saw this data:
+   * code: "021099900080"
+   * description: "Edible flours and meals of meat or meat offal"
+   * english_text: "Edible flours and meals of meat or meat offal..."
    *
-   * Allows multiple arguments (Strings) to use for text.
+   * This caused output with duplicated text, so createDescriptionText()
+   * will run things through duplicatedText() to improve things. 
+   *
+   * We also saw this data (but could not easily fix it):
+   * code: "160290510080"
+   * description: "Containing meat or meat offal of domestic swine"
+   * english_text: "Prepared or preserved meat or meat offal containing meat or offal of domestic swine"
+   *
+   * This causes lengthy output of...
+   * 160290510080: Containing meat or meat offal of domestic swine - Prepared or preserved meat or meat offal containing meat or offal of domestic swine
+   *
+   * ...but we're stuck with it due to extra 'meat' word in description causing a match failure.
+   *
+   * @str1 (String) data['description']
+   * @str2 (String) data['english_text']
    **/
-  CpvCodeLookup.createDescriptionText = function() {
+  CpvCodeLookup.createDescriptionText = function(str1, str2) {
     var descriptions = [];
-    for(var i=0, text=""; i<arguments.length; ++i) {
-       text = CpvCodeLookup.cleanString(arguments[i])
-       if(CpvCodeLookup.notDuplicatedString(descriptions, text) && text != "") {
-         descriptions.push(text);
-       }
+    var str1HasDuplicateText;
+    var str2HasDuplicateText;
+    str1 = CpvCodeLookup.cleanString(str1);
+    str2 = CpvCodeLookup.cleanString(str2);
+
+    // If str1 and str2 are the same, just add str1
+    if(str1 == str2) {
+      descriptions.push(str1);
     }
+    else {
+      // Add str1 if does not duplicate anything in str2
+      if(!CpvCodeLookup.duplicatedText(str2, str1)) {
+        descriptions.push(str1);
+      }
+
+      // Add str2 if does not duplicate anything in str1
+      if(!CpvCodeLookup.duplicatedText(str1, str2)) {
+        descriptions.push(str2);
+      }
+    }
+
     return descriptions.join(" - ");
   }
 
@@ -156,36 +184,55 @@
     return str;
   }
 
-  /* Testing saw these two outputs:
-   * "160290510080: Prepared or preserved meat or meat offal containing meat  or offal
-   *  of domestic swine (excl. of poultry - Containing meat or meat offal of domestic swine"
-   * and
-   * "843850000080: Machinery for the industrial preparation of meat or poultry
-   *  (excl. cooking and other heating appliances and refrigerating or freezing equipment)
-   *   - Machinery for the preparation of meat or poultry"
+  /* Checks to see if one string is found in another.
+   * Handles exact matches only, not similar strings.
+   * Return true if str2 is found in str1.
    *
-   * Where there is still a lot of duplicated text.
-   * We can attempt to prevent extra content by matching and preventing extra description
-   * in 160290510080, but not 843850000080, where there is an extra word ('industrial') that
-   * prevents a direct match.
+   * e.g.
+   *
+   * str1 = "This is a string with some text"
+   * str2 = "String with some text"
+   * Returns true
+   *
+   * str1 = "This is a string with some text"
+   * str2 = "String with some random text"
+   * Returns false
+   *
+   * @str1 (String) String that is searched.
+   * @str2 (String) String to search for in str1.
    **/
-  CpvCodeLookup.notDuplicatedString = function(comparisonStrings, text) {
-    // descriptions.indexOf(text) is not good enough to get partial
-    // string matches so running through each individual string.
-    var notDuplicated = true;
+  CpvCodeLookup.duplicatedText = function(str1, str2) {
+    // First a little custom clean up after noticing some strings
+    // were only different by inclusion of parenthesis.
+    str1 = str1.replace(/[\(\)]/, "");
+    str2 = str2.replace(/[\(\)]/, "");
 
-    // A little custom clean up after noticing some
-    // string were only different by inclusion of
-    // parenthesis. 
-    text = text.replace(/[\(\)]/, "");
+    // Is str2 found in str1
+    return str1.toLowerCase().indexOf(str2.toLowerCase()) >= 0;
+  }
 
-    for(var i=0; i < comparisonStrings.length; ++i) {
-      if(comparisonStrings[i].toLowerCase().indexOf(text.toLowerCase()) >= 0) {
-        notDuplicated = false;
-        break;
-      }
+  /* Testing saw data like this:
+   * code               = "220430100080"
+   * description        = "In fermentation or with fermentation arrested..."
+   * english_text       = "Grape must"
+   * parent_description = "Grape must"
+   * This resulted in display output like this:
+   *
+   * Grape must
+   * 220430100080 Grape must - In fermentation or with fermentation arrested...
+   *
+   * So we want to try and avoid parent text duplication in this situation.
+   *
+   * @description (String) Prepared description from createDescriptionText()
+   * @text (String) the value of parent_description from data.
+   **/
+  CpvCodeLookup.parentDescription = function(description, text) {
+    var parentDescription = "";
+    text = CpvCodeLookup.cleanString(text);
+    if(!CpvCodeLookup.duplicatedText(description, text)) {
+      parentDescription = "<span>" + text + "</span>"; // Not elegant but should work.
     }
-    return notDuplicated;
+    return parentDescription;
   }
 
   CpvCodeLookup.prototype = new SelectiveLookup;
@@ -218,18 +265,12 @@
    * data (Object) Retreived json data converted to object form.
    **/
   CpvCodeLookup.prototype.processWithDataMapping = function(data) {
-    var text = CpvCodeLookup.createDescriptionText(data["english_text"], data["description"]);
-    var parentDescription = CpvCodeLookup.cleanString(data["parent_description"]);
-    var value = data["code"] + ": " + text;
-    if(parentDescription != "") {
-      text = "<span>" + parentDescription + "</span>" + value; // Not elegant but should work.
-    }
-    else {
-      text = value;
-    }
+    var description = CpvCodeLookup.createDescriptionText(data["english_text"], data["description"]);
+    var parentDescription = CpvCodeLookup.parentDescription(description, data["parent_description"]);
+    var code = data["code"];
     return {
-      value: value,
-      text: text
+      value: code + ": " + description,
+      text: parentDescription + code + ": " + description
     }
   }
 

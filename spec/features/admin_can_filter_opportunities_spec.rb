@@ -45,8 +45,10 @@ RSpec.feature 'Admin can filter opportunities' do
     expect(page).to have_link('Trashed')
     expect(page).to have_link('Draft')
   end
+
   scenario 'Editor preference for showing and hiding expired opportunities persists when changing filters (All,Pending,Published,Trashed)' do
     login_as(create(:publisher))
+    result_item_selector = '.results tbody tr'
     visit admin_opportunities_path
 
     non_expired_published_opportunity = create(:opportunity, status: :publish)
@@ -56,23 +58,23 @@ RSpec.feature 'Admin can filter opportunities' do
     expect(page).to have_content('Expired opportunities are hidden')
     expect(page).to have_content('Show expired opportunities')
 
-    within('.admin__filter-panel') { click_link('Pending') }
-    expect(page).to have_no_selector('tr.opportunity')
+    within('.filters') { click_link('Pending') }
+    expect(page).to have_no_selector(result_item_selector)
     expect(page).to have_no_text expired_pending_opportunity.title
 
-    within('.admin__filter-panel') { click_link('Published') }
-    expect(page).to have_selector('tr.opportunity', count: 1)
+    within('.filters') { click_link('Published') }
+    expect(page).to have_selector(result_item_selector, count: 1)
     expect(page).to have_no_text expired_published_opportunity.title
     expect(page).to have_no_text expired_pending_opportunity.title
     expect(page).to have_text non_expired_published_opportunity.title
 
     click_on('Show expired')
-    expect(page).to have_selector('tr.opportunity', count: 2)
+    expect(page).to have_selector(result_item_selector, count: 2)
     expect(page).to have_text non_expired_published_opportunity.title
     expect(page).to have_text expired_published_opportunity.title
 
-    within('.admin__filter-panel') { click_link('Pending') }
-    expect(page).to have_selector('tr.opportunity', count: 1)
+    within('.filters') { click_link('Pending') }
+    expect(page).to have_selector(result_item_selector, count: 1)
     expect(page).to have_no_text non_expired_published_opportunity.title
     expect(page).to have_no_text expired_published_opportunity.title
     expect(page).to have_text expired_pending_opportunity.title
@@ -80,17 +82,19 @@ RSpec.feature 'Admin can filter opportunities' do
 
   scenario 'filters opportunities' do
     login_as(create(:publisher))
-    visit admin_opportunities_path
     published_opportunity = create(:opportunity, status: :publish)
     pending_opportunity = create(:opportunity, status: :pending)
     trashed_opportunity = create(:opportunity, status: :trash)
+    result_item_selector = '.results tbody tr'
 
     expired_published_opportunity = create(:opportunity, :expired, status: :publish)
     expired_pending_opportunity = create(:opportunity, :expired, status: :pending)
     expired_trashed_opportunity = create(:opportunity, :expired, status: :trash)
 
-    within('.admin__filter-panel') { click_link('All') }
-    expect(page).to have_selector('tr.opportunity', count: 3)
+    # All opportunities showing is default
+    visit admin_opportunities_path
+
+    expect(page).to have_selector(result_item_selector, count: 3)
     expect(page).to have_text published_opportunity.title
     expect(page).to have_text pending_opportunity.title
     expect(page).to have_text trashed_opportunity.title
@@ -101,61 +105,61 @@ RSpec.feature 'Admin can filter opportunities' do
 
     click_on('Show expired')
 
-    expect(page).to have_selector('tr.opportunity', count: 6)
+    expect(page).to have_selector(result_item_selector, count: 6)
     expect(page).to have_text expired_published_opportunity.title
     expect(page).to have_text expired_pending_opportunity.title
     expect(page).to have_text expired_trashed_opportunity.title
 
     click_on('Hide expired')
 
-    expect(page).to have_selector('tr.opportunity', count: 3)
+    expect(page).to have_selector(result_item_selector, count: 3)
     expect(page).to have_no_text expired_published_opportunity.title
     expect(page).to have_no_text expired_pending_opportunity.title
     expect(page).to have_no_text expired_trashed_opportunity.title
 
-    within('.admin__filter-panel') { click_link('Published') }
-    expect(page).to have_selector('tr.opportunity', count: 1)
+    within('.filters') { click_link('Published') }
+    expect(page).to have_selector(result_item_selector, count: 1)
     expect(page).to have_text published_opportunity.title
     expect(page).to have_no_text expired_published_opportunity.title
 
     click_on('Show expired')
 
-    expect(page).to have_selector('tr.opportunity', count: 2)
+    expect(page).to have_selector(result_item_selector, count: 2)
     expect(page).to have_text expired_published_opportunity.title
 
     click_on('Hide expired')
 
-    expect(page).to have_selector('tr.opportunity', count: 1)
+    expect(page).to have_selector(result_item_selector, count: 1)
     expect(page).to have_no_text expired_published_opportunity.title
 
-    within('.admin__filter-panel') { click_link('Pending') }
-    expect(page).to have_selector('tr.opportunity', count: 1)
+    within('.filters') { click_link('Pending') }
+    expect(page).to have_selector(result_item_selector, count: 1)
     expect(page).to have_text pending_opportunity.title
     expect(page).to have_no_text expired_pending_opportunity.title
 
     click_on('Show expired')
 
-    expect(page).to have_selector('tr.opportunity', count: 2)
+    expect(page).to have_selector(result_item_selector, count: 2)
     expect(page).to have_text expired_pending_opportunity.title
 
     click_on('Hide expired')
 
-    expect(page).to have_selector('tr.opportunity', count: 1)
+    expect(page).to have_selector(result_item_selector, count: 1)
     expect(page).to have_no_text expired_pending_opportunity.title
 
-    within('.admin__filter-panel') { click_link('Trashed') }
-    expect(page).to have_selector('tr.opportunity', count: 1)
+    within('.filters') { click_link('Trashed') }
+    expect(page).to have_selector(result_item_selector, count: 1)
     expect(page).to have_text trashed_opportunity.title
     expect(page).to have_no_text expired_trashed_opportunity.title
 
     click_on('Show expired')
 
-    expect(page).to have_selector('tr.opportunity', count: 2)
+    expect(page).to have_selector(result_item_selector, count: 2)
     expect(page).to have_text expired_trashed_opportunity.title
 
     click_on('Hide expired')
 
-    expect(page).to have_selector('tr.opportunity', count: 1)
+    expect(page).to have_selector(result_item_selector, count: 1)
     expect(page).to have_no_text expired_trashed_opportunity.title
   end
 
@@ -190,7 +194,7 @@ RSpec.feature 'Admin can filter opportunities' do
 
     visit admin_opportunities_path
 
-    within('.admin__filter-panel') { click_link('Published') }
+    within('.filters') { click_link('Published') }
 
     expect(page).to have_content(published_opportunity.title)
     expect(page).to have_no_content(pending_opportunity.title)
@@ -211,7 +215,7 @@ RSpec.feature 'Admin can filter opportunities' do
 
     visit '/export-opportunities/admin/opportunities'
 
-    within('.admin__filter-panel') { click_link('Published') }
+    within('.filters') { click_link('Published') }
     click_on 'Title'
     click_on 'Show expired'
 
@@ -241,7 +245,7 @@ RSpec.feature 'Admin can filter opportunities' do
     expect('pending opportunity').to appear_before('published opportunity')
     expect(page).to have_no_content('expired opportunity')
 
-    within('.admin__filter-panel') { click_link('Published') }
+    within('.filters') { click_link('Published') }
     click_on 'Title'
     click_on 'Show expired'
 
@@ -260,20 +264,20 @@ RSpec.feature 'Admin can filter opportunities' do
   scenario 'pagination persists after viewing an opportunity' do
     publisher = create(:publisher)
     login_as(publisher)
-
+    result_item_selector = '.results tbody tr'
     create(:opportunity, title: 'last opp')
     create_list(:opportunity, Admin::OpportunitiesController::OPPORTUNITIES_PER_PAGE)
 
     visit '/export-opportunities/admin/opportunities'
     within('.pagination') { click_link '2' }
 
-    expect(page).to have_selector('tr.opportunity', count: 1)
+    expect(page).to have_selector(result_item_selector, count: 1)
     expect(page).to have_text 'last opp'
 
     click_on 'last opp'
     page.first(:link, 'Back').click
 
-    expect(page).to have_selector('tr.opportunity', count: 1)
+    expect(page).to have_selector(result_item_selector, count: 1)
     expect(page).to have_text 'last opp'
   end
 end

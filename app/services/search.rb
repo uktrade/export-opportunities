@@ -111,8 +111,8 @@ class Search
 
     def page(results)
       # N.b. Kaminari pagination requires the records to be sorted again.
-      results.records.order("#{@sort.column} #{@sort.order}").
-        page(@paged).per(Opportunity.default_per_page)
+      results.records.order("#{@sort.column} #{@sort.order}")
+        .page(@paged).per(Opportunity.default_per_page)
     end
 
     def get_total_without_limit(searchable)

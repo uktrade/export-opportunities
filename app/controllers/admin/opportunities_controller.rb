@@ -27,6 +27,10 @@ class Admin::OpportunitiesController < Admin::BaseController
 
     @opportunities = query.opportunities
     authorize @opportunities
+
+    render layout: 'admin_transformed', locals: {
+      content: get_content('admin/opportunities.yml'),
+    }
   end
 
   def show
@@ -170,7 +174,7 @@ class Admin::OpportunitiesController < Admin::BaseController
     end
 
     def filter_params
-      params.permit(:status, { sort: %i[column order] }, :show_expired, :s, :paged)
+      params.permit(:status, { sort: %i[column order] }, :hide_expired, :s, :paged)
     end
 
     class OpportunityFilters
@@ -185,7 +189,12 @@ class Admin::OpportunitiesController < Admin::BaseController
                 else
                   OpportunitySort.new(default_column: 'created_at', default_order: 'desc').update(column: @sort_params[:column], order: @sort_params[:order])
                 end
-        @hide_expired = !params[:show_expired]
+        @hide_expired = if params[:hide_expired] && params[:hide_expired] == 'false'
+                          false
+                        else
+                          true
+                        end
+
         # Allowing a non-sanitized search input past this layer **only** for the view.
         # The intent is not to give away how the inputs are being stripped to the user.
         @raw_search_term = params[:s]
