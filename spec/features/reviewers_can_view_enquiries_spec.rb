@@ -17,9 +17,10 @@ feature 'previewers can view enquiries' do
     visit admin_opportunities_path
 
     click_on 'Enquiries'
+    expect(page).to have_content(enquiry.id)
     expect(page).to have_content(enquiry.company_name)
 
-    click_on enquiry.company_name
+    click_on enquiry.id
 
     expect(page).to have_link(enquiry.opportunity.title)
     expect(page).to have_content(enquiry.company_name)
@@ -114,12 +115,12 @@ feature 'previewers can view enquiries' do
 
     week_ago = 7.days.ago
     select week_ago.year.to_s, from: 'created_at_from_year'
-    select Date::MONTHNAMES[week_ago.month], from: 'created_at_from_month'
+    select week_ago.month, from: 'created_at_from_month'
     select week_ago.day.to_s, from: 'created_at_from_day'
 
     today = Time.zone.today
     select today.year.to_s, from: 'created_at_to_year'
-    select Date::MONTHNAMES[today.month], from: 'created_at_to_month'
+    select today.month, from: 'created_at_to_month'
     select today.day.to_s, from: 'created_at_to_day'
 
     click_on 'Generate report'

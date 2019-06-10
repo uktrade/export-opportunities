@@ -101,7 +101,6 @@ feature 'admin can view enquiries' do
 
   scenario 'list of enquiries can be paginated' do
     admin = create(:admin)
-
     modern_enquiry = create(:enquiry, company_name: 'OCP')
     create_list(:enquiry, 24)
     historic_enquiry = create(:enquiry, company_name: 'Ye Olde Company', created_at: Time.zone.local(1066, 10, 14))
@@ -111,13 +110,13 @@ feature 'admin can view enquiries' do
 
     click_on 'Enquiries'
 
-    expect(page).to have_link(modern_enquiry.company_name)
-    expect(page).not_to have_link(historic_enquiry.company_name)
+    expect(page).to have_link(modern_enquiry.id)
+    expect(page).not_to have_link(historic_enquiry.id)
 
-    click_on '2'
+    click_on 'Page 2'
 
-    expect(page).not_to have_link(modern_enquiry.company_name)
-    expect(page).to have_link(historic_enquiry.company_name)
+    expect(page).not_to have_link(modern_enquiry.id)
+    expect(page).to have_link(historic_enquiry.id)
   end
 
   scenario 'view details of an enquiry' do
@@ -128,9 +127,9 @@ feature 'admin can view enquiries' do
     visit admin_opportunities_path
 
     click_on 'Enquiries'
-    expect(page).to have_content(enquiry.company_name)
+    expect(page).to have_content(enquiry.id)
 
-    click_on enquiry.company_name
+    click_on enquiry.id
 
     expect(page).to have_link(enquiry.opportunity.title)
     expect(page).to have_content(enquiry.company_name)
