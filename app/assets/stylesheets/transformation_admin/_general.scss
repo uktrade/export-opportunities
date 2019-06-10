@@ -21,7 +21,7 @@ body {
   box-sizing: border-box;
   color: $grey-1;
   font-family: $brand-font-standard;
-  font-size: $font-size-body-m;
+  font-size: $font-size-m;
   font-weight: normal;
   line-height: 1.5em;
   margin: 0;
@@ -45,7 +45,7 @@ main {
   .button {
     border: none;
     float: right;
-    font-size: $font-size-body-s;
+    font-size: $font-size-s;
     font-weight: normal;
     height: auto;
     line-height: 1.2em;
@@ -57,14 +57,14 @@ main {
 }
 
 .back {
-  font-size: $font-size-body-s;
+  font-size: $font-size-s;
 }
 
 .flash {
   @include container;
   border-style: solid;
   border-width: 0 0 0 5px;
-  font-size: $font-size-body-s;
+  font-size: $font-size-s;
   padding: $spacing-4;
 
   &.alert {
@@ -120,7 +120,7 @@ main {
   padding-bottom: $spacing-1;
 
   a {
-    font-size: $font-size-body-l;
+    font-size: $font-size-l;
     font-weight: bold;
     text-decoration: none;
   }
@@ -130,7 +130,7 @@ main {
   }
 
   .title {
-    font-size: $font-size-body-l;
+    font-size: $font-size-l;
     font-weight: normal;
     margin-bottom: $spacing-2;
   }
@@ -144,14 +144,14 @@ main {
 
   dd {
     float: left;
-    font-size: $font-size-body-s;
+    font-size: $font-size-s;
     margin: 0 0 10px 0;
   }
 
   dt {
     clear: left;
     float: left;
-    font-size: $font-size-body-s;
+    font-size: $font-size-s;
     margin: 0 $spacing-3 10px 0;
 
     &:after {
@@ -170,7 +170,7 @@ main {
 
   a {
     color: $white;
-    font-size: $font-size-body-xs;
+    font-size: $font-size-s;
     font-weight: bold;
     text-decoration: none;
 
@@ -187,7 +187,7 @@ main {
   .title {
     color: $white;
     display: inline-block;
-    font-size: $font-size-body-l;
+    font-size: $font-size-l;
     margin: 0;
   }
 
@@ -226,7 +226,7 @@ main {
 #phase-banner {
   @include container;
   border-top: $red-1 solid 10px;
-  font-size: $font-size-body-s;
+  font-size: $font-size-s;
   margin-bottom: $spacing-3;
   padding-top: 7px;
 
@@ -245,7 +245,7 @@ main {
  ************************/
 .feedback-section {
   p {
-    font-size: $font-size-body-s;
+    font-size: $font-size-s;
   }
 }
 

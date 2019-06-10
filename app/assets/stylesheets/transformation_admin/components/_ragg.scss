@@ -1,0 +1,42 @@
+.ragg {
+  &:after {
+    border-radius: 50%;
+    color: white;
+    display: block;
+    float: right;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    width: 30px;
+  }
+
+  span {
+    @include access-hidden;
+  }
+}
+
+.ragg-amber:after {
+  background-color: $focus-yellow;
+  content: 'A';
+}
+
+.ragg-blue:after {
+  background-color: $blue-2;
+  content: 'B';
+}
+
+.ragg-green:after {
+  background-color: $green-3;
+  content: 'G';
+}
+
+.ragg-red:after {
+  background-color: $great-red;
+  content: 'R';
+}
+
+.ragg-undefined:after {
+  background-color: transparent;
+  color: inherit;
+  content: '-';
+}
