@@ -12,14 +12,18 @@ class Opportunity < ApplicationRecord
   end
 
   after_commit on: [:update] do
-    __elasticsearch__.delete_document
+    if exists_in_elasticsearch?
+      __elasticsearch__.delete_document
+    end
     unless expired?
       __elasticsearch__.index_document
     end
   end
 
   after_commit on: [:destroy] do
-    __elasticsearch__.delete_document
+    if exists_in_elasticsearch?
+      __elasticsearch__.delete_document
+    end
   end
 
   before_commit on: %i[create update] do
@@ -205,5 +209,9 @@ class Opportunity < ApplicationRecord
     codes = []
     opportunity_cpvs.each { |cpv| codes.push cpv.industry_id }
     codes
+  end
+
+  def exists_in_elasticsearch?
+    Opportunity.__elasticsearch__.client.exists? index: Opportunity.index_name, type: 'opportunity', id: id
   end
 end
