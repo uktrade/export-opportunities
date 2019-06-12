@@ -1,0 +1,21 @@
+# Admin Enquiries (index)
+# -------------------------------------------------
+
+title: Enquiries
+status:
+  all: All
+  replied: Replied
+  not_replied: To reply
+
+
+
+#------- FORM FIELDS ----------
+
+fields:
+  created_at_from:
+    label: From
+    description:
+
+  created_at_to:
+    label: To
+    description:

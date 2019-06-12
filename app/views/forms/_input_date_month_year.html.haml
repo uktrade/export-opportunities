@@ -1,5 +1,4 @@
--# TODO: Update this to use individual %select elements instead of %input
-%fieldset.field.date-month-year
+%fieldset.field.date-month-year{ id: input[:id] }
   %legend
     = input[:label]
 
@@ -8,13 +7,13 @@
       = input[:description]
 
   %label.day
-    Day
-    %input{:type=>'text', :name=>input[:name_dd]}
+    %span Day
+    = select_day 1.day.ago, prefix: input[:name]
 
   %label.month
-    Month
-    %input{:type=>'text', :name=>input[:name_mm]}
+    %span Month
+    = select_month input[:date], prefix: input[:name], use_two_digit_numbers: true
 
   %label.year
-    Year
-    %input{:type=>'text', :name=>input[:name_yy]}
+    %span Year
+    = select_year input[:date], prefix: input[:name]
