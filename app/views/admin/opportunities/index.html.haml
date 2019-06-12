@@ -103,9 +103,13 @@
             %td.enquiries
               = opportunity.enquiries.size
             %td.created
-              = opportunity.created_at.to_s(:admin_datetime)
+              = opportunity.created_at.to_s(:admin_short_date)
+              %br
+              %small= opportunity.created_at.to_s(:admin_short_time)
             %td.published
-              = opportunity.first_published_at&.to_s(:admin_datetime)
+              = opportunity.first_published_at&.to_s(:admin_short_date)
+              %br
+              %small= opportunity.first_published_at&.to_s(:admin_short_time)
             %td.language
               = opportunity.original_language
             %td.source
