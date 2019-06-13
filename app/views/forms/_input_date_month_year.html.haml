@@ -8,7 +8,7 @@
 
   %label.day
     %span Day
-    = select_day 1.day.ago, prefix: input[:name]
+    = select_day input[:date], prefix: input[:name]
 
   %label.month
     %span Month

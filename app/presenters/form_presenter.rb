@@ -54,8 +54,8 @@ class FormPresenter < PagePresenter
     group
   end
 
-  # Return formatted data for separated datecomponent
-  def input_date_month_year(name, date=nil)
+  # Return formatted data for Day/Month/Year select elements.
+  def input_date_month_year(name, date=Time.zone.today)
     field = field_content(name)
     id = field_id(name)
     {
@@ -67,6 +67,21 @@ class FormPresenter < PagePresenter
       description: prop(field, 'description'),
       label: prop(field, 'label'),
       date: date,
+    }
+  end
+
+  # Return formatted data for Date range.
+  # Intended for two sets of Day/Month/Year select elements.
+  def input_date_range(name, from, to)
+    field = field_content(name)
+    id = field_id(name)
+    {
+      id: id,
+      name: name,
+      description: prop(field, 'description'),
+      label: prop(field, 'label'),
+      from: input_date_month_year(value_by_key(from, 'name'), value_by_key(from, 'date')),
+      to: input_date_month_year(value_by_key(to, 'name'), value_by_key(to, 'date')),
     }
   end
 
