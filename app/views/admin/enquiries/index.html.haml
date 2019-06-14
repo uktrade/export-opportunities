@@ -22,21 +22,33 @@
 
     .controls
       .filters
-        %p
-          Filter by status:
-          - if @filters.selected_status.nil?
-            %span= content['status']['all']
-          - else
-            - content['status'].each do |name, _|
-              - if name.to_s == @filters.selected_status.to_s && name != 'all'
-                %span= content['status'][name]
+        = form_tag admin_enquiries_path, method: :get do
+          - if @filters.selected_status
+            = hidden_field_tag 'status', @filters.selected_status
 
-        %ul
-          - if !@filters.selected_status.nil?
-            %li= link_to('All', admin_enquiries_path())
-          - content['status'].each do |name, _|
-            - if name.to_s != @filters.selected_status.to_s && name != 'all'
-              %li= link_to(content['status'][name], admin_enquiries_url(status: name))
+          - if @filters.sort
+            = hidden_field_tag 'sort[column]', @filters.sort.column
+            = hidden_field_tag 'sort[order]', @filters.sort.order
+
+          %table
+            %thead
+              %th
+                Status
+              %th
+                Company or Opportunity name
+              %th
+                Service Provider
+              %th
+            %tbody
+              %tr
+                %td
+                  = select_tag('status', options_for_select(content['status'], @filters.selected_status.to_s || 'all'))
+                %td
+                  = text_field_tag 's', @filters.search_query, class: 'text'
+                %td
+                  = text_field_tag 'service_provider', @filters.service_provider, class: 'text'
+                %td
+                  = submit_tag 'Search', class: 'button'
 
     .search
       = form_tag admin_enquiries_path(format: :csv), method: :get, format: :csv do
@@ -56,6 +68,8 @@
           = sortable(:enquiry_filters, 'opportunity', 'Opportunity', 'asc', @filters.sort)
         %th.created
           = sortable(:enquiry_filters, 'created_at', 'Applied On', 'asc', @filters.sort)
+        %th
+          Service Provider
         %th.status
           Status
       %tbody
@@ -69,6 +83,8 @@
               = link_to enquiry.opportunity.title, admin_opportunity_path(enquiry.opportunity)
             %td.created
               = enquiry.created_at.to_s(:admin_datetime)
+            %td
+              = enquiry.opportunity.service_provider.name
             %td.status
               = enquiry.response_status
 

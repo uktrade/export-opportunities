@@ -3,9 +3,9 @@
 
 title: Enquiries
 status:
-  all: All
-  replied: Replied
-  not_replied: To reply
+  All: all
+  Replied: replied
+  To reply: not_replied
 
 
 
