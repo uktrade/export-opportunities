@@ -1,0 +1,81 @@
+- form = FormPresenter.new(content, {})
+- content_for :action_specific_head  do
+  = stylesheet_link_tag 'transformation_admin/pages/stats'
+  = javascript_include_tag 'transformation_admin/dit.page.stats'
+
+
+%section.intro
+  .container
+    %h1= content['title']
+
+    .controls
+      - if @stats_search_form.error_messages.present?
+        %div.errors
+          - @stats_search_form.error_messages.each do |message|
+            %p
+              = message
+      - else
+        .stats
+          %p
+            = "Statistics by #{@stats_search_form.granularity.value}"
+            = "and #{@stats_search_form.to_h}"
+            - if @stats_search_form.date_from == @stats_search_form.date_to
+              = "on #{@stats_search_form.date_from.to_s(:admin_date)}"
+            - else
+              = "over the period #{@stats_search_form.date_from.to_s(:admin_date)} to #{@stats_search_form.date_to.to_s(:admin_date)}"
+
+          %ul
+            %li.opportunities-submitted
+              %span.number
+                = number_with_delimiter(@stats.opportunities_submitted)
+              Opportunities submitted
+
+            %li.opportunities-published
+              %span.number
+                = number_with_delimiter(@stats.opportunities_published)
+              Opportunities published
+
+            %li.enquiries
+              %span.number
+                = number_with_delimiter(@stats.enquiries)
+              Enquiries
+
+            %li.enquiry-responses
+              %span.number
+                = number_with_delimiter(@stats.enquiry_response)
+              Enquiry Responses
+              %small
+                (counted at Enquiry Response created at date)
+
+            %li.age-when-published
+              Average time to publish an opportunity following submission:
+              = @stats.average_age_when_published_as_html('number')
+
+%section.search
+  .container
+    = form_tag admin_stats_path, method: 'get' do
+
+      = render partial: 'forms/input_date_range', locals: { input: form.input_date_range('date_range', { name: 'stats_from', date: @stats_search_form.date_from}, { name: 'stats_to', date: @stats_search_form.date_to}) }
+
+      = render partial: 'forms/input_radio', locals: { input: form.input_radio('granularity',  @stats_search_form.granularity.options) }
+
+      = render partial: 'forms/input_checkbox_group', locals: { group: form.input_checkbox_group('source',  @stats_search_form.source.options) }
+
+      .field.select.field-regions
+        = render partial: 'forms/input_label', locals: { label: form.input_label('regions') }
+        = select_tag "Region[region_ids][]", options_from_collection_for_select(@stats_search_form.regions, "id", "name"), { multiple: true, size: '5', placeholder: form._content('fields.regions.placeholder'),  data: { node: 'regions', unselected: content['regions_unselected'], display: content['regions_selected_title'] } }
+
+      .field.select.field-countries
+        = form._content('countries.placeholder')
+        = render partial: 'forms/input_label', locals: { label: form.input_label('countries') }
+        = select_tag "Country[country_ids][]", options_from_collection_for_select(@stats_search_form.countries, "id", "name"), { multiple: true, size: '5', placeholder: form._content('fields.countries.placeholder'), data: { node: 'countries', unselected: content['countries_unselected'], display: content['countries_selected_title'] } }
+
+      .field.select.field-providers
+        = render partial: 'forms/input_label', locals: { label: form.input_label('service_providers') }
+        = select_tag "ServiceProvider[service_provider_ids][]", options_from_collection_for_select(@stats_search_form.service_providers, "id", "name"), { multiple: true, size: '5', placeholder: form._content('fields.service_providers.placeholder'),  data: { node: 'providers', unselected: content['service_providers_unselected'], display: content['service_providers_selected_title'] } }
+
+      = submit_tag 'Show stats', class: 'button'
+
+
+%section.results
+  .container

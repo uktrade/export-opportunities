@@ -9,28 +9,20 @@ class StatsSearchForm
   AllServiceProviders = Struct.new(:name, :id).new('all service providers', 'all')
 
   def initialize(params)
-    @service_provider_id = params[:ServiceProvider][':service_provider_ids'].reject { |e| e.to_s.empty? }.map(&:to_i) if params[:ServiceProvider]
-    @country_id = if params[:Country] && params[:Country][':country_ids']
-                    params[:Country][':country_ids'].reject { |e| e.to_s.empty? }.map(&:to_i)
-                  elsif params[:Country] && params[:Country][:country_ids]
-                    [params[:Country][:country_ids]]
-                  end
-    @region_id = params[:Region][':region_ids'].reject { |e| e.to_s.empty? }.map(&:to_i) if params[:Region]
-    @source = if params[:post] && params[:third_party]
-                nil
-              elsif params[:post]
-                :post
-              elsif params[:third_party]
-                :volume_opps
-              end
-    @granularity = params[:granularity]
     @from_date_field = SelectDateField.new(value: params[:stats_from], default: Time.zone.today - 30)
     @to_date_field = SelectDateField.new(value: params[:stats_to], default: Time.zone.today - 1)
+    @granularity = GranularityField.new(params[:granularity])
+    @source = SourceField.new(params[:post], params[:third_party])
+
+    @region_id = params[:Region] && params[:Region]['region_ids'].map(&:to_i) || []
+    @country_id = params[:Country] && params[:Country]['country_ids'].map(&:to_i) || []
+    @service_provider_id = params[:ServiceProvider] && params[:ServiceProvider]['service_provider_ids'].map(&:to_i) || []
+
     @error_messages = []
   end
 
   def valid?
-    unless @service_provider_id.present? || @country_id.present? || @region_id.present? || @granularity == 'Universe'
+    unless @service_provider_id.present? || @country_id.present? || @region_id.present? || @granularity.value == 'Universe'
       @error_messages << I18n.t('admin.stats.errors.missing_service_provider_country_or_region')
     end
 
@@ -78,9 +70,9 @@ class StatsSearchForm
   end
 
   def to_h
-    if @source.eql?(:post)
+    if @source.value.eql?(:post)
       'DIT'
-    elsif @source.eql?(:volume_opps)
+    elsif @source.value.eql?(:volume_opps)
       'Third party'
     else
       'all sources'
@@ -108,5 +100,88 @@ class StatsSearchForm
     def date_out_of_range(date)
       date.year < SITE_LAUNCH_YEAR || date.year > DateTime.current.year
     end
+  end
+
+  class GranularityField
+    attr_reader :options, :value
+
+    def initialize(value)
+      @value = value
+      @options = create_options(value)
+    end
+
+    private
+
+    def create_options(value)
+      options = [
+        {
+          label: { text: 'All' },
+          value: 'Universe',
+          checked: true,
+        },
+        {
+          label: { text: 'Region' },
+          value: 'Region',
+          checked: false,
+        },
+        {
+          label: { text: 'Country' },
+          value: 'Country',
+          checked: false,
+        },
+        {
+          label: { text: 'Service Provider' },
+          value: 'ServiceProvider',
+          checked: false,
+        },
+      ]
+
+      if value.present?
+        options.each do |option|
+          if option['value'] == value
+            option['checked'] = true
+          else
+            option['checked'] = false
+          end
+        end
+      end
+
+      options
+    end
+  end
+
+  class SourceField
+    attr_reader :options, :value
+
+    def initialize(post, third_party)
+      @options = create_options(post, third_party)
+      @value = if post && third_party
+                 nil
+               elsif post
+                 :post
+               elsif third_party
+                 :volume_opps
+               end
+    end
+
+    private
+
+    def create_options(post_selected, third_party_selected)
+      options = [
+        {
+          label: { text: 'DIT' },
+          name: 'post',
+          value: '1',
+          checked: post_selected,
+        },
+        {
+          label: { text: 'Third party' },
+          name: 'third_party',
+          value: '1',
+          checked: third_party_selected,
+        },
+      ]
+    end
+
   end
 end

@@ -1,0 +1,40 @@
+@import 'transformation/components/filter_multiple_select';
+@import 'transformation_admin/config';
+@import 'transformation_admin/forms';
+
+
+
+.controls {
+  background-color: $white;
+  border: 1px solid $grey-3;
+  margin-bottom: $spacing-3;
+  overflow: hidden;
+  padding: $spacing-3 $spacing-3 0 $spacing-3;
+  position: relative;
+
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.date-month-year {
+  clear: none;
+  float: left;
+
+  legend {
+    float: left;
+    line-height: 50px;
+    margin-right: 15px;
+  }
+}
+
+.intro {
+  background-color: $stone-40;
+  margin-bottom: $spacing-3;
+  overflow: hidden;
+  padding-top: $spacing-3;
+
+  a {
+    font-size: $font-size-s;
+  }
+}
