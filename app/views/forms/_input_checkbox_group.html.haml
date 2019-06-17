@@ -1,5 +1,5 @@
 -if group[:checkboxes].length > 0
-  %fieldset.field.checkbox-group
+  %fieldset{ class: "field-group checkbox-group field-#{group[:name]}" }
     %legend.group
       = group[:question]
 
@@ -7,5 +7,7 @@
       %p.description
         = group[:description]
 
-    - group[:checkboxes].each do |checkbox|
+    - group[:checkboxes].each_with_index do |checkbox, index|
+      - checkbox[:id] = "field-#{checkbox[:name]}-#{index}" unless checkbox[:id]
+      - checkbox[:label][:field_id] = checkbox[:id]
       = render partial: "forms/input_checkbox", locals: { input: checkbox }
