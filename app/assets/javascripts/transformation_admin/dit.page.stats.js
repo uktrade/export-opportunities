@@ -4,6 +4,7 @@
 // required dit.utils.js
 //= require transformation/dit.class.data_provider.js
 //= require transformation/dit.class.filter_multiple_select.js
+//= require transformation/dit.class.tabbed_area.js
 
 
 
@@ -13,6 +14,7 @@ dit.page.stats = (new function () {
   this.init = function() {
     cacheComponents();
     setupFilterMultipleSelectFields();
+    setupGranularityFields();
 
     delete this.init; // Run once
   }
@@ -35,6 +37,17 @@ dit.page.stats = (new function () {
         title: $field.data("display"),
         unselected: $field.data("unselected")
       });
+    });
+  }
+
+
+  /* Add tabbed viewing to granulatiry controls.
+  /**/
+  function setupGranularityFields() {
+    var $tabs = $("input[name='granularity']");
+    var $panels = $(".field-source, .field-regions, .field-countries, .field-providers");
+    new dit.classes.TabbedArea($tabs, $panels, {
+      $parent: $(".field-granularity")
     });
   }
 });
