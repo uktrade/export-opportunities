@@ -55,7 +55,7 @@ class FormPresenter < PagePresenter
   end
 
   # Return formatted data for Day/Month/Year select elements.
-  def input_date_month_year(name, date=Time.zone.today)
+  def input_date_month_year(name, date = Time.zone.today)
     field = field_content(name)
     id = field_id(name)
     {

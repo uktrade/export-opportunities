@@ -112,42 +112,38 @@ class StatsSearchForm
 
     private
 
-    def create_options(value)
-      options = [
-        {
-          label: { text: 'All' },
-          value: 'Universe',
-          checked: true,
-        },
-        {
-          label: { text: 'Region' },
-          value: 'Region',
-          checked: false,
-        },
-        {
-          label: { text: 'Country' },
-          value: 'Country',
-          checked: false,
-        },
-        {
-          label: { text: 'Service Provider' },
-          value: 'ServiceProvider',
-          checked: false,
-        },
-      ]
+      def create_options(value)
+        options = [
+          {
+            label: { text: 'All' },
+            value: 'Universe',
+            checked: true,
+          },
+          {
+            label: { text: 'Region' },
+            value: 'Region',
+            checked: false,
+          },
+          {
+            label: { text: 'Country' },
+            value: 'Country',
+            checked: false,
+          },
+          {
+            label: { text: 'Service Provider' },
+            value: 'ServiceProvider',
+            checked: false,
+          },
+        ]
 
-      if value.present?
-        options.each do |option|
-          if option['value'] == value
-            option['checked'] = true
-          else
-            option['checked'] = false
+        if value.present?
+          options.each do |option|
+            option['checked'] = (option['value'] == value)
           end
         end
-      end
 
-      options
-    end
+        options
+      end
   end
 
   class SourceField
@@ -166,22 +162,21 @@ class StatsSearchForm
 
     private
 
-    def create_options(post_selected, third_party_selected)
-      options = [
-        {
-          label: { text: 'DIT' },
-          name: 'post',
-          value: '1',
-          checked: post_selected,
-        },
-        {
-          label: { text: 'Third party' },
-          name: 'third_party',
-          value: '1',
-          checked: third_party_selected,
-        },
-      ]
-    end
-
+      def create_options(post_selected, third_party_selected)
+        [
+          {
+            label: { text: 'DIT' },
+            name: 'post',
+            value: '1',
+            checked: post_selected,
+          },
+          {
+            label: { text: 'Third party' },
+            name: 'third_party',
+            value: '1',
+            checked: third_party_selected,
+          },
+        ]
+      end
   end
 end
