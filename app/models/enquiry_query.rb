@@ -37,10 +37,10 @@ class EnquiryQuery
 
       if @status == 'replied'
         query = query.joins('left outer join enquiry_responses on enquiry_responses.enquiry_id=enquiries.id') unless @sort.column == 'opportunity'
-        query = query.where('enquiry_responses.id is not null and completed_at is not null')
+        query = query.where('enquiry_responses.id is not null and enquiry_responses.completed_at is not null')
       elsif @status == 'not_replied'
         query = query.joins('left outer join enquiry_responses on enquiry_responses.enquiry_id=enquiries.id') unless @sort.column == 'opportunity'
-        query = query.where('enquiry_responses.id is null or completed_at is null')
+        query = query.where('enquiry_responses.id is null or enquiry_responses.completed_at is null')
       end
 
       if @search_query.present?
