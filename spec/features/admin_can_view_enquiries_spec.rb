@@ -28,13 +28,14 @@ feature 'admin can view enquiries' do
     expect(page).to have_content(enquiry.company_name)
     expect(page).to have_content(another_enquiry.company_name)
 
-    click_on 'To reply'
+    select 'To reply', from: 'status'
+    click_on 'Search'
     expect(page).to_not have_content(enquiry.company_name)
     expect(page).to have_content('7 days left')
     expect(page).to have_content(another_enquiry.company_name)
 
-    click_on 'Replied'
-
+    select 'Replied', from: 'status'
+    click_on 'Search'
     expect(page).to have_content('Replied 0 days after')
     expect(page).to have_content(enquiry.company_name)
   end
@@ -58,12 +59,14 @@ feature 'admin can view enquiries' do
     expect(page).to have_content(enquiry.company_name)
     expect(page).to have_content(another_enquiry.company_name)
 
-    click_on 'To reply'
+    select 'To reply', from: 'status'
+    click_on 'Search'
     expect(page).to_not have_content(enquiry.company_name)
     expect(page).to have_content('7 days left')
     expect(page).to have_content(another_enquiry.company_name)
 
-    click_on 'Replied'
+    select 'Replied', from: 'status'
+    click_on 'Search'
 
     expect(page).to have_content('Replied 0 days after')
     expect(page).to have_content(enquiry.company_name)
@@ -89,8 +92,8 @@ feature 'admin can view enquiries' do
     expect(page).to have_selector('th', text: 'Applied On')
     expect(page).to have_selector('th', text: 'Status')
 
-    first_row = page.find('tbody tr:nth-child(1)')
-    second_row = page.find('tbody tr:nth-child(2)')
+    first_row = page.find('.results tbody tr:nth-child(1)')
+    second_row = page.find('.results tbody tr:nth-child(2)')
 
     expect(first_row).to have_content('UK Leaky Boathouses')
     expect(first_row).to have_content('days overdue')
