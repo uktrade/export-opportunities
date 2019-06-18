@@ -55,7 +55,7 @@ class FormPresenter < PagePresenter
   end
 
   # Return formatted data for separated datecomponent
-  def input_date_month_year(name, date=nil)
+  def input_date_month_year(name, date = nil)
     field = field_content(name)
     id = field_id(name)
     {
