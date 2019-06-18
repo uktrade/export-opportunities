@@ -43,6 +43,8 @@ class StatsSearchForm
 
   def all_service_providers?
     service_provider_id == 'all'
+
+
   end
 
   def service_providers
