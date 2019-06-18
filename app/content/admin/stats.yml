@@ -2,13 +2,23 @@
 # -------------------------------------------------
 
 title: Stats
+
 countries_unselected: No countries selected
 countries_selected_title: Selected countries
+
 regions_unselected: No regions selected
 regions_selected_title: Selected regions
 service_provider_unselected: No service providers selected
 service_provider_selected_title: Selected service providers
 
+stats_opportunities_submitted: Opportunities submitted
+stats_opportunities_published: Opportunities published
+stats_enquiries: Enquiries
+stats_enquiry_response: Enquiry Responses
+stats_enquiry_response_sub: (counted at Enquiry Response created at date)
+stats_age_when_published: "Average time to publish an opportunity following submission:"
+
+submit_button: Show stats
 
 #------- FORM FIELDS ----------
 

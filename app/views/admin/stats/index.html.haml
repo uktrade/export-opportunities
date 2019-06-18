@@ -8,48 +8,50 @@
   .container
     %h1= content['title']
 
-    .controls
-      - if @stats_search_form.error_messages.present?
-        %div.errors
-          - @stats_search_form.error_messages.each do |message|
+    - if @stats_search_form.was_submitted?
+      .controls
+        - if @stats_search_form.error_messages.present?
+          %div.errors
+            - @stats_search_form.error_messages.each do |message|
+              %p
+                = message
+        - else
+          .stats
             %p
-              = message
-      - else
-        .stats
-          %p
-            = "Statistics by #{@stats_search_form.granularity.value}"
-            = "and #{@stats_search_form.to_h}"
-            - if @stats_search_form.date_from == @stats_search_form.date_to
-              = "on #{@stats_search_form.date_from.to_s(:admin_date)}"
-            - else
-              = "over the period #{@stats_search_form.date_from.to_s(:admin_date)} to #{@stats_search_form.date_to.to_s(:admin_date)}"
+              = "Statistics by #{@stats_search_form.granularity.value}"
+              = "and #{@stats_search_form.to_h}"
+              - if @stats_search_form.date_from == @stats_search_form.date_to
+                = "on #{@stats_search_form.date_from.to_s(:admin_date)}"
+              - else
+                = "over the period #{@stats_search_form.date_from.to_s(:admin_date)} to #{@stats_search_form.date_to.to_s(:admin_date)}"
 
-          %ul
-            %li.opportunities-submitted
-              %span.number
-                = number_with_delimiter(@stats.opportunities_submitted)
-              Opportunities submitted
+            %ul
+              %li.opportunities-submitted
+                %span.number
+                  = number_with_delimiter(@stats.opportunities_submitted)
+                = content['stats_opportunities_submitted']
+                Opportunities submitted
 
-            %li.opportunities-published
-              %span.number
-                = number_with_delimiter(@stats.opportunities_published)
-              Opportunities published
+              %li.opportunities-published
+                %span.number
+                  = number_with_delimiter(@stats.opportunities_published)
+                = content['stats_opportunities_published']
 
-            %li.enquiries
-              %span.number
-                = number_with_delimiter(@stats.enquiries)
-              Enquiries
+              %li.enquiries
+                %span.number
+                  = number_with_delimiter(@stats.enquiries)
+                = content['stats_enquiries']
 
-            %li.enquiry-responses
-              %span.number
-                = number_with_delimiter(@stats.enquiry_response)
-              Enquiry Responses
-              %small
-                (counted at Enquiry Response created at date)
+              %li.enquiry-responses
+                %span.number
+                  = number_with_delimiter(@stats.enquiry_response)
+                = content['stats_enquiry_response']
+                %small
+                  = content['stats_enquiry_response_sub']
 
-            %li.age-when-published
-              Average time to publish an opportunity following submission:
-              = @stats.average_age_when_published_as_html('number')
+              %li.age-when-published
+                = content['stats_age_when_published']
+                = @stats.average_age_when_published_as_html('number')
 
 %section.search
   .container
@@ -74,7 +76,7 @@
         = render partial: 'forms/input_label', locals: { label: form.input_label('service_providers') }
         = select_tag "ServiceProvider[service_provider_ids][]", options_from_collection_for_select(@stats_search_form.service_providers, "id", "name"), { multiple: true, size: '5', placeholder: form._content('fields.service_providers.placeholder'),  data: { node: 'providers', unselected: content['service_providers_unselected'], display: content['service_providers_selected_title'] } }
 
-      = submit_tag 'Show stats', class: 'button'
+      = submit_tag content['submit_button'], class: 'button'
 
 
 %section.results

@@ -12,7 +12,7 @@ class StatsSearchForm
     @from_date_field = SelectDateField.new(value: params[:stats_from], default: Time.zone.today - 30)
     @to_date_field = SelectDateField.new(value: params[:stats_to], default: Time.zone.today - 1)
     @granularity = GranularityField.new(params[:granularity])
-    @source = SourceField.new(params[:post], params[:third_party])
+    @source = SourceField.new(params[:post], params[:third_party], params[:granularity].nil?)
 
     @region_id = params[:Region] && params[:Region]['region_ids'].map(&:to_i) || []
     @country_id = params[:Country] && params[:Country]['country_ids'].map(&:to_i) || []
@@ -77,6 +77,10 @@ class StatsSearchForm
     else
       'all sources'
     end
+  end
+
+  def was_submitted?
+    @granularity.value.present?
   end
 
   class SelectDateField
@@ -149,8 +153,8 @@ class StatsSearchForm
   class SourceField
     attr_reader :options, :value
 
-    def initialize(post, third_party)
-      @options = create_options(post, third_party)
+    def initialize(post, third_party, use_default_state)
+      @options = create_options(post, third_party, use_default_state)
       @value = if post && third_party
                  nil
                elsif post
@@ -162,19 +166,29 @@ class StatsSearchForm
 
     private
 
-      def create_options(post_selected, third_party_selected)
+      def create_options(post_selected, third_party_selected, use_default_state)
+        post_checked = if use_default_state
+                         true
+                       else
+                         post_selected
+                       end
+        third_party_checked = if use_default_state
+                                true
+                              else
+                                third_party_selected
+                              end
         [
           {
             label: { text: 'DIT' },
             name: 'post',
             value: '1',
-            checked: post_selected,
+            checked: post_checked,
           },
           {
             label: { text: 'Third party' },
             name: 'third_party',
             value: '1',
-            checked: third_party_selected,
+            checked: third_party_checked,
           },
         ]
       end
