@@ -27,6 +27,7 @@ class EnquiriesController < ApplicationController
     @trade_profile_url = trade_profile(@enquiry.company_house_number)
     @enquiry.opportunity = @opportunity
 
+    debugger
     if @enquiry.save && !@enquiry.opportunity.nil?
       EnquiryMailer.send_enquiry(@enquiry).deliver_later!
       render layout: 'notification'
