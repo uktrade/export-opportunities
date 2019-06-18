@@ -13,7 +13,9 @@ class Admin::EnquiriesController < Admin::BaseController
       status: @filters.selected_status,
       sort: @filters.sort,
       page: @filters.page,
-      per_page: ENQUIRIES_PER_PAGE
+      per_page: ENQUIRIES_PER_PAGE,
+      search_query: @filters.search_query,
+      service_provider: @filters.service_provider
     )
 
     @enquiry_form = enquiry_form
@@ -24,8 +26,8 @@ class Admin::EnquiriesController < Admin::BaseController
     respond_to do |format|
       format.html do
         @enquiries = @enquiries.includes(:opportunity).page(params[:paged])
-
         @next_enquiry = next_enquiry if params[:reply_sent]
+        render layout: 'admin_transformed', locals: { content: get_content('admin/enquiries.yml') }
       end
       format.csv do
         enquiries = policy_scope(Enquiry).includes(:enquiry_response).where('enquiries.created_at >= ?', @enquiry_form.from).where('enquiries.created_at < ?', @enquiry_form.to).order(created_at: :desc)
@@ -57,7 +59,7 @@ class Admin::EnquiriesController < Admin::BaseController
   private
 
     class EnquiryFilters
-      attr_reader :selected_status, :sort, :page ##
+      attr_reader :selected_status, :sort, :page, :search_query, :service_provider
 
       def initialize(params)
         @selected_status = params[:status]
@@ -66,6 +68,8 @@ class Admin::EnquiriesController < Admin::BaseController
         @sort = EnquirySort.new(default_column: 'created_at', default_order: 'desc').update(column: @sort_params[:column], order: @sort_params[:order])
 
         @page = params[:paged]
+        @search_query = params[:s]
+        @service_provider = params[:service_provider]
       end
 
       private
@@ -84,7 +88,7 @@ class Admin::EnquiriesController < Admin::BaseController
     end
 
     def filter_params
-      params.permit(:status, { sort: %i[column order] }, :company_name, :created_at, :paged, opportunity: :title)
+      params.permit(:status, { sort: %i[column order] }, :company_name, :created_at, :paged, :s, :service_provider, opportunity: :title)
     end
 
     def next_enquiry

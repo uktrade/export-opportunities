@@ -109,6 +109,7 @@ main {
     line-height: 1.2em;
     margin-bottom: $spacing-3;
     text-align: left;
+    width: 100%;
   }
 
   td {
@@ -122,6 +123,12 @@ main {
 
   th.ragg {
     padding-right: 0;
+  }
+
+  .container {
+    max-width: none;
+    min-width: $design-max-width;
+    padding: 0 $spacing-3;
   }
 
   .created,
