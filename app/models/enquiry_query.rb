@@ -44,21 +44,12 @@ class EnquiryQuery
       end
 
       if @search_query.present?
-<<<<<<< HEAD
         query = query.joins(:opportunity).where('LOWER(opportunities.title) LIKE LOWER(?) OR
           LOWER(company_name) LIKE LOWER(?)', "%#{@search_query}%", "%#{@search_query}%")
       end
 
       if @service_provider.present?
         sp = ServiceProvider.where('LOWER(name) LIKE LOWER(?)', "%#{@service_provider}%")
-=======
-        query = query.joins(:opportunity).where("opportunities.title LIKE ? OR
-          company_name LIKE ?","%#{@search_query}%", "%#{@search_query}%")
-      end
-
-      if @service_provider.present?
-        sp = ServiceProvider.where("name LIKE ?", "%#{@service_provider}%")
->>>>>>> master
         query = query.joins(:opportunity).where(opportunities: { service_provider: sp })
       end
 
