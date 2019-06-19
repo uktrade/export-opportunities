@@ -2,7 +2,7 @@ class EnquiryQuery
   attr_reader :count, :enquiries
 
   def initialize(scope: Enquiry.all, status: nil, filters: NullFilter.new,
-      sort:, page: 1, per_page: 10, search_query: '', service_provider: '')
+    sort:, page: 1, per_page: 10, search_query: '', service_provider: '')
     @scope = scope
 
     @status = status
@@ -44,12 +44,12 @@ class EnquiryQuery
       end
 
       if @search_query.present?
-        query = query.joins(:opportunity).where("opportunities.title LIKE ? OR
-          company_name LIKE ?","%#{@search_query}%", "%#{@search_query}%")
+        query = query.joins(:opportunity).where('LOWER(opportunities.title) LIKE LOWER(?) OR
+          LOWER(company_name) LIKE LOWER(?)', "%#{@search_query}%", "%#{@search_query}%")
       end
 
       if @service_provider.present?
-        sp = ServiceProvider.where("name LIKE ?", "%#{@service_provider}%")
+        sp = ServiceProvider.where('LOWER(name) LIKE LOWER(?)', "%#{@service_provider}%")
         query = query.joins(:opportunity).where(opportunities: { service_provider: sp })
       end
 
