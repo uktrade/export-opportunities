@@ -1,7 +1,6 @@
 - form = FormPresenter.new(content, {})
 - content_for :action_specific_head  do
   = stylesheet_link_tag 'transformation_admin/pages/stats'
-  = javascript_include_tag 'transformation_admin/dit.page.stats'
 
 
 %section.intro
@@ -30,7 +29,6 @@
                 %span.number
                   = number_with_delimiter(@stats.opportunities_submitted)
                 = content['stats_opportunities_submitted']
-                Opportunities submitted
 
               %li.opportunities-published
                 %span.number
