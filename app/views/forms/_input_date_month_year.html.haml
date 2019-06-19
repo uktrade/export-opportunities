@@ -8,12 +8,12 @@
 
   %label.day
     %span Day
-    = select_day input[:date], prefix: input[:name]
+    = select_day input[:date], prefix: input[:name], selected: input[:date].day
 
   %label.month
     %span Month
-    = select_month input[:date], prefix: input[:name], use_two_digit_numbers: true
+    = select_month input[:date], prefix: input[:name], use_two_digit_numbers: true, selected: input[:date].month
 
   %label.year
     %span Year
-    = select_year input[:date], prefix: input[:name]
+    = select_year input[:date], prefix: input[:name], selected: input[:date].year
