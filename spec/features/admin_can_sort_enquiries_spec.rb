@@ -11,14 +11,14 @@ feature 'Admins sorting the list of enquiries', :elasticsearch, :commit do
     visit admin_enquiries_path
 
     # # Sorted in reverse date order by default
-    expect(page.find('tbody tr:nth-child(1)').text).to have_content(second_enquiry.company_name)
-    expect(page.find('tbody tr:nth-child(2)').text).to have_content(first_enquiry.company_name)
+    expect(page.find('.results tbody tr:nth-child(1)').text).to have_content(second_enquiry.company_name)
+    expect(page.find('.results tbody tr:nth-child(2)').text).to have_content(first_enquiry.company_name)
 
     click_on 'Company'
 
     # Sort by company name
-    expect(page.find('tbody tr:nth-child(1)').text).to have_content(first_enquiry.company_name)
-    expect(page.find('tbody tr:nth-child(2)').text).to have_content(second_enquiry.company_name)
+    expect(page.find('.results tbody tr:nth-child(1)').text).to have_content(first_enquiry.company_name)
+    expect(page.find('.results tbody tr:nth-child(2)').text).to have_content(second_enquiry.company_name)
   end
 
   scenario 'Sort by opportunity name as a publisher' do
@@ -32,14 +32,14 @@ feature 'Admins sorting the list of enquiries', :elasticsearch, :commit do
     visit admin_enquiries_path
 
     # # Sorted in reverse date order by default
-    expect(page.find('tbody tr:nth-child(1)').text).to have_content(second_opportunity.title)
-    expect(page.find('tbody tr:nth-child(2)').text).to have_content(first_opportunity.title)
+    expect(page.find('.results tbody tr:nth-child(1)').text).to have_content(second_opportunity.title)
+    expect(page.find('.results tbody tr:nth-child(2)').text).to have_content(first_opportunity.title)
 
     click_on 'Opportunity'
 
     # Sort by company name
-    expect(page.find('tbody tr:nth-child(1)').text).to have_content(first_opportunity.title)
-    expect(page.find('tbody tr:nth-child(2)').text).to have_content(second_opportunity.title)
+    expect(page.find('.results tbody tr:nth-child(1)').text).to have_content(first_opportunity.title)
+    expect(page.find('.results tbody tr:nth-child(2)').text).to have_content(second_opportunity.title)
   end
 
   scenario 'Sort by opportunity name as an uploader' do
@@ -53,14 +53,14 @@ feature 'Admins sorting the list of enquiries', :elasticsearch, :commit do
     visit admin_enquiries_path
 
     # # Sorted in reverse date order by default
-    expect(page.find('tbody tr:nth-child(1)').text).to have_content(second_opportunity.title)
-    expect(page.find('tbody tr:nth-child(2)').text).to have_content(first_opportunity.title)
+    expect(page.find('.results tbody tr:nth-child(1)').text).to have_content(second_opportunity.title)
+    expect(page.find('.results tbody tr:nth-child(2)').text).to have_content(first_opportunity.title)
 
     click_on 'Opportunity'
 
     # Sort by company name
-    expect(page.find('tbody tr:nth-child(1)').text).to have_content(first_opportunity.title)
-    expect(page.find('tbody tr:nth-child(2)').text).to have_content(second_opportunity.title)
+    expect(page.find('.results tbody tr:nth-child(1)').text).to have_content(first_opportunity.title)
+    expect(page.find('.results tbody tr:nth-child(2)').text).to have_content(second_opportunity.title)
   end
 
   scenario 'sorting when paginated' do
