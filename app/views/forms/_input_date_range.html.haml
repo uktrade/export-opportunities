@@ -1,0 +1,10 @@
+%fieldset.field.date-range{ id: input[:id] }
+  %legend
+    = input[:label]
+
+  - unless input[:description].nil? or input[:description].empty?
+    %p.description{ :id=> input[:description_id] }
+      = input[:description]
+
+  = render :partial => 'forms/input_date_month_year', locals: { input: input[:from] }
+  = render :partial => 'forms/input_date_month_year', locals: { input: input[:to] }
