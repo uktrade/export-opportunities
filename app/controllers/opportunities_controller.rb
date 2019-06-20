@@ -59,14 +59,14 @@ class OpportunitiesController < ApplicationController
     respond_to do |format|
       format.html do
         content = get_content('opportunities/results.yml')
-        results = Search.new(params, limit: 100).run
+        results = Search.new(params, limit: 500).run
         @subscription = SubscriptionForm.new(results).call
         @page = PagePresenter.new(content)
         @results = OpportunitySearchResultsPresenter.new(content, results)
         render layout: 'results'
       end
       format.any(:atom, :xml) do
-        results = Search.new(params, limit: 100,
+        results = Search.new(params, limit: 500,
                                      results_only: true,
                                      sort: 'updated_at').run
         @query = AtomOpportunityQueryDecorator.new(results, view_context)

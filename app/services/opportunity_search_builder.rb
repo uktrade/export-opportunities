@@ -62,7 +62,7 @@ class OpportunitySearchBuilder
     {
       query: search_query,
       sort: sort_build,
-      terminate_after: @limit,
+      size: @limit || Figaro.env.OPPORTUNITY_ES_MAX_RESULT_WINDOW_SIZE || 100_000,
     }
   end
 
