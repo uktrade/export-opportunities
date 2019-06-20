@@ -1,8 +1,5 @@
-@import 'transformation/components/filter_multiple_select';
-@import 'transformation/effects/tabbed_area';
 @import 'transformation_admin/config';
 @import 'transformation_admin/forms';
-
 
 
 .controls {
@@ -29,6 +26,16 @@
   }
 }
 
+.impact-email,
+.monthly-outcome {
+  form {
+    border: 1px solid $grey-3;
+    margin-bottom: $spacing-3;
+    overflow: hidden;
+    padding: $spacing-3
+  }
+}
+
 .intro {
   background-color: $stone-40;
   margin-bottom: $spacing-3;
@@ -38,6 +45,14 @@
   a {
     font-size: $font-size-s;
   }
+}
+
+.monthly-outcome {
+  /* Temporary rule as requested not to remove functionality but
+   * hide from view to see if anyone uses it.
+   * Removing display:none will leave in correctly styled state.
+   */
+  display: none; 
 }
 
 .stats {
@@ -59,7 +74,21 @@
     display: block;
   }
 
-  .age-when-published {
+  ul {
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .feedback,
+  .responses,
+  .sent {
+    background-color: $stone-20;
+    border: 1px solid $stone-30;
+    margin: 0 $spacing-4 $spacing-4 0;
+  }
+
+  .not-contacted {
      clear: both;
      float: none;
      max-width: none;
@@ -68,15 +97,7 @@
        padding: $spacing-4 0 0 0;
      }
   }
-
-  .enquiries,
-  .opportunities-published,
-  .opportunities-submitted {
-    background-color: $stone-20;
-    border: 1px solid $stone-30;
-    margin: 0 $spacing-4 $spacing-4 0;
-  }
-
+	
   .number {
     display: block;
     font-size: $font-size-xxl;
@@ -85,27 +106,9 @@
     padding: 0 0 $spacing-4 0;
   }
 
-  ul {
-    margin: 0;
-    overflow: hidden;
-    padding: 0;
+  .won {
+    clear: left;
   }
-}
-
-.TabbedArea {
-  background-color: $white;
-
-  .radio {
-    display: inline-block;
-    margin-left: $spacing-3;
-  }
-}
-
-.TabbedAreaPanel {
-  border: 1px solid $grey-3;
-  margin-bottom: $spacing-3;
-  padding: $spacing-3;
-  width: 100%;
 }
 
 
@@ -115,13 +118,5 @@
     li {
       width: 100%;
     }
-  }
-}
-
-
-@media (max-width: 420px) {
-  .controls {
-    padding-left: $spacing-4;
-    padding-right: $spacing-4;
   }
 }

@@ -68,6 +68,7 @@ Rails.application.config.assets.precompile += %w[transformation_admin/pages/oppo
 Rails.application.config.assets.precompile += %w[transformation_admin/pages/opportunity_index.scss]
 Rails.application.config.assets.precompile += %w[transformation_admin/pages/opportunity_show.scss]
 Rails.application.config.assets.precompile += %w[transformation_admin/pages/enquiries_index.scss]
+Rails.application.config.assets.precompile += %w[transformation_admin/pages/reports.scss]
 Rails.application.config.assets.precompile += %w[transformation_admin/pages/stats.scss]
 Rails.application.config.assets.precompile += %w[transformation_admin/pages/help.scss]
 Rails.application.config.assets.precompile += %w[transformation_admin/pages/updates.scss]

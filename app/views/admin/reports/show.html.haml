@@ -1,50 +1,56 @@
-%p Impact email report
-- if Figaro.env.IMPACT_EMAIL_CHANGE_FREQUENCY
-  %p.flash.ptu-announcement{ :style => "font-weight:normal;" }
-    From
-    =Figaro.env.IMPACT_EMAIL_CHANGE_FREQUENCY
-    impact emails are sent to UK companies 3 months after they apply for an opportunity
+- page = PagePresenter.new(content)
+- form = FormPresenter.new(content, {})
+- content_for :action_specific_head  do
+  = stylesheet_link_tag 'transformation_admin/pages/reports'
 
-%section
-  .grid-row
-    .column-one-quarter
-      %div.data.data-panel
-        %span.data-item.bold-xxlarge
-          = number_with_delimiter(@impact_stats.sent)
-        %span.data-item.bold-xsmall sent
-    .column-one-quarter
-      %div.data.data-panel
-        %span.data-item.bold-xxlarge
-          = number_with_delimiter(@impact_stats.responded)
-        %span.data-item.bold-xsmall responses
-    .column-one-quarter
-      %div.data.data-panel
-        %span.data-item.bold-xxlarge
-          = number_with_delimiter(@impact_stats.responded_with_feedback)
-        %span.data-item.bold-xsmall responses with feedback
-  .grid-row
-    .column-one-quarter
-      %div.data
-        %span.data-item.bold-xxlarge
-          = number_with_delimiter(@impact_stats.option_0)
-        %span.data-item.bold-xsmall won the business
-    .column-one-quarter
-      %div.data
-        %span.data-item.bold-xxlarge
-          = number_with_delimiter(@impact_stats.option_1)
-        %span.data-item.bold-xsmall didn't win the business
-    .column-one-quarter
-      %div.data
-        %span.data-item.bold-xxlarge
-          = number_with_delimiter(@impact_stats.option_2)
-        %span.data-item.bold-xsmall was contacted, don't know outcome
-    .column-one-quarter
-      %div.data
-        %span.data-item.bold-xxlarge
-          = number_with_delimiter(@impact_stats.option_3)
-        %span.data-item.bold-xsmall don't know / don't want to say
-    .column-one-quarter
-      %div.data
-        %span.data-item.bold-xxlarge
-          = number_with_delimiter(@impact_stats.option_4)
-        %span.data-item.bold-xsmall wasn't contacted
+
+%section.intro
+  .container
+    %h1= content['impact_report_title']
+
+    .controls
+
+      .stats
+        %p#stats-label
+          = page.content_with_inclusion('impact_report_stats_label', [@stats.start_date.to_s(:admin_short_date), @stats.end_date.to_s(:admin_short_date)])
+
+        %ul{ aria: { labelledby: 'stats-label' } }
+          %li.sent
+            %span.number
+              = number_with_delimiter(@impact_stats.sent)
+            = content['impact_report_sent']
+
+          %li.responses
+            %span.number
+              = number_with_delimiter(@impact_stats.responded)
+            = content['impact_report_responses']
+
+          %li.feedback
+            %span.number
+              = number_with_delimiter(@impact_stats.responded_with_feedback)
+            = content['impact_report_feedback']
+
+          %li.won
+            %span.number
+              = number_with_delimiter(@impact_stats.option_0)
+            = content['impact_report_won']
+
+          %li.not-won
+            %span.number
+              = number_with_delimiter(@impact_stats.option_1)
+            = content['impact_report_not_won']
+
+          %li.unknown
+            %span.number
+              = number_with_delimiter(@impact_stats.option_2)
+            = content['impact_report_unknown']
+
+          %li.private
+            %span.number
+              = number_with_delimiter(@impact_stats.option_3)
+            = content['impact_report_private']
+
+          %li.not-contacted
+            %span.number
+              = number_with_delimiter(@impact_stats.option_4)
+            = content['impact_report_no_contact']

@@ -1,0 +1,27 @@
+# Admin Reports
+# -------------------------------------------------
+
+title: Reports
+
+outcomes_title: Monthly Outcomes against Targets by Country
+outcomes_button: Generate
+
+impact_report_title: Impact Email Report
+impact_report_button: Start
+
+impact_report_sent: sent
+impact_report_responses: responses
+impact_report_feedback: responses with feedback
+impact_report_won: won the business
+impact_report_not_won: didn't win the business
+impact_report_unknown: was contacted, don't know outcome
+impact_report_private: don't know / don't want to say
+impact_report_no_contact: wasn't contacted
+impact_report_stats_label: "Report statistics from [$start_date] to [$end_date]."
+
+
+#------- FORM FIELDS ----------
+
+fields:
+  impact_stats_date:
+    label: Select date
