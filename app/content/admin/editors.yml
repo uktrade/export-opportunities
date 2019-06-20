@@ -1,0 +1,37 @@
+# Admin Editors
+# -------------------------------------------------
+
+title_index: Editors
+title_edit: Edit Editor
+button_back: Editors
+button_create: Create editor
+button_edit: Edit editor
+button_update: Update editor
+button_filter: Filter
+button_reset: Reset
+button_deactivate: Deactivate editor
+button_reactivate: Reactivate editor
+
+
+column_name: Name
+column_email: Email
+column_role: Role
+column_provider: Service provider
+column_confirmed: Confirmed at
+column_login: Last login
+
+
+#------- FORM FIELDS ----------
+
+fields:
+  service_provider:
+    label: Service provider
+    description:
+
+  show_deactivated:
+    label: Show deactivated
+    description:
+
+  role:
+    label: Role
+    description:

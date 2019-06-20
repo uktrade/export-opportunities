@@ -1,35 +1,35 @@
-= link_to "Back", admin_editors_path, class: 'link-back'
+- content_for :action_specific_head  do
+  = stylesheet_link_tag 'transformation_admin/pages/editors'
 
-%h1.heading-xlarge
-  = @editor.name
-  - if @editor.deactivated?
-    .heading-secondary This user has been deactivated
 
-.grid-row
-  .column-one-quarter
-    = link_to 'Edit Editor', edit_admin_editor_path(@editor), class: 'button'
-  - if @editor.deactivated?
-    .column-one-quarter
-      = button_to 'Reactivate Editor', admin_editor_reactivate_path(@editor), method: :put, class: 'button'
-  - else
-    .column-one-quarter
-      = button_to 'Deactivate Editor', admin_editor_deactivate_path(@editor), method: :delete, class: 'button'
+%section.intro
+  .container
+    = link_to content['button_back'], admin_editors_path, class: 'back'
 
-%hr
+    %h1= @editor.name
 
-.grid-row
-  .column-two-thirds
-    %table.horizontal
-      %tr
-        %th{:scope => 'row'} Name
-        %td= @editor.name
-      %tr
-        %th{:scope => 'row'} Email
-        %td= @editor.email
-      %tr
-        %th{:scope => 'row'} Role
-        %td= @editor.role.titlecase
+    .controls
+      = link_to content['button_edit'], edit_admin_editor_path(@editor), class: 'button edit'
+
+      .deactivated
+      - if @editor.deactivated?
+        %p.deactivated This user has been deactivated
+        = button_to content['button_reactivate'], admin_editor_reactivate_path(@editor), method: :put, class: 'button activation'
+      - else
+        = button_to content['button_deactivate'], admin_editor_deactivate_path(@editor), method: :delete, class: 'button activation'
+
+%section.details
+  .container
+    %dl.editor
+      %dt{:scope => 'row'} Name
+      %dd= @editor.name
+
+      %dt{:scope => 'row'} Email
+      %dd= @editor.email
+
+      %dt{:scope => 'row'} Role
+      %dd= @editor.role.titlecase
+
       - if @editor.uploader?
-        %tr
-          %th{:scope => 'row'} Service provider
-          %td= @editor.service_provider&.name
+        %dt{:scope => 'row'} Service provider
+        %dd= @editor.service_provider&.name

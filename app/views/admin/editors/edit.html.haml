@@ -1,20 +1,27 @@
-%h1.heading-xlarge Edit Editor
+- form = FormPresenter.new(content, {})
+- content_for :action_specific_head  do
+  = stylesheet_link_tag 'transformation_admin/pages/editors'
 
-= form_for [:admin, @editor] do |f|
-  %table.horizontal
-    %tr
-      %th{:scope => 'row'} Name
-      %td= @editor.name
-    %tr
-      %th{:scope => 'row'} Email
-      %td= @editor.email
-    %tr
-      %th{:scope => 'row'}= f.label :role
-      %td= f.collection_select :role, Editor.roles.keys, :to_s, :titlecase
-    - if @editor.uploader?
-      %tr
-        %th{:scope => 'row'}= f.label :service_provider, 'Service provider', value: :id
-        %td= f.collection_select :service_provider_id, @service_providers, :id, :name, { prompt: '', selected: @editor.service_provider&.id }
 
-  .form-group
-    = f.submit 'Update editor', class: 'button'
+%section.intro
+  .container
+    = link_to content['button_back'], admin_editors_path, class: 'back'
+
+    %h1= content['title_edit']
+
+%section.process
+  .container
+    = form_for [:admin, @editor], builder: TemplateFormBuilder  do |f|
+      %dl
+        %dt Name
+        %dd= @editor.name
+
+        %dt Email
+        %dd= @editor.email
+
+      = f.input_select :role, form.input_select('role', @roles), { default: @editor.role }
+
+      - if @editor.uploader?
+        = f.input_select :service_provider_id, form.input_select('service_provider_id', @service_providers), { default: @editor.service_provider&.id }
+
+      = f.submit content['button_update'], class: 'button'

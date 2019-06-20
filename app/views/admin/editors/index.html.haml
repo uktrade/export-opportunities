@@ -1,42 +1,52 @@
-%h1.heading-xlarge Editors
+- form = FormPresenter.new(content, {})
+- content_for :action_specific_head  do
+  = stylesheet_link_tag 'transformation_admin/pages/editors'
+  = javascript_include_tag 'transformation_admin/dit.page.editors'
 
-%p= link_to 'Create Editor', new_editor_registration_path, :class => 'button'
+
+%section.intro
+  .container
+    %h1= content['title_index']
+
+    .controls
+      = link_to content['button_create'], new_editor_registration_path, :class => 'button create'
+
+      .filters
+        = form_tag admin_editors_path, method: :get do
+          = hidden_field_tag 'sort[column]', @filters.sort.column
+          = hidden_field_tag 'sort[order]', @filters.sort.order
+
+          .field.select
+            = render partial: 'forms/input_label', locals: { label: form.input_label('service_provider') }
+            = select_tag 'service_provider', options_from_collection_for_select(@service_providers, 'id', 'name', @filters.service_provider), prompt: 'All'
+
+          = render partial: 'forms/input_checkbox', locals: { input: form.input_checkbox('show_deactivated'), checked: !@filters.hide_deactivated }
+
+          = submit_tag 'Filter', class: 'button'
+          = link_to 'Reset', admin_editors_path, :class => 'reset-filters'
 
 
-.admin__filter-bar
-  = form_tag admin_editors_path, method: :get do
-    = hidden_field_tag 'sort[column]', @filters.sort.column
-    = hidden_field_tag 'sort[order]', @filters.sort.order
-    .table-filter
-      = label_tag 'service_provider', 'Service provider:'
-      = service_providers_select @filters.service_provider
+%section.results
+  .container
+    %table
+      %thead
+        %th{:scope => 'col'}= sortable(:editor_filters, 'name', 'Name', 'asc', @filters.sort)
+        %th{:scope => 'col', :width => '22%'}= sortable(:editor_filters, 'email', 'Email', 'asc', @filters.sort)
+        %th{:scope => 'col', :width => '10%'}= sortable(:editor_filters, 'role', 'Role', 'asc', @filters.sort)
+        %th{:scope => 'col', :width => '15%'}= sortable(:editor_filters, 'service_provider_name', 'Service Provider', 'asc', @filters.sort)
+        %th.numeric{:scope => 'col', :width => '10%'}= sortable(:editor_filters, 'confirmed_at','Confirmed at', 'asc', @filters.sort)
+        %th.numeric{:scope => 'col', :width => '10%'}= sortable(:editor_filters, 'last_sign_in_at', 'Last Login', 'asc', @filters.sort)
+      %tbody
+        - @editors.each do |editor|
+          %tr.editor
+            %td
+              = link_to editor.name, admin_editor_path(editor)
+              - if editor.deactivated?
+                %span.deactivated Deactivated
+            %td.wrap= editor.email
+            %td= editor.role&.titleize
+            %td= editor.service_provider&.name
+            %td.numeric= editor.confirmed_at&.to_s(:admin_datetime)
+            %td.numeric= editor.last_sign_in_at&.to_s(:admin_datetime)
 
-    .table-filter
-      = check_box_tag 'show_deactivated', 1, !@filters.hide_deactivated
-      = label_tag 'show_deactivated', 'Show deactivated'
-    .table-filter__actions
-      = submit_tag 'Filter', class: 'button'
-      = link_to 'Reset', admin_editors_path, :class => 'reset-filters'
-
-%table
-  %thead
-    %th{:scope => 'col'}= sortable(:editor_filters, 'name', 'Name', 'asc', @filters.sort)
-    %th{:scope => 'col', :width => '22%'}= sortable(:editor_filters, 'email', 'Email', 'asc', @filters.sort)
-    %th{:scope => 'col', :width => '10%'}= sortable(:editor_filters, 'role', 'Role', 'asc', @filters.sort)
-    %th{:scope => 'col', :width => '15%'}= sortable(:editor_filters, 'service_provider_name', 'Service Provider', 'asc', @filters.sort)
-    %th.numeric{:scope => 'col', :width => '10%'}= sortable(:editor_filters, 'confirmed_at','Confirmed at', 'asc', @filters.sort)
-    %th.numeric{:scope => 'col', :width => '10%'}= sortable(:editor_filters, 'last_sign_in_at', 'Last Login', 'asc', @filters.sort)
-  %tbody
-    - @editors.each do |editor|
-      %tr.editor
-        %td
-          = link_to editor.name, admin_editor_path(editor)
-          - if editor.deactivated?
-            %span.deactivated Deactivated
-        %td.wrap= editor.email
-        %td= editor.role&.titleize
-        %td= editor.service_provider&.name
-        %td.numeric= editor.confirmed_at&.to_s(:admin_datetime)
-        %td.numeric= editor.last_sign_in_at&.to_s(:admin_datetime)
-
-= paginate @editors
+    = render partial: "components/pagination", locals: { items: @editors }
