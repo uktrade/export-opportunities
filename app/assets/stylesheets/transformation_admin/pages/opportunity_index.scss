@@ -125,12 +125,6 @@ main {
     padding-right: 0;
   }
 
-  .container {
-    max-width: none;
-    min-width: $design-max-width;
-    padding: 0 $spacing-3;
-  }
-
   .created,
   .published,
   .response {
