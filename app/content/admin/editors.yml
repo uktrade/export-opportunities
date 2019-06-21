@@ -2,6 +2,7 @@
 # -------------------------------------------------
 
 title_index: Editors
+title_new: Create editor
 title_edit: Edit Editor
 button_back: Editors
 button_create: Create editor
@@ -24,9 +25,9 @@ column_login: Last login
 #------- FORM FIELDS ----------
 
 fields:
-  service_provider:
+  service_provider_id:
     label: Service provider
-    description:
+    description: You must assign a service provider so you can view your reports.
 
   show_deactivated:
     label: Show deactivated
@@ -34,4 +35,12 @@ fields:
 
   role:
     label: Role
+    description:
+
+  email:
+    label: Email
+    description:
+
+  name:
+    label: Name
     description:

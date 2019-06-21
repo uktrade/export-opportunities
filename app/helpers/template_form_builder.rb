@@ -94,6 +94,12 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
 
     # Anything else we want to take from props
     attributes[:placeholder] = props[:placeholder]
+    
+    # Set an empty value option to use like placeholder attribute.
+    if attributes.key? :prompt
+      config[:prompt] = attributes[:prompt]
+      attributes.delete :prompt
+    end
 
     # Construct the field
     @template.content_tag(
