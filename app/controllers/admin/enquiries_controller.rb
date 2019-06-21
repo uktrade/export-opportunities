@@ -1,7 +1,7 @@
 class Admin::EnquiriesController < Admin::BaseController
   ENQUIRIES_PER_PAGE = 5
   include ApplicationHelper
-  after_action :verify_authorized, except: [:help]
+  after_action :verify_authorized
 
   def index
     @filters = EnquiryFilters.new(filter_params)
@@ -53,8 +53,6 @@ class Admin::EnquiriesController < Admin::BaseController
     @companies_house_url = companies_house_url(@enquiry.company_house_number)
     authorize @enquiry
   end
-
-  def help; end
 
   private
 
