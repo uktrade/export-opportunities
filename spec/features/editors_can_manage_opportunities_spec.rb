@@ -32,9 +32,9 @@ feature 'Administering opportunities' do
     find_by_id("opportunity_value_ids_#{value.id}", visible: false).trigger('click')
     find_by_id("opportunity_type_ids_#{type.id}", visible: false).trigger('click')
 
-    select country.name, from: 'opportunity_country_ids'
-    select sector.name, from: 'opportunity_sector_ids'
-    select service_provider.name, from: 'opportunity_service_provider_id'
+    select country.name, from: 'opportunity[country_ids][]', visible: false
+    select sector.name, from: 'opportunity[sector_ids][]', visible: false
+    select service_provider.name, from: 'opportunity[service_provider_id]'
     select '2020', from: 'opportunity_response_due_on_1i'
     select '12', from: 'opportunity_response_due_on_2i'
     select '15', from: 'opportunity_response_due_on_3i'
@@ -87,9 +87,9 @@ feature 'Administering opportunities' do
     find_by_id("opportunity_value_ids_#{value.id}", visible: false).trigger('click')
     find_by_id("opportunity_type_ids_#{type.id}", visible: false).trigger('click')
 
-    select country.name, from: 'opportunity_country_ids'
-    select sector.name, from: 'opportunity_sector_ids'
-    select service_provider.name, from: 'opportunity_service_provider_id'
+    select country.name, from: 'opportunity[country_ids][]', visible: false
+    select sector.name, from: 'opportunity[sector_ids][]', visible: false
+    select service_provider.name, from: 'opportunity[service_provider_id]'
     select '2020', from: 'opportunity_response_due_on_1i'
     select '12', from: 'opportunity_response_due_on_2i'
     select '15', from: 'opportunity_response_due_on_3i'
@@ -121,9 +121,9 @@ feature 'Administering opportunities' do
       visit admin_opportunities_path
       click_on 'New opportunity'
 
-      select country.name, from: 'opportunity_country_ids'
-      select sector.name, from: 'opportunity_sector_ids'
-      select service_provider.name, from: 'opportunity_service_provider_id'
+      select country.name, from: 'opportunity[country_ids][]', visible: false
+      select sector.name, from: 'opportunity[sector_ids][]', visible: false
+      select service_provider.name, from: 'opportunity[service_provider_id]'
       select '2016', from: 'opportunity_response_due_on_1i'
       select '06', from: 'opportunity_response_due_on_2i'
       select '04', from: 'opportunity_response_due_on_3i'

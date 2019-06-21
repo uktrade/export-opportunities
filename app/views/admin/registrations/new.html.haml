@@ -1,12 +1,12 @@
-- form = FormPresenter.new(@content, {})
+- form = FormPresenter.new(@editor_content, {})
 - content_for :action_specific_head  do
   = stylesheet_link_tag 'transformation_admin/pages/editors'
 
 %section.intro
   .container
-    = link_to @content['button_back'], admin_editors_path, class: 'back'
+    = link_to @editor_content['button_back'], admin_editors_path, class: 'back'
 
-    %h1= @content['title_new']
+    %h1= @editor_content['title_new']
 
 
 %section.process
@@ -16,6 +16,6 @@
 
       = f.input_text :name, form.input_text('name')
       = f.input_text :email, form.input_text('email')
-      = f.input_select :role, form.input_select('role', @roles), { default: @editor.role }
+      = f.input_select :role, form.input_select('role', @editor_roles), { default: @editor.role }
       = f.input_select :service_provider_id, form.input_select('service_provider_id', @service_providers), { default: @editor.service_provider&.id, prompt: '' }
-      = f.submit @content['button_create'], :class => 'button'
+      = f.submit @editor_content['button_create'], :class => 'button'

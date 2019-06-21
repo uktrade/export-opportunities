@@ -13,8 +13,8 @@ class Admin::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/sign_up
   def new
-    @content = get_content('admin/editors.yml')
-    @roles = editor_roles
+    @editor_content = get_content('admin/editors.yml')
+    @editor_roles = editor_roles
     super do |resource|
       authorize resource
     end
@@ -22,6 +22,7 @@ class Admin::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
+    @editor_content = get_content('admin/editors.yml')
     super do |resource|
       authorize resource
       resource.password = SecureRandom.hex(64)

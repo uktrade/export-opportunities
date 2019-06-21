@@ -35,6 +35,7 @@ describe Admin::RegistrationsController, type: :controller do
       login_editor(role: :admin)
 
       it "doesn't return a 302" do
+        @editor_content = get_content('admin/editors')
         post :create, params: {}
         expect(response.status).not_to eq 302
       end
