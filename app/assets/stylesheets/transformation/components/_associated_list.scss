@@ -1,0 +1,50 @@
+@mixin associated-list {
+  margin-bottom: $spacing-3;
+  overflow: hidden;
+
+  dd {
+    border-top: 1px dashed $grey-3;
+    float: left;
+    padding: $spacing-4;
+    width: 70%;
+
+    &:first-of-type {
+      border-top: none;
+    }
+  }
+
+  dt {
+    border-top: 1px dashed $grey-3;
+    clear: left;
+    font-weight: bold;
+    float: left;
+    padding: $spacing-4;
+    text-align: right;
+    width: 30%;
+
+    &:first-of-type {
+      border-top: none;
+    }
+  }
+
+  @media (max-width: 580px) {
+    dd {
+      border-top: none;
+      padding-top: 0;
+      width: 100%;
+    }
+
+    dt {
+      padding-bottom: 0;
+      text-align: left;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 420px) {
+    dd, dt {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}

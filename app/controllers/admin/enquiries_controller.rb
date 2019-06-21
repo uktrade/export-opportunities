@@ -52,6 +52,9 @@ class Admin::EnquiriesController < Admin::BaseController
     @trade_profile_url = trade_profile(@enquiry.company_house_number)
     @companies_house_url = companies_house_url(@enquiry.company_house_number)
     authorize @enquiry
+    render layout: 'admin_transformed', locals: {
+      content: get_content('admin/enquiries.yml')
+    }
   end
 
   private

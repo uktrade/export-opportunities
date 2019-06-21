@@ -56,8 +56,17 @@ main {
   }
 }
 
+
 .back {
+  display: inline-block;
   font-size: $font-size-s;
+  margin-bottom: $spacing-3;
+
+  &:before {
+    @include chevron(5);
+    border-width: 0 0 2px 2px;
+    margin-right: 5px;
+  }
 }
 
 .flash {
@@ -98,6 +107,14 @@ main {
     }
   }
 }
+
+.intro {
+  background-color: $stone-40;
+  margin-bottom: $spacing-3;
+  overflow: hidden;
+  padding-top: $spacing-3;
+}
+
 
 .navigation {
   margin: 0;

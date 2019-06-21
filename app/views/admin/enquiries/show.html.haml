@@ -1,85 +1,100 @@
-= link_to "Back", admin_enquiries_path, class: 'link-back'
+- page = PagePresenter.new(content)
+- content_for :action_specific_head  do
+  = stylesheet_link_tag 'transformation_admin/pages/enquiries'
 
-%h1.heading-xlarge= @enquiry.company_name
 
-%table.horizontal
-  %tr
-    %th{:scope => 'row'} Opportunity
-    %td= link_to @enquiry.opportunity.title, admin_opportunity_path(@enquiry.opportunity)
-  %tr
-    %th{:scope => 'row'} First name
-    %td= @enquiry.first_name
-  %tr
-    %th{:scope => 'row'} Last name
-    %td= @enquiry.last_name
-  %tr
-    %th{:scope => 'row'} Email address
-    %td= @enquiry.email
-  - if @trade_profile_url then
-    %tr
-      %th{:scope => 'row'} Applicant business profile
-      %td= link_to @enquiry.company_name, @trade_profile_url, target: :blank, :rel => 'noopener noreferrer'
-  %tr
-    %th{:scope => 'row'} Company Address
-    %td= @enquiry.company_address
-  %tr
-    %th{:scope => 'row'} Company Telephone
-    %td= @enquiry.company_telephone
-  %tr
-    %th{:scope => 'row'} Companies House listing
-    - if @companies_house_url then
-      %td=link_to @enquiry.company_name, @companies_house_url, target: :blank, :rel => 'noopener noreferrer'
-    - else
-      %td='Not supplied'
-  %tr
-    %th{:scope => 'row'} Company Postcode
-    %td= @enquiry.company_postcode
-  %tr
-    %th{:scope => 'row'} URL
-    %td= @enquiry.company_url
-  %tr
-    %th{:scope => 'row'} Existing exporter?
-    %td= @enquiry.existing_exporter
-  %tr
-    %th{:scope => 'row'} Company Sector
-    %td= @enquiry.company_sector
-  %tr
-    %th{:scope => 'row'} Company Explanation
-    %td= @enquiry.company_explanation
-  %tr
-    %th{:scope => 'row'} Data Protection
-    %td= @enquiry.data_protection ? 'Yes' : 'No'
+%section.intro
+  .container
+    = link_to content['link_back'], admin_enquiries_path, class: 'back'
 
-.button-bar
-  .grid-row
-    .column-one-half
-      = link_to "Back", admin_enquiries_path, class: 'link-back'
-    - if !@enquiry_response || !@enquiry_response['completed_at']
-      .column-one-half
-        = link_to "Reply", new_admin_enquiry_response_path(id: @enquiry.id) + '#reply', class: 'button button-reply pull-right', params: {id: @enquiry.id}
+    %h1
+      = content['enquiry_title']
+      = @enquiry.id
 
-- if @enquiry_response
-  %hr
-  %div.grid-row
-  %div.column-two-thirds
-    %div.comment
-      - if @enquiry_response['completed_at']
-        %h2.heading-small This enquiry was responded to by #{@enquiry_response.editor.name}
+
+%section.enquiry-details
+  .container
+    %dl.enquiry
+
+      %dt.opportunity
+        = content['enquiry_opportunity']
+      %dd.opportunity
+        = link_to @enquiry.opportunity.title, admin_opportunity_path(@enquiry.opportunity)
+
+      %dt.company-name
+        = content['enquiry_company_name']
+      %dd.company-name
+        = @enquiry.company_name
+
+      %dt= content['enquiry_first_name']
+      %dd= @enquiry.first_name
+
+      %dt= content['enquiry_last_name']
+      %dd= @enquiry.last_name
+
+      %dt= content['enquiry_email']
+      %dd= @enquiry.email
+
+      - if @trade_profile_url then
+        %dt= content['enquiry_profile']
+        %dd= link_to @enquiry.company_name, @trade_profile_url, target: :blank, :rel => 'noopener noreferrer'
+
+      %dt= content['enquiry_address']
+      %dd= @enquiry.company_address
+
+      %dt= content['enquiry_telephone']
+      %dd= @enquiry.company_telephone
+
+      %dt= content['enquiry_postcode']
+      %dd= @enquiry.company_postcode
+
+      %dt= content['enquiry_ch_listing']
+      - if @companies_house_url then
+        %dd= link_to @enquiry.company_name, @companies_house_url, target: :blank, :rel => 'noopener noreferrer'
       - else
-        %h2.heading-small This response is pending
-      %div.comment_body
+        %dd= content['enquiry_ch_listing_unknown']
+
+      %dt= content['enquiry_website']
+      %dd= @enquiry.company_url
+
+      %dt= content['enquiry_exporter']
+      %dd= @enquiry.existing_exporter
+
+      %dt= content['enquiry_sector']
+      %dd= @enquiry.company_sector
+
+      %dt= content['enquiry_explanation']
+      %dd= @enquiry.company_explanation
+
+      %dt= content['enquiry_data_protection']
+      %dd= @enquiry.data_protection ? 'Yes' : 'No'
+
+%section.response-details
+  .container
+    - if !@enquiry_response || !@enquiry_response['completed_at']
+      = link_to content['response_reply_link'], new_admin_enquiry_response_path(id: @enquiry.id) + '#reply', class: 'button reply', params: {id: @enquiry.id}
+
+    - if @enquiry_response
+      .comment
+        %h2
+          - if @enquiry_response['completed_at']
+            = page.content_with_inclusion 'response_title_complete', [@enquiry_response.editor.name]
+          - else
+            = content['response_title_pending']
+
         = present_html_or_formatted_text(@enquiry_response.email_body)
 
-  %table.horizontal
-    %tr
-      %th{:scope => 'row'} Action Editor Email
-      %td= @enquiry_response.editor.email
-    %tr
-      %th{:scope => 'row'} Date of Response
-      %td= @enquiry_response.created_at.to_s + " ( #{@enquiry.response_status} )"
-    %tr
-      %th{:scope => 'row'} Response Type
-      %td= @enquiry_response.response_type_to_human
-    %tr
-      %th{:scope => 'row'} Documents
-      %td= @enquiry_response.documents_list
+      %dl.response
+        %dt= content['response_email']
+        %dd= @enquiry_response.editor.email
+
+        %dt= content['response_date']
+        %dd= @enquiry_response.created_at.to_s + " ( #{@enquiry.response_status} )"
+
+        %dt= content['response_type']
+        %dd= @enquiry_response.response_type_to_human
+
+        %dt= content['response_documents']
+        %dd= @enquiry_response.documents_list
+
+      = link_to content['link_back'], admin_enquiries_path, class: 'back'
