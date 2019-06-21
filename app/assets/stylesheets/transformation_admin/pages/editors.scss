@@ -1,0 +1,165 @@
+@import 'transformation_admin/config';
+@import 'transformation_admin/forms';
+@import 'transformation_admin/components/pagination';
+
+
+.controls {
+  background-color: $white;
+  border: 1px solid $grey-3;
+  margin-bottom: $spacing-3;
+  overflow: hidden;
+  padding: $spacing-3 $spacing-3 0 $spacing-3;
+  position: relative;
+
+  p {
+    margin-bottom: 0;
+  }
+
+  .activation,
+  .edit {
+    float: left;
+    margin: 0 $spacing-3 $spacing-3 0;
+  }
+
+  .create {
+    bottom: $spacing-3;
+    position: absolute;
+    right: $spacing-3;
+  }
+}
+
+.editor {
+  dd {
+    float: left;
+    margin: 0 0 $spacing-4 $spacing-3;
+  }
+
+  dt {
+    clear: left;
+    font-weight: bold;
+    float: left;
+    width: 200px;
+  }
+}
+
+.filters {
+  a {
+    float: left;
+    line-height: 50px;
+    margin-left: $spacing-3;
+  }
+
+  form {
+    overflow: hidden;
+  }
+
+  select {
+    margin-bottom: 0;
+    max-width: 365px;
+  }
+
+  .field {
+    float: left;
+    margin-bottom: $spacing-3;
+  }
+
+  .button {
+    clear: left;
+    float: left;
+  }
+}
+
+.intro {
+  background-color: $stone-40;
+  margin-bottom: $spacing-3;
+  overflow: hidden;
+  padding-top: $spacing-3;
+
+  .back {
+    display: inline-block;
+    margin-bottom: $spacing-3;
+
+    &:before {
+      @include chevron(5);
+      border-width: 0 0 2px 2px;
+      margin-right: 5px;
+    }
+  }
+}
+
+.process dl {
+  margin-bottom: $spacing-3;
+}
+
+.search {
+  form {
+    float: right;
+    position: relative;
+    width: 50%;
+  }
+
+  .button {
+    background-color: transparent;
+    background-image: asset_url("icons/search.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 50px;
+    border: none;
+    bottom: 2px;
+    cursor: pointer;
+    height: 46px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    right: 2px;
+    text-indent: 50px;
+    width: 50px;
+  }
+}
+
+.results {
+  table {
+    font-size: $font-size-s;
+    line-height: 1.2em;
+    margin-bottom: $spacing-3;
+    text-align: left;
+    width: 100%;
+  }
+
+  td {
+    border-bottom: 1px solid $grey-3;
+    padding: #{$spacing-4 / 2};
+  }
+
+  th {
+    padding: #{$spacing-4 / 2};
+  }
+}
+
+
+// RESPONSIVE
+@media (max-width: 720px) {
+  .controls {
+    .create {
+      margin-bottom: $spacing-3;
+      position: static;
+    }
+  }
+
+  .filters {
+    border-top: 1px solid $grey-3;
+    padding-top: $spacing-3;
+  }
+}
+
+@media (max-width: 420px) {
+  .actions {
+    .button {
+      width: 100%;
+    }
+  }
+
+  .controls {
+    padding: $spacing-4;
+  }
+}
