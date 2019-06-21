@@ -5,7 +5,7 @@
   dd {
     border-top: 1px dashed $grey-3;
     float: left;
-    padding: $spacing-4;
+    padding: #{$spacing-4 /2} $spacing-4;
     width: 70%;
 
     &:first-of-type {
@@ -18,7 +18,7 @@
     clear: left;
     font-weight: bold;
     float: left;
-    padding: $spacing-4;
+    padding: #{$spacing-4 /2} $spacing-4;
     text-align: right;
     width: 30%;
 
