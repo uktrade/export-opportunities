@@ -18,7 +18,7 @@
 
           .field.select
             = render partial: 'forms/input_label', locals: { label: form.input_label('service_provider') }
-            = select_tag 'service_provider', options_from_collection_for_select(@service_providers, 'id', 'name', @filters.service_provider), prompt: 'All'
+            = select_tag 'service_provider', options_from_collection_for_select(@service_providers, 'id', 'name', @filters.service_provider), prompt: 'All', id: 'service-provider'
 
           = render partial: 'forms/input_checkbox', locals: { input: form.input_checkbox('show_deactivated'), checked: !@filters.hide_deactivated }
 

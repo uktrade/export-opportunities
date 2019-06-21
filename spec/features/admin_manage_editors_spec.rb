@@ -1,7 +1,10 @@
+# coding: utf-8
 require 'rails_helper'
 require 'capybara/email/rspec'
 
 feature 'Admins manage editors' do
+  let(:content) { get_content('admin/editors') }
+
   before(:each) do
     clear_emails
   end
@@ -12,7 +15,7 @@ feature 'Admins manage editors' do
 
     login_as(admin)
     visit new_editor_registration_path
-    expect(page).to have_text('Create editor')
+    expect(page).to have_text(content['title_new'])
 
     email = Faker::Internet.email
 
@@ -21,14 +24,14 @@ feature 'Admins manage editors' do
       fill_in('Name', with: 'Foo Bar')
       select('Publisher', from: 'Role')
       select('Uzbekistan Tashkent', from: 'Service provider')
-      click_button('Create Editor')
+      click_button content['button_create']
     end
 
     open_email(email)
     expect(current_email).to have_content('You can confirm your account email through the link below:')
 
     expect(page).to have_text(I18n.t('devise.registrations.signed_up_but_unconfirmed'))
-    expect(page).to have_text('Create Editor')
+    expect(page).to have_text(content['title_new'])
   end
 
   scenario 'Can view all of the editors' do
@@ -65,7 +68,7 @@ feature 'Admins manage editors' do
     login_as(admin)
 
     visit admin_editor_path(editor.id)
-    click_button('Deactivate Editor')
+    click_button(content['button_deactivate'])
     expect(page).to have_text(I18n.t('devise.registrations.destroyed'))
   end
 
@@ -76,11 +79,11 @@ feature 'Admins manage editors' do
     login_as(admin)
 
     visit admin_editor_path(editor.id)
-    click_button('Deactivate Editor')
+    click_button(content['button_deactivate'])
     expect(page).to have_text(I18n.t('devise.registrations.destroyed'))
 
     visit admin_editor_path(editor.id)
-    click_button('Reactivate Editor')
+    click_button(content['button_reactivate'])
     expect(page).to have_text(I18n.t('devise.registrations.reactivated'))
   end
 
@@ -97,7 +100,7 @@ feature 'Admins manage editors' do
     Capybara.using_session(:admin) do
       login_as(admin)
       visit "/export-opportunities/admin/editors/#{editor.id}"
-      click_button 'Deactivate Editor'
+      click_button content['button_deactivate']
     end
 
     Capybara.using_session(:editor) do
@@ -114,10 +117,10 @@ feature 'Admins manage editors' do
     login_as(admin)
 
     visit admin_editor_path(existing_editor.id)
-    click_on('Edit Editor')
+    click_on(content['button_edit'])
 
     select('France Paris', from: 'Service provider')
-    click_button('Update editor')
+    click_button(content['button_update'])
 
     expect(page).to have_text('Editor updated')
     expect(page).to have_text('Service provider')
@@ -132,9 +135,9 @@ feature 'Admins manage editors' do
 
     visit admin_editor_path(existing_editor.id)
     expect(page).to have_text('Uploader')
-    click_on('Edit Editor')
+    click_on content['button_edit']
     select('Publisher', from: 'Role')
-    click_button('Update editor')
+    click_button(content['button_update'])
 
     expect(page).to have_text('Editor updated')
     expect(page).to have_text('Publisher')
@@ -180,14 +183,15 @@ feature 'Admins manage editors' do
       uploader = create(:uploader)
       publisher = create(:publisher)
       admin = create(:admin)
+      service_provider = 'editor[service_provider_id]'
 
       login_as(admin)
 
       visit "/export-opportunities/admin/editors/#{uploader.id}"
-      expect(page).to have_selector('th', text: 'Service provider')
+      expect(page.has_select?(service_provider))
 
       visit "/export-opportunities/admin/editors/#{publisher.id}"
-      expect(page).not_to have_selector('th', text: 'Service provider')
+      expect(page.has_no_select?(service_provider))
     end
   end
 end

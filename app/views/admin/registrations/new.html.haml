@@ -18,4 +18,4 @@
       = f.input_text :email, form.input_text('email')
       = f.input_select :role, form.input_select('role', @roles), { default: @editor.role }
       = f.input_select :service_provider_id, form.input_select('service_provider_id', @service_providers), { default: @editor.service_provider&.id, prompt: '' }
-      = f.submit "Create Editor", :class => 'button'
+      = f.submit @content['button_create'], :class => 'button'

@@ -25,6 +25,9 @@ column_login: Last login
 #------- FORM FIELDS ----------
 
 fields:
+  service_provider:
+    label: Service provider
+
   service_provider_id:
     label: Service provider
     description: You must assign a service provider so you can view your reports.
