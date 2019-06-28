@@ -1,4 +1,5 @@
 @import 'transformation_admin/config';
+@import 'transformation/components/associated_list';
 @import 'transformation_admin/forms';
 @import 'transformation_admin/components/pagination';
 
@@ -29,17 +30,7 @@
 }
 
 .editor {
-  dd {
-    float: left;
-    margin: 0 0 $spacing-4 $spacing-3;
-  }
-
-  dt {
-    clear: left;
-    font-weight: bold;
-    float: left;
-    width: 200px;
-  }
+  @include associated-list;
 }
 
 .filters {
@@ -67,28 +58,6 @@
     clear: left;
     float: left;
   }
-}
-
-.intro {
-  background-color: $stone-40;
-  margin-bottom: $spacing-3;
-  overflow: hidden;
-  padding-top: $spacing-3;
-
-  .back {
-    display: inline-block;
-    margin-bottom: $spacing-3;
-
-    &:before {
-      @include chevron(5);
-      border-width: 0 0 2px 2px;
-      margin-right: 5px;
-    }
-  }
-}
-
-.process dl {
-  margin-bottom: $spacing-3;
 }
 
 .search {
