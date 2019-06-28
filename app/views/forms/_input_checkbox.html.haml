@@ -1,4 +1,5 @@
 .field.checkbox
   -# Note: using %input instead of check_box_tag for greater flexibility
-  %input{:type=>'checkbox', :id=>input[:id], :name=>input[:name], :value=>input[:value], :checked=>input[:checked]}
+  - checked = local_assigns[:checked] || input[:checked]
+  %input{:type=>'checkbox', :id=>input[:id], :name=>input[:name], :value=>input[:value], :checked=>checked}
     = render partial: "forms/input_label", locals: { label: input[:label] }

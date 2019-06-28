@@ -17,10 +17,11 @@ module Admin
         @service_provider = load_service_provider(@stats_search_form)
         @country = load_country(@stats_search_form)
         @region = load_region(@stats_search_form)
-        render 'index.success'
-      else
-        render 'index.errors'
       end
+
+      render layout: 'admin_transformed', locals: {
+        content: get_content('admin/stats.yml'),
+      }
     end
 
     def show

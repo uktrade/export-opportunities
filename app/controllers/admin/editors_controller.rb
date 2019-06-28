@@ -18,18 +18,30 @@ class Admin::EditorsController < Admin::BaseController
     )
 
     @editors = query.editors.includes(:service_provider)
+    @service_providers = ServiceProvider.order(name: :asc)
+
     authorize @editors
+    render layout: 'admin_transformed', locals: {
+      content: get_content('admin/editors.yml'),
+    }
   end
 
   def show
     @editor = Editor.find(id)
     authorize @editor
+    render layout: 'admin_transformed', locals: {
+      content: get_content('admin/editors.yml'),
+    }
   end
 
   def edit
     @editor = Editor.find(id)
     @service_providers = ServiceProvider.select(:id, :name).order(name: :asc)
+    @roles = editor_roles
     authorize @editor
+    render layout: 'admin_transformed', locals: {
+      content: get_content('admin/editors.yml'),
+    }
   end
 
   def update
@@ -74,5 +86,23 @@ class Admin::EditorsController < Admin::BaseController
 
     def editor_filters
       params.permit({ sort: %i[column order] }, :name, :email, :role, :last_sign_in_at, :service_provider, :paged, :show_deactivated)
+    end
+
+    def editor_roles
+      roles = []
+      Editor.roles.each do |key, value|
+        roles.push Role.new(key, value)
+      end
+      roles
+    end
+
+    class Role
+      attr_reader :name, :value, :id
+
+      def initialize(name, value)
+        @name = name.capitalize
+        @id = name.downcase
+        @value = value
+      end
     end
 end

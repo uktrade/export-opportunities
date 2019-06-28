@@ -78,7 +78,8 @@
   }
 
   select {
-    @include access-hidden;
+    visibility: hidden;
+    z-index: -1;
   }
 }
 

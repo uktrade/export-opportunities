@@ -1,13 +1,15 @@
 require 'rails_helper'
 
 RSpec.feature 'Admin can filter editors' do
+  let(:content) { get_content('admin/editors') }
+
   scenario 'sees filtering links' do
     admin = create(:admin)
     login_as(admin)
     visit admin_editors_path
 
-    expect(page).to have_button('Filter')
-    expect(page).to have_link('Reset')
+    expect(page).to have_button(content['button_filter'])
+    expect(page).to have_link(content['button_reset'])
   end
 
   scenario 'filters persists when changing filters' do
@@ -18,12 +20,12 @@ RSpec.feature 'Admin can filter editors' do
     visit admin_editors_path
 
     check 'Show deactivated'
-    select service_provider.name, from: 'Service provider:'
-    click_on 'Filter'
+    select service_provider.name, from: 'Service provider'
+    click_on content['button_filter']
 
-    expect(page).to have_current_path(/show_deactivated=1/)
+    expect(page.current_url).to include('show_deactivated')
     expect(page).to have_checked_field('Show deactivated')
-    expect(page).to have_select('Service provider:', selected: service_provider.name)
+    expect(page).to have_select('Service provider', selected: service_provider.name)
   end
 
   scenario 'sort order persists when changing filters' do
@@ -35,7 +37,7 @@ RSpec.feature 'Admin can filter editors' do
     click_on 'Role'
 
     check 'Show deactivated'
-    click_on 'Filter'
+    click_on content['button_filter']
 
     expect(page).to have_current_path(/sort\[column\]=role&sort\[order\]=asc/)
   end
@@ -52,7 +54,7 @@ RSpec.feature 'Admin can filter editors' do
     expect(page).to have_content(active_editor.name)
 
     check 'Show deactivated'
-    click_on 'Filter'
+    click_on content['button_filter']
 
     expect(page).to have_content(deactivated_editor.name)
     expect(page).to have_content(active_editor.name)
@@ -72,8 +74,8 @@ RSpec.feature 'Admin can filter editors' do
     expect(page).to have_content(first_editor.name)
     expect(page).to have_content(second_editor.name)
 
-    select first_service_provider.name, from: 'Service provider:'
-    click_on 'Filter'
+    select first_service_provider.name, from: 'Service provider'
+    click_on content['button_filter']
 
     expect(page).to have_content(first_editor.name)
     expect(page).to have_no_content(second_editor.name)
@@ -82,14 +84,15 @@ RSpec.feature 'Admin can filter editors' do
   scenario 'admins can reset the filters' do
     admin = create(:admin)
     login_as(admin)
+
     visit admin_editors_path
 
+    checkbox = find_field('Show deactivated')
+
     check 'Show deactivated'
-    click_on 'Filter'
+    expect(checkbox.checked?).to be(true)
 
-    expect(page).to have_current_path(/show_deactivated=1/)
-
-    click_on 'Reset'
-    expect(page).to_not have_current_path(/show_deactivated=1/)
+    click_on content['button_reset']
+    expect(checkbox.checked?).to be(false)
   end
 end

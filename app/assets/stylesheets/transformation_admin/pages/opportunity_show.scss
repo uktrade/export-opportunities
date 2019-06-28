@@ -16,38 +16,13 @@ main {
   max-width: none;
 }
 
-.back {
-  color: $grey-1;
-  display: inline-block;
-
-  &:before {
-    @include arrow-left(#{$font-size-s / 2}, $white, $grey-1);
-    margin-right: 0.4em;
-  }
-}
-
 .intro {
-  background-color: $stone-40;
-  margin-bottom: $spacing-3;
-  overflow: hidden;
-  padding-top: $spacing-3;
-
   h1 {
     margin-bottom: $spacing-4;
   }
 
   p {
     font-size: $font-size-s;
-  }
-
-  .back {
-    margin-bottom: $spacing-3;
-
-    &:before {
-      border-bottom-color: $stone-40;
-      border-left-color: $stone-40;
-      border-top-color: $stone-40;
-    }
   }
 
   .expired {
