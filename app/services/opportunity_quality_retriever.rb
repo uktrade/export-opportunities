@@ -31,7 +31,7 @@ class OpportunityQualityRetriever
 
   # Returns array of OpportunityChecks
   def log_results(opportunity, check, text_to_test)
-    if check[:errors].blank?
+    logged = if check[:errors].blank?
       [OpportunityCheck.create!(opportunity: opportunity,
                                 score: check[:score],
                                 submitted_text: text_to_test)]
@@ -49,6 +49,7 @@ class OpportunityQualityRetriever
         )
       end
     end
-    Rails.logger.error("VOLUMEOPS - Quality Checking... done")  
+    Rails.logger.error("VOLUMEOPS - Quality Checking... done")
+    logged
   end
 end
