@@ -1,6 +1,6 @@
 class VolumeOppsValidator
   def validate_each(opportunity)
-    Rails.logger.error("VOLUMEOPS - Validating...")
+    Rails.logger.debug("VOLUMEOPS - Validating...")
 
     # title V
     # description V
@@ -23,10 +23,10 @@ class VolumeOppsValidator
       opportunity[:country_ids].blank? ||
       (opportunity[:buyer_name].blank? && opportunity[:buyer_address].blank?) ||
       opportunity[:contacts_attributes].blank?
-      Rails.logger.error("VOLUMEOPS - Validating... failed")
+      Rails.logger.debug("VOLUMEOPS - Validating... failed")
       false
     else
-      Rails.logger.error("VOLUMEOPS - Validating... passed")
+      Rails.logger.debug("VOLUMEOPS - Validating... passed")
       true
     end
   end

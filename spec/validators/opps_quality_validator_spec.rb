@@ -1,4 +1,4 @@
-require 'rails_helper'
+0--0require 'rails_helper'
 
 RSpec.describe OppsQualityValidator do
   describe '#validate_each or #call' do
