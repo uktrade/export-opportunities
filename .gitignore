@@ -87,3 +87,6 @@ output.png
 
 # Ignore rspec default options
 .rspec
+
+*.csv
+*.out

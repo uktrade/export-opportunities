@@ -8,6 +8,14 @@ namespace :volume do
     VolumeOppsRetriever.new.call(Editor.where(email: Figaro.env.MAILER_FROM_ADDRESS).first, from_date, to_date)
   end
 
+  desc 'fetch opps from file'
+  task :fetch_file_opps, %i[filename] => [:environment] do |_t, args|
+    filename = args[:filename] || Figaro.env.URL_FETCH_OPPORTUNITIES
+
+    # all volume opps will be assigned to the following editor, needs to be present in DB
+    VolumeOppsFileRetriever.new.call(filename)
+  end
+
   task delete_opps: :environment do
     volume_opps = Opportunity.where(source: 1)
     volume_opps.delete_all
