@@ -1,9 +1,7 @@
 require 'capybara/poltergeist'
 
-# Note, phantomjs uses this solution
-# https://github.com/teampoltergeist/poltergeist/issues/539
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, phantomjs_options: ['--load-images=false'], phantomjs: Phantomjs.path)
+  Capybara::Poltergeist::Driver.new(app, phantomjs_options: ['--load-images=false'])
 end
 Capybara.javascript_driver = :poltergeist
 Capybara.ignore_hidden_elements = true
