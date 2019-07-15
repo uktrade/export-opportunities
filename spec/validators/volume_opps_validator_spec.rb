@@ -59,6 +59,12 @@ RSpec.describe VolumeOppsValidator do
       expect(result).to eq false
     end
 
+    it 'returns false if opportunity doesnt have buyers contact details' do
+      @opportunity_params[:contacts_attributes] = nil
+      result = VolumeOppsValidator.new.validate_each(@opportunity_params)
+      expect(result).to eq false
+    end
+
     it 'does not substitute contact points details with default values if they dont exist' do
       first_contact = @opportunity_params[:contacts_attributes][0]
       first_contact[:name] = nil
