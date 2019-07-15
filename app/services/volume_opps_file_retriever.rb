@@ -35,8 +35,7 @@ class VolumeOppsFileRetriever
         proclass_code.save!
 
         # output the URL where we can find this opp
-        Rails.logger.error "#{Figaro.env.DOMAIN}/export-opportunities/#{opp.slug}"
-        byebug
+        puts "#{Figaro.env.DOMAIN}/export-opportunities/#{opp.slug}"
       end
     end
   end
