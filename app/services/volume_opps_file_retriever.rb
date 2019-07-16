@@ -35,7 +35,7 @@ class VolumeOppsFileRetriever
         proclass_code.save!
 
         # output the URL where we can find this opp
-        puts "#{Figaro.env.DOMAIN}/export-opportunities/#{opp.slug}"
+        puts "#{Figaro.env.DOMAIN}/export-opportunities/opportunities/#{opp.slug}"
       end
     end
   end
