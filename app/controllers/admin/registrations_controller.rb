@@ -9,9 +9,12 @@ class Admin::RegistrationsController < Devise::RegistrationsController
   rescue_from Pundit::NotAuthorizedError, with: :not_found
 
   layout 'admin'
+  layout 'admin_transformed', :only => [:new]
 
   # GET /resource/sign_up
   def new
+    @editor_content = get_content('admin/editors.yml')
+    @editor_roles = editor_roles
     super do |resource|
       authorize resource
     end
@@ -19,6 +22,7 @@ class Admin::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
+    @editor_content = get_content('admin/editors.yml')
     super do |resource|
       authorize resource
       resource.password = SecureRandom.hex(64)
@@ -62,5 +66,23 @@ class Admin::RegistrationsController < Devise::RegistrationsController
 
     def pundit_user
       current_editor
+    end
+
+    def editor_roles
+      roles = []
+      Editor.roles.each do |key, value|
+        roles.push Role.new(key, value)
+      end
+      roles
+    end
+
+    class Role
+      attr_reader :name, :value, :id
+
+      def initialize(name, value)
+        @name = name.capitalize
+        @id = name.downcase
+        @value = value
+      end
     end
 end

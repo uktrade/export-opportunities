@@ -4,12 +4,16 @@ module Admin
 
     Report = ImmutableStruct.new(:country, :months, :response_target)
 
-    ImpactStatsReport = ImmutableStruct.new(:sent, :responded, :responded_with_feedback, :option_0, :option_1, :option_2, :option_3, :option_4)
+    ImpactStatsReport = ImmutableStruct.new(:sent, :responded, :responded_with_feedback, :option_0, :option_1, :option_2, :option_3, :option_4, :start_date, :end_date)
 
     def show
       authorize :reports
-      start_date = DateTime.new(params['impact_stats_date']['data(1i)'].to_i, params['impact_stats_date']['data(2i)'].to_i, params['impact_stats_date']['data(3i)'].to_i).in_time_zone('UTC').beginning_of_day
+      start_date = DateTime.new(params['impact_stats_date']['year'].to_i, params['impact_stats_date']['month'].to_i, params['impact_stats_date']['day'].to_i).in_time_zone('UTC').beginning_of_day
       @stats = calculate_impact_email_stats(start_date, start_date + 1.day) if params[:id] == 'impact_email'
+
+      render layout: 'admin_transformed', locals: {
+        content: get_content('admin/reports.yml'),
+      }
     end
 
     def index
@@ -19,6 +23,10 @@ module Admin
         SendMonthlyReportToMatchingAdminUser.perform_async(current_editor.email, params)
         redirect_to admin_reports_path, notice: 'The requested Monthly Outcome against Targets by Country report has been emailed to you.'
       end
+
+      render layout: 'admin_transformed', locals: {
+        content: get_content('admin/reports.yml'),
+      }
     end
 
     private
@@ -34,7 +42,9 @@ module Admin
           option_1: isc.option_1,
           option_2: isc.option_2,
           option_3: isc.option_3,
-          option_4: isc.option_4
+          option_4: isc.option_4,
+          start_date: start_date,
+          end_date: end_date
         )
       end
   end

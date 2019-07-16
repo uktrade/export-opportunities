@@ -21,12 +21,16 @@ class RetrieveVolumeOpps
 
     # run sensitivity checks
     opportunity_result_set.each do |opportunity|
-      OpportunitySensitivityRetriever.new.call(opportunity)
+      unless opportunity.opportunity_sensitivity_checks.any?
+        OpportunitySensitivityRetriever.new.call(opportunity)
+      end
     end
 
     # run quality checks
     opportunity_result_set.each do |opportunity|
-      OpportunityQualityRetriever.new.call(opportunity)
+      unless opportunity.opportunity_checks.any?
+        OpportunityQualityRetriever.new.call(opportunity)
+      end
     end
 
     # run rules engine

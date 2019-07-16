@@ -1,0 +1,122 @@
+@import 'transformation_admin/config';
+@import 'transformation_admin/forms';
+
+
+.controls {
+  background-color: $white;
+  border: 1px solid $grey-3;
+  margin-bottom: $spacing-3;
+  overflow: hidden;
+  padding: $spacing-3 $spacing-3 0 $spacing-3;
+  position: relative;
+
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.date-month-year {
+  clear: none;
+  float: left;
+
+  legend {
+    float: left;
+    line-height: 50px;
+    margin-right: 15px;
+  }
+}
+
+.impact-email,
+.monthly-outcome {
+  form {
+    border: 1px solid $grey-3;
+    margin-bottom: $spacing-3;
+    overflow: hidden;
+    padding: $spacing-3
+  }
+}
+
+.intro {
+  background-color: $stone-40;
+  margin-bottom: $spacing-3;
+  overflow: hidden;
+  padding-top: $spacing-3;
+
+  a {
+    font-size: $font-size-s;
+  }
+}
+
+.monthly-outcome {
+  /* Temporary rule as requested not to remove functionality but
+   * hide from view to see if anyone uses it.
+   * Removing display:none will leave in correctly styled state.
+   */
+  display: none; 
+}
+
+.stats {
+  li {
+    float: left;
+    font-size: $font-size-s;
+    line-height: 1.2em;
+    list-style: none;
+    margin: 0;
+    min-width: 200px;
+    padding: $spacing-3 $spacing-4;
+  }
+
+  p {
+    margin-bottom: $spacing-3;
+  }
+
+  small {
+    display: block;
+  }
+
+  ul {
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .feedback,
+  .responses,
+  .sent {
+    background-color: $stone-20;
+    border: 1px solid $stone-30;
+    margin: 0 $spacing-4 $spacing-4 0;
+  }
+
+  .not-contacted {
+     clear: both;
+     float: none;
+     max-width: none;
+
+     span {
+       padding: $spacing-4 0 0 0;
+     }
+  }
+	
+  .number {
+    display: block;
+    font-size: $font-size-xxl;
+    font-weight: bold;
+    line-height: 1.1em;
+    padding: 0 0 $spacing-4 0;
+  }
+
+  .won {
+    clear: left;
+  }
+}
+
+
+// RESPONSIVE
+@media (max-width: 580px) {
+  .stats {
+    li {
+      width: 100%;
+    }
+  }
+}

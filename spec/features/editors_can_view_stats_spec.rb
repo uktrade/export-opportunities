@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.feature 'Editors can view stats' do
+  before(:all) do
+    @content = get_content('admin/stats')
+  end
+
   scenario 'for a specific service provider' do
     service_provider = create(:service_provider, name: 'Provider of services')
     another_service_provider = create(:service_provider, name: 'A different one')
@@ -23,9 +27,6 @@ RSpec.feature 'Editors can view stats' do
 
       click_on 'Stats'
 
-      expect(page).to have_select('stats_from_year', options: %w[1967 1968 1969 1970])
-      expect(page).to have_select('stats_to_year', options: %w[1967 1968 1969 1970])
-
       expect(page.find('#stats_from_year').value).to eq '1970'
       expect(page.find('#stats_from_month').value).to eq '9'
       expect(page.find('#stats_from_day').value).to eq '1'
@@ -38,16 +39,16 @@ RSpec.feature 'Editors can view stats' do
       # expect(page.find_field('Service provider').find('option[selected]').text).to eq 'Provider of services'
 
       select '1970', from: 'stats_from_year'
-      select 'September', from: 'stats_from_month'
+      select '09', from: 'stats_from_month'
       select '10', from: 'stats_from_day'
 
       select '1970', from: 'stats_to_year'
-      select 'September', from: 'stats_to_month'
+      select '09', from: 'stats_to_month'
       select '20', from: 'stats_to_day'
 
-      choose 'granularity_Universe'
+      choose 'granularity', option: 'Universe'
 
-      click_on 'Show stats'
+      click_on @content['submit_button']
 
       expect(page.find('#stats_from_year').value).to eq '1970'
       expect(page.find('#stats_from_month').value).to eq '9'
@@ -59,31 +60,29 @@ RSpec.feature 'Editors can view stats' do
 
       expect(page).to have_content('Statistics by Universe and all sources over the period 10 Sep 1970 to 20 Sep 1970')
 
-      expect(page).to have_content(t('admin.stats.opportunities_submitted', count: 1))
-      expect(page).to have_content(t('admin.stats.opportunities_published', count: 2))
-      expect(page).to have_content(t('admin.stats.enquiries', count: 1))
-      average_age =  t('admin.stats.average_age_when_published', average_age: '85 days')
-      expect(page).to have_content(average_age).or(have_content(average_age.gsub(": ", ":\n")))
+      expect_opportunities_submitted('1')
+      expect_opportunities_published('2')
+      expect_enquiries('1')
+      expect_age_when_published('85 days')
 
       select '1970', from: 'stats_from_year'
-      select 'September', from: 'stats_from_month'
+      select '09', from: 'stats_from_month'
       select '10', from: 'stats_from_day'
 
       select '1970', from: 'stats_to_year'
-      select 'September', from: 'stats_to_month'
+      select '09', from: 'stats_to_month'
       select '20', from: 'stats_to_day'
 
-      choose 'granularity_ServiceProvider'
+      choose 'granularity', option: 'ServiceProvider'
 
-      check 'A different one'
+      select 'A different one', from: 'ServiceProvider[service_provider_ids][]'
 
-      click_on 'Show stats'
+      click_on @content['submit_button']
 
-      expect(page).to have_content(t('admin.stats.opportunities_submitted', count: 0))
-      expect(page).to have_content(t('admin.stats.opportunities_published', count: 1))
-      expect(page).to have_content(t('admin.stats.enquiries', count: 0))
-      average_age =  t('admin.stats.average_age_when_published', average_age: '85 days')
-      expect(page).to have_content(average_age).or(have_content(average_age.gsub(": ", ":\n")))
+      expect_opportunities_submitted('0')
+      expect_opportunities_published('1')
+      expect_enquiries('0')
+      expect_age_when_published('85 days')
     end
   end
 
@@ -93,18 +92,17 @@ RSpec.feature 'Editors can view stats' do
 
     visit '/export-opportunities/admin/stats'
 
-    choose 'granularity_ServiceProvider'
+    choose 'granularity', option: 'ServiceProvider'
 
-    check 'A provider of services'
+    select 'A provider of services', from: 'ServiceProvider[service_provider_ids][]'
 
-    click_on 'Show stats'
+    click_on @content['submit_button']
 
     expect(page).to have_content('Statistics by')
-    expect(page).to have_content(t('admin.stats.opportunities_submitted', count: 0))
-    expect(page).to have_content(t('admin.stats.opportunities_published', count: 0))
-    expect(page).to have_content(t('admin.stats.enquiries', count: 0))
-    average_age =  t('admin.stats.average_age_when_published', average_age: 'N/A')
-    expect(page).to have_content(average_age).or(have_content(average_age.gsub(": ", ":\n")))
+    expect_opportunities_submitted('0')
+    expect_opportunities_published('0')
+    expect_enquiries('0')
+    expect_age_when_published('N/A')
   end
 
   scenario 'when the editor has no service provider' do
@@ -112,14 +110,14 @@ RSpec.feature 'Editors can view stats' do
     login_as(create(:editor, service_provider: nil))
 
     visit '/export-opportunities/admin/stats'
+    choose 'granularity', option: 'Universe'
+    click_on @content['submit_button']
 
-    expect(page).to have_content(t('admin.stats.errors.missing_service_provider_country_or_region'))
-
-    expect(page).to have_no_content('Statistics by')
-    expect(page).to have_no_content(t('admin.stats.opportunities_submitted'))
-    expect(page).to have_no_content(t('admin.stats.opportunities_published'))
-    expect(page).to have_no_content(t('admin.stats.enquiries'))
-    expect(page).to have_no_content(t('admin.stats.average_age_when_published', average_age: 'N/A'))
+    expect(page).to have_content('Statistics by')
+    expect_opportunities_submitted('0')
+    expect_opportunities_published('0')
+    expect_enquiries('0')
+    expect_age_when_published('N/A')
   end
 
   scenario 'when the editor requests a date range covering a single day' do
@@ -130,18 +128,18 @@ RSpec.feature 'Editors can view stats' do
       visit '/export-opportunities/admin/stats'
 
       select '2015', from: 'stats_from_year'
-      select 'September', from: 'stats_from_month'
+      select '09', from: 'stats_from_month'
       select '10', from: 'stats_from_day'
 
       select '2015', from: 'stats_to_year'
-      select 'September', from: 'stats_to_month'
+      select '09', from: 'stats_to_month'
       select '10', from: 'stats_to_day'
 
-      choose 'granularity_ServiceProvider'
+      choose 'granularity', option: 'ServiceProvider'
 
-      check 'A provider of services'
+      select 'A provider of services', from: 'ServiceProvider[service_provider_ids][]'
 
-      click_on 'Show stats'
+      click_on @content['submit_button']
 
       expect(page).to have_content('Statistics by ServiceProvider and all sources on 10 Sep 2015')
     end
@@ -170,22 +168,22 @@ RSpec.feature 'Editors can view stats' do
       visit '/export-opportunities/admin/stats'
 
       select '2015', from: 'stats_from_year'
-      select 'September', from: 'stats_from_month'
+      select '09', from: 'stats_from_month'
       select '15', from: 'stats_from_day'
 
       select '2015', from: 'stats_to_year'
-      select 'September', from: 'stats_to_month'
+      select '09', from: 'stats_to_month'
       select '15', from: 'stats_to_day'
 
-      choose 'granularity_Country'
+      choose 'granularity', option: 'Country'
 
-      check('Mexico', visible: false)
+      select 'Mexico', from: 'Country[country_ids][]'
 
-      click_on 'Show stats'
+      click_on @content['submit_button']
     end
 
     expect(page).to have_content('Statistics by Country and all sources on 15 Sep 2015')
-    expect(page).to have_content(t('admin.stats.opportunities_published', count: 2))
+    expect_opportunities_published('2')
   end
 
   scenario 'for a specific region' do
@@ -208,21 +206,21 @@ RSpec.feature 'Editors can view stats' do
       visit '/export-opportunities/admin/stats'
 
       select '2015', from: 'stats_from_year'
-      select 'September', from: 'stats_from_month'
+      select '09', from: 'stats_from_month'
       select '15', from: 'stats_from_day'
 
       select '2015', from: 'stats_to_year'
-      select 'September', from: 'stats_to_month'
+      select '09', from: 'stats_to_month'
       select '15', from: 'stats_to_day'
 
-      choose 'granularity_Region'
+      choose 'granularity', option: 'Region', visible: false
 
-      check('Latin America')
+      select 'Latin America', from: 'Region[region_ids][]'
 
-      click_on 'Show stats'
+      click_on @content['submit_button']
     end
 
-    expect(page).to have_content(t('admin.stats.opportunities_published', count: 2))
+    expect_opportunities_published('2')
     expect(page).to have_content('0 Enquiry Responses (counted at Enquiry Response created at date)')
   end
 
@@ -246,23 +244,22 @@ RSpec.feature 'Editors can view stats' do
       visit '/export-opportunities/admin/stats'
 
       select '2015', from: 'stats_from_year'
-      select 'September', from: 'stats_from_month'
+      select '09', from: 'stats_from_month'
       select '15', from: 'stats_from_day'
 
       select '2015', from: 'stats_to_year'
-      select 'September', from: 'stats_to_month'
+      select '09', from: 'stats_to_month'
       select '15', from: 'stats_to_day'
 
       wait_for_ajax
 
-      choose 'granularity_Region'
+      find('[name=granularity][value=Region]').trigger('click')
+      select 'Latin America', from: 'Region[region_ids][]'
 
-      check('Latin America')
-
-      click_on 'Show stats'
+      click_on @content['submit_button']
     end
 
-    expect(page).to have_content(t('admin.stats.opportunities_published', count: 2))
+    expect_opportunities_published('2')
   end
 
   scenario 'for all the universe' do
@@ -283,19 +280,19 @@ RSpec.feature 'Editors can view stats' do
       visit '/export-opportunities/admin/stats'
 
       select '2015', from: 'stats_from_year'
-      select 'September', from: 'stats_from_month'
+      select '09', from: 'stats_from_month'
       select '15', from: 'stats_from_day'
 
       select '2015', from: 'stats_to_year'
-      select 'September', from: 'stats_to_month'
+      select '09', from: 'stats_to_month'
       select '15', from: 'stats_to_day'
 
-      choose 'granularity_Universe'
+      choose 'granularity', option: 'Universe'
 
-      click_on 'Show stats'
+      click_on @content['submit_button']
     end
 
-    expect(page).to have_content(t('admin.stats.opportunities_published', count: 3))
+    expect_opportunities_published('3')
   end
 
   scenario 'for all the DIT universe' do
@@ -321,23 +318,23 @@ RSpec.feature 'Editors can view stats' do
       visit '/export-opportunities/admin/stats'
 
       select '2015', from: 'stats_from_year'
-      select 'September', from: 'stats_from_month'
+      select '09', from: 'stats_from_month'
       select '15', from: 'stats_from_day'
 
       select '2015', from: 'stats_to_year'
-      select 'September', from: 'stats_to_month'
+      select '09', from: 'stats_to_month'
       select '15', from: 'stats_to_day'
 
-      choose 'granularity_Universe'
+      choose 'granularity', option: 'Universe'
 
       uncheck('Third party')
 
-      click_on 'Show stats'
+      click_on @content['submit_button']
     end
 
-    expect(page).to have_content(t('admin.stats.opportunities_published', count: 2))
-    expect(page).to have_content(t('admin.stats.enquiries', count: 2))
-    expect(page).to have_content(t('admin.stats.enquiry_responses', count: 1))
+    expect_opportunities_published('2')
+    expect_enquiries('2')
+    expect_enquiry_responses('1')
   end
 
   scenario 'for all the third party universe' do
@@ -358,22 +355,22 @@ RSpec.feature 'Editors can view stats' do
       visit '/export-opportunities/admin/stats'
 
       select '2015', from: 'stats_from_year'
-      select 'September', from: 'stats_from_month'
+      select '09', from: 'stats_from_month'
       select '15', from: 'stats_from_day'
       select '2015', from: 'stats_to_year'
-      select 'September', from: 'stats_to_month'
+      select '09', from: 'stats_to_month'
       select '15', from: 'stats_to_day'
 
-      choose 'granularity_Universe'
+      choose 'granularity', option: 'Universe'
 
       uncheck('DIT')
 
-      click_on 'Show stats'
+      click_on @content['submit_button']
     end
-
-    expect(page).to have_content(t('admin.stats.opportunities_published', count: 1))
-    expect(page).to have_content(t('admin.stats.enquiries', count: 0))
-    expect(page).to have_content(t('admin.stats.enquiry_responses', count: 0))
+page.body
+    expect_opportunities_published('1')
+    expect_enquiries('0')
+    expect_enquiry_responses('0')
   end
 
   scenario 'for all service providers' do
@@ -388,18 +385,45 @@ RSpec.feature 'Editors can view stats' do
       visit '/export-opportunities/admin/stats'
 
       select '2015', from: 'stats_from_year'
-      select 'September', from: 'stats_from_month'
+      select '09', from: 'stats_from_month'
       select '15', from: 'stats_from_day'
 
       select '2015', from: 'stats_to_year'
-      select 'September', from: 'stats_to_month'
+      select '09', from: 'stats_to_month'
       select '15', from: 'stats_to_day'
 
-      choose 'granularity_Universe'
+      choose 'granularity', option: 'Universe'
 
-      click_on 'Show stats'
+      click_on @content['submit_button']
     end
 
-    expect(page).to have_content(t('admin.stats.opportunities_published', count: 2))
+    expect_opportunities_published('2')
+  end
+
+  # Helper methods
+
+  def expect_opportunities_submitted(text)
+    expect(page).to have_content(@content['stats_opportunities_submitted'])
+    expect(find('.opportunities-submitted .number')).to have_text(text)
+  end
+
+  def expect_opportunities_published(text)
+    expect(page).to have_content(@content['stats_opportunities_published'])
+    expect(find('.opportunities-published .number')).to have_text(text)
+  end
+
+  def expect_enquiries(text)
+    expect(page).to have_content(@content['stats_enquiries'])
+    expect(find('.enquiries .number')).to have_text(text)
+  end
+
+  def expect_enquiry_responses(text)
+    expect(page).to have_content(@content['stats_enquiry_responses'])
+    expect(find('.enquiry-responses .number')).to have_text(text)
+  end
+
+  def expect_age_when_published(text)
+    expect(page).to have_content(@content['stats_age_when_published'])
+    expect(find('.age-when-published .number')).to have_text(text)
   end
 end

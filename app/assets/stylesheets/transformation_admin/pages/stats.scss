@@ -1,0 +1,120 @@
+@import 'transformation/components/filter_multiple_select';
+@import 'transformation/effects/tabbed_area';
+@import 'transformation_admin/config';
+@import 'transformation_admin/forms';
+
+
+
+.controls {
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.date-month-year {
+  clear: none;
+  float: left;
+
+  legend {
+    float: left;
+    line-height: 50px;
+    margin-right: 15px;
+  }
+}
+
+.intro {
+  background-color: $stone-40;
+  margin-bottom: $spacing-3;
+  overflow: hidden;
+  padding-top: $spacing-3;
+
+  a {
+    font-size: $font-size-s;
+  }
+}
+
+.stats {
+  li {
+    float: left;
+    font-size: $font-size-s;
+    line-height: 1.2em;
+    list-style: none;
+    margin: 0;
+    min-width: 200px;
+    padding: $spacing-3 $spacing-4;
+  }
+
+  p {
+    margin-bottom: $spacing-3;
+  }
+
+  small {
+    display: block;
+  }
+
+  .age-when-published {
+     clear: both;
+     float: none;
+     max-width: none;
+
+     span {
+       padding: $spacing-4 0 0 0;
+     }
+  }
+
+  .enquiries,
+  .opportunities-published,
+  .opportunities-submitted {
+    background-color: $stone-20;
+    border: 1px solid $stone-30;
+    margin: 0 $spacing-4 $spacing-4 0;
+  }
+
+  .number {
+    display: block;
+    font-size: $font-size-xxl;
+    font-weight: bold;
+    line-height: 1.1em;
+    padding: 0 0 $spacing-4 0;
+  }
+
+  ul {
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+  }
+}
+
+.TabbedArea {
+  background-color: $white;
+
+  .radio {
+    display: inline-block;
+    margin-left: $spacing-3;
+  }
+}
+
+.TabbedAreaPanel {
+  border: 1px solid $grey-3;
+  margin-bottom: $spacing-3;
+  padding: $spacing-3;
+  width: 100%;
+}
+
+
+// RESPONSIVE
+@media (max-width: 580px) {
+  .stats {
+    li {
+      width: 100%;
+    }
+  }
+}
+
+
+@media (max-width: 420px) {
+  .controls {
+    padding-left: $spacing-4;
+    padding-right: $spacing-4;
+  }
+}

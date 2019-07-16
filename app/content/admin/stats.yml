@@ -1,0 +1,56 @@
+# Admin Stats
+# -------------------------------------------------
+
+title: Stats
+
+countries_unselected: No countries selected
+countries_selected_title: Selected countries
+
+regions_unselected: No regions selected
+regions_selected_title: Selected regions
+service_provider_unselected: No service providers selected
+service_provider_selected_title: Selected service providers
+
+stats_opportunities_submitted: Opportunities submitted
+stats_opportunities_published: Opportunities published
+stats_enquiries: Enquiries
+stats_enquiry_response: Enquiry Responses
+stats_enquiry_response_sub: (counted at Enquiry Response created at date)
+stats_age_when_published: "Average time to publish an opportunity following submission:"
+
+submit_button: Show stats
+
+#------- FORM FIELDS ----------
+
+fields:
+  date_range:
+    label: Select date range
+
+  stats_from:
+    label: From
+    description:
+
+  stats_to:
+    label: To
+    description:
+
+  granularity:
+    question: Select Granularity
+
+  source:
+    question: Choose source
+
+  countries:
+    label: Countries
+    description: Select the relevant countries you want to include in the stats report.
+    placeholder: Search the countries
+
+  regions:
+    label: Choose regions
+    description: Select the relevant regions you want to include in the stats report.
+    placeholder: Search the regions
+
+  service_providers:
+    label: Choose service providers
+    description: Select the relevant service providers you want to include in the stats report.
+    placeholder: Search the service providers

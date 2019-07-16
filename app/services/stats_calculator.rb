@@ -3,8 +3,8 @@ class StatsCalculator
 
   def call(criteria)
     date_range = (criteria.date_from..criteria.date_to)
-    source = criteria.source
-    case criteria.granularity
+    source = criteria.source.value
+    case criteria.granularity.value
     when 'ServiceProvider'
       if criteria.all_service_providers?
         opportunities_submitted, opportunities_published, enquiries, enquiry_response = global_results(date_range)
