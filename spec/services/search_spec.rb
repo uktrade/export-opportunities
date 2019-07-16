@@ -108,25 +108,6 @@ RSpec.describe Search, elasticsearch: true do
         expect(results[:total]).to eq 2
       end
     end
-    it 'can limit number of results and fetch the total_without_limit' do
-      12.times do |n|
-        create(:opportunity, title: "Post #{n+3}", created_at: 2.months.ago,
-                response_due_on: 12.months.from_now, status: :publish)
-      end
-      refresh_elasticsearch
-
-      limit = 2
-      results = Search.new({}, limit: limit).run
-
-      # ElasticSearch returns 1 result per shard, and currently 5 shards.
-      # Note, may return less than max due to data being unevenly 
-      # spread across shards, thus some shards returning less than max
-      max_number_to_find = limit * number_of_shards
-
-      expect(Opportunity.count).to be > max_number_to_find
-      expect(results[:total]).to be <= max_number_to_find
-      expect(results[:total_without_limit]).to eq 15
-    end
     describe 'sorts results' do
       it 'by first_published_at' do
         # Note Post 1 was published most recently,

@@ -8,14 +8,17 @@ class OpportunityQualityRetriever
   # Returns results in an array
   #
   def call(opportunity)
+    Rails.logger.debug("VOLUMEOPS - Quality Checking...")
     text_to_test = "#{opportunity.title} #{opportunity.description}"[0..1999]
     check = perform_quality_check(text_to_test)
 
     if check[:status] != 200
+      Rails.logger.debug("VOLUMEOPS - Quality Checking... failed")
       error_msg = "QualityCheck API failed. API returned status #{check[:status]}"
       Rails.logger.error error_msg
       ['Error']
     else
+      Rails.logger.debug("VOLUMEOPS - Quality Checking... retrieved")
       log_results(opportunity, check, text_to_test)
     end
   end
@@ -28,7 +31,7 @@ class OpportunityQualityRetriever
 
   # Returns array of OpportunityChecks
   def log_results(opportunity, check, text_to_test)
-    if check[:errors].blank?
+    logged = if check[:errors].blank?
       [OpportunityCheck.create!(opportunity: opportunity,
                                 score: check[:score],
                                 submitted_text: text_to_test)]
@@ -46,5 +49,7 @@ class OpportunityQualityRetriever
         )
       end
     end
+    Rails.logger.debug("VOLUMEOPS - Quality Checking... done")
+    logged
   end
 end
