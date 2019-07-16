@@ -2,7 +2,7 @@ require 'opps_sensitivity_connector'
 
 class OpportunitySensitivityRetriever
   def call(opportunity)
-    Rails.logger.debug("VOLUMEOPS - Sensitivity Retrieving...")
+    Rails.logger.error("VOLUMEOPS - Sensitivity Retrieving...")
     hostname = Figaro.env.AZ_HOSTNAME!
     sensitivity_api_key = Figaro.env.AZ_API_KEY!
     submitted_text = "#{opportunity.title} #{opportunity.description}"[0..1023]
@@ -12,9 +12,9 @@ class OpportunitySensitivityRetriever
 
     valid_response = validate_response(hashed_response)
 
-    Rails.logger.debug("VOLUMEOPS - Validating response...")
+    Rails.logger.error("VOLUMEOPS - Validating response...")
     if valid_response
-      Rails.logger.debug("VOLUMEOPS - Validating response... done")
+      Rails.logger.error("VOLUMEOPS - Validating response... done")
       opp_sensitivity_check = OpportunitySensitivityCheck.new
 
       opp_sensitivity_check.error_id = hashed_response['TrackingId']
@@ -33,7 +33,7 @@ class OpportunitySensitivityRetriever
       opp_sensitivity_check.save!
 
       hashed_response['Terms']&.each do |term|
-        Rails.logger.debug("VOLUMEOPS - Checking term...")
+        Rails.logger.error("VOLUMEOPS - Checking term...")
         check_term = OpportunitySensitivityTermCheck.new
         check_term.index = term['Index']
         check_term.original_index = term['OriginalIndex']
@@ -47,15 +47,15 @@ class OpportunitySensitivityRetriever
         opp_sensitivity_check.review_recommended = true
 
         opp_sensitivity_check.save!
-        Rails.logger.debug("VOLUMEOPS - Checking term... done")
+        Rails.logger.error("VOLUMEOPS - Checking term... done")
       end
 
-      Rails.logger.debug("VOLUMEOPS - Sensitivity Retrieving... done")
+      Rails.logger.error("VOLUMEOPS - Sensitivity Retrieving... done")
       { review_recommended: opp_sensitivity_check.review_recommended, category1_score: opp_sensitivity_check.category1_score, category2_score: opp_sensitivity_check.category2_score, category3_score: opp_sensitivity_check.category3_score }
     else
-      Rails.logger.debug("VOLUMEOPS - Validating Response... failed")
-      Rails.logger.debug("VOLUMEOPS - Sensitivity Retrieving... failed")
-      Rails.logger.error "unknown error from API call #{hashed_response}"
+      Rails.logger.error("VOLUMEOPS - Validating Response... failed")
+      Rails.logger.error("VOLUMEOPS - Sensitivity Retrieving... failed")
+      Rails.logger.error("unknown error from API call #{hashed_response}")
     end
   end
 
