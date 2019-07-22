@@ -30,6 +30,20 @@ RSpec.describe SentenceCaseEnforcer, type: :service do
       converted_params = SentenceCaseEnforcer.new(params).call
       expect(converted_params[:description]).to eq "Description: here"
     end
+    it "ignores case if any of title, teaser or description are absent" do
+      params = opportunity_params(title: nil)
+      converted_params = SentenceCaseEnforcer.new(params).call
+      expect(converted_params[:title]).to eq nil
+
+      params = opportunity_params(teaser: nil)
+      converted_params = SentenceCaseEnforcer.new(params).call
+      expect(converted_params[:teaser]).to eq nil
+
+      params = opportunity_params(description: nil)
+      converted_params = SentenceCaseEnforcer.new(params).call
+      expect(converted_params[:description]).to eq nil
+    end
+
     it "ignore mixed case scenarios" do
       #
       # For mixed case descriptions, current approach is to leave as is to avoid any 
