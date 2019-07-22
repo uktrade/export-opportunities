@@ -169,6 +169,33 @@ def create_elastic_search_opportunity(result_body = {})
   result
 end
 
+def opportunity_params(title: 'title',
+                       service_provider_id: 5,
+                       sector_ids: ['2'],
+                       teaser: 'teaser',
+                       description: 'description',
+                       opportunity_cpvs: [{ 
+                                            industry_id: 38511000,
+                                            industry_scheme: 'test_scheme'
+                                           }])
+  {
+    title: title,
+    country_ids: ['1'],
+    sector_ids: sector_ids,
+    type_ids: ['3'],
+    value_ids: ['4'],
+    teaser: teaser,
+    response_due_on: '2015-02-01',
+    description: description,
+    contacts_attributes: [
+      { name: 'foo', email: 'email@foo.com' },
+      { name: 'bar', email: 'email@bar.com' },
+    ],
+    service_provider_id: service_provider_id,
+    opportunity_cpvs: opportunity_cpvs
+  }
+end
+
 # EXAMPLE CPV search URL and RESPONSE
 # -----------------------------------------------------------------------
 # URL =

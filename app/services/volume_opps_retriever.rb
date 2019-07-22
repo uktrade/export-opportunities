@@ -269,6 +269,7 @@ class VolumeOppsRetriever
         Rails.logger.error("VOLUMEOPS - Processing beginning...")
         if VolumeOppsValidator.new.validate_each(opportunity_params)
           translate(opportunity_params, %i[description teaser title], opportunity_language) if should_translate?(opportunity_language)
+          opportunity_params = enforce_sentence_case(opportunity_params)
           CreateOpportunity.new(editor, :draft, :volume_opps).call(opportunity_params)
           valid_opp += 1
         else
@@ -300,6 +301,10 @@ class VolumeOppsRetriever
     hostname = Figaro.env.DL_HOSTNAME!
     api_key = Figaro.env.DL_API_KEY!
     TranslationConnector.new.call(opportunity_params, fields, original_language, hostname, api_key)
+  end
+
+  def enforce_sentence_case(opportunity_params)
+    SentenceCaseEnforcer.new(opportunity_params).call
   end
 
   # language has to NOT be english
