@@ -40,6 +40,11 @@ class CategorisationMicroservice
 
   # Gets an array of all of the sector ids from the response
   def sector_ids
-    call.map { |result| result['sector_id'] }.flatten
+    response = call
+    if response && response[0] && response[0]['sector_id']
+      call.map { |result| result['sector_id'] }.flatten
+    else
+      []
+    end
   end
 end
