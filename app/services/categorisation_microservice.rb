@@ -42,7 +42,7 @@ class CategorisationMicroservice
   def sector_ids
     response = call
     if response && response[0] && response[0]['sector_id']
-      call.map { |result| result['sector_id'] }.flatten
+      response.map { |result| result['sector_id'] }.flatten
     else
       []
     end
