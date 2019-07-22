@@ -16,6 +16,7 @@ class SentenceCaseEnforcer
   end
 
   def enforce_sentence_case(string)
+    return string unless string.present?
     if is_capitalised?(string)
       sentences = PragmaticSegmenter::Segmenter.new(text: string).segment
       string = sentences.map(&:humanize).join(" ")
