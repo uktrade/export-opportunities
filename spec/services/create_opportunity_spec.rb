@@ -17,7 +17,6 @@ describe CreateOpportunity, type: :service do
       service_provider = create(:service_provider, id: '6')
       editor = create(:editor, service_provider_id: service_provider.id)
 
-      debugger
       expect { CreateOpportunity.new(editor).call(opportunity_params) }
         .to change { Opportunity.count }.by(1)
     end

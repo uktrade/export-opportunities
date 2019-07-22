@@ -19,7 +19,7 @@ class SentenceCaseEnforcer
     if is_capitalised?(string)
       sentences = PragmaticSegmenter::Segmenter.new(text: string).segment
       string = sentences.map(&:humanize).join(" ")
-      string = capitalise_accronyms(string)
+      string = capitalise_acronyms(string)
     end
     string
   end
@@ -28,7 +28,7 @@ class SentenceCaseEnforcer
     string == string.upcase
   end
 
-  def capitalise_accronyms(string)
+  def capitalise_acronyms(string)
     words = string.split(" ")
     words.map do |word|
       if capitalize?(word.downcase)
