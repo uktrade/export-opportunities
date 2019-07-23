@@ -90,6 +90,9 @@ gem 'jwt'
 # caching
 gem 'actionpack-page_caching'
 
+# Sentence splitting
+gem 'pragmatic_segmenter'
+
 group :development, :test do
   gem 'byebug'
   gem 'faker'
