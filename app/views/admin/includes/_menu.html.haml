@@ -13,8 +13,8 @@
           = link_to 'Editors', admin_editors_path
       %li
         = link_to 'Stats', admin_stats_path
-      %li
-        - if administrator? || previewer? || publisher?
+      - if administrator? || previewer? || publisher?
+        %li
           = link_to 'Reports', admin_reports_path
       %li
         = link_to 'Service updates', admin_updates_path
