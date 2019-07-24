@@ -709,6 +709,8 @@ GEM
       capybara (>= 2.1, < 4)
       cliver (~> 0.3.1)
       websocket-driver (>= 0.2.0)
+    pragmatic_segmenter (0.3.22)
+      unicode
     premailer (1.11.1)
       addressable
       css_parser (>= 1.6.0)
@@ -894,6 +896,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.5)
+    unicode (0.4.4.4)
     unicode-display_width (1.5.0)
     uniform_notifier (1.12.1)
     vcr (4.0.0)
@@ -970,6 +973,7 @@ DEPENDENCIES
   pg (= 1.1.4)
   pg_search
   poltergeist
+  pragmatic_segmenter
   premailer-rails
   pry-rails
   pry-rescue

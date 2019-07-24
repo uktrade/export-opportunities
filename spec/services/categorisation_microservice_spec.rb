@@ -6,6 +6,10 @@ RSpec.describe CategorisationMicroservice, type: :service do
     @cpv = 38511000.freeze
   end
 
+  def url_for(cpv)
+    "#{ENV['CATEGORISATION_URL']}/api/matchers/cpv/?cpv_id=#{cpv}&format=json"
+  end
+
   describe "#call" do
 
     it "returns array of results when given a cpv code" do
@@ -32,8 +36,20 @@ RSpec.describe CategorisationMicroservice, type: :service do
       expect(sector_ids).to eq [5, 20]
     end
 
-    it "returns an empty array of ids if service cant find the sector ids" do
+    it "returns an empty array if service cant find the sector ids" do
       sector_ids = CategorisationMicroservice.new(34121110).sector_ids
+      expect(sector_ids).to eq []
+    end
+
+    it "returns an empty array if the service responds with something unexpected" do
+      stub_request(:get, url_for(@cpv)).to_return(status: 200, body: '{"Error": "Error"}' )
+      sector_ids = CategorisationMicroservice.new(@cpv).sector_ids
+      expect(sector_ids).to eq []
+    end
+
+    it "returns an empty array if the service responds with null" do
+      stub_request(:get, url_for(@cpv)).to_return(status: 200, body: '[{"sector_id": null}]' )
+      sector_ids = CategorisationMicroservice.new(@cpv).sector_ids
       expect(sector_ids).to eq []
     end
   end
