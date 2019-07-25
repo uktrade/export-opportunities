@@ -172,8 +172,7 @@ module Api
       def opportunity_object(country_names, service_provider_names, opportunity)
         obj_id = 'dit:exportOpportunities:Opportunity:' + opportunity.id.to_s
         {
-          'type': 'Opportunity',
-          'dit:greatDomesticUI:searchResultType': 'Opportunity',
+          'type': ['Document', 'Opportunity', 'dit:Opportunity'],
           # The following is used by Enquiry stream, may be deprecated soon - 11 Feb 2019
           'dit:exportOpportunities:Opportunity:id': opportunity.id.to_s,
           'id': obj_id,
