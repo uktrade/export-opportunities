@@ -60,22 +60,23 @@
 
       = render partial: 'forms/input_radio', locals: { input: form.input_radio('granularity',  @stats_search_form.granularity.options) }
 
-      = render partial: 'forms/input_checkbox_group', locals: { group: form.input_checkbox_group('source',  @stats_search_form.source.options) }
+      = render partial: 'forms/input_checkbox_group', locals: { group: form.input_checkbox_group('source',  @stats_search_form.source.options), content: content }
 
       .field.select.field-regions
         = render partial: 'forms/input_label', locals: { label: form.input_label('regions') }
         = select_tag "Region[region_ids][]", options_from_collection_for_select(@stats_search_form.regions, "id", "name"), { multiple: true, size: '5', placeholder: form._content('fields.regions.placeholder'),  data: { node: 'regions', unselected: content['regions_unselected'], display: content['regions_selected_title'] } }
+        = submit_tag content['submit_button'], class: 'button'
 
       .field.select.field-countries
         = form._content('countries.placeholder')
         = render partial: 'forms/input_label', locals: { label: form.input_label('countries') }
         = select_tag "Country[country_ids][]", options_from_collection_for_select(@stats_search_form.countries, "id", "name"), { multiple: true, size: '5', placeholder: form._content('fields.countries.placeholder'), data: { node: 'countries', unselected: content['countries_unselected'], display: content['countries_selected_title'] } }
+        = submit_tag content['submit_button'], class: 'button'
 
       .field.select.field-providers
         = render partial: 'forms/input_label', locals: { label: form.input_label('service_providers') }
         = select_tag "ServiceProvider[service_provider_ids][]", options_from_collection_for_select(@stats_search_form.service_providers, "id", "name"), { multiple: true, size: '5', placeholder: form._content('fields.service_providers.placeholder'),  data: { node: 'providers', unselected: content['service_providers_unselected'], display: content['service_providers_selected_title'] } }
-
-      = submit_tag content['submit_button'], class: 'button'
+        = submit_tag content['submit_button'], class: 'button'
 
 
 %section.results
