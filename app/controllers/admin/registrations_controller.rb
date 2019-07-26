@@ -23,6 +23,7 @@ class Admin::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     @editor_content = get_content('admin/editors.yml')
+    @editor_roles = editor_roles
     super do |resource|
       authorize resource
       resource.password = SecureRandom.hex(64)
