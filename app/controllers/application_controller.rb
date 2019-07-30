@@ -17,6 +17,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def set_no_cache_headers
+    response.headers['Cache-Control'] = 'no-cache, no-store'
+  end
+
   before_action :set_google_tag_manager
 
   def set_google_tag_manager

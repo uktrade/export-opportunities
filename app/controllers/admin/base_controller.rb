@@ -5,6 +5,7 @@ class Admin::BaseController < ApplicationController
   before_action :authenticate_editor!
   before_action :sign_out_if_deactivated!
   before_action :set_raven_context
+  before_action :set_no_cache_headers
 
   layout 'admin'
 
