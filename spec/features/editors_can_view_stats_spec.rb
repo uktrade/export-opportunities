@@ -48,7 +48,7 @@ RSpec.feature 'Editors can view stats' do
 
       choose 'granularity', option: 'Universe'
 
-      click_on @content['submit_button']
+      click_on(@content['submit_button'], match: :first)
 
       expect(page.find('#stats_from_year').value).to eq '1970'
       expect(page.find('#stats_from_month').value).to eq '9'
@@ -77,7 +77,7 @@ RSpec.feature 'Editors can view stats' do
 
       select 'A different one', from: 'ServiceProvider[service_provider_ids][]'
 
-      click_on @content['submit_button']
+      click_on(@content['submit_button'], match: :first)
 
       expect_opportunities_submitted('0')
       expect_opportunities_published('1')
@@ -96,7 +96,7 @@ RSpec.feature 'Editors can view stats' do
 
     select 'A provider of services', from: 'ServiceProvider[service_provider_ids][]'
 
-    click_on @content['submit_button']
+    click_on(@content['submit_button'], match: :first)
 
     expect(page).to have_content('Statistics by')
     expect_opportunities_submitted('0')
@@ -111,7 +111,7 @@ RSpec.feature 'Editors can view stats' do
 
     visit '/export-opportunities/admin/stats'
     choose 'granularity', option: 'Universe'
-    click_on @content['submit_button']
+    click_on(@content['submit_button'], match: :first)
 
     expect(page).to have_content('Statistics by')
     expect_opportunities_submitted('0')
@@ -139,7 +139,7 @@ RSpec.feature 'Editors can view stats' do
 
       select 'A provider of services', from: 'ServiceProvider[service_provider_ids][]'
 
-      click_on @content['submit_button']
+      click_on(@content['submit_button'], match: :first)
 
       expect(page).to have_content('Statistics by ServiceProvider and all sources on 10 Sep 2015')
     end
@@ -179,7 +179,7 @@ RSpec.feature 'Editors can view stats' do
 
       select 'Mexico', from: 'Country[country_ids][]'
 
-      click_on @content['submit_button']
+      click_on(@content['submit_button'], match: :first)
     end
 
     expect(page).to have_content('Statistics by Country and all sources on 15 Sep 2015')
@@ -217,7 +217,7 @@ RSpec.feature 'Editors can view stats' do
 
       select 'Latin America', from: 'Region[region_ids][]'
 
-      click_on @content['submit_button']
+      click_on(@content['submit_button'], match: :first)
     end
 
     expect_opportunities_published('2')
@@ -256,7 +256,7 @@ RSpec.feature 'Editors can view stats' do
       find('[name=granularity][value=Region]').trigger('click')
       select 'Latin America', from: 'Region[region_ids][]'
 
-      click_on @content['submit_button']
+      find_button(@content['submit_button'], match: :first).trigger('click')
     end
 
     expect_opportunities_published('2')
@@ -289,7 +289,7 @@ RSpec.feature 'Editors can view stats' do
 
       choose 'granularity', option: 'Universe'
 
-      click_on @content['submit_button']
+      click_on(@content['submit_button'], match: :first)
     end
 
     expect_opportunities_published('3')
@@ -329,7 +329,7 @@ RSpec.feature 'Editors can view stats' do
 
       uncheck('Third party')
 
-      click_on @content['submit_button']
+      click_on(@content['submit_button'], match: :first)
     end
 
     expect_opportunities_published('2')
@@ -365,7 +365,7 @@ RSpec.feature 'Editors can view stats' do
 
       uncheck('DIT')
 
-      click_on @content['submit_button']
+      click_on(@content['submit_button'], match: :first)
     end
 page.body
     expect_opportunities_published('1')
@@ -394,7 +394,7 @@ page.body
 
       choose 'granularity', option: 'Universe'
 
-      click_on @content['submit_button']
+      click_on(@content['submit_button'], match: :first)
     end
 
     expect_opportunities_published('2')
