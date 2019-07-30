@@ -643,7 +643,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         expect(item['id']).to eq("dit:exportOpportunities:Opportunity:#{opportunity.id}:Create")
         expect(item['type']).to eq('Create')
         expect(item['published']).to eq('2008-09-01T12:01:02+00:00')
-        expect(item['object']['dit:greatDomesticUI:searchResultType']).to include('Opportunity')
+        expect(item['object']['type']).to include('dit:Opportunity')
         expect(item['object']['id']).to eq("dit:exportOpportunities:Opportunity:#{opportunity.id}")
         expect(item['object']['name']).to eq('2x4 Wood')
         expect(item['object']['url']).to eq("http://localhost/export-opportunities/opportunities/2x4-wood")
