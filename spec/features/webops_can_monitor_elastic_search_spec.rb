@@ -178,4 +178,12 @@ feature 'webops can monitor services' do
       expect(page.body).to have_content("OK")
     end
   end
+
+  scenario 'check, ES is down, pingdom healthcheck can detect it' do
+    allow_any_instance_of(ApplicationController).to receive(:opportunity_index_exists?).and_return(false)
+
+    visit '/export-opportunities/check'
+
+    expect(page.body).to have_content("NOTOK")
+  end
 end

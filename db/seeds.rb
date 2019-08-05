@@ -4,6 +4,10 @@ require 'factory_bot_rails'
 require 'faker'
 I18n.reload! # Faker translations need reloading: https://github.com/stympy/faker/issues/278
 
+ActiveRecord::Base.connection.tables.each do |t|
+  ActiveRecord::Base.connection.reset_pk_sequence!(t)
+end
+
 # Build all sensible countries...
 Country.create(slug: 'bolivia', name: 'Bolivia')
 Country.create(slug: 'cambodia', name: 'Cambodia')
@@ -209,11 +213,11 @@ Sector.find_by(slug: 'oil-gas').try(:update, featured: true, featured_order: 4)
 Sector.find_by(slug: 'security').try(:update, featured: true, featured_order: 5)
 Sector.find_by(slug: 'retail-and-luxury').try(:update, featured: true, featured_order: 6)
 
-Type.create(slug: 'aid-funded-business', name: 'Aid Funded Business')
-Type.create(slug: 'public-sector', name: 'Public Sector')
+Type.where(slug: 'aid-funded-business', name: 'Aid Funded Business').first_or_create
+Type.where(slug: 'public-sector', name: 'Public Sector').first_or_create
 
-Value.create(slug: '10k', name: 'Less than £100k')
-Value.create(slug: 'unknown', name: 'Value unknown')
+Value.where(slug: '10k', name: 'Less than £100k').first_or_create
+Value.where(slug: 'unknown', name: 'Value unknown').first_or_create
 
 ServiceProvider.create(name: 'Belgium Brussels')
 ServiceProvider.create(name: 'Australia Sydney')
@@ -408,11 +412,11 @@ ServiceProvider.create(name: 'Rwanda, Kigali')
 ServiceProvider.create(name: 'Venezuela Caracas')
 
 # Prime the database with basic content
-france = Country.create(slug: 'france', name: 'France', exporting_guide_path: '/government/publications/exporting-to-france')
-italy = Country.create(slug: 'italy', name: 'Italy', exporting_guide_path: '/government/publications/exporting-to-italy')
+france = Country.where(slug: 'france', name: 'France', exporting_guide_path: '/government/publications/exporting-to-france').first_or_create
+italy = Country.where(slug: 'italy', name: 'Italy', exporting_guide_path: '/government/publications/exporting-to-italy').first_or_create
 
-naples = ServiceProvider.create(name: 'Italy Naples')
-paris = ServiceProvider.create(name: 'France Paris')
+naples = ServiceProvider.where(name: 'Italy Naples').first_or_create
+paris = ServiceProvider.where(name: 'France Paris').first_or_create
 
 editor = FactoryBot.create(:editor,
   email: 'email@example.com',
@@ -431,12 +435,12 @@ FactoryBot.create(:editor,
   confirmed_at: DateTime.current,
   role: 1)
 
-agriculture = Sector.create(slug: 'agriculture-horticulture-fisheries', name: 'Agriculture, Horticulture & Fisheries')
-automotive = Sector.create(slug: 'automotive', name: 'Automotive')
+agriculture = Sector.where(slug: 'agriculture-horticulture-fisheries', name: 'Agriculture, Horticulture & Fisheries').first_or_create
+automotive = Sector.where(slug: 'automotive', name: 'Automotive').first_or_create
 
-private_sector = Type.create(slug: 'private-sector', name: 'Private Sector')
+private_sector = Type.where(slug: 'private-sector', name: 'Private Sector').first_or_create
 
-hundred_thousand = Value.create(slug: '100k', name: 'More than £100k')
+hundred_thousand = Value.where(slug: '100k', name: 'More than £100k').first_or_create
 
 future_expiry_date = 2.years.from_now
 past_expiry_date   = 2.weeks.ago
@@ -454,6 +458,7 @@ valid_opportunity = FactoryBot.create(:opportunity,
   values: [hundred_thousand],
   created_at: 2.weeks.ago,
   first_published_at: Time.zone.today,
+  source: :post,
   status: :publish)
 
 # Created an enquiry for a valid opportunity
