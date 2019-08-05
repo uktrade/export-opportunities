@@ -208,20 +208,36 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
       values = @object.public_send(method)
 
       if values.present?
-        values.each do |item|
-          html += @template.content_tag(
-            :div,
-            @template.content_tag(:input, nil, { name: "#{@object_name}[#{method}][]", value: item }.merge(attrs)),
-            class: "field text field-#{method}"
-          )
-        end
+        html += populate_content_tag(values, method, attrs, attributes[:edit_opportunity])
       else
         html += @template.content_tag(
-          :div,
-          @template.content_tag(:input, nil, { name: "#{@object_name}[#{method}][]" }.merge(attrs)),
-          class: "field text field-#{method}"
+            :div,
+            @template.content_tag(:input, nil, { name: "#{@object_name}[#{method}][]" }.merge(attrs)),
+            class: "field text field-#{method}"
         )
       end
       html.html_safe
+    end
+
+    private def populate_content_tag(values, method, attrs, edit_opportunity)
+      html = ''
+      if edit_opportunity
+        values.each do |item|
+          html += @template.content_tag(
+              :div,
+              @template.content_tag(:input, nil, { name: "#{@object_name}[#{method}][]", value: OpportunityCpv.find(item).industry_id }.merge(attrs)),
+              class: "field text field-#{method}"
+          )
+        end
+      else
+        values.each do |item|
+          html += @template.content_tag(
+              :div,
+              @template.content_tag(:input, nil, { name: "#{@object_name}[#{method}][]", value: item }.merge(attrs)),
+              class: "field text field-#{method}"
+          )
+        end
+      end
+      return html
     end
 end

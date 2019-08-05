@@ -3,6 +3,7 @@ class Admin::RegistrationsController < Devise::RegistrationsController
   after_action :verify_authorized
   before_action :configure_permitted_parameters
   before_action :load_service_providers
+  before_action :set_no_cache_headers
 
   skip_before_action :require_no_authentication, raise: false
 

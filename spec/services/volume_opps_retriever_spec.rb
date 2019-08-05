@@ -161,6 +161,13 @@ RSpec.describe VolumeOppsRetriever do
       expect(gbp_value[:id]).to eq 3
       expect(gbp_value[:gbp_value]).to eq -1
     end
+
+    it 'converts values to GBP in opps, from missing data' do
+      gbp_value = VolumeOppsRetriever.new.calculate_value(nil)
+
+      expect(gbp_value[:id]).to eq 3
+      expect(gbp_value[:gbp_value]).to eq nil
+    end
   end
 
 
