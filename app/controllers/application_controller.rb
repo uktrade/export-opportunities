@@ -1,5 +1,6 @@
+require 'yaml'
+
 class ApplicationController < ActionController::Base
-  require 'yaml'
   # for how many days should we notify pingdom that a volume opps job has failed
   PUBLISH_SIDEKIQ_ERROR_DAYS = 1.freeze
 
@@ -42,11 +43,19 @@ class ApplicationController < ActionController::Base
   helper_method :publisher?
   helper_method :uploader?
   helper_method :staff?
+  helper_method :opportunity_index_exists?
 
   layout :determine_layout
 
   def check
-    render json: { status: 'OK' }, status: :ok
+    # if we cant query the existence of the index in ElasticSearch, its down
+
+    if opportunity_index_exists?
+      render json: { status: 'OK' }, status: :ok
+    else
+      render json: { status: 'NOTOK'}, status: :internal_server_error
+    end
+
   end
 
   def api_check
@@ -117,6 +126,15 @@ class ApplicationController < ActionController::Base
     counter_opps_published_recently = @redis.get(:opps_counters_published_recently)
 
     { total: counter_opps_total.to_i, expiring_soon: counter_opps_expiring_soon.to_i, published_recently: counter_opps_published_recently.to_i }
+  end
+
+  def opportunity_index_exists?
+    begin
+      Opportunity.__elasticsearch__.client.indices.exists? index: Opportunity.index_name
+    rescue Faraday::ConnectionFailed, TimeoutError
+      return false
+    end
+    true
   end
 
   private
