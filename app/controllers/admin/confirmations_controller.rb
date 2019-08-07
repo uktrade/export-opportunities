@@ -5,6 +5,7 @@ class Admin::ConfirmationsController < Devise::ConfirmationsController
   # don't want to enable logged in users to access the confirmation page.
   skip_before_action :require_no_authentication, raise: false
   skip_before_action :authenticate_editor!, raise: false
+  before_action :set_no_cache_headers
 
   # PUT /resource/confirmation
   def update
