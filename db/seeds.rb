@@ -4,6 +4,8 @@ require 'factory_bot_rails'
 require 'faker'
 I18n.reload! # Faker translations need reloading: https://github.com/stympy/faker/issues/278
 
+Opportunity.reset_column_information
+
 ActiveRecord::Base.connection.tables.each do |t|
   ActiveRecord::Base.connection.reset_pk_sequence!(t)
 end
