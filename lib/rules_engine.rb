@@ -10,7 +10,7 @@ class RulesEngine
 
     # if sensitivity pass score is below threshold, validate quality
     Rails.logger.error("VOLUMEOPS - Rules - Checking sensitivity threshold...")
-    if sensitive_value_threshold?(sensitivity_score)
+    if sensitive_value_threshold?(sensitivity_score) && not_about_to_expire(opportunity)
       Rails.logger.error("VOLUMEOPS - Rules - Checking sensitivity threshold... done")
       quality_score = OppsQualityValidator.new.validate_each(opportunity)
 
@@ -36,6 +36,11 @@ class RulesEngine
   end
 
   private
+
+    def not_about_to_expire(opportunity)
+      days_warning = ENV["MIN_VOLUME_OPS_DAYS_TO_RESPOND"].to_i
+      opportunity.response_due_on > days_warning.days.from_now
+    end
 
     # check if sensitivity_score is below the business thresholds we have set.
     # returns true if so, false otherwise
