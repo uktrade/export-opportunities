@@ -41,6 +41,7 @@ class VolumeOppsRetriever
   end
 
   def calculate_value(local_currency_value_hash)
+    return { id: 3 } unless local_currency_value_hash.present?
     value = local_currency_value_hash['amount'].to_i
     currency_name = local_currency_value_hash['currency']
 
