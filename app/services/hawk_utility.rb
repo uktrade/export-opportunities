@@ -33,7 +33,7 @@ class HawkUtility
   end
 
   def get_header
-    Hawk.build_authorization_header(
+    Hawk::Client.build_authorization_header(
       credentials: {
         id: @sender_id,
         key: @secret,
