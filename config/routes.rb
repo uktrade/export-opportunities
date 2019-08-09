@@ -152,7 +152,7 @@ Rails.application.routes.draw do
     # end
 
 
-    get '/email_notifications/:user_id', to: 'email_notifications#show'
+    get '/email_notifications/:user_id', to: 'email_notifications#show', as: :email_notification
     get '/email_notifications/unsubscribe_all/:user_id', to: 'email_notifications#destroy', as: :delete_email_notifications
     patch '/email_notifications/unsubscribe_all/:id', to: 'email_notifications#update', as: :update_email_notification
 
