@@ -51,7 +51,7 @@ dit.page.results = (new function () {
   }
 
   function addAccessibilityHelpers() {
-    $('.sort label', '#search-results-panel').append('<span class="verbose">Selecting an option will refresh the page</span>');
+    $('.sort label', '#search-results-panel').append('<span class="verbose">Selecting an option will refresh the page.</span>');
     $('#search-sort').attr('aria-controls', 'opportunities-list');
   }
 
