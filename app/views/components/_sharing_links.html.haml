@@ -3,7 +3,7 @@
 -# Data required for this component:
 -# title (String) The page title
 -# path  (String) The page URL
--# 
+-#
 
 - twitter = "https://twitter.com/intent/tweet?text=#{title} #{path}"
 - facebook = "http://www.facebook.com/share.php?u=#{path}"
@@ -16,15 +16,15 @@
     %span.verbose this page
   %ul.navigation
     %li.twitter
-      =link_to twitter, :target=>"_blank" do
+      =link_to twitter, :target=>"_blank", :title=>"Opens in a new window", :rel=>"external" do
         Share with Twitter
 
     %li.facebook
-      =link_to facebook, :target=>"_blank" do
+      =link_to facebook, :target=>"_blank", :title=>"Opens in a new window", :rel=>"external" do
         Share with Facebook
 
     %li.linkedin
-      =link_to linkedin, :target=>"_blank" do
+      =link_to linkedin, :target=>"_blank", :title=>"Opens in a new window", :rel=>"external" do
         Share with LinkedIn
 
     %li.email

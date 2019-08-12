@@ -146,7 +146,7 @@
           = yield :disclaimer_content
 
           - if opportunity.target_url.present?
-            = link_to 'Go to third party website', opportunity.target_url, class: 'button', target: :_blank
+            = link_to 'Go to third party website', opportunity.target_url, class: 'button', target: :_blank, title: 'Opens in a new window', rel: 'external'
 
           - else
             = link_to 'Express your interest', new_enquiry_path(@opportunity.slug), class: 'button abcbutton'
@@ -158,7 +158,7 @@
             = content_tag("p", line, class: "sign-off")
 
           = yield :disclaimer_content
-          = link_to 'Go to third party website', opportunity.tender_url, class: 'button', target: :_blank
+          = link_to 'Go to third party website', opportunity.tender_url, class: 'button', target: :_blank, title: 'Opens in a new window', rel: 'external'
 
 
     = render partial: 'components/sharing_links', locals: { title: opportunity.title_with_country, path: opportunity_url(@opportunity) }
