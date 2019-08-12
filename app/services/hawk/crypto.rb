@@ -197,7 +197,6 @@ module Hawk
     end
 
     def mac(options)
-      debugger
       Mac.new(options[:credentials][:key], options, options[:credentials][:algorithm])
     end
 

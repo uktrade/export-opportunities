@@ -10,11 +10,9 @@ class HawkUtility
   def initialize
     @sender_id ='directory'
     @secret ='debug'
-    @host = 'http://api.trade.great'
-    @port = '8000'
-    @base_url = 'http://api.trade.great:8000'
+    @host = ''
+    @port = 'None'
     @path = '/public/company/10000000/'
-    @url = @base_url + @path
     @version = "14.0.0"
     @method='GET'
     @body=''
@@ -42,7 +40,7 @@ class HawkUtility
       method: 'GET',
       host: @host,
       port: @port,
-      request_uri: @url,
+      request_uri: @path,
       content_type: @content_type,
       payload: @body
     )

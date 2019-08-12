@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'support/shared_examples/authorization_header'
+require 'spec/services/hawk/support/shared_examples/authorization_header'
 
 describe Hawk::Server do
   let(:credentials) do

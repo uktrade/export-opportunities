@@ -119,7 +119,7 @@ group :test do
   gem 'shoulda-matchers', require: false
   gem 'rspec-sidekiq'
   gem 'timecop'
-
+  gem 'mocha'
   gem 'webmock', '3.4.2'
   gem 'rspec-rails'
   gem 'rspec-collection_matchers'
