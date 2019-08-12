@@ -12,6 +12,7 @@ dit.page.results = (new function () {
     enhanceResultFilters();
     bindAutoUpdateListener();
     addSearchFormRestriction();
+    addAccessibilityHelpers();
 
     delete this.init; // Run once
   }
@@ -49,7 +50,14 @@ dit.page.results = (new function () {
     new dit.classes.SimpleFormRestrictor($(".search"));
   }
 
+  function addAccessibilityHelpers() {
+    $('.sort label', '#search-results-panel').append('<span class="verbose">Selecting an option will refresh the page.</span>');
+    $('#search-sort').attr('aria-controls', 'opportunities-list');
+  }
+
 });
+
+
 
 $(document).ready(function() {
   dit.page.results.init();
