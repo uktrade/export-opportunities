@@ -53,9 +53,8 @@ class ApplicationController < ActionController::Base
     if opportunity_index_exists?
       render json: { status: 'OK' }, status: :ok
     else
-      render json: { status: 'NOTOK'}, status: :internal_server_error
+      render json: { status: 'NOTOK' }, status: :internal_server_error
     end
-
   end
 
   def api_check

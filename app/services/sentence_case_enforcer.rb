@@ -1,5 +1,4 @@
 class SentenceCaseEnforcer
-
   #
   # Convert words that are in ALL CAPS to sentence case in the title, teaser and description.
   #
@@ -8,29 +7,30 @@ class SentenceCaseEnforcer
   end
 
   def call
-    @op_params.merge({
+    @op_params.merge(
       title: enforce_sentence_case(@op_params[:title]),
       teaser: enforce_sentence_case(@op_params[:teaser]),
       description: enforce_sentence_case(@op_params[:description])
-    })
+    )
   end
 
   def enforce_sentence_case(string)
-    return string unless string.present?
-    if is_capitalised?(string)
+    return string if string.blank?
+
+    if capitalised?(string)
       sentences = PragmaticSegmenter::Segmenter.new(text: string).segment
-      string = sentences.map(&:humanize).join(" ")
+      string = sentences.map(&:humanize).join(' ')
       string = capitalise_acronyms(string)
     end
     string
   end
 
-  def is_capitalised?(string)
+  def capitalised?(string)
     string == string.upcase
   end
 
   def capitalise_acronyms(string)
-    words = string.split(" ")
+    words = string.split(' ')
     words.map do |word|
       if capitalize?(word.downcase)
         word.capitalize!
@@ -39,7 +39,7 @@ class SentenceCaseEnforcer
         word.upcase!
       end
       word
-    end.join(" ")
+    end.join(' ')
   end
 
   def capitalize?(word)
@@ -49,5 +49,4 @@ class SentenceCaseEnforcer
   def uppercase?(word)
     Word.where(uppercase: true, text: word).any?
   end
-
 end
