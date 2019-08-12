@@ -18,10 +18,10 @@ class VolumeOppsValidator
       opportunity[:title] = opportunity[:description][0, 80]
     end
 
-    if !SUPPORTED_LANGUAGES.include?(opportunity[:language].to_s.downcase) ||
+    if language_not_supported?(opportunity) ||
        opportunity[:response_due_on].blank? ||
        opportunity[:country_ids].blank? ||
-       (opportunity[:buyer_name].blank? && opportunity[:buyer_address].blank?) ||
+       buyer_blank?(opportunity) ||
        opportunity[:contacts_attributes].blank?
       Rails.logger.error('VOLUMEOPS - Validating... failed')
       false
@@ -29,5 +29,15 @@ class VolumeOppsValidator
       Rails.logger.error('VOLUMEOPS - Validating... passed')
       true
     end
+  end
+
+  private
+
+  def buyer_blank?(opportunity)
+    opportunity[:buyer_name].blank? && opportunity[:buyer_address].blank?
+  end
+
+  def language_not_supported?(opportunity)
+    !SUPPORTED_LANGUAGES.include?(opportunity[:language].to_s.downcase)
   end
 end
