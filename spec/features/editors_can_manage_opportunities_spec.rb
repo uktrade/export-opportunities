@@ -233,6 +233,26 @@ feature 'Administering opportunities' do
       expect(page).to have_current_path(admin_opportunity_url(opportunity), url: true)
       expect(page).to have_text(opportunity.title)
     end
+
+    scenario 'updates the cpv code, should fetch from service and store the new code correctly' do
+      administrator = create(:admin)
+      type = create(:type, name: 'Public Sector')
+      value = create(:value, name: 'More than £100k')
+      supplier_preference = create(:supplier_preference)
+      create(:country, name: 'America')
+      create(:sector, name: 'Aerospace')
+      create(:service_provider, name: 'Italy Rome')
+      opportunity = create(:opportunity, status: :publish, title: 'export opportunities', teaser: 'teaser teasing teaser', author: administrator, slug: 'export-opportunities-3')
+      opportunity_cpv = create(:opportunity_cpv, opportunity: opportunity, industry_id: 75211200)
+
+      login_as(administrator)
+      visit admin_opportunities_path
+
+      click_on opportunity.title
+      click_on 'Edit opportunity'
+
+      expect(page.body).to include(opportunity_cpv.industry_id)
+    end
   end
 
   feature 'updating ragg rating' do

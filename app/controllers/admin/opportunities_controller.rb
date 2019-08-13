@@ -98,7 +98,6 @@ class Admin::OpportunitiesController < Admin::BaseController
     load_options_for_form(@opportunity)
 
     setup_opportunity_contacts(@opportunity)
-
     authorize @opportunity
     render layout: 'admin_transformed', locals: {
       content: content,

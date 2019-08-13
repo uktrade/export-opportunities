@@ -10,7 +10,7 @@ class Admin::RegistrationsController < Devise::RegistrationsController
   rescue_from Pundit::NotAuthorizedError, with: :not_found
 
   layout 'admin'
-  layout 'admin_transformed', :only => [:new, :create]
+  layout 'admin_transformed', only: %i[new create]
 
   # GET /resource/sign_up
   def new

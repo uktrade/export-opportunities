@@ -53,7 +53,7 @@ class Admin::EnquiriesController < Admin::BaseController
     @companies_house_url = companies_house_url(@enquiry.company_house_number)
     authorize @enquiry
     render layout: 'admin_transformed', locals: {
-      content: get_content('admin/enquiries.yml')
+      content: get_content('admin/enquiries.yml'),
     }
   end
 
