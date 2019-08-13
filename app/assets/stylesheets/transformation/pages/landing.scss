@@ -76,9 +76,11 @@ section {
 }
 
 .quote {
-  margin-left: auto;
-  margin-right: auto;
-  width: $cols-6;
+  padding: $spacing-1 0 0;
+  float: left;
+  &:before {
+    width: 100%;
+  }
 }
 
 .sector {
@@ -234,7 +236,7 @@ section {
       width: auto;
     }
   }
-  
+
   .Carousel {
     width: auto;
   }
@@ -252,10 +254,6 @@ section {
 @media screen and (max-width:768px) {
   section {
     padding-top: $spacing-2;
-  }
-
-  .quote {
-    width: 75%;
   }
 
   #recent-opportunities {

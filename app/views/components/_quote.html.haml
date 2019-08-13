@@ -1,14 +1,15 @@
-%blockquote.quote
-  %p.text
-    = quote["text"]
-  %cite
-    %span.name 
-      = quote["name"]
-    - if quote["company"].present?
-      %span.verbose ,
-    %span.company<
-      = quote["company"]
-    - if quote["country"].present?
-      %span.separator>,
-      %span.country
-        = quote["country"]
+%div.lg-3
+  %blockquote.quote
+    %p.text
+      = quote["text"]
+    %cite
+      %span.name
+        = quote["name"]
+      - if quote["company"].present?
+        %span.verbose ,
+      %span.company<
+        = quote["company"]
+      - if quote["country"].present?
+        %span.separator>,
+        %span.country
+          = quote["country"]
