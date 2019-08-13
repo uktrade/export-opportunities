@@ -121,9 +121,8 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.example_status_persistence_file_path = 'spec/examples.txt'
 
-  # we dont
-  # config.order = :random
-  config.seed = 41448
+  config.order = :random
+  # config.seed = 41448
 end
 
 VCR.configure do |c|
