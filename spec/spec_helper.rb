@@ -117,10 +117,12 @@ RSpec.configure do |config|
   end
 
   config.profile_examples = nil
-  config.order = :random
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true
   config.example_status_persistence_file_path = 'spec/examples.txt'
+
+  config.order = :random
+  # config.seed = 41448
 end
 
 VCR.configure do |c|
