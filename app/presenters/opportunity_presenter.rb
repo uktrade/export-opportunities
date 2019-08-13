@@ -96,12 +96,12 @@ class OpportunityPresenter < PagePresenter
     if guides.length > 5
       links.push(h.link_to('Country guides',
         'https://www.gov.uk/government/collections/exporting-country-guides',
-        target: '_blank', rel: 'noopener', title: "Opens in a new window"))
+        target: '_blank', rel: 'noopener noreferrer', title: 'Opens in a new window'))
     else
       guides.each do |country|
         link = link_to(country.name,
           "https://www.gov.uk#{country.exporting_guide_path}",
-          target: '_blank', rel: 'noopener', title: "Opens in a new window")
+          target: '_blank', rel: 'noopener noreferrer', title: 'Opens in a new window')
         links.push(link.html_safe)
       end
     end
@@ -122,7 +122,7 @@ class OpportunityPresenter < PagePresenter
   def link_to_aid_funded(text)
     link = ''
     if opportunity.types.aid_funded.any?
-      link = h.link_to 'https://www.gov.uk/guidance/aid-funded-business', target: '_blank', rel: 'noopener' do
+      link = h.link_to 'https://www.gov.uk/guidance/aid-funded-business', target: '_blank', rel: 'noopener noreferrer' do
         text
       end
     end
