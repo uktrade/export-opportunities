@@ -96,12 +96,12 @@ class OpportunityPresenter < PagePresenter
     if guides.length > 5
       links.push(h.link_to('Country guides',
         'https://www.gov.uk/government/collections/exporting-country-guides',
-        target: '_blank', rel: 'noopener'))
+        target: '_blank', rel: 'noopener', title: "Opens in a new window"))
     else
       guides.each do |country|
         link = link_to(country.name,
           "https://www.gov.uk#{country.exporting_guide_path}",
-          target: '_blank', rel: 'noopener')
+          target: '_blank', rel: 'noopener', title: "Opens in a new window")
         links.push(link.html_safe)
       end
     end
