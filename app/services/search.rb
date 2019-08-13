@@ -121,8 +121,11 @@ class Search
     # Use search results to find and return
     # only which countries are relevant.
     def countries_in(results)
-      country_list = CountriesOpportunity.where(opportunity: results.map(&:id)).group_by(&:country_id).map do |k,v|
-        c = Country.find(k) and c.opportunity_count = v.length and c
+      CountriesOpportunity.where(opportunity: results.map(&:id)).group_by(&:country_id).map do |k, v|
+        if (c = Country.find(k))
+          c.opportunity_count = v.length
+          c
+        end
       end.sort_by(&:name)
     end
 end

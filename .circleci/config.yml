@@ -61,7 +61,7 @@ jobs:
       # restore bundle cache  
       - restore_cache:
           keys:
-            - exops-{{ checksum "Gemfile.lock" }}
+            - exops-v2-{{ checksum "Gemfile.lock" }}
 
       - run:
           name: Bundle Install
@@ -69,7 +69,7 @@ jobs:
 
       # store bundle cache
       - save_cache:
-          key: exops-{{ checksum "Gemfile.lock" }}
+          key: exops-v2-{{ checksum "Gemfile.lock" }}
           paths: 
             - vendor/bundle
 
@@ -111,7 +111,9 @@ jobs:
                       --format RspecJunitFormatter \
                       --out test_results/rspec.xml \
                       --format progress \
-                      $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+                      $(circleci tests glob "spec/**/*_spec.rb") || \
+            bundle exec rspec --only-failures \
+                      $(circleci tests glob "spec/**/*_spec.rb")
       
       # Save test results for timing analysis
       - store_test_results:

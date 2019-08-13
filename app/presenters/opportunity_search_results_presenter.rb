@@ -54,7 +54,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
 
   def found_message
     if @total > 1
-      @total_with_delimeter = 
+      @total_with_delimeter =
         @total.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
       "#{@total_with_delimeter} results found"
     elsif @total.zero?

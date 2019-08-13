@@ -3,42 +3,46 @@ class RulesEngine
   QUALITY_SCORE_THRESHOLD = Figaro.env.QUALITY_SCORE_THRESHOLD.present? ? Figaro.env.QUALITY_SCORE_THRESHOLD.to_i : 90
 
   def call(opportunity)
-    Rails.logger.error("VOLUMEOPS - Rules engine...")
+    Rails.logger.error('VOLUMEOPS - Rules engine...')
     Rails.logger.error("Next check: #{opportunity.id}")
     # Validate sensitivity
     sensitivity_score = OppsSensitivityValidator.new.validate_each(opportunity)
 
     # if sensitivity pass score is below threshold, validate quality
-    Rails.logger.error("VOLUMEOPS - Rules - Checking sensitivity threshold...")
-    if sensitive_value_threshold?(sensitivity_score) && not_about_to_expire(opportunity)
-      Rails.logger.error("VOLUMEOPS - Rules - Checking sensitivity threshold... done")
+    Rails.logger.error('VOLUMEOPS - Rules - Checking sensitivity threshold...')
+    if valid_opportunity?(sensitivity_score, opportunity)
+      Rails.logger.error('VOLUMEOPS - Rules - Checking sensitivity threshold... done')
       quality_score = OppsQualityValidator.new.validate_each(opportunity)
 
-      Rails.logger.error("VOLUMEOPS - Rules - Checking quality threshold...")
+      Rails.logger.error('VOLUMEOPS - Rules - Checking quality threshold...')
       if quality_value_threshold?(quality_score)
-        Rails.logger.error("VOLUMEOPS - Rules - Checking quality threshold... done")
-        Rails.logger.error("VOLUMEOPS - Rules - Publishing...")
+        Rails.logger.error('VOLUMEOPS - Rules - Checking quality threshold... done')
+        Rails.logger.error('VOLUMEOPS - Rules - Publishing...')
         save_and_publish(opportunity)
-        Rails.logger.error("VOLUMEOPS - Rules - Publishing... done")
+        Rails.logger.error('VOLUMEOPS - Rules - Publishing... done')
       else
         # opp is valid, sensitivity value is OK but quality may be below threshold
-        Rails.logger.error("VOLUMEOPS - Rules - Saving as pending...")
+        Rails.logger.error('VOLUMEOPS - Rules - Saving as pending...')
         save_as_pending(opportunity)
-        Rails.logger.error("VOLUMEOPS - Rules - Saving as pending... done")
+        Rails.logger.error('VOLUMEOPS - Rules - Saving as pending... done')
       end
     else
-      Rails.logger.error("VOLUMEOPS - Rules - Checking sensitivity threshold... failed")
+      Rails.logger.error('VOLUMEOPS - Rules - Checking sensitivity threshold... failed')
       # opp is valid, sensitivity value is BAD, we don't know about quality
-      Rails.logger.error("VOLUMEOPS - Rules - Saving as trash...")
+      Rails.logger.error('VOLUMEOPS - Rules - Saving as trash...')
       save_as_trash(opportunity)
-      Rails.logger.error("VOLUMEOPS - Rules - Saving as trash... done")
+      Rails.logger.error('VOLUMEOPS - Rules - Saving as trash... done')
     end
   end
 
   private
 
+    def valid_opportunity?(sensitivity_score, opportunity)
+      sensitive_value_threshold?(sensitivity_score) && not_about_to_expire(opportunity)
+    end
+
     def not_about_to_expire(opportunity)
-      days_warning = ENV["MIN_VOLUME_OPS_DAYS_TO_RESPOND"].to_i
+      days_warning = Figaro.env.MIN_VOLUME_OPS_DAYS_TO_RESPOND.to_i
       opportunity.response_due_on > days_warning.days.from_now
     end
 

@@ -1,4 +1,6 @@
 require_relative 'boot'
+require_relative '../lib/rack_x_robots_tag'
+
 require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
@@ -23,6 +25,9 @@ module ExportOpportunities
 
     # GZIP our responses when supported by client
     config.middleware.use Rack::Deflater
+
+    # No indexing (if env.DISALLOW_ALL_WEB_CRAWLERS)
+    config.middleware.use Rack::XRobotsTag
 
     # Use Sidekiq to process jobs from ActiveJob
     config.active_job.queue_adapter = :sidekiq

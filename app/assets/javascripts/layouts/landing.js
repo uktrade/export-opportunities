@@ -11,19 +11,18 @@ dit.page.landing = (new function () {
   var _cache = {
     effects: []
   }
-  
+
   // Page init
   this.init = function() {
     cacheComponents();
-    viewAdjustments(dit.responsive.mode());
     bindResponsiveListener();
-    
+
     delete this.init; // Run once
   }
-  
-  
+
+
   /* Grab and store elements that are manipulated throughout
-   * the lifetime of the page or, that are used across 
+   * the lifetime of the page or, that are used across
    * several functions
    **/
   function cacheComponents() {
@@ -32,29 +31,12 @@ dit.page.landing = (new function () {
     _cache.featuredIndustries = $("#featured-industries a");
   }
 
-  function viewAdjustments(view) {
-    var alignHeights = dit.utils.alignHeights;
-    switch(view) {
-      case "desktop":
-        alignHeights(_cache.benefitTitles);
-        alignHeights(_cache.featuredIndustries);
-        enhanceTestimonials();
-        break;
-      case "tablet":
-        enhanceTestimonials();
-        break;
-      case "mobile":
-        enhanceTestimonials();
-        break;
-    }
-  }
-
   function clearAdjustments() {
     var clearHeights = dit.utils.clearHeights;
     clearHeights(_cache.benefitTitles);
     clearHeights(_cache.featuredIndustries);
   }
-    
+
   /* Bind listener for the dit.responsive.reset event
    * to reset the view when triggered.
    **/
@@ -62,7 +44,6 @@ dit.page.landing = (new function () {
     $(document.body).on(dit.responsive.reset, function(e, mode) {
       clearAdjustments();
       destroyEffects();
-      viewAdjustments(mode);
     });
   }
 
@@ -81,7 +62,7 @@ dit.page.landing = (new function () {
   }
 
 
-  /* Destroy both carousels and tabbedAreas to 
+  /* Destroy both carousels and tabbedAreas to
    * cope with screen resizing.
    **/
   function destroyEffects() {
@@ -106,8 +87,8 @@ $(document).ready(function() {
  **/
 var root = location.protocol + "//" + location.host + "/";
 if (location.href == root) {
-  $(document).on(dit.geolocation.GEO_LOCATION_UPDATE_EVENT, function() { 
-    dit.geolocation.redirectToCountryUrl("/"); 
+  $(document).on(dit.geolocation.GEO_LOCATION_UPDATE_EVENT, function() {
+    dit.geolocation.redirectToCountryUrl("/");
   });
   dit.geolocation.fetchCountryCode();
 }
