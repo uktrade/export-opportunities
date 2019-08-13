@@ -34,6 +34,7 @@ coverage/
 
 # Ignore rubocop
 rubocop.yml
+.rubocop.yml
 
 # Ignore node_modules
 node_modules/
