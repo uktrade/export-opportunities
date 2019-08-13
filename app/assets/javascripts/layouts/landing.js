@@ -15,7 +15,6 @@ dit.page.landing = (new function () {
   // Page init
   this.init = function() {
     cacheComponents();
-    viewAdjustments(dit.responsive.mode());
     bindResponsiveListener();
 
     delete this.init; // Run once
@@ -32,14 +31,6 @@ dit.page.landing = (new function () {
     _cache.featuredIndustries = $("#featured-industries a");
   }
 
-  function viewAdjustments(view) {
-    var alignHeights = dit.utils.alignHeights;
-    if(view === "desktop") {
-      alignHeights(_cache.benefitTitles);
-      alignHeights(_cache.featuredIndustries);
-    }
-  }
-
   function clearAdjustments() {
     var clearHeights = dit.utils.clearHeights;
     clearHeights(_cache.benefitTitles);
@@ -53,7 +44,6 @@ dit.page.landing = (new function () {
     $(document.body).on(dit.responsive.reset, function(e, mode) {
       clearAdjustments();
       destroyEffects();
-      viewAdjustments(mode);
     });
   }
 
