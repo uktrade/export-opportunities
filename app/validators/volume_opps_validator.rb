@@ -33,11 +33,11 @@ class VolumeOppsValidator
 
   private
 
-  def buyer_blank?(opportunity)
-    opportunity[:buyer_name].blank? && opportunity[:buyer_address].blank?
-  end
+    def buyer_blank?(opportunity)
+      opportunity[:buyer_name].blank? && opportunity[:buyer_address].blank?
+    end
 
-  def language_not_supported?(opportunity)
-    !SUPPORTED_LANGUAGES.include?(opportunity[:language].to_s.downcase)
-  end
+    def language_not_supported?(opportunity)
+      !SUPPORTED_LANGUAGES.include?(opportunity[:language].to_s.downcase)
+    end
 end
