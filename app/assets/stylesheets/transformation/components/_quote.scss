@@ -2,7 +2,7 @@
   padding: $spacing-1 0 0 0;
   margin: 0 0 $spacing-3 0;
   position: relative;
-  
+
   cite {
     @include body-s;
     display: block;
@@ -14,14 +14,14 @@
     font-weight: bold;
   }
 
-  .role { 
+  .role {
     margin-right: 0.5em;
   }
 
   .text {
     @include quote;
     display: block;
-    margin: 0 0 $spacing-2 0;
+    margin: 0 0 $spacing-3 0;
     padding: 0;
   }
 
@@ -40,7 +40,7 @@
     cite {
       @include body-s-mob;
     }
-  
+
     .text {
       @include quote-mob;
     }

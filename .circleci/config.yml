@@ -4,7 +4,7 @@ jobs:
     parallelism: 3
     working_directory: ~/export-opportunities
     docker:
-      - image: circleci/ruby:2.5.5-node
+      - image: circleci/ruby@sha256:707e0e70422d016bd1ec7f0b3784d35582218be8a6edfdc6ab7e3d6e51d71a53
         environment:
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
@@ -61,7 +61,7 @@ jobs:
       # restore bundle cache  
       - restore_cache:
           keys:
-            - exops-{{ checksum "Gemfile.lock" }}
+            - exops-v2-{{ checksum "Gemfile.lock" }}
 
       - run:
           name: Bundle Install
@@ -69,7 +69,7 @@ jobs:
 
       # store bundle cache
       - save_cache:
-          key: exops-{{ checksum "Gemfile.lock" }}
+          key: exops-v2-{{ checksum "Gemfile.lock" }}
           paths: 
             - vendor/bundle
 
@@ -111,7 +111,9 @@ jobs:
                       --format RspecJunitFormatter \
                       --out test_results/rspec.xml \
                       --format progress \
-                      $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+                      $(circleci tests glob "spec/**/*_spec.rb") || \
+            bundle exec rspec --only-failures \
+                      $(circleci tests glob "spec/**/*_spec.rb")
       
       # Save test results for timing analysis
       - store_test_results:

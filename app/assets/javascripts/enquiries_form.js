@@ -13,7 +13,7 @@
         'data-number="' + item.number + '" data-postcode="' + item.postcode +
         '" class="companieshouse-resultlink">' + item.name + '</a> ' +
         '<a href="https://beta.companieshouse.gov.uk/company/' + item.number +
-        '" class="companieshouse-extlink" target="_blank"' +
+        '" class="companieshouse-extlink" target="_blank" title="Opens in a new window" rel="external"' +
         '><small>(View on Companies House website)</small>' +
         '</a></li>');
         html.appendTo($("#ch_search-results ul"));

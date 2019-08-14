@@ -1,4 +1,4 @@
-%ul.navigation.opportunities-list
+%ul.navigation.opportunities-list#opportunities-list
   - list.each do | opp |
     = cache opp do
       - opportunity = OpportunityPresenter.new(self, opp)

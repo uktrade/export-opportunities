@@ -94,7 +94,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
 
     # Anything else we want to take from props
     attributes[:placeholder] = props[:placeholder]
-    
+
     # Set an empty value option to use like placeholder attribute.
     if attributes.key? :prompt
       config[:prompt] = attributes[:prompt]
@@ -207,7 +207,29 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
       html = ''
       values = @object.public_send(method)
 
-      if values.present?
+      html += if values.present?
+                populate_content_tag(values, method, attrs, attributes[:edit_opportunity])
+              else
+                @template.content_tag(
+                  :div,
+                  @template.content_tag(:input, nil, { name: "#{@object_name}[#{method}][]" }.merge(attrs)),
+                  class: "field text field-#{method}"
+                )
+              end
+      html.html_safe
+    end
+
+    def populate_content_tag(values, method, attrs, edit_opportunity)
+      html = ''
+      if edit_opportunity
+        values.each do |item|
+          html += @template.content_tag(
+            :div,
+            @template.content_tag(:input, nil, { name: "#{@object_name}[#{method}][]", value: OpportunityCpv.find(item).industry_id }.merge(attrs)),
+            class: "field text field-#{method}"
+          )
+        end
+      else
         values.each do |item|
           html += @template.content_tag(
             :div,
@@ -215,13 +237,7 @@ class TemplateFormBuilder < ActionView::Helpers::FormBuilder
             class: "field text field-#{method}"
           )
         end
-      else
-        html += @template.content_tag(
-          :div,
-          @template.content_tag(:input, nil, { name: "#{@object_name}[#{method}][]" }.merge(attrs)),
-          class: "field text field-#{method}"
-        )
       end
-      html.html_safe
+      html
     end
 end
