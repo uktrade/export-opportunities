@@ -36,7 +36,7 @@ main {
 section {
   clear: both;
   overflow: hidden;
-  
+
   .heading {
     @include heading-m;
     margin-bottom: $spacing-4;
@@ -48,7 +48,7 @@ section {
     margin-bottom: $spacing-2;
     max-width: 605px;
   }
-  
+
   .static {
     margin-bottom: $spacing-1;
     max-width: 800px;
@@ -67,6 +67,10 @@ section {
     @include body-s;
     color: $grey-2;
   }
+}
+
+.great-footer-links {
+  font-weight: normal;
 }
 
 .verbose {
@@ -90,7 +94,7 @@ section {
   body {
     @include body-m-mob;
   }
-  
+
   section {
     padding-top: $spacing-3;
     .heading,
