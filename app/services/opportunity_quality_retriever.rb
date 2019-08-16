@@ -8,17 +8,17 @@ class OpportunityQualityRetriever
   # Returns results in an array
   #
   def call(opportunity)
-    Rails.logger.error("VOLUMEOPS - Quality Checking...")
+    Rails.logger.error('VOLUMEOPS - Quality Checking...')
     text_to_test = "#{opportunity.title} #{opportunity.description}"[0..1999]
     check = perform_quality_check(text_to_test)
 
     if check[:status] != 200
-      Rails.logger.error("VOLUMEOPS - Quality Checking... failed")
+      Rails.logger.error('VOLUMEOPS - Quality Checking... failed')
       error_msg = "QualityCheck API failed. API returned status #{check[:status]}"
       Rails.logger.error error_msg
       ['Error']
     else
-      Rails.logger.error("VOLUMEOPS - Quality Checking... retrieved")
+      Rails.logger.error('VOLUMEOPS - Quality Checking... retrieved')
       log_results(opportunity, check, text_to_test)
     end
   end
@@ -32,24 +32,24 @@ class OpportunityQualityRetriever
   # Returns array of OpportunityChecks
   def log_results(opportunity, check, text_to_test)
     logged = if check[:errors].blank?
-      [OpportunityCheck.create!(opportunity: opportunity,
-                                score: check[:score],
-                                submitted_text: text_to_test)]
-    else
-      check[:errors]&.map do |error|
-        OpportunityCheck.create!(
-          opportunity: opportunity,
-          error_id: opportunity.id,
-          score: check[:score],
-          submitted_text: text_to_test,
-          offset: error['offset'] - 1,
-          length: error['token'].length,
-          offensive_term: error['token'],
-          suggested_term: error['suggestions'][0]['suggestion']
-        )
-      end
-    end
-    Rails.logger.error("VOLUMEOPS - Quality Checking... done")
+               [OpportunityCheck.create!(opportunity: opportunity,
+                                         score: check[:score],
+                                         submitted_text: text_to_test)]
+             else
+               check[:errors]&.map do |error|
+                 OpportunityCheck.create!(
+                   opportunity: opportunity,
+                   error_id: opportunity.id,
+                   score: check[:score],
+                   submitted_text: text_to_test,
+                   offset: error['offset'] - 1,
+                   length: error['token'].length,
+                   offensive_term: error['token'],
+                   suggested_term: error['suggestions'][0]['suggestion']
+                 )
+               end
+             end
+    Rails.logger.error('VOLUMEOPS - Quality Checking... done')
     logged
   end
 end

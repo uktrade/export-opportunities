@@ -57,10 +57,6 @@ class EnquiriesController < ApplicationController
                                       ])
     end
 
-    def set_no_cache_headers
-      response.headers['Cache-Control'] = 'no-cache, no-store'
-    end
-
     def log_cloudfront_headers
       Rails.logger.debug "RequestId: #{request.headers['X-Request-Id']}"
       Rails.logger.debug "Referrer: #{request.headers['Referer']}"
