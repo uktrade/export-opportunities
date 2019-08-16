@@ -7,8 +7,10 @@ class EnquiriesController < ApplicationController
 
   def new
     @opportunity = Opportunity.published.find_by!(slug: params[:slug])
-    @enquiry = if enquiry_current_user
-                 Enquiry.initialize_from_existing(enquiry_current_user.enquiries.last)
+    @enquiry = if current_user && data = private_company_data
+                 Enquiry.initialize_from_lookup(data)
+               elsif current_user
+                 Enquiry.initialize_from_existing(current_user.enquiries.last)
                else
                  Enquiry.new
                end
@@ -23,7 +25,7 @@ class EnquiriesController < ApplicationController
 
   def create
     @opportunity = Opportunity.find_by!(slug: params[:slug])
-    @enquiry = enquiry_current_user.enquiries.new(enquiry_params)
+    @enquiry = current_user.enquiries.new(enquiry_params)
     @trade_profile_url = trade_profile(@enquiry.company_house_number)
     @enquiry.opportunity = @opportunity
 
@@ -69,7 +71,7 @@ class EnquiriesController < ApplicationController
         .each { |h| Rails.logger.debug h.join(': ') }
     end
 
-    def enquiry_current_user
-      current_user
+    def private_company_data
+      DirectoryApiClient.private_company_data(cookies[Figaro.env.SSO_SESSION_COOKIE])
     end
 end

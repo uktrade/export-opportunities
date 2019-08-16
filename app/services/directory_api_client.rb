@@ -1,7 +1,7 @@
 module DirectoryApiClient
   extend self
 
-  def request(method, path)
+  def get(path, session_id='')
     conn = Faraday.new(url: Figaro.env.DIRECTORY_API_DOMAIN)
     response = conn.get do |request|
       request.url path
@@ -9,7 +9,7 @@ module DirectoryApiClient
       request.headers['Content-Type'] = 'text/plain'
       request.headers['X-Signature'] = get_header(path)
       request.body = ''
-      request.headers['Authorization'] = "SSO_SESSION_ID #{'cUthbm1pVUJ5cStVWmdIZHZiTzdGTCtQRlFXY2ZWalJvYTc0VkhlVzFtOE0xM0xBTC9hOWpiMHNHd3hwd0ZuVVh5L1NIU0FDRmVkSVRDODlsQzVKY0ZJZ1ZMU3ZITk5XeXlyRXVjK2FhbVpKSURBdmd1aW1WOEc0NFhTMGFsQjF0bkh0T3pCR3QrNWtTTVVCcGxsMWNiL1NKNlY0c1JhdmhsVHQxUDh3d2U0aml6OEI1MXpEc0NsU1FpdU5ZOGtGcVFWbzRPY0xTK2t3elh5TUdQVzlwcnV4NUQ5RUVWQTVDK2pUSGpvMGtHYmp3NWRXVTIzQ09uTVFHWlR3SlpUZTZ5Wm9IMHZXblFzYlBPNkNCNFdxbE01R2NxZDQ3dDExUmpSVTFhbjl0QmRCTThtVmtyc3ljZ3grQWNIOVladEJ6Nkt1clRlNUJHSFlySUZ1dE9JZTVrL3ZkS3VnMXgzNmR0dExNSTZXNVhjeStmQ0QxVlZ0U1NYeThYVFUrK0VxLS1qVS92akl6a1dwclVnSktRK1R4Qkt3PT0%3D--cec1dc0eba4e62482e7e995e005782b32eaff32f'}"
+      request.headers['Authorization'] = "SSO_SESSION_ID #{session_id}"
     end
   end
 
@@ -27,6 +27,15 @@ module DirectoryApiClient
       content_type: 'text/plain',
       payload: ''
     )
+  end
+
+  def private_company_data(sso_session_cookie)
+    request = DirectoryApiClient.get('/supplier/company/', sso_session_cookie)
+    if request.status == 200
+      JSON.parse(request.body)
+    else
+      nil
+    end
   end
 
 end
