@@ -24,7 +24,7 @@
 
   .filter {
     float: left;
-    width: $cols-3;
+    width: $cols-4;
   }
 
   .submit {
@@ -37,7 +37,7 @@
 
   .term {
     float: left;
-    width: $cols-6;
+    width: $cols-5;
   }
 
   &:after {
@@ -57,7 +57,7 @@
     }
 
     .filter {
-      width: $cols-4;
+      width: $cols-5;
     }
 
     .submit {
@@ -66,27 +66,22 @@
     }
 
     .term {
-      width: $cols-8;
+      width: $cols-7;
     }
   }
 }
 
 @media screen and (max-width: 768px) {
   .search-form {
-    padding: $spacing-3-m;
-
-    label {
-      margin-bottom: $spacing-3-m;
-    }
-  }
-}
-
-@media screen and (max-width: 660px) {
-  .search-form {
     .filter,
+    label,
     .submit,
-    .term {
+    .term,
+    .term select {
       width: 100%;
+    }
+    input {
+      max-width: none;
     }
   }
 }
