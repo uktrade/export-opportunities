@@ -21,7 +21,7 @@
     <%= render partial: 'includes/analytics_body' %>
     <%= render partial: 'export_components/skip_link' %>
     <%= render partial: 'export_components/cookie_notice' %>
-    <%= render partial: 'export_components/header' %>
+    <%= render partial: 'export_components/header', locals: { cookie_signed_in_user: ApplicationController.new.user_signed_in_cookie?} %>
 
     <main id="content" role="main">
       <%= content_for?(:errors) ? yield(:errors) : "" %>
