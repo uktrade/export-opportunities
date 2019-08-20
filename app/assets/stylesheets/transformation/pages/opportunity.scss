@@ -78,7 +78,7 @@ h1 {
   margin-bottom: $spacing-1;
   padding-left: $cols-2;
   position: relative;
-  
+
 
   dd {
     margin-bottom: $spacing-3;
@@ -100,9 +100,13 @@ h1 {
     margin-bottom: $spacing-1;
 
     img {
-      display: block;
+      display: inline;
       max-width: 200px;
       width: 100%;
+    }
+
+    > a {
+      display: block;
     }
 
     &.open-opps {
@@ -120,7 +124,7 @@ h1 {
   .type {
     color: $mid-grey;
     margin-bottom: 0;
-  }  
+  }
 }
 
 .sharing-links {

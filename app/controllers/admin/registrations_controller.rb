@@ -3,13 +3,14 @@ class Admin::RegistrationsController < Devise::RegistrationsController
   after_action :verify_authorized
   before_action :configure_permitted_parameters
   before_action :load_service_providers
+  before_action :set_no_cache_headers
 
   skip_before_action :require_no_authentication, raise: false
 
   rescue_from Pundit::NotAuthorizedError, with: :not_found
 
   layout 'admin'
-  layout 'admin_transformed', :only => [:new, :create]
+  layout 'admin_transformed', only: %i[new create]
 
   # GET /resource/sign_up
   def new
