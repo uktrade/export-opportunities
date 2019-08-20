@@ -7,13 +7,7 @@ class EnquiriesController < ApplicationController
 
   def new
     @opportunity = Opportunity.published.find_by!(slug: params[:slug])
-    @enquiry = if current_user && data = private_company_data
-                 Enquiry.initialize_from_lookup(data)
-               elsif current_user
-                 Enquiry.initialize_from_existing(current_user.enquiries.last)
-               else
-                 Enquiry.new
-               end
+    @enquiry = initialize_enquiry_from_user_data_or_new
 
     @trade_profile_url = trade_profile(@enquiry.company_house_number)
     if @opportunity.expired?
@@ -69,6 +63,16 @@ class EnquiriesController < ApplicationController
         .headers
         .select { |h| h[0] =~ /Cloudfront/ }
         .each { |h| Rails.logger.debug h.join(': ') }
+    end
+
+    def initialize_enquiry_from_user_data_or_new
+      if current_user && data = private_company_data
+        Enquiry.initialize_from_lookup(data)
+      elsif current_user
+        Enquiry.initialize_from_existing(current_user.enquiries.last)
+      else
+        Enquiry.new
+      end
     end
 
     def private_company_data
