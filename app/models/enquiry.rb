@@ -41,24 +41,24 @@ class Enquiry < ApplicationRecord
   end
 
   def self.initialize_from_lookup(data)
-    return Enquiry.new unless data.present?
+    return Enquiry.new if data.blank?
 
-    Enquiry.new({
+    Enquiry.new(
       first_name: data['email_full_name'],
       last_name: nil,
       company_telephone: data['mobile_number'],
       company_name: data['name'],
-      company_address: 
+      company_address:
         [data['address_line_1'],
          data['address_line_2'],
-         data['country']].reject(&:blank?).join(" "),
+         data['country']].reject(&:blank?).join(' '),
       company_house_number: data['number'],
       company_postcode: data['postal_code'],
       company_url: data['website'],
-      company_sector: data['sectors'].try(:join, " "),
-      company_explanation: data['summary'],
-    })
-   end
+      company_sector: data['sectors'].try(:join, ' '),
+      company_explanation: data['summary']
+    )
+  end
 
   def company_url
     # Data may not include a scheme/protocol so we must be careful when creating

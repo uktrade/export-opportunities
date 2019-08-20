@@ -2,23 +2,23 @@ module Hawk
   module AuthorizationHeader
     extend self
 
-    REQUIRED_OPTIONS = [:method, :request_uri, :host, :port].freeze
-    REQUIRED_CREDENTIAL_MEMBERS = [:id, :key, :algorithm].freeze
-    SUPPORTED_ALGORITHMS = ['sha256', 'sha1'].freeze
-    HEADER_PARTS = [:id, :ts, :nonce, :hash, :ext, :mac].freeze
+    REQUIRED_OPTIONS = %i[method request_uri host port].freeze
+    REQUIRED_CREDENTIAL_MEMBERS = %i[id key algorithm].freeze
+    SUPPORTED_ALGORITHMS = %w[sha256 sha1].freeze
+    HEADER_PARTS = %i[id ts nonce hash ext mac].freeze
 
-    DEFAULT_TIMESTAMP_SKEW = 60.freeze # ±60 seconds
+    DEFAULT_TIMESTAMP_SKEW = 60.freeze # plus/minus 60 seconds
 
     MissingOptionError = Class.new(StandardError)
     InvalidCredentialsError = Class.new(StandardError)
     InvalidAlgorithmError = Class.new(StandardError)
 
-    def build(options, only=nil)
+    def build(options, only = nil)
       options[:ts] ||= Time.now.to_i
       options[:nonce] ||= SecureRandom.hex(4)
 
       check_options(options)
-      
+
       credentials = options[:credentials]
       check_credentials(credentials)
       check_algorithm(credentials)
@@ -37,19 +37,16 @@ module Hawk
       begin
         if options[:server_response]
           credentials = options[:credentials]
-          parts.merge!(
-            :ts => options[:ts],
-            :nonce => options[:nonce]
-          )
+          parts[:ts] = options[:ts]
+          parts[:nonce] = options[:nonce]
         else
           credentials = get_credentials_and_check_id(options, parts)
           check_ts(options, parts, credentials)
           check_nonce(options, parts)
         end
 
-        check_hash(parts,options,credentials)
+        check_hash(parts, options, credentials)
         check_mac(options, parts, credentials)
-
       rescue Hawk::AuthFailureError => e
         return AuthenticationFailure.new(e.part, e.message, e.options)
       end
@@ -58,11 +55,12 @@ module Hawk
 
     def parse(header)
       parts = header.sub(/\AHawk\s+/, '').split(/,\s*/)
-      parts.inject(Hash.new) do |memo, part|
-        next memo unless part =~ %r{([a-z]+)=(['"])([^\2]+)\2}
-        key, val = $1, $3
+      parts.each_with_object({}) do |part, memo|
+        next memo unless part =~ /([a-z]+)=(['"])([^\2]+)\2/
+
+        key = Regexp.last_match(1)
+        val = Regexp.last_match(3)
         memo[key.to_sym] = val
-        memo
       end
     end
 
@@ -70,23 +68,23 @@ module Hawk
 
       def check_options(options)
         REQUIRED_OPTIONS.each do |key|
-          unless options.has_key?(key)
-            raise MissingOptionError.new("#{key.inspect} is missing!")
+          unless options.key?(key)
+            raise MissingOptionError, "#{key.inspect} is missing!"
           end
         end
       end
 
       def check_credentials(credentials)
         REQUIRED_CREDENTIAL_MEMBERS.each do |key|
-          unless credentials.has_key?(key)
-            raise InvalidCredentialsError.new("#{key.inspect} is missing!")
+          unless credentials.key?(key)
+            raise InvalidCredentialsError, "#{key.inspect} is missing!"
           end
         end
       end
 
       def check_algorithm(credentials)
         unless SUPPORTED_ALGORITHMS.include?(credentials[:algorithm])
-          raise InvalidAlgorithmError.new("#{credentials[:algorithm].inspect} is not a supported algorithm! Use one of the following: #{SUPPORTED_ALGORITHMS.join(', ')}")
+          raise InvalidAlgorithmError, "#{credentials[:algorithm].inspect} is not a supported algorithm! Use one of the following: #{SUPPORTED_ALGORITHMS.join(', ')}"
         end
       end
 
@@ -94,37 +92,37 @@ module Hawk
         hash = Crypto.hash(options).to_s
         mac = Crypto.mac(options)
         parts = {
-          :id => credentials[:id],
-          :ts => options[:ts],
-          :nonce => options[:nonce],
-          :mac => mac.to_s
+          id: credentials[:id],
+          ts: options[:ts],
+          nonce: options[:nonce],
+          mac: mac.to_s,
         }
-        parts[:hash] = hash if options.has_key?(:payload) && !options[:payload].nil?
-        parts[:ext] = options[:ext] if options.has_key?(:ext)
+        parts[:hash] = hash if options.key?(:payload) && !options[:payload].nil?
+        parts[:ext] = options[:ext] if options.key?(:ext)
         parts
       end
 
       def contruct_header_value(only, parts)
-        "Hawk " << (only || HEADER_PARTS).inject([]) { |memo, key|
-          next memo unless parts.has_key?(key)
+        'Hawk ' << (only || HEADER_PARTS).each_with_object([]) do |key, memo|
+          next memo unless parts.key?(key)
+
           memo << %(#{key}="#{parts[key]}")
-          memo
-        }.join(', ')
+        end.join(', ')
       end
 
       def build_mac_opts(options, parts, credentials)
         options.merge(
-          :credentials => credentials,
-          :ts => parts[:ts],
-          :nonce => parts[:nonce],
-          :ext => parts[:ext],
-          :app => options[:app] || parts[:app],
-          :dlg => options[:dlg] || parts[:dlg]
+          credentials: credentials,
+          ts: parts[:ts],
+          nonce: parts[:nonce],
+          ext: parts[:ext],
+          app: options[:app] || parts[:app],
+          dlg: options[:dlg] || parts[:dlg]
         )
       end
-      
-      def check_hash(parts,options,credentials)
-        expected_hash = parts[:hash] ? Crypto.hash(options.merge(:credentials => credentials)) : nil
+
+      def check_hash(parts, options, credentials)
+        expected_hash = parts[:hash] ? Crypto.hash(options.merge(credentials: credentials)) : nil
         if expected_hash && expected_hash.to_s != parts[:hash]
           raise Hawk::AuthFailureError.new(:hash, "Invalid hash. #{expected_hash.normalized_string}")
         end
@@ -138,10 +136,11 @@ module Hawk
         end
       end
 
-      def get_credentials_and_check_id(options,parts)
+      def get_credentials_and_check_id(options, parts)
         unless options[:credentials_lookup].respond_to?(:call) && (credentials = options[:credentials_lookup].call(parts[:id]))
-          raise Hawk::AuthFailureError.new(:id, "Unidentified id")
+          raise Hawk::AuthFailureError.new(:id, 'Unidentified id')
         end
+
         credentials
       end
 
@@ -149,18 +148,18 @@ module Hawk
         now = Time.now.to_i
         if (now - parts[:ts].to_i > options[:timestamp_skew]) || (parts[:ts].to_i - now > options[:timestamp_skew])
           # Stale timestamp
-          raise Hawk::AuthFailureError.new(:ts, "Stale ts", { :credentials => credentials })
+          raise Hawk::AuthFailureError.new(:ts, 'Stale ts', credentials: credentials)
         end
       end
 
       def check_nonce(options, parts)
         unless parts[:nonce]
-          raise Hawk::AuthFailureError.new(:nonce, "Missing nonce")
+          raise Hawk::AuthFailureError.new(:nonce, 'Missing nonce')
         end
 
         if options[:nonce_lookup].respond_to?(:call) && options[:nonce_lookup].call(parts[:nonce])
           # Replay
-          raise Hawk::AuthFailureError.new(:nonce, "Invalid nonce")
+          raise Hawk::AuthFailureError.new(:nonce, 'Invalid nonce')
         end
       end
   end

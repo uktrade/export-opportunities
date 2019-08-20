@@ -6,21 +6,21 @@ require 'openssl'
 unless Base64.respond_to?(:strict_encode64)
   Base64.class_eval do
     def strict_encode64(bin)
-      [bin].pack("m0")
+      [bin].pack('m0')
     end
   end
 end
 unless Base64.respond_to?(:urlsafe_encode64)
   Base64.class_eval do
     def urlsafe_encode64(bin)
-      strict_encode64(bin).tr("+/", "-_").gsub("\n", '')
+      strict_encode64(bin).tr('+/', '-_').delete("\n")
     end
   end
 end
 
 module Hawk
   module Crypto
-    extend self
+    module_function
 
     class Base
       def to_s(options = {})
@@ -36,11 +36,11 @@ module Hawk
       end
 
       def ==(other)
-        if self.class === other
-          secure_compare(to_s(:raw => true), other.to_s(:raw => true))
+        if self.class == other
+          secure_compare(to_s(raw: true), other.to_s(raw: true))
         else
           # assume base64 encoded mac
-          secure_compare(to_s(:raw => true), Base64.decode64(other.to_s))
+          secure_compare(to_s(raw: true), Base64.decode64(other.to_s))
         end
       end
 
@@ -50,28 +50,31 @@ module Hawk
 
       private
 
-      def secure_compare(a, b)
-        return false if a.empty? || b.empty? || a.bytesize != b.bytesize
-        b_bytes = b.unpack "C#{b.bytesize}"
+        def secure_compare(a__, b__)
+          return false if a__.empty? || b__.empty? || a__.bytesize != b__.bytesize
 
-        res = 0
-        a.each_byte { |byte| res |= byte ^ b_bytes.shift }
-        res == 0
-      end
+          b_bytes = b__.unpack "C#{b__.bytesize}"
 
-      def openssl_digest(algorithm)
-        OpenSSL::Digest.const_get(algorithm.upcase)
-      end
+          res = 0
+          a__.each_byte { |byte| res |= byte ^ b_bytes.shift }
+          res.zero?
+        end
+
+        def openssl_digest(algorithm)
+          OpenSSL::Digest.const_get(algorithm.upcase)
+        end
     end
 
     class Mac < Base
       def initialize(key, options, algorithm = 'sha256')
-        @key, @options, @algorithm = key, options, algorithm
+        @key = key
+        @options = options
+        @algorithm = algorithm
       end
 
       def normalized_string
         options = @options.dup
-        if !options[:hash] && options.has_key?(:payload) && !options[:payload].nil?
+        if !options[:hash] && options.key?(:payload) && !options[:payload].nil?
           options[:hash] = Crypto.hash(options)
         end
 
@@ -104,7 +107,9 @@ module Hawk
 
     class Hash < Base
       def initialize(content_type, payload, algorithm)
-        @content_type, @payload, @algorithm = content_type, payload, algorithm
+        @content_type = content_type
+        @payload = payload
+        @algorithm = algorithm
 
         @content_type = @content_type.to_s.split(';').first.to_s.sub(/\A\s*/, '').sub(/\s*\Z/, '')
       end
@@ -113,7 +118,7 @@ module Hawk
         @normalized_string ||= begin
           parts = []
 
-          parts << "hawk.1.payload"
+          parts << 'hawk.1.payload'
           parts << @content_type
           parts << @payload.to_s
           parts << nil # trailing newline
@@ -128,8 +133,10 @@ module Hawk
     end
 
     class TSMac < Base
-      def initialize(key, ts, algorithm = 'sha256')
-        @key, @ts, @algorithm = key, ts, algorithm
+      def initialize(key, timestamp, algorithm = 'sha256')
+        @key = key
+        @ts = timestamp
+        @algorithm = algorithm
       end
 
       def normalized_string
@@ -146,19 +153,22 @@ module Hawk
         padding = '=' * ((4 - bewit.size) % 4)
         id, timestamp, mac, ext = Base64.decode64(bewit + padding).split('\\')
 
-        new(id, nil, { :mac => mac, :ext => ext, :ts => timestamp }, nil)
+        new(id, nil, { mac: mac, ext: ext, ts: timestamp }, nil)
       end
 
       attr_reader :id, :ts, :ext
       def initialize(id, key, options, algorithm = 'sha256')
         @ts = options[:ts] ||= Time.now.to_i + options[:ttl].to_i
         @ext = options[:ext]
-        @id, @key, @options, @algorithm = id, key, options.dup, algorithm
+        @id = id
+        @key = key
+        @options = options.dup
+        @algorithm = algorithm
         @mac = options.delete(:mac) if options[:mac]
       end
 
       def mac
-        @mac ||= Crypto::Mac.new(@key, @options.merge(:type => 'bewit'), @algorithm)
+        @mac ||= Crypto::Mac.new(@key, @options.merge(type: 'bewit'), @algorithm)
       end
 
       def normalized_string
@@ -170,15 +180,15 @@ module Hawk
           parts << mac.to_s
           parts << @ext
 
-          parts.join("\\")
+          parts.join('\\')
         end
       end
 
       def encode64
-        @encoded ||= Base64.urlsafe_encode64(normalized_string).chomp.sub(/=+\Z/, '')
+        @encode64 ||= Base64.urlsafe_encode64(normalized_string).chomp.sub(/=+\Z/, '')
       end
 
-      def to_s(options = {})
+      def to_s(_options = {})
         encode64
       end
 

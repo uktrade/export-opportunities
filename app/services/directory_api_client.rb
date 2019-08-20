@@ -1,9 +1,9 @@
 module DirectoryApiClient
-  extend self
+  module_function
 
-  def get(path, session_id='')
+  def get(path, session_id = '')
     conn = Faraday.new(url: Figaro.env.DIRECTORY_API_DOMAIN)
-    response = conn.get do |request|
+    conn.get do |request|
       request.url path
       request.headers['User-agent'] = "EXPORT-DIRECTORY-API-CLIENT/#{Figaro.env.DIRECTORY_API_VERSION}"
       request.headers['Content-Type'] = 'text/plain'
@@ -33,9 +33,6 @@ module DirectoryApiClient
     request = DirectoryApiClient.get('/supplier/company/', sso_session_cookie)
     if request.status == 200
       JSON.parse(request.body)
-    else
-      nil
     end
   end
-
 end

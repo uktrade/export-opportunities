@@ -1,6 +1,6 @@
 module Hawk
   module TimestampMacHeader
-    extend self
+    module_function
 
     REQUIRED_CREDENTIAL_MEMBERS = AuthorizationHeader::REQUIRED_CREDENTIAL_MEMBERS
     SUPPORTED_ALGORITHMS = AuthorizationHeader::SUPPORTED_ALGORITHMS
@@ -13,13 +13,13 @@ module Hawk
 
       credentials = options[:credentials]
       REQUIRED_CREDENTIAL_MEMBERS.each do |key|
-        unless credentials.has_key?(key)
-          raise InvalidCredentialsError.new("#{key.inspect} is missing!")
+        unless credentials.key?(key)
+          raise InvalidCredentialsError, "#{key.inspect} is missing!"
         end
       end
 
       unless SUPPORTED_ALGORITHMS.include?(credentials[:algorithm])
-        raise InvalidAlgorithmError.new("#{credentials[:algorithm].inspect} is not a supported algorithm! Use one of the following: #{SUPPORTED_ALGORITHMS.join(', ')}")
+        raise InvalidAlgorithmError, "#{credentials[:algorithm].inspect} is not a supported algorithm! Use one of the following: #{SUPPORTED_ALGORITHMS.join(', ')}"
       end
 
       tsm = Crypto.ts_mac(options)

@@ -62,7 +62,7 @@ class EnquiriesController < ApplicationController
     end
 
     def initialize_enquiry_from_user_data_or_new
-      if current_user && data = private_company_data
+      if current_user && (data = private_company_data)
         Enquiry.initialize_from_lookup(data)
       elsif current_user
         Enquiry.initialize_from_existing(current_user.enquiries.last)
