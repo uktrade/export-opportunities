@@ -69,9 +69,9 @@ describe Hawk::Client do
   end
 
   describe ".build_authorization_header" do
+    let(:now) { 1365711458 }
     before do
-      now = Time.now
-      Time.stubs(:now).returns(now)
+      allow(Time).to receive(:now){ Time.at(now) }
     end
 
     let(:expected_mac) { Hawk::Crypto.mac(input).to_s }
@@ -141,7 +141,7 @@ describe Hawk::Client do
     end
 
     before do
-      Time.stubs(:now).returns(Time.at(timestamp + offset))
+      allow(Time).to receive(:now){ Time.at(timestamp + offset) }
     end
 
     context "with valid timestamp mac" do

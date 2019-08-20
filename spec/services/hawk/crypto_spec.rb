@@ -88,8 +88,9 @@ describe Hawk::Crypto do
         "MTIzNDU2XDQ1MTkzMTE0NThcYkkwanFlS1prUHE0V1hRMmkxK0NrQ2lOanZEc3BSVkNGajlmbElqMXphWT1cc29tZS1hcHAtZGF0YQ"
       }
 
+      let(:now) { 1365711458 }
       before do
-        Time.stubs(:now).returns(Time.at(1365711458))
+        allow(Time).to receive(:now){ Time.at(now) }
       end
 
       it_behaves_like "a mac digest method"

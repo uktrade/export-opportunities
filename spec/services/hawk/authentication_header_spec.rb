@@ -21,9 +21,9 @@ describe Hawk::AuthenticationFailure do
       Hawk::Crypto.ts_mac({ :ts => timestamp, :credentials => credentials })
     }
 
+    let(:now) { 1365711458 }
     before do
-      now = Time.now
-      Time.stubs(:now).returns(now)
+      allow(Time).to receive(:now){ Time.at(now) }
     end
 
     it "returns valid hawk authentication failure header" do

@@ -325,7 +325,7 @@ describe Hawk::Server do
 
     let(:now) { 1365711458 }
     before do
-      Time.stubs(:now).returns(Time.at(now))
+      allow(Time).to receive(:now){ Time.at(now) }
     end
 
     context "when request_uri is path" do
