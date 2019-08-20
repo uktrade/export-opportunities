@@ -56,7 +56,7 @@ gem 'stringex', require: false
 gem 'addressable'
 
 # ActiveRecord tools
-gem 'hairtrigger', '0.2.21'
+gem 'hairtrigger', '0.2.22'
 gem 'active_record_union'
 
 # Parsing JSON

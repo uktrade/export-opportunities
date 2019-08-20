@@ -98,12 +98,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def user_signed_in_cookie?
-    return false if request.nil? || cookies[:sso_display_logged_in].nil?
-
-    cookies[:sso_display_logged_in] == 'true'
-  end
-
   def determine_layout
     return 'admin' if request.path.start_with?('/admin') && staff?
 
