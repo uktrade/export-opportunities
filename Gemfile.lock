@@ -989,6 +989,7 @@ DEPENDENCIES
   redis-namespace
   rest-client
   rspec-collection_matchers
+  rspec-mocks
   rspec-rails
   rspec-sidekiq
   rspec_junit_formatter
