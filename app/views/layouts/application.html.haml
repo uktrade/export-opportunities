@@ -46,7 +46,7 @@
 
     = render 'export_components/skip_link'
     = render 'export_components/cookie_notice'
-    = render 'export_components/header'
+    = render partial: 'export_components/header', locals: { cookie_signed_in_user: user_signed_in_cookie?}
 
     - if content_for?(:hero)
       .hero-header-wrapper

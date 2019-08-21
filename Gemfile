@@ -44,7 +44,8 @@ gem 'neat', '1.8.0'
 gem 'autoprefixer-rails'
 gem 'normalize-scss'
 gem 'sass-rails'
-gem 'export_components', '2.1.0', git: 'https://github.com/uktrade/export_components.git'
+# gem 'export_components', '2.1.0', git: 'https://github.com/uktrade/export_components.git'
+gem 'export_components', git: 'https://github.com/uktrade/export_components.git', ref: 'bbb54db89772787331bcc4ff7d4240b0f4403a8f'
 
 # Javascript
 gem 'jquery-rails'
@@ -55,7 +56,7 @@ gem 'stringex', require: false
 gem 'addressable'
 
 # ActiveRecord tools
-gem 'hairtrigger', '0.2.21'
+gem 'hairtrigger', '0.2.22'
 gem 'active_record_union'
 
 # Parsing JSON
