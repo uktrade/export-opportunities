@@ -119,9 +119,9 @@ group :test do
   gem 'shoulda-matchers', require: false
   gem 'rspec-sidekiq'
   gem 'timecop'
-
   gem 'webmock', '3.4.2'
   gem 'rspec-rails'
+  gem 'rspec-mocks'
   gem 'rspec-collection_matchers'
   gem 'rspec_junit_formatter'
   gem 'pundit-matchers'
