@@ -9,9 +9,9 @@ gem 'pg', '1.1.4'
 gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'sidekiq-failures'
-gem 'redis'#, '3.3.3'
+gem 'redis', '4.1.2'
 gem 'redis-namespace'
-gem 'faraday'#, '0.12.2'
+gem 'faraday', '0.15.4'
 gem 'figaro'
 gem 'friendly_id'
 gem 'immutable-struct'
@@ -19,7 +19,7 @@ gem 'immutable-struct'
 gem 'nokogiri', '1.10.4'
 
 # Authentication & authorisation
-gem 'devise'#, '4.6.0' RE ADD VERSION
+gem 'devise', '4.7.0'
 gem 'devise-async'
 gem 'hawk-auth'
 gem 'omniauth'
@@ -34,9 +34,9 @@ gem 'sdoc'
 # Search
 gem 'pg_search'
 gem 'kaminari'
-gem 'elasticsearch-rails'#, '5.1.0'
-gem 'elasticsearch-model'#, '5.1.0'
-gem 'devise_security_extension', git: 'https://github.com/phatworx/devise_security_extension.git'
+gem 'elasticsearch-rails', '5.1.0'
+gem 'elasticsearch-model', '5.1.0'
+gem 'devise-security', '0.14.3'
 
 # Styling
 gem 'bourbon'
@@ -44,7 +44,6 @@ gem 'neat', '1.8.0'
 gem 'autoprefixer-rails'
 gem 'normalize-scss'
 gem 'sass-rails'
-# gem 'export_components', '2.1.0', git: 'https://github.com/uktrade/export_components.git'
 gem 'export_components', git: 'https://github.com/uktrade/export_components.git'
 
 # Javascript
@@ -56,7 +55,7 @@ gem 'stringex', require: false
 gem 'addressable'
 
 # ActiveRecord tools
-gem 'hairtrigger'#, '0.2.22' # RE ADD VERSION
+gem 'hairtrigger', '0.2.21'
 gem 'active_record_union'
 
 # Parsing JSON
@@ -68,7 +67,7 @@ gem 'premailer-rails'
 gem 'flipper'
 gem 'flipper-redis'
 gem 'flipper-ui'
-gem 'paper_trail'#, '9.2.0' RE ADD VERSION
+gem 'paper_trail', '10.3.1'
 
 # aws sdk for s3 storage of post-user communications
 gem 'aws-sdk'
@@ -89,54 +88,54 @@ gem 'rubyzip'
 gem 'jwt'
 
 # caching
-# gem 'actionpack-page_caching' PUT BACK?!
+gem 'actionpack-page_caching', git: 'https://github.com/rails/actionpack-page_caching', ref: 'f5931b6'
 
 # Sentence splitting
 gem 'pragmatic_segmenter'
 
-# group :development, :test do
-#   gem 'byebug'
-#   gem 'faker'
-#   gem 'pry-rescue'
-#   gem 'pry-stack_explorer'
-#   gem 'bullet'
-#   gem 'uglifier'
-#   gem 'rubocop-rspec'
-#   gem 'spring'
-#   gem 'spring-commands-rspec'
-# end
+group :development, :test do
+  gem 'byebug'
+  gem 'faker'
+  gem 'pry-rescue'
+  gem 'pry-stack_explorer'
+  gem 'bullet'
+  gem 'uglifier'
+  gem 'rubocop-rspec'
+  gem 'spring'
+  gem 'spring-commands-rspec'
+end
 
-# group :development do
-#   gem 'web-console'
-#   gem 'rubocop'#, '~> 0.66.0', require: false
-#   gem 'listen'
-# end
+group :development do
+  gem 'web-console'
+  gem 'rubocop', '~> 0.74.0', require: false
+  gem 'listen'
+end
 
-# group :test do
-#   gem 'capybara', require: false
-#   gem 'capybara-email', require: false
-#   gem 'capybara-screenshot'
-#   gem 'fuubar'
-#   gem 'shoulda-matchers', require: false
-#   gem 'rspec-sidekiq'
-#   gem 'timecop'
-#   gem 'webmock', '3.4.2'
-#   gem 'rspec-rails'
-#   gem 'rspec-mocks'
-#   gem 'rspec-collection_matchers'
-#   gem 'rspec_junit_formatter'
-#   gem 'pundit-matchers'
-#   gem 'database_cleaner'
-#   gem 'factory_bot_rails'
-#   gem 'launchy'
-#   gem 'poltergeist'
-#   gem 'simplecov'
-#   gem 'vcr'
-#   gem 'elasticsearch-extensions'
-#   gem 'show_me_the_cookies'
-#   gem 'rails-controller-testing'
-#   gem 'mock_redis'
-# end
+group :test do
+  gem 'capybara', require: false
+  gem 'capybara-email', require: false
+  gem 'capybara-screenshot'
+  gem 'fuubar'
+  gem 'shoulda-matchers', require: false
+  gem 'rspec-sidekiq'
+  gem 'timecop'
+  gem 'webmock', '3.4.2'
+  gem 'rspec-rails'
+  gem 'rspec-mocks'
+  gem 'rspec-collection_matchers'
+  gem 'rspec_junit_formatter'
+  gem 'pundit-matchers'
+  gem 'database_cleaner'
+  gem 'factory_bot_rails'
+  gem 'launchy'
+  gem 'poltergeist'
+  gem 'simplecov'
+  gem 'vcr'
+  gem 'elasticsearch-extensions'
+  gem 'show_me_the_cookies'
+  gem 'rails-controller-testing'
+  gem 'mock_redis'
+end
 
 group :production do
   gem 'rails_12factor'
