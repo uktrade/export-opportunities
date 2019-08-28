@@ -2,10 +2,10 @@ source 'https://rubygems.org'
 
 ruby '2.5.5'
 
-gem 'rails', '6.0.0'
+gem 'rails', '5.2.3'
 gem 'bundler'
 gem 'puma', '3.12.0'
-gem 'pg', '1.3.0'
+gem 'pg', '1.1.4'
 gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'sidekiq-failures'
