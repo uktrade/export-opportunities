@@ -72,6 +72,8 @@ class EnquiriesController < ApplicationController
     end
 
     def private_company_data
-      DirectoryApiClient.private_company_data(cookies[Figaro.env.SSO_SESSION_COOKIE])
+      unless Figaro.env.bypass_sso?
+        DirectoryApiClient.private_company_data(cookies[Figaro.env.SSO_SESSION_COOKIE])
+      end
     end
 end
