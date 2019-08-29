@@ -962,10 +962,6 @@ GEM
       ruby-progressbar (~> 1.4)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    hairtrigger (0.2.21)
-      activerecord (>= 2.3)
-      ruby2ruby (~> 2.4)
-      ruby_parser (~> 3.10)
     haml (5.1.2)
       temple (>= 0.8.0)
       tilt
@@ -1190,12 +1186,7 @@ GEM
     ruby-progressbar (1.10.1)
     ruby-vips (2.0.14)
       ffi (~> 1.9)
-    ruby2ruby (2.4.3)
-      ruby_parser (~> 3.1)
-      sexp_processor (~> 4.6)
     ruby_dep (1.5.0)
-    ruby_parser (3.13.1)
-      sexp_processor (~> 4.9)
     rubyzip (1.2.3)
     safe_yaml (1.0.5)
     sass (3.7.4)
@@ -1217,7 +1208,6 @@ GEM
       rdoc (>= 5.0)
     sentry-raven (2.11.0)
       faraday (>= 0.7.6, < 1.0)
-    sexp_processor (4.12.1)
     shoulda-matchers (4.1.2)
       activesupport (>= 4.2.0)
     show_me_the_cookies (5.0.0)
@@ -1318,7 +1308,6 @@ DEPENDENCIES
   flipper-ui
   friendly_id
   fuubar
-  hairtrigger (= 0.2.21)
   haml
   hawk-auth
   immutable-struct

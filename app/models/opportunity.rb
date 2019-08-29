@@ -144,9 +144,15 @@ class Opportunity < ApplicationRecord
 
   # Database triggers to make Postgres rebuild its fulltext search
   # index whenever an opportunity is created or updated
-  trigger.before(:insert, :update).for_each(:row).nowrap do
-    "tsvector_update_trigger(tsv, 'pg_catalog.english', title, teaser, description);"
-  end
+  #
+  # 29/08/19 - this code is used only to generate the correct migratons. Now that the
+  # Migrations have been created, the code is not needed. The code is left here for posterity's
+  # sake, but has been commented out ast the gem that generated the code is not currently
+  # rails 6 compatable
+  #
+  # trigger.before(:insert, :update).for_each(:row).nowrap do
+  #   "tsvector_update_trigger(tsv, 'pg_catalog.english', title, teaser, description);"
+  # end
 
   def slug=(slug)
     return if slug.nil?
