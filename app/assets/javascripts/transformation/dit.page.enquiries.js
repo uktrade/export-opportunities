@@ -11,21 +11,22 @@ dit.page.enquiries = (new function () {
   var SelectiveLookup = dit.classes.SelectiveLookup;
   var _cache = {
   }
-  
+
   // Page init
   this.init = function() {
     cacheComponents();
     viewAdjustments(dit.responsive.mode());
-    bindResponsiveListener();    
+    bindResponsiveListener();
     setupCompaniesHouseActivation();
     setupCompaniesHouseLookup();
+    toggleDivFromCheckInput();
 
     delete this.init; // Run once
   }
-  
-  
+
+
   /* Grab and store elements that are manipulated throughout
-   * the lifetime of the page or, that are used across 
+   * the lifetime of the page or, that are used across
    * several functions
    **/
   function cacheComponents() {
@@ -66,7 +67,7 @@ dit.page.enquiries = (new function () {
     }
   }
 
-  /* Enhance Company entry fields and create a service 
+  /* Enhance Company entry fields and create a service
    * to fetch data from Companies House API.
    **/
   function setupCompaniesHouseLookup() {
@@ -101,6 +102,27 @@ dit.page.enquiries = (new function () {
         });
       }
     }
+  }
+
+    function toggleDivFromCheckInput() {
+    var $parent = $('div.expandable-container'),
+        $trigger = $parent.find('input[type=checkbox]'),
+        $target =  $parent.find('div.expandable');
+
+      if(!$trigger.prop('checked')) {
+        $target.addClass('hidden');
+      } else {
+        $trigger.removeClass('hidden')
+      }
+
+    $trigger.on('change', function(){
+        var $this = $(this);
+        if(!$this.prop('checked')) {
+            $target.addClass('hidden');
+          } else {
+            $target.removeClass('hidden');
+        }
+    });
   }
 
 });

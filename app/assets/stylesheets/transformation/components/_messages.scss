@@ -1,0 +1,68 @@
+
+%box {
+    margin-bottom: 30px;
+
+    .box-heading {
+      margin-top: 0;
+      @include heading-l-mob;
+      margin-bottom: 15px;
+    }
+  }
+
+  // CTA BOX
+  // ========
+
+  .cta-box {
+    @extend %box;
+    padding: 45px;
+
+    .button-container {
+      float: right;
+
+      .button {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  }
+
+  // MESSAGE BOX
+  // ============
+
+  .message-box {
+    @extend %box;
+    // @include float-clear;
+
+    .box-description:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .message-box-with-icon {
+    @extend .message-box;
+    display: table;
+  }
+
+  .message-box-icon {
+    display: table-cell;
+    font-family: system-ui;
+    width: 50px;
+    text-align: center;
+    vertical-align: middle;
+    @include heading-l;
+  }
+
+  .message-box-icon-content {
+    display: table-cell;
+  }
+
+  @media (min-width: 641px) {
+    .message-box-icon {
+      @include heading-l-mob;
+      width: 80px;
+    }
+    .box-heading {
+      @include heading-l;
+    }
+
+  }

@@ -1,81 +1,121 @@
 - page = PagePresenter.new(@content)
 - page.add_breadcrumb_current('Express interest')
 - opp = OpportunityPresenter.new(self, @opportunity, @content)
+-# - account_types_examples = ['LTD_COMPANY', SOLE_TRADER', 'INDIVIDUAL']
+- account_type = 'LTD_COMPANY'
+
 
 .process
   .container
     = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
 
-    %h1
+
+
+    %div.message-box-with-icon.border-thick.border-teal.width-full.background-white
+      %div.message-box-icon.font-large.white-text.background-teal ✔
+      %div.message-box-content.padding-15.padding-30-m
+        %h3.box-heading.heading-m.teal-text.margin-bottom-15 Account created
+        %p.box-description You can now express interest in export opportunities
+
+    %h1.padding-top-30.margin-bottom-15
       %span.progress You are expressing an interest in
       = opp.title_with_country
 
+    %p.intro.description
+      All fields are required unless marked as optional.
+      %br
+      We've automatically used some details you gave us earlier. You can update your details later on your account page.
+
     = form_for @enquiry do |f|
-      %p.intro.description
-        All fields are required unless marked as optional.
 
       %fieldset.details
         %legend Your Details
+        -# input values to be prepopulated from account details
+        .field-group.populated
+          .field
+            = f.label :first_name, "First Name"
+            = f.text_field :first_name, value: "#{:first_name}", required: "required", readonly: true
+          .field
+            = f.label :last_name, "Last Name"
+            = f.text_field :last_name, value: "#{:last_name}", required: "required", readonly: true
+          - unless account_type == 'INDIVIDUAL'
+            .field
+              = f.label :job_title, "Job title"
+              = f.text_field :last_name, value: "#{:job_title}", required: "required", readonly: true
+        - if account_type == 'INDIVIDUAL'
+          .field
+            = f.label :job_title, "Job title (optional)"
+            = f.text_field :last_name, value: "#{:job_title}", :class => "medium"
         .field
-          = f.label :first_name, "First Name", class: "required"
-          = f.text_field :first_name, required: "required"
-        .field
-          = f.label :last_name, "Last Name", class: "required"
-          = f.text_field :last_name, required: "required"
-        .field
-          = f.label :company_telephone, "Phone Number", class: "required"
-          = f.text_field :company_telephone, required: "required"
-
+          = f.label :company_telephone, "Phone Number (optional)"
+          = f.text_field :company_telephone, value: "[prepopulated if available]", :class => "medium"
       %fieldset.business
         %legend About Your Business
-        .field
-          = f.label :company_name, "Company Name", class: "required"
-          = f.text_field :company_name, required: "required"
-        .field.checkbox
-          %input{:type=>"checkbox", :name=>"has_companies_house_number", :id=>"has-companies-house-number"}
-          %label{:for=>"has-companies-house-number"}
-            I do not have a Companies House number
+        - unless account_type == 'INDIVIDUAL'
+          .field-group.populated
+            .field
+              = f.label :company_name, "Company name", class: "required"
+              = f.text_field :company_name, value: "#{:company_name}", required: "required", readonly: true
+            - if account_type == 'LTD_COMPANY'
+              .field{:id=>"companies-house-number"}
+                = f.label :company_house_number, "Company number"
+                = f.text_field :company_house_number, value: "#{:company_house_number}", required: "required", readonly: true
+            .field
+              = f.label :company_address, "Address", class: "required"
+              = f.text_field :company_address, value: "#{:company_address}", required: "required", readonly: true
+            .field
+              %p
+                = 'We will attach your published business profile.'
+                = link_to 'Edit your business profile', @trade_profile_url, target: :blank
 
-        .field{:id=>"companies-house-number"}
-          = f.label :company_house_number, "Companies House Number"
-          = f.text_field :company_house_number
-        .field
-          = f.label :company_address, "Company Address", class: "required"
-          = f.text_field :company_address, required: "required"
-        .field
-          = f.label :company_postcode, "Post Code", class: "required"
-          = f.text_field :company_postcode, required: "required"
-        .field
-          = f.label :company_url, "Company URL (optional)"
-          = f.text_field :company_url
+        - if account_type == 'INDIVIDUAL'
+          .field
+            = f.label :company_name, "Business name", class: "required"
+            = f.text_field :company_name, value: "#{:company_name}", required: "required", :class => "medium"
+          .field{:id=>"companies-house-number"}
+            = f.label :company_house_number, "Companies House number (optional)"
+            = f.text_field :company_house_number, value: "#{:company_house_number}", :class => "medium"
+          .field
+            = f.label :company_address, "Address", class: "required"
+            = f.text_field :company_address, value: "#{:company_address}", required: "required", :class => "medium"
+          .field
+            = f.label :company_address, "Post code", class: "required"
+            = f.text_field :company_address, value: "#{:company_address}", required: "required", :class => "medium"
 
-        - if @trade_profile_url
-          %p
-            = 'We have identified that you have a business profile.'
-            %br
-            = 'Your'
-            = link_to 'Business Profile', @trade_profile_url, target: :blank
-            = 'will be added to your application.'
+        .field-group.highlight-box.margin-bottom-30.expandable-container
+          .field.checkbox.margin-bottom-0
+            = f.check_box :data_protection
+            = f.label :data_protection, "Add trading address (optional)"
+          %div.expandable.margin-top-30
+            .field
+              = f.label :trading_address, "Trading address"
+              = f.text_field :trading_address, value: "[prepopulated if available]"
+            .field.margin-bottom-0
+              = f.label :trading_address_postcode, "Trading post code"
+              = f.text_field :trading_address_postcode, value: "[prepopulated if available]", :class => "small"
+
+        .field
+          = f.label :company_url, "Your business web address (optional)"
+          = f.text_field :company_url, value: "[prepopulated if available]", :class => "medium"
+        .field.medium-select
+          = f.label :company_sector, "Which industry is your company in?", class: "required"
+          = f.select(:company_sector, Sector.pluck(:name).to_a, required: "required", prompt: 'Sector')
+
 
       %fieldset.your-exporting
         %legend About Your Exporting Experience
-        .field
-          = f.label :existing_exporter, "Have you sold products or services to overseas customers?", class: "required"
+        .field.auto-select
+          = f.label :existing_exporter, "Have you sold products or services overseas?", class: "required"
           = f.select(:existing_exporter, Enquiry::EXISTING_EXPORTER_CHOICES, required: "required", prompt: 'Select')
-        .field
-          = f.label :company_sector, "Select your sector", class: "required"
-          = f.select(:company_sector, Sector.pluck(:name).to_a, required: "required", prompt: 'Sector')
-        .field
+
+        .field.margin-bottom-0
           = f.label :company_explanation, class: "required" do
             Explain what your company does and how it meets the requirements for this opportunity.
-            %span.helptext 
+            %span.helptext
               This is your chance to promote your company and make your proposal stand out. (max. 1,100 characters)
-        
+
 
           = f.text_area :company_explanation, {required: "required", rows: "8", maxlength: "1100"}
 
-        .field.checkbox
-          = f.check_box :data_protection
-          = f.label :data_protection, "I agree my details may be used for marketing by #{t('organisation.name')} and trusted partners (optional)"
 
       = f.submit 'Submit', class: 'button'
