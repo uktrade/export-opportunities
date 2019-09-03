@@ -38,7 +38,6 @@ class EnquiryCSV
       :company_url,
       :created_at,
       :data_protection,
-      :trade_address,
       :user_id,
       :existing_exporter,
       :first_name,

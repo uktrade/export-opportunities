@@ -2,7 +2,7 @@
 - page.add_breadcrumb_current('Express interest')
 - opp = OpportunityPresenter.new(self, @opportunity, @content)
 -# - account_types_examples = ['LTD_COMPANY', SOLE_TRADER', 'INDIVIDUAL']
-- account_type = 'LTD_COMPANY'
+- account_type = 'INDIVIDUAL'
 
 
 .process
@@ -86,7 +86,7 @@
           .field.checkbox.margin-bottom-0
             = f.check_box :data_protection
             = f.label :data_protection, "Add trading address (optional)"
-          %div.expandable.margin-top-30
+          %div.expandable.margin-top-30{:id=>"expandable"}
             .field
               = f.label :trading_address, "Trading address"
               = f.text_field :trading_address, value: "[prepopulated if available]"

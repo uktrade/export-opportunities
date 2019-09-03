@@ -21,7 +21,6 @@ enquiry_exporter: Existing exporter?
 enquiry_sector: Company sector
 enquiry_explanation: Company explanation
 enquiry_data_protection: Data protection
-enquiry_trade_address: Add trade address
 
 response_title_complete: This enquiry was responded to by [$editor_name]
 response_title_pending: This response is pending

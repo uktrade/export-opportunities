@@ -17,7 +17,6 @@ dit.page.enquiries = (new function () {
     cacheComponents();
     viewAdjustments(dit.responsive.mode());
     bindResponsiveListener();
-    setupCompaniesHouseActivation();
     setupCompaniesHouseLookup();
     toggleDivFromCheckInput();
 
@@ -51,20 +50,6 @@ dit.page.enquiries = (new function () {
     $(document.body).on(dit.responsive.reset, function(e, mode) {
       viewAdjustments(mode);
     });
-  }
-
-  /* Toggle Company house lookup functionality.
-   **/
-  function setupCompaniesHouseActivation() {
-    var $switch = $("#has-companies-house-number");
-    var $companyNumber = $("#companies-house-number");
-    if($switch.length && $companyNumber.length) {
-      new dit.classes.Expander($companyNumber, {
-        blur: false,
-        $control: $switch,
-        closed: $switch.get(0).checked
-      });
-    }
   }
 
   /* Enhance Company entry fields and create a service
@@ -104,7 +89,7 @@ dit.page.enquiries = (new function () {
     }
   }
 
-    function toggleDivFromCheckInput() {
+  function toggleDivFromCheckInput() {
     var $parent = $('div.expandable-container'),
         $trigger = $parent.find('input[type=checkbox]'),
         $target =  $parent.find('div.expandable');
