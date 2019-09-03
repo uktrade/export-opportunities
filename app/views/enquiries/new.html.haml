@@ -2,7 +2,7 @@
 - page.add_breadcrumb_current('Express interest')
 - opp = OpportunityPresenter.new(self, @opportunity, @content)
 -# - account_types_examples = ['LTD_COMPANY', SOLE_TRADER', 'INDIVIDUAL']
-- account_type = 'INDIVIDUAL'
+- account_type = 'LTD_COMPANY'
 
 
 .process
@@ -104,7 +104,7 @@
 
       %fieldset.your-exporting
         %legend About Your Exporting Experience
-        .field.auto-select
+        .field.small-select
           = f.label :existing_exporter, "Have you sold products or services overseas?", class: "required"
           = f.select(:existing_exporter, Enquiry::EXISTING_EXPORTER_CHOICES, required: "required", prompt: 'Select')
 
