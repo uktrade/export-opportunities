@@ -1,21 +1,17 @@
 - page = PagePresenter.new(@content)
 - page.add_breadcrumb_current('Express interest')
 - opp = OpportunityPresenter.new(self, @opportunity, @content)
--# - account_types_examples = ['LTD_COMPANY', SOLE_TRADER', 'INDIVIDUAL']
-- account_type = 'LTD_COMPANY'
-
 
 .process
   .container
     = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
 
-
-
-    %div.message-box-with-icon.border-thick.border-teal.width-full.background-white
-      %div.message-box-icon.font-large.white-text.background-teal ✔
-      %div.message-box-content.padding-15.padding-30-m
-        %h3.box-heading.heading-m.teal-text.margin-bottom-15 Account created
-        %p.box-description You can now express interest in export opportunities
+    -# if @account_created
+    -#  %div.message-box-with-icon.border-thick.border-teal.width-full.background-white
+    -#    %div.message-box-icon.font-large.white-text.background-teal ✔
+    -#    %div.message-box-content.padding-15.padding-30-m
+    -#      %h3.box-heading.heading-m.teal-text.margin-bottom-15 Account created
+    -#      %p.box-description You can now express interest in export opportunities
 
     %h1.padding-top-30.margin-bottom-15
       %span.progress You are expressing an interest in
@@ -34,53 +30,52 @@
         .field-group.populated
           .field
             = f.label :first_name, "First Name"
-            = f.text_field :first_name, value: "#{:first_name}", required: "required", readonly: true
+            = f.text_field :first_name, value: @enquiry.first_name, required: "required", readonly: true
           .field
             = f.label :last_name, "Last Name"
-            = f.text_field :last_name, value: "#{:last_name}", required: "required", readonly: true
-          - unless account_type == 'INDIVIDUAL'
+            = f.text_field :last_name, value: @enquiry.last_name, required: "required", readonly: true
+          - if @enquiry.account_type.blank? || @enquiry.account_type == 'INDIVIDUAL'
+            .field
+              = f.label :job_title, "Job title (optional)"
+              = f.text_field :job_title, value: @enquiry.job_title, :class => "medium"
+          - else
             .field
               = f.label :job_title, "Job title"
-              = f.text_field :last_name, value: "#{:job_title}", required: "required", readonly: true
-        - if account_type == 'INDIVIDUAL'
-          .field
-            = f.label :job_title, "Job title (optional)"
-            = f.text_field :last_name, value: "#{:job_title}", :class => "medium"
+              = f.text_field :job_title, value: @enquiry.job_title, required: "required", readonly: true
         .field
           = f.label :company_telephone, "Phone Number (optional)"
-          = f.text_field :company_telephone, value: "[prepopulated if available]", :class => "medium"
+          = f.text_field :company_telephone, value: @enquiry.company_telephone, :class => "medium"
       %fieldset.business
         %legend About Your Business
-        - unless account_type == 'INDIVIDUAL'
+        - if @enquiry.account_type.blank? || @enquiry.account_type == 'INDIVIDUAL'
+          .field
+            = f.label :company_name, "Business name", class: "required"
+            = f.text_field :company_name, value: @enquiry.company_name, required: "required", :class => "medium"
+          .field{:id=>"companies-house-number"}
+            = f.label :company_house_number, "Companies House number (optional)"
+            = f.text_field :company_house_number, value: @enquiry.company_house_number, :class => "medium"
+          .field
+            = f.label :company_address, "Address", class: "required"
+            = f.text_field :company_address, value: @enquiry.company_address, required: "required", :class => "medium"
+          .field
+            = f.label :company_address, "Post code", class: "required"
+            = f.text_field :company_address, value: @enquiry.company_address, required: "required", :class => "medium"
+        - else
           .field-group.populated
             .field
               = f.label :company_name, "Company name", class: "required"
-              = f.text_field :company_name, value: "#{:company_name}", required: "required", readonly: true
-            - if account_type == 'LTD_COMPANY'
+              = f.text_field :company_name, value: @enquiry.company_name, required: "required", readonly: true
+            - if @enquiry.account_type == 'COMPANIES_HOUSE'
               .field{:id=>"companies-house-number"}
                 = f.label :company_house_number, "Company number"
-                = f.text_field :company_house_number, value: "#{:company_house_number}", required: "required", readonly: true
+                = f.text_field :company_house_number, value: @enquiry.company_house_number, required: "required", readonly: true
             .field
               = f.label :company_address, "Address", class: "required"
-              = f.text_field :company_address, value: "#{:company_address}", required: "required", readonly: true
+              = f.text_field :company_address, value: @enquiry.company_address, required: "required", readonly: true
             .field
               %p
                 = 'We will attach your published business profile.'
-                = link_to 'Edit your business profile', @trade_profile_url, target: :blank
-
-        - if account_type == 'INDIVIDUAL'
-          .field
-            = f.label :company_name, "Business name", class: "required"
-            = f.text_field :company_name, value: "#{:company_name}", required: "required", :class => "medium"
-          .field{:id=>"companies-house-number"}
-            = f.label :company_house_number, "Companies House number (optional)"
-            = f.text_field :company_house_number, value: "#{:company_house_number}", :class => "medium"
-          .field
-            = f.label :company_address, "Address", class: "required"
-            = f.text_field :company_address, value: "#{:company_address}", required: "required", :class => "medium"
-          .field
-            = f.label :company_address, "Post code", class: "required"
-            = f.text_field :company_address, value: "#{:company_address}", required: "required", :class => "medium"
+                = link_to 'Edit your business profile', Figaro.env.FAB_PROFILE_URL, target: :blank
 
         .field-group.highlight-box.margin-bottom-30.expandable-container
           .field.checkbox.margin-bottom-0
@@ -89,14 +84,14 @@
           %div.expandable.margin-top-30{:id=>"expandable"}
             .field
               = f.label :trading_address, "Trading address"
-              = f.text_field :trading_address, value: "[prepopulated if available]"
+              = f.text_field :trading_address, value: @enquiry.trading_address
             .field.margin-bottom-0
               = f.label :trading_address_postcode, "Trading post code"
-              = f.text_field :trading_address_postcode, value: "[prepopulated if available]", :class => "small"
+              = f.text_field :trading_address_postcode, value: @enquiry.trading_address_postcode, :class => "small"
 
         .field
           = f.label :company_url, "Your business web address (optional)"
-          = f.text_field :company_url, value: "[prepopulated if available]", :class => "medium"
+          = f.text_field :company_url, value: @enquiry.company_url, :class => "medium"
         .field.medium-select
           = f.label :company_sector, "Which industry is your company in?", class: "required"
           = f.select(:company_sector, Sector.pluck(:name).to_a, required: "required", prompt: 'Sector')

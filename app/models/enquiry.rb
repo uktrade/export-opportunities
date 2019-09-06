@@ -56,7 +56,8 @@ class Enquiry < ApplicationRecord
       company_postcode: data['postal_code'],
       company_url: data['website'],
       company_sector: data['sectors'].try(:join, ' '),
-      company_explanation: data['summary']
+      company_explanation: data['summary'],
+      account_type: data['company_type']
     )
   end
 
