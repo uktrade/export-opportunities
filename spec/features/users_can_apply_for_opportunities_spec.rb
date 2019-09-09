@@ -7,6 +7,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
     mock_sso_with(email: 'email@example.com')
   end
 
+  # Good
   scenario 'application is not possible when the opportunity has expired' do
     expired_opportunity = create(:opportunity, :expired, status: :publish, slug: 'expired-opp')
     visit '/export-opportunities/enquiries/expired-opp'
@@ -16,13 +17,15 @@ RSpec.feature 'users can apply for opportunities', js: true do
     expect(page).to have_content t('opportunity.expired')
   end
 
+  # ... What does this mean?
   context 'when the user already has an account' do
     before do
       create(:opportunity, slug: 'great-opportunity', status: :publish)
       create(:sector)
     end
 
-    scenario 'if they are logged in' do
+    # Logged in... got it - should fill out. Different scenarios exist.
+    scenario 'and they are logged in' do
       mock_sso_with(email: 'enquirer@exporter.com')
 
       visit '/export-opportunities/enquiries/great-opportunity'
@@ -38,52 +41,18 @@ RSpec.feature 'users can apply for opportunities', js: true do
       visit '/export-opportunities/enquiries/great-opportunity'
     end
 
-    scenario 'if they are logged in, apply with company house number', js: true do
-      skip('TODO: fix with Steven, looks like JS doesnt render correctly in this page resulting in boring companies not showing up in the dropdown')
-      mock_sso_with(email: 'enquirer@exporter.com')
-      company_detail = {
-        name: 'Boring Export Company',
-        number: 123_456_78,
-        postcode: 'sw1a',
-      }
-      allow_any_instance_of(CompanyHouseFinder).to receive(:call).and_return([company_detail])
-
-      visit '/export-opportunities/enquiries/great-opportunity'
-
-      expect(page).not_to have_field 'Email Address'
-
-      fill_in_your_details
-
-      fill_in 'enquiry[company_name]', with: 'BORING LIMITED'
-
-      wait_for_ajax
-
-      # dropdown should appear automatically with only one option, our Boring Export Company
-
-      click_on 'BORING LIMITED'
-
-      fill_in 'Company Address', with: '50 victoria street'
-      fill_in_exporting_experience
-      tick_data_protection_checkbox
-
-      click_on 'Submit'
-
-      expect(page).to have_content 'Your expression of interest has been submitted and will be reviewed'
-      expect(page).to have_link 'View your expressions of interest to date'
-
-      visit '/export-opportunities/enquiries/great-opportunity'
-
-      expect(find_field('enquiry_company_house_number').value).to eq '12345678'
-    end
-
+    # Not logged in - should redirect
     scenario 'if they are not logged in' do
-      mock_sso_with(email: 'enquirer@exporter.com')
-
       visit '/export-opportunities/enquiries/great-opportunity'
 
-      expect(page).to be_an_enquiry_form
+      # expect(page.current_path).to eq if Figaro.env.bypass_sso?
+      #   user_developer_omniauth_authorize_path
+      # else
+      #   user_exporting_is_great_omniauth_authorize_path
+      # end
     end
 
+    # Might not be needed - checking w/ madeline
     scenario 'when a user exists on our end' do
       create(:user, email: 'apple@fruit.com', uid: '123456', provider: 'exporting_is_great')
       mock_sso_with(email: 'apple@fruit.com', uid: '123456')
@@ -93,6 +62,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
       expect(page).to be_an_enquiry_form
     end
 
+    # Might be needed - checking w/ madeline
     scenario 'when a user does not exist on our end' do
       mock_sso_with(email: 'apple@fruit.com', uid: '123456')
 
@@ -101,6 +71,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
       expect(page).to be_an_enquiry_form
     end
 
+    # Redirect to log in?
     scenario 'when the SSO response is invalid' do
       if Figaro.env.bypass_sso?
         provider = :developer
@@ -115,6 +86,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
       expect(page).to have_content 'invalid_credentials'
     end
 
+    # No longer needed
     scenario 'when the user doesnt have a trade profile' do
       mock_sso_with(email: 'enquirer@exporter.com')
 
@@ -220,7 +192,6 @@ RSpec.feature 'users can apply for opportunities', js: true do
     fill_in_your_details
     fill_in_company_details
     fill_in_exporting_experience
-    tick_data_protection_checkbox
   end
 
   def fill_in_your_details
@@ -230,7 +201,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
   end
 
   def fill_in_company_details
-    fill_in 'Company Name', with: Faker::Company.name
+    fill_in 'Business name', with: Faker::Company.name
     find(:css, "#has-companies-house-number", visible: :false).trigger('click')
     fill_in 'Company Address', with: Faker::Address.street_address
     fill_in 'Post Code', with: Faker::Address.postcode
@@ -241,10 +212,6 @@ RSpec.feature 'users can apply for opportunities', js: true do
     select 'Not yet', from: 'Have you sold products or services to overseas customers?'
     select Sector.all.sample.name, from: 'Select your sector'
     fill_in :enquiry_company_explanation, with: Faker::Company.bs
-  end
-
-  def tick_data_protection_checkbox
-    find(:css, "#enquiry_data_protection", visible: :false).trigger('click')
   end
 
   def apply_to_opportunity(opportunity)

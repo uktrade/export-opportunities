@@ -34,7 +34,7 @@
           .field
             = f.label :last_name, "Last Name"
             = f.text_field :last_name, value: @enquiry.last_name, required: "required", readonly: true
-          - if @enquiry.account_type.blank? || @enquiry.account_type == 'INDIVIDUAL'
+          - if @enquiry.individual?
             .field
               = f.label :job_title, "Job title (optional)"
               = f.text_field :job_title, value: @enquiry.job_title, :class => "medium"
@@ -47,7 +47,7 @@
           = f.text_field :company_telephone, value: @enquiry.company_telephone, :class => "medium"
       %fieldset.business
         %legend About Your Business
-        - if @enquiry.account_type.blank? || @enquiry.account_type == 'INDIVIDUAL'
+        - if @enquiry.individual?
           .field
             = f.label :company_name, "Business name", class: "required"
             = f.text_field :company_name, value: @enquiry.company_name, required: "required", :class => "medium"

@@ -32,7 +32,8 @@ RSpec.describe EnquiriesController, type: :controller do
         website: 'www.example.com',
         has_exported_before: 'true',
         sectors: ['Construction'],
-        summary: "Good company",
+        summary: 'Good company',
+        company_type: 'COMPANIES_HOUSE'
       }.to_json, status: 200)
 
       get :new, params: { slug: opportunity.slug }
@@ -48,6 +49,7 @@ RSpec.describe EnquiriesController, type: :controller do
       expect(enquiry.company_url).to eq 'http://www.example.com'
       expect(enquiry.company_sector).to eq 'Construction'
       expect(enquiry.company_explanation).to eq 'Good company'
+      expect(enquiry.account_type).to eq 'COMPANIES_HOUSE'
     end
 
     it 'raises a 404 if the opportunity was not found' do

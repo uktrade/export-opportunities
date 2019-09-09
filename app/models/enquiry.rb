@@ -57,8 +57,12 @@ class Enquiry < ApplicationRecord
       company_url: data['website'],
       company_sector: data['sectors'].try(:join, ' '),
       company_explanation: data['summary'],
-      account_type: data['company_type']
+      account_type: data['company_type'] # Can be: COMPANIES_HOUSE, CHARITY, PARTNERSHIP, SOLE_TRADER and OTHER.
     )
+  end
+
+  def individual?
+    ['SOLE_TRADER', 'OTHER', nil].include? account_type
   end
 
   def company_url
