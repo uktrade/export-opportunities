@@ -1,78 +1,77 @@
 - page = PagePresenter.new(@content)
-- opportunity = OpportunityPresenter.new(self, @opportunity, @content)
-- page.add_breadcrumb_current(opportunity.title_with_country)
+- page.add_breadcrumb_current(@opportunity_detail.title_with_country)
 
 .container
   = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
 
   %article.opportunity
     %h1
-      = opportunity.title_with_country
+      = @opportunity_detail.title_with_country
 
     %p.summary
-      - if opportunity.source('volume_opps')
+      - if @opportunity_detail.source('volume_opps')
         For more information and to make a bid you will need to go to the third party website.
       - else
         This is a business opportunity from an overseas buyer. Pitch for the business and explain how your company meets their requirements.
 
     .teaser
-      = opportunity.teaser
+      = @opportunity_detail.teaser
 
 
     .details
       %h2 Details
-      - if opportunity.source('volume_opps')
+      - if @opportunity_detail.source('volume_opps')
         = render partial: "partials/open_opps_link"
 
       %dl
         %dt.expiry
           Opportunity closing date
         %dd.expiry
-          = opportunity.expires
+          = @opportunity_detail.expires
 
         %dt.published
           Opportunity publication date
         %dd.published
-          = opportunity.published_date
+          = @opportunity_detail.published_date
 
-        - if opportunity.source('post')
+        - if @opportunity_detail.source('post')
           %dt.opportunity_type
             Opportunity type
           %dd.opportunity_type
-            = opportunity.type
+            = @opportunity_detail.type
             %br
-            - if opportunity.type == 'Aid Funded Business'
-              = opportunity.link_to_aid_funded "Your guide for aid funded business"
+            - if @opportunity_detail.type == 'Aid Funded Business'
+              = @opportunity_detail.link_to_aid_funded "Your guide for aid funded business"
 
-        - if opportunity.sectors && opportunity.source('post')
+        - if @opportunity_detail.sectors && @opportunity_detail.source('post')
           %dt.industry
             Industry
           %dd.industry
-            = opportunity.industry_links
+            = @opportunity_detail.industry_links
 
-        - if opportunity.opportunity_cpvs.present?
+        - if @opportunity_detail.opportunity_cpvs.present?
           %dt.category
             Category
           %dd.category
-            = opportunity.put(@opportunity.opportunity_cpvs.map(&:industry_id).join(', '), '-')
+            = @opportunity_detail.put(@@opportunity_detail.opportunity_cpvs.map(&:industry_id).join(', '), '-')
 
-        - unless opportunity.source('volume_opps')
+        - unless @opportunity_detail.source('volume_opps')
           %dt.enquiries
             Enquiries received
           %dd.enquiries
-            = opportunity.enquiries_total
+            = @opportunity_detail.enquiries_total
 
         %dt.value
           Value of contract
         %dd.value
-          = opportunity.value
+          = @opportunity_detail.value
 
-        - if opportunity.guides_available
+        - if @opportunity_detail.guides_available
           %dt.guide
             Your guide to exporting
           %dd.guide
             %ul.navigation
-              - opportunity.country_guides.each do |link|
+              - @opportunity_detail.country_guides.each do |link|
                 %li= link
 
       -# TODO: Just sending to feedback location for now
@@ -80,42 +79,42 @@
 
 
     .description
-      - if @opportunity.description.present? && (@opportunity.description != @opportunity.title)
+      - if @opportunity_detail.description.present? && (@opportunity_detail.description != @opportunity_detail.title)
         %h2 Description
-        = opportunity.description
+        = @opportunity_detail.description
 
       %dl
         %dt.expiry
           Opportunity closing date
         %dd.expiry
-          = opportunity.expires
+          = @opportunity_detail.expires
 
         %dt.value
           Value of contract
         %dd.value
-          = opportunity.value
+          = @opportunity_detail.value
 
-        - if opportunity.supplier_preference?
+        - if @opportunity_detail.supplier_preference?
           %dt.supplier-preference
             The buyer is happy to talk to
           %dd.supplier-preference
-            = opportunity.supplier_preferences
+            = @opportunity_detail.supplier_preferences
 
-    - unless opportunity.source('post') || opportunity.buyer_details_empty?
+    - unless @opportunity_detail.source('post') || @opportunity_detail.buyer_details_empty?
       .buyer
         %h2 About the buyer
         %dl
           %dt.address
             Address
           %dd.address
-            = opportunity.buyer_name
-            = opportunity.buyer_address
+            = @opportunity_detail.buyer_name
+            = @opportunity_detail.buyer_address
 
-          - unless opportunity.contact.blank?
+          - unless @opportunity_detail.contact.blank?
             %dt.contact
               Contact
             %dd.contact
-              = opportunity.contact
+              = @opportunity_detail.contact
 
 
 
@@ -123,30 +122,30 @@
       .disclaimer
         %p= @content["disclaimer_1"]
         %p= @content["disclaimer_2"]
-        -if opportunity.translated?
+        -if @opportunity_detail.translated?
           %p= @content["disclaimer_3"]
 
     .bid
-      - if opportunity.expired?
+      - if @opportunity_detail.expired?
         %p.expired
           %strong
-            = t('opportunity.expired')
+            = t('@opportunity_detail.expired')
           %br
           Visit the
           = link_to 'opportunities page', opportunities_path
           to find another.
 
       - else
-        - if opportunity.source('post')
-          - if opportunity.created_at > Date.parse(Figaro.env.SIGNOFF_LINES_DEPLOYMENT_DATE)
+        - if @opportunity_detail.source('post')
+          - if @opportunity_detail.created_at > Date.parse(Figaro.env.SIGNOFF_LINES_DEPLOYMENT_DATE)
             %h2 Express your interest
-            - opportunity.sign_off_content.each do |line|
+            - @opportunity_detail.sign_off_content.each do |line|
               = content_tag("p", line, class: "sign-off")
 
           = yield :disclaimer_content
 
-          - if opportunity.target_url.present?
-            = link_to 'Go to third party website', opportunity.target_url, class: 'button', target: :_blank, title: 'Opens in a new window', rel: 'noopener noreferrer'
+          - if @opportunity_detail.target_url.present?
+            = link_to 'Go to third party website', @opportunity_detail.target_url, class: 'button', target: :_blank, title: 'Opens in a new window', rel: 'noopener noreferrer'
 
           - else
             = link_to 'Express your interest', new_enquiry_path(@opportunity.slug), class: 'button abcbutton'
@@ -154,11 +153,11 @@
         - else
           -# OpenOpps/Third-party location.
           %h2 Bid for tender
-          - opportunity.sign_off_content.each do |line|
+          - @opportunity_detail.sign_off_content.each do |line|
             = content_tag("p", line, class: "sign-off")
 
           = yield :disclaimer_content
-          = link_to 'Go to third party website', opportunity.tender_url, class: 'button', target: :_blank, title: 'Opens in a new window', rel: 'noopener noreferrer'
+          = link_to 'Go to third party website', @opportunity_detail.tender_url, class: 'button', target: :_blank, title: 'Opens in a new window', rel: 'noopener noreferrer'
 
 
-    = render partial: 'components/sharing_links', locals: { title: opportunity.title_with_country, path: opportunity_url(@opportunity) }
+    = render partial: 'components/sharing_links', locals: { title: @opportunity_detail.title_with_country, path: opportunity_url(@opportunity) }

@@ -3,7 +3,7 @@
   <head>
     <% @page_type = 'EnquiriesPage' %>
 
-    <title><%= t('site_name') %></title>
+    <title>Express interest - <%= @opportunity_detail.title_with_country %> - <%= t('site_name') %> - great.gov.uk</title>
     <%= csrf_meta_tags %>
     <%= render partial: 'includes/transformation_head_tags' %>
     <%= render partial: 'includes/transformation_styles' %>

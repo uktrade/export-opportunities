@@ -1,6 +1,5 @@
 - page = PagePresenter.new(@content)
 - page.add_breadcrumb_current('Express interest')
-- opp = OpportunityPresenter.new(self, @opportunity, @content)
 
 .process
   .container
@@ -8,7 +7,7 @@
 
     %h1
       %span.progress You are expressing an interest in
-      = opp.title_with_country
+      = @opportunity_detail.title_with_country
 
     = form_for @enquiry do |f|
       %p.intro.description
@@ -68,9 +67,9 @@
         .field
           = f.label :company_explanation, class: "required" do
             Explain what your company does and how it meets the requirements for this opportunity.
-            %span.helptext 
+            %span.helptext
               This is your chance to promote your company and make your proposal stand out. (max. 1,100 characters)
-        
+
 
           = f.text_area :company_explanation, {required: "required", rows: "8", maxlength: "1100"}
 

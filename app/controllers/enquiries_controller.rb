@@ -7,6 +7,7 @@ class EnquiriesController < ApplicationController
 
   def new
     @opportunity = Opportunity.published.find_by!(slug: params[:slug])
+    @opportunity_detail = OpportunityPresenter.new(self, @opportunity, @content)
     @enquiry = initialize_enquiry_from_user_data_or_new
 
     @trade_profile_url = trade_profile(@enquiry.company_house_number)
@@ -19,6 +20,7 @@ class EnquiriesController < ApplicationController
 
   def create
     @opportunity = Opportunity.find_by!(slug: params[:slug])
+    @opportunity_detail = OpportunityPresenter.new(self, @opportunity, @content)
     @enquiry = current_user.enquiries.new(enquiry_params)
     @trade_profile_url = trade_profile(@enquiry.company_house_number)
     @enquiry.opportunity = @opportunity

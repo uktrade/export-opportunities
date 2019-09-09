@@ -79,6 +79,7 @@ class OpportunitiesController < ApplicationController
     @content = get_content('opportunities/show.yml')
     @opportunity = Opportunity.published.find(params[:id])
     @service_provider = @opportunity.service_provider
+    @opportunity_detail = OpportunityPresenter.new(self, @opportunity, @content)
 
     respond_to do |format|
       format.html do
