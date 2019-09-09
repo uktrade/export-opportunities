@@ -53,7 +53,7 @@ class OpportunityQuery
       query = query.applicable if @hide_expired
 
       # Secondary sort order to prevent pagination weirdness
-      query = query.order(created_at: :desc)
+      query = query.order("opportunities.created_at DESC")
 
       query = query.joins(:sectors).merge(Sector.where(slug: @filters.sectors)) if @filters.sectors.present?
       query = query.joins(:countries).merge(Country.where(slug: @filters.countries)) if @filters.countries.present?
