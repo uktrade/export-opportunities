@@ -13,7 +13,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
 
     expect(page).not_to be_an_enquiry_form
     expect(page).to have_content expired_opportunity.title
-    expect(page).to have_content t('opportunity.expired')
+    expect(page).to have_content t('@opportunity_detail.expired')
   end
 
   context 'when the user already has an account' do
