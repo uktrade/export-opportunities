@@ -58,8 +58,8 @@
             = f.label :company_address, "Address", class: "required"
             = f.text_field :company_address, value: @enquiry.company_address, required: "required", :class => "medium"
           .field
-            = f.label :company_address, "Post code", class: "required"
-            = f.text_field :company_address, value: @enquiry.company_address, required: "required", :class => "medium"
+            = f.label :company_postcode, "Post code", class: "required"
+            = f.text_field :company_postcode, value: @enquiry.company_postcode, required: "required", :class => "medium"
         - else
           .field-group.populated
             .field
@@ -79,8 +79,9 @@
 
         .field-group.highlight-box.margin-bottom-30.expandable-container
           .field.checkbox.margin-bottom-0
-            = f.check_box :data_protection
-            = f.label :data_protection, "Add trading address (optional)"
+            %label{ for: 'add_trading_address' }
+              Add trading address (optional)
+              = check_box_tag :add_trading_address
           %div.expandable.margin-top-30{:id=>"expandable"}
             .field
               = f.label :trading_address, "Trading address"

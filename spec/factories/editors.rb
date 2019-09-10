@@ -3,7 +3,7 @@ FactoryBot.define do
     service_provider
     sequence(:wordpress_id) { |n| (n + 1).to_s }
     email { Faker::Internet.email }
-    password { Faker::Internet.password(20, 128) }
+    password { ('a'..'z').to_a.shuffle[0,12].join }
     password_confirmation { password }
     name { Faker::Name.name }
     confirmed_at { DateTime.current }

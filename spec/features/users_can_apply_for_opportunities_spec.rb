@@ -18,18 +18,12 @@ RSpec.feature 'users can apply for opportunities', js: true do
     expect(page).to have_content t('opportunity.expired')
   end
 
-  # Logged in... got it - should fill out. Different scenarios exist.
-  # - 
-  # - 
-  # - 
-  # - 
-  # - 
-  scenario 'when they are logged in' do
+  scenario 'when they are logged in as an individual', focus: true do
     visit '/export-opportunities/enquiries/great-opportunity'
 
     expect(page).not_to have_field 'Email Address'
 
-    fill_in_form
+    fill_in_form_as_individual
     click_on 'Submit'
 
     expect(page).to have_content 'Your expression of interest has been submitted and will be reviewed'
@@ -38,19 +32,19 @@ RSpec.feature 'users can apply for opportunities', js: true do
     visit '/export-opportunities/enquiries/great-opportunity'
   end
 
-  scenario 'unless they are not logged in, which instead redirects them' do
-    # Do not redirect /auth/provider to /auth/provider/callback
-    OmniAuth.config.test_mode = false 
-
+  scenario 'when they are logged in as a limited company' do
+    # Make the User a Limited Company!
     visit '/export-opportunities/enquiries/great-opportunity'
 
-    if Figaro.env.bypass_sso?
-      correct_auth_path = user_developer_omniauth_authorize_path
-    else
-      correct_auth_path = user_exporting_is_great_omniauth_authorize_path
-    end
-    expect(page.current_path).to eq correct_auth_path
-    OmniAuth.config.test_mode = true
+    expect(page).not_to have_field 'Email Address'
+
+    fill_in_form_as_limited_company
+    click_on 'Submit'
+
+    expect(page).to have_content 'Your expression of interest has been submitted and will be reviewed'
+    expect(page).to have_link 'View your expressions of interest to date'
+
+    visit '/export-opportunities/enquiries/great-opportunity'
   end
 
   scenario 'unless the SSO response is invalid' do
@@ -73,7 +67,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
 
     visit "/export-opportunities/enquiries/#{opportunity.slug}"
 
-    fill_in_form
+    fill_in_form_as_individual
     fake_description = Faker::Lorem.characters(1102)
 
     fill_in :enquiry_company_explanation, with: fake_description
@@ -91,7 +85,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
 
     visit "/export-opportunities/enquiries/#{opportunity.slug}"
 
-    fill_in_form
+    fill_in_form_as_individual
     fake_description = Faker::Lorem.characters(1100)
     fill_in :enquiry_company_explanation, with: fake_description
 
@@ -156,36 +150,43 @@ RSpec.feature 'users can apply for opportunities', js: true do
     have_selector('h1', text: 'You are expressing an interest in')
   end
 
-  def fill_in_form
-    fill_in_your_details
-    fill_in_company_details
-    fill_in_exporting_experience
-  end
+  def fill_in_form_as_individual
+    fill_in 'Job title (optional)', with: Faker::Name.prefix
+    fill_in 'Phone Number (optional)', with: Faker::PhoneNumber.phone_number
 
-  def fill_in_your_details
-    fill_in 'First Name', with: Faker::Name.first_name
-    fill_in 'Last Name', with: Faker::Name.last_name
-    fill_in 'Phone Number', with: Faker::PhoneNumber.phone_number
-  end
-
-  def fill_in_company_details
     fill_in 'Business name', with: Faker::Company.name
-    find(:css, "#has-companies-house-number", visible: :false).trigger('click')
-    fill_in 'Company Address', with: Faker::Address.street_address
-    fill_in 'Post Code', with: Faker::Address.postcode
-    fill_in 'Company URL', with: Faker::Internet.url
+    fill_in 'Companies House number (optional)',
+      with: Faker::Number.between(10000000, 99999999)
+    fill_in 'Address', with: Faker::Address.street_address
+    fill_in 'Post code', with: Faker::Address.postcode
+
+    check "Add trading address (optional)"
+    fill_in 'Trading address', with: Faker::Address.postcode
+    fill_in 'Trading post code', with: Faker::Address.postcode
+    
+    fill_in 'Your business web address (optional)', with: Faker::Internet.url
+    select Sector.all.sample.name, from: "Which industry is your company in?"
+    select 'Not yet', from: 'Have you sold products or services to overseas?'
+    fill_in :enquiry_company_explanation, with: Faker::Company.bs
   end
 
-  def fill_in_exporting_experience
-    select 'Not yet', from: 'Have you sold products or services to overseas customers?'
-    select Sector.all.sample.name, from: 'Select your sector'
+  def fill_in_form_as_limited_company
+    fill_in 'Phone Number (optional)', with: Faker::PhoneNumber.phone_number
+
+    check "Add trading address (optional)"
+    fill_in 'Trading address', with: Faker::Address.postcode
+    fill_in 'Trading post code', with: Faker::Address.postcode
+
+    fill_in 'Your business web address (optional)', with: Faker::Internet.url
+    select Sector.all.sample.name, from: "Which industry is your company in?"
+    select 'Not yet', from: 'Have you sold products or services to overseas?'
     fill_in :enquiry_company_explanation, with: Faker::Company.bs
   end
 
   def apply_to_opportunity(opportunity)
     visit "/export-opportunities/enquiries/#{opportunity.slug}"
 
-    fill_in_form
+    fill_in_form_as_individual
     click_on 'Submit'
   end
 end
