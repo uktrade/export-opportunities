@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.5.5'
 
-gem 'rails', '5.2.2'
+gem 'rails', '5.2.3'
 gem 'bundler'
 gem 'puma', '3.12.0'
 gem 'pg', '1.1.4'
@@ -16,7 +16,7 @@ gem 'figaro'
 gem 'friendly_id'
 gem 'immutable-struct'
 
-gem 'nokogiri', '1.10.2'
+gem 'nokogiri', '1.10.4'
 
 # Authentication & authorisation
 gem 'devise', '4.6.0'
@@ -44,7 +44,8 @@ gem 'neat', '1.8.0'
 gem 'autoprefixer-rails'
 gem 'normalize-scss'
 gem 'sass-rails'
-gem 'export_components', '2.0.0', git: 'https://github.com/uktrade/export_components.git'
+# gem 'export_components', '2.1.0', git: 'https://github.com/uktrade/export_components.git'
+gem 'export_components', git: 'https://github.com/uktrade/export_components.git', ref: 'bbb54db89772787331bcc4ff7d4240b0f4403a8f'
 
 # Javascript
 gem 'jquery-rails'
@@ -55,7 +56,7 @@ gem 'stringex', require: false
 gem 'addressable'
 
 # ActiveRecord tools
-gem 'hairtrigger', '0.2.21'
+gem 'hairtrigger', '0.2.22'
 gem 'active_record_union'
 
 # Parsing JSON
@@ -119,9 +120,9 @@ group :test do
   gem 'shoulda-matchers', require: false
   gem 'rspec-sidekiq'
   gem 'timecop'
-
   gem 'webmock', '3.4.2'
   gem 'rspec-rails'
+  gem 'rspec-mocks'
   gem 'rspec-collection_matchers'
   gem 'rspec_junit_formatter'
   gem 'pundit-matchers'

@@ -40,6 +40,26 @@ class Enquiry < ApplicationRecord
     Enquiry.new(old_enquiry.attributes.except('company_explanation', 'id'))
   end
 
+  def self.initialize_from_lookup(data)
+    return Enquiry.new if data.blank?
+
+    Enquiry.new(
+      first_name: data['email_full_name'],
+      last_name: nil,
+      company_telephone: data['mobile_number'],
+      company_name: data['name'],
+      company_address:
+        [data['address_line_1'],
+         data['address_line_2'],
+         data['country']].reject(&:blank?).join(' '),
+      company_house_number: data['number'],
+      company_postcode: data['postal_code'],
+      company_url: data['website'],
+      company_sector: data['sectors'].try(:join, ' '),
+      company_explanation: data['summary']
+    )
+  end
+
   def company_url
     # Data may not include a scheme/protocol so we must be careful when creating
     # links that Rails doesn't make them incorrectly relative.

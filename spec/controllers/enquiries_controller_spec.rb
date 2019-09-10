@@ -17,6 +17,39 @@ RSpec.describe EnquiriesController, type: :controller do
       expect(assigns(:enquiry)).not_to be_nil
     end
 
+    it 'assigns enquiry from data from directory-api if available' do
+      directory_api_url = Figaro.env.DIRECTORY_API_DOMAIN + '/supplier/company/'
+      cookies[Figaro.env.SSO_SESSION_COOKIE] = '1'
+      stub_request(:get, directory_api_url).to_return(body: {
+        email_full_name: 'John Bull',
+        mobile_number: '555 12345',
+        name: 'John Bull Construction',
+        address_line_1: '123 Letsbe Avenue',
+        address_line_2: 'London',
+        country: 'UK',
+        number: '11111111',
+        postal_code: 'N1 4DR',
+        website: 'www.example.com',
+        has_exported_before: 'true',
+        sectors: ['Construction'],
+        summary: "Good company",
+      }.to_json, status: 200)
+
+      get :new, params: { slug: opportunity.slug }
+      enquiry = assigns(:enquiry)
+      expect(enquiry).not_to be_nil
+      expect(enquiry.first_name).to eq 'John Bull'
+      expect(enquiry.last_name).to eq nil
+      expect(enquiry.company_telephone).to eq '555 12345'
+      expect(enquiry.company_name).to eq 'John Bull Construction'
+      expect(enquiry.company_address).to eq '123 Letsbe Avenue London UK'
+      expect(enquiry.company_house_number).to eq '11111111'
+      expect(enquiry.company_postcode).to eq 'N1 4DR'
+      expect(enquiry.company_url).to eq 'http://www.example.com'
+      expect(enquiry.company_sector).to eq 'Construction'
+      expect(enquiry.company_explanation).to eq 'Good company'
+    end
+
     it 'raises a 404 if the opportunity was not found' do
       get :new, params: { slug: 'this-doesnt-exist' }
       expect(response.status).to eq 404
