@@ -34,14 +34,14 @@
           .field
             = f.label :last_name, "Last Name"
             = f.text_field :last_name, value: @enquiry.last_name, required: "required", readonly: true
-          - if @enquiry.individual?
-            .field
-              = f.label :job_title, "Job title (optional)"
-              = f.text_field :job_title, value: @enquiry.job_title, :class => "medium"
-          - else
+          - if !@enquiry.individual?
             .field
               = f.label :job_title, "Job title"
               = f.text_field :job_title, value: @enquiry.job_title, required: "required", readonly: true
+          - else
+        .field
+          = f.label :job_title, "Job title (optional)"
+          = f.text_field :job_title, value: @enquiry.job_title, :class => "medium"
         .field
           = f.label :company_telephone, "Phone Number (optional)"
           = f.text_field :company_telephone, value: @enquiry.company_telephone, :class => "medium"
@@ -79,9 +79,9 @@
 
         .field-group.highlight-box.margin-bottom-30.expandable-container
           .field.checkbox.margin-bottom-0
+            = check_box_tag :add_trading_address
             %label{ for: 'add_trading_address' }
               Add trading address (optional)
-              = check_box_tag :add_trading_address
           %div.expandable.margin-top-30{:id=>"expandable"}
             .field
               = f.label :trading_address, "Trading address"
