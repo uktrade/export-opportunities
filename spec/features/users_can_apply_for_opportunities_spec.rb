@@ -3,12 +3,13 @@ require 'rails_helper'
 require 'capybara/email/rspec'
 
 RSpec.feature 'users can apply for opportunities', js: true do
-  before :each do
+  before do
     mock_sso_with(email: 'email@example.com')
+    create(:opportunity, slug: 'great-opportunity', status: :publish)
+    create(:sector)
   end
 
-  # Good
-  scenario 'application is not possible when the opportunity has expired' do
+  scenario 'unless the opportunity has expired' do
     expired_opportunity = create(:opportunity, :expired, status: :publish, slug: 'expired-opp')
     visit '/export-opportunities/enquiries/expired-opp'
 
@@ -17,86 +18,53 @@ RSpec.feature 'users can apply for opportunities', js: true do
     expect(page).to have_content t('opportunity.expired')
   end
 
-  # ... What does this mean?
-  context 'when the user already has an account' do
-    before do
-      create(:opportunity, slug: 'great-opportunity', status: :publish)
-      create(:sector)
+  # Logged in... got it - should fill out. Different scenarios exist.
+  # - 
+  # - 
+  # - 
+  # - 
+  # - 
+  scenario 'when they are logged in' do
+    visit '/export-opportunities/enquiries/great-opportunity'
+
+    expect(page).not_to have_field 'Email Address'
+
+    fill_in_form
+    click_on 'Submit'
+
+    expect(page).to have_content 'Your expression of interest has been submitted and will be reviewed'
+    expect(page).to have_link 'View your expressions of interest to date'
+
+    visit '/export-opportunities/enquiries/great-opportunity'
+  end
+
+  scenario 'unless they are not logged in, which instead redirects them' do
+    # Do not redirect /auth/provider to /auth/provider/callback
+    OmniAuth.config.test_mode = false 
+
+    visit '/export-opportunities/enquiries/great-opportunity'
+
+    if Figaro.env.bypass_sso?
+      correct_auth_path = user_developer_omniauth_authorize_path
+    else
+      correct_auth_path = user_exporting_is_great_omniauth_authorize_path
     end
+    expect(page.current_path).to eq correct_auth_path
+    OmniAuth.config.test_mode = true
+  end
 
-    # Logged in... got it - should fill out. Different scenarios exist.
-    scenario 'and they are logged in' do
-      mock_sso_with(email: 'enquirer@exporter.com')
-
-      visit '/export-opportunities/enquiries/great-opportunity'
-
-      expect(page).not_to have_field 'Email Address'
-
-      fill_in_form
-      click_on 'Submit'
-
-      expect(page).to have_content 'Your expression of interest has been submitted and will be reviewed'
-      expect(page).to have_link 'View your expressions of interest to date'
-
-      visit '/export-opportunities/enquiries/great-opportunity'
+  scenario 'unless the SSO response is invalid' do
+    if Figaro.env.bypass_sso?
+      provider = :developer
+    else
+      provider = :exporting_is_great
     end
+    OmniAuth.config.mock_auth[provider] = :invalid_credentials
 
-    # Not logged in - should redirect
-    scenario 'if they are not logged in' do
-      visit '/export-opportunities/enquiries/great-opportunity'
+    visit '/export-opportunities/enquiries/great-opportunity'
 
-      # expect(page.current_path).to eq if Figaro.env.bypass_sso?
-      #   user_developer_omniauth_authorize_path
-      # else
-      #   user_exporting_is_great_omniauth_authorize_path
-      # end
-    end
-
-    # Might not be needed - checking w/ madeline
-    scenario 'when a user exists on our end' do
-      create(:user, email: 'apple@fruit.com', uid: '123456', provider: 'exporting_is_great')
-      mock_sso_with(email: 'apple@fruit.com', uid: '123456')
-
-      visit '/export-opportunities/enquiries/great-opportunity'
-
-      expect(page).to be_an_enquiry_form
-    end
-
-    # Might be needed - checking w/ madeline
-    scenario 'when a user does not exist on our end' do
-      mock_sso_with(email: 'apple@fruit.com', uid: '123456')
-
-      visit '/export-opportunities/enquiries/great-opportunity'
-
-      expect(page).to be_an_enquiry_form
-    end
-
-    # Redirect to log in?
-    scenario 'when the SSO response is invalid' do
-      if Figaro.env.bypass_sso?
-        provider = :developer
-      else
-        provider = :exporting_is_great
-      end
-      OmniAuth.config.mock_auth[provider] = :invalid_credentials
-
-      visit '/export-opportunities/enquiries/great-opportunity'
-
-      expect(page).to have_content 'We couldn’t sign you in'
-      expect(page).to have_content 'invalid_credentials'
-    end
-
-    # No longer needed
-    scenario 'when the user doesnt have a trade profile' do
-      mock_sso_with(email: 'enquirer@exporter.com')
-
-      visit '/export-opportunities/enquiries/great-opportunity'
-
-      fill_in_form
-      click_on 'Submit'
-
-      expect(page).to have_content 'We notice that you don\'t have a business profile.'
-    end
+    expect(page).to have_content 'We couldn’t sign you in'
+    expect(page).to have_content 'invalid_credentials'
   end
 
   scenario 'user can apply with more than 1100 characters in company description, first 1100 will be saved' do
