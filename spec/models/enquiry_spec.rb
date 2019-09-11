@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Enquiry, type: :model, focus: true do
+RSpec.describe Enquiry, type: :model do
   it { is_expected.to validate_presence_of(:first_name) }
   it { is_expected.to validate_presence_of(:company_name) }
   it { is_expected.to validate_presence_of(:company_address) }
