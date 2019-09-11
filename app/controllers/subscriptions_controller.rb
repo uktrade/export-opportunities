@@ -13,14 +13,16 @@ class SubscriptionsController < ApplicationController
   end
 
   def create
-    content = get_content('subscriptions.yml')
-    create_subscription(subscription_params, content)
+    @content = get_content('subscriptions.yml')
+    @title = @content['create']['title']
+    create_subscription(subscription_params, @content)
   end
 
   def update
     content = get_content('subscriptions.yml')
     @subscription = Subscription.find(params[:id])
     @subscription.unsubscribe_reason = reason_param
+    @title = content['update']['title']
 
     if @subscription.save
       render layout: 'notification', status: :accepted, locals: {
@@ -35,6 +37,7 @@ class SubscriptionsController < ApplicationController
     content = get_content('subscriptions.yml')
     @subscription = Subscription.find(params[:id])
     @subscription.unsubscribed_at = DateTime.current
+    @title = content['destroy']['title']
 
     if @subscription.save
       render layout: 'notification', status: :accepted, locals: {
