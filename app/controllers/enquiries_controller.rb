@@ -61,7 +61,5 @@ class EnquiriesController < ApplicationController
         .each { |h| Rails.logger.debug h.join(': ') }
     end
 
-    def private_company_data
-
-    end
+    def private_company_data; end
 end
