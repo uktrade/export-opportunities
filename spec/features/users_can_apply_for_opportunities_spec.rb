@@ -18,7 +18,8 @@ RSpec.feature 'users can apply for opportunities', js: true do
     expect(page).to have_content t('opportunity.expired')
   end
 
-  scenario 'when they are logged in as an individual', focus: true do
+  scenario 'when they are logged in as an individual - no response from sso' do
+    allow(DirectoryApiClient).to receive(:private_company_data){ nil }
     visit '/export-opportunities/enquiries/great-opportunity'
 
     expect(page).not_to have_field 'Email Address'
@@ -32,8 +33,74 @@ RSpec.feature 'users can apply for opportunities', js: true do
     visit '/export-opportunities/enquiries/great-opportunity'
   end
 
-  scenario 'when they are logged in as a limited company' do
-    # Make the User a Limited Company!
+  scenario 'when they are logged in as an individual - complete data' do
+    allow(DirectoryApiClient).to receive(:private_company_data){{
+      'email_full_name': 'Joe Bloggs',
+      'name': 'Joe Construction',
+      'mobile_number': '5551234',
+      'address_line_1': '123 Joe house',
+      'address_line_2': 'Joe Street',
+      'country': 'Uk',
+      'postal_code': 'N1 4DF',
+      'number': '12341234',
+      'website': 'www.example.com',
+      'summary': 'good company',
+      'company_type': '' 
+    }}
+    visit '/export-opportunities/enquiries/great-opportunity'
+
+    expect(page).not_to have_field 'Email Address'
+
+    fill_in_form_as_individual
+    click_on 'Submit'
+
+    expect(page).to have_content 'Your expression of interest has been submitted and will be reviewed'
+    expect(page).to have_link 'View your expressions of interest to date'
+
+    visit '/export-opportunities/enquiries/great-opportunity'
+  end
+
+  scenario 'when they are logged in as an individual - incomplete data' do
+    allow(DirectoryApiClient).to receive(:private_company_data){{
+      'email_full_name': '',
+      'name': '',
+      'mobile_number': '',
+      'address_line_1': '',
+      'address_line_2': '',
+      'country': '',
+      'postal_code': '',
+      'number': '',
+      'website': '',
+      'summary': '',
+      'company_type': '' 
+    }}
+    visit '/export-opportunities/enquiries/great-opportunity'
+
+    expect(page).not_to have_field 'Email Address'
+
+    fill_in_form_as_individual
+    click_on 'Submit'
+
+    expect(page).to have_content 'Your expression of interest has been submitted and will be reviewed'
+    expect(page).to have_link 'View your expressions of interest to date'
+
+    visit '/export-opportunities/enquiries/great-opportunity'
+  end
+
+  scenario 'when they are logged in as a limited company - complete data' do
+    allow(DirectoryApiClient).to receive(:private_company_data){{
+      'email_full_name': 'Joe Bloggs',
+      'name': 'Joe Construction',
+      'mobile_number': '5551234',
+      'address_line_1': '123 Joe house',
+      'address_line_2': 'Joe Street',
+      'country': 'Uk',
+      'postal_code': 'N1 4DF',
+      'number': '12341234',
+      'website': 'www.example.com',
+      'summary': 'good company',
+      'company_type': 'COMPANIES_HOUSE' 
+    }}
     visit '/export-opportunities/enquiries/great-opportunity'
 
     expect(page).not_to have_field 'Email Address'
@@ -47,6 +114,34 @@ RSpec.feature 'users can apply for opportunities', js: true do
     visit '/export-opportunities/enquiries/great-opportunity'
   end
 
+  scenario 'when they are logged in as a limited company - incomplete data' do
+    allow(DirectoryApiClient).to receive(:private_company_data){{
+      'email_full_name': '',
+      'name': '',
+      'mobile_number': '',
+      'address_line_1': '',
+      'address_line_2': '',
+      'country': '',
+      'postal_code': '',
+      'number': '',
+      'website': '',
+      'summary': '',
+      'company_type': 'COMPANIES_HOUSE'
+    }}
+    visit '/export-opportunities/enquiries/great-opportunity'
+
+    expect(page).not_to have_field 'Email Address'
+
+    fill_in_form_as_limited_company
+    click_on 'Submit'
+
+    expect(page).to have_content 'Your expression of interest has been submitted and will be reviewed'
+    expect(page).to have_link 'View your expressions of interest to date'
+
+    visit '/export-opportunities/enquiries/great-opportunity'
+  end
+
+
   scenario 'unless the SSO response is invalid' do
     if Figaro.env.bypass_sso?
       provider = :developer
@@ -59,39 +154,6 @@ RSpec.feature 'users can apply for opportunities', js: true do
 
     expect(page).to have_content 'We couldn’t sign you in'
     expect(page).to have_content 'invalid_credentials'
-  end
-
-  scenario 'user can apply with more than 1100 characters in company description, first 1100 will be saved' do
-    opportunity = create(:opportunity, status: 'publish')
-    create(:sector)
-
-    visit "/export-opportunities/enquiries/#{opportunity.slug}"
-
-    fill_in_form_as_individual
-    fake_description = Faker::Lorem.characters(1102)
-
-    fill_in :enquiry_company_explanation, with: fake_description
-
-    click_on 'Submit'
-
-    # form will crop our last 2 chars+terminating character and save company explanation
-    expect(Enquiry.first.company_explanation).to eq(fake_description[0..-3])
-    expect(page).to have_content('Thank you')
-  end
-
-  scenario 'user can apply with exactly 1100 characters in company description', js: true do
-    opportunity = create(:opportunity, status: 'publish')
-    create(:sector)
-
-    visit "/export-opportunities/enquiries/#{opportunity.slug}"
-
-    fill_in_form_as_individual
-    fake_description = Faker::Lorem.characters(1100)
-    fill_in :enquiry_company_explanation, with: fake_description
-
-    click_on 'Submit'
-
-    expect(page).to have_content('Thank you')
   end
 
   scenario 'user enquiries are emailed to DIT' do
@@ -160,26 +222,27 @@ RSpec.feature 'users can apply for opportunities', js: true do
     fill_in 'Address', with: Faker::Address.street_address
     fill_in 'Post code', with: Faker::Address.postcode
 
-    check "Add trading address (optional)"
+    find("#add_trading_address", visible: false).trigger('click')
     fill_in 'Trading address', with: Faker::Address.postcode
     fill_in 'Trading post code', with: Faker::Address.postcode
     
     fill_in 'Your business web address (optional)', with: Faker::Internet.url
     select Sector.all.sample.name, from: "Which industry is your company in?"
-    select 'Not yet', from: 'Have you sold products or services to overseas?'
+    select 'Not yet', from: 'enquiry_existing_exporter'
     fill_in :enquiry_company_explanation, with: Faker::Company.bs
   end
 
   def fill_in_form_as_limited_company
     fill_in 'Phone Number (optional)', with: Faker::PhoneNumber.phone_number
+    fill_in 'Post code', with: Faker::Address.postcode
 
-    check "Add trading address (optional)"
+    find("#add_trading_address", visible: false).trigger('click')
     fill_in 'Trading address', with: Faker::Address.postcode
     fill_in 'Trading post code', with: Faker::Address.postcode
 
     fill_in 'Your business web address (optional)', with: Faker::Internet.url
     select Sector.all.sample.name, from: "Which industry is your company in?"
-    select 'Not yet', from: 'Have you sold products or services to overseas?'
+    select 'Not yet', from: 'enquiry_existing_exporter'
     fill_in :enquiry_company_explanation, with: Faker::Company.bs
   end
 

@@ -17,7 +17,7 @@ class Enquiry < ApplicationRecord
     'Yes, over 2 years ago',
   ].freeze
 
-  validates :first_name, :last_name, :company_telephone, \
+  validates :first_name, \
     :company_name, :company_address, :company_postcode, \
     :existing_exporter, :company_sector, :company_explanation, \
     presence: true
@@ -34,35 +34,50 @@ class Enquiry < ApplicationRecord
 
   scope :sent, -> { where.not(completed_at: nil) }
 
-  def self.initialize_from_existing(old_enquiry)
-    return Enquiry.new unless old_enquiry
-
-    Enquiry.new(old_enquiry.attributes.except('company_explanation', 'id'))
+  def self.new_from_sso(sso_id)
+    enquiry = Enquiry.new
+    unless Figaro.env.bypass_sso?
+      # company_type can be: COMPANIES_HOUSE, CHARITY,
+      # PARTNERSHIP, SOLE_TRADER and OTHER.
+      if (data = DirectoryApiClient.private_company_data(sso_id))
+        enquiry.assign_attributes({
+          first_name: data[:email_full_name],
+          company_name: data[:name],
+          company_telephone: data[:mobile_number],
+          company_address: [data[:address_line_1],
+             data[:address_line_2],
+             data[:country]].reject(&:blank?).join(' '),
+          company_postcode: data[:postal_code],
+          company_house_number: data[:number],
+          company_url: data[:website],
+          company_explanation: data[:summary],
+          account_type: data[:company_type] 
+        })
+      end
+    end
+    enquiry.set_enquiry_form_defaults
+    enquiry
   end
 
-  def self.initialize_from_lookup(data)
-    return Enquiry.new if data.blank?
-
-    Enquiry.new(
-      first_name: data['email_full_name'],
-      last_name: nil,
-      company_telephone: data['mobile_number'],
-      company_name: data['name'],
-      company_address:
-        [data['address_line_1'],
-         data['address_line_2'],
-         data['country']].reject(&:blank?).join(' '),
-      company_house_number: data['number'],
-      company_postcode: data['postal_code'],
-      company_url: data['website'],
-      company_sector: data['sectors'].try(:join, ' '),
-      company_explanation: data['summary'],
-      account_type: data['company_type'] # Can be: COMPANIES_HOUSE, CHARITY, PARTNERSHIP, SOLE_TRADER and OTHER.
-    )
+  def set_enquiry_form_defaults
+    # Add default values to prevent errors from empty string
+    # data being put into required read-only fields
+    self.first_name = first_name.present? ? \
+      first_name : "No name in Business Profile"
+    unless individual?
+      self.company_name = company_name.present? ? \
+        company_name : "No company name in Business Profile"
+      self.company_address = company_address.present? ? \
+        company_address : "No company address in Business Profile"
+      self.company_postcode = company_postcode.present? ? \
+        company_postcode : "No company post code in Business Profile"
+      self.company_house_number = company_house_number.present? ? \
+        company_house_number : "No company number in Business Profile"
+    end
   end
 
   def individual?
-    ['SOLE_TRADER', 'OTHER', nil].include? account_type
+    ['SOLE_TRADER', 'OTHER', nil, ''].include? account_type
   end
 
   def company_url
@@ -103,4 +118,5 @@ class Enquiry < ApplicationRecord
       end
     end
   end
+
 end

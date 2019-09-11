@@ -38,10 +38,10 @@
             .field
               = f.label :job_title, "Job title"
               = f.text_field :job_title, value: @enquiry.job_title, required: "required", readonly: true
-          - else
-        .field
-          = f.label :job_title, "Job title (optional)"
-          = f.text_field :job_title, value: @enquiry.job_title, :class => "medium"
+        - if @enquiry.individual?
+          .field
+            = f.label :job_title, "Job title (optional)"
+            = f.text_field :job_title, value: @enquiry.job_title, :class => "medium"
         .field
           = f.label :company_telephone, "Phone Number (optional)"
           = f.text_field :company_telephone, value: @enquiry.company_telephone, :class => "medium"
@@ -72,6 +72,9 @@
             .field
               = f.label :company_address, "Address", class: "required"
               = f.text_field :company_address, value: @enquiry.company_address, required: "required", readonly: true
+            .field
+              = f.label :company_postcode, "Post code", class: "required"
+              = f.text_field :company_postcode, value: @enquiry.company_postcode, required: "required", readonly: true
             .field
               %p
                 = 'We will attach your published business profile.'
