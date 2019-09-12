@@ -1,10 +1,10 @@
 # SubscriptionsController
-# actions: 
+# actions:
 #   create
 #   destroy
 # ------------------------------------
 
-create: 
+create:
   breadcrumb_current: "Email alert added"
   title: "Email alert added"
   confirmation: "Your daily email alert has been added"
@@ -25,7 +25,7 @@ update:
 
 destroy:
   breadcrumb_current: "Email alerts"
-  title: "Email alerts"
+  title: "‘Email alerts unsubscribe"
   confirmation: "You have been unsubscribed from this alert"
   submit: "submit"
   home_link: "Search for opportunities"
