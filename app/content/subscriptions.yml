@@ -25,7 +25,7 @@ update:
 
 destroy:
   breadcrumb_current: "Email alerts"
-  title: "‘Email alerts unsubscribe"
+  title: "Email alerts unsubscribe"
   confirmation: "You have been unsubscribed from this alert"
   submit: "submit"
   home_link: "Search for opportunities"
