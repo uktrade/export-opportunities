@@ -20,6 +20,22 @@ module ApplicationHelper
     response
   end
 
+  def trade_profile(companies_house_number)
+    return nil unless companies_house_number
+
+    trade_profile_url = Figaro.env.TRADE_PROFILE_PAGE + companies_house_number + '/'
+    begin
+      response = Net::HTTP.get_response(URI.parse(trade_profile_url.to_s))
+    rescue StandardError
+      response = nil
+    end
+    if response.nil? || response.code == '404'
+      return nil
+    else
+      return trade_profile_url
+    end
+  end
+
   def opportunity_expired?(response_due_on)
     response_due_on < Time.zone.now - 7.days
   end
