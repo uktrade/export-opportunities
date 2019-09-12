@@ -10,18 +10,3 @@
       %p.message
         Your expression of interest has been submitted and will be reviewed. You will be notified of any potential next steps in 5 working days.
         = link_to 'View your expressions of interest to date', dashboard_path, class: 'button'
-
-    - if @trade_profile_url
-      %p
-        = 'We have identified that you have a business profile.'
-        %br
-        = 'Your'
-        = link_to 'Business Profile', @trade_profile_url, target: :blank
-        = 'will be added to your application.'
-    - else
-      %p
-        We notice that you don't have a business profile.
-        %br
-        = link_to "Create a business profile", page.create_trade_profile_url(@enquiry.company_house_number), target: :blank
-        for free to promote what you sell and provide an easy way for overseas buyers to find you.
-

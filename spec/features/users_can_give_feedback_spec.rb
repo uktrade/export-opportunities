@@ -35,7 +35,7 @@ RSpec.feature 'User can give feedback to the impact email' do
       EnquiryFeedbackSender.new.call(enquiry)
 
       open_email('test@example.com')
-      current_email.click_on option
+      current_email.click_link option
 
       expect(page).to have_content content['response_title']
       expect(page).to have_content content['response_instruction']

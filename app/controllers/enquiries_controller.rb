@@ -8,7 +8,6 @@ class EnquiriesController < ApplicationController
   def new
     @opportunity = Opportunity.published.find_by!(slug: params[:slug])
     @enquiry = Enquiry.new_from_sso(cookies[Figaro.env.SSO_SESSION_COOKIE])
-    @trade_profile_url = trade_profile(@enquiry.company_house_number)
     if @opportunity.expired?
       redirect_to opportunity_path(@opportunity)
     else
@@ -19,9 +18,7 @@ class EnquiriesController < ApplicationController
   def create
     @opportunity = Opportunity.find_by!(slug: params[:slug])
     @enquiry = current_user.enquiries.new(enquiry_params)
-    @trade_profile_url = trade_profile(@enquiry.company_house_number)
     @enquiry.opportunity = @opportunity
-
     if @enquiry.save && !@enquiry.opportunity.nil?
       EnquiryMailer.send_enquiry(@enquiry).deliver_later!
       render layout: 'notification'
