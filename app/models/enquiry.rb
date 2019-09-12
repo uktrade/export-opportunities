@@ -33,7 +33,7 @@ class Enquiry < ApplicationRecord
   paginates_per 25
 
   scope :sent, -> { where.not(completed_at: nil) }
-
+  
   def self.new_from_sso(sso_id)
     enquiry = Enquiry.new
     unless Figaro.env.bypass_sso?
@@ -41,17 +41,17 @@ class Enquiry < ApplicationRecord
       # PARTNERSHIP, SOLE_TRADER and OTHER.
       if (data = DirectoryApiClient.private_company_data(sso_id))
         enquiry.assign_attributes(
-          first_name: data[:email_full_name],
-          company_name: data[:name],
-          company_telephone: data[:mobile_number],
-          company_address: [data[:address_line_1],
-                            data[:address_line_2],
-                            data[:country]].reject(&:blank?).join(' '),
-          company_postcode: data[:postal_code],
-          company_house_number: data[:number],
-          company_url: data[:website],
-          company_explanation: data[:summary],
-          account_type: data[:company_type]
+          first_name: self.value_by_key(data, :email_full_name),
+          company_name: self.value_by_key(data, :name),
+          company_telephone: self.value_by_key(data, :mobile_number),
+          company_address: [self.value_by_key(data, :address_line_1),
+                            self.value_by_key(data, :address_line_2),
+                            self.value_by_key(data, :country)].reject(&:blank?).join(' '),
+          company_postcode: self.value_by_key(data, :postal_code),
+          company_house_number: self.value_by_key(data, :number),
+          company_url: self.value_by_key(data, :website),
+          company_explanation: self.value_by_key(data, :summary),
+          account_type: self.value_by_key(data, :company_type)
         )
       end
     end
@@ -112,5 +112,13 @@ class Enquiry < ApplicationRecord
         days_left.to_s + ' ' + days_word + ' overdue'
       end
     end
+
   end
+
+  private
+
+    def self.value_by_key(hash, key)
+      hash[key.to_s] || hash[key.to_sym]
+    end
+
 end

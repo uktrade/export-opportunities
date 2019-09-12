@@ -21,7 +21,7 @@ class OpportunityQuery
 
     def fetch_opportunities
       query = if @search_term && @sort.column == 'service_provider_name'
-                @scope.joins(:service_provider)
+                @scope.select('opportunities.*', 'service_providers.name').joins(:service_provider)
               else
                 @scope.distinct
               end

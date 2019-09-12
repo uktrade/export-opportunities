@@ -47,7 +47,6 @@ RSpec.describe EnquiriesController, type: :controller do
       expect(enquiry.company_house_number).to eq '11111111'
       expect(enquiry.company_postcode).to eq 'N1 4DR'
       expect(enquiry.company_url).to eq 'http://www.example.com'
-      expect(enquiry.company_sector).to eq 'Construction'
       expect(enquiry.company_explanation).to eq 'Good company'
       expect(enquiry.account_type).to eq 'COMPANIES_HOUSE'
     end
