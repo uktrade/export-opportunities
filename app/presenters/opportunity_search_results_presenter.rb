@@ -111,7 +111,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
     html += content_tag(:ul, 'aria-labelledby': id) do
       list_items = ''
       selected_filter_option_names(@data[:filter]).each do |filter|
-        list_items += content_tag('span', filter, 'class': 'param')
+        list_items += content_tag('li', filter, 'class': 'param')
       end
       list_items.html_safe
     end
