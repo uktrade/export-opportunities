@@ -32,6 +32,9 @@
       %dt= content['enquiry_last_name']
       %dd= @enquiry.last_name
 
+      %dt= content['enquiry_job_title']
+      %dd= @enquiry.job_title
+
       %dt= content['enquiry_email']
       %dd= @enquiry.email
 
@@ -56,6 +59,12 @@
 
       %dt= content['enquiry_website']
       %dd= @enquiry.company_url
+
+      %dt= content['enquiry_trading_address']
+      %dd= @enquiry.trading_address
+
+      %dt= content['enquiry_trading_address_postcode']
+      %dd= @enquiry.trading_address_postcode
 
       %dt= content['enquiry_exporter']
       %dd= @enquiry.existing_exporter
