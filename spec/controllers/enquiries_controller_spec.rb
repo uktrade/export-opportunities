@@ -21,7 +21,7 @@ RSpec.describe EnquiriesController, type: :controller do
       directory_api_url = Figaro.env.DIRECTORY_API_DOMAIN + '/supplier/company/'
       cookies[Figaro.env.SSO_SESSION_COOKIE] = '1'
       stub_request(:get, directory_api_url).to_return(body: {
-        email_full_name: 'John Bull',
+        email_full_name: 'Mr Bull',
         mobile_number: '555 12345',
         name: 'John Bull Construction',
         address_line_1: '123 Letsbe Avenue',
@@ -36,11 +36,25 @@ RSpec.describe EnquiriesController, type: :controller do
         company_type: 'COMPANIES_HOUSE'
       }.to_json, status: 200)
 
+      directory_sso_api_url = Figaro.env.DIRECTORY_SSO_API_DOMAIN + '/api/v1/session-user/?session_key=1'
+      stub_request(:get, directory_sso_api_url).to_return(body: {
+        id: 1,
+        email: "john@example.com",
+        hashed_uuid: "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e",
+        user_profile: { 
+          first_name: "John",  
+          last_name: "Bull",  
+          job_title: "Owner",  
+          mobile_phone_number: "123123123"
+        }
+      }
+      .to_json, status: 200)
+
       get :new, params: { slug: opportunity.slug }
       enquiry = assigns(:enquiry)
       expect(enquiry).not_to be_nil
-      expect(enquiry.first_name).to eq 'John Bull'
-      expect(enquiry.last_name).to eq nil
+      expect(enquiry.first_name).to eq "John"
+      expect(enquiry.last_name).to eq "Bull"
       expect(enquiry.company_telephone).to eq '555 12345'
       expect(enquiry.company_name).to eq 'John Bull Construction'
       expect(enquiry.company_address).to eq '123 Letsbe Avenue London UK'

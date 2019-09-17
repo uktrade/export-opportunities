@@ -33,15 +33,21 @@ class Enquiry < ApplicationRecord
   paginates_per 25
 
   scope :sent, -> { where.not(completed_at: nil) }
-  
+
   def self.new_from_sso(sso_id)
     enquiry = Enquiry.new
     unless Figaro.env.bypass_sso?
-      # company_type can be: COMPANIES_HOUSE, CHARITY,
-      # PARTNERSHIP, SOLE_TRADER and OTHER.
-      if (data = DirectoryApiClient.private_company_data(sso_id))
+      if (sso_data = DirectorySsoApiClient.user_data(sso_id))
+        profile = self.value_by_key(sso_data, :user_profile)
         enquiry.assign_attributes(
-          first_name: self.value_by_key(data, :email_full_name),
+          first_name: self.value_by_key(profile, :first_name),
+          last_name: self.value_by_key(profile, :last_name)
+        )
+      end
+      if (data = DirectoryApiClient.private_company_data(sso_id))
+        # company_type can be: COMPANIES_HOUSE, CHARITY,
+        # PARTNERSHIP, SOLE_TRADER and OTHER.
+        enquiry.assign_attributes(
           company_name: self.value_by_key(data, :name),
           company_telephone: self.value_by_key(data, :mobile_number),
           company_address: [self.value_by_key(data, :address_line_1),
@@ -112,7 +118,6 @@ class Enquiry < ApplicationRecord
         days_left.to_s + ' ' + days_word + ' overdue'
       end
     end
-
   end
 
   private

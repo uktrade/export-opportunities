@@ -52,6 +52,7 @@ RSpec.describe Enquiry, type: :model do
     end
 
     it 'creates a valid enquiry with no sso cookie' do
+      allow(DirectorySsoApiClient).to receive(:user_data){ nil }
       allow(DirectoryApiClient).to receive(:private_company_data){ nil }
 
       enquiry = Enquiry.new_from_sso(nil)
@@ -72,6 +73,7 @@ RSpec.describe Enquiry, type: :model do
     end
 
     it 'creates a valid enquiry when not receiving data from SSO' do
+      allow(DirectorySsoApiClient).to receive(:user_data){ nil }
       allow(DirectoryApiClient).to receive(:private_company_data){ nil }
 
       enquiry = Enquiry.new_from_sso('')
@@ -92,8 +94,18 @@ RSpec.describe Enquiry, type: :model do
     end
 
     it 'creates a valid enquiry for individual' do
+      allow(DirectorySsoApiClient).to receive(:user_data){{
+        id: 1,
+        email: "john@example.com",
+        hashed_uuid: "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e",
+        user_profile: { 
+          first_name: "John",  
+          last_name: "Bull",  
+          job_title: "Owner",  
+          mobile_phone_number: "123123123"
+        }
+      }}
       allow(DirectoryApiClient).to receive(:private_company_data){{
-        'email_full_name': 'Joe Bloggs',
         'name': 'Joe Construction',
         'mobile_number': '5551234',
         'address_line_1': '123 Joe house',
@@ -122,8 +134,18 @@ RSpec.describe Enquiry, type: :model do
     end
 
     it 'creates a valid enquiry for individual with limited data' do
+      allow(DirectorySsoApiClient).to receive(:user_data){{
+        id: nil,
+        email: "",
+        hashed_uuid: "",
+        user_profile: { 
+          first_name: "",  
+          last_name: "",  
+          job_title: "",  
+          mobile_phone_number: ""
+        }
+      }}
       allow(DirectoryApiClient).to receive(:private_company_data){{
-        'email_full_name': '',
         'name': '',
         'mobile_number': '',
         'address_line_1': '',
@@ -154,8 +176,18 @@ RSpec.describe Enquiry, type: :model do
     end
 
     it 'creates a valid enquiry for a company' do
+      allow(DirectorySsoApiClient).to receive(:user_data){{
+        id: 1,
+        email: "john@example.com",
+        hashed_uuid: "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e",
+        user_profile: { 
+          first_name: "John",  
+          last_name: "Bull",  
+          job_title: "Owner",  
+          mobile_phone_number: "123123123"
+        }
+      }}
       allow(DirectoryApiClient).to receive(:private_company_data){{
-        'email_full_name': 'Joe Bloggs',
         'name': 'Joe Construction',
         'mobile_number': '5551234',
         'address_line_1': '123 Joe house',
@@ -179,6 +211,17 @@ RSpec.describe Enquiry, type: :model do
     end
 
     it 'creates a valid enquiry for a company with limited data' do
+      allow(DirectorySsoApiClient).to receive(:user_data){{
+        id: nil,
+        email: "",
+        hashed_uuid: "",
+        user_profile: { 
+          first_name: "",  
+          last_name: "",  
+          job_title: "",  
+          mobile_phone_number: ""
+        }
+      }}
       allow(DirectoryApiClient).to receive(:private_company_data){{
         'email_full_name': '',
         'name': '',

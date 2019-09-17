@@ -97,3 +97,8 @@ DIRECTORY_API_DOMAIN: 'http://api.trade.great:8000'
 DIRECTORY_API_VERSION: '14.0.0'
 DIRECTORY_API_SENDER_ID: 'directory'
 DIRECTORY_API_SECRET: 'debug'
+
+# Directory SSO API
+DIRECTORY_SSO_API_DOMAIN: 'http://sso.trade.great:8003'
+DIRECTORY_SSO_API_SENDER_ID: 'directory'
+DIRECTORY_SSO_API_SECRET: 'api_signature_debug'

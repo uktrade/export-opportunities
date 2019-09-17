@@ -20,6 +20,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
 
   scenario 'when they are logged in as an individual - no response from sso' do
     allow(DirectoryApiClient).to receive(:private_company_data){ nil }
+    allow(DirectorySsoApiClient).to receive(:user_data){ nil }
     visit '/export-opportunities/enquiries/great-opportunity'
 
     expect(page).not_to have_field 'Email Address'
@@ -34,8 +35,18 @@ RSpec.feature 'users can apply for opportunities', js: true do
   end
 
   scenario 'when they are logged in as an individual - complete data' do
+    allow(DirectorySsoApiClient).to receive(:user_data){{
+      id: 1,
+      email: "john@example.com",
+      hashed_uuid: "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e",
+      user_profile: { 
+        first_name: "John",  
+        last_name: "Bull",  
+        job_title: "Owner",  
+        mobile_phone_number: "123123123"
+      }
+    }}
     allow(DirectoryApiClient).to receive(:private_company_data){{
-      'email_full_name': 'Joe Bloggs',
       'name': 'Joe Construction',
       'mobile_number': '5551234',
       'address_line_1': '123 Joe house',
@@ -61,8 +72,18 @@ RSpec.feature 'users can apply for opportunities', js: true do
   end
 
   scenario 'when they are logged in as an individual - incomplete data' do
+    allow(DirectorySsoApiClient).to receive(:user_data){{
+      id: nil,
+      email: "",
+      hashed_uuid: "",
+      user_profile: { 
+        first_name: "",  
+        last_name: "",  
+        job_title: "",  
+        mobile_phone_number: ""
+      }
+    }}
     allow(DirectoryApiClient).to receive(:private_company_data){{
-      'email_full_name': '',
       'name': '',
       'mobile_number': '',
       'address_line_1': '',
@@ -88,8 +109,18 @@ RSpec.feature 'users can apply for opportunities', js: true do
   end
 
   scenario 'when they are logged in as a limited company - complete data' do
+    allow(DirectorySsoApiClient).to receive(:user_data){{
+      id: 1,
+      email: "john@example.com",
+      hashed_uuid: "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e",
+      user_profile: { 
+        first_name: "John",  
+        last_name: "Bull",  
+        job_title: "Owner",  
+        mobile_phone_number: "123123123"
+      }
+    }}
     allow(DirectoryApiClient).to receive(:private_company_data){{
-      'email_full_name': 'Joe Bloggs',
       'name': 'Joe Construction',
       'mobile_number': '5551234',
       'address_line_1': '123 Joe house',
@@ -115,8 +146,18 @@ RSpec.feature 'users can apply for opportunities', js: true do
   end
 
   scenario 'when they are logged in as a limited company - incomplete data' do
+    allow(DirectorySsoApiClient).to receive(:user_data){{
+      id: nil,
+      email: "",
+      hashed_uuid: "",
+      user_profile: { 
+        first_name: "",  
+        last_name: "",  
+        job_title: "",  
+        mobile_phone_number: ""
+      }
+    }}
     allow(DirectoryApiClient).to receive(:private_company_data){{
-      'email_full_name': '',
       'name': '',
       'mobile_number': '',
       'address_line_1': '',
