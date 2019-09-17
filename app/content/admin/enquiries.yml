@@ -9,6 +9,7 @@ enquiry_company_name: Company name
 enquiry_opportunity: Opportunity
 enquiry_first_name: First name
 enquiry_last_name: Last name
+enquiry_job_title: Job title
 enquiry_email: Email address
 enquiry_profile: Applicant business profile
 enquiry_address: Company address
@@ -17,6 +18,8 @@ enquiry_postcode: Company postcode
 enquiry_website: URL
 enquiry_ch_listing: Companies House listing
 enquiry_ch_listing_unknown: Not supplied
+enquiry_trading_address: Trading address
+enquiry_trading_address_postcode: Trading postcode
 enquiry_exporter: Existing exporter?
 enquiry_sector: Company sector
 enquiry_explanation: Company explanation
