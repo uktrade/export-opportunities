@@ -6,13 +6,6 @@
   .container
     = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
 
-    -# if @account_created
-    -#  %div.message-box-with-icon.border-thick.border-teal.width-full.background-white
-    -#    %div.message-box-icon.font-large.white-text.background-teal ✔
-    -#    %div.message-box-content.padding-15.padding-30-m
-    -#      %h3.box-heading.heading-m.teal-text.margin-bottom-15 Account created
-    -#      %p.box-description You can now express interest in export opportunities
-
     %h1.padding-top-30.margin-bottom-15
       %span.progress You are expressing an interest in
       = opp.title_with_country

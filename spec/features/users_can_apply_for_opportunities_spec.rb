@@ -288,6 +288,29 @@ RSpec.feature 'users can apply for opportunities', js: true do
   end
 
   def apply_to_opportunity(opportunity)
+    allow(DirectorySsoApiClient).to receive(:user_data){{
+      id: 1,
+      email: "john@example.com",
+      hashed_uuid: "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e",
+      user_profile: { 
+        first_name: "John",  
+        last_name: "Bull",  
+        job_title: "Owner",  
+        mobile_phone_number: "123123123"
+      }
+    }}
+    allow(DirectoryApiClient).to receive(:private_company_data){{
+      'name': 'Joe Construction',
+      'mobile_number': '5551234',
+      'address_line_1': '123 Joe house',
+      'address_line_2': 'Joe Street',
+      'country': 'Uk',
+      'postal_code': 'N1 4DF',
+      'number': '12341234',
+      'website': 'www.example.com',
+      'summary': 'good company',
+      'company_type': '' 
+    }}
     visit "/export-opportunities/enquiries/#{opportunity.slug}"
 
     fill_in_form_as_individual
