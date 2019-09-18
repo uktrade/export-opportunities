@@ -81,7 +81,9 @@ class Enquiry < ApplicationRecord
       self.company_name = company_name.presence || 'No company name in Business Profile'
       self.company_address = company_address.presence || 'No company address in Business Profile'
       self.company_postcode = company_postcode.presence || 'No company post code in Business Profile'
-      self.company_house_number = company_house_number.presence || 'No company number in Business Profile'
+      unless account_type == 'SOLE_TRADER'
+        self.company_house_number = company_house_number.presence || 'No company number in Business Profile'
+      end
     end
   end
 

@@ -210,6 +210,40 @@ RSpec.describe Enquiry, type: :model do
       expect(enquiry).to be_valid
     end
 
+    it 'creates a valid enquiry for a sole trader' do
+      allow(DirectoryApiClient).to receive(:user_data){{
+        id: 1,
+        email: "john@example.com",
+        hashed_uuid: "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e",
+        user_profile: { 
+          first_name: "John",  
+          last_name: "Bull",  
+          job_title: "Owner",  
+          mobile_phone_number: "123123123"
+        }
+      }}
+      allow(DirectoryApiClient).to receive(:private_company_data){{
+        'name': 'Joe Construction',
+        'mobile_number': '5551234',
+        'address_line_1': '123 Joe house',
+        'address_line_2': 'Joe Street',
+        'country': 'Uk',
+        'postal_code': 'N1 4DF',
+        'website': 'www.example.com',
+        'summary': 'good company',
+        'company_type': 'SOLE_TRADER' 
+      }}
+
+      enquiry = Enquiry.new_from_sso('')
+      enquiry.assign_attributes(
+        opportunity: @opportunity,
+        user: @user,
+        existing_exporter: 'Not yet',
+        company_sector: @sector.slug
+      )
+      expect(enquiry).to be_valid
+    end
+
     it 'creates a valid enquiry for a company with limited data' do
       allow(DirectoryApiClient).to receive(:user_data){{
         id: nil,
