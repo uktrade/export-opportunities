@@ -2,14 +2,8 @@
 @import 'transformation/effects/expander';
 @import 'transformation/components/selective_lookup';
 @import 'transformation/components/confirmation_notice';
+@import 'transformation/components/messages';
 
-
-
-.business {
-  .checkbox {
-    margin-bottom: $spacing-2;
-  }
-}
 
 .RestrictedInputCount {
   position: relative;

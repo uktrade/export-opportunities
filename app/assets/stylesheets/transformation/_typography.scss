@@ -22,7 +22,7 @@ $font-size-xs:  13px;
 }
 
 @mixin heading-l {
-  font-family: $brand-font-standard;
+  font-family: $brand-font-alternative;
   font-size:   $font-size-xxl;
   font-weight: bold;
   line-height: 1.15em;
@@ -30,7 +30,7 @@ $font-size-xs:  13px;
 }
 
 @mixin heading-m {
-  font-family: $brand-font-standard;
+  font-family: $brand-font-alternative;
   font-size:   $font-size-xl;
   font-weight: bold;
   line-height: 1.2em;

@@ -7,9 +7,7 @@ class EnquiriesController < ApplicationController
 
   def new
     @opportunity = Opportunity.published.find_by!(slug: params[:slug])
-    @enquiry = initialize_enquiry_from_user_data_or_new
-
-    @trade_profile_url = trade_profile(@enquiry.company_house_number)
+    @enquiry = Enquiry.new_from_sso(cookies[Figaro.env.SSO_SESSION_COOKIE])
     if @opportunity.expired?
       redirect_to opportunity_path(@opportunity)
     else
@@ -20,9 +18,7 @@ class EnquiriesController < ApplicationController
   def create
     @opportunity = Opportunity.find_by!(slug: params[:slug])
     @enquiry = current_user.enquiries.new(enquiry_params)
-    @trade_profile_url = trade_profile(@enquiry.company_house_number)
     @enquiry.opportunity = @opportunity
-
     if @enquiry.save && !@enquiry.opportunity.nil?
       EnquiryMailer.send_enquiry(@enquiry).deliver_later!
       render layout: 'notification'
@@ -61,19 +57,5 @@ class EnquiriesController < ApplicationController
         .each { |h| Rails.logger.debug h.join(': ') }
     end
 
-    def initialize_enquiry_from_user_data_or_new
-      if current_user && (data = private_company_data)
-        Enquiry.initialize_from_lookup(data)
-      elsif current_user
-        Enquiry.initialize_from_existing(current_user.enquiries.last)
-      else
-        Enquiry.new
-      end
-    end
-
-    def private_company_data
-      unless Figaro.env.bypass_sso?
-        DirectoryApiClient.private_company_data(cookies[Figaro.env.SSO_SESSION_COOKIE])
-      end
-    end
+    def private_company_data; end
 end
