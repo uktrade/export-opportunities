@@ -20,7 +20,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
 
   scenario 'when they are logged in as an individual - no response from sso' do
     allow(DirectoryApiClient).to receive(:private_company_data){ nil }
-    allow(DirectorySsoApiClient).to receive(:user_data){ nil }
+    allow(DirectoryApiClient).to receive(:user_data){ nil }
     visit '/export-opportunities/enquiries/great-opportunity'
 
     expect(page).not_to have_field 'Email Address'
@@ -35,7 +35,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
   end
 
   scenario 'when they are logged in as an individual - complete data' do
-    allow(DirectorySsoApiClient).to receive(:user_data){{
+    allow(DirectoryApiClient).to receive(:user_data){{
       id: 1,
       email: "john@example.com",
       hashed_uuid: "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e",
@@ -72,7 +72,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
   end
 
   scenario 'when they are logged in as an individual - incomplete data' do
-    allow(DirectorySsoApiClient).to receive(:user_data){{
+    allow(DirectoryApiClient).to receive(:user_data){{
       id: nil,
       email: "",
       hashed_uuid: "",
@@ -109,7 +109,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
   end
 
   scenario 'when they are logged in as a limited company - complete data' do
-    allow(DirectorySsoApiClient).to receive(:user_data){{
+    allow(DirectoryApiClient).to receive(:user_data){{
       id: 1,
       email: "john@example.com",
       hashed_uuid: "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e",
@@ -146,7 +146,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
   end
 
   scenario 'when they are logged in as a limited company - incomplete data' do
-    allow(DirectorySsoApiClient).to receive(:user_data){{
+    allow(DirectoryApiClient).to receive(:user_data){{
       id: nil,
       email: "",
       hashed_uuid: "",
@@ -288,7 +288,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
   end
 
   def apply_to_opportunity(opportunity)
-    allow(DirectorySsoApiClient).to receive(:user_data){{
+    allow(DirectoryApiClient).to receive(:user_data){{
       id: 1,
       email: "john@example.com",
       hashed_uuid: "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e",
