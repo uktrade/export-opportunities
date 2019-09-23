@@ -45,7 +45,6 @@ gem 'autoprefixer-rails'
 gem 'normalize-scss'
 gem 'sass-rails'
 gem 'export_components', '2.2.2', git: 'https://github.com/uktrade/export_components.git'
-#gem 'export_components', git: 'https://github.com/uktrade/export_components.git', ref: 'bbb54db89772787331bcc4ff7d4240b0f4403a8f'
 
 # Javascript
 gem 'jquery-rails'
