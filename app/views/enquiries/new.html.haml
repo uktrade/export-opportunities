@@ -18,14 +18,14 @@
     = form_for @enquiry do |f|
 
       %fieldset.details
-        %legend Your Details
+        %legend Your details
         -# input values to be prepopulated from account details
         .field-group.populated
           .field
-            = f.label :first_name, "First Name"
+            = f.label :first_name, "First name"
             = f.text_field :first_name, value: @enquiry.first_name, required: "required", readonly: true
           .field
-            = f.label :last_name, "Last Name"
+            = f.label :last_name, "Last name"
             = f.text_field :last_name, value: @enquiry.last_name, required: "required", readonly: true
           - if !@enquiry.individual?
             .field
@@ -36,10 +36,10 @@
             = f.label :job_title, "Job title (optional)"
             = f.text_field :job_title, value: @enquiry.job_title, :class => "medium"
         .field
-          = f.label :company_telephone, "Phone Number (optional)"
+          = f.label :company_telephone, "Phone number (optional)"
           = f.text_field :company_telephone, value: @enquiry.company_telephone, :class => "medium"
       %fieldset.business
-        %legend About Your Business
+        %legend About your business
         - if @enquiry.individual?
           .field
             = f.label :company_name, "Business name", class: "required"
@@ -95,7 +95,7 @@
 
 
       %fieldset.your-exporting
-        %legend About Your Exporting Experience
+        %legend About your exporting experience
         .field.small-select
           = f.label :existing_exporter, "Have you sold products or services overseas?", class: "required"
           = f.select(:existing_exporter, Enquiry::EXISTING_EXPORTER_CHOICES, required: "required", prompt: 'Select')
