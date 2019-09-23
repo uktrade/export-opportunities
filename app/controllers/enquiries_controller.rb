@@ -44,6 +44,10 @@ class EnquiriesController < ApplicationController
                                         company_sector
                                         company_explanation
                                         data_protection
+                                        account_type
+                                        job_title
+                                        trading_address
+                                        trading_address_postcode
                                       ])
     end
 

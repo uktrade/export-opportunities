@@ -55,7 +55,8 @@ RSpec.describe EnquiriesController, type: :controller do
       expect(enquiry).not_to be_nil
       expect(enquiry.first_name).to eq "John"
       expect(enquiry.last_name).to eq "Bull"
-      expect(enquiry.company_telephone).to eq '555 12345'
+      expect(enquiry.job_title).to eq "Owner"
+      expect(enquiry.company_telephone).to eq '123123123'
       expect(enquiry.company_name).to eq 'John Bull Construction'
       expect(enquiry.company_address).to eq '123 Letsbe Avenue London UK'
       expect(enquiry.company_house_number).to eq '11111111'

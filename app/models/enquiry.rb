@@ -49,7 +49,9 @@ class Enquiry < ApplicationRecord
       profile = value_by_key(sso_data, :user_profile)
       assign_attributes(
         first_name: value_by_key(profile, :first_name),
-        last_name: value_by_key(profile, :last_name)
+        last_name: value_by_key(profile, :last_name),
+        job_title: value_by_key(profile, :job_title),
+        company_telephone: value_by_key(profile, :mobile_phone_number)
       )
     end
   end
@@ -58,9 +60,9 @@ class Enquiry < ApplicationRecord
     if (data = DirectoryApiClient.private_company_data(sso_id))
       # company_type can be: COMPANIES_HOUSE, CHARITY,
       # PARTNERSHIP, SOLE_TRADER and OTHER.
+      company_telephone = company_telephone.presence || value_by_key(data, :mobile_number)
       assign_attributes(
         company_name: value_by_key(data, :name),
-        company_telephone: value_by_key(data, :mobile_number),
         company_address: [value_by_key(data, :address_line_1),
                           value_by_key(data, :address_line_2),
                           value_by_key(data, :country)].reject(&:blank?).join(' '),
@@ -88,7 +90,7 @@ class Enquiry < ApplicationRecord
   end
 
   def individual?
-    ['SOLE_TRADER', 'OTHER', nil, ''].include? account_type
+    ['OTHER', nil, ''].include? account_type
   end
 
   def company_url
