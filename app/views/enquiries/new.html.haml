@@ -16,6 +16,7 @@
       We've automatically used some details you gave us earlier. You can update your details later on your account page.
 
     = form_for @enquiry do |f|
+      = f.hidden_field :account_type, value: @enquiry.account_type
 
       %fieldset.details
         %legend Your Details

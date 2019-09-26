@@ -19,7 +19,7 @@
         height: 0;
       }
     = content_for(:head)
-    %title= t('site_name')
+    %title= page_title
 
     -# Global header-footer styles
     - unless request.fullpath.include?('/admin')

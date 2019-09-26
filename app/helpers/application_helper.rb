@@ -40,6 +40,10 @@ module ApplicationHelper
     response_due_on < Time.zone.now - 7.days
   end
 
+  def page_title
+    @page_title || t('site_name')
+  end
+
   private
 
     def html_tags?(text)
