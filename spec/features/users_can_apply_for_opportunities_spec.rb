@@ -39,10 +39,10 @@ RSpec.feature 'users can apply for opportunities', js: true do
       id: 1,
       email: "john@example.com",
       hashed_uuid: "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e",
-      user_profile: { 
-        first_name: "John",  
-        last_name: "Bull",  
-        job_title: "Owner",  
+      user_profile: {
+        first_name: "John",
+        last_name: "Bull",
+        job_title: "Owner",
         mobile_phone_number: "123123123"
       }
     }}
@@ -56,7 +56,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
       'number': '12341234',
       'website': 'www.example.com',
       'summary': 'good company',
-      'company_type': '' 
+      'company_type': ''
     }}
     visit '/export-opportunities/enquiries/great-opportunity'
 
@@ -76,10 +76,10 @@ RSpec.feature 'users can apply for opportunities', js: true do
       id: nil,
       email: "",
       hashed_uuid: "",
-      user_profile: { 
-        first_name: "",  
-        last_name: "",  
-        job_title: "",  
+      user_profile: {
+        first_name: "",
+        last_name: "",
+        job_title: "",
         mobile_phone_number: ""
       }
     }}
@@ -93,7 +93,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
       'number': '',
       'website': '',
       'summary': '',
-      'company_type': '' 
+      'company_type': ''
     }}
     visit '/export-opportunities/enquiries/great-opportunity'
 
@@ -113,10 +113,10 @@ RSpec.feature 'users can apply for opportunities', js: true do
       id: 1,
       email: "john@example.com",
       hashed_uuid: "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e",
-      user_profile: { 
-        first_name: "John",  
-        last_name: "Bull",  
-        job_title: "Owner",  
+      user_profile: {
+        first_name: "John",
+        last_name: "Bull",
+        job_title: "Owner",
         mobile_phone_number: "123123123"
       }
     }}
@@ -130,7 +130,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
       'number': '12341234',
       'website': 'www.example.com',
       'summary': 'good company',
-      'company_type': 'COMPANIES_HOUSE' 
+      'company_type': 'COMPANIES_HOUSE'
     }}
     visit '/export-opportunities/enquiries/great-opportunity'
 
@@ -151,10 +151,10 @@ RSpec.feature 'users can apply for opportunities', js: true do
       id: 1,
       email: "john@example.com",
       hashed_uuid: "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e",
-      user_profile: { 
-        first_name: "John",  
-        last_name: "Bull",  
-        job_title: "Owner",  
+      user_profile: {
+        first_name: "John",
+        last_name: "Bull",
+        job_title: "Owner",
         mobile_phone_number: "123123123"
       }
     }}
@@ -167,7 +167,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
       'postal_code': 'N1 4DF',
       'website': 'www.example.com',
       'summary': 'good company',
-      'company_type': 'SOLE_TRADER' 
+      'company_type': 'SOLE_TRADER'
     }}
     visit '/export-opportunities/enquiries/great-opportunity'
 
@@ -188,10 +188,10 @@ RSpec.feature 'users can apply for opportunities', js: true do
       id: nil,
       email: "",
       hashed_uuid: "",
-      user_profile: { 
-        first_name: "",  
-        last_name: "",  
-        job_title: "",  
+      user_profile: {
+        first_name: "",
+        last_name: "",
+        job_title: "",
         mobile_phone_number: ""
       }
     }}
@@ -330,10 +330,10 @@ RSpec.feature 'users can apply for opportunities', js: true do
       id: 1,
       email: "john@example.com",
       hashed_uuid: "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e",
-      user_profile: { 
-        first_name: "John",  
-        last_name: "Bull",  
-        job_title: "Owner",  
+      user_profile: {
+        first_name: "John",
+        last_name: "Bull",
+        job_title: "Owner",
         mobile_phone_number: "123123123"
       }
     }}
@@ -347,7 +347,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
       'number': '12341234',
       'website': 'www.example.com',
       'summary': 'good company',
-      'company_type': '' 
+      'company_type': ''
     }}
     visit "/export-opportunities/enquiries/#{opportunity.slug}"
 
