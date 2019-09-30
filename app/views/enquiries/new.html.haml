@@ -46,7 +46,7 @@
             = f.label :company_name, "Business name", class: "required"
             = f.text_field :company_name, value: @enquiry.company_name, required: "required", :class => "medium"
           .field{:id=>"companies-house-number"}
-            = f.label :company_house_number, "Companies house number (optional)"
+            = f.label :company_house_number, "Companies House number (optional)"
             = f.text_field :company_house_number, value: @enquiry.company_house_number, :class => "medium"
           .field
             = f.label :company_address, "Address", class: "required"

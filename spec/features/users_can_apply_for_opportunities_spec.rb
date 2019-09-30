@@ -293,7 +293,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
 
   def fill_in_form_as_individual
     fill_in 'Job title (optional)', with: Faker::Name.prefix
-    fill_in 'Phone Number (optional)', with: Faker::PhoneNumber.phone_number
+    fill_in 'Phone number (optional)', with: Faker::PhoneNumber.phone_number
 
     fill_in 'Business name', with: Faker::Company.name
     fill_in 'Companies House number (optional)',
@@ -312,7 +312,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
   end
 
   def fill_in_form_as_limited_company
-    fill_in 'Phone Number (optional)', with: Faker::PhoneNumber.phone_number
+    fill_in 'Phone number (optional)', with: Faker::PhoneNumber.phone_number
     fill_in 'Post code', with: Faker::Address.postcode
 
     find("#add_trading_address", visible: false).trigger('click')
