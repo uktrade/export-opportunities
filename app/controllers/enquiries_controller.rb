@@ -11,7 +11,7 @@ class EnquiriesController < ApplicationController
     if @opportunity.expired?
       redirect_to opportunity_path(@opportunity)
     else
-      render layout: 'enquiries'
+      render :new, layout: 'enquiries'
     end
   end
 
@@ -24,7 +24,7 @@ class EnquiriesController < ApplicationController
       render layout: 'notification'
     else
       flash.now[:error] = @enquiry.errors.full_messages.join(', ')
-      render :new
+      render :new, layout: 'enquiries'
     end
   end
 
@@ -44,6 +44,10 @@ class EnquiriesController < ApplicationController
                                         company_sector
                                         company_explanation
                                         data_protection
+                                        account_type
+                                        job_title
+                                        trading_address
+                                        trading_address_postcode
                                       ])
     end
 
