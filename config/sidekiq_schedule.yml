@@ -27,3 +27,9 @@ send_enquiry_response_reminders_job:
   class: "SendEnquiryResponseReminders"
   queue: default
   active_job: true
+
+schedule_deletion_of_old_subscription_notifications_job:
+  cron: "0 9 * * *"
+  class: "DeleteOldSubscriptionNotificationsWorker"
+  queue: default
+  active_job: true
