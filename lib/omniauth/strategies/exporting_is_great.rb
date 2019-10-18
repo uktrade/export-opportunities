@@ -19,6 +19,13 @@ module OmniAuth
         { email: raw_info['email'] }
       end
 
+      def request_phase
+        redirect client.auth_code.authorize_url(
+          { 'export-opportunity-intent': 'true', redirect_uri: callback_url }
+          .merge(options.authorize_params)
+        )
+      end
+
       extra do
         raw_info
       end
