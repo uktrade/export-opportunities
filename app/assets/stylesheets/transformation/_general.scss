@@ -73,6 +73,12 @@ section {
   font-weight: normal;
 }
 
+.great-footer-site-links,
+.great-footer-domestic-international-link {
+    vertical-align: top;
+}
+
+
 .verbose {
   @include access-hidden;
 }

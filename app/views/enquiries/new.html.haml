@@ -6,76 +6,109 @@
   .container
     = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
 
-    %h1
+    %h1.padding-top-30.margin-bottom-15
       %span.progress You are expressing an interest in
       = opp.title_with_country
 
+    %p.intro.description
+      All fields are required unless marked as optional.
+      %br
+      We've automatically used some details you gave us earlier. You can update your details later on your account page.
+
     = form_for @enquiry do |f|
-      %p.intro.description
-        All fields are required unless marked as optional.
+      = f.hidden_field :account_type, value: @enquiry.account_type
 
       %fieldset.details
-        %legend Your Details
+        %legend Your details
+        -# input values to be prepopulated from account details
+        .field-group.populated
+          .field
+            = f.label :first_name, "First name"
+            = f.text_field :first_name, value: @enquiry.first_name, required: "required", readonly: true
+          .field
+            = f.label :last_name, "Last name"
+            = f.text_field :last_name, value: @enquiry.last_name, required: "required", readonly: true
+          - if !@enquiry.individual?
+            .field
+              = f.label :job_title, "Job title"
+              = f.text_field :job_title, value: @enquiry.job_title, required: "required", readonly: true
+        - if @enquiry.individual?
+          .field
+            = f.label :job_title, "Job title (optional)"
+            = f.text_field :job_title, value: @enquiry.job_title, :class => "medium"
         .field
-          = f.label :first_name, "First Name", class: "required"
-          = f.text_field :first_name, required: "required"
-        .field
-          = f.label :last_name, "Last Name", class: "required"
-          = f.text_field :last_name, required: "required"
-        .field
-          = f.label :company_telephone, "Phone Number", class: "required"
-          = f.text_field :company_telephone, required: "required"
-
+          = f.label :company_telephone, "Phone number (optional)"
+          = f.text_field :company_telephone, value: @enquiry.company_telephone, :class => "medium"
       %fieldset.business
-        %legend About Your Business
-        .field
-          = f.label :company_name, "Company Name", class: "required"
-          = f.text_field :company_name, required: "required"
-        .field.checkbox
-          %input{:type=>"checkbox", :name=>"has_companies_house_number", :id=>"has-companies-house-number"}
-          %label{:for=>"has-companies-house-number"}
-            I do not have a Companies House number
+        %legend About your business
+        - if @enquiry.individual?
+          .field
+            = f.label :company_name, "Business name", class: "required"
+            = f.text_field :company_name, value: @enquiry.company_name, required: "required", :class => "medium"
+          .field{:id=>"companies-house-number"}
+            = f.label :company_house_number, "Companies House number (optional)"
+            = f.text_field :company_house_number, value: @enquiry.company_house_number, :class => "medium"
+          .field
+            = f.label :company_address, "Address", class: "required"
+            = f.text_field :company_address, value: @enquiry.company_address, required: "required", :class => "medium"
+          .field
+            = f.label :company_postcode, "Post code", class: "required"
+            = f.text_field :company_postcode, value: @enquiry.company_postcode, required: "required", :class => "medium"
+        - else
+          .field-group.populated
+            .field
+              = f.label :company_name, "Company name", class: "required"
+              = f.text_field :company_name, value: @enquiry.company_name, required: "required", readonly: true
+            - if @enquiry.account_type == 'COMPANIES_HOUSE'
+              .field{:id=>"companies-house-number"}
+                = f.label :company_house_number, "Company number"
+                = f.text_field :company_house_number, value: @enquiry.company_house_number, required: "required", readonly: true
+            .field
+              = f.label :company_address, "Address", class: "required"
+              = f.text_field :company_address, value: @enquiry.company_address, required: "required", readonly: true
+            .field
+              = f.label :company_postcode, "Post code", class: "required"
+              = f.text_field :company_postcode, value: @enquiry.company_postcode, required: "required", readonly: true
+            .field
+              %p
+                = 'We will attach your published business profile.'
+                = link_to 'Edit your business profile', Figaro.env.FAB_PROFILE_URL, target: :blank
 
-        .field{:id=>"companies-house-number"}
-          = f.label :company_house_number, "Companies House Number"
-          = f.text_field :company_house_number
-        .field
-          = f.label :company_address, "Company Address", class: "required"
-          = f.text_field :company_address, required: "required"
-        .field
-          = f.label :company_postcode, "Post Code", class: "required"
-          = f.text_field :company_postcode, required: "required"
-        .field
-          = f.label :company_url, "Company URL (optional)"
-          = f.text_field :company_url
+        .field-group.highlight-box.margin-bottom-30.expandable-container
+          .field.checkbox.margin-bottom-0
+            = check_box_tag :add_trading_address
+            %label{ for: 'add_trading_address' }
+              Add trading address (optional)
+          %div.expandable.margin-top-30{:id=>"expandable"}
+            .field
+              = f.label :trading_address, "Trading address"
+              = f.text_field :trading_address, value: @enquiry.trading_address
+            .field.margin-bottom-0
+              = f.label :trading_address_postcode, "Trading post code"
+              = f.text_field :trading_address_postcode, value: @enquiry.trading_address_postcode, :class => "small"
 
-        - if @trade_profile_url
-          %p
-            = 'We have identified that you have a business profile.'
-            %br
-            = 'Your'
-            = link_to 'Business Profile', @trade_profile_url, target: :blank
-            = 'will be added to your application.'
+        .field
+          = f.label :company_url, "Your business web address (optional)"
+          = f.text_field :company_url, value: @enquiry.company_url, :class => "medium"
+        .field.medium-select
+          = f.label :company_sector, "Which industry is your company in?", class: "required"
+          = f.select(:company_sector, Sector.pluck(:name).to_a, required: "required", prompt: 'Sector')
+
 
       %fieldset.your-exporting
-        %legend About Your Exporting Experience
-        .field
-          = f.label :existing_exporter, "Have you sold products or services to overseas customers?", class: "required"
+        %legend About your exporting experience
+        .field.small-select
+          = f.label :existing_exporter, "Have you sold products or services overseas?", class: "required"
           = f.select(:existing_exporter, Enquiry::EXISTING_EXPORTER_CHOICES, required: "required", prompt: 'Select')
-        .field
-          = f.label :company_sector, "Select your sector", class: "required"
-          = f.select(:company_sector, Sector.pluck(:name).to_a, required: "required", prompt: 'Sector')
-        .field
+
+        .field.margin-bottom-0
           = f.label :company_explanation, class: "required" do
             Explain what your company does and how it meets the requirements for this opportunity.
-            %span.helptext 
+            %span.helptext
               This is your chance to promote your company and make your proposal stand out. (max. 1,100 characters)
-        
+
 
           = f.text_area :company_explanation, {required: "required", rows: "8", maxlength: "1100"}
 
-        .field.checkbox
-          = f.check_box :data_protection
-          = f.label :data_protection, "I agree my details may be used for marketing by #{t('organisation.name')} and trusted partners (optional)"
 
       = f.submit 'Submit', class: 'button'

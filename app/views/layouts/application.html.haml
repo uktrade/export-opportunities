@@ -19,11 +19,14 @@
         height: 0;
       }
     = content_for(:head)
-    %title= t('site_name')
+    %title= page_title
 
     -# Global header-footer styles
     - unless request.fullpath.include?('/admin')
       = stylesheet_link_tag('export-components')
+      = stylesheet_link_tag 'transformation/main'
+      = stylesheet_link_tag 'transformation/pages/form'
+      = stylesheet_link_tag 'transformation/pages/enquiries'
 
     = stylesheet_link_tag 'application', media: 'all'
     /[if lte IE 9]

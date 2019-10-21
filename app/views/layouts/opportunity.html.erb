@@ -3,7 +3,7 @@
   <head>
     <% @page_type = 'OpportunityPage' %>
 
-    <title><%= t('site_name') %></title>
+    <title><%= @opportunity.title %> - <%= t('site_name') %> - great.gov.uk</title>
     <%= csrf_meta_tags %>
     <%= render partial: 'includes/transformation_head_tags' %>
     <%= render partial: 'includes/transformation_styles' %>

@@ -54,7 +54,7 @@ class EnquiryQuery
       end
 
       # Secondary sort order to prevent pagination weirdness
-      query = query.order("enquiries.created_at DESC")
+      query = query.order('enquiries.created_at DESC')
 
       # Without an argument, .count will produce invalid SQL in this context
 

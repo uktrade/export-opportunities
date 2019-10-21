@@ -1,5 +1,6 @@
 @import 'transformation/config';
 @import 'transformation/components/restricted_input';
+@import 'transformation/components/flash';
 
 h1 {
   margin-bottom: $spacing-2;
@@ -48,9 +49,13 @@ input {
     position: absolute;
     z-index: -1;
   }
-
   &[readonly] {
     border: none;
+    padding: 0;
+    height: auto;
+    &:focus {
+      outline: none;
+    }
   }
 }
 
@@ -66,7 +71,7 @@ legend {
   margin-bottom: $spacing-3;
 }
 
-option { 
+option {
   background-color: $white;
 }
 
@@ -84,6 +89,7 @@ select {
   height: 50px;
   margin-bottom: $spacing-3;
   padding: 10px 20px 10px 10px;
+  width: 100%;
   -ms-background-position-x: -10px;
   -moz-appearance: none;
   -webkit-appearance: none;
@@ -102,7 +108,6 @@ textarea {
   color: inherit;
   display: block;
   margin-bottom: $spacing-3;
-  max-width: 570px;
   padding: 5px;
   width: 100%;
 
@@ -165,7 +170,6 @@ textarea {
 .field {
   clear: both;
   margin-bottom: $spacing-3;
-  max-width: 650px;
 
   &.output input,
   &.output textarea {
@@ -177,12 +181,40 @@ textarea {
 }
 
 .field-group {
-  max-width: 650px;
-
   legend {
     @include body-m;
     color: $grey;
     font-weight: bold;
+  }
+
+  &.populated {
+    padding-left: 15px;
+    border-left: 5px solid $active-blue;
+
+    .field {
+      margin-bottom: 5px;
+      &:last-child {
+        margin-bottom: 30px;
+      }
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 0;
+    }
+  }
+
+  &.highlight-box {
+    padding: 15px;
+    margin-bottom: 30px;
+    background: $stone-30;
+    border: 2px solid $stone;
+
+    label {
+      &:before {
+        background: $white;
+      }
+    }
   }
 }
 
@@ -273,7 +305,7 @@ textarea {
   padding: 4px 0 0 45px;
   -ms-touch-action: manipulation;
   touch-action: manipulation;
-  
+
   input {
     cursor: pointer;
     left: 0;
@@ -284,12 +316,12 @@ textarea {
     top: 0;
     width: 36px;
   }
-  
+
   label {
     cursor: pointer;
     font-weight: normal;
     margin-bottom: 0;
-    
+
     &:before {
       background: transparent;
       border: 2px solid $black;
@@ -344,7 +376,7 @@ textarea {
       z-index: 0;
     }
   }
-  
+
   label::before {
     border-radius: 50%;
   }
@@ -363,22 +395,34 @@ textarea {
 }
 
 // RESPONSIVE
-@media (min-width: 768px) {
+
+@media (min-width: 641px) {
+  input, button {
+    .full-width {
+      width: 100%;
+    }
+
+    &.medium {
+      max-width: 370px;
+    }
+
+    &.small {
+      width: 170px;
+    }
+  }
+  .medium-select select {
+    max-width: 370px;
+  }
+  .small-select select {
+    max-width: 270px;
+  }
+}
+@media (min-width: 769px) {
   // desktop only...
   form {
-    max-width: 600px;
+    max-width: 768px;
   }
-}
-
-@media (max-width: 767px) {
-  input[type=text],
-  textarea {
-    max-width: none;
-  }
-}
-
-@media (max-width: 480px) {
-  select {
-    width: 100%;
+  text-area {
+    max-width: 768px;
   }
 }
