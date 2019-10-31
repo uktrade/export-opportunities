@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Users::EnquiriesController do
+RSpec.describe Users::EnquiriesController, sso: true do
   describe '#show' do
     it 'returns a 404 if the requested enquiry belongs to another user' do
       user = create(:user, email: 'me@example.com')

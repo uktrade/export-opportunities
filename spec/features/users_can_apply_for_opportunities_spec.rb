@@ -2,25 +2,12 @@
 require 'rails_helper'
 require 'capybara/email/rspec'
 
-RSpec.feature 'users can apply for opportunities', js: true do
+RSpec.feature 'users can apply for opportunities', js: true, sso: true do
   before do
     mock_sso_with(email: 'email@example.com')
     create(:opportunity, slug: 'great-opportunity', status: :publish)
     create(:sector)
 
-    directory_sso_api_url = Figaro.env.DIRECTORY_SSO_API_DOMAIN + '/api/v1/session-user/?session_key='
-    stub_request(:get, directory_sso_api_url).to_return(body: {
-        id: 1,
-        email: "john@example.com",
-        hashed_uuid: "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e",
-        user_profile: { 
-          first_name: "John",  
-          last_name: "Bull",  
-          job_title: "Owner",  
-          mobile_phone_number: "123123123"
-        }
-      }
-      .to_json, status: 200)
     allow(DirectoryApiClient).to receive(:private_company_data){ nil }
   end
 
@@ -90,12 +77,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
       id: nil,
       email: "",
       hashed_uuid: "",
-      user_profile: {
-        first_name: "",
-        last_name: "",
-        job_title: "",
-        mobile_phone_number: ""
-      }
+      user_profile: nil
     }}
     allow(DirectoryApiClient).to receive(:private_company_data){{
       'name': '',
