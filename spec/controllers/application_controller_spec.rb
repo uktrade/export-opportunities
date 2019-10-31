@@ -11,7 +11,7 @@ RSpec.describe ApplicationController, type: :controller do
     end
   end
 
-  describe 'require_sso!', focus: true do
+  describe 'require_sso!' do
     let(:opportunity) { create(:opportunity, status: :publish) }
     
     before do
@@ -35,6 +35,10 @@ RSpec.describe ApplicationController, type: :controller do
       }
       .to_json, status: 200)
 
+      # This controller action will automatically call Directory API too,
+      # so stub the DirectoryAPI call.
+      allow(DirectoryApiClient).to receive(:private_company_data){ nil }
+
       get :new, params: { slug: opportunity.slug }
       expect(response.status).to eq 200
     end
@@ -52,7 +56,7 @@ RSpec.describe ApplicationController, type: :controller do
         id: 1,
         email: "john@example.com",
         hashed_uuid: "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e",
-        user_profile: {}
+        user_profile: nil
       }
       .to_json, status: 200)
 

@@ -47,12 +47,14 @@ class Enquiry < ApplicationRecord
   def add_sso_data(sso_id)
     if (sso_data = DirectoryApiClient.user_data(sso_id))
       profile = value_by_key(sso_data, :user_profile)
-      assign_attributes(
-        first_name: value_by_key(profile, :first_name),
-        last_name: value_by_key(profile, :last_name),
-        job_title: value_by_key(profile, :job_title),
-        company_telephone: value_by_key(profile, :mobile_phone_number)
-      )
+      if profile.present?
+        assign_attributes(
+          first_name: value_by_key(profile, :first_name),
+          last_name: value_by_key(profile, :last_name),
+          job_title: value_by_key(profile, :job_title),
+          company_telephone: value_by_key(profile, :mobile_phone_number)
+        )
+      end
     end
   end
 
@@ -61,17 +63,19 @@ class Enquiry < ApplicationRecord
       # company_type can be: COMPANIES_HOUSE, CHARITY,
       # PARTNERSHIP, SOLE_TRADER and OTHER.
       company_telephone = company_telephone.presence || value_by_key(data, :mobile_number)
-      assign_attributes(
-        company_name: value_by_key(data, :name),
-        company_address: [value_by_key(data, :address_line_1),
-                          value_by_key(data, :address_line_2),
-                          value_by_key(data, :country)].reject(&:blank?).join(' '),
-        company_postcode: value_by_key(data, :postal_code),
-        company_house_number: value_by_key(data, :number),
-        company_url: value_by_key(data, :website),
-        company_explanation: value_by_key(data, :summary),
-        account_type: value_by_key(data, :company_type)
-      )
+      if data.present?
+        assign_attributes(
+          company_name: value_by_key(data, :name),
+          company_address: [value_by_key(data, :address_line_1),
+                            value_by_key(data, :address_line_2),
+                            value_by_key(data, :country)].reject(&:blank?).join(' '),
+          company_postcode: value_by_key(data, :postal_code),
+          company_house_number: value_by_key(data, :number),
+          company_url: value_by_key(data, :website),
+          company_explanation: value_by_key(data, :summary),
+          account_type: value_by_key(data, :company_type)
+        )
+      end
     end
   end
 

@@ -138,12 +138,7 @@ RSpec.describe Enquiry, type: :model do
         id: nil,
         email: "",
         hashed_uuid: "",
-        user_profile: { 
-          first_name: "",  
-          last_name: "",  
-          job_title: "",  
-          mobile_phone_number: ""
-        }
+        user_profile: nil
       }}
       allow(DirectoryApiClient).to receive(:private_company_data){{
         'name': '',
@@ -174,6 +169,7 @@ RSpec.describe Enquiry, type: :model do
       )
       expect(enquiry).to be_valid
     end
+
 
     it 'creates a valid enquiry for a company' do
       allow(DirectoryApiClient).to receive(:user_data){{
