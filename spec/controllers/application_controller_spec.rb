@@ -11,7 +11,7 @@ RSpec.describe ApplicationController, type: :controller do
     end
   end
 
-  describe 'require_sso!' do
+  describe 'require_sso!', test_sso: true do
     let(:opportunity) { create(:opportunity, status: :publish) }
     
     before do
