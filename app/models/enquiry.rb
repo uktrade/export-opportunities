@@ -47,17 +47,19 @@ class Enquiry < ApplicationRecord
   def add_sso_data(sso_id)
     if (sso_data = DirectoryApiClient.user_data(sso_id))
       profile = value_by_key(sso_data, :user_profile)
-      assign_attributes(
-        first_name: value_by_key(profile, :first_name),
-        last_name: value_by_key(profile, :last_name),
-        job_title: value_by_key(profile, :job_title),
-        company_telephone: value_by_key(profile, :mobile_phone_number)
-      )
+      if profile.present?
+        assign_attributes(
+          first_name: value_by_key(profile, :first_name),
+          last_name: value_by_key(profile, :last_name),
+          job_title: value_by_key(profile, :job_title),
+          company_telephone: value_by_key(profile, :mobile_phone_number)
+        )
+      end
     end
   end
 
   def add_directory_api_data(sso_id)
-    if (data = DirectoryApiClient.private_company_data(sso_id))
+    if (data = DirectoryApiClient.private_company_data(sso_id)).present?
       # company_type can be: COMPANIES_HOUSE, CHARITY,
       # PARTNERSHIP, SOLE_TRADER and OTHER.
       company_telephone = company_telephone.presence || value_by_key(data, :mobile_number)
