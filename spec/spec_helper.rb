@@ -108,12 +108,12 @@ RSpec.configure do |config|
     end
   end
 
-  ENV["bypass_sso"] = 'true'
-  config.around :each, sso: true do |example|
-    ENV.delete("bypass_sso")
-    example.run
-    ENV["bypass_sso"] = 'true'
-  end
+  # ENV["bypass_sso"] = 'true'
+  # config.around :each, sso: true do |example|
+  #   ENV.delete("bypass_sso")
+  #   example.run
+  #   ENV["bypass_sso"] = 'true'
+  # end
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
