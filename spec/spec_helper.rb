@@ -108,7 +108,7 @@ RSpec.configure do |config|
     end
   end
 
-  # ENV["bypass_sso"] = 'true'
+  ENV["bypass_sso"] = 'true'
   # config.around :each, sso: true do |example|
   #   ENV.delete("bypass_sso")
   #   example.run
