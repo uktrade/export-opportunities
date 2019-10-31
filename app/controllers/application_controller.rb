@@ -106,7 +106,7 @@ class ApplicationController < ActionController::Base
 
   def require_sso!
     if current_user
-      if Figaro.env.bypass_sso? || user_completed_new_registration_journey?
+      if Figaro.env.bypass_sso? #|| user_completed_new_registration_journey?
         return
       else
         sign_out current_user
