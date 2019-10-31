@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe EnquiriesController, type: :controller do
+RSpec.describe EnquiriesController, type: :controller, sso: true do
   before :each do
     sign_in(create(:user))
   end
