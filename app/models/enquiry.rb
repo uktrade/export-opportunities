@@ -64,7 +64,7 @@ class Enquiry < ApplicationRecord
       # PARTNERSHIP, SOLE_TRADER and OTHER.
       assign_attributes(
         company_telephone: company_telephone.presence ||
-          value_by_key(data, :mobile_number)
+          value_by_key(data, :mobile_number),
         company_name: value_by_key(data, :name),
         company_address: [value_by_key(data, :address_line_1),
                           value_by_key(data, :address_line_2),
