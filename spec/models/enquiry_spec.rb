@@ -138,12 +138,7 @@ RSpec.describe Enquiry, type: :model do
         id: nil,
         email: "",
         hashed_uuid: "",
-        user_profile: { 
-          first_name: "",  
-          last_name: "",  
-          job_title: "",  
-          mobile_phone_number: ""
-        }
+        user_profile: nil
       }}
       allow(DirectoryApiClient).to receive(:private_company_data){{
         'name': '',

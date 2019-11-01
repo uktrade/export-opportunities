@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe BulkSubscriptionsController do
+RSpec.describe BulkSubscriptionsController, sso: true do
   describe '#create' do
     before(:each) do
       user = create(:user, email: 'test@example.com')
