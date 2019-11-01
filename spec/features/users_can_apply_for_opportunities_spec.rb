@@ -2,11 +2,13 @@
 require 'rails_helper'
 require 'capybara/email/rspec'
 
-RSpec.feature 'users can apply for opportunities', js: true do
+RSpec.feature 'users can apply for opportunities', js: true, sso: true do
   before do
     mock_sso_with(email: 'email@example.com')
     create(:opportunity, slug: 'great-opportunity', status: :publish)
     create(:sector)
+
+    allow(DirectoryApiClient).to receive(:private_company_data){ nil }
   end
 
   scenario 'unless the opportunity has expired' do
@@ -18,9 +20,7 @@ RSpec.feature 'users can apply for opportunities', js: true do
     expect(page).to have_content t('opportunity.expired')
   end
 
-  scenario 'when they are logged in as an individual - no response from sso' do
-    allow(DirectoryApiClient).to receive(:private_company_data){ nil }
-    allow(DirectoryApiClient).to receive(:user_data){ nil }
+  scenario 'when they are logged in as an individual - no response from directory-api' do
     visit '/export-opportunities/enquiries/great-opportunity'
 
     expect(page).not_to have_field 'Email Address'

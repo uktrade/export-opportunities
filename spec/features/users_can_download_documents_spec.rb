@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'User can download Post User Communication Documents' do
+RSpec.feature 'User can download Post User Communication Documents', sso: true do
   scenario 'The link is valid' do
     skip('TODO: implement')
   end

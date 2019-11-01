@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'User can view their enquiries' do
+feature 'User can view their enquiries', sso: true do
   scenario 'Viewing an individual enquiry - enquiry has NOT been responded to' do
     user = create(:user, email: 'john@green.com')
     opportunity = create(:opportunity, title: 'Great Opportunity!', slug: 'great-opportunity')

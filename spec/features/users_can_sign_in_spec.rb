@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-feature 'Signing in as a user', :elasticsearch do
+feature 'Signing in as a user', :elasticsearch, sso: true do
+
   scenario 'Signing in via the old /sign_in path' do
     mock_sso_with(email: 'email@example.com')
 
