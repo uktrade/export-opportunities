@@ -62,8 +62,9 @@ class Enquiry < ApplicationRecord
     if (data = DirectoryApiClient.private_company_data(sso_id)).present?
       # company_type can be: COMPANIES_HOUSE, CHARITY,
       # PARTNERSHIP, SOLE_TRADER and OTHER.
-      company_telephone = company_telephone.presence || value_by_key(data, :mobile_number)
       assign_attributes(
+        company_telephone: company_telephone.presence ||
+          value_by_key(data, :mobile_number)
         company_name: value_by_key(data, :name),
         company_address: [value_by_key(data, :address_line_1),
                           value_by_key(data, :address_line_2),

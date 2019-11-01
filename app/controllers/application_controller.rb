@@ -125,6 +125,7 @@ class ApplicationController < ActionController::Base
 
   def user_completed_new_registration_journey?
     return true if Figaro.env.bypass_sso?
+    
     if (sso_data = DirectoryApiClient.user_data(cookies[Figaro.env.SSO_SESSION_COOKIE]))
       profile = value_by_key(sso_data, :user_profile)
       if profile.present?

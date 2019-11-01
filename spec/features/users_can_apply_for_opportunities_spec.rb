@@ -21,7 +21,6 @@ RSpec.feature 'users can apply for opportunities', js: true, sso: true do
   end
 
   scenario 'when they are logged in as an individual - no response from directory-api' do
-    allow(DirectoryApiClient).to receive(:user_data){ nil }
     visit '/export-opportunities/enquiries/great-opportunity'
 
     expect(page).not_to have_field 'Email Address'
@@ -77,7 +76,12 @@ RSpec.feature 'users can apply for opportunities', js: true, sso: true do
       id: nil,
       email: "",
       hashed_uuid: "",
-      user_profile: nil
+      user_profile: {
+        first_name: "",
+        last_name: "",
+        job_title: "",
+        mobile_phone_number: ""
+      }
     }}
     allow(DirectoryApiClient).to receive(:private_company_data){{
       'name': '',
