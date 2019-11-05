@@ -104,27 +104,54 @@ class ApplicationController < ActionController::Base
     'application'
   end
 
-  def require_sso!
-    return if current_user
+  # def require_sso!
+  #   return if current_user
 
-    # Temporary removal for Hotfix - 4 Nov
-    # 
-    # if current_user
-    #   if Figaro.env.bypass_sso? || user_completed_new_registration_journey?
-    #     return
-    #   else
-    #     sign_out current_user
-    #   end
-    # end
+  #   # Temporary removal for Hotfix - 4 Nov
+  #   # 
+  #   # if current_user
+  #   #   if Figaro.env.bypass_sso? || user_completed_new_registration_journey?
+  #   #     return
+  #   #   else
+  #   #     sign_out current_user
+  #   #   end
+  #   # end
+
+  #   # So omniauth can return us where we left off
+  #   store_location_for(:user, request.url)
+
+  #   if Figaro.env.bypass_sso?
+  #     redirect_to user_developer_omniauth_authorize_path
+  #   else
+  #     redirect_to user_exporting_is_great_omniauth_authorize_path
+  #   end
+  # end
+
+  def require_sso!
+    if Figaro.env.bypass_sso?
+      return if require_sso_bypass!
+    else
+      return if require_sso_no_bypass!
+    end
+  end
+
+  def require_sso_bypass!
+    return true if current_user
 
     # So omniauth can return us where we left off
     store_location_for(:user, request.url)
+    redirect_to user_developer_omniauth_authorize_path
+    false
+  end
 
-    if Figaro.env.bypass_sso?
-      redirect_to user_developer_omniauth_authorize_path
-    else
-      redirect_to user_exporting_is_great_omniauth_authorize_path
-    end
+  def require_sso_no_bypass!
+    return true if current_user && user_completed_new_registration_journey?
+    sign_out current_user if current_user
+
+    # So omniauth can return us where we left off
+    store_location_for(:user, request.url)
+    redirect_to user_exporting_is_great_omniauth_authorize_path
+    false
   end
 
   def user_completed_new_registration_journey?
