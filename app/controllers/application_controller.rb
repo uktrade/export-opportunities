@@ -117,7 +117,7 @@ class ApplicationController < ActionController::Base
         sign_in user
       end
     else
-      cookies.del Figaro.env.SSO_SESSION_COOKIE
+      cookies.delete Figaro.env.SSO_SESSION_COOKIE
     end
   end
 
