@@ -104,6 +104,23 @@ class ApplicationController < ActionController::Base
     'application'
   end
 
+  # Users are sometimes signed in on SSO but not in ExOps.
+  # This method checks and signs them into ExOps if needed
+
+  before_action :force_sign_in_parity
+  def force_sign_in_parity
+    return if current_user
+    return if (sso_id = cookies[Figaro.env.SSO_SESSION_COOKIE]).blank?
+
+    if (sso_user = DirectoryApiClient.user_data(sso_id)).present?
+      if (user = User.find_by_email sso_user['email']).present?
+        sign_in user
+      end
+    else
+      cookies.del Figaro.env.SSO_SESSION_COOKIE
+    end
+  end
+
   def require_sso!
     return if current_user
 
