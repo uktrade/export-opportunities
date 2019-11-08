@@ -136,7 +136,6 @@ class ApplicationController < ActionController::Base
       redirect_to user_developer_omniauth_authorize_path
     else
       redirect_to user_exporting_is_great_omniauth_authorize_path
-#      However user is logged in so they then get logged in again.
     end
   end
 
