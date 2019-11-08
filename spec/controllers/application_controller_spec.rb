@@ -61,7 +61,7 @@ RSpec.describe ApplicationController, type: :controller do
       cookies[Figaro.env.SSO_SESSION_COOKIE] = '1'
     end
 
-    it 'returns true when user is logged in and has passed registration journey' do
+    it 'allows access when user is logged in and has passed registration journey' do
       sign_in(create(:user))
       
       stub_request(:get, @directory_sso_api_url).to_return(body: {

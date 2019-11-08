@@ -122,23 +122,21 @@ class ApplicationController < ActionController::Base
   end
 
   def require_sso!
-    return if current_user
+    return if current_user && 
+      (Figaro.env.bypass_sso? || user_completed_new_registration_journey?)
 
     if current_user
-      if Figaro.env.bypass_sso? || user_completed_new_registration_journey?
-        return
-      else
-        sign_out current_user
-      end
+      sign_out(current_user)
+      cookies.delete Figaro.env.SSO_SESSION_COOKIE
     end
 
     # So omniauth can return us where we left off
     store_location_for(:user, request.url)
-
     if Figaro.env.bypass_sso?
-      redirect_to user_developer_omniauth_authorize_path and return
+      redirect_to user_developer_omniauth_authorize_path
     else
-      redirect_to user_exporting_is_great_omniauth_authorize_path and return
+      redirect_to user_exporting_is_great_omniauth_authorize_path
+#      However user is logged in so they then get logged in again.
     end
   end
 
