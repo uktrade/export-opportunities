@@ -124,15 +124,13 @@ class ApplicationController < ActionController::Base
   def require_sso!
     return if current_user
 
-    # Temporary removal for Hotfix - 4 Nov
-    # 
-    # if current_user
-    #   if Figaro.env.bypass_sso? || user_completed_new_registration_journey?
-    #     return
-    #   else
-    #     sign_out current_user
-    #   end
-    # end
+    if current_user
+      if Figaro.env.bypass_sso? || user_completed_new_registration_journey?
+        return
+      else
+        sign_out current_user
+      end
+    end
 
     # So omniauth can return us where we left off
     store_location_for(:user, request.url)
