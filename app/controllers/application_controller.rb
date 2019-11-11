@@ -125,17 +125,18 @@ class ApplicationController < ActionController::Base
     return if current_user && 
       (Figaro.env.bypass_sso? || user_completed_new_registration_journey?)
 
-    if current_user
-      sign_out(current_user)
-      cookies.delete Figaro.env.SSO_SESSION_COOKIE
-    end
-
     # So omniauth can return us where we left off
     store_location_for(:user, request.url)
+
+    if current_user
+      sign_out(current_user) # Delete the ExOps cookie
+      cookies.delete Figaro.env.SSO_SESSION_COOKIE # Delete the SSO cookie
+    end
+
     if Figaro.env.bypass_sso?
       redirect_to user_developer_omniauth_authorize_path
     else
-      redirect_to user_exporting_is_great_omniauth_authorize_path
+      redirect_to user_exporting_is_great_omniauth_authorize_path # Go to the 
     end
   end
 
