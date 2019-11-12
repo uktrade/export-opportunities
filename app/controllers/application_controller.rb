@@ -122,21 +122,28 @@ class ApplicationController < ActionController::Base
   end
 
   def require_sso!
+    Rails.logger.error('Require SSO - Checking...')
     return if current_user && 
       (Figaro.env.bypass_sso? || user_completed_new_registration_journey?)
+    Rails.logger.error('Require SSO - Sign-in required')
 
     # So omniauth can return us where we left off
     store_location_for(:user, request.url)
 
+    Rails.logger.error('Require SSO - Checking...')
     if current_user
-      sign_out(current_user)
-      cookies.delete Figaro.env.SSO_SESSION_COOKIE,
-        domain: Figaro.env.SSO_SESSION_COOKIE_DOMAIN
+      Rails.logger.error('Require SSO - In "if current_user"...')
+      Rails.logger.error("Has signed out: #{sign_out(current_user)}")
+      Rails.logger.error("Require SSO: cookies: #{cookies}")
+      Rails.logger.error("Require SSO: target cookie #{cookies[Figaro.env.SSO_SESSION_COOKIE]}")
+      Rails.logger.error("Attempting to delete target: #{cookies.delete(Figaro.env.SSO_SESSION_COOKIE,
+        domain: Figaro.env.SSO_SESSION_COOKIE_DOMAIN)}")
     end
 
     if Figaro.env.bypass_sso?
       redirect_to user_developer_omniauth_authorize_path
     else
+      Rails.logger.error('Require SSO - Redirecting...')
      redirect_to user_exporting_is_great_omniauth_authorize_path
     end
   end
@@ -144,12 +151,15 @@ class ApplicationController < ActionController::Base
   def user_completed_new_registration_journey?
     return true if Figaro.env.bypass_sso?
     
+    Rails.logger.error('Require SSO - Looking at completion of reg journey...')
     if (sso_data = DirectoryApiClient.user_data(cookies[Figaro.env.SSO_SESSION_COOKIE]))
       profile = value_by_key(sso_data, :user_profile)
       if profile.present?
+        Rails.logger.error('Require SSO - Reg journey complete')
         return true
       end
     end
+    Rails.logger.error('Require SSO - Reg journey not complete')
     false
   end
 
