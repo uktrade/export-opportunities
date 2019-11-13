@@ -75,9 +75,6 @@
       %dt= content['enquiry_explanation']
       %dd= @enquiry.company_explanation
 
-      %dt= content['enquiry_data_protection']
-      %dd= @enquiry.data_protection ? 'Yes' : 'No'
-
 %section.response-details
   .container
     - if !@enquiry_response || !@enquiry_response['completed_at']

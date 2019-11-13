@@ -13,15 +13,15 @@ enquiry_job_title: Job title
 enquiry_email: Email address
 enquiry_profile: Applicant business profile
 enquiry_address: Company address
-enquiry_telephone: Company telephone
+enquiry_telephone: Phone number
 enquiry_postcode: Company postcode
-enquiry_website: URL
+enquiry_website: Business web address
 enquiry_ch_listing: Companies House listing
 enquiry_ch_listing_unknown: Not supplied
 enquiry_trading_address: Trading address
 enquiry_trading_address_postcode: Trading postcode
-enquiry_exporter: Existing exporter?
-enquiry_sector: Company sector
+enquiry_exporter: Exporting experience
+enquiry_sector: Industry
 enquiry_explanation: Company explanation
 enquiry_data_protection: Data protection
 
