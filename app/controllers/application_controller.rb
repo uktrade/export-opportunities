@@ -133,7 +133,9 @@ class ApplicationController < ActionController::Base
     Rails.logger.error('Require SSO - Checking...')
     if current_user
       Rails.logger.error('Require SSO - In "if current_user"...')
+      Rails.logger.error("Current user: #{current_user}")
       Rails.logger.error("Has signed out: #{sign_out(current_user)}")
+      Rails.logger.error("Current user after: #{current_user}")
       Rails.logger.error("Require SSO: cookies: #{cookies.to_hash}")
       Rails.logger.error("Require SSO: target cookie #{cookies[Figaro.env.SSO_SESSION_COOKIE]}")
       Rails.logger.error("Attempting to delete target: #{cookies.delete(Figaro.env.SSO_SESSION_COOKIE,
