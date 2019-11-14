@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'capybara/email/rspec'
 
-RSpec.feature 'Users can opt out of emails' do
+RSpec.feature 'Users can opt out of emails', sso: true do
   scenario 'by clicking a link in a feedback email' do
     user = create(:user, email: 'opt-out@example.com')
     enquiry = create(:enquiry, user: user)

@@ -116,6 +116,23 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
+  config.around :each, sso: true do |example|
+    directory_sso_api_url = Figaro.env.DIRECTORY_SSO_API_DOMAIN + '/api/v1/session-user/?session_key='
+    stub_request(:get, directory_sso_api_url).to_return(body: {
+      id: 1,
+      email: "john@example.com",
+      hashed_uuid: "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e",
+      user_profile: { 
+        first_name: "John",  
+        last_name: "Bull",  
+        job_title: "Owner",  
+        mobile_phone_number: "123123123"
+      }
+    }
+    .to_json, status: 200)
+    example.run
+  end
+
   config.profile_examples = nil
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true

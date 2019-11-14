@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-feature 'User can manage their subscriptions' do
+feature 'User can manage their subscriptions', sso: true do
+
   scenario 'view a list of all subscriptions' do
     token = SecureRandom.uuid
 

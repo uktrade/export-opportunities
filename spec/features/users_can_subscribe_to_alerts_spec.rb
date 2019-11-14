@@ -2,7 +2,7 @@
 require 'rails_helper'
 require 'capybara/email/rspec'
 
-RSpec.feature 'Subscribing to alerts', elasticsearch: true do
+RSpec.feature 'Subscribing to alerts', elasticsearch: true, sso: true do
   context 'when already signed in' do
     before(:each) do
       @user = create(:user, email: 'test@example.com')

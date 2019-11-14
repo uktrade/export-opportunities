@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PendingSubscriptionsController do
+RSpec.describe PendingSubscriptionsController, sso: true do
   describe '#create' do
     it 'creates a pending subscription' do
       subscription_attrs = {

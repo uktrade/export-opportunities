@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'lib/constraints/new_domain_constraint'
 
-RSpec.feature 'visiting the site on different domains', :elasticsearch, :commit do
+RSpec.feature 'visiting the site on different domains', :elasticsearch, :commit, sso: true do
   context 'opportunities.export.great.gov.uk' do
     context 'when not logged in' do
       scenario 'visiting / displays opportunities' do
