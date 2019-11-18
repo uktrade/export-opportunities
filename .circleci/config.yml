@@ -4,7 +4,7 @@ jobs:
     parallelism: 3
     working_directory: ~/export-opportunities
     docker:
-      - image: circleci/ruby@sha256:707e0e70422d016bd1ec7f0b3784d35582218be8a6edfdc6ab7e3d6e51d71a53
+      - image: circleci/ruby:2.5.6
         environment:
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
