@@ -72,6 +72,7 @@ class Enquiry < ApplicationRecord
         company_postcode: value_by_key(data, :postal_code),
         company_house_number: value_by_key(data, :number),
         company_url: value_by_key(data, :website),
+        company_telephone: company_telephone,
         company_explanation: value_by_key(data, :summary),
         account_type: value_by_key(data, :company_type)
       )
