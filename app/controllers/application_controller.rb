@@ -139,7 +139,7 @@ class ApplicationController < ActionController::Base
       Rails.logger.error("Require SSO: cookies: #{cookies.to_hash}")
       Rails.logger.error("Require SSO: target cookie #{cookies[Figaro.env.SSO_SESSION_COOKIE]}")
       Rails.logger.error("Attempting to delete target: #{cookies.delete(Figaro.env.SSO_SESSION_COOKIE,
-        domain: Figaro.env.SSO_SESSION_COOKIE_DOMAIN)}")
+        domain: :all}")
       Rails.logger.error("Require SSO: target cookie after #{cookies[Figaro.env.SSO_SESSION_COOKIE]}")
       Rails.logger.error("Require SSO: cookies: #{cookies.to_hash}")
     end
