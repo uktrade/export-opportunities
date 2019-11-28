@@ -10,7 +10,6 @@ require 'net/http'
 # ReviewRecommended is true because of the high score assigned to Category3.
 class OppsSensitivityConnector
   def call(text, hostname, sensitivity_api_key)
-    Rails.logger.error('VOLUMEOPS - Sensitivity Connector starting...')
     uri = URI(hostname)
     uri.query = URI.encode_www_form(
       autocorrect: false,
@@ -31,8 +30,6 @@ class OppsSensitivityConnector
     response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
       http.request(request)
     end
-
-    Rails.logger.error('VOLUMEOPS - Sensitivity Connector starting... done')
     response.body
   end
 end

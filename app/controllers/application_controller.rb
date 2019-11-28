@@ -113,7 +113,7 @@ class ApplicationController < ActionController::Base
     return if (sso_id = cookies[Figaro.env.SSO_SESSION_COOKIE]).blank?
 
     if (sso_user = DirectoryApiClient.user_data(sso_id)).present?
-      if (user = User.find_by_email sso_user['email']).present?
+      if (user = User.find_by(email: sso_user['email'])).present?
         sign_in user
       end
     else

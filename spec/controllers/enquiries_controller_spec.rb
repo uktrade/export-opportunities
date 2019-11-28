@@ -7,17 +7,8 @@ RSpec.describe EnquiriesController, type: :controller, sso: true do
 
   describe '#new' do
     let(:opportunity) { create(:opportunity, status: :publish) }
-    it 'assigns opportunities' do
-      get :new, params: { slug: opportunity.slug }
-      expect(assigns(:opportunity)).to eq(opportunity)
-    end
 
-    it 'assigns enquiry' do
-      get :new, params: { slug: opportunity.slug }
-      expect(assigns(:enquiry)).not_to be_nil
-    end
-
-    it 'assigns enquiry from data from directory-api if available' do
+    before :each do
       directory_api_url = Figaro.env.DIRECTORY_API_DOMAIN + '/supplier/company/'
       cookies[Figaro.env.SSO_SESSION_COOKIE] = '1'
       stub_request(:get, directory_api_url).to_return(body: {
@@ -49,7 +40,19 @@ RSpec.describe EnquiriesController, type: :controller, sso: true do
         }
       }
       .to_json, status: 200)
+    end
 
+    it 'assigns opportunities' do
+      get :new, params: { slug: opportunity.slug }
+      expect(assigns(:opportunity)).to eq(opportunity)
+    end
+
+    it 'assigns enquiry' do
+      get :new, params: { slug: opportunity.slug }
+      expect(assigns(:enquiry)).not_to be_nil
+    end
+
+    it 'assigns enquiry from data from directory-api if available' do
       get :new, params: { slug: opportunity.slug }
       enquiry = assigns(:enquiry)
       expect(enquiry).not_to be_nil

@@ -4,7 +4,7 @@ RSpec.describe OpportunityVersion do
   describe '#blame' do
     it 'returns the editor who made this change' do
       publisher = create(:publisher)
-      PaperTrail.whodunnit = publisher.id
+      PaperTrail.request.whodunnit = publisher.id
 
       opportunity = create(:opportunity, status: :pending)
       opportunity.status = :publish
@@ -15,7 +15,7 @@ RSpec.describe OpportunityVersion do
 
     context 'when no editor is available' do
       it 'returns a dummy editor' do
-        PaperTrail.whodunnit = nil
+        PaperTrail.request.whodunnit = nil
 
         opportunity = create(:opportunity, status: :pending)
         opportunity.status = :publish

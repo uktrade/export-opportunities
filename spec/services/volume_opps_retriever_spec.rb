@@ -252,7 +252,7 @@ Les langages utilisés et à considérer comme obsolètes sont Matrix, Matlab, F
 
     skip('TODO: add the tests here in a periodically running suite')
     it 'should not return 414 when the request-uri is too long' do
-      opportunity = create(:opportunity, description: Faker::Lorem::characters(8100), original_language: 'pl')
+      opportunity = create(:opportunity, description: Faker::Lorem::characters(number: 8100), original_language: 'pl')
 
       expect { VolumeOppsRetriever.new.translate(opportunity, [:description], 'pl') }.to_not raise_error
     end

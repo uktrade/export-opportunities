@@ -1,6 +1,6 @@
 - form = FormPresenter.new(@editor_content, {})
 - content_for :action_specific_head  do
-  = stylesheet_link_tag 'transformation_admin/pages/editors'
+  = stylesheet_link_tag 'transformation_admin/pages/editors', skip_pipeline: true
 
 %section.intro
   .container

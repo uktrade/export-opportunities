@@ -99,6 +99,7 @@ RSpec.feature 'users can apply for opportunities', js: true, sso: true do
 
     expect(page).not_to have_field 'Email Address'
 
+    fill_in_form_personal_data_if_no_profile
     fill_in_form_as_individual
     click_on 'Submit'
 
@@ -211,6 +212,7 @@ RSpec.feature 'users can apply for opportunities', js: true, sso: true do
 
     expect(page).not_to have_field 'Email Address'
 
+    fill_in_form_personal_data_if_no_profile
     fill_in_form_as_limited_company
     click_on 'Submit'
 
@@ -291,13 +293,18 @@ RSpec.feature 'users can apply for opportunities', js: true, sso: true do
     have_selector('h1', text: 'You are expressing an interest in')
   end
 
+  def fill_in_form_personal_data_if_no_profile
+    fill_in 'First name', with: Faker::Name.first_name
+    fill_in 'Last name', with: Faker::Name.last_name
+  end
+
   def fill_in_form_as_individual
     fill_in 'Job title (optional)', with: Faker::Name.prefix
     fill_in 'Phone number (optional)', with: Faker::PhoneNumber.phone_number
 
     fill_in 'Business name', with: Faker::Company.name
     fill_in 'Companies House number (optional)',
-      with: Faker::Number.between(10000000, 99999999)
+      with: Faker::Number.between(from: 10000000, to: 99999999)
     fill_in 'Address', with: Faker::Address.street_address
     fill_in 'Post code', with: Faker::Address.postcode
 
