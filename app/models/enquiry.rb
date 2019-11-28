@@ -82,7 +82,6 @@ class Enquiry < ApplicationRecord
   def set_enquiry_form_defaults
     # Add default values to prevent errors from empty string
     # data being put into required read-only fields
-    self.first_name = first_name.presence || 'No name in Business Profile'
     unless individual?
       self.company_name = company_name.presence || 'No company name in Business Profile'
       self.company_address = company_address.presence || 'No company address in Business Profile'
