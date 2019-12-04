@@ -17,10 +17,10 @@ You have <%= @count %> new opportunity that matches your criteria
 <%= opportunity.teaser %>
 
 Opportunity expires: <%= opportunity.expires %>
-<%= opportunity_url(item[:opportunity]) %>
+<%= opportunity_url(item[:opportunity]) + ga360_campaign_parameters('email_alerts','email','exportOps','indOps') %>
 
 View all opportunities <%= subscription.description_for_email %>
-<%= "#{Figaro.env.DOMAIN}#{subscription.search_path}" %>
+<%= "#{Figaro.env.DOMAIN}#{subscription.search_path}" + ga360_campaign_parameters('email_alerts','email','exportOps','viewOps') %>
 -------------------------
 
 <% end %>
@@ -49,14 +49,14 @@ To get daily email alerts for specific opportunities:
 You are receiving this email because you signed up for Export Opportunities email alerts.
 
 Manage your alerts
-<%= Figaro.env.SUD_PROFILE_PAGE_EMAIL_ALERTS.to_s %>
+<%= Figaro.env.SUD_PROFILE_PAGE_EMAIL_ALERTS.to_s + ga360_campaign_parameters('email_alerts','email','exportOps','manageAlerts')%>
 
 Unsubscribe from all alerts
-<%= "#{Figaro.env.DOMAIN.to_s}/export-opportunities/email_notifications/unsubscribe_all/#{@encrypted_user_id}" %>
+<%= "#{Figaro.env.DOMAIN.to_s}/export-opportunities/email_notifications/unsubscribe_all/#{@encrypted_user_id}" + ga360_campaign_parameters('email_alerts','email','exportOps','unsubscribe') %>
 
 View privacy statement
-<%= Figaro.env.PRIVACY_AND_COOKIES_URL.to_s %>
+<%= Figaro.env.PRIVACY_AND_COOKIES_URL.to_s + ga360_campaign_parameters('email_alerts','email','exportOps','privacy') %>
 
 Give feedback at
-<%= Figaro.env.CONTACT_US_FORM.to_s %>
+<%= Figaro.env.CONTACT_US_FORM.to_s + ga360_campaign_parameters('email_alerts','email','exportOps','feedback') %>
 
