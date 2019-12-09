@@ -44,11 +44,6 @@ module ApplicationHelper
     @page_title || t('site_name')
   end
 
-  def ga360_campaign_parameters(utm_source, utm_medium, utm_campaign, utm_content)
-    return nil unless utm_source && utm_medium && utm_campaign && utm_content
-    "?utm_source=#{utm_source}&utm_medium=#{utm_medium}&utm_campaign=#{utm_campaign}&utm_content=#{utm_content}"
-  end
-
   private
 
     def html_tags?(text)
