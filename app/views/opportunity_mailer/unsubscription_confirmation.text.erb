@@ -4,7 +4,7 @@ You are unsubscribed
 You have been unsubscribed from all email alerts for the Export Opportunities service.
 
 Search thousands of export opportunities:
-<%= Figaro.env.EXPORT_OPPORTUNITIES_URL.to_s + ga360_campaign_parameters('email_alerts','email','exportOps_unsubscribe','searchOps') %>
+<%= Figaro.env.EXPORT_OPPORTUNITIES_URL.to_s + ApplicationController.new.ga360_campaign_parameters('email_alerts','email','exportOps_unsubscribe','searchOps') %>
 
 
 
@@ -22,8 +22,8 @@ To set new email alerts for specific opportunities:
 You are receiving this email because you unsubscribed to Export Opportunities email alerts.
 
 View privacy statement
-<%= Figaro.env.PRIVACY_AND_COOKIES_URL.to_s + ga360_campaign_parameters('email_alerts','email','exportOps_unsubscribe','privacy') %>
+<%= Figaro.env.PRIVACY_AND_COOKIES_URL.to_s + ApplicationController.new.ga360_campaign_parameters('email_alerts','email','exportOps_unsubscribe','privacy') %>
 
 Give feedback at
-<%= Figaro.env.CONTACT_US_FORM.to_s + ga360_campaign_parameters('email_alerts','email','exportOps_unsubscribe','feedback') %>
+<%= Figaro.env.CONTACT_US_FORM.to_s + ApplicationController.new.ga360_campaign_parameters('email_alerts','email','exportOps_unsubscribe','feedback') %>
 
