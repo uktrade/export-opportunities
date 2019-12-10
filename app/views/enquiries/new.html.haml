@@ -21,17 +21,25 @@
       %fieldset.details
         %legend Your details
         -# input values to be prepopulated from account details
-        .field-group.populated
+        - if @enquiry.first_name.blank?
           .field
             = f.label :first_name, "First name"
-            = f.text_field :first_name, value: @enquiry.first_name, required: "required", readonly: true
+            = f.text_field :first_name, value: @enquiry.first_name, :class => "medium"
           .field
             = f.label :last_name, "Last name"
-            = f.text_field :last_name, value: @enquiry.last_name, required: "required", readonly: true
-          - if !@enquiry.individual?
+            = f.text_field :last_name, value: @enquiry.last_name, :class => "medium"
+        - else
+          .field-group.populated
             .field
-              = f.label :job_title, "Job title"
-              = f.text_field :job_title, value: @enquiry.job_title, required: "required", readonly: true
+              = f.label :first_name, "First name"
+              = f.text_field :first_name, value: @enquiry.first_name, required: "required", readonly: true
+            .field
+              = f.label :last_name, "Last name"
+              = f.text_field :last_name, value: @enquiry.last_name, required: "required", readonly: true
+            - if !@enquiry.individual?
+              .field
+                = f.label :job_title, "Job title"
+                = f.text_field :job_title, value: @enquiry.job_title, required: "required", readonly: true
         - if @enquiry.individual?
           .field
             = f.label :job_title, "Job title (optional)"

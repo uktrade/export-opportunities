@@ -72,6 +72,7 @@ class Enquiry < ApplicationRecord
         company_postcode: value_by_key(data, :postal_code),
         company_house_number: value_by_key(data, :number),
         company_url: value_by_key(data, :website),
+        company_telephone: company_telephone,
         company_explanation: value_by_key(data, :summary),
         account_type: value_by_key(data, :company_type)
       )
@@ -81,7 +82,6 @@ class Enquiry < ApplicationRecord
   def set_enquiry_form_defaults
     # Add default values to prevent errors from empty string
     # data being put into required read-only fields
-    self.first_name = first_name.presence || 'No name in Business Profile'
     unless individual?
       self.company_name = company_name.presence || 'No company name in Business Profile'
       self.company_address = company_address.presence || 'No company address in Business Profile'
