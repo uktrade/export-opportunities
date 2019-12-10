@@ -82,7 +82,7 @@ gem 'carrierwave', '1.3.1'
 gem 'rest-client'
 
 # zipping for email attachments over 10MB
-gem 'rubyzip'
+gem 'rubyzip', '~> 1.3.0'
 
 # JSON Web Tokens for Volume Opps
 gem 'jwt'
