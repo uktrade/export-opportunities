@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Hawk::Crypto do
+describe Hawk::Crypto, skip: true do
 
   let(:algorithm) { "sha256" }
   let(:credentials) do

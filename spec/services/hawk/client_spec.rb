@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'spec/services/hawk/support/shared_examples/authorization_header'
 
-describe Hawk::Client do
+describe Hawk::Client, skip: true do
 
   let(:credentials) do
     {
