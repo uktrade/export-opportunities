@@ -21,7 +21,7 @@ feature 'admin can reply to enquiries' do
     click_on 'Reply'
     expect(page).to have_content('Email body')
 
-    editor_signature = Faker::Lorem.words(10).join('-')
+    editor_signature = Faker::Lorem.words(number: 10).join('-')
 
     fill_in 'enquiry_response_signature', with: editor_signature
 
@@ -46,7 +46,7 @@ feature 'admin can reply to enquiries' do
     click_on 'Reply'
     expect(page).to have_content('Email body')
 
-    email_body_text = Faker::Lorem.words(10).join('-')
+    email_body_text = Faker::Lorem.words(number: 10).join('-')
     fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
 
     expect(page.body).to have_content(email_body_text)
@@ -79,7 +79,7 @@ feature 'admin can reply to enquiries' do
     click_on 'Reply'
     expect(page).to have_content('Email body')
 
-    email_body_text = Faker::Lorem.words(10).join('-')
+    email_body_text = Faker::Lorem.words(number: 10).join('-')
     fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
 
     expect(page.body).to have_content(email_body_text)
@@ -111,7 +111,7 @@ feature 'admin can reply to enquiries' do
 
     expect(page).to have_content('Email body')
 
-    email_body_text = Faker::Lorem.words(10).join('-')
+    email_body_text = Faker::Lorem.words(number: 10).join('-')
     fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
     # expect(page).to have_content(email_body_text)
 
@@ -136,7 +136,7 @@ feature 'admin can reply to enquiries' do
     click_on 'Reply'
     expect(page).to have_content('Email body')
 
-    email_body_text = Faker::Lorem.words(10).join('-')
+    email_body_text = Faker::Lorem.words(number: 10).join('-')
     fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
 
     # choose right for opportunity
@@ -166,7 +166,7 @@ feature 'admin can reply to enquiries' do
     click_on 'Reply'
     expect(page).to have_content('Email body')
 
-    email_body_text = Faker::Lorem.words(10).join('-')
+    email_body_text = Faker::Lorem.words(number: 10).join('-')
     fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
 
     # choose right for opportunity
@@ -199,7 +199,7 @@ feature 'admin can reply to enquiries' do
     click_on 'Reply'
     expect(page).to have_content('Email body')
 
-    email_body_text = Faker::Lorem.words(10).join('-')
+    email_body_text = Faker::Lorem.words(number: 10).join('-')
     fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
 
     # choose right for opportunity
@@ -229,7 +229,7 @@ feature 'admin can reply to enquiries' do
     click_on 'Reply'
     expect(page).to have_content('Email body')
 
-    email_body_text = Faker::Lorem.words(10).join('-')
+    email_body_text = Faker::Lorem.words(number: 10).join('-')
     fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
 
     # choose right for opportunity
@@ -258,7 +258,7 @@ feature 'admin can reply to enquiries' do
     click_on 'Reply'
     expect(page).to have_content('Email body')
 
-    email_body_text = Faker::Lorem.words(10).join('-')
+    email_body_text = Faker::Lorem.words(number: 10).join('-')
 
     fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
 
@@ -282,7 +282,7 @@ feature 'admin can reply to enquiries' do
     click_on 'Reply'
     expect(page).to have_content('Email body')
 
-    email_body_text = Faker::Lorem.characters(30)
+    email_body_text = Faker::Lorem.characters(number: 30)
 
     page.find('#li1').click
 
@@ -331,7 +331,7 @@ feature 'admin can reply to enquiries' do
     click_on 'Reply'
     expect(page).to have_content('Email body')
 
-    email_body_text = Faker::Lorem.words(10).join('-')
+    email_body_text = Faker::Lorem.words(number: 10).join('-')
 
     page.find('#li1').click
 
@@ -380,7 +380,7 @@ feature 'admin can reply to enquiries' do
     click_on 'Reply'
     expect(page).to have_content('Email body')
 
-    email_body_text = Faker::Lorem.words(10).join('-')
+    email_body_text = Faker::Lorem.words(number: 10).join('-')
     fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
 
     expect(page.body).to have_content(email_body_text)
@@ -416,7 +416,7 @@ feature 'admin can reply to enquiries' do
     click_on 'Reply'
     expect(page).to have_content('Email body')
 
-    email_body_text = Faker::Lorem.words(10).join('-')
+    email_body_text = Faker::Lorem.words(number: 10).join('-')
     fill_in_ckeditor 'enquiry_response_email_body', with: email_body_text
 
     expect(page.body).to have_content(email_body_text)

@@ -88,3 +88,6 @@ output.png
 
 # Ignore rspec default options
 .rspec
+
+# Test file
+test_clean_file

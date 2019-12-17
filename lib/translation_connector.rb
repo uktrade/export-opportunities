@@ -2,10 +2,8 @@ require 'net/http'
 
 class TranslationConnector
   def call(opportunity_params, configuration, opportunity_language, hostname, translation_api_key)
-    Rails.logger.error('VOLUMEOPS - Translating...')
 
     configuration.each do |config|
-      Rails.logger.error('VOLUMEOPS - Translating config...')
       uri = URI(hostname)
       header = { 'Content-Type': 'application/x-www-form-urlencoded' }
       body = URI.encode_www_form(
@@ -30,15 +28,10 @@ class TranslationConnector
       body = JSON.parse(response.body)
       text = body['translations'][0]['text']
 
-      Rails.logger.debug ">>original text: #{opportunity_params[config]}"
-      Rails.logger.debug ">>>translated text: #{text}"
-
       # assign translated value in place
       opportunity_params[config] = text
 
       opportunity_params['original_language'] = opportunity_language.downcase
-      Rails.logger.error('VOLUMEOPS - Translating config... done')
     end
-    Rails.logger.error('VOLUMEOPS - Translating... done')
   end
 end

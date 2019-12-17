@@ -9,8 +9,6 @@ describe OpportunityQualityRetriever, type: :service do
             
       # Test oddly needs to be run before the message is logged
       error_msg = /QualityCheck API failed. API returned status 404/
-      expect(Rails.logger).to receive(:error).ordered
-      expect(Rails.logger).to receive(:error).ordered
       expect(Rails.logger).to receive(:error).with(error_msg).ordered
 
       opportunity = create(:opportunity)
