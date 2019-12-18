@@ -100,7 +100,7 @@ class OpportunityPresenter < PagePresenter
     else
       guides.each do |country|
         link = link_to(country.name,
-          "https://www.gov.uk#{country.exporting_guide_path}",
+          country.exporting_guide_path,
           target: '_blank', rel: 'noopener noreferrer', title: 'Opens in a new window')
         links.push(link.html_safe)
       end
