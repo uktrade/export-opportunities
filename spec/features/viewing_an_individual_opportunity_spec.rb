@@ -98,7 +98,7 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
 
 
   scenario 'country with a link to exporting guide' do
-    country = create(:country, exporting_guide_path: '/government/publications/exporting-to-egypt')
+    country = create(:country, exporting_guide_path: 'https://www.gov.uk/government/publications/exporting-to-egypt')
     opportunity = create(:opportunity, status: :publish, response_due_on: 3.months.from_now, countries: [country], service_provider_id: service_provider.id)
 
     visit opportunity_path(opportunity.id)
@@ -108,7 +108,7 @@ RSpec.feature 'Viewing an individual opportunity', :elasticsearch, :commit do
   end
 
   scenario 'not all countries having links to exporting guide' do
-    with_guide = create(:country, exporting_guide_path: '/government/publications/exporting-to-egypt')
+    with_guide = create(:country, exporting_guide_path: 'https://www.gov.uk/government/publications/exporting-to-egypt')
     without_guide = create(:country)
     opportunity = create(:opportunity, status: :publish, response_due_on: 3.months.from_now, countries: [with_guide, without_guide], service_provider_id: service_provider.id)
 
