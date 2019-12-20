@@ -26,7 +26,19 @@ module SubscriptionHelper
       filter: clean_params.filter
     )
     if form.valid?
-      subscription = CreateSubscription.new.call(form.output, current_user)
+
+      subscription = Subscription.create!(
+        user: current_user,
+        title: form[:title],
+        search_term: form[:term],
+        cpvs: form[:cpvs],
+        countries: form[:countries],
+        sectors: form[:sectors],
+        types: form[:types],
+        values: form[:values],
+        confirmed_at: Time.zone.now
+      )
+
       yield(subscription) if block_given?
       render 'subscriptions/create', layout: 'notification', locals: {
         subscriptions: Subscription.where(user_id: current_user.id).where(unsubscribed_at: nil),
