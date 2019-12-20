@@ -5,8 +5,10 @@ RSpec.describe OpportunitySearchBuilder do
   before(:each) do
     @post_1 = create(:opportunity, title: 'Post 1', first_published_at: 2.months.ago,
                       response_due_on: 12.months.from_now, status: :publish, source: 0)
-    create(:opportunity, title: 'Post 2', first_published_at: 3.months.ago,
+    OpportunityCpv.create(opportunity: @post_1, industry_id: "1")
+    @post_2 = create(:opportunity, title: 'Post 2', first_published_at: 3.months.ago,
             response_due_on: 24.months.from_now, status: :publish)
+    OpportunityCpv.create(opportunity: @post_2, industry_id: "2")
     create(:opportunity, title: 'Post 3', first_published_at: 1.month.ago,
             response_due_on: 18.months.from_now, status: :publish)
   end
@@ -60,6 +62,17 @@ RSpec.describe OpportunitySearchBuilder do
       # ... Unless the title matches
       @post_1.update(title: "medicine")
       expect(results_count(query)).to eq 1
+    end
+
+    it 'filters by CPV code' do
+      query = new_query(cpvs: ["999"])
+      expect(results_count(query)).to eq 0
+
+      query = new_query(cpvs: ["1"])
+      expect(results_count(query)).to eq 1
+
+      query = new_query(cpvs: ["1", "2"])
+      expect(results_count(query)).to eq 2
     end
 
     it 'filters by countries' do

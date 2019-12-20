@@ -19,6 +19,7 @@ class OpportunitySearchBuilder
   #         digestable by Opportunity.__elasticsearch__.search()
 
   def initialize(term: '',
+    cpvs: [],
     sort: OpportunitySort.new(default_column: 'first_published_at',
                               default_order: 'asc'),
     limit: 100,
@@ -31,6 +32,7 @@ class OpportunitySearchBuilder
     status: :published,
     boost: false)
     @term = term.to_s.strip
+    @cpvs = cpvs
     @limit = limit
     @sectors = Array(sectors)
     @countries = Array(countries)
@@ -45,6 +47,7 @@ class OpportunitySearchBuilder
 
   def call
     joined_query = [keyword_build,
+                    cpvs_build,
                     sector_build,
                     country_build,
                     opportunity_type_build,
@@ -58,7 +61,6 @@ class OpportunitySearchBuilder
         must: joined_query,
       },
     }
-
     {
       query: search_query,
       sort: sort_build,
@@ -197,6 +199,20 @@ class OpportunitySearchBuilder
             },
           }
         end
+      end
+    end
+
+    def cpvs_build
+      if @cpvs.present?
+        {
+          bool: {
+            should: {
+              terms: {
+                'opportunity_cpvs.industry_id': @cpvs,
+              },
+            },
+          },
+        }
       end
     end
 

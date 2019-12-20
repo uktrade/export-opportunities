@@ -7,6 +7,7 @@ class SubscriptionForm
   validate :sectors
   validate :types
   validate :values
+  validate :cpv
 
   #
   # Cleans inputs and provides wording used by the "create subscription"
@@ -15,17 +16,22 @@ class SubscriptionForm
   #
   def initialize(results)
     @term   = results[:term]
+    @cpvs   = results[:cpvs]
     @filter = results[:filter].presence || NullFilter.new
   end
 
   # Format related subscription data for use in views, e.g.
   # components/subscription_form
   # components/subscription_link
-  def call
+  def output
     what = searched_for(@term)
     where = searched_in(@filter)
     {
+      term: @term,
+      cpvs: @cpvs,
+      filter: @filter,
       title: (what + where).sub(/\sin\s|\sfor\s/, ''), # strip out opening ' in ' or ' for '
+      cpvs: @cpvs,
       keywords: @term,
       countries: @filter.countries,
       what: what,

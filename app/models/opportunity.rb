@@ -52,6 +52,10 @@ class Opportunity < ApplicationRecord
         indexes :slug, type: :keyword
       end
 
+      indexes :opportunity_cpvs do 
+        indexes :industry_id, type: :keyword
+      end
+
       indexes :response_due_on, type: :date
       indexes :first_published_at, type: :date
       indexes :updated_at, type: :date
@@ -175,6 +179,7 @@ class Opportunity < ApplicationRecord
         types: { only: :slug },
         sectors: { only: :slug },
         values: { only: :slug },
+        opportunity_cpvs: { only: :industry_id }
       }
     )
   end

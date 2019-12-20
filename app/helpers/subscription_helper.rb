@@ -10,7 +10,7 @@ module SubscriptionHelper
   end
 
   def subscription_params
-    params.require(:subscription).permit(:title, :s, sectors: [], countries: [], types: [], values: [])
+    params.require(:subscription).permit(:title, :s, sectors: [], countries: [], types: [], values: [], cpv: [])
   end
 
   # Shared between:
@@ -18,12 +18,15 @@ module SubscriptionHelper
   # PendingSubscriptionsController#update
   def create_subscription(params, content)
     clean_params = Search.new(params) # Does not run; cleans params
+
+    # A single subscription has one or multiple CPVs
     form = SubscriptionForm.new(
       term: clean_params.term,
+      cpvs: clean_params.spvs,
       filter: clean_params.filter
     )
-    subscription = CreateSubscription.new.call(form, current_user)
     if form.valid?
+      subscription = CreateSubscription.new.call(form.output, current_user)
       yield(subscription) if block_given?
       render 'subscriptions/create', layout: 'notification', locals: {
         subscriptions: Subscription.where(user_id: current_user.id).where(unsubscribed_at: nil),
@@ -34,4 +37,10 @@ module SubscriptionHelper
       redirect_to opportunities_path(s: clean_params.term), alert: subscription_form.errors.full_messages
     end
   end
+
+  private
+
+    def clean_cpv(params)
+      params[:cpv]
+    end
 end

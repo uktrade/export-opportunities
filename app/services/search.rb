@@ -1,7 +1,7 @@
 require 'elasticsearch'
 
 class Search
-  attr_reader :term, :filter
+  attr_reader :term, :filter, :cpvs
   #
   # Provides search functionality for Opportunities
   #
@@ -21,6 +21,7 @@ class Search
   #
   def initialize(params, limit: 500, results_only: false, sort: nil)
     @term   = clean_term(params[:s])
+    @cpvs = clean_cpvs(params[:cpvs])
     @filter = SearchFilter.new(params)
     @sort_override = sort
     @sort   = clean_sort(params)
@@ -46,6 +47,7 @@ class Search
     def results_and_metadata(searchable, results)
       {
         term: @term,
+        cpvs: @cpvs,
         filter: @filter,
         sort: @sort,
         boost: @boost,
@@ -67,9 +69,18 @@ class Search
       term.present? ? term.delete("'").gsub(alphanumeric_words).to_a.join(' ') : ''
     end
 
+    def clean_cpvs(cpvs)
+      cpvs.present? ? cpvs.gsub(numerics).to_a : []
+    end
+
     # Regex to identify suitable words for term parameter
     def alphanumeric_words
       /([a-zA-Z0-9]*\w)/
+    end
+
+    # Regex to identify suitable cpv_ids
+    def numerics
+      /([0-9]*\w)/
     end
 
     # Builds OpportunitySort based on filter
@@ -95,6 +106,7 @@ class Search
     # and returns objects in Elasticsearch Syntax
     def build_searchable
       OpportunitySearchBuilder.new(term: @term,
+                                   cpvs: @cpvs,
                                    boost: @boost,
                                    sort: @sort,
                                    limit: @limit,

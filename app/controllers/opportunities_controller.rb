@@ -1,6 +1,3 @@
-require 'constraints/new_domain_constraint' # Not used?
-require 'set'
-
 class OpportunitiesController < ApplicationController
   protect_from_forgery except: :index
   include RegionHelper
