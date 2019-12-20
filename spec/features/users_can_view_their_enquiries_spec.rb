@@ -206,7 +206,7 @@ feature 'User can view their enquiries', sso: true do
 
   scenario 'Viewing an individual enquiry - enquiry HAS been responded to - Right for opportunity - With Downloads' do
     user = create(:user, email: 'john@green.com')
-    country = create(:country, name: 'Lithuania', exporting_guide_path: '/government/publications/exporting-to-lithuania')
+    country = create(:country, name: 'Lithuania', exporting_guide_path: 'https://www.gov.uk/government/publications/exporting-to-lithuania')
     opportunity = create(:opportunity, :published, countries: [country], title: 'Great Opportunity!', slug: 'great-opportunity')
 
     enquiry = create(:enquiry,
