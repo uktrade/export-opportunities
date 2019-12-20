@@ -10,35 +10,22 @@ module SubscriptionHelper
   end
 
   def subscription_params
-    params.require(:subscription).permit(:title, :s, sectors: [], countries: [], types: [], values: [], cpv: [])
+    params.require(:subscription).permit(:title, :s, sectors: [], countries: [], types: [], values: [], cpvs: [])
   end
 
   # Shared between:
   # SubscriptionsController#create
   # PendingSubscriptionsController#update
-  def create_subscription(params, content)
-    clean_params = Search.new(params) # Does not run; cleans params
+  def create_subscription_from(params, content)
+    _params = Search.new(params) # Does not run; cleans params
 
-    # A single subscription has one or multiple CPVs
     form = SubscriptionForm.new(
-      term: clean_params.term,
-      cpvs: clean_params.spvs,
-      filter: clean_params.filter
+      term: _params.term,
+      cpvs: _params.cpvs,
+      filter: _params.filter
     )
     if form.valid?
-
-      subscription = Subscription.create!(
-        user: current_user,
-        title: form[:title],
-        search_term: form[:term],
-        cpvs: form[:cpvs],
-        countries: form[:countries],
-        sectors: form[:sectors],
-        types: form[:types],
-        values: form[:values],
-        confirmed_at: Time.zone.now
-      )
-
+      subscription = create_subscription(form.presenter, _params.filter, current_user)
       yield(subscription) if block_given?
       render 'subscriptions/create', layout: 'notification', locals: {
         subscriptions: Subscription.where(user_id: current_user.id).where(unsubscribed_at: nil),
@@ -46,13 +33,23 @@ module SubscriptionHelper
         content: content['create'],
       }
     else
-      redirect_to opportunities_path(s: clean_params.term), alert: subscription_form.errors.full_messages
+      redirect_to opportunities_path(s: _params.term), alert: subscription_form.errors.full_messages
     end
   end
 
   private
 
-    def clean_cpv(params)
-      params[:cpv]
+    def create_subscription(form_data, filter, user)
+      Subscription.create!(
+        user: user,
+        title: form_data[:title],
+        search_term: form_data[:term],
+        cpv_industry_ids: form_data[:cpvs].join(','),
+        countries: filter.countries(:data),
+        sectors: filter.sectors(:data),
+        types: filter.types(:data),
+        values: filter.values(:data),
+        confirmed_at: Time.zone.now
+      )
     end
 end
