@@ -135,22 +135,16 @@ RSpec.describe Subscription do
       create(:type, name: "Private Sector", slug: 'private-sector')
     end
 
-    describe '#call' do
+    describe '#data', focus: true do
       it 'creates a subscription with a user' do
-        clean_params = Search.new({}) # Does not run; cleans params
-        form = SubscriptionForm.new({
-          term: clean_params.term,
-          filter: clean_params.filter
-        })
-
-        Subcription.create(
-          form, @user
+        Subscription.create(
+          user: @user
         )
         subscription = Subscription.last
 
         expect(subscription.user                 ).to eq @user
-        expect(subscription.title                ).to eq ''
-        expect(subscription.search_term          ).to eq ''
+        expect(subscription.title                ).to eq nil
+        expect(subscription.search_term          ).to eq nil
         expect(subscription.countries.map(&:slug)).to eq []
         expect(subscription.sectors.map(&:slug)  ).to eq []
         expect(subscription.types.map(&:slug)    ).to eq []
@@ -158,15 +152,18 @@ RSpec.describe Subscription do
       end
 
       it 'creates a subscription with a search term' do
-        clean_params = Search.new({ s: 'lycos' }) # Does not run; cleans params
-        form = SubscriptionForm.new({
-          term: clean_params.term,
-          filter: clean_params.filter
+        # clean_params = Search.new({ s: 'lycos' }) # Does not run; cleans params
+        # form = SubscriptionForm.new({
+        #   term: clean_params.term,
+        #   filter: clean_params.filter
+        # })
+
+        Subscription.create!({
+          search_term: 'lycos',
+          title: 'lycos',
+          user: @user
         })
 
-        Subcription.create(
-          form, @user
-        )
         subscription = Subscription.last
 
         expect(subscription.user       ).to eq @user

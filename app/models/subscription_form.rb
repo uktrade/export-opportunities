@@ -22,15 +22,15 @@ class SubscriptionForm
   # Format related subscription data for use in views, e.g.
   # components/subscription_form
   # components/subscription_link
-  def presenter
+  def data
     what = searched_for(@term)
     where = searched_in(@filter)
     {
       term: @term,
-      filter: @filter,
       title: (what + where).sub(/\sin\s|\sfor\s/, ''), # strip out opening ' in ' or ' for '
       cpvs: @cpvs,
       keywords: @term,
+      countries: @filter.countries,
       what: what,
       where: where,
     }
