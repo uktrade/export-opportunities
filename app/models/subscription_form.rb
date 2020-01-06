@@ -40,6 +40,10 @@ class SubscriptionForm
     @term
   end
 
+  def cpvs
+    @cpvs.present? ? @cpvs.join(',') : nil
+  end
+
   def countries
     find_all_by_slug(:countries, Country)
   end

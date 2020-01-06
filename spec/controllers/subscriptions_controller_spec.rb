@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SubscriptionsController, sso: true do
+RSpec.describe SubscriptionsController, sso: true, focus: true do
   describe '#show' do
     it 'marks a subscription as confirmed' do
       token = SecureRandom.uuid
