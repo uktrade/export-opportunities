@@ -207,9 +207,10 @@ class OpportunitySearchBuilder
         {
           bool: {
             should: {
-              terms: {
-                'opportunity_cpvs.industry_id': @cpvs,
-              },
+              query_string: {
+                query: @cpvs.map{|cpv| "#{cpv}*" }.join(' '),
+                fields: ['cpvs.industry_id']
+              }
             },
           },
         }

@@ -19,10 +19,11 @@ module SubscriptionHelper
   # PendingSubscriptionsController#update
   def create_subscription_from(params, content)
     term = clean_term(params[:s])
+    cpvs = clean_cpvs(params[:cpvs])
     filter = SearchFilter.new(params)
     form = SubscriptionForm.new(
       term: term,
-      cpvs: clean_cpvs(params[:cpvs]),
+      cpvs: cpvs,
       filter: filter
     )
     if form.valid?

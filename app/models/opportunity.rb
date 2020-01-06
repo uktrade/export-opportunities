@@ -52,7 +52,7 @@ class Opportunity < ApplicationRecord
         indexes :slug, type: :keyword
       end
 
-      indexes :opportunity_cpvs do 
+      indexes :cpvs do 
         indexes :industry_id, type: :keyword
       end
 
@@ -111,7 +111,7 @@ class Opportunity < ApplicationRecord
   has_many :subscription_notifications, dependent: :destroy
   has_many :opportunity_checks, dependent: :destroy
   has_many :opportunity_sensitivity_checks, dependent: :destroy
-  has_many :opportunity_cpvs, dependent: :destroy
+  has_many :cpvs, foreign_key: 'opportunity_id', class_name: 'OpportunityCpv', dependent: :destroy
 
   accepts_nested_attributes_for :contacts, reject_if: :all_blank
 
@@ -179,7 +179,7 @@ class Opportunity < ApplicationRecord
         types: { only: :slug },
         sectors: { only: :slug },
         values: { only: :slug },
-        opportunity_cpvs: { only: :industry_id }
+        cpvs: { only: :industry_id }
       }
     )
   end
@@ -208,12 +208,6 @@ class Opportunity < ApplicationRecord
 
   def tender?
     false
-  end
-
-  def opportunity_cpv_codes
-    codes = []
-    opportunity_cpvs.each { |cpv| codes.push cpv.industry_id }
-    codes
   end
 
   def exists_in_elasticsearch?

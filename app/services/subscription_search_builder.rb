@@ -1,6 +1,7 @@
 class SubscriptionSearchBuilder
-  def initialize(search_term: '', sectors: [], countries: [], opportunity_types: [], values: [], confirmed_at: nil, unsubscribed_at: nil)
+  def initialize(search_term: '', cpvs: [], sectors: [], countries: [], opportunity_types: [], values: [], confirmed_at: nil, unsubscribed_at: nil)
     @search_term = search_term.to_s.strip
+    @cpvs = cpvs.any? ? cpvs.map(&:industry_id) : []
     @sectors = Array(sectors)
     @countries = Array(countries)
     @opportunity_types = Array(opportunity_types)
@@ -10,16 +11,8 @@ class SubscriptionSearchBuilder
   end
 
   def call
-    keyword_query = keyword_build
-    sector_query = sector_build
-    country_query = country_build
-    opportunity_type_query = opportunity_build
-    value_query = value_build
-    confirmed_at_query = confirmed_at_build
-    unsubscribed_at_query = unsubscribed_at_build
-
-    mandatory_fields = [keyword_query, confirmed_at_query, unsubscribed_at_query].compact
-    taxonomy_filters = [sector_query, country_query, opportunity_type_query, value_query].compact
+    mandatory_fields = [keyword_build, cpvs_build, confirmed_at_build, unsubscribed_at_build].compact
+    taxonomy_filters = [sector_build, country_build, opportunity_build, value_build].compact
 
     query = if taxonomy_filters.empty?
               {
@@ -46,6 +39,22 @@ class SubscriptionSearchBuilder
       {
         match_all: {},
       }
+    end
+
+    def cpvs_build
+      if @cpvs.present?
+        a = {
+          bool: {
+            should: {
+              query_string: {
+                query: @cpvs.map{|cpv| "#{cpv}*" }.join(' '),
+                fields: ['cpvs.industry_id']
+              }
+            },
+          },
+        }
+        a
+      end
     end
 
     def sector_build

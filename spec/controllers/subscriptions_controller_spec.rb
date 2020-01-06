@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SubscriptionsController, sso: true, focus: true do
+RSpec.describe SubscriptionsController, sso: true do
   describe '#show' do
     it 'marks a subscription as confirmed' do
       token = SecureRandom.uuid
@@ -68,7 +68,7 @@ RSpec.describe SubscriptionsController, sso: true, focus: true do
 
         subscription = Subscription.last
         expect(subscription.email).to eql 'test@example.com'
-        expect(subscription.cpv_industry_ids).to eql '1,2'
+        expect(subscription.cpvs.map(&:industry_id)).to eql ['1','2']
         expect(subscription.confirmed_at).to be_present
       end
     end

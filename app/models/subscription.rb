@@ -40,6 +40,10 @@ class Subscription < ApplicationRecord
     indexes :sectors do
       indexes :id, type: :keyword
     end
+
+    indexes :cpvs do 
+      indexes :industry_id, type: :keyword
+    end
   end
 
   devise :confirmable
@@ -53,6 +57,7 @@ class Subscription < ApplicationRecord
   has_many :notifications, class_name: 'SubscriptionNotification', dependent: :nullify
 
   belongs_to :user, optional: false
+  has_many :cpvs, foreign_key: 'subscription_id', class_name: 'SubscriptionCpv', dependent: :destroy
 
   delegate :email, to: :user
 
@@ -80,6 +85,7 @@ class Subscription < ApplicationRecord
         types: { only: :id },
         sectors: { only: :id },
         values: { only: :id },
+        cpvs: { only: :industry_id }
       }
     )
   end

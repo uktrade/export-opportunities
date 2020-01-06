@@ -41,7 +41,7 @@ class SubscriptionForm
   end
 
   def cpvs
-    @cpvs.present? ? @cpvs.join(',') : nil
+    @cpvs.present? ? @cpvs : []
   end
 
   def countries
