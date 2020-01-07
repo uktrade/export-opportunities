@@ -15,7 +15,7 @@ class OpportunityPresenter < PagePresenter
     @tender_value = opportunity.tender_value
     @buyer_name = opportunity&.buyer_name
     @buyer_address = opportunity&.buyer_address
-    @opportunity_cpvs = opportunity&.opportunity_cpvs
+    @opportunity_cpvs = opportunity&.cpvs
     @teaser = opportunity.teaser
     @sectors = opportunity.sectors
     @created_at = opportunity.created_at
