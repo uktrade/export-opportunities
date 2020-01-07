@@ -40,7 +40,7 @@
 
       = f.input_select :country_ids, form.input_select('countries', @countries), { default: @default_country, multiple: true, size: '5', data: { node: 'countries', unselected: content['countries_unselected'], display: content['countries_selected_title'] } }
       = f.input_select :sector_ids, form.input_select('sector_ids', @sectors), { multiple: true, size: '5', data: { node: 'sectors', unselected: content['sectors_unselected'], display: content['sectors_selected_title'] } }
-      = f.input_text_group :opportunity_cpv_ids, form.input_text_group('opportunity_cpvs'), { data: { node: 'cpv-lookup' }, edit_opportunity: @opportunity.cpvs.present? }
+      = f.input_text_group :cpv_ids, form.input_text_group('cpvs'), { data: { node: 'cpv-lookup' }, edit_opportunity: @opportunity.cpvs.present? }
 
       = f.input_checkbox_group :type_ids, form.input_checkbox_group('types', @types)
       = f.input_checkbox_group :supplier_preference_ids, form.input_checkbox_group('supplier_preferences', @supplier_preferences)

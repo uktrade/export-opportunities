@@ -8,17 +8,17 @@ class CreateOpportunity
   end
 
   def call(params)
-    opportunity_cpv_ids_arr = []
+    cpv_ids_arr = []
     # TODO: this works for the spec, but is this what the actual form would submit?
-    if params[:opportunity_cpv_ids].present? && params[:opportunity_cpv_ids].size <= 1
-      opportunity_cpv_ids_arr << { industry_id: params[:opportunity_cpv_ids][0], industry_scheme: 'cpv' }
-    elsif params[:opportunity_cpv_ids].present?
-      params[:opportunity_cpv_ids].map { |cpv_id| opportunity_cpv_ids_arr << { industry_id: cpv_id.to_s, industry_scheme: 'cpv' } }
+    if params[:cpv_ids].present? && params[:cpv_ids].size <= 1
+      cpv_ids_arr << { industry_id: params[:cpv_ids][0], industry_scheme: 'cpv' }
+    elsif params[:cpv_ids].present?
+      params[:cpv_ids].map { |cpv_id| cpv_ids_arr << { industry_id: cpv_id.to_s, industry_scheme: 'cpv' } }
     end
 
-    opportunity_cpvs = params[:opportunity_cpvs] || opportunity_cpv_ids_arr
-    params.delete :opportunity_cpvs
-    params.delete :opportunity_cpv_ids
+    cpvs = params[:cpvs] || cpv_ids_arr
+    params.delete :cpvs
+    params.delete :cpv_ids
 
     opportunity = Opportunity.new(params)
 
@@ -32,14 +32,14 @@ class CreateOpportunity
 
     begin
       opportunity.save!
-      opportunity_cpvs&.each do |opportunity_cpv|
-        cpv_id = opportunity_cpv[:industry_id]
-        opportunity_cpv = OpportunityCpv.new(
+      cpvs&.each do |cpv|
+        cpv_id = cpv[:industry_id]
+        cpv = OpportunityCpv.new(
           industry_id: cpv_id.to_s,
-          industry_scheme: opportunity_cpv[:industry_scheme],
+          industry_scheme: cpv[:industry_scheme],
           opportunity_id: opportunity.id
         )
-        opportunity_cpv.save!
+        cpv.save!
         add_sector_from_cpv(opportunity, cpv_id)
       end
     rescue ActiveRecord::RecordNotUnique

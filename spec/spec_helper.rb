@@ -193,7 +193,7 @@ def opportunity_params(title: 'title',
                        sector_ids: ['2'],
                        teaser: 'teaser',
                        description: 'description',
-                       opportunity_cpvs: [{ 
+                       cpvs: [{ 
                                             industry_id: 38511000,
                                             industry_scheme: 'test_scheme'
                                            }])
@@ -211,7 +211,7 @@ def opportunity_params(title: 'title',
       { name: 'bar', email: 'email@bar.com' },
     ],
     service_provider_id: service_provider_id,
-    opportunity_cpvs: opportunity_cpvs
+    cpvs: cpvs
   }
 end
 

@@ -167,7 +167,7 @@ feature 'Administering opportunities' do
       fill_in 'opportunity_description', with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
       select service_provider.name, from: 'Service provider'
       fill_in_contact_details
-      fill_in "opportunity[opportunity_cpv_ids][]", with: "150110100080: - Lard"
+      fill_in "opportunity[cpv_ids][]", with: "150110100080: - Lard"
 
       click_on form['submit_draft']
 

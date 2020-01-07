@@ -54,7 +54,7 @@
       %dt= page._content('fields.sector_ids.label')
       %dd= opp.put(@opportunity.sectors.map(&:name).join(', '), '-')
 
-      %dt= page._content('fields.opportunity_cpvs.label')
+      %dt= page._content('fields.cpvs.label')
       %dd
         - if opp.cpvs.present?
           %ul
