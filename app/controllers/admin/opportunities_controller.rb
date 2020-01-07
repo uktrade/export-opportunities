@@ -143,7 +143,7 @@ class Admin::OpportunitiesController < Admin::BaseController
       @values = Value.all.order(:slug)
       @enquiry_interactions = Opportunity.enquiry_interactions.keys
       @ragg = opportunity.ragg
-      @opportunity_cpvs = opportunity.opportunity_cpvs
+      @opportunity_cpvs = opportunity.cpvs
     end
 
     def setup_opportunity_contacts(opportunity)
