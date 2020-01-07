@@ -173,7 +173,7 @@ feature 'Administering opportunities' do
 
       expect(page.status_code).to eq 200
       expect(page).to have_text('Saved to draft: "A chance to begin again in a golden land of opportunity and adventure"')
-      expect(Opportunity.last.opportunity_cpvs.size).to equal(1)
+      expect(Opportunity.last.cpvs.size).to equal(1)
     end
 
     scenario 'and add multiple cpv codes', js: true do
@@ -242,7 +242,7 @@ feature 'Administering opportunities' do
       expect(page).to have_text('Saved to draft: "A chance to begin again in a golden land of opportunity and adventure"')
       expect(page).to have_text(cpv_value_0)
       expect(page).to have_text(cpv_value_1)
-      expect(Opportunity.last.opportunity_cpvs.size).to equal(2)
+      expect(Opportunity.last.cpvs.size).to equal(2)
     end
   end
 

@@ -56,9 +56,9 @@
 
       %dt= page._content('fields.opportunity_cpvs.label')
       %dd
-        - if opp.opportunity_cpvs.present?
+        - if opp.cpvs.present?
           %ul
-            - opp.opportunity_cpvs.each do |cpv|
+            - opp.cpvs.each do |cpv|
               %li= cpv.industry_id
         - else
           = 'none'
