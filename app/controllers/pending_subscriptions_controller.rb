@@ -11,7 +11,7 @@ class PendingSubscriptionsController < ApplicationController
     content = get_content('subscriptions.yml')
     @title = content['create']['title']
     pending_subscription = PendingSubscription.find(params[:id])
-    create_subscription(pending_subscription.query_params, content) do |subscription|
+    create_subscription_from(pending_subscription.query_params, content) do |subscription|
       pending_subscription.update!(subscription: subscription)
       flash.clear # Suppress the "You are now signed in" message
     end

@@ -78,7 +78,7 @@ class VolumeOppsRetriever
 
     tender_opportunity_release = opportunity_release['tender']
     tender_opportunity_release = tender_opportunity_release['items'] if tender_opportunity_release
-    opportunity_cpvs = []
+    cpvs = []
 
     tender_opportunity_release&.each do |each_tender_opportunity_release|
       classification_tender_opportunity_release = each_tender_opportunity_release['classification']
@@ -91,7 +91,7 @@ class VolumeOppsRetriever
                                cpv
                              end
       cpv_scheme = classification_tender_opportunity_release['scheme'] if classification_tender_opportunity_release
-      opportunity_cpvs << { industry_id: cpv_with_description, industry_scheme: cpv_scheme } if cpv
+      cpvs << { industry_id: cpv_with_description, industry_scheme: cpv_scheme } if cpv
     end
 
     if opportunity_release['planning'] && opportunity_release['planning']['budget']
@@ -123,7 +123,7 @@ class VolumeOppsRetriever
     #                    opportunity['pubdate']
     #                  end
     if country && tender_url.present?
-      op_params = {
+      {
         title: title,
         country_ids: country.id,
         sector_ids: [],
@@ -144,11 +144,10 @@ class VolumeOppsRetriever
         tender_url: tender_url,
         ocid: opportunity['ocid'],
         tender_source: opportunity_source,
-        opportunity_cpvs: opportunity_cpvs,
+        cpvs: cpvs,
       }
-      op_params
     else
-      return nil
+      nil
     end
   end
 

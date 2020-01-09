@@ -2,7 +2,6 @@ require 'net/http'
 
 class TranslationConnector
   def call(opportunity_params, configuration, opportunity_language, hostname, translation_api_key)
-
     configuration.each do |config|
       uri = URI(hostname)
       header = { 'Content-Type': 'application/x-www-form-urlencoded' }

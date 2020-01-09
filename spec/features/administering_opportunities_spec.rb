@@ -167,13 +167,13 @@ feature 'Administering opportunities' do
       fill_in 'opportunity_description', with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
       select service_provider.name, from: 'Service provider'
       fill_in_contact_details
-      fill_in "opportunity[opportunity_cpv_ids][]", with: "150110100080: - Lard"
+      fill_in "opportunity[cpv_ids][]", with: "150110100080: - Lard"
 
       click_on form['submit_draft']
 
       expect(page.status_code).to eq 200
       expect(page).to have_text('Saved to draft: "A chance to begin again in a golden land of opportunity and adventure"')
-      expect(Opportunity.last.opportunity_cpvs.size).to equal(1)
+      expect(Opportunity.last.cpvs.size).to equal(1)
     end
 
     scenario 'and add multiple cpv codes', js: true do
@@ -242,7 +242,7 @@ feature 'Administering opportunities' do
       expect(page).to have_text('Saved to draft: "A chance to begin again in a golden land of opportunity and adventure"')
       expect(page).to have_text(cpv_value_0)
       expect(page).to have_text(cpv_value_1)
-      expect(Opportunity.last.opportunity_cpvs.size).to equal(2)
+      expect(Opportunity.last.cpvs.size).to equal(2)
     end
   end
 

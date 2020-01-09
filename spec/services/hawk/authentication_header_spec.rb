@@ -1,3 +1,8 @@
+#
+# COMMENTING OUT AS CIRCLE CI SOMETIMES FAILS TO LOAD Hawk AND RAISES AN ERROR
+# THE TESTS ARE STILL USEFUL IF MODIFYING THE HAWK AUTHENTICATION CODE
+#
+
 # require 'spec_helper'
 
 # describe Hawk::AuthenticationFailure, skip: true do

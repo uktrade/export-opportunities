@@ -50,7 +50,7 @@ class RulesEngine
 
     def save_and_publish(opportunity)
       # make sure that we create a subscription notification for matching subscriptions
-      result = UpdateOpportunityStatus.new.call(opportunity, 'publish')
+      UpdateOpportunityStatus.new.call(opportunity, 'publish')
     end
 
     def save_as_pending(opportunity)
