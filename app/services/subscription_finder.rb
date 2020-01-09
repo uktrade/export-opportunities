@@ -35,7 +35,7 @@ class SubscriptionFinder
       Subscription.__elasticsearch__.refresh_index!
       # TODO: window size must be <= #of active subscribers
       @matching_subscriptions ||= Subscription.__elasticsearch__.search(
-        size: Figaro.env.SUBSCRIPTION_ES_MAX_RESULT_WINDOW_SIZE || 100_000,
+        size: Figaro.env.SUBSCRIPTION_ES_MAX_RESULT_WINDOW_SIZE || 10_000,
         query: query[:search_query]
       ).records.to_a
     end
