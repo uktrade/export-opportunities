@@ -4,8 +4,8 @@ class CreateSubscription
   # Inputs: SubscriptionForm and a User
   #
   def call(form, user)
-    form_output = form.call
-    Subscription.create!(
+    form_output = form.data
+    subscription = Subscription.create!(
       user: user,
       title: form_output[:title],
       search_term: form.search_term,
@@ -15,5 +15,9 @@ class CreateSubscription
       values: form.values,
       confirmed_at: Time.zone.now
     )
+    form.cpvs.each do |cpv|
+      subscription.cpvs.create(industry_id: cpv)
+    end
+    subscription
   end
 end

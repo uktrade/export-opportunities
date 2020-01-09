@@ -62,7 +62,7 @@ class Admin::RegistrationsController < Devise::RegistrationsController
       @service_providers = ServiceProvider.select(:id, :name).order(name: :asc)
     end
 
-    def after_inactive_sign_up_path_for(___)
+    def after_inactive_sign_up_path_for(_)
       admin_editors_path
     end
 

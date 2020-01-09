@@ -15,17 +15,20 @@ class SubscriptionForm
   #
   def initialize(results)
     @term   = results[:term]
+    @cpvs   = results[:cpvs]
     @filter = results[:filter].presence || NullFilter.new
   end
 
   # Format related subscription data for use in views, e.g.
   # components/subscription_form
   # components/subscription_link
-  def call
+  def data
     what = searched_for(@term)
     where = searched_in(@filter)
     {
+      term: @term,
       title: (what + where).sub(/\sin\s|\sfor\s/, ''), # strip out opening ' in ' or ' for '
+      cpvs: @cpvs,
       keywords: @term,
       countries: @filter.countries,
       what: what,
@@ -35,6 +38,10 @@ class SubscriptionForm
 
   def search_term
     @term
+  end
+
+  def cpvs
+    @cpvs.present? ? @cpvs : []
   end
 
   def countries

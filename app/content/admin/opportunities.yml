@@ -65,7 +65,7 @@ fields:
     description: Select the relevant industries for this opportunity.
     placeholder: Search the relevant industries
 
-  opportunity_cpvs:
+  cpvs:
     label: CPV codes (optional)
     description: Add CPV codes for the products you need to help suppliers find your opportunity.
     placeholder: Enter CPV code

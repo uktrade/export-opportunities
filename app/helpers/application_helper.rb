@@ -30,9 +30,9 @@ module ApplicationHelper
       response = nil
     end
     if response.nil? || response.code == '404'
-      return nil
+      nil
     else
-      return trade_profile_url
+      trade_profile_url
     end
   end
 

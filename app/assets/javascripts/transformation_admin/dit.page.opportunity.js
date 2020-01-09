@@ -96,7 +96,7 @@ dit.page.opportunity = (new function () {
    * and ability to add multiple entries.
    **/
   function setupCpvLookup() {
-    var $cpvFieldset = $(".field-opportunity_cpv_ids.field-group");
+    var $cpvFieldset = $(".field-cpv_ids.field-group");
     var $cpvInputElements = $("[data-node=cpv-lookup]");
     var $cpvLookupController = $('<button class="CpvLookupController" type="button">Add another code</button>');
     var service = new dit.classes.Service(dit.constants.CPV_CODE_LOOKUP_URL);
@@ -105,7 +105,7 @@ dit.page.opportunity = (new function () {
       $cpvInputElements.each(function(i) {
         var cpvLookup = new dit.classes.CpvCodeLookup($(this), service, {
           param: "format=json&description=",
-          name: "opportunity[opportunity_cpv_ids][]",
+          name: "opportunity[cpv_ids][]",
           placeholder: dit.constants.CPV_FIELD_PLACEHOLDER
         });
 
@@ -125,7 +125,7 @@ dit.page.opportunity = (new function () {
               $(this).before($cloneField);
               new dit.classes.CpvCodeLookup($cloneInput, service, {
                 param: "format=json&description=",
-                name: "opportunity[opportunity_cpv_ids][]",
+                name: "opportunity[cpv_ids][]",
                 placeholder: dit.constants.CPV_FIELD_PLACEHOLDER
               });
             }

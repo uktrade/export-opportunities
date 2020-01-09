@@ -106,7 +106,7 @@ describe CreateOpportunity, type: :service do
 
       it 'unless CPV code not provided' do
         params_without_cpv_or_sector = 
-          opportunity_params(opportunity_cpvs: nil).except(:sector_ids)
+          opportunity_params(cpvs: nil).except(:sector_ids)
         opportunity = CreateOpportunity.new(@editor).call(params_without_cpv_or_sector)
         expect(opportunity.sectors.count).to eq 0
       end

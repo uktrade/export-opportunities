@@ -638,6 +638,9 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         opportunity = create_opportunity(:published)
         items = get_feed(activity_stream_opportunities_path)
 
+        uri = URI.parse(ENV["DOMAIN"])
+        domain = "#{uri.scheme}://#{uri.host}"
+
         expect(items.length).to eq(1)
         item = items[0]
         expect(item['id']).to eq("dit:exportOpportunities:Opportunity:#{opportunity.id}:Create")
@@ -646,7 +649,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         expect(item['object']['type']).to include('dit:Opportunity')
         expect(item['object']['id']).to eq("dit:exportOpportunities:Opportunity:#{opportunity.id}")
         expect(item['object']['name']).to eq('2x4 Wood')
-        expect(item['object']['url']).to eq("http://localhost/export-opportunities/opportunities/2x4-wood")
+        expect(item['object']['url']).to eq("#{domain}/export-opportunities/opportunities/2x4-wood")
         expect(item['object']['endTime']).to eq('2008-12-01T00:00:00+00:00')
         expect(item['object']['summary']).to eq('Looking for 50kg of 2x4 Oak Wood Blocks')
         expect(item['object']['content']).to eq('We are proud to announce the tender for our annual wood block requirement. 

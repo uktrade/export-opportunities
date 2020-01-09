@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DeleteOldSubscriptionNotificationsWorker do
 
-  it 'deletes subscription notifications older than 30 days', focus: true do
+  it 'deletes subscription notifications older than 30 days' do
     SubscriptionNotification.destroy_all
     create(:subscription_notification)
     old_notification = create(:subscription_notification)

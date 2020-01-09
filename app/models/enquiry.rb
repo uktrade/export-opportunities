@@ -18,9 +18,9 @@ class Enquiry < ApplicationRecord
   ].freeze
 
   validates :first_name, \
-    :company_name, :company_address, :company_postcode, \
-    :existing_exporter, :company_sector, :company_explanation, \
-    presence: true
+            :company_name, :company_address, :company_postcode, \
+            :existing_exporter, :company_sector, :company_explanation, \
+            presence: true
 
   validate :company_explanation_length
 
@@ -72,7 +72,6 @@ class Enquiry < ApplicationRecord
         company_postcode: value_by_key(data, :postal_code),
         company_house_number: value_by_key(data, :number),
         company_url: value_by_key(data, :website),
-        company_telephone: company_telephone,
         company_explanation: value_by_key(data, :summary),
         account_type: value_by_key(data, :company_type)
       )

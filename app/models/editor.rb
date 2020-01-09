@@ -9,8 +9,8 @@ class Editor < ApplicationRecord
   enum role: { uploader: 1, publisher: 2, previewer: 3, administrator: 4 }
 
   devise :database_authenticatable,
-    :recoverable, :rememberable, :trackable, :validatable,
-    :registerable, :confirmable, :async, :lockable, :session_limitable
+         :recoverable, :rememberable, :trackable, :validatable,
+         :registerable, :confirmable, :async, :lockable, :session_limitable
 
   validates :password, strong_password: true, if: :password_required?
 

@@ -6,11 +6,11 @@ FactoryBot.define do
     title { Faker::Lorem.sentence[0...Opportunity::TITLE_LENGTH_LIMIT] }
     teaser { Faker::Lorem.sentence[0...Opportunity::TEASER_LENGTH_LIMIT] }
 
-    description { |attrs| attrs[:teaser] + Faker::Lorem.paragraph(1) }
+    description { |attrs| attrs[:teaser] + Faker::Lorem.paragraph(sentence_count: 1) }
     sequence(:slug) { |n| [title.downcase.parameterize, n].join('-') }
     source { :post }
     status { :pending }
-    response_due_on { Faker::Time.forward(23, :morning) }
+    response_due_on { Faker::Time.forward(days: 23, period: :morning) }
 
     trait :published do
       status { :publish }
@@ -29,7 +29,7 @@ FactoryBot.define do
     end
 
     trait :expired do
-      response_due_on { Faker::Time.backward(7) }
+      response_due_on { Faker::Time.backward(days: 7) }
     end
 
     after(:build) do |opportunity|

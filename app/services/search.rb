@@ -1,7 +1,8 @@
 require 'elasticsearch'
 
 class Search
-  attr_reader :term, :filter
+  include ParamsHelper
+  attr_reader :term, :filter, :cpvs
   #
   # Provides search functionality for Opportunities
   #
@@ -20,13 +21,14 @@ class Search
   #                without metadata, input data, and data for filters
   #
   def initialize(params, limit: 500, results_only: false, sort: nil)
-    @term   = clean_term(params[:s])
+    @term = clean_term(params[:s])
+    @cpvs = clean_cpvs(params[:cpvs])
     @filter = SearchFilter.new(params)
     @sort_override = sort
-    @sort   = clean_sort(params)
-    @boost  = params['boost_search'].present?
-    @limit  = limit
-    @paged  = params[:paged]
+    @sort = clean_sort(params)
+    @boost = params['boost_search'].present?
+    @limit = limit
+    @paged = params[:paged]
     @results_only = results_only
   end
 
@@ -46,6 +48,7 @@ class Search
     def results_and_metadata(searchable, results)
       {
         term: @term,
+        cpvs: @cpvs,
         filter: @filter,
         sort: @sort,
         boost: @boost,
@@ -61,16 +64,6 @@ class Search
     end
 
     # -- Parameter Sanitisation --
-
-    # Cleans the term parameter
-    def clean_term(term = nil)
-      term.present? ? term.delete("'").gsub(alphanumeric_words).to_a.join(' ') : ''
-    end
-
-    # Regex to identify suitable words for term parameter
-    def alphanumeric_words
-      /([a-zA-Z0-9]*\w)/
-    end
 
     # Builds OpportunitySort based on filter
     def clean_sort(params)
@@ -95,6 +88,7 @@ class Search
     # and returns objects in Elasticsearch Syntax
     def build_searchable
       OpportunitySearchBuilder.new(term: @term,
+                                   cpvs: @cpvs,
                                    boost: @boost,
                                    sort: @sort,
                                    limit: @limit,
