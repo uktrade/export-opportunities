@@ -123,7 +123,7 @@ class VolumeOppsRetriever
     #                    opportunity['pubdate']
     #                  end
     if country && tender_url.present?
-      op_params = {
+      {
         title: title,
         country_ids: country.id,
         sector_ids: [],
@@ -146,9 +146,8 @@ class VolumeOppsRetriever
         tender_source: opportunity_source,
         cpvs: cpvs,
       }
-      op_params
     else
-      return nil
+      nil
     end
   end
 

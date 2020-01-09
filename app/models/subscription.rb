@@ -41,7 +41,7 @@ class Subscription < ApplicationRecord
       indexes :id, type: :keyword
     end
 
-    indexes :cpvs do 
+    indexes :cpvs do
       indexes :industry_id, type: :keyword
     end
   end
@@ -77,7 +77,7 @@ class Subscription < ApplicationRecord
     SubscriptionMailer
   end
 
-  def as_indexed_json(___ = {})
+  def as_indexed_json(_ = {})
     as_json(
       only: %i[search_term confirmed_at unsubscribed_at title],
       include: {
@@ -85,7 +85,7 @@ class Subscription < ApplicationRecord
         types: { only: :id },
         sectors: { only: :id },
         values: { only: :id },
-        cpvs: { only: :industry_id }
+        cpvs: { only: :industry_id },
       }
     )
   end

@@ -52,7 +52,7 @@ class Opportunity < ApplicationRecord
         indexes :slug, type: :keyword
       end
 
-      indexes :cpvs do 
+      indexes :cpvs do
         indexes :industry_id, type: :keyword
       end
 
@@ -86,13 +86,13 @@ class Opportunity < ApplicationRecord
   include PgSearch
 
   pg_search_scope :fuzzy_match,
-    against: %i[title teaser description],
-    using: { tsearch: { tsvector_column: 'tsv', dictionary: 'english' } }
+                  against: %i[title teaser description],
+                  using: { tsearch: { tsvector_column: 'tsv', dictionary: 'english' } }
 
   pg_search_scope :admin_match,
-    against: %i[title teaser description],
-    associated_against: { author: %i[name email] },
-    using: { tsearch: { tsvector_column: 'tsv', dictionary: 'english' } }
+                  against: %i[title teaser description],
+                  associated_against: { author: %i[name email] },
+                  using: { tsearch: { tsvector_column: 'tsv', dictionary: 'english' } }
 
   scope :published, -> { where(status: Opportunity.statuses[:publish]) }
   scope :applicable, -> { where('response_due_on >= ?', Time.zone.today) }
@@ -171,7 +171,7 @@ class Opportunity < ApplicationRecord
     self.description = description.try(:gsub, /[[:space:]]+/, ' ').try(:gsub, /&nbsp;/i, ' ')
   end
 
-  def as_indexed_json(___ = {})
+  def as_indexed_json(_ = {})
     as_json(
       only: %i[title teaser description created_at updated_at status response_due_on first_published_at source],
       include: {
@@ -179,7 +179,7 @@ class Opportunity < ApplicationRecord
         types: { only: :slug },
         sectors: { only: :slug },
         values: { only: :slug },
-        cpvs: { only: :industry_id }
+        cpvs: { only: :industry_id },
       }
     )
   end

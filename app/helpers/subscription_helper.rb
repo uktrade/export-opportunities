@@ -38,5 +38,4 @@ module SubscriptionHelper
       redirect_to opportunities_path(s: term), alert: subscription_form.errors.full_messages
     end
   end
-
 end

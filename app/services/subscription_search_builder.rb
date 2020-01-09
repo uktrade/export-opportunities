@@ -47,9 +47,9 @@ class SubscriptionSearchBuilder
           bool: {
             should: {
               query_string: {
-                query: @cpvs.map{|cpv| "#{cpv}*" }.join(' '),
-                fields: ['cpvs.industry_id']
-              }
+                query: @cpvs.map { |cpv| "#{cpv}*" }.join(' '),
+                fields: ['cpvs.industry_id'],
+              },
             },
           },
         }

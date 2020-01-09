@@ -74,7 +74,7 @@ class OpportunitySensitivityRetriever
       response[:address] = address[0]['Text'] if address[0]
       response[:phone] = { country_code: phone[0]['CountryCode'], number: phone[0]['Text'] } if phone[0]
 
-      return response
+      response
     end
   end
 

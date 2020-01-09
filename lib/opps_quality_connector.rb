@@ -4,10 +4,10 @@ class OppsQualityConnector
 
     # input text from OO may contain invalid byte sequence in UTF-8
     quality_text = quality_text.encode('UTF-8',
-      'binary',
-      invalid: :replace,
-      undef: :replace,
-      replace: '')
+                                       'binary',
+                                       invalid: :replace,
+                                       undef: :replace,
+                                       replace: '')
 
     response_body = JSON.parse(
       fetch_response(hostname, quality_api_key, quality_text)

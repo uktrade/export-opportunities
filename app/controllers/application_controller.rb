@@ -125,7 +125,7 @@ class ApplicationController < ActionController::Base
     return if current_user
 
     # Temporary removal for Hotfix - 4 Nov
-    # 
+    #
     # if current_user
     #   if Figaro.env.bypass_sso? || user_completed_new_registration_journey?
     #     return
@@ -146,7 +146,7 @@ class ApplicationController < ActionController::Base
 
   def user_completed_new_registration_journey?
     return true if Figaro.env.bypass_sso?
-    
+
     if (sso_data = DirectoryApiClient.user_data(cookies[Figaro.env.SSO_SESSION_COOKIE]))
       profile = value_by_key(sso_data, :user_profile)
       if profile.present?
@@ -181,6 +181,7 @@ class ApplicationController < ActionController::Base
 
   def ga360_campaign_parameters(utm_source, utm_medium, utm_campaign, utm_content)
     return nil unless utm_source && utm_medium && utm_campaign && utm_content
+
     "?utm_source=#{utm_source}&utm_medium=#{utm_medium}&utm_campaign=#{utm_campaign}&utm_content=#{utm_content}"
   end
 

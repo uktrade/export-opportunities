@@ -21,14 +21,14 @@ class Search
   #                without metadata, input data, and data for filters
   #
   def initialize(params, limit: 500, results_only: false, sort: nil)
-    @term   = clean_term(params[:s])
+    @term = clean_term(params[:s])
     @cpvs = clean_cpvs(params[:cpvs])
     @filter = SearchFilter.new(params)
     @sort_override = sort
-    @sort   = clean_sort(params)
-    @boost  = params['boost_search'].present?
-    @limit  = limit
-    @paged  = params[:paged]
+    @sort = clean_sort(params)
+    @boost = params['boost_search'].present?
+    @limit = limit
+    @paged = params[:paged]
     @results_only = results_only
   end
 
