@@ -47,7 +47,7 @@ class SubscriptionSearchBuilder
           bool: {
             should: {
               query_string: {
-                query: @cpvs.map { |cpv| (0..cpv.length-1).map{|i| "#{cpv[0..i]}" }.join(" OR ") }.join(' OR '),
+                query: @cpvs.map { |cpv| (0..cpv.length - 1).map { |i| cpv[0..i].to_s }.join(' OR ') }.join(' OR '),
                 fields: ['cpvs.industry_id'],
               },
             },
