@@ -138,14 +138,16 @@ RSpec.describe SubscriptionFinder, :elasticsearch, :commit, type: :service do
   context 'when filtering by cpv codes' do
     it 'returns opportunities with a matching CPV code' do
       opportunity = create(:opportunity)
-      OpportunityCpv.create(opportunity: opportunity, industry_id: "1")
-      OpportunityCpv.create(opportunity: opportunity, industry_id: "2")
+      OpportunityCpv.create(opportunity: opportunity, industry_id: "1") # Tests exact match
+      OpportunityCpv.create(opportunity: opportunity, industry_id: "20") # Tests parent -> child match
 
       first_subscription = create(:subscription)
       SubscriptionCpv.create(subscription: first_subscription, industry_id: "1")
       second_subscription = create(:subscription)
       SubscriptionCpv.create(subscription: second_subscription, industry_id: "2")
       irrelevant_subscription = create(:subscription)
+      another_irrelevant_subscription = create(:subscription)
+      SubscriptionCpv.create(subscription: another_irrelevant_subscription, industry_id: "3")
 
       opportunity.reload
       first_subscription.reload
@@ -157,6 +159,7 @@ RSpec.describe SubscriptionFinder, :elasticsearch, :commit, type: :service do
       expect(response).to include(first_subscription)
       expect(response).to include(second_subscription)
       expect(response).to_not include(irrelevant_subscription)
+      expect(response).to_not include(another_irrelevant_subscription)
     end
   end
 

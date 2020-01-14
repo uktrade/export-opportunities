@@ -6,6 +6,7 @@ class AddOpportunityToMatchingSubscriptionsQueueWorker
   def perform(opportunity_id)
     email_addresses_notified = {}
     opportunity = Opportunity.find(opportunity_id)
+    debugger
     matching_subscriptions = SubscriptionFinder.new.call(opportunity)
 
     matching_subscriptions.each do |subscription|
