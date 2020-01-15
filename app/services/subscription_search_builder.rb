@@ -43,17 +43,16 @@ class SubscriptionSearchBuilder
 
     def cpvs_build
       if @cpvs.present?
-        a = {
+        {
           bool: {
             should: {
               query_string: {
-                query: @cpvs.map { |cpv| "#{cpv}*" }.join(' '),
+                query: @cpvs.map { |cpv| (0..cpv.length - 1).map { |i| cpv[0..i].to_s }.join(' OR ') }.join(' OR '),
                 fields: ['cpvs.industry_id'],
               },
             },
           },
         }
-        a
       end
     end
 

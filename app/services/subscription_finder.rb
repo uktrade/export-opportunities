@@ -9,7 +9,6 @@ class SubscriptionFinder
     @search_term = opportunity.title
     @cpvs = opportunity.cpvs
 
-    matching_subscriptions
     matching_subscriptions.select do |subscription|
       if subscription.search_term.present? && subscription.cpvs.empty?
         Opportunity.where(id: opportunity.id)
