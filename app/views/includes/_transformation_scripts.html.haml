@@ -43,7 +43,7 @@
   window.dataLayer.push({
     'businessUnit': 'ExportOpportunities',
     'siteLanguage': 'en-gb',
-    'userID': '#{current_user&.id}',
+    'userID': '#{current_user&.hashed_uuid}',
     'loginStatus': '#{current_user ? "True" : "False"}',
     'pageCategory': '#{@page_type}'
   });
