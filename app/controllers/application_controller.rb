@@ -106,7 +106,6 @@ class ApplicationController < ActionController::Base
 
   # Users are sometimes signed in on SSO but not in ExOps.
   # This method checks and signs them into ExOps if needed
-
   before_action :force_sign_in_parity
   def force_sign_in_parity
     return if current_user
@@ -121,18 +120,19 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # populate sso_hashed_user_id if missing
+  before_action :populate_sso_hashed_uuid
+  def populate_sso_hashed_uuid
+    if current_user &&
+       current_user.sso_hashed_uuid.blank? && 
+       (sso_id = cookies[Figaro.env.SSO_SESSION_COOKIE]).present? &&
+       (sso_user = DirectoryApiClient.user_data(sso_id)).present?
+          current_user.update(sso_hashed_uuid: sso_user["hashed_uuid"])
+    end
+  end
+
   def require_sso!
     return if current_user
-
-    # Temporary removal for Hotfix - 4 Nov
-    #
-    # if current_user
-    #   if Figaro.env.bypass_sso? || user_completed_new_registration_journey?
-    #     return
-    #   else
-    #     sign_out current_user
-    #   end
-    # end
 
     # So omniauth can return us where we left off
     store_location_for(:user, request.url)
@@ -142,18 +142,6 @@ class ApplicationController < ActionController::Base
     else
       redirect_to user_exporting_is_great_omniauth_authorize_path
     end
-  end
-
-  def user_completed_new_registration_journey?
-    return true if Figaro.env.bypass_sso?
-
-    if (sso_data = DirectoryApiClient.user_data(cookies[Figaro.env.SSO_SESSION_COOKIE]))
-      profile = value_by_key(sso_data, :user_profile)
-      if profile.present?
-        return true
-      end
-    end
-    false
   end
 
   def value_by_key(hash, key)
