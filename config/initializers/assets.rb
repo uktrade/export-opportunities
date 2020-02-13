@@ -101,4 +101,4 @@ Rails.application.config.assets.precompile += %w[eig-logo-stacked.svg]
 
 Rails.application.config.assets.precompile += %w[dit.classes.Dropdown.js]
 Rails.application.config.assets.precompile += %w[dit.components.greatDomesticHeader.js]
-Rails.application.config.assets.precompile += %w[dit.components.cookie-notice.js]
+# Rails.application.config.assets.precompile += %w[dit.components.cookie-notice.js]
