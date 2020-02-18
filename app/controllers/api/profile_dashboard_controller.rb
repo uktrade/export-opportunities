@@ -28,6 +28,16 @@ module Api
 
       @subscriptions = user.subscriptions.includes(:types, :values, :countries, :sectors).active
 
+      @result[:relevant_opportunities] = Opportunity.published.applicable.order(first_published_at: :desc).limit(5).map do |opportunity|
+        {
+          title: opportunity.title,
+          opportunity_url: opportunity_url(opportunity.slug),
+          description: opportunity.description,
+          submitted_on: opportunity.first_published_at,
+          expiration_date: opportunity.response_due_on,
+        }
+      end
+
       @result[:email_alerts] = @subscriptions.map do |sub|
         {
           term: sub.search_term,

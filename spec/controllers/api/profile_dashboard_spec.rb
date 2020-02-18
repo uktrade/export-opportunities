@@ -4,10 +4,11 @@ RSpec.describe Api::ProfileDashboardController, type: :controller do
   describe 'GET profile dashboard info' do
     context 'with a SUD user' do
 
-      it 'fetches information' do
+      it 'fetches information', focus: true do
         user = create(:user)
         country = create(:country)
         subscription = create(:subscription, user_id: user.id, countries: [country])
+        opportunity = create(:opportunity, status: :publish)
         get :index, params: { format: :json, sso_user_id: user.uid, shared_secret: Figaro.env.api_profile_dashboard_shared_secret }
 
         json_response = JSON.parse(response.body)
@@ -16,6 +17,7 @@ RSpec.describe Api::ProfileDashboardController, type: :controller do
         expect(response.body).to include('"status":"ok"')
         expect(json_response['email_alerts'][0]['title']).to include(subscription.search_term)
         expect(json_response['email_alerts'][0]['countries']).to include(country.slug)
+        expect(json_response['relevant_opportunities'][0]['title']).to include(opportunity.title)
       end
     end
   end
