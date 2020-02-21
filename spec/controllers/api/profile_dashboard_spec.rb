@@ -19,4 +19,21 @@ RSpec.describe Api::ProfileDashboardController, type: :controller do
       end
     end
   end
+
+  describe 'GET relevant opportunities', focus: true do
+    context 'with a SUD user' do
+
+      it 'fetches information' do
+        user = create(:user)
+        opportunity = create(:opportunity, status: :publish)
+        get :opportunities, params: { format: :json, sso_user_id: user.uid, shared_secret: Figaro.env.api_profile_dashboard_shared_secret }
+
+        json_response = JSON.parse(response.body)
+
+        expect(response).to have_http_status(200)
+        expect(response.body).to include('"status":"ok"')
+        expect(json_response['relevant_opportunities'][0]['title']).to include(opportunity.title)
+      end
+    end
+  end
 end
