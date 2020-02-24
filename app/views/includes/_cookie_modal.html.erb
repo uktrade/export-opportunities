@@ -1,0 +1,10 @@
+<script>
+  var element = document.createElement('div');
+  document.body.appendChild(element);
+  reactComponents.CookiesModal({
+    element: element,
+    privacyCookiesUrl: '<%= Figaro.env.PRIVACY_AND_COOKIES_URL %>',
+    preferencesUrl: '<%= Figaro.env.PRIVACY_AND_COOKIES_PREFERENCES_URL %>',
+    isOpen: dit.components.cookieNotice.getPreferencesCookie() === null
+  })
+</script>
