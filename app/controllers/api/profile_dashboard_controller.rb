@@ -42,6 +42,31 @@ module Api
       end
     end
 
+    def opportunities
+      return bad_request! unless params[:sso_user_id] && params[:shared_secret]
+      return forbidden! if params[:shared_secret] != Figaro.env.api_profile_dashboard_shared_secret
+
+      user_id = params[:sso_user_id].to_i
+
+      @result = { status: 'ok', code: 200, enquiries: [], email_alerts: [] }
+
+      user = User.find_by uid: user_id
+      return forbidden! if user.nil?
+
+      @result[:relevant_opportunities] = Opportunity.published.applicable.order(first_published_at: :desc).limit(5).map do |opportunity|
+        {
+          title: opportunity.title,
+          opportunity_url: opportunity_url(opportunity.slug),
+          description: opportunity.description,
+          submitted_on: opportunity.first_published_at,
+          expiration_date: opportunity.response_due_on,
+        }
+      end
+      respond_to do |format|
+        format.json { render status: :ok, json: @result }
+      end
+    end
+
     private
 
       def bad_request!
