@@ -20,7 +20,7 @@ RSpec.describe Api::ProfileDashboardController, type: :controller do
     end
   end
 
-  describe 'GET relevant opportunities', focus: true do
+  describe 'GET relevant opportunities' do
     context 'with a SUD user' do
 
       it 'fetches information' do
