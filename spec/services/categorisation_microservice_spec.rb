@@ -55,7 +55,7 @@ RSpec.describe CategorisationMicroservice, type: :service do
     end
 
     it "returns an empty array if service cant find the sector ids" do
-      stub_request(:get, url_for(12313123)).to_return(body: [].to_json, status: 200)
+      stub_request(:get, /#{ENV["CATEGORISATION_URL"]}/).to_return(body: [].to_json, status: 200)
       sector_ids = CategorisationMicroservice.new(34121110).sector_ids
       expect(sector_ids).to eq []
     end
