@@ -7,11 +7,11 @@ module Api
       return bad_request! unless params[:hashed_sso_id] && params[:shared_secret]
       return forbidden! if params[:shared_secret] != Figaro.env.api_profile_dashboard_shared_secret
 
-      user_id = params[:sso_user_id].to_i
+      hashed_sso_id = params[:hashed_sso_id]
 
       @result = { status: 'ok', code: 200, enquiries: [], email_alerts: [] }
 
-      user = User.find_by uid: user_id
+      user = User.find_by(sso_hashed_uuid: hashed_sso_id)
       return forbidden! if user.nil?
 
       @enquiries = user.enquiries.includes(:opportunity)
