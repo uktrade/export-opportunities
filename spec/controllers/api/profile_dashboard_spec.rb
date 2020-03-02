@@ -8,7 +8,7 @@ RSpec.describe Api::ProfileDashboardController, type: :controller do
         user = create(:user)
         country = create(:country)
         subscription = create(:subscription, user_id: user.id, countries: [country])
-        get :index, params: { format: :json, sso_user_id: user.uid, shared_secret: Figaro.env.api_profile_dashboard_shared_secret }
+        get :index, params: { format: :json, hashed_sso_id: user.sso_hashed_uuid, shared_secret: Figaro.env.api_profile_dashboard_shared_secret }
 
         json_response = JSON.parse(response.body)
 
@@ -26,7 +26,7 @@ RSpec.describe Api::ProfileDashboardController, type: :controller do
       it 'fetches information' do
         user = create(:user)
         opportunity = create(:opportunity, status: :publish)
-        get :opportunities, params: { format: :json, sso_user_id: user.uid, shared_secret: Figaro.env.api_profile_dashboard_shared_secret }
+        get :opportunities, params: { format: :json, hashed_sso_id: user.sso_hashed_uuid, shared_secret: Figaro.env.api_profile_dashboard_shared_secret }
 
         json_response = JSON.parse(response.body)
 
