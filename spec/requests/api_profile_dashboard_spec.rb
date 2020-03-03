@@ -16,7 +16,7 @@ describe 'api users can fetch expopps opportunities and email alerts' do
     create(:subscription, user: enquiry.user)
     user = enquiry.user.uid
 
-    get "/export-opportunities/api/profile_dashboard?sso_user_id=#{user}&shared_secret=#{@secret}"
+    get "/export-opportunities/api/profile_dashboard?hashed_sso_id=#{user}&shared_secret=#{@secret}"
 
     expect(response.status).to eql(200)
     parsed_body = JSON.parse(response.body)
@@ -35,7 +35,7 @@ describe 'api users can fetch expopps opportunities and email alerts' do
     create(:subscription, user: enquiry.user)
     user = 'invalid_user'
 
-    get "/export-opportunities/api/profile_dashboard?sso_user_id=#{user}&shared_secret=#{@secret}"
+    get "/export-opportunities/api/profile_dashboard?hashed_sso_id=#{user}&shared_secret=#{@secret}"
 
     expect(response.status).to eql(403)
     expect(JSON.parse(response.body)).to include FORBIDDEN
@@ -46,7 +46,7 @@ describe 'api users can fetch expopps opportunities and email alerts' do
     create(:enquiry, user: enquiry.user)
     user = enquiry.user.uid
 
-    get "/export-opportunities/api/profile_dashboard?sso_user_id=#{user}&shared_secret=not_so_secret"
+    get "/export-opportunities/api/profile_dashboard?hashed_sso_id=#{user}&shared_secret=not_so_secret"
 
     expect(response.status).to eql(403)
     expect(JSON.parse(response.body)).to include FORBIDDEN
@@ -55,13 +55,13 @@ describe 'api users can fetch expopps opportunities and email alerts' do
   it 'lacks shared_secret parameter from request' do
     user = '-999'
 
-    get "/export-opportunities/api/profile_dashboard?sso_user_id=#{user}"
+    get "/export-opportunities/api/profile_dashboard?hashed_sso_id=#{user}"
 
     expect(response.status).to eql(400)
     expect(JSON.parse(response.body)).to include BAD_REQUEST
   end
 
-  it 'lacks sso_user_id parameter from request' do
+  it 'lacks hashed_sso_id parameter from request' do
     get "/export-opportunities/api/profile_dashboard?shared_secret=#{@secret}"
 
     expect(response.status).to eql(400)

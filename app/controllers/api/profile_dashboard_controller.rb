@@ -4,10 +4,9 @@ module Api
     protect_from_forgery with: :exception
 
     def index
-      return bad_request! unless params[:hashed_sso_id] && params[:shared_secret]
+      hashed_sso_id = params[:hashed_sso_id] || params[:sso_user_id]
+      return bad_request! unless hashed_sso_id && params[:shared_secret]
       return forbidden! if params[:shared_secret] != Figaro.env.api_profile_dashboard_shared_secret
-
-      hashed_sso_id = params[:hashed_sso_id]
 
       @result = { status: 'ok', code: 200, enquiries: [], email_alerts: [] }
 
