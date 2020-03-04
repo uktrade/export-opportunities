@@ -74,7 +74,7 @@ RSpec.configure do |config|
     create_cookie('UPDATE-JANUARY-2018-ACCEPTED', true)
   end
 
-  config.before(:all) do
+  config.before(:each) do
     create_cookie('cookie_preferences_set', true)
     create_cookie('cookies_policy', '{"essential":true,"settings":true,"usage":true,"campaigns":true}')
   end
