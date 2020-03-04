@@ -1023,7 +1023,7 @@ GEM
       thor (~> 0.19)
     netrc (0.11.0)
     nio4r (2.5.1)
-    nokogiri (1.10.4)
+    nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
     normalize-scss (7.0.1)
       sass (~> 3.3)
@@ -1316,7 +1316,7 @@ DEPENDENCIES
   listen
   mock_redis
   neat (= 1.8.0)
-  nokogiri (= 1.10.4)
+  nokogiri (= 1.10.8)
   normalize-scss
   omniauth
   omniauth-oauth2
