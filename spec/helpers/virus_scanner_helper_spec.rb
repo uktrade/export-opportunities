@@ -7,7 +7,7 @@ describe VirusScannerHelper do
     it 'scan an infected file' do
       result = scan_clean_by_file_path?('spec/files/tender_sample_infected_file.txt')
       expect(result['malware']).to eq(true)
-      expect(result['reason']).to eq('Eicar-Test-Signature')
+      expect(result['reason']).to eq('Eicar-Signature')
     end
 
     it 'scan a clean file' do
