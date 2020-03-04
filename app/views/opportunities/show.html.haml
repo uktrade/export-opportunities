@@ -50,11 +50,11 @@
           %dd.industry
             = opportunity.industry_links
 
-        - if opportunity.opportunity_cpvs.present?
+        - if opportunity.cpvs.present?
           %dt.category
             Category
           %dd.category
-            = opportunity.put(@opportunity.opportunity_cpvs.map(&:industry_id).join(', '), '-')
+            = opportunity.put(@opportunity.cpvs.map(&:industry_id).join(', '), '-')
 
         - unless opportunity.source('volume_opps')
           %dt.enquiries

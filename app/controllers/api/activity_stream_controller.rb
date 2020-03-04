@@ -32,7 +32,7 @@ module Api
         )
         .where("enquiries.company_house_number IS NOT NULL AND enquiries.company_house_number != ''")
         .where('(enquiries.created_at, enquiries.id) > (to_timestamp(?), ?)',
-          search_after_time, search_after_id)
+               search_after_time, search_after_id)
         .order('enquiries.created_at ASC, enquiries.id ASC')
       enquiries = companies_with_number.take(MAX_PER_PAGE)
 
@@ -98,7 +98,7 @@ module Api
         is_authentic, message = authenticate(request)
         unless is_authentic
           logger.error "Status 401, #{message}"
-          return respond(401, message)
+          respond(401, message)
         end
       end
 
@@ -252,7 +252,7 @@ module Api
       end
 
       def to_search_after(object, method)
-        timestamp_str = format('%.6f', object.send(method).to_datetime.to_f)
+        timestamp_str = format('%<time>.6f', time: object.send(method).to_datetime.to_f)
         id_str = object.id.to_s
         "#{timestamp_str}_#{id_str}"
       end

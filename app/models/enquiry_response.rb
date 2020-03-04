@@ -27,9 +27,9 @@ class EnquiryResponse < ApplicationRecord
       docs.each do |document|
         file_list << document['result']['id']['original_filename'] + ' '
       end
-      return file_list
+      file_list
     rescue JSON::ParserError
-      return 'not available'
+      'not available'
     end
   end
 end

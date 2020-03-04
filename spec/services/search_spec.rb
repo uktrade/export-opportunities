@@ -74,9 +74,11 @@ RSpec.describe Search, elasticsearch: true do
       @post_1 = create(:opportunity, title: 'Post 1', first_published_at: 1.months.ago,
                         response_due_on: 12.months.from_now, status: :publish,
                        updated_at: 3.month.ago)
+      OpportunityCpv.create(opportunity: @post_1, industry_id: "1")
       @post_2 = create(:opportunity, title: 'Post 2', first_published_at: 2.months.ago,
                         response_due_on: 6.months.from_now, status: :publish,
                        updated_at: 2.month.ago)
+      OpportunityCpv.create(opportunity: @post_2, industry_id: "2")
       @post_3 = create(:opportunity, title: 'Post 3', first_published_at: 3.month.ago,
                        response_due_on: 18.months.from_now, status: :publish,
                        updated_at: 1.month.ago)
@@ -97,10 +99,18 @@ RSpec.describe Search, elasticsearch: true do
       expect(results[:total]).to eq 1
     end
     describe 'can filter' do
+      it 'by CPV code' do
+        results = Search.new({ cpvs: '1' }).run
+        expect(results[:total]).to eq 1
+      end
+      it 'by multiple CPV codes' do
+        results = Search.new({ cpvs: '1,2' }).run
+        expect(results[:total]).to eq 2
+      end
       it 'by countries' do
         results = Search.new({ countries: ['country-slug'] }).run
         expect(results[:total]).to eq 1
-       end
+      end
       it 'by sectors' do
         filter = SearchFilter.new(sectors: ['sector-slug'])
         results = Search.new({ sectors: ['sector-slug'] }).run

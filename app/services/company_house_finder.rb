@@ -5,10 +5,10 @@ class CompanyHouseFinder
     results = search_companies(search_terms)
 
     if response_valid?(results)
-      return results['items'].map { |company| CompanyDetail.new(company.to_h) }
+      results['items'].map { |company| CompanyDetail.new(company.to_h) }
     else
       Rails.logger.warn "Companies House API returning invalid data: \n\t\t" + results.inspect
-      return []
+      []
     end
   end
 
@@ -34,13 +34,13 @@ class CompanyHouseFinder
 
       if res.code == '200' && res.body.present? && !res.body.empty?
         begin
-          return JSON.parse(res.body)
+          JSON.parse(res.body)
         rescue JSON::ParserError
           Rails.logger.warn 'Companies House API returning invalid JSON:\n\t\t' + res.body
-          return {}
+          {}
         end
       else
-        return {}
+        {}
       end
     end
 

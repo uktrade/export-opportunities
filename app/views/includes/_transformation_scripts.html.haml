@@ -1,13 +1,3 @@
--# NOTE: static header-footer was meant to be a temporary workaround solution for areas of
--# the Great.gov.uk site that did not have or support the original ExRed (now pattern library)
--# updated design. Updated Export Opportunity pages running with the global.js file come with
--# support for those original ExRed individual JS files, so the header-footer (bundle) file is
--# not required. Also, the header-footer bundle does not use the proper/original 'dit' object
--# namespace (intentionally for name clash avoidance reasons), so to include the bundle file
--# would result in duplicating some required (dit namespace) JS files.
--# 
--#= javascript_include_tag 'header-footer.js'
-
 -# ExOpps Transformation layer.
 -# -------------------------------- 
 -# The transformation code was built on top of original ExRed files so natively support
@@ -20,7 +10,6 @@
 -# Changes to original header-footer namespaced and separate file(s) mean they now add to the dit
 -# namespace, native to ExOpps and inherited from original ExRed code.
 -# These files live outside ExOpps in the export-components repo.
-= javascript_include_tag  'dit.components.cookie-notice'
 = javascript_include_tag  'dit.classes.Dropdown'
 = javascript_include_tag  'dit.components.greatDomesticHeader'
 
@@ -43,7 +32,7 @@
   window.dataLayer.push({
     'businessUnit': 'ExportOpportunities',
     'siteLanguage': 'en-gb',
-    'userID': '#{current_user&.id}',
+    'userID': '#{current_user&.sso_hashed_uuid}',
     'loginStatus': '#{current_user ? "True" : "False"}',
     'pageCategory': '#{@page_type}'
   });
