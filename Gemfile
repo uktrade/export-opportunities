@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 
-ruby '2.5.5'
+ruby '2.5.6'
 
 gem 'rails', '5.2.3'
 gem 'bundler'
-gem 'puma', '3.12.0'
+gem 'puma', '3.12.4'
 gem 'pg', '1.1.4'
 gem 'sidekiq'
 gem 'sidekiq-cron'
@@ -82,7 +82,7 @@ gem 'carrierwave', '1.3.1'
 gem 'rest-client'
 
 # zipping for email attachments over 10MB
-gem 'rubyzip'
+gem 'rubyzip', '~> 1.3.0'
 
 # JSON Web Tokens for Volume Opps
 gem 'jwt'
@@ -107,7 +107,8 @@ end
 
 group :development do
   gem 'web-console'
-  gem 'rubocop', '~> 0.66.0', require: false
+  gem 'rubocop', '~> 0.77.0', require: false
+  gem 'rubocop-faker'
   gem 'listen'
 end
 

@@ -1,6 +1,3 @@
-require 'constraints/new_domain_constraint' # Not used?
-require 'set'
-
 class OpportunitiesController < ApplicationController
   protect_from_forgery except: :index
   include RegionHelper
@@ -60,7 +57,7 @@ class OpportunitiesController < ApplicationController
       format.html do
         content = get_content('opportunities/results.yml')
         results = Search.new(params, limit: 500).run
-        @subscription = SubscriptionForm.new(results).call
+        @subscription = SubscriptionForm.new(results).data
         @page = PagePresenter.new(content)
         @results = OpportunitySearchResultsPresenter.new(content, results)
         render layout: 'results'

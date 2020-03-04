@@ -5,38 +5,22 @@ class VolumeOppsRetriever
   include ApplicationHelper
 
   def call(editor, from_date, to_date)
-    Rails.logger.error('VOLUMEOPS - Retrieving...')
-    Rails.logger.error("Editor: #{editor}")
-
     username = Figaro.env.OO_USERNAME!
     password = Figaro.env.OO_PASSWORD!
     hostname = Figaro.env.OO_HOSTNAME!
     data_endpoint = Figaro.env.OO_DATA_ENDPOINT!
     token_endpoint = Figaro.env.OO_TOKEN_ENDPOINT!
-
-    Rails.logger.error('VOLUMEOPS - Retrieving token...')
     token_response = jwt_volume_connector_token(username, password, hostname, token_endpoint)
-    Rails.logger.error('VOLUMEOPS - Retrieving token... done')
-
-    Rails.logger.error('VOLUMEOPS - Getting data...')
     res = jwt_volume_connector_data(JSON.parse(token_response.body)['token'], hostname, data_endpoint, from_date, to_date)
-    Rails.logger.error('VOLUMEOPS - Getting data... done')
 
     while res[:has_next]
       # store data from page
-      Rails.logger.error('VOLUMEOPS - Storing data...')
       process_result_page(res, editor)
-      Rails.logger.error('VOLUMEOPS - Storing data... done')
-      Rails.logger.error('VOLUMEOPS - Getting data...')
       res = jwt_volume_connector_data(JSON.parse(token_response.body)['token'], res[:next_url], '', from_date, to_date)
-      Rails.logger.error('VOLUMEOPS - Getting data... done')
     end
 
     # process the last page of results
-    Rails.logger.error('VOLUMEOPS - Storing data...')
     results = process_result_page(res, editor) if res[:data] && !res[:has_next]
-    Rails.logger.error('VOLUMEOPS - Storing data... done')
-    Rails.logger.error('VOLUMEOPS - Retrieving... done')
     results
   end
 
@@ -94,29 +78,21 @@ class VolumeOppsRetriever
 
     tender_opportunity_release = opportunity_release['tender']
     tender_opportunity_release = tender_opportunity_release['items'] if tender_opportunity_release
-    opportunity_cpvs = []
+    cpvs = []
 
-    Rails.logger.error('VOLUMEOPS - Tender opportunities...')
-    Rails.logger.error("Opportunity: #{opportunity}")
     tender_opportunity_release&.each do |each_tender_opportunity_release|
       classification_tender_opportunity_release = each_tender_opportunity_release['classification']
 
       cpv = classification_tender_opportunity_release['id'].to_i if classification_tender_opportunity_release
-      Rails.logger.error('VOLUMEOPS - Categorisating...')
       cpv_obj = CategorisationMicroservice.new(cpv).call
-      Rails.logger.error('VOLUMEOPS - Categorisating... data received')
-      Rails.logger.error("cpv_obj: #{cpv_obj}")
       cpv_with_description = if cpv_obj && cpv_obj[0] && cpv_obj[0]['cpv_description']
                                "#{cpv}: #{cpv_obj[0]['cpv_description']}"
                              else
                                cpv
                              end
       cpv_scheme = classification_tender_opportunity_release['scheme'] if classification_tender_opportunity_release
-      Rails.logger.error('VOLUMEOPS - Categorisating... done')
-
-      opportunity_cpvs << { industry_id: cpv_with_description, industry_scheme: cpv_scheme } if cpv
+      cpvs << { industry_id: cpv_with_description, industry_scheme: cpv_scheme } if cpv
     end
-    Rails.logger.error('VOLUMEOPS - Tender opportunities... done')
 
     if opportunity_release['planning'] && opportunity_release['planning']['budget']
       values = calculate_value(opportunity_release['planning']['budget']['amount'])
@@ -146,9 +122,8 @@ class VolumeOppsRetriever
     #                  else
     #                    opportunity['pubdate']
     #                  end
-    Rails.logger.error('VOLUMEOPS - Defining opportunity params...')
     if country && tender_url.present?
-      op_params = {
+      {
         title: title,
         country_ids: country.id,
         sector_ids: [],
@@ -169,15 +144,10 @@ class VolumeOppsRetriever
         tender_url: tender_url,
         ocid: opportunity['ocid'],
         tender_source: opportunity_source,
-        opportunity_cpvs: opportunity_cpvs,
+        cpvs: cpvs,
       }
-      Rails.logger.error('VOLUMEOPS - Defining opportunity params... done')
-      op_params
     else
-      Rails.logger.error('VOLUMEOPS - Defining opportunity params... failed')
-      Rails.logger.error "country: #{country} opp[countryname]: #{opportunity['countryname']}"
-      Rails.logger.error "tender_url: #{tender_url} tender url docs: #{opportunity_release['tender']['documents']}"
-      return nil
+      nil
     end
   end
 
@@ -235,7 +205,6 @@ class VolumeOppsRetriever
   def jwt_volume_connector_data(token, hostname, url, from_date, to_date)
     JwtVolumeConnector.new.data(token, hostname, url, from_date, to_date)
   rescue JSON::ParserError => e
-    Rails.logger.error 'Can\'t parse JSON result. Probably an Application Error 500 on VO side'
     redis = Redis.new(url: Figaro.env.redis_url!)
     redis.set(:application_error, Time.zone.now)
 
@@ -243,9 +212,6 @@ class VolumeOppsRetriever
   end
 
   def process_result_page(res, editor)
-    Rails.logger.error('VOLUMEOPS - Processing beginning...')
-    Rails.logger.error("Res: #{res}")
-
     # counters for valid/invalid opps
     invalid_opp = 0
     valid_opp = 0
@@ -255,7 +221,6 @@ class VolumeOppsRetriever
       # get language of opportunity
       opportunity_language = opportunity['language']
 
-      Rails.logger.error('VOLUMEOPS - .....we have ' + valid_opp.to_s + ' valid opps and ' + invalid_opp.to_s + ' invalid opps and ' + invalid_opp_params.to_s + ' invalid opp params already.....')
       opportunity_params = opportunity_params(opportunity)
 
       process_opportunity = if opportunity_params && opportunity_params[:ocid]
@@ -268,7 +233,6 @@ class VolumeOppsRetriever
 
       # count valid/invalid opps
       if opportunity_params && process_opportunity
-        Rails.logger.error('VOLUMEOPS - Processing beginning...')
         if VolumeOppsValidator.new.validate_each(opportunity_params)
           translate(opportunity_params, %i[description teaser title], opportunity_language) if should_translate?(opportunity_language)
           opportunity_params = enforce_sentence_case(opportunity_params)
@@ -277,12 +241,8 @@ class VolumeOppsRetriever
         else
           invalid_opp += 1
         end
-        Rails.logger.error('VOLUMEOPS - Processing beginning... done')
       else
         invalid_opp_params += 1
-        Rails.logger.error "opportunity_params: #{opportunity_params}"
-        Rails.logger.error('VOLUMEOPS - Processing beginning... failed')
-        Rails.logger.error("duplicate opportunity fetch #{process_opportunity} for ocid: #{opportunity_params & [:ocid]}") unless opportunity_params
       end
     end
   end

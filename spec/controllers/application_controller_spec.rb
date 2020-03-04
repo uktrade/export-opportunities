@@ -52,6 +52,73 @@ RSpec.describe ApplicationController, type: :controller do
     end
   end
 
+  describe 'populate_sso_hashed_user_id' do
+
+    before do
+      @controller = OpportunitiesController.new
+    end
+
+    it 'does not update users sso_hashed_user_id if already present'do
+      user = create(:user, email: "john@example.com", sso_hashed_uuid: "123")
+      cookies[Figaro.env.SSO_SESSION_COOKIE] = '1'
+      directory_sso_api_url = Figaro.env.DIRECTORY_SSO_API_DOMAIN + '/api/v1/session-user/?session_key=1'
+      hashed_uuid = "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e"
+      stub_request(:get, directory_sso_api_url).to_return(body: {
+        id: 1,
+        email: "john@example.com",
+        hashed_uuid: hashed_uuid,
+        user_profile: { 
+          first_name: "John",  
+          last_name: "Bull",  
+          job_title: "Owner",  
+          mobile_phone_number: "123123123"
+        }
+      }
+      .to_json, status: 200)
+
+      get :index
+      user.reload
+      assert user.sso_hashed_uuid == "123"
+    end
+
+    it 'does not update when cannot connect to SSO' do
+      user = create(:user, email: "john@example.com", sso_hashed_uuid: nil)
+      cookies[Figaro.env.SSO_SESSION_COOKIE] = '1'
+      directory_sso_api_url = Figaro.env.DIRECTORY_SSO_API_DOMAIN + '/api/v1/session-user/?session_key=1'
+      hashed_uuid = "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e"
+      stub_request(:get, directory_sso_api_url).to_return(body: {}.to_json, status: 200)
+
+      get :index
+      user.reload
+      assert user.sso_hashed_uuid == nil
+    end
+
+    it 'signs users in if they are signed in on SSO but not ExOps' do
+      user = create(:user, email: "john@example.com", sso_hashed_uuid: nil)
+      cookies[Figaro.env.SSO_SESSION_COOKIE] = '1'
+      directory_sso_api_url = Figaro.env.DIRECTORY_SSO_API_DOMAIN + '/api/v1/session-user/?session_key=1'
+      hashed_uuid = "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e"
+      stub_request(:get, directory_sso_api_url).to_return(body: {
+        id: 1,
+        email: "john@example.com",
+        hashed_uuid: hashed_uuid,
+        user_profile: { 
+          first_name: "John",  
+          last_name: "Bull",  
+          job_title: "Owner",  
+          mobile_phone_number: "123123123"
+        }
+      }
+      .to_json, status: 200)
+
+      get :index
+      user.reload
+      assert user.sso_hashed_uuid == hashed_uuid
+    end
+  end
+
+
+
   describe 'require_sso!' do
     let(:opportunity) { create(:opportunity, status: :publish) }
     

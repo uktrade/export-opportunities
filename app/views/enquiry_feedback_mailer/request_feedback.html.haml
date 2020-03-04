@@ -22,7 +22,7 @@
 %br
 %br
 
-- checkbox = "background: url(#{image_url('icons/icon-checkbox.gif')}) top left no-repeat; padding-left:40px;"
+- checkbox = "background: url(#{image_url('icons/icon-checkbox.gif', skip_pipeline: true)}) top left no-repeat; padding-left:40px;"
 %p What happened after you applied for this opportunity?
 %ul
   - %w[no_response did_not_win dont_know_outcome won].each do |response|

@@ -54,11 +54,11 @@
       %dt= page._content('fields.sector_ids.label')
       %dd= opp.put(@opportunity.sectors.map(&:name).join(', '), '-')
 
-      %dt= page._content('fields.opportunity_cpvs.label')
+      %dt= page._content('fields.cpvs.label')
       %dd
-        - if opp.opportunity_cpvs.present?
+        - if opp.cpvs.present?
           %ul
-            - opp.opportunity_cpvs.each do |cpv|
+            - opp.cpvs.each do |cpv|
               %li= cpv.industry_id
         - else
           = 'none'

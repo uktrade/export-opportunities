@@ -37,7 +37,7 @@
             = image_tag "logos/openopps_logo.png", alt: "Open Opps", width: "150"
 
         %b
-          = link_to opportunity.title_with_country, opportunity_url(item[:opportunity]), { style: "white-space:inherit;" }
+          = link_to opportunity.title_with_country, opportunity_url(item[:opportunity]) + ApplicationController.new.ga360_campaign_parameters('email_alerts','email','exportOps','indOps'), { style: "white-space:inherit;" }
         %br
         %br
         = opportunity.teaser
@@ -50,11 +50,11 @@
   %hr{ style: "background-color: #B00D23; height: 2px; margin: 0px; border: 2px solid #b00d23;" }
   %br
   %p
-    = link_to "View all opportunities #{subscription.description_for_email}", "#{Figaro.env.DOMAIN}#{subscription.search_path}", { style: "font-weight:bold; white-space:inherit;" }
+    = link_to "View all opportunities #{subscription.description_for_email}", "#{Figaro.env.DOMAIN}#{subscription.search_path}" + ApplicationController.new.ga360_campaign_parameters('email_alerts','email','exportOps','viewOps'), { style: "font-weight:bold; white-space:inherit;" }
   %br
 
 %p
-  = link_to "Search for other opportunities", root_url, { style: "font-weight:bold;" }
+  = link_to "Search for other opportunities", root_url + ApplicationController.new.ga360_campaign_parameters('email_alerts','email','exportOps','searchOps'), { style: "font-weight:bold;" }
 
 %br
 
@@ -63,11 +63,11 @@
 %ol
   %li{ style: "margin-bottom:15px;" }
     Go to
-    =link_to "your account", Figaro.env.SUD_PROFILE_PAGE_EMAIL_ALERTS.to_s
+    =link_to "your account", Figaro.env.SUD_PROFILE_PAGE_EMAIL_ALERTS.to_s + ApplicationController.new.ga360_campaign_parameters('email_alerts','email','exportOps','yourAccount')
     and unsubscribe from any alerts for "all opportunities".
   %li{ style: "margin-bottom:15px;" }
     Go to
-    =link_to "export opportunities", root_url
+    =link_to "export opportunities", root_url + ApplicationController.new.ga360_campaign_parameters('email_alerts','email','exportOps','notifyOps')
     and enter the products, services, or countries you want to get notifications for.
   %li{ style: "margin-bottom:15px;" }
     You will then be prompted to subscribe to email alerts for the search terms you have entered.
@@ -80,10 +80,10 @@
         %center
           %p You are receiving this email because you signed up for Export Opportunities email alerts
           %p
-            = link_to "Manage your alerts", Figaro.env.SUD_PROFILE_PAGE_EMAIL_ALERTS.to_s
+            = link_to "Manage your alerts", Figaro.env.SUD_PROFILE_PAGE_EMAIL_ALERTS.to_s + ApplicationController.new.ga360_campaign_parameters('email_alerts','email','exportOps','manageAlerts')
             %br
-            = link_to "Unsubscribe from all alerts", "#{Figaro.env.DOMAIN}/export-opportunities/email_notifications/unsubscribe_all/#{@encrypted_user_id}"
+            = link_to "Unsubscribe from all alerts", "#{Figaro.env.DOMAIN}/export-opportunities/email_notifications/unsubscribe_all/#{@encrypted_user_id}" + ApplicationController.new.ga360_campaign_parameters('email_alerts','email','exportOps','unsubscribe')
             %br
-            = link_to "View privacy statement", Figaro.env.PRIVACY_AND_COOKIES_URL.to_s
+            = link_to "View privacy statement", Figaro.env.PRIVACY_AND_COOKIES_URL.to_s + ApplicationController.new.ga360_campaign_parameters('email_alerts','email','exportOps','privacy')
             %br
-            = link_to "Give feedback", Figaro.env.CONTACT_US_FORM.to_s
+            = link_to "Give feedback", Figaro.env.CONTACT_US_FORM.to_s + ApplicationController.new.ga360_campaign_parameters('email_alerts','email','exportOps','feedback')

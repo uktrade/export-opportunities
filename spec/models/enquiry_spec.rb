@@ -61,6 +61,8 @@ RSpec.describe Enquiry, type: :model do
       enquiry.assign_attributes(
         opportunity: @opportunity,
         user: @user,
+        first_name: 'Test',
+        last_name: 'Test',
         company_name: 'debug',
         company_address: 'debug',
         company_postcode: 'debug',
@@ -82,6 +84,8 @@ RSpec.describe Enquiry, type: :model do
       enquiry.assign_attributes(
         opportunity: @opportunity,
         user: @user,
+        first_name: 'Test',
+        last_name: 'Test',
         company_name: 'debug',
         company_address: 'debug',
         company_postcode: 'debug',
@@ -159,6 +163,8 @@ RSpec.describe Enquiry, type: :model do
       enquiry.assign_attributes(
         opportunity: @opportunity,
         user: @user,
+        first_name: 'Test',
+        last_name: 'Test',
         company_name: 'debug',
         company_address: 'debug',
         company_postcode: 'debug',
@@ -233,6 +239,8 @@ RSpec.describe Enquiry, type: :model do
       enquiry.assign_attributes(
         opportunity: @opportunity,
         user: @user,
+        first_name: 'Test',
+        last_name: 'Test',
         existing_exporter: 'Not yet',
         company_sector: @sector.slug
       )
@@ -269,6 +277,8 @@ RSpec.describe Enquiry, type: :model do
       enquiry.assign_attributes(
         opportunity: @opportunity,
         user: @user,
+        first_name: 'Test',
+        last_name: 'Test',
         company_explanation: 'Good company',
         existing_exporter: 'Not yet',
         company_sector: @sector.slug

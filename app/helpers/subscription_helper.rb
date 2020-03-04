@@ -1,4 +1,5 @@
 module SubscriptionHelper
+  include ParamsHelper
   # User needs to be logged in otherwise we have to go through
   # SSO and need to employ the pending subscription mechanism.
   def create_subscription_path
@@ -10,20 +11,23 @@ module SubscriptionHelper
   end
 
   def subscription_params
-    params.require(:subscription).permit(:title, :s, sectors: [], countries: [], types: [], values: [])
+    params.require(:subscription).permit(:title, :s, sectors: [], countries: [], types: [], values: [], cpvs: [])
   end
 
   # Shared between:
   # SubscriptionsController#create
   # PendingSubscriptionsController#update
-  def create_subscription(params, content)
-    clean_params = Search.new(params) # Does not run; cleans params
+  def create_subscription_from(params, content)
+    term = clean_term(params[:s])
+    cpvs = clean_cpvs(params[:cpvs])
+    filter = SearchFilter.new(params)
     form = SubscriptionForm.new(
-      term: clean_params.term,
-      filter: clean_params.filter
+      term: term,
+      cpvs: cpvs,
+      filter: filter
     )
-    subscription = CreateSubscription.new.call(form, current_user)
     if form.valid?
+      subscription = CreateSubscription.new.call(form, current_user)
       yield(subscription) if block_given?
       render 'subscriptions/create', layout: 'notification', locals: {
         subscriptions: Subscription.where(user_id: current_user.id).where(unsubscribed_at: nil),
@@ -31,7 +35,7 @@ module SubscriptionHelper
         content: content['create'],
       }
     else
-      redirect_to opportunities_path(s: clean_params.term), alert: subscription_form.errors.full_messages
+      redirect_to opportunities_path(s: term), alert: subscription_form.errors.full_messages
     end
   end
 end

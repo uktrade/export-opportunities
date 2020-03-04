@@ -3,35 +3,22 @@ class RulesEngine
   QUALITY_SCORE_THRESHOLD = Figaro.env.QUALITY_SCORE_THRESHOLD.present? ? Figaro.env.QUALITY_SCORE_THRESHOLD.to_i : 90
 
   def call(opportunity)
-    Rails.logger.error('VOLUMEOPS - Rules engine...')
-    Rails.logger.error("Next check: #{opportunity.id}")
     # Validate sensitivity
     sensitivity_score = OppsSensitivityValidator.new.validate_each(opportunity)
 
     # if sensitivity pass score is below threshold, validate quality
-    Rails.logger.error('VOLUMEOPS - Rules - Checking sensitivity threshold...')
     if valid_opportunity?(sensitivity_score, opportunity)
-      Rails.logger.error('VOLUMEOPS - Rules - Checking sensitivity threshold... done')
       quality_score = OppsQualityValidator.new.validate_each(opportunity)
 
-      Rails.logger.error('VOLUMEOPS - Rules - Checking quality threshold...')
       if quality_value_threshold?(quality_score)
-        Rails.logger.error('VOLUMEOPS - Rules - Checking quality threshold... done')
-        Rails.logger.error('VOLUMEOPS - Rules - Publishing...')
         save_and_publish(opportunity)
-        Rails.logger.error('VOLUMEOPS - Rules - Publishing... done')
       else
         # opp is valid, sensitivity value is OK but quality may be below threshold
-        Rails.logger.error('VOLUMEOPS - Rules - Saving as pending...')
         save_as_pending(opportunity)
-        Rails.logger.error('VOLUMEOPS - Rules - Saving as pending... done')
       end
     else
-      Rails.logger.error('VOLUMEOPS - Rules - Checking sensitivity threshold... failed')
       # opp is valid, sensitivity value is BAD, we don't know about quality
-      Rails.logger.error('VOLUMEOPS - Rules - Saving as trash...')
       save_as_trash(opportunity)
-      Rails.logger.error('VOLUMEOPS - Rules - Saving as trash... done')
     end
   end
 
@@ -63,9 +50,7 @@ class RulesEngine
 
     def save_and_publish(opportunity)
       # make sure that we create a subscription notification for matching subscriptions
-      result = UpdateOpportunityStatus.new.call(opportunity, 'publish')
-
-      Rails.logger.error("This opportunity has a problem. Please edit and save to resolve any issues: #{opportunity.id}") unless result.success?
+      UpdateOpportunityStatus.new.call(opportunity, 'publish')
     end
 
     def save_as_pending(opportunity)

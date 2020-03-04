@@ -15,7 +15,7 @@ class SubscriptionsController < ApplicationController
   def create
     content = get_content('subscriptions.yml')
     @title = content['create']['title']
-    create_subscription(subscription_params, content)
+    create_subscription_from(subscription_params, content)
   end
 
   def update
