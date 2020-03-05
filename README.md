@@ -7,7 +7,7 @@
 
 *NOTE* The name of the organisation has changed from UKTI to DIT. In all
 user-facing pages this change has been made, but some existing entities like
-databases may continue to be called ukti. 
+databases may continue to be called ukti.
  
 We aim to follow [GDS service standards](https://www.gov.uk/service-manual/service-standard) and [GDS design principles](https://www.gov.uk/design-principles).
 

@@ -133,6 +133,21 @@ RSpec.configure do |config|
     example.run
   end
 
+  config.around :all do |example|
+    stub_request(:any, /#{ENV["CATEGORISATION_URL"]}/).to_return(
+      body: [{
+        'sector_id':['5','20'],
+        'hsid': '9011',
+        'description': 'Microscopes, compound optical; including those for photomicrography, cinephotomicrography or microprojection',
+        'sectorname': ['Biotechnology & Pharmaceuticals','Healthcare & Medical'],
+        'cpvid': '38511000',
+        'cpv_description': 'Electron microscopes'
+      }].to_json,
+      status: 200
+    )
+    example.run
+  end
+
   config.profile_examples = nil
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true
