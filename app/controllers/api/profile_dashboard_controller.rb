@@ -32,15 +32,23 @@ module Api
       user = User.find_by(sso_hashed_uuid: hashed_sso_id)
       return forbidden! if user.nil?
 
-      @result[:relevant_opportunities] = Opportunity.published.applicable.order(first_published_at: :desc).limit(5).map do |opportunity|
-        {
-          title: opportunity.title,
-          url: opportunity_url(opportunity.slug),
-          description: opportunity.description,
-          published_date: opportunity.first_published_at,
-          closing_date: opportunity.response_due_on,
-          source: opportunity.source
-        }
+      result = Search.new(params,
+                          limit: 500,
+                          results_only: true,
+                          sort: 'updated_at').run
+      @result[:relevant_opportunities] = if result.records.any?
+        result.map do |opportunity|
+          {
+            title: opportunity.title,
+            url: opportunity_url(opportunity.slug),
+            description: opportunity.description,
+            published_date: opportunity.first_published_at,
+            closing_date: opportunity.response_due_on,
+            source: opportunity.source
+          }
+        end
+      else
+        []
       end
       respond_to do |format|
         format.json { render status: :ok, json: @result }
