@@ -124,7 +124,7 @@ section {
 
     .term {
       margin-left: $spacing-4;
-      width: calc(50% - #{$spacing-4});
+      width: calc(#{$cols-5} - #{$spacing-4});
     }
   }
 }
