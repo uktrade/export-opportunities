@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.5.6'
+ruby '2.5.7'
 
 gem 'rails', '5.2.3'
 gem 'bundler'
@@ -16,7 +16,10 @@ gem 'figaro'
 gem 'friendly_id'
 gem 'immutable-struct'
 
+gem 'sprockets-rails', '2.3.3'
+
 gem 'nokogiri', '1.10.8'
+gem 'tzinfo-data'
 
 # Authentication & authorisation
 gem 'devise', '4.7.1'

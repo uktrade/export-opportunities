@@ -6,11 +6,15 @@ default: &default
 
 development:
   <<: *default
-  database: export_opportunities_dev_zeus
+  database: exops
+  username: postgres
+  password: password
 
 test:
   <<: *default
   database: export_opportunities_test
+  username: postgres
+  password: password
 
 production:
   <<: *default

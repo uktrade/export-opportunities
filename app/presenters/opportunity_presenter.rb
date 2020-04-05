@@ -29,7 +29,7 @@ class OpportunityPresenter < PagePresenter
   def title_with_country
     # Remove special country values (e.g. 'DIT HQ')
     countries = opportunity.countries.where.not(id: [198, 199, 142, 200])
-    if source('post') && (opportunity.created_at < Date.parse(Figaro.env.POST_FORM_DEPLOYMENT_DATE) || (!countries.empty? && countries.map(&:region_id).include?(18)))
+    if source('post') && (!countries.empty? && countries.map(&:region_id).include?(18))
       opportunity.title
     else
       country = if countries.size > 1
