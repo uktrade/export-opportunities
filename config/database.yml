@@ -7,8 +7,6 @@ default: &default
 development:
   <<: *default
   database: export_opportunities_dev_zeus
-  username: postgres
-  password: password
 
 test:
   <<: *default

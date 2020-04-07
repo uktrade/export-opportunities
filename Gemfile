@@ -15,7 +15,6 @@ gem 'faraday', '0.12.2'
 gem 'figaro'
 gem 'friendly_id'
 gem 'immutable-struct'
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 
 gem 'nokogiri', '1.10.8'
 
