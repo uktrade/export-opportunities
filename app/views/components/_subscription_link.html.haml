@@ -1,9 +1,9 @@
 - if current_user
-	= form_tag create_subscription_path, :class=>'subscription-link subscription-form' do
-	  = hidden_field_tag 'subscription[title]', subscription[:title]
-	  = hidden_field_tag 'subscription[s]', subscription[:keywords]
-	  - subscription[:countries].each do |country|
-	    = hidden_field_tag 'subscription[countries][]', country, multiple: true
+  = form_tag create_subscription_path, :class=>'subscription-link subscription-form' do
+    = hidden_field_tag 'subscription[title]', subscription[:title]
+    = hidden_field_tag 'subscription[s]', subscription[:keywords]
+    - subscription[:countries].each do |country|
+      = hidden_field_tag 'subscription[countries][]', country, multiple: true
     = image_tag 'email_icon.png'
     = submit_tag "Set up email alerts #{subscription[:what]}#{subscription[:where]}", :class=>"link"
 
