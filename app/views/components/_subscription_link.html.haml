@@ -1,8 +1,32 @@
-= form_tag create_subscription_path, :class=>'subscription-link' do
-  = hidden_field_tag 'subscription[title]', subscription[:title]
-  = hidden_field_tag 'subscription[s]', subscription[:keywords]
-  - subscription[:countries].each do |country|
-    = hidden_field_tag 'subscription[countries][]', country, multiple: true
+- if current_user
+	= form_tag create_subscription_path, :class=>'subscription-link subscription-form' do
+	  = hidden_field_tag 'subscription[title]', subscription[:title]
+	  = hidden_field_tag 'subscription[s]', subscription[:keywords]
+	  - subscription[:countries].each do |country|
+	    = hidden_field_tag 'subscription[countries][]', country, multiple: true
+    = image_tag 'email_icon.png'
+    = submit_tag "Set up email alerts #{subscription[:what]}#{subscription[:where]}", :class=>"link"
 
-  = submit_tag "Subscribe to email alerts#{subscription[:what]}#{subscription[:where]}", :class=>"link"
 
+  .subscription-link.hidden.subscription-notice
+    = image_tag 'tick.png'
+    %span
+      Email alert for South Asia created - 
+    = link_to "view here", dashboard_path
+
+  :javascript
+    $("body").on("submit", ".subscription-link", function(e){
+      e.preventDefault();
+      var form = $(e.target);
+      $.post( form.attr("action"), form.serialize(), function(res){
+        $(".subscription-form").removeClass("spinner")
+        $(".subscription-notice").removeClass("hidden")
+        $(".subscription-form").addClass("hidden")
+      });
+      $(".subscription-form").html("")
+      $(".subscription-form").addClass("spinner")
+    });
+- else
+  .subscription-link
+    = image_tag 'email_icon.png'
+    = link_to "Set up email alerts #{subscription[:what]}#{subscription[:where]}", sign_in_path, :class=>"link"

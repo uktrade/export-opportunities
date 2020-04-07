@@ -13,6 +13,7 @@ dit.page.results = (new function () {
     bindAutoUpdateListener();
     addSearchFormRestriction();
     addAccessibilityHelpers();
+    setUpSort();
 
     delete this.init; // Run once
   }
@@ -53,6 +54,15 @@ dit.page.results = (new function () {
   function addAccessibilityHelpers() {
     $('.sort label', '#search-results-panel').append('<span class="verbose">Selecting an option will refresh the page.</span>');
     $('#search-sort').attr('aria-controls', 'opportunities-list');
+  }
+
+  function setUpSort(){
+    $('.jsonly').show()
+    $("#search-sort").change(function() {
+      var selectedSort = $(this).children("option:selected").val();
+      $('#hidden_sort_column_name').val(selectedSort)
+      $('.submit').click()
+    });
   }
 
 });

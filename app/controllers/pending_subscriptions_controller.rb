@@ -4,7 +4,7 @@ class PendingSubscriptionsController < ApplicationController
 
   def create
     @pending_subscription = PendingSubscription.create!(query_params: subscription_params)
-    redirect_to update_pending_subscription_path(@pending_subscription)
+    render json: nil, status: :created
   end
 
   def update
