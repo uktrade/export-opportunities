@@ -89,10 +89,10 @@ class OpportunitySearchResultsPresenter < FormPresenter
       options.push(text: f.to_s, value: values[index])
     end
     input = {
-      name: 'sort_column_name',
-      id: 'search-sort',
+      name: 'sort_column_name_visible',
+      id: 'search-sort-visible',
       label: {
-        id: 'search-sort',
+        id: 'search-sort-visible',
         text: field['label'],
       },
       options: options,

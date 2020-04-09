@@ -18,10 +18,10 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true, sso: true do
         page.find('.submit').click
       end
 
-      expect(page.body).to include 'Subscribe to email alerts'
+      expect(page.body).to include 'Set up email alerts'
       expect(page.body).to include 'for food'
 
-      click_on 'Subscribe to email alerts for food'
+      click_on 'Set up email alerts for food'
 
       subscription = @user.subscriptions.first
       expect(subscription.search_term).to eq('food')
@@ -49,9 +49,9 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true, sso: true do
       find('#countries_0').set(true)
       click_on 'Update results'
 
-      expect(page.body).to include 'Subscribe to email alerts in Italy'
+      expect(page.body).to include 'Set up email alerts in Italy'
 
-      click_button 'Subscribe to email alerts in Italy'
+      click_button 'Set up email alerts in Italy'
 
       subscription = @user.subscriptions.first
       expect(subscription.search_term).to eq ''
@@ -86,7 +86,7 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true, sso: true do
       )
 
       visit opportunities_path
-      expect(page).not_to have_content 'Subscribe to email alerts for transformers, Italy, Toys, Magical, Expensive'
+      expect(page).not_to have_content 'Set up email alerts for transformers, Italy, Toys, Magical, Expensive'
 
       fill_in :s, with: 'transformers'
       select 'Toys', from: 'sector', visible: false
@@ -96,9 +96,9 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true, sso: true do
 
       page.find('.filters__searchbutton').click
 
-      expect(page).to have_content 'Subscribe to email alerts for transformers, Italy, Toys, Magical, Expensive'
+      expect(page).to have_content 'Set up email alerts for transformers, Italy, Toys, Magical, Expensive'
 
-      click_button 'Subscribe'
+      click_button 'Set up'
       wait_for_ajax
 
       expect(page).to have_content 'Your email alert has been created'
@@ -109,41 +109,9 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true, sso: true do
       expect(page).to have_content 'Magical'
       expect(page).to have_content 'Expensive'
     end
-
-    scenario 'cannot subscribe when no search keywords or filters are provided' do
-      visit opportunities_path
-      expect(page).to have_no_content 'Subscribe to Email Alerts'
-    end
-
-    scenario 'can not subscribe to all opportunities' do
-      create(:opportunity, :published)
-      visit opportunities_path
-
-      expect(page.body).to_not include 'Subscribe to email alerts'
-    end
   end
 
   context 'when not signed in' do
-    scenario 'can subscribe to email alerts' do
-      content = get_content('subscriptions')['create']
-      mock_sso_with(email: 'test@example.com')
-      create(:opportunity, title: 'Food')
-
-      visit opportunities_path
-      within '.search' do
-        fill_in :s, with: 'food'
-        page.find('.submit').click
-      end
-
-      expect(page.body).to include 'Subscribe to email alerts'
-      expect(page.body).to include 'for food'
-
-      click_on 'Subscribe to email alerts for food'
-
-      expect(page).to have_content content['confirmation']
-      expect(page).to have_content content['alert_summary_message']
-    end
-
     scenario 'can unsubscribe to email alerts' do
       ActiveJob::Base.queue_adapter = :test
       
