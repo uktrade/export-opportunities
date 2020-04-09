@@ -214,6 +214,43 @@ Sector.find_by(slug: 'oil-gas').try(:update, featured: true, featured_order: 4)
 Sector.find_by(slug: 'security').try(:update, featured: true, featured_order: 5)
 Sector.find_by(slug: 'retail-and-luxury').try(:update, featured: true, featured_order: 6)
 
+# Changes
+Sector.where(name: "Mechanical Electrical & Process Engineering").first.update(name: "Advanced engineering", slug: "advanced-engineering")
+Sector.where(name: "Agriculture, Horticulture & Fisheries").first.update(name: "Agriculture, horticulture, fisheries and pets", slug: "Agriculture-horticulture-fisheries-pets")
+Sector.where(name: "Retail & Luxury").first.update(name: "Consumer and retail", slug: "consumer-and-retail")
+Sector.where(name: "Creative & Media").first.update(name: "Creative industries", slug: "creative-industries")
+Sector.where(name: "Education & Training").first.update(name: "Education and training", slug: "education-training")
+Sector.where(name: "Financial & Professional Services").first.update(name: "Financial and professional services", slug: "financial-and-professional-services")
+Sector.where(name: "Food & Drink").first.update(name: "Food and drink", slug: "food-and-drink")
+Sector.where(name: "Healthcare & Medical").first.update(name: "Healthcare services", slug: "healthcare-services")
+Sector.where(name: "Marine").first.update(name: "Maritime", slug: "maritime")
+Sector.where(name: "Biotechnology & Pharmaceuticals").first.update(name: "Pharmaceuticals and biotechnology", slug: "pharmaceuticals-and-biotechnology")
+Sector.where(name: "Global Sports Infrastructure").first.update(name: "Sports economy", slug: "sports-economy")
+
+# Hide
+Sector.where(name: "Business & Consumer Services").first.update(hidden: true)
+Sector.where(name: "Clothing, Footwear & Fashion").first.update(hidden: true)
+Sector.where(name: "Communications").first.update(hidden: true)
+Sector.where(name: "Civil Nuclear").first.update(hidden: true)
+Sector.where(name: "Electronics & IT Hardware").first.update(hidden: true)
+Sector.where(name: "Giftware, Jewellery & Tableware").first.update(hidden: true)
+Sector.where(name: "Household Goods, Furniture & Furnishings").first.update(hidden: true)
+Sector.where(name: "Leisure & Tourism").first.update(hidden: true)
+Sector.where(name: "Metallurgical Process Plant").first.update(hidden: true)
+Sector.where(name: "Metals, Minerals & Materials").first.update(hidden: true)
+Sector.where(name: "Oil & Gas").first.update(hidden: true)
+Sector.where(name: "Ports & Logistics").first.update(hidden: true)
+Sector.where(name: "Power").first.update(hidden: true)
+Sector.where(name: "Renewable Energy").first.update(hidden: true)
+Sector.where(name: "Textiles, Interior Textiles & Carpets").first.update(hidden: true)
+
+# Add
+Sector.create(name: "Space", slug: "Space")
+Sector.create(name: "Defence", slug: "defence")
+Sector.create(name: "Energy", slug: "energy")
+Sector.create(name: "Medical devices and equipment", slug: "medical-devices-equipment")
+Sector.create(name: "Technology and smart cities", slug: "technology-smart-cities")
+
 Type.where(slug: 'aid-funded-business', name: 'Aid Funded Business').first_or_create
 Type.where(slug: 'public-sector', name: 'Public Sector').first_or_create
 
