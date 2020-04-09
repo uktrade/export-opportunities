@@ -24,7 +24,7 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       fill_in 's', with: search_term
       page.find('.submit').click
     end
-    select('Published date', from: "sort_column_name").trigger('click')    
+    select('Published date', from: "sort_column_name_visible").trigger('click')    
 
     expect(page).to have_current_path(
       opportunities_path(s: search_term, sort_column_name: 'first_published_at'))
@@ -54,7 +54,7 @@ feature 'Sorting opportunities', :elasticsearch, js: true do
       fill_in 's', with: search_term
       page.find('.submit').click
     end
-    select('Closing date', from: "sort_column_name").trigger('click')
+    select('Closing date', from: "sort_column_name_visible").trigger('click')
 
     # Check select has been activated
     expect(page).to have_current_path(opportunities_path(s: search_term,

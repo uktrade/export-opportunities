@@ -6,8 +6,6 @@
     %h1.verbose= @results.content['title']
     .information
       %p= @results.information
-      - if @results.offer_subscription(params[:subscription_url].blank?)
-        = render partial: "components/subscription_link", locals: { subscription: @subscription }
 
     %form.search{:action=>opportunities_path, :method=>"get"}
       %label
@@ -15,13 +13,10 @@
         %input{:name=>"s", :autocomplete=>"off", :class=>"text", :type=>"search", :value=>"", :placeholder=>"What are you selling?"}
       %input.submit{:value=>@results.content['search_again_button'], :type=>"submit"}
 
-
-%form{:action=>opportunities_path, :method=>"get"}
-  = @results.hidden_search_fields(request.params)
-
-  .container
-    - if @results.found.length > 0
-
+.container
+  - if @results.found.any?
+    %form{:action=>opportunities_path, :method=>"get"}
+      = @results.hidden_search_fields(request.params)
       .search-results-filters
         %h2.section-heading= @results.content['title_filters']
         %a.accessibility-skip-to-section{:href => "#search-results-panel"}Skip search filters and go to Export Opportunities results.
@@ -34,23 +29,28 @@
         = render partial: "forms/input_checkbox_group", locals: { group: @results.input_checkbox_group('countries') }
         = render partial: "forms/input_checkbox_group", locals: { group: @results.input_checkbox_group('sources') }
 
+        = hidden_field_tag 'sort_column_name', request.params['sort_column_name'] || 'response_due_on', id: 'hidden_sort_column_name'
+
         %input.submit.button{:type=>"submit", :value=>"Update results"}
         %input.reset.link{:type=>"reset", :value=>"Reset"}
 
-      .search-results#search-results-panel
-        %h2.verbose= @results.content['title_results_list']
-        = @results.displayed "information"
-        .sort
-          = render partial: "forms/input_select", locals: { input: @results.sort_input_select }
-        = render partial: "opportunities/list", locals: { list: @results.found }
-        = render partial: "components/pagination", locals: { items: @results.found }
-        = @results.view_all_link opportunities_path, "button all"
+    .search-results#search-results-panel
+      = render partial: "components/subscription_link", locals: { subscription: @subscription }
 
-    - else
-      .search-@results.none
-        %h2.verbose= @results.content['title']
-        %p.information= @results.content['no_results_message']
-        %p#no-results-instruction= @results.content['no_results_instruction']
-        %ul{"aria-labelledby"=>"no-results-instruction"}
-          - @results.content['no_results_actions'].each do |action|
-            %li= action
+      %h2.verbose= @results.content['title_results_list']
+      = @results.displayed "information"
+      .sort.jsonly
+        = render partial: "forms/input_select", locals: { input: @results.sort_input_select }
+      = render partial: "opportunities/list", locals: { list: @results.found }
+      = render partial: "components/pagination", locals: { items: @results.found }
+      = @results.view_all_link opportunities_path, "button all"
+
+  - else
+    .search-@results.none
+      %h2.verbose= @results.content['title']
+      %p.information= @results.content['no_results_message']
+      %p#no-results-instruction= @results.content['no_results_instruction']
+      %ul{"aria-labelledby"=>"no-results-instruction"}
+        - @results.content['no_results_actions'].each do |action|
+          %li= action
+    = render partial: "components/subscription_link", locals: { subscription: @subscription }
