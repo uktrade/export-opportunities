@@ -5,8 +5,7 @@
     - subscription[:countries].each do |country|
       = hidden_field_tag 'subscription[countries][]', country, multiple: true
     = image_tag 'email_icon.png'
-    = submit_tag "Set up email alerts #{subscription[:what]}#{subscription[:where]}", :class=>"link"
-
+    = submit_tag "Set up email alerts#{subscription[:what]}#{subscription[:where]}", :class=>"link"
 
   .subscription-link.hidden.subscription-notice
     = image_tag 'tick.png'

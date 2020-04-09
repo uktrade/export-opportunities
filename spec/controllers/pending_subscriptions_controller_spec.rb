@@ -12,7 +12,7 @@ RSpec.describe PendingSubscriptionsController, sso: true do
       }
 
       expect { post :create, params: { subscription: subscription_attrs } }.to change { PendingSubscription.count }.by(1)
-      expect(response).to have_http_status(302)
+      expect(response).to have_http_status(201)
     end
   end
 
