@@ -100,7 +100,7 @@
           = f.text_field :company_url, value: @enquiry.company_url, :class => "medium"
         .field.medium-select
           = f.label :company_sector, "Which industry is your company in?", class: "required"
-          = f.select(:company_sector, Sector.pluck(:name).to_a, required: "required", prompt: 'Sector')
+          = f.select(:company_sector, Sector.visible.pluck(:name).to_a, required: "required", prompt: 'Sector')
 
 
       %fieldset.your-exporting

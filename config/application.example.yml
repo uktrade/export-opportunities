@@ -102,3 +102,5 @@ DIRECTORY_API_SECRET: 'debug'
 DIRECTORY_SSO_API_DOMAIN: 'http://sso.trade.great:8003'
 DIRECTORY_SSO_API_SENDER_ID: 'directory'
 DIRECTORY_SSO_API_SECRET: 'api_signature_debug'
+
+"CATEGORISATION_URL": 'categorisation_url'

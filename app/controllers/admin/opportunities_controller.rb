@@ -138,7 +138,7 @@ class Admin::OpportunitiesController < Admin::BaseController
       @service_provider = opportunity.service_provider || current_editor.service_provider
       @countries = Country.all.order(:name)
       @default_country = @service_provider.country&.id if opportunity.countries.empty?
-      @sectors = Sector.all.order(:name)
+      @sectors = Sector.visible.order(:name)
       @types = Type.all.order(:name)
       @values = Value.all.order(:slug)
       @enquiry_interactions = Opportunity.enquiry_interactions.keys

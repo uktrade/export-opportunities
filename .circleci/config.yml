@@ -27,7 +27,6 @@ jobs:
           OO_TOKEN_ENDPOINT: $OO_TOKEN_ENDPOINT
           DISALLOW_ALL_WEB_CRAWLERS: true
           TG_API_KEY: $TG_API_KEY
-          TG_HOSTNAME: $TG_HOSTNAME
           AZ_CUSTOM_LIST_ID: $AZ_CUSTOM_LIST_ID
           AZ_HOSTNAME: $AZ_HOSTNAME
           MAILER_FROM_ADDRESS: test@example.com

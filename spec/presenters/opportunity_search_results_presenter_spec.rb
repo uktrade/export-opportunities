@@ -200,7 +200,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
       presenter = OpportunitySearchResultsPresenter.new(content, results)
       input = presenter.sort_input_select
 
-      expect(input[:name]).to eql('sort_column_name')
+      expect(input[:name]).to eql('sort_column_name_visible')
       expect(input[:options][1]).to include(selected: true)
     end
   end
