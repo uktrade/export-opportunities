@@ -155,7 +155,7 @@ RSpec.feature 'Subscribing to alerts', elasticsearch: true, sso: true do
 
       # Go to unsubscription link, expect email queued
       expect{
-        visit delete_email_notifications_path(user_id: EncryptedParams.encrypt(user.id))
+        visit delete_email_notifications_path(unsubscription_token: user.unsubscription_token)
       }.to have_enqueued_job
       expect(page).to have_content "You have been unsubscribed from all email alerts"
 

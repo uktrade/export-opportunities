@@ -7,7 +7,7 @@ class OpportunityMailer < ApplicationMailer
     @subscriptions = struct[:subscriptions]
     @user = user
 
-    @encrypted_user_id = EncryptedParams.encrypt(user.id)
+    @unsubscription_token = user.unsubscription_token
     @date = Time.zone.now.strftime('%Y-%m-%d')
 
     mail from: "Export Opportunities <#{Figaro.env.MAILER_FROM_ADDRESS!}>",

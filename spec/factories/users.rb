@@ -3,6 +3,7 @@ FactoryBot.define do
     email { Faker::Internet.email }
     sequence(:uid)
     sequence(:sso_hashed_uuid)
+    sequence(:unsubscription_token)
     provider { 'exporting_is_great' }
 
     trait :stub do
