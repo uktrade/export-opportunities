@@ -104,3 +104,5 @@ DIRECTORY_SSO_API_SENDER_ID: 'directory'
 DIRECTORY_SSO_API_SECRET: 'api_signature_debug'
 
 "CATEGORISATION_URL": 'categorisation_url'
+
+CPV_CODE_LOOKUP_URL: "debug"
