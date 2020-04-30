@@ -176,7 +176,7 @@ feature 'Administering opportunities' do
       expect(Opportunity.last.cpvs.size).to equal(1)
     end
 
-    scenario 'and add multiple cpv codes', js: true do
+    scenario 'and add multiple cpv codes', js: true, focus: true do
       form = setup_opportunity_form
       uploader = create(:uploader)
       service_provider = create_service_provider('Italy Rome')
