@@ -36,7 +36,7 @@ class CreateOpportunity
         cpv_id = cpv[:industry_id]
         if cpv_id.present?
           cpv = OpportunityCpv.new(
-            industry_id: cpv_id.to_s[0..7],
+            industry_id: cpv_id.to_s[0..11],
             industry_scheme: cpv[:industry_scheme],
             opportunity_id: opportunity.id
           )
