@@ -52,7 +52,7 @@ Manage your alerts
 <%= Figaro.env.SUD_PROFILE_PAGE_EMAIL_ALERTS.to_s + ApplicationController.new.ga360_campaign_parameters('email_alerts','email','exportOps','manageAlerts')%>
 
 Unsubscribe from all alerts
-<%= "#{Figaro.env.DOMAIN.to_s}/export-opportunities/email_notifications/unsubscribe_all/#{@encrypted_user_id}" + ApplicationController.new.ga360_campaign_parameters('email_alerts','email','exportOps','unsubscribe') %>
+<%= "#{Figaro.env.DOMAIN.to_s}/export-opportunities/email_notifications/unsubscribe_all/#{@unsubscription_token}" + ApplicationController.new.ga360_campaign_parameters('email_alerts','email','exportOps','unsubscribe') %>
 
 View privacy statement
 <%= Figaro.env.PRIVACY_AND_COOKIES_URL.to_s + ApplicationController.new.ga360_campaign_parameters('email_alerts','email','exportOps','privacy') %>
