@@ -173,7 +173,7 @@ Rails.application.routes.draw do
   end
 
   # site's root page
-  root to: 'opportunities#index'
+  get '', to: 'opportunities#index'
 
   get 'check' => 'application#check'
   get 'data_sync_check' => 'application#data_sync_check'
@@ -266,7 +266,7 @@ Rails.application.routes.draw do
 
     get 'updates' => 'updates#index'
 
-    root to: redirect('export-opportunities/admin/opportunities')
+    get '', to: redirect('export-opportunities/admin/opportunities')
   end
 
   get '/enquiries/:slug' => 'enquiries#new'
