@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.6.1'
+ruby '2.7.0'
 
 gem 'rails', '5.2.3'
 gem 'bundler'
