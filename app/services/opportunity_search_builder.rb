@@ -208,7 +208,16 @@ class OpportunitySearchBuilder
           bool: {
             should: {
               query_string: {
-                query: @cpvs.map { |cpv| "#{cpv}*" }.join(' '),
+                # query: @cpvs.map { |cpv| "#{cpv}*" }.join(' '),
+                query: @cpvs.map do |cpv|
+                  loop do
+                    break if cpv[-1] != '0' || cpv.length == 1
+                    cpv.chomp!('0')
+                  end
+                  # last = cpv.index('0') ? cpv.index('0')-1 : -1
+                  # short_cpv = cpv[0..last]
+                  "#{cpv}*"
+                end.join(' '),
                 fields: ['cpvs.industry_id'],
               },
             },
