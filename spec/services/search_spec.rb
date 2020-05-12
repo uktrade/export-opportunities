@@ -101,7 +101,7 @@ RSpec.describe Search, elasticsearch: true do
       results = Search.new({ s: 'Post 1' }).run
       expect(results[:total]).to eq 1
     end
-    describe 'can filter', focus: true do
+    describe 'can filter' do
       it 'by CPV code' do
         results = Search.new({ cpvs: '1' }).run
         expect(results[:total]).to eq 1
