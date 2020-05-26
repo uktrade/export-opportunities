@@ -15,8 +15,12 @@ class SendEnquiriesReportToMatchingAdminUser
     csv = EnquiryCSV.new(@enquiries)
 
     csv_file = []
+    Rails.logger.error('generating CSV')
+    i = 0
     csv.each do |row|
+      Rails.logger.error(i)
       csv_file << row
+      i += 1
     end
     if csv_file.length > zip_file_enquiries_cutoff.to_i
 
