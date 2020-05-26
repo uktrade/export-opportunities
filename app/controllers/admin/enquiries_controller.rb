@@ -30,7 +30,7 @@ class Admin::EnquiriesController < Admin::BaseController
         render layout: 'admin_transformed', locals: { content: get_content('admin/enquiries.yml') }
       end
       format.csv do
-        enquiries = policy_scope(Enquiry).includes(:enquiry_response).where('enquiries.created_at >= ?', @enquiry_form.from).where('enquiries.created_at < ?', @enquiry_form.to).order('enquiries.created_at DESC')
+        enquiries = Enquiry.includes(:enquiry_response).where('enquiries.created_at >= ?', @enquiry_form.from).where('enquiries.created_at < ?', @enquiry_form.to).order('enquiries.created_at DESC')
         Rails.logger.error('enquiries.count')
         Rails.logger.error(enquiries.count)
         Rails.logger.error('enquiries.pluck(:enquiry_id)')
