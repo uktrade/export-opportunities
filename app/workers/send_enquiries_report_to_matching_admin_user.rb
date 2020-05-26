@@ -8,9 +8,17 @@ class SendEnquiriesReportToMatchingAdminUser
 
   def perform(current_editor_email, enquiries, from_date, to_date, zip_file_enquiries_cutoff)
     @enquiries = Enquiry.where(id: enquiries)
+    Rails.logger.error('Top of file')
+    Rails.logger.error('enquiries.count')
+    Rails.logger.error(enquiries.count)
+    Rails.logger.error('@enquiries.count')
+    Rails.logger.error(@enquiries.count)
     from_date = Date.strptime(from_date, '%d/%m/%Y')
     to_date = Date.strptime(to_date, '%d/%m/%Y')
     @enquiries = @enquiries.where(created_at: from_date..to_date)
+    Rails.logger.error('CSV generating')
+    Rails.logger.error('@enquiries.count')
+    Rails.logger.error(@enquiries.count)
 
     csv = EnquiryCSV.new(@enquiries)
 
