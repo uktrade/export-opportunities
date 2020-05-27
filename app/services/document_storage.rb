@@ -3,17 +3,17 @@ require 'aws-sdk'
 class DocumentStorage
   def initialize
     @s3 = Aws::S3::Resource.new(
-      region: Figaro.env.aws_region_ptu!,
+      region: Figaro.env.AWS_REGION_PTU!,
       credentials: Aws::Credentials.new(
-        Figaro.env.aws_access_key_id!,
-        Figaro.env.aws_secret_access_key!
+        Figaro.env.AWS_ACCESS_KEY_ID!,
+        Figaro.env.AWS_SECRET_ACCESS_KEY!
       )
     )
     @s3_client = Aws::S3::Client.new(
-      region: Figaro.env.aws_region_ptu!,
+      region: Figaro.env.AWS_REGION_PTU!,
       credentials: Aws::Credentials.new(
-        Figaro.env.aws_access_key_id!,
-        Figaro.env.aws_secret_access_key!
+        Figaro.env.AWS_ACCESS_KEY_ID!,
+        Figaro.env.AWS_SECRET_ACCESS_KEY!
       )
     )
     @bucket_name = Figaro.env.post_user_communication_s3_bucket!
