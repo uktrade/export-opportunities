@@ -152,9 +152,8 @@ Rails.application.routes.draw do
     # end
 
 
-    get '/email_notifications/:user_id', to: 'email_notifications#show', as: :email_notification
-    get '/email_notifications/unsubscribe_all/:user_id', to: 'email_notifications#destroy', as: :delete_email_notifications
-    patch '/email_notifications/unsubscribe_all/:id', to: 'email_notifications#update', as: :update_email_notification
+    get '/email_notifications/unsubscribe_all/:unsubscription_token', to: 'email_notifications#destroy', as: :delete_email_notifications
+    patch '/email_notifications/unsubscribe_all/:unsubscription_token', to: 'email_notifications#update', as: :update_email_notification
 
     get '/api/profile_dashboard', action: :index, controller: 'api/profile_dashboard', format: 'json', via: [:get]
     get '/api/opportunities', action: :opportunities, controller: 'api/profile_dashboard', format: 'json', via: [:get]
@@ -174,7 +173,7 @@ Rails.application.routes.draw do
   end
 
   # site's root page
-  root to: 'opportunities#index'
+  get '', to: 'opportunities#index'
 
   get 'check' => 'application#check'
   get 'data_sync_check' => 'application#data_sync_check'
@@ -267,7 +266,7 @@ Rails.application.routes.draw do
 
     get 'updates' => 'updates#index'
 
-    root to: redirect('export-opportunities/admin/opportunities')
+    get '', to: redirect('export-opportunities/admin/opportunities')
   end
 
   get '/enquiries/:slug' => 'enquiries#new'
@@ -321,10 +320,8 @@ Rails.application.routes.draw do
   get '/rails/mailers/*path' => 'rails/mailers#preview'
   # end
 
-
-  get '/email_notifications/:user_id', to: 'email_notifications#show'
-  get '/email_notifications/unsubscribe_all/:user_id', to: 'email_notifications#destroy'
-  patch '/email_notifications/unsubscribe_all/:id', to: 'email_notifications#update'
+  get '/email_notifications/unsubscribe_all/:unsubscription_token', to: 'email_notifications#destroy'
+  patch '/email_notifications/unsubscribe_all/:unsubscription_token', to: 'email_notifications#update'
 
   get '/api/profile_dashboard', action: :index, controller: 'api/profile_dashboard', format: 'json', via: [:get]
   get '/api/activity_stream/', action: :index,

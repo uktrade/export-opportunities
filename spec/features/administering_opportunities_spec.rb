@@ -240,8 +240,8 @@ feature 'Administering opportunities' do
       # with the updated opportunity have correct number of cpv values.
       expect(page.status_code).to eq 200
       expect(page).to have_text('Saved to draft: "A chance to begin again in a golden land of opportunity and adventure"')
-      expect(page).to have_text(cpv_value_0)
-      expect(page).to have_text(cpv_value_1)
+      expect(page).to have_text(cpv_value_0[0..8])
+      expect(page).to have_text(cpv_value_1[0..8])
       expect(Opportunity.last.cpvs.size).to equal(2)
     end
   end

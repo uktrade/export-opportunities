@@ -34,13 +34,15 @@ class CreateOpportunity
       opportunity.save!
       cpvs&.each do |cpv|
         cpv_id = cpv[:industry_id]
-        cpv = OpportunityCpv.new(
-          industry_id: cpv_id.to_s,
-          industry_scheme: cpv[:industry_scheme],
-          opportunity_id: opportunity.id
-        )
-        cpv.save!
-        add_sector_from_cpv(opportunity, cpv_id)
+        if cpv_id.present?
+          cpv = OpportunityCpv.new(
+            industry_id: cpv_id.to_s[0..11],
+            industry_scheme: cpv[:industry_scheme],
+            opportunity_id: opportunity.id
+          )
+          cpv.save!
+          add_sector_from_cpv(opportunity, cpv_id)
+        end
       end
     rescue ActiveRecord::RecordNotUnique
       # TODO: continue importing opps if there is an opp being invalid.

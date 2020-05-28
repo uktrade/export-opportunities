@@ -10,8 +10,13 @@
   .subscription-link.hidden.subscription-notice
     = image_tag 'tick.png'
     %span
-      Email alert for South Asia created - 
-    = link_to "view here", dashboard_path
+      Email alert
+      = subscription[:what]
+      = subscription[:where]
+      created - 
+    = link_to "view here", Figaro.env.SUD_PROFILE_PAGE_EMAIL_ALERTS
+
+  
 
   :javascript
     $("body").on("submit", ".subscription-link", function(e){
