@@ -106,3 +106,5 @@ DIRECTORY_SSO_API_SECRET: 'api_signature_debug'
 "CATEGORISATION_URL": 'categorisation_url'
 
 CPV_CODE_LOOKUP_URL: "debug"
+TRADE_PROFILE_PAGE: ''
+COMPANIES_HOUSE_BASE_URL: ''
