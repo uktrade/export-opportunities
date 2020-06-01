@@ -23,7 +23,7 @@ class Search
   def initialize(params, limit: 500, results_only: false, sort: nil)
     @term = clean_term(params[:s])
     @cpvs = clean_cpvs(params[:cpvs])
-    @filter = SearchFilter.new(params)
+    @filter = SearchFilter.new(country_from_iso(params))
     @sort_override = sort
     @sort = clean_sort(params)
     @boost = params['boost_search'].present?
@@ -80,6 +80,14 @@ class Search
         (column = 'response_due_on') && (order = 'asc')
       end
       OpportunitySort.new(default_column: column, default_order: order)
+    end
+
+    def country_from_iso(params)
+      return params unless params[:iso_codes].present?
+      params[:countries] = Country.where(
+        iso_code: params[:iso_codes]
+      ).map(&:slug)
+      params
     end
 
     # -- Runs the appropriate search --

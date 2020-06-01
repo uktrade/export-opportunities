@@ -82,7 +82,10 @@ RSpec.describe Search, elasticsearch: true do
       @post_3 = create(:opportunity, title: 'Post 3', first_published_at: 3.month.ago,
                        response_due_on: 18.months.from_now, status: :publish,
                        updated_at: 1.month.ago)
-      @post_1.countries << Country.create(slug: 'country-slug', name: 'Country 1')
+      @post_1.countries << Country.create(
+        slug: 'country-slug',
+        name: 'Country 1',
+        iso_code: 'cs')
       sector = Sector.create(slug: 'sector-slug', name: 'Sector 1')
       @post_1.sectors << sector
       @post_2.sectors << sector
@@ -109,6 +112,10 @@ RSpec.describe Search, elasticsearch: true do
       end
       it 'by countries' do
         results = Search.new({ countries: ['country-slug'] }).run
+        expect(results[:total]).to eq 1
+      end
+      it 'by countries' do
+        results = Search.new({ iso_codes: ['cs'] }).run
         expect(results[:total]).to eq 1
       end
       it 'by sectors' do
