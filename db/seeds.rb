@@ -709,7 +709,6 @@ Country.where(slug:'morocco').first.update(iso_code: 'MA')
 Country.where(slug:'mozambique').first.update(iso_code: 'MZ')
 Country.where(slug:'myanmar').first.update(iso_code: 'MM')
 Country.where(slug:'namibia').first.update(iso_code: 'NA')
-Country.where(slug:'nato').first.update( iso_code: #N')/A
 Country.where(slug:'nauru').first.update(iso_code: 'NR')
 Country.where(slug:'nepal').first.update(iso_code: 'NP')
 Country.where(slug:'netherlands').first.update(iso_code: 'NL')
