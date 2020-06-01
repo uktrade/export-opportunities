@@ -98,8 +98,9 @@ module Api
         is_authentic, message = authenticate(request)
         unless is_authentic
           logger.error "Status 401, #{message}"
-          respond(401, message)
+          return respond(401, message)
         end
+        false
       end
 
       def to_activity_collection(activities)
