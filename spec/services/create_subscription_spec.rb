@@ -52,6 +52,20 @@ RSpec.describe CreateSubscription do
       expect(subscription.values.map(&:slug)   ).to eq []
     end
 
+    it 'only creates one a subscription' do
+      clean_params = Search.new({ s: 'lycos' }) # Does not run; cleans params
+      form = SubscriptionForm.new({
+        term: clean_params.term,
+        filter: clean_params.filter
+      })
+
+      expect(@user.subscriptions.count).to eq 0
+      CreateSubscription.new.call(form, @user)
+      expect(@user.subscriptions.count).to eq 1
+      CreateSubscription.new.call(form, @user)
+      expect(@user.subscriptions.count).to eq 1
+    end
+
     it 'creates a subscription with two cpv codes' do
       clean_params = Search.new({ cpvs: ['1', '2'] }) # Does not run; cleans params
       form = SubscriptionForm.new({
