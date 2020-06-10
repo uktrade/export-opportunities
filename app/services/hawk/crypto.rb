@@ -193,7 +193,7 @@ module Hawk
       end
 
       def ==(other)
-        if self.class === other
+        if self.class == other
           mac == other.mac
         else
           # assume base64 encoded bewit

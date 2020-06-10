@@ -84,6 +84,7 @@ class Search
 
     def country_from_iso(params)
       return params unless params[:iso_codes].present?
+
       params[:countries] = Country.where(
         iso_code: params[:iso_codes]
       ).map(&:slug)

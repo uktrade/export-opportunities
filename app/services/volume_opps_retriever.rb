@@ -146,8 +146,6 @@ class VolumeOppsRetriever
         tender_source: opportunity_source,
         cpvs: cpvs,
       }
-    else
-      nil
     end
   end
 

@@ -1,5 +1,4 @@
 class EmailNotificationsController < ApplicationController
-
   #
   # On each email notification, users are given a link to this page
   # Accessed via GET
@@ -7,7 +6,7 @@ class EmailNotificationsController < ApplicationController
   def destroy
     content = get_content('email_notifications.yml')
     user = User.where(unsubscription_token: params[:unsubscription_token]).first
-    
+
     unless user
       # In old method, the params[:unsubscription_token] received will
       # actually be the user_id
@@ -20,8 +19,8 @@ class EmailNotificationsController < ApplicationController
     end
 
     unless user
-      flash[:error] = "Could not find user"
-      redirect_to root_path and return
+      flash[:error] = 'Could not find user'
+      redirect_to(root_path) && return
     end
 
     user.subscriptions.where(unsubscribed_at: nil).update_all(unsubscribed_at: Time.zone.now)
@@ -42,8 +41,8 @@ class EmailNotificationsController < ApplicationController
     user = User.where(unsubscription_token: params[:unsubscription_token]).first
 
     unless user
-      flash[:error] = "Could not find user"
-      redirect_to root_path and return
+      flash[:error] = 'Could not find user'
+      redirect_to(root_path) && return
     end
 
     user.subscriptions.update_all(unsubscribe_reason: reason_param)
@@ -59,5 +58,4 @@ class EmailNotificationsController < ApplicationController
       reason = params.fetch(:reason)
       reason if Subscription.unsubscribe_reasons.key?(reason)
     end
-
 end

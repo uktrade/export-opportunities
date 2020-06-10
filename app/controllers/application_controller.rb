@@ -124,10 +124,10 @@ class ApplicationController < ActionController::Base
   before_action :populate_sso_hashed_uuid
   def populate_sso_hashed_uuid
     if current_user &&
-       current_user.sso_hashed_uuid.blank? && 
+       current_user.sso_hashed_uuid.blank? &&
        (sso_id = cookies[Figaro.env.SSO_SESSION_COOKIE]).present? &&
        (sso_user = DirectoryApiClient.user_data(sso_id)).present?
-          current_user.update(sso_hashed_uuid: sso_user["hashed_uuid"])
+      current_user.update(sso_hashed_uuid: sso_user['hashed_uuid'])
     end
   end
 

@@ -208,7 +208,7 @@ class OpportunitySearchBuilder
           bool: {
             should: {
               query_string: {
-                query: cpvs_query,                
+                query: cpvs_query,
                 fields: ['cpvs.industry_id'],
               },
             },
@@ -221,6 +221,7 @@ class OpportunitySearchBuilder
       @cpvs.map do |cpv|
         loop do
           break if cpv[-1] != '0' || cpv.length == 1
+
           cpv.chomp!('0')
         end
         "#{cpv}*"

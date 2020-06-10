@@ -1,7 +1,7 @@
 AllCops:
   DisplayCopNames: true
-  TargetRubyVersion: 2.5
-  TargetRailsVersion: 5.1
+  TargetRubyVersion: 2.7
+  TargetRailsVersion: 6.0
   Exclude:
     - 'vendor/bundle/**/*'
     - 'db/migrate/**/*'
@@ -27,7 +27,7 @@ Style/SymbolProc:
   Exclude:
     - spec/factories/*
 
-Layout/AlignParameters:
+Layout/ParameterAlignment:
   EnforcedStyle: with_fixed_indentation
 
 Layout/MultilineMethodCallIndentation:
@@ -83,9 +83,9 @@ Style/IfUnlessModifier:
   Enabled: false
 
 Layout/IndentationConsistency:
-  EnforcedStyle: rails
+  EnforcedStyle: indented_internal_methods
 
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   Exclude:
     - app/controllers/api/activity_stream_controller.rb
 

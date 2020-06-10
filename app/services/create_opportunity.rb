@@ -45,6 +45,7 @@ class CreateOpportunity
         end
       end
     rescue ActiveRecord::RecordNotUnique
+      return opportunity
       # TODO: continue importing opps if there is an opp being invalid.
     rescue ActiveRecord::RecordInvalid => e
       raise e if opportunity.source == :post

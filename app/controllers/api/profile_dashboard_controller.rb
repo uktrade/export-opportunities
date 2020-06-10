@@ -7,6 +7,7 @@ module Api
       hashed_sso_id = params[:hashed_sso_id] || params[:sso_user_id]
       return bad_request! unless hashed_sso_id && params[:shared_secret]
       return forbidden! if params[:shared_secret] != Figaro.env.api_profile_dashboard_shared_secret
+
       user = User.find_by(sso_hashed_uuid: hashed_sso_id)
       return forbidden! if user.nil?
 
@@ -15,7 +16,7 @@ module Api
       @result[:enquiries] = result_enquiries(@enquiries)
       @subscriptions = user.subscriptions.includes(:types, :values, :countries, :sectors).active
       @result[:email_alerts] = result_subscriptions(@subscriptions)
-      
+
       respond_to do |format|
         format.json { render status: :ok, json: @result }
       end
@@ -37,19 +38,19 @@ module Api
                           results_only: true,
                           sort: 'updated_at').run
       @result[:relevant_opportunities] = if result.records.any?
-        result.map do |opportunity|
-          {
-            title: opportunity.title,
-            url: opportunity_url(opportunity.slug),
-            description: opportunity.description,
-            published_date: opportunity.first_published_at,
-            closing_date: opportunity.response_due_on,
-            source: opportunity.source
-          }
-        end
-      else
-        []
-      end
+                                           result.map do |opportunity|
+                                             {
+                                               title: opportunity.title,
+                                               url: opportunity_url(opportunity.slug),
+                                               description: opportunity.description,
+                                               published_date: opportunity.first_published_at,
+                                               closing_date: opportunity.response_due_on,
+                                               source: opportunity.source,
+                                             }
+                                           end
+                                         else
+                                           []
+                                         end
       respond_to do |format|
         format.json { render status: :ok, json: @result }
       end

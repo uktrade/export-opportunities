@@ -32,6 +32,6 @@ class CreateOpportunitySlug
 
     def rand
       @rand ||= Random.new
-      @rand.rand(99999)
+      @rand.rand(99_999)
     end
 end
