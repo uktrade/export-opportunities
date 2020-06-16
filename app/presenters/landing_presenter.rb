@@ -34,7 +34,7 @@ class LandingPresenter < PagePresenter
     def sector_images_map(key)
       name = key.to_sym
       map = {
-        "creative-media": {
+        "creative-industries": {
           large: 'sectors/ExOpps-CTA_Mobile_CreativeandMedia_175x262.jpg',
           small: 'sectors/ExOpps-CTA_Mobile_CreativeandMedia_170x170.jpg',
         },
@@ -50,7 +50,7 @@ class LandingPresenter < PagePresenter
           large: 'sectors/ExOpps-CTA_OilAndGas_170x255@2x.jpg',
           small: 'sectors/ExOpps-CTA_OilAndGas_170x255-mob@2x.jpg',
         },
-        "retail-and-luxury": {
+        "consumer-and-retail": {
           large: 'sectors/ExOpps-CTA_Sixth_9_170x255@2x.jpg',
           small: 'sectors/ExOpps-CTA_Sixth_9_170x255-mob@2x.jpg',
         },

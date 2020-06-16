@@ -77,6 +77,7 @@ gem 'sentry-raven'
 
 # file uploader
 gem 'carrierwave', '1.3.1'
+gem 'fog-aws', '3.6.5'
 
 # rest client for antivirus scanning
 gem 'rest-client'
