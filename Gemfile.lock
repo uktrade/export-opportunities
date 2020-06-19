@@ -1441,7 +1441,7 @@ DEPENDENCIES
   capybara
   capybara-email
   capybara-screenshot
-  carrierwave
+  carrierwave (= 2.1.0)
   ckeditor
   database_cleaner
   devise (= 4.7.1)
