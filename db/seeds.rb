@@ -218,7 +218,7 @@ Sector.create(slug: 'technology-smart-cities', name: 'Technology and smart citie
 Sector.find_by(slug: 'technology-smart-cities').try(:update, featured: true, featured_order: 1)
 Sector.find_by(slug: 'education-training').try(:update, featured: true, featured_order: 2)
 Sector.find_by(slug: 'food-and-drink').try(:update, featured: true, featured_order: 3)
-Sector.find_by(slug: 'oil-gas').try(:update, featured: true, featured_order: 4)
+Sector.find_by(slug: 'creative-industries').try(:update, featured: true, featured_order: 4)
 Sector.find_by(slug: 'security').try(:update, featured: true, featured_order: 5)
 Sector.find_by(slug: 'consumer-and-retail').try(:update, featured: true, featured_order: 6)
 
