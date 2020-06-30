@@ -332,7 +332,6 @@ module Api
 
       def respond(code, message)
         respond_to do |format|
-          response.headers['Content-Type'] = 'application/json'
           error_object = {
             message: message,
           }
@@ -342,7 +341,6 @@ module Api
 
       def respond_200(contents)
         respond_to do |format|
-          response.headers['Content-Type'] = 'application/activity+json'
           format.json { render status: :ok, json: Yajl::Encoder.encode(contents) }
         end
       end
