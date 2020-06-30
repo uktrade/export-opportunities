@@ -50,11 +50,12 @@ ACTIVITY_STREAM_ACCESS_KEY_ID: '12345'
 ACTIVITY_STREAM_SECRET_ACCESS_KEY: '?[!@$%^%'
 ACTIVITY_STREAM_IP_WHITELIST: '0.0.0.0'
 
-# Elasticsearch
+# Elasticsearch & S3
 elastic_search_url: 'http://localhost:9200'
 AWS_ACCESS_KEY_ID: ''
 AWS_SECRET_ACCESS_KEY: ''
 AWS_REGION: ''
+post_user_communication_s3_bucket: ''
 
 #clamAV virus scanning
 CLAM_AV_HOST: ''
@@ -62,8 +63,6 @@ CLAM_AV_USERNAME: ''
 CLAM_AV_PASSWORD:
 
 SENTRY_RAVEN_DSN: 'http://sentry.example.org/'
-
-post_user_communication_s3_bucket: ''
 
 # Links to "external services" or, websites
 TRADE_GREAT_GOV_UK: 'https://trade.great.gov.uk'

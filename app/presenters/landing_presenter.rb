@@ -34,29 +34,29 @@ class LandingPresenter < PagePresenter
     def sector_images_map(key)
       name = key.to_sym
       map = {
-        "creative-media": {
-          large: 'sectors/ExOpps-CTA_Mobile_CreativeandMedia_175x262.jpg',
-          small: 'sectors/ExOpps-CTA_Mobile_CreativeandMedia_170x170.jpg',
+        "creative-industries": {
+          small: 'sectors/ExOpps-CTA_Mobile_CreativeIndustries_Square.jpg',
+          large: 'sectors/ExOpps-CTA_Mobile_CreativeIndustries_Tall.jpg',
         },
         "education-training": {
-          large: 'sectors/ExOpps_CTA_Education_170x255@2x.jpg',
-          small: 'sectors/ExOpps_CTA_Education_170x255-mob@2x.png',
+          small: 'sectors/ExOpps_CTA_Education_Square.png',
+          large: 'sectors/ExOpps_CTA_Education_Tall.jpg',
         },
-        "food-drink": {
-          large: 'sectors/ExOpps-CTA_Sixth_11_170x255@2x.jpg',
-          small: 'sectors/ExOpps-CTA_Sixth_11_170x255-mob@2x.jpg',
+        "food-and-drink": {
+          small: 'sectors/ExOpps-CTA_FoodAndDrink_Square.jpg',
+          large: 'sectors/ExOpps-CTA_FoodAndDrink_Tall.jpg',
         },
-        "oil-gas": {
-          large: 'sectors/ExOpps-CTA_OilAndGas_170x255@2x.jpg',
-          small: 'sectors/ExOpps-CTA_OilAndGas_170x255-mob@2x.jpg',
+        "technology-smart-cities": {
+          small: 'sectors/ExOpps-CTA_TechnologyAndSmartCities_Square.jpg',
+          large: 'sectors/ExOpps-CTA_TechnologyAndSmartCities_Tall.jpg',
         },
-        "retail-and-luxury": {
-          large: 'sectors/ExOpps-CTA_Sixth_9_170x255@2x.jpg',
-          small: 'sectors/ExOpps-CTA_Sixth_9_170x255-mob@2x.jpg',
+        "consumer-and-retail": {
+          small: 'sectors/ExOpps-CTA_ConsumerAndRetail_Square.jpg',
+          large: 'sectors/ExOpps-CTA_ConsumerAndRetail_Tall.jpg',
         },
         "security": {
-          large: 'sectors/ExOpps-CTA_Sixth_5_170x255@2x.jpg',
-          small: 'sectors/ExOpps-CTA_Sixth_5_170x255-mob@2x.jpg',
+          small: 'sectors/ExOpps-CTA_Security_Square.jpg',
+          large: 'sectors/ExOpps-CTA_Security_Tall.jpg',
         },
       }
 
