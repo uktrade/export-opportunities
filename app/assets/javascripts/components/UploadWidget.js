@@ -61,6 +61,11 @@ ukti.UploadWidget = (function() {
       }
     };
 
+    var reset = function(event) {
+      event.wrap('<form>').closest('form').get(0).reset();
+      event.unwrap();
+    }
+
     var isFileValid = function(file) {
       if (config.allowedFileTypes.indexOf(file.type) < 0) {
           errors.push(config.errorMessages.filetype);
@@ -92,6 +97,7 @@ ukti.UploadWidget = (function() {
         event.preventDefault();
         var index = event.target.getAttribute('href');
         removeFromFileStore(index);
+        reset($('.inputfile'))
         updateHiddenField();
         renderFileList();
       }
