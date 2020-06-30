@@ -19,7 +19,7 @@ class CreateSubscription
     return nil if check_if_exists
     @subscription.save
     form.cpvs.each do |cpv|
-      subscription.cpvs.create(industry_id: cpv)
+      @subscription.cpvs.create(industry_id: cpv)
     end
     @subscription
   end
