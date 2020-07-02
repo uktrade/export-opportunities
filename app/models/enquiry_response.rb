@@ -1,6 +1,6 @@
 class EnquiryResponse < ApplicationRecord
   include EnquiryResponseHelper
-  mount_uploaders :attachments, EnquiryResponseUploader
+  mount_uploaders :documents, EnquiryResponseUploader
 
   validate :email_body_length_check
   validates :enquiry_id, uniqueness: true
@@ -23,7 +23,8 @@ class EnquiryResponse < ApplicationRecord
 
     file_list = ''
     begin
-      docs = JSON.parse(documents || '')
+      documents = '' if !documents
+      docs = JSON.parse(documents)
       docs.each do |document|
         file_list << document['result']['id']['original_filename'] + ' '
       end
