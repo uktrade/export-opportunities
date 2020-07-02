@@ -26,6 +26,8 @@ class Admin::EnquiryResponsesController < Admin::BaseController
     ActionController::Base.helpers.sanitize params[:enquiry_response][:email_body]
     ActionController::Base.helpers.sanitize params[:enquiry_response][:signature]
 
+    # params.require(:enquiry_response).permit!
+
     params.require(:enquiry_response).permit(:id, :created_at, :updated_at, :email_attachment, :email_body, :editor_id, :enquiry_id, :signature, :documents, :response_type, :completed_at, attachments: [id: {}])
   end
 
