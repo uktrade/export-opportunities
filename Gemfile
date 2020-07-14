@@ -2,9 +2,9 @@ source 'https://rubygems.org'
 
 ruby '2.7.0'
 
-gem 'rails', '6.0.3'
+gem 'rails', '6.0.3.1'
 gem 'bundler'
-gem 'puma', '3.12.4'
+gem 'puma', '3.12.6'
 gem 'pg', '1.1.4'
 gem 'sidekiq'
 gem 'sidekiq-cron'
@@ -33,7 +33,7 @@ gem 'sdoc'
 
 # Search
 gem 'pg_search'
-gem 'kaminari'
+gem 'kaminari', '>= 1.2.1'
 gem 'elasticsearch-rails', '5.1.0'
 gem 'elasticsearch-model', '5.1.0'
 gem 'devise-security', '0.14.3'
