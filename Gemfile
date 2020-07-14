@@ -75,10 +75,6 @@ gem 'aws-sdk'
 # Monitoring
 gem 'sentry-raven'
 
-# file uploader
-gem 'carrierwave', '2.1.0'
-gem 'fog-aws', '3.6.5'
-
 # rest client for antivirus scanning
 gem 'rest-client'
 
