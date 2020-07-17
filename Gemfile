@@ -48,7 +48,6 @@ gem 'export_components', '2.2.3', git: 'https://github.com/uktrade/export_compon
 
 # Javascript
 gem 'jquery-rails'
-gem 'ckeditor'
 
 # Ruby tools
 gem 'stringex', require: false

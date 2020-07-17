@@ -49,7 +49,7 @@ module ExportOpportunities
     config.action_controller.page_cache_directory = "#{Rails.root.to_s}/public"
 
     # precompile assets
-    # config.serve_static_assets = true
+    config.serve_static_assets = true
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
