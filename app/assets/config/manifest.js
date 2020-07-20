@@ -20,6 +20,8 @@
 //= link legacy_wordpress/html5shiv
 //= link legacy_wordpress/json2
 
+//= link ckeditor/ckeditor.js
+//= link ckeditor/config.js
 
 // Stylesheets
 //= link_tree ../stylesheets/transformation

@@ -2,7 +2,8 @@
 var ukti = window.ukti || {};
 
 ukti.config = {
-    "ckeditorPath" : "/js/ckeditor/ckeditor.js"
+    "ckeditorPath" : "<%= asset_path('ckeditor/ckeditor') %>",
+    "ckeditorConfigPath" : "<%= asset_path('ckeditor/config') %>"
 };
 
 $('body').addClass('js-enabled');

@@ -1,6 +1,7 @@
 var ukti = window.ukti || {};
 
 ukti.config = {
-    "ckeditorPath" : "/js/ckeditor/ckeditor.js",
+    "ckeditorPath" : "<%= asset_path('ckeditor/ckeditor') %>",
+    "ckeditorConfigPath" : "<%= asset_path('ckeditor/config') %>",
     "registerURL": "<%=Figaro.env.SSO_ENDPOINT_BASE_URI%><%=Figaro.env.SSO_ENDPOINT_SSO_APPEND%>/accounts/signup"
 };
