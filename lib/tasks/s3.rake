@@ -39,18 +39,18 @@ namespace :s3 do
 
         s3_client_target.put_object(resp.body.read, asset.key) unless args[:dry_run]
         DocumentUrlMapper.where("s3_link LIKE ?", "%#{asset.key}").each do |dm|
-          hashed_id = {
+          hashed_ids = {
             old: dm.hashed_id,
             new: DocumentUrlShortener.new.hash_link(s3_link, dm.user_id, dm.enquiry_id)
           }
-          s3_link = {
+          s3_links = {
             old: dm.s3_link,
             new: s3_link
           }
-          Rails.logger.info "old hashed_id: #{hashed_id[:old]}, new hashed_id: #{hashed_id[:new]}"
-          Rails.logger.info "old s3_link: #{s3_link[:old]}, new s3_link: #{s3_link[:new]}"
+          Rails.logger.info "old hashed_id: #{hashed_ids[:old]}, new hashed_id: #{hashed_ids[:new]}"
+          Rails.logger.info "old s3_link: #{s3_links[:old]}, new s3_link: #{s3_links[:new]}"
 
-          update_objects!(dm, hashed_id, s3_link) unless args[:dry_run]
+          update_objects!(dm, hashed_ids, s3_links) unless args[:dry_run]
         end
       end
     end
@@ -59,18 +59,18 @@ namespace :s3 do
       'https://s3.' + region + '.amazonaws.com/' + bucket + '/' + obj_key
     end
 
-    def update_objects!(document_url_mapper, hashed_id, s3_link)
-      document_url_mapper.hashed_id = hashed_id[:new]
-      document_url_mapper.s3_link   = s3_link[:new]
+    def update_objects!(document_url_mapper, hashed_ids, s3_links)
+      document_url_mapper.hashed_id = hashed_ids[:new]
+      document_url_mapper.s3_link   = s3_links[:new]
       document_url_mapper.update!
 
       enquiry_response = EnquiryResponse.find_by(enquiry_id: document_url_mapper.enquiry_id)
       if enquiry_response
         enquiry_response.documents.gsub(
-          "\"hashed_id\":\"#{hashed_id[:old]}\"", "\"hashed_id\":\"#{hashed_id[:new]}\""
+          "\"hashed_id\":\"#{hashed_ids[:old]}\"", "\"hashed_id\":\"#{hashed_ids[:new]}\""
         )
         enquiry_response.documents.gsub(
-          "\"s3_link\":\"#{s3_link[:old]}\"", "\"s3_link\":\"#{s3_link[:new]}\""
+          "\"s3_link\":\"#{s3_links[:old]}\"", "\"s3_link\":\"#{s3_links[:new]}\""
         )
         enquiry_response.update!
       end
