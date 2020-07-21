@@ -38,7 +38,7 @@ namespace :s3 do
           "#{document_url(args[:origin_aws_region], bucket.name, asset.key)} to #{s3_link}"
 
         s3_client_target.put_object(resp.body.read, asset.key) unless args[:dry_run]
-        DocumentUrlMapper.where("s3_link LIKE ?", "%#{asset.key}%").each do |dm|
+        DocumentUrlMapper.where("s3_link LIKE ?", "%#{asset.key}").each do |dm|
           hashed_id = {
             old: dm.hashed_id,
             new: DocumentUrlShortener.new.hash_link(s3_link, dm.user_id, dm.enquiry_id)
