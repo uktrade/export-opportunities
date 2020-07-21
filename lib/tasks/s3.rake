@@ -26,16 +26,19 @@ namespace :s3 do
       bucket = s3_resource.bucket(args[:origin_bucket_name])
       assets = bucket.objects
 
-      Rails.logger.info "Starting to copy #{assets.count} assets:"
       assets.each do |asset|
+        next if asset.key.start_with?('undefined')
+
         s3_link = document_url(
           Figaro.env.aws_region,
           Figaro.env.post_user_communication_s3_bucket,
           asset.key
         )
         resp = s3_client_origin.get_object(bucket: bucket.name, key: asset.key)
-        Rails.logger.info 'Copying '\
-          "#{document_url(args[:origin_aws_region], bucket.name, asset.key)} to #{s3_link}"
+
+        Rails.logger.info 'Copying assets:'
+        Rails.logger.info "from: #{document_url(args[:origin_aws_region], bucket.name, asset.key)}"
+        Rails.logger.info "  to: #{s3_link}"
 
         s3_client_target.put_object(resp.body.read, asset.key) unless args[:dry_run]
         DocumentUrlMapper.where('s3_link LIKE ?', "%#{asset.key}").each do |dm|
@@ -48,7 +51,7 @@ namespace :s3 do
             new: s3_link
           }
           Rails.logger.info "old hashed_id: #{hashed_ids[:old]}, new hashed_id: #{hashed_ids[:new]}"
-          Rails.logger.info "old s3_link: #{s3_links[:old]}, new s3_link: #{s3_links[:new]}"
+          Rails.logger.info "  old s3_link: #{s3_links[:old]}, new s3_link: #{s3_links[:new]}"
 
           update_objects!(dm, hashed_ids, s3_links) unless args[:dry_run]
         end
