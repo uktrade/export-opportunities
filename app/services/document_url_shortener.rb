@@ -22,22 +22,20 @@ class DocumentUrlShortener
     ).first
   end
 
-  private
+  # Inspired by BTC
+  def hash_link(s3_url, user_id, enquiry_id)
+    d1 = Digest::SHA256.digest([s3_url, user_id, enquiry_id].pack('H*'))
+    d2 = Digest::SHA256.digest(d1)
+    d2.reverse.unpack('H*').join
+  end
 
-    # Inspired by BTC
-    def hash_link(s3_url, user_id, enquiry_id)
-      d1 = Digest::SHA256.digest([s3_url, user_id, enquiry_id].pack('H*'))
-      d2 = Digest::SHA256.digest(d1)
-      d2.reverse.unpack('H*').join
-    end
-
-    def save_link(user_id, enquiry_id, original_filename, hashed_id, s3_url)
-      DocumentUrlMapper.create!(
-        user_id: user_id,
-        enquiry_id: enquiry_id,
-        original_filename: original_filename,
-        hashed_id: hashed_id,
-        s3_link: s3_url
-      )
-    end
+  def save_link(user_id, enquiry_id, original_filename, hashed_id, s3_url)
+    DocumentUrlMapper.create!(
+      user_id: user_id,
+      enquiry_id: enquiry_id,
+      original_filename: original_filename,
+      hashed_id: hashed_id,
+      s3_link: s3_url
+    )
+  end
 end
