@@ -65,15 +65,15 @@ namespace :s3 do
       document_url_mapper.update!
 
       enquiry_response = EnquiryResponse.find_by(enquiry_id: document_url_mapper.enquiry_id)
-      if enquiry_response
-        enquiry_response.documents.gsub(
-          "\"hashed_id\":\"#{hashed_ids[:old]}\"", "\"hashed_id\":\"#{hashed_ids[:new]}\""
-        )
-        enquiry_response.documents.gsub(
-          "\"s3_link\":\"#{s3_links[:old]}\"", "\"s3_link\":\"#{s3_links[:new]}\""
-        )
-        enquiry_response.update!
-      end
+      return unless enquiry_response
+
+      enquiry_response.documents.gsub(
+        "\"hashed_id\":\"#{hashed_ids[:old]}\"", "\"hashed_id\":\"#{hashed_ids[:new]}\""
+      )
+      enquiry_response.documents.gsub(
+        "\"s3_link\":\"#{s3_links[:old]}\"", "\"s3_link\":\"#{s3_links[:new]}\""
+      )
+      enquiry_response.update!
     end
   end
 end
