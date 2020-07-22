@@ -119,7 +119,7 @@
             = f.hidden_field :user_id, as: :hidden, value: @enquiry.user.uid
             // TODO: how do we handle users navigating back? lose files?
             %ul.list.fileList{"data-default-item" => "No files selected"}
-            %input#enquiry_response_email_attachment.inputfile{:name => "enquiry_response[email_attachment][]", :type => "file", "data-multiple-caption" => "{count} files selected"}/
+            %input#enquiry_response_email_attachment.inputfile{:name => "enquiry_response[email_attachment][]", :type => "file", "data-multiple-caption" => "{count} files selected"}
             %label{:for => "enquiry_response_email_attachment"}
               %svg.icon.icon-upload-file
                 %use{"xlink:href" => "#icon-file-upload"}
