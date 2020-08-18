@@ -64,7 +64,8 @@ class Opportunity < ApplicationRecord
     end
   end
 
-  has_paper_trail class_name: 'OpportunityVersion', only: [:status]
+  has_paper_trail versions: { class_name: 'OpportunityVersion' },
+                  only: [:status]
 
   extend FriendlyId
   friendly_id :title, use: %i[slugged finders]
@@ -83,7 +84,7 @@ class Opportunity < ApplicationRecord
   enum request_usage: { samples: 0, sell_goods: 2, use_product: 4 }
   enum enquiry_interaction: { post_response: 0, third_party: 2 }
 
-  include PgSearch
+  include PgSearch::Model
 
   pg_search_scope :fuzzy_match,
                   against: %i[title teaser description],
