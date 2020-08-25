@@ -65,18 +65,18 @@ namespace :s3 do
     def update_objects!(document_url_mapper, hashed_ids, s3_links)
       document_url_mapper.hashed_id = hashed_ids[:new]
       document_url_mapper.s3_link   = s3_links[:new]
-      document_url_mapper.update!
+      document_url_mapper.save!
 
       enquiry_response = EnquiryResponse.find_by(enquiry_id: document_url_mapper.enquiry_id)
       return unless enquiry_response
 
-      enquiry_response.documents.gsub(
+      enquiry_response.documents&.gsub(
         "\"hashed_id\":\"#{hashed_ids[:old]}\"", "\"hashed_id\":\"#{hashed_ids[:new]}\""
       )
-      enquiry_response.documents.gsub(
+      enquiry_response.documents&.gsub(
         "\"s3_link\":\"#{s3_links[:old]}\"", "\"s3_link\":\"#{s3_links[:new]}\""
       )
-      enquiry_response.update!
+      enquiry_response.save!
     end
   end
 end
