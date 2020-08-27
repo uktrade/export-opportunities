@@ -9,31 +9,6 @@ feature 'Admins manage editors' do
     clear_emails
   end
 
-  scenario 'Can create a new editor', sidekiq: :inline do
-    admin = create(:admin)
-    create(:service_provider, name: 'Uzbekistan Tashkent')
-
-    login_as(admin)
-    visit new_editor_registration_path
-    expect(page).to have_text(content['title_new'])
-
-    email = Faker::Internet.email
-
-    within '#new_editor' do
-      fill_in('Email', with: email)
-      fill_in('Name', with: 'Foo Bar')
-      select('Publisher', from: 'Role')
-      select('Uzbekistan Tashkent', from: 'Service provider')
-      click_button content['button_create']
-    end
-
-    open_email(email)
-    expect(current_email).to have_content('You can confirm your account email through the link below:')
-
-    expect(page).to have_text(I18n.t('devise.registrations.signed_up_but_unconfirmed'))
-    expect(page).to have_text(content['title_new'])
-  end
-
   scenario 'Can view all of the editors' do
     admin = create(:admin)
     provider = create(:service_provider)

@@ -9,7 +9,7 @@ feature 'Logging in as an editor' do
   scenario 'Confirmed editor' do
     create(:editor, email: 'email@example.com', password: 'wibble-sidecar-sling')
 
-    visit new_editor_session_path
+    visit admin_new_editor_session_path
 
     within '#new_editor' do
       fill_in 'Email',    with: 'email@example.com'
@@ -23,7 +23,7 @@ feature 'Logging in as an editor' do
   scenario 'Unconfirmed editor' do
     create(:editor, email: 'email@example.com', password: 'gobbledegook', confirmed_at: nil)
 
-    visit new_editor_session_path
+    visit admin_new_editor_session_path
 
     within '#new_editor' do
       fill_in 'Email',    with: 'email@example.com'
@@ -37,7 +37,7 @@ feature 'Logging in as an editor' do
   scenario 'Deactivated editor' do
     create(:editor, email: 'email@example.com', password: 'gobbledegook', deactivated_at: 1.day.ago)
 
-    visit new_editor_session_path
+    visit admin_new_editor_session_path
 
     within '#new_editor' do
       fill_in 'Email',    with: 'email@example.com'
@@ -52,7 +52,7 @@ feature 'Logging in as an editor' do
     editor = create(:editor, email: 'email@example.com')
     editor.update_column(:encrypted_password, 'invalid-hash')
 
-    visit new_editor_session_path
+    visit admin_new_editor_session_path
 
     within '#new_editor' do
       fill_in 'Email', with: 'email@example.com'
