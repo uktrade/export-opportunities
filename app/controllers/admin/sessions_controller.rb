@@ -1,16 +1,24 @@
-class Admin::SessionsController < Devise::SessionsController
-  def after_sign_in_path_for(resource)
-    loc = stored_location_for(resource)
-    loc || admin_opportunities_path
-  end
+# frozen_string_literal: true
 
-  def after_sign_out_path_for(_resource)
-    new_editor_session_path
-  end
+module Admin
+  class SessionsController < Admin::BaseController # :nodoc:
+    skip_after_action :verify_authorized
+    skip_before_action :authenticate_editor!
+    skip_before_action :sign_out_if_deactivated!
+    skip_before_action :set_raven_context
 
-  def new
-    self.resource = resource_class.new(sign_in_params)
-    store_location_for(resource, params[:redirect_to])
-    super
+    def create
+      auth = request.env['omniauth.auth']
+
+      session[:uid] = Editor.from_omniauth(auth).uid
+      session[:expires_at] = auth.credentials.expires_at
+
+      redirect_to admin_root_path
+    end
+
+    def destroy
+      session.destroy
+      redirect_to admin_logout_path
+    end
   end
 end

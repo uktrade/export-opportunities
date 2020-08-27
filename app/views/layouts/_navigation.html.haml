@@ -18,7 +18,7 @@
           = link_to 'Reports', admin_reports_path
       - if current_editor
         %li#logout
-          = button_to('Log out', destroy_editor_session_path, :class => 'button', :method => :delete)
+          = button_to('Log out', admin_destroy_editor_session_path, :class => 'button', :method => :delete)
       - else
         %li#login
-          = link_to('Log in', new_editor_session_path, :class => 'button')
+          = link_to('Log in', admin_new_editor_session_path, :class => 'button')

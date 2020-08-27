@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     get 'check' => 'application#check'
     get 'data_sync_check' => 'data_sync#check'
     get 'api_check' => 'application#api_check'
-    get "robots.txt" => "robots_txts#show"
+    get 'robots.txt' => 'robots_txts#show'
 
     devise_for :users, module: 'users', skip: :sessions
 
@@ -45,12 +45,11 @@ Rails.application.routes.draw do
       get 'help/:article_id/print', to: 'help#article_print', as: 'help_article_print'
       get 'help/:article_id/:section_id', to: 'help#article', as: 'help_article'
 
-      devise_for :editors,
-                 singular: :editor,
-                 only: %i[registrations sessions passwords unlocks],
-                 path_names: {
-                   sign_up: 'new',
-                 }
+      get '/auth/staff_sso', as: :new_editor_session
+      delete '/sign_out', to: 'sessions#destroy', as: :destroy_editor_session
+      match '/auth/:provider/callback',
+            via: %i[get post],
+            to: 'sessions#create'
 
       devise_scope :editor do
         get '/editor/confirmation', to: 'confirmations#show', as: :editor_confirmation
@@ -133,7 +132,7 @@ Rails.application.routes.draw do
     # Legacy admin sign in paths
     get '/users/sign_in', to: redirect('export-opportunities/admin/editors/sign_in'), as: nil
     get '/users/sign_out', to: redirect('export-opportunities/admin/editors/sign_out'), as: nil
-    get '/user/confirmation', to: redirect { |_params, request| "export-opportunities/admin/editor/confirmation?#{request.params.to_query}" }
+    get '/user/confirmation', to: redirect { |_params, request| 'export-opportunities/admin/editor/confirmation?#{request.params.to_query}' }
 
     # Enquiry feedback
     get '/feedback', to: 'enquiry_feedback#new', as: :enquiry_feedback
@@ -168,7 +167,7 @@ Rails.application.routes.draw do
     match '*path', to: 'errors#not_found', via: %i[get post patch put delete]
 
     match '(*path)',
-          to: ->(_env) { [405, { 'Content-Type' => 'text/plain' }, ["\n"]] },
+          to: ->(_env) { [405, { 'Content-Type' => 'text/plain' }, ['\n']] },
           via: [:options]
   end
 
@@ -178,7 +177,7 @@ Rails.application.routes.draw do
   get 'check' => 'application#check'
   get 'data_sync_check' => 'application#data_sync_check'
   get 'api_check' => 'application#api_check'
-  get "robots.txt" => "robots_txts#show"
+  get 'robots.txt' => 'robots_txts#show'
 
   # devise_for :users, module: 'users', skip: :sessions
 
@@ -208,26 +207,20 @@ Rails.application.routes.draw do
     root action: 'results'
   end
 
+    # get 'auth/staff_sso', as: 'staff_sso_login'
+    # get 'auth/:provider/callback', to: 'admin/sessions#create'
+    # post 'auth/:provider/callback', to: 'admin/sessions#create'
+
   namespace :admin do
     get 'help', to: 'help#index'
     get 'help/:article_id', to: 'help#show'
     get 'help/:article_id/print', to: 'help#article_print'
     get 'help/:article_id/:section_id', to: 'help#article'
 
-    # devise_for :editors,
-    #            singular: :editor,
-    #            only: %i[registrations sessions passwords unlocks],
-    #            path_names: {
-    #              sign_up: 'new',
-    #            }
-
-    devise_scope :editor do
-      get '/editor/confirmation', to: 'confirmations#show'
-      patch '/editor/confirmation', to: 'confirmations#update'
-
-      put 'editors/reactivate/:id', to: 'registrations#reactivate'
-      delete 'editors/deactivate/:id', to: 'registrations#destroy'
-    end
+    # scope 'editors' do
+    #   get  'sign_out', to: 'sessions#destroy', as: :sign_out
+    #   get  'sign_in',  to: 'sign_in#index',    as: :sign_in
+    # end
 
     resources :editors, only: %i[index show edit update]
 
@@ -302,7 +295,7 @@ Rails.application.routes.draw do
   # Legacy admin sign in paths
   get '/users/sign_in', to: redirect('export-opportunities/admin/editors/sign_in')
   get '/users/sign_out', to: redirect('export-opportunities/admin/editors/sign_out')
-  get '/user/confirmation', to: redirect { |_params, request| "export-opportunities/admin/editor/confirmation?#{request.params.to_query}" }
+  get '/user/confirmation', to: redirect { |_params, request| 'export-opportunities/admin/editor/confirmation?#{request.params.to_query}' }
 
   # Enquiry feedback
   get '/feedback', to: 'enquiry_feedback#new'
@@ -335,6 +328,6 @@ Rails.application.routes.draw do
   match '*path', to: 'errors#not_found', via: %i[get post patch put delete]
 
   match '(*path)',
-        to: ->(_env) { [405, { 'Content-Type' => 'text/plain' }, ["\n"]] },
+        to: ->(_env) { [405, { 'Content-Type' => 'text/plain' }, ['\n']] },
         via: [:options]
 end

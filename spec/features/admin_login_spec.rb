@@ -17,7 +17,7 @@ feature 'Logging in as an admin' do
   scenario 'Logging in successfully' do
     create(:editor, email: 'email@example.com', password: 'wibble-sidecar-sling')
 
-    visit new_editor_session_path
+    visit admin_new_editor_session_path
 
     within '#new_editor' do
       fill_in 'Email',    with: 'email@example.com'
@@ -79,7 +79,7 @@ feature 'Logging in as an admin' do
   end
 
   scenario 'Attempting to log in to an account that does not exist' do
-    visit new_editor_session_path
+    visit admin_new_editor_session_path
 
     within '#new_editor' do
       fill_in 'Email',    with: 'nonexistent@example.com'
@@ -96,7 +96,7 @@ feature 'Logging in as an admin' do
     scenario 'displays an error' do
       create(:editor, email: 'email@example.com', password: 'correct-password')
 
-      visit new_editor_session_path
+      visit admin_new_editor_session_path
 
       within '#new_editor' do
         fill_in 'Email',    with: 'email@example.com'
@@ -114,7 +114,7 @@ feature 'Logging in as an admin' do
 
       create(:editor, email: 'email@example.com', password: 'correct-password')
 
-      visit new_editor_session_path
+      visit admin_new_editor_session_path
 
       # Attempt #1
       within '#new_editor' do
@@ -139,7 +139,7 @@ feature 'Logging in as an admin' do
       editor = create(:editor, email: 'email@example.com', password: 'correct-password')
       editor.lock_access!
 
-      visit new_editor_session_path
+      visit admin_new_editor_session_path
 
       within '#new_editor' do
         fill_in 'Email',    with: 'email@example.com'
@@ -157,7 +157,7 @@ feature 'Logging in as an admin' do
       editor = create(:editor, email: 'email@example.com', password: 'correct-password')
       editor.lock_access!
 
-      visit new_editor_session_path
+      visit admin_new_editor_session_path
 
       within '#new_editor' do
         fill_in 'Email',    with: 'email@example.com'
@@ -170,7 +170,7 @@ feature 'Logging in as an admin' do
       open_email 'email@example.com'
       current_email.click_link 'Unlock my account'
 
-      visit new_editor_session_path
+      visit admin_new_editor_session_path
 
       within '#new_editor' do
         fill_in 'Email',    with: 'email@example.com'
@@ -187,7 +187,7 @@ feature 'Logging in as an admin' do
     editor = create(:editor, email: 'email@example.com', password: 'correct-password')
     editor.lock_access!
 
-    visit new_editor_session_path
+    visit admin_new_editor_session_path
 
     click_link "Didn't receive unlock instructions?"
 
@@ -199,7 +199,7 @@ feature 'Logging in as an admin' do
     open_email 'email@example.com'
     current_email.click_link 'Unlock my account'
 
-    visit new_editor_session_path
+    visit admin_new_editor_session_path
 
     within '#new_editor' do
       fill_in 'Email',    with: 'email@example.com'
@@ -213,7 +213,7 @@ feature 'Logging in as an admin' do
   scenario 'Password reset', sidekiq: :inline do
     create(:editor, email: 'email@example.com')
 
-    visit new_editor_session_path
+    visit admin_new_editor_session_path
     click_on 'Forgot your password?'
 
     within '#new_editor' do
@@ -236,7 +236,7 @@ feature 'Logging in as an admin' do
   scenario 'Password reset with a bad password', sidekiq: :inline do
     create(:editor, email: 'email@example.com')
 
-    visit new_editor_session_path
+    visit admin_new_editor_session_path
     click_on 'Forgot your password?'
 
     within '#new_editor' do
@@ -275,7 +275,7 @@ feature 'Logging in as an admin' do
   scenario 'Remember me' do
     create(:editor, email: 'email@example.com', password: 'wibble-sidecar-sling')
 
-    visit new_editor_session_path
+    visit admin_new_editor_session_path
 
     within '#new_editor' do
       fill_in 'Email',    with: 'email@example.com'
