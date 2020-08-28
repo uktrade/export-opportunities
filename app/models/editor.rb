@@ -12,12 +12,14 @@ class Editor < ApplicationRecord # :nodoc:
   enum role: { uploader: 1, publisher: 2, previewer: 3, administrator: 4 }
 
   def self.from_omniauth(auth)
-    find_or_create_by(email: auth.info.email) do |editor|
-      editor.uid = auth.uid
-      editor.provider = auth.provider
-      editor.email = auth.info.email
-      editor.name = "#{auth.info.first_name} #{auth.info.last_name}".strip
+    editor = find_or_create_by(email: auth.info.email) do |e|
+      e.uid      = auth.uid
+      e.provider = auth.provider
+      e.email    = auth.info.email
+      e.name     = "#{auth.info.first_name} #{auth.info.last_name}".strip
     end
+
+    editor.update_uid!
   end
 
   def staff?
@@ -26,5 +28,11 @@ class Editor < ApplicationRecord # :nodoc:
 
   def deactivated?
     deactivated_at.present?
+  end
+
+  private
+
+  def update_uid!
+    update_attribute(uid: auth.uid) if uid.nil?
   end
 end
