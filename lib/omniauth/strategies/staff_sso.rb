@@ -6,7 +6,6 @@ module OmniAuth
   module Strategies
     class StaffSso < OmniAuth::Strategies::OAuth2 # :nodoc:
       option :name, 'staff_sso'
-      option :provider_ignores_state, true
 
       SSO_PROVIDER = Figaro.env.STAFF_SSO_PROVIDER
 
