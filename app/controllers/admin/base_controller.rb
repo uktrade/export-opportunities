@@ -54,7 +54,7 @@ module Admin
     helper_method :current_editor
 
     def admin_logout_path
-      Figaro.env.STAFF_SSO_PROVIDER + '/logout'
+      "#{Figaro.env.STAFF_SSO_PROVIDER}/logout?next=#{root_url}"
     end
 
     private

@@ -8,17 +8,9 @@ module Admin
     skip_before_action :set_raven_context
 
     def create
-      auth = request.env['omniauth.auth']
-
-      session[:uid] = Editor.from_omniauth(auth).uid
+      auth                 = request.env['omniauth.auth']
+      session[:uid]        = Editor.from_omniauth(auth).uid
       session[:expires_at] = auth.credentials.expires_at
-
-      puts '**********************************************************'
-      puts auth
-      puts Editor.from_omniauth(auth)
-      puts session[:uid]
-      puts session[:expires_at]
-      puts '**********************************************************'
 
       redirect_to admin_root_path
     end
