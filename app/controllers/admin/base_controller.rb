@@ -22,25 +22,20 @@ module Admin
     end
 
     def logged_in?
-      current_editor.present?
+      current_editor.present? && token_valid?
     end
     helper_method :logged_in?
 
-    def token_expired?
-      expiry = session[:expires_at]
-      return false if expiry.blank?
+    def token_valid?
+      token_expires_at = session[:expires_at]
+      return false if token_expires_at.blank?
 
-      expiry < Time.now.to_i
+      token_expires_at > Time.current.to_i
     end
-    helper_method :token_expired?
+    helper_method :token_valid?
 
     def authenticate_editor!
-      @current_editor = current_editor
-      if logged_in?
-        redirect_to admin_new_editor_session_path if token_expired?
-      else
-        redirect_to admin_new_editor_session_path
-      end
+      redirect_to admin_new_editor_session_path unless logged_in?
     end
 
     def current_editor
@@ -56,6 +51,7 @@ module Admin
     def admin_logout_path
       "#{Figaro.env.STAFF_SSO_PROVIDER}/logout?next=#{root_url}"
     end
+    helper_method :admin_logout_path
 
     private
 

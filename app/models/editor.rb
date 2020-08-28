@@ -19,7 +19,7 @@ class Editor < ApplicationRecord # :nodoc:
       e.name     = "#{auth.info.first_name} #{auth.info.last_name}".strip
     end
 
-    editor.update_uid!
+    editor.update_uid!(auth.uid)
   end
 
   def staff?
@@ -30,9 +30,9 @@ class Editor < ApplicationRecord # :nodoc:
     deactivated_at.present?
   end
 
-  private
+  def update_uid!(auth_uid)
+    update_attribute(:uid, auth_uid) if uid.blank?
 
-  def update_uid!
-    update_attribute(uid: auth.uid) if uid.nil?
+    self
   end
 end
