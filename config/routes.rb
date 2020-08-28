@@ -47,9 +47,7 @@ Rails.application.routes.draw do
 
       get '/auth/staff_sso', as: :new_editor_session
       delete '/sign_out', to: 'sessions#destroy', as: :destroy_editor_session
-      match '/auth/:provider/callback',
-            via: %i[get post],
-            to: 'sessions#create'
+      match '/auth/:provider/callback', via: %i[get post], to: 'sessions#create'
 
       devise_scope :editor do
         get '/editor/confirmation', to: 'confirmations#show', as: :editor_confirmation

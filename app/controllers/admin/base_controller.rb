@@ -37,7 +37,7 @@ module Admin
     def authenticate_editor!
       @current_editor = current_editor
       if logged_in?
-        redirect_to admin_authorize_path if token_expired?
+        redirect_to admin_new_editor_session_path if token_expired?
       else
         redirect_to admin_new_editor_session_path
       end
