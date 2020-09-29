@@ -16,20 +16,16 @@ class Admin::RegistrationsController < Devise::RegistrationsController
   def new
     @editor_content = get_content('admin/editors.yml')
     @editor_roles = editor_roles
-    super do |resource|
-      authorize resource
-    end
+    skip_authorization
+    super
   end
 
   # POST /resource
   def create
     @editor_content = get_content('admin/editors.yml')
     @editor_roles = editor_roles
-    super do |resource|
-      authorize resource
-      resource.password = SecureRandom.hex(64)
-      resource.save
-    end
+    skip_authorization
+    super
   end
 
   # https://github.com/plataformatec/devise/wiki/How-to:-Soft-delete-a-user-when-user-deletes-account
@@ -51,6 +47,10 @@ class Admin::RegistrationsController < Devise::RegistrationsController
   end
 
   private
+
+    # def update_resource(resource, params)
+    #   resource.update(params)
+    # end
 
     def configure_permitted_parameters
       devise_parameter_sanitizer.permit(:sign_up, keys: [:name])

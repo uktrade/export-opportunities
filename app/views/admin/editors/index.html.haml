@@ -9,6 +9,8 @@
     %h1= content['title_index']
 
     .controls
+      = link_to content['button_create'], new_editor_registration_path, :class => 'button create'
+
       .filters
         = form_tag admin_editors_path, method: :get do
           = hidden_field_tag 'sort[column]', @filters.sort.column

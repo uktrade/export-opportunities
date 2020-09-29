@@ -45,6 +45,11 @@ Rails.application.routes.draw do
       get 'help/:article_id/print', to: 'help#article_print', as: 'help_article_print'
       get 'help/:article_id/:section_id', to: 'help#article', as: 'help_article'
 
+      devise_for :editors,
+                 singular: :editor,
+                 only: %i[registrations sessions unlocks],
+                 path_names: { sign_up: 'new' }
+
       get '/auth/staff_sso', as: :new_editor_session
       delete '/sign_out', to: 'sessions#destroy', as: :destroy_editor_session
       match '/auth/:provider/callback', via: %i[get post], to: 'sessions#create'
@@ -186,13 +191,7 @@ Rails.application.routes.draw do
   # Legacy sign in path
   get '/sign_in', to: redirect('export-opportunities/dashboard')
 
-  # devise_for :subscriptions,
-  #            controllers: {
-  #             confirmations: 'subscriptions',
-  #            }
-
   get '/dashboard' => 'users/dashboard#index'
-  # get '/export-opportunities/dashboard/downloads' => 'users/downloads'
   scope '/dashboard', as: :dashboard do
     resources :enquiries, only: [:show], controller: 'users/enquiries'
     resources :downloads, only: [:show], controller: 'users/downloads'
@@ -205,20 +204,11 @@ Rails.application.routes.draw do
     root action: 'results'
   end
 
-    # get 'auth/staff_sso', as: 'staff_sso_login'
-    # get 'auth/:provider/callback', to: 'admin/sessions#create'
-    # post 'auth/:provider/callback', to: 'admin/sessions#create'
-
   namespace :admin do
     get 'help', to: 'help#index'
     get 'help/:article_id', to: 'help#show'
     get 'help/:article_id/print', to: 'help#article_print'
     get 'help/:article_id/:section_id', to: 'help#article'
-
-    # scope 'editors' do
-    #   get  'sign_out', to: 'sessions#destroy', as: :sign_out
-    #   get  'sign_in',  to: 'sign_in#index',    as: :sign_in
-    # end
 
     resources :editors, only: %i[index show edit update]
 
