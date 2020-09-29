@@ -7,6 +7,12 @@ module Admin
     skip_before_action :sign_out_if_deactivated!
     skip_before_action :set_raven_context
 
+    def new
+      self.resource = resource_class.new(sign_in_params)
+      store_location_for(resource, params[:redirect_to])
+      super
+    end
+
     def create
       auth                 = request.env['omniauth.auth']
       session[:uid]        = Editor.from_omniauth(auth).uid

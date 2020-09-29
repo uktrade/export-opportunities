@@ -11,6 +11,9 @@ class Editor < ApplicationRecord # :nodoc:
 
   enum role: { uploader: 1, publisher: 2, previewer: 3, administrator: 4 }
 
+  devise :registerable, :confirmable, :recoverable, :rememberable, :trackable,
+         :async, :lockable, :session_limitable
+
   def self.from_omniauth(auth)
     editor = find_or_create_by(email: auth.info.email) do |e|
       e.uid      = auth.uid
@@ -34,5 +37,11 @@ class Editor < ApplicationRecord # :nodoc:
     update_attribute(:uid, auth_uid) if uid.blank?
 
     self
+  end
+
+  protected
+
+  def password_required?
+    false
   end
 end
