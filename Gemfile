@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.7.0'
 
-gem 'rails', '6.0.3.2'
+gem 'rails', '6.0.3.3'
 gem 'bundler'
 gem 'puma', '3.12.6'
 gem 'pg', '1.1.4'
@@ -34,8 +34,8 @@ gem 'sdoc'
 # Search
 gem 'pg_search'
 gem 'kaminari', '>= 1.2.1'
-gem 'elasticsearch-rails', '5.1.0'
-gem 'elasticsearch-model', '5.1.0'
+gem 'elasticsearch-rails', '6.1.1'
+gem 'elasticsearch-model', '6.1.1'
 gem 'devise-security', '0.14.3'
 
 # Styling
