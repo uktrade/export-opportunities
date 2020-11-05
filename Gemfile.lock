@@ -1037,11 +1037,11 @@ GEM
     elasticsearch-extensions (0.0.31)
       ansi
       elasticsearch
-    elasticsearch-model (6.1.1)
+    elasticsearch-model (7.1.1)
       activesupport (> 3)
-      elasticsearch (~> 6)
+      elasticsearch (> 1)
       hashie
-    elasticsearch-rails (6.1.1)
+    elasticsearch-rails (7.1.1)
     elasticsearch-transport (6.8.2)
       faraday (~> 1)
       multi_json
@@ -1410,8 +1410,8 @@ DEPENDENCIES
   devise-async
   devise-security (= 0.14.3)
   elasticsearch-extensions
-  elasticsearch-model (= 6.1.1)
-  elasticsearch-rails (= 6.1.1)
+  elasticsearch-model (= 7.1.1)
+  elasticsearch-rails (= 7.1.1)
   export_components (= 2.2.3)!
   factory_bot_rails
   faker
