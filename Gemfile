@@ -34,8 +34,8 @@ gem 'sdoc'
 # Search
 gem 'pg_search'
 gem 'kaminari', '>= 1.2.1'
-gem 'elasticsearch-rails', '5.1.0'
-gem 'elasticsearch-model', '5.1.0'
+gem 'elasticsearch-rails', '7.1.1'
+gem 'elasticsearch-model'
 gem 'devise-security', '0.14.3'
 
 # Styling

@@ -1041,7 +1041,7 @@ GEM
       activesupport (> 3)
       elasticsearch (~> 5)
       hashie
-    elasticsearch-rails (5.1.0)
+    elasticsearch-rails (7.1.1)
     elasticsearch-transport (5.0.5)
       faraday
       multi_json
@@ -1410,8 +1410,8 @@ DEPENDENCIES
   devise-async
   devise-security (= 0.14.3)
   elasticsearch-extensions
-  elasticsearch-model (= 5.1.0)
-  elasticsearch-rails (= 5.1.0)
+  elasticsearch-model
+  elasticsearch-rails (= 7.1.1)
   export_components (= 2.2.3)!
   factory_bot_rails
   faker

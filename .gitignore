@@ -4,6 +4,9 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 
+# Ignore cloud foundry config.
+.cfignore
+
 # Ignore bundler config.
 /.bundle
 
@@ -91,3 +94,6 @@ output.png
 
 # Test file
 test_clean_file
+
+public/export_opportunities/*
+public/export-opportunities
