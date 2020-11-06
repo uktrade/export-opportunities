@@ -42,7 +42,7 @@ node_modules/
 # Ignore public/system files
 public/system
 public/assets
-
+public/export-opportunities
 heroku_config_variables
 
 *.sh
