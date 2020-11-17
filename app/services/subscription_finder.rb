@@ -5,8 +5,6 @@ require 'elasticsearch'
 # SubscriptionFinder is a service objectt which runs a search for subscriptions
 # that match a given opportunity object
 class SubscriptionFinder
-  ACTIVE_SUBSCRIPTIONS_COUNT = Subscription.active.size.freeze
-
   def call(opportunity)
     @sector_ids  = opportunity.sector_ids
     @country_ids = opportunity.country_ids
