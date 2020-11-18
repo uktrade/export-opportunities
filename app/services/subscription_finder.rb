@@ -2,7 +2,7 @@
 
 require 'elasticsearch'
 
-# SubscriptionFinder is a service objectt which runs a search for subscriptions
+# SubscriptionFinder is a service object which runs a search for subscriptions
 # that match a given opportunity object
 class SubscriptionFinder
   def call(opportunity)
@@ -14,7 +14,9 @@ class SubscriptionFinder
     matching_subscriptions.select do |subscription|
       next unless subscription.search_term.present?
 
-      Opportunity.search(subscription.search_term).present?
+      Opportunity.where(id: opportunity.id)
+                 .search(subscription.search_term)
+                 .present?
     end
   end
 
