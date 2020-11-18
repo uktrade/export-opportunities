@@ -1,41 +1,58 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe SubscriptionFinder, :elasticsearch, :commit, type: :service do
+  describe '.call' do
+    subject { SubscriptionFinder.new.call(opportunity) }
 
-  describe '#call' do
+    let(:opportunity) { create(:opportunity, opportunity_params) }
+    let(:opportunity_params) { {} }
+
     context 'when filtering by one or more categories' do
       it 'returns a list of subscriptions which match the given opportunity' do
         search_term = 'bar'
         sectors = create_list(:sector, 2)
-        opportunity = create(:opportunity, title: search_term, sectors: sectors)
+        first_subscription = create(
+          :subscription, search_term: search_term, sectors: sectors
+        )
+        second_subscription = create(
+          :subscription, search_term: search_term, sectors: [sectors[0]]
+        )
+        irrelevant_subscription = create(
+          :subscription, search_term: search_term, sectors: [create(:sector)]
+        )
 
-        first_subscription = create(:subscription, search_term: search_term, sectors: sectors)
-        second_subscription = create(:subscription, search_term: search_term, sectors: [sectors[0]])
-        irrelevant_subscription = create(:subscription, search_term: search_term, sectors: [create(:sector)])
+        opportunity_params.merge!(title: search_term, sectors: sectors)
 
         sleep 1
-        response = SubscriptionFinder.new.call(opportunity)
 
-        expect(response).to include(first_subscription)
-        expect(response).to include(second_subscription)
-        expect(response).to_not include(irrelevant_subscription)
+        expect(subject).to include(first_subscription)
+        expect(subject).to include(second_subscription)
+        expect(subject).to_not include(irrelevant_subscription)
       end
 
-      it 'includes opportunities in categories the subscription is not filtering on' do
+      it 'includes opportunities in search for the terms is not filtering on' do
         search_term = 'baz'
         sectors = [create(:sector)]
         countries = [create(:country)]
+        first_subscription = create(
+          :subscription, search_term: search_term, sectors: [],
+                         countries: countries
+        )
+        second_subscription = create(
+          :subscription, search_term: search_term, sectors: sectors,
+                         countries: []
+        )
 
-        opportunity = create(:opportunity, title: search_term, sectors: sectors, countries: countries)
-
-        first_subscription = create(:subscription, search_term: search_term, sectors: [], countries: countries)
-        second_subscription = create(:subscription, search_term: search_term, sectors: sectors, countries: [])
+        opportunity_params.merge!(
+          title: search_term, sectors: sectors, countries: countries
+        )
 
         sleep 1
-        response = SubscriptionFinder.new.call(opportunity)
 
-        expect(response).to include(first_subscription)
-        expect(response).to include(second_subscription)
+        expect(subject).to include(first_subscription)
+        expect(subject).to include(second_subscription)
       end
 
       it 'includes subscriptions which have no category preferences' do
@@ -44,210 +61,203 @@ RSpec.describe SubscriptionFinder, :elasticsearch, :commit, type: :service do
         countries = [create(:country)]
         types = [create(:type)]
         values = [create(:value)]
+        subscription = create(
+          :subscription, search_term: search_term, countries: [], sectors: [],
+                         types: [], values: []
+        )
 
-        opportunity = create(:opportunity,
-          title: search_term, countries: countries, sectors: sectors, types: types, values: values)
-        subscription = create(:subscription,
-          search_term: search_term, countries: [], sectors: [], types: [], values: [])
+        opportunity_params.merge!(
+          title: search_term, countries: countries, sectors: sectors,
+          types: types, values: values
+        )
 
         sleep 1
-        response = SubscriptionFinder.new.call(opportunity)
 
-        expect(response).to include(subscription)
+        expect(subject).to include(subscription)
       end
 
       it 'returns subscriptions which match multiple sectors only once' do
         search_term = 'biz'
         sectors = create_list(:sector, 2)
-        opportunity = create(:opportunity, title: search_term, sectors: sectors)
-        subscription = create(:subscription, search_term: search_term, sectors: sectors)
+        subscription = create(
+          :subscription, search_term: search_term, sectors: sectors
+        )
+
+        opportunity_params.merge!(title: search_term, sectors: sectors)
 
         sleep 1
-        response = SubscriptionFinder.new.call(opportunity)
 
-        expect(response).to include(subscription)
-        expect(response.size).to eql 1
+        expect(subject).to include(subscription)
+        expect(subject.size).to eql 1
       end
 
       it 'only returns subscriptions that are confirmed' do
         countries = [create(:country)]
-        opportunity = create(:opportunity, countries: countries)
-        unconfirmed_subscription = create(:subscription, :unconfirmed, countries: countries)
+        unconfirmed_subscription = create(
+          :subscription, :unconfirmed, countries: countries
+        )
+
+        opportunity_params.merge!(countries: countries)
 
         sleep 1
-        response = SubscriptionFinder.new.call(opportunity)
 
-        expect(response).to_not include(unconfirmed_subscription)
+        expect(subject).to_not include(unconfirmed_subscription)
       end
     end
 
     context 'when filtering by keywords' do
       it 'returns a list of subscriptions which match the given opportunity' do
-        opportunity = create(:opportunity, title: 'UK – Coffee sought after by Shoreditch-based company.')
         matching_subscription = create(:subscription, search_term: 'shoreditch')
-        non_matching_subscription = create(:subscription, search_term: 'bermondsey')
+        non_matching_subscription = create(:subscription, search_term: 'fulham')
+
+        opportunity_params.merge!(
+          title: 'UK – Coffee sought after by Shoreditch-based company.'
+        )
 
         sleep 1
-        response = SubscriptionFinder.new.call(opportunity)
 
-        expect(response).to include(matching_subscription)
-        expect(response).to_not include(non_matching_subscription)
+        expect(subject).to include(matching_subscription)
+        expect(subject).to_not include(non_matching_subscription)
       end
 
-      it 'returns a list of subscriptions whose keywords ALL match the given opportunity' do
-        opportunity = create(:opportunity, title: 'Italy - Coffee and Tea')
-
+      it 'returns subscriptions whose keywords ALL match the opportunity' do
         matching_subscription = create(:subscription, search_term: 'tea coffee')
-        non_matching_subscription = create(:subscription, search_term: 'coffee computers')
+        non_matching_subscription = create(:subscription, search_term: 'yo! tea')
+
+        opportunity_params.merge!(title: 'Italy - Coffee and Tea')
 
         sleep 1
-        response = SubscriptionFinder.new.call(opportunity)
 
-        expect(response).to include(matching_subscription)
-        expect(response).to_not include(non_matching_subscription)
+        expect(subject).to include(matching_subscription)
+        expect(subject).to_not include(non_matching_subscription)
       end
 
       context 'when the search_term is (somehow) nil' do
         it 'does not return the subscription' do
-          opportunity = create(:opportunity)
           subscription = build(:subscription, search_term: nil)
           subscription.save(validate: false)
 
           sleep 1
-          response = SubscriptionFinder.new.call(opportunity)
 
-          expect(response).to include(subscription)
+          expect(subject).not_to include(subscription)
         end
       end
 
       context 'when the search_term is (somehow) an empty string' do
         it 'does not return the subscription' do
-          opportunity = create(:opportunity)
           subscription = build(:subscription, search_term: '')
           subscription.save(validate: false)
 
           sleep 1
-          response = SubscriptionFinder.new.call(opportunity)
 
-          expect(response).to include(subscription)
+          expect(subject).not_to include(subscription)
         end
       end
     end
-  end
 
-  context 'when filtering by cpv codes' do
-    it 'returns opportunities with a matching CPV code' do
-      opportunity = create(:opportunity)
-      OpportunityCpv.create(opportunity: opportunity, industry_id: "1") # Tests exact match
-      OpportunityCpv.create(opportunity: opportunity, industry_id: "20") # Tests parent -> child match
+    context 'when filtering by keywords and categories' do
+      it 'returns subscriptions that match both keywords and categories' do
+        country = create(:country)
+        other_country = create(:country)
+        matching_subscription = create(
+          :subscription, search_term: 'animal diseases', countries: [country]
+        )
+        non_matching_subscription = create(
+          :subscription, search_term: 'animal diseases',
+                         countries: [other_country]
+        )
 
-      first_subscription = create(:subscription)
-      SubscriptionCpv.create(subscription: first_subscription, industry_id: "1")
-      second_subscription = create(:subscription)
-      SubscriptionCpv.create(subscription: second_subscription, industry_id: "2")
-      irrelevant_subscription = create(:subscription)
-      another_irrelevant_subscription = create(:subscription)
-      SubscriptionCpv.create(subscription: another_irrelevant_subscription, industry_id: "3")
+        opportunity_params.merge!(
+          title: 'Brazil - solutions for animal diseases', countries: [country]
+        )
 
-      opportunity.reload
-      first_subscription.reload
-      second_subscription.reload
-      refresh_elasticsearch([Opportunity, Subscription])
-      sleep 1
-      response = SubscriptionFinder.new.call(opportunity)
+        sleep 1
 
-      expect(response).to include(first_subscription)
-      expect(response).to include(second_subscription)
-      expect(response).to_not include(irrelevant_subscription)
-      expect(response).to_not include(another_irrelevant_subscription)
-    end
-  end
+        expect(subject).to include(matching_subscription)
+        expect(subject).to_not include(non_matching_subscription)
+      end
 
-  context 'when filtering by keywords and categories' do
-    it 'returns subscriptions that match both keywords and categories' do
-      country = create(:country)
-      other_country = create(:country)
+      it 'does not return unsubscribed subscriptions' do
+        countries = [create(:country)]
+        unsubscribed_subscription = create(
+          :subscription, unsubscribed_at: DateTime.yesterday,
+                         countries: countries
+        )
 
-      opportunity = create(:opportunity, title: 'Brazil - solutions for animal diseases')
-      opportunity.countries << country
+        opportunity_params.merge!(countries: countries)
 
-      matching_subscription = create(:subscription, search_term: 'animal diseases', countries: [country])
-      non_matching_subscription = create(:subscription, search_term: 'animal diseases', countries: [other_country])
+        sleep 1
 
-      sleep 1
-      response = SubscriptionFinder.new.call(opportunity)
-
-      expect(response).to include(matching_subscription)
-      expect(response).to_not include(non_matching_subscription)
+        expect(subject).to_not include(unsubscribed_subscription)
+      end
     end
 
-    it 'does not return unsubscribed subscriptions' do
-      countries = [create(:country)]
-      opportunity = create(:opportunity, countries: countries)
-      unsubscribed_subscription = create(:subscription, unsubscribed_at: DateTime.yesterday, countries: countries)
+    context 'when subscribing to sectors' do
+      it 'returns matching subscriptions' do
+        sectors = [create(:sector)]
+        matching_subscription = create(
+          :subscription, search_term: 'foo', sectors: sectors
+        )
 
-      sleep 1
-      response = SubscriptionFinder.new.call(opportunity)
+        opportunity_params.merge!(title: 'foo', sectors: sectors)
 
-      expect(response).to_not include(unsubscribed_subscription)
+        sleep 1
+
+        expect(subject).to include(matching_subscription)
+      end
     end
-  end
 
-  context 'when subscribing to sectors' do
-    it 'returns matching subscriptions' do
-      sectors = [create(:sector)]
-      opportunity = create(:opportunity, title: 'foo', sectors: sectors)
-      matching_subscription = create(:subscription, search_term: 'foo', sectors: sectors)
+    context 'when subscribing to values' do
+      it 'returns matching subscriptions' do
+        values = [create(:value)]
+        matching_subscription = create(
+          :subscription, search_term: 'foo', values: values
+        )
 
-      sleep 1
-      response = SubscriptionFinder.new.call(opportunity)
+        opportunity_params.merge!(title: 'foo', values: values)
 
-      expect(response).to include(matching_subscription)
+        sleep 1
+
+        expect(subject).to include(matching_subscription)
+      end
     end
-  end
 
-  context 'when subscribing to values' do
-    it 'returns matching subscriptions' do
-      values = [create(:value)]
-      opportunity = create(:opportunity, title: 'foo', values: values)
-      matching_subscription = create(:subscription, search_term: 'foo', values: values)
+    context 'when subscribing to types' do
+      it 'returns matching subscriptions' do
+        types = [create(:type)]
+        matching_subscription = create(
+          :subscription, search_term: 'foo', types: types
+        )
 
-      sleep 1
-      response = SubscriptionFinder.new.call(opportunity)
+        opportunity_params.merge!(title: 'foo', types: types)
 
-      expect(response).to include(matching_subscription)
+        sleep 1
+
+        expect(subject).to include(matching_subscription)
+      end
     end
-  end
 
-  context 'when subscribing to types' do
-    it 'returns matching subscriptions' do
-      types = [create(:type)]
-      opportunity = create(:opportunity, title: 'foo', types: types)
-      matching_subscription = create(:subscription, search_term: 'foo', types: types)
+    context 'when someone subscribes to multiple filters' do
+      it 'returns matching subscriptions' do
+        countries = [create(:country), create(:country)]
+        sectors = [create(:sector), create(:sector)]
+        types = [create(:type), create(:type)]
+        values = [create(:value), create(:value)]
+        matching_subscription = create(
+          :subscription, search_term: 'foo', countries: [countries.sample],
+                         sectors: [sectors.sample], types: [types.sample],
+                         values: [values.sample]
+        )
 
-      sleep 1
-      response = SubscriptionFinder.new.call(opportunity)
+        opportunity_params.merge!(
+          title: 'foo', countries: countries, sectors: sectors, types: types,
+          values: values
+        )
 
-      expect(response).to include(matching_subscription)
-    end
-  end
+        sleep 1
 
-  context 'when someone subscribes to multiple filters' do
-    it 'returns matching subscriptions' do
-      countries = [create(:country), create(:country)]
-      sectors = [create(:sector), create(:sector)]
-      types = [create(:type), create(:type)]
-      values = [create(:value), create(:value)]
-
-      opportunity = create(:opportunity, title: 'foo',
-                                         countries: countries, sectors: sectors, types: types, values: values)
-      matching_subscription = create(:subscription, search_term: 'foo',
-                                                    countries: [countries.first], sectors: [sectors.first], types: [types.first], values: [values.first])
-
-      sleep 1
-      response = SubscriptionFinder.new.call(opportunity)
-
-      expect(response).to include(matching_subscription)
+        expect(subject).to include(matching_subscription)
+      end
     end
   end
 end
