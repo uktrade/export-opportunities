@@ -1,30 +1,11 @@
 require 'rails_helper'
 
-feature 'User can manage their subscriptions' do
-  scenario 'view a list of all subscriptions' do
-    token = SecureRandom.uuid
-
-    user = create(:user, email: 'john@green.com')
-    user_id = EncryptedParams.encrypt(user.id)
-
-    opportunity = create(:opportunity, title: 'opportunities match by live searching', slug: 'great-opportunity', status: :publish)
-
-    # email digest results match based on searching across published opportunities
-    create(:subscription, user: user, confirmation_token: token, search_term: 'opportunities match by live searching')
-
-    login_as(user, scope: :user)
-    sleep 1
-
-    visit '/export-opportunities/email_notifications/' + user_id
-
-    expect(page.body).to include(opportunity.title)
-  end
+feature 'User can manage their subscriptions', sso: true do
 
   scenario 'delete all subscriptions' do
     token = SecureRandom.uuid
 
     user = create(:user, email: 'john@green.com')
-    user_id = EncryptedParams.encrypt(user.id)
 
     opportunity = create(:opportunity, title: 'Great Opportunity!', slug: 'great-opportunity')
     subscription = create(:subscription, user: user, confirmation_token: token)
@@ -32,7 +13,7 @@ feature 'User can manage their subscriptions' do
 
     login_as(user, scope: :user)
 
-    visit '/export-opportunities/email_notifications/unsubscribe_all/' + user_id
+    visit '/export-opportunities/email_notifications/unsubscribe_all/' + user.unsubscription_token
 
     expect(page.body).to include('You have been unsubscribed from all email alerts')
   end
@@ -41,7 +22,6 @@ feature 'User can manage their subscriptions' do
     token = SecureRandom.uuid
 
     user = create(:user, email: 'john@green.com')
-    user_id = EncryptedParams.encrypt(user.id)
 
     opportunity = create(:opportunity, title: 'Great Opportunity!', slug: 'great-opportunity')
     subscription = create(:subscription, user: user, confirmation_token: token)
@@ -49,7 +29,7 @@ feature 'User can manage their subscriptions' do
 
     login_as(user, scope: :user)
 
-    visit '/export-opportunities/email_notifications/unsubscribe_all/' + user_id
+    visit '/export-opportunities/email_notifications/unsubscribe_all/' + user.unsubscription_token
 
     expect(page.body).to include('You have been unsubscribed from all email alerts')
 
@@ -67,7 +47,6 @@ feature 'User can manage their subscriptions' do
     another_token = SecureRandom.uuid
 
     user = create(:user, email: 'john@green.com')
-    user_id = EncryptedParams.encrypt(user.id)
 
     opportunity = create(:opportunity, title: 'Great Opportunity!', slug: 'great-opportunity')
     subscription = create(:subscription, user: user, confirmation_token: token)
@@ -76,7 +55,7 @@ feature 'User can manage their subscriptions' do
 
     login_as(user, scope: :user)
 
-    visit '/export-opportunities/email_notifications/unsubscribe_all/' + user_id
+    visit '/export-opportunities/email_notifications/unsubscribe_all/' + user.unsubscription_token
 
     expect(page.body).to include('You have been unsubscribed from all email alerts')
 
@@ -93,7 +72,6 @@ feature 'User can manage their subscriptions' do
     another_token = SecureRandom.uuid
 
     user = create(:user, email: 'john@green.com')
-    user_id = EncryptedParams.encrypt(user.id)
     unsubscription_timestamp = Time.zone.now - 1.month
 
     opportunity = create(:opportunity, title: 'Great Opportunity!', slug: 'great-opportunity')
@@ -103,7 +81,7 @@ feature 'User can manage their subscriptions' do
 
     login_as(user, scope: :user)
 
-    visit '/export-opportunities/email_notifications/unsubscribe_all/' + user_id
+    visit '/export-opportunities/email_notifications/unsubscribe_all/' + user.unsubscription_token
 
     expect(page.body).to include('You have been unsubscribed from all email alerts')
     expect(subscription_unsubscribed.unsubscribed_at).to eq(unsubscription_timestamp)

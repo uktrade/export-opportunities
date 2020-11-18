@@ -50,11 +50,12 @@ ACTIVITY_STREAM_ACCESS_KEY_ID: '12345'
 ACTIVITY_STREAM_SECRET_ACCESS_KEY: '?[!@$%^%'
 ACTIVITY_STREAM_IP_WHITELIST: '0.0.0.0'
 
-# Elasticsearch
+# Elasticsearch & S3
 elastic_search_url: 'http://localhost:9200'
 AWS_ACCESS_KEY_ID: ''
 AWS_SECRET_ACCESS_KEY: ''
 AWS_REGION: ''
+post_user_communication_s3_bucket: ''
 
 #clamAV virus scanning
 CLAM_AV_HOST: ''
@@ -62,8 +63,6 @@ CLAM_AV_USERNAME: ''
 CLAM_AV_PASSWORD:
 
 SENTRY_RAVEN_DSN: 'http://sentry.example.org/'
-
-post_user_communication_s3_bucket: ''
 
 # Links to "external services" or, websites
 TRADE_GREAT_GOV_UK: 'https://trade.great.gov.uk'
@@ -91,3 +90,20 @@ IMPACT_EMAIL_CHANGE_FREQUENCY: '2018-07-30'
 
 # if you want to have a single cookie across domains (used for cookie disclaimer notice)
 "PRIVACY_COOKIE_DOMAIN": ".great.gov.uk"
+
+# Directory API
+DIRECTORY_API_DOMAIN: 'http://api.trade.great:8000'
+DIRECTORY_API_VERSION: '14.0.0'
+DIRECTORY_API_SENDER_ID: 'directory'
+DIRECTORY_API_SECRET: 'debug'
+
+# Directory SSO API
+DIRECTORY_SSO_API_DOMAIN: 'http://sso.trade.great:8003'
+DIRECTORY_SSO_API_SENDER_ID: 'directory'
+DIRECTORY_SSO_API_SECRET: 'api_signature_debug'
+
+"CATEGORISATION_URL": 'categorisation_url'
+
+CPV_CODE_LOOKUP_URL: "debug"
+TRADE_PROFILE_PAGE: ''
+COMPANIES_HOUSE_BASE_URL: ''

@@ -17,10 +17,10 @@ class Enquiry < ApplicationRecord
     'Yes, over 2 years ago',
   ].freeze
 
-  validates :first_name, :last_name, :company_telephone, \
-    :company_name, :company_address, :company_postcode, \
-    :existing_exporter, :company_sector, :company_explanation, \
-    presence: true
+  validates :first_name, \
+            :company_name, :company_address, :company_postcode, \
+            :existing_exporter, :company_sector, :company_explanation, \
+            presence: true
 
   validate :company_explanation_length
 
@@ -34,10 +34,65 @@ class Enquiry < ApplicationRecord
 
   scope :sent, -> { where.not(completed_at: nil) }
 
-  def self.initialize_from_existing(old_enquiry)
-    return Enquiry.new unless old_enquiry
+  def self.new_from_sso(sso_id)
+    enquiry = Enquiry.new
+    unless Figaro.env.bypass_sso?
+      enquiry.add_sso_data(sso_id)
+      enquiry.add_directory_api_data(sso_id)
+    end
+    enquiry.set_enquiry_form_defaults
+    enquiry
+  end
 
-    Enquiry.new(old_enquiry.attributes.except('company_explanation', 'id'))
+  def add_sso_data(sso_id)
+    if (sso_data = DirectoryApiClient.user_data(sso_id))
+      profile = value_by_key(sso_data, :user_profile)
+      if profile.present?
+        assign_attributes(
+          first_name: value_by_key(profile, :first_name),
+          last_name: value_by_key(profile, :last_name),
+          job_title: value_by_key(profile, :job_title),
+          company_telephone: value_by_key(profile, :mobile_phone_number)
+        )
+      end
+    end
+  end
+
+  def add_directory_api_data(sso_id)
+    if (data = DirectoryApiClient.private_company_data(sso_id)).present?
+      # company_type can be: COMPANIES_HOUSE, CHARITY,
+      # PARTNERSHIP, SOLE_TRADER and OTHER.
+      assign_attributes(
+        company_telephone: company_telephone.presence ||
+          value_by_key(data, :mobile_number),
+        company_name: value_by_key(data, :name),
+        company_address: [value_by_key(data, :address_line_1),
+                          value_by_key(data, :address_line_2),
+                          value_by_key(data, :country)].reject(&:blank?).join(' '),
+        company_postcode: value_by_key(data, :postal_code),
+        company_house_number: value_by_key(data, :number),
+        company_url: value_by_key(data, :website),
+        company_explanation: value_by_key(data, :summary),
+        account_type: value_by_key(data, :company_type)
+      )
+    end
+  end
+
+  def set_enquiry_form_defaults
+    # Add default values to prevent errors from empty string
+    # data being put into required read-only fields
+    unless individual?
+      self.company_name = company_name.presence || 'No company name in Business Profile'
+      self.company_address = company_address.presence || 'No company address in Business Profile'
+      self.company_postcode = company_postcode.presence || 'No company post code in Business Profile'
+      unless account_type == 'SOLE_TRADER'
+        self.company_house_number = company_house_number.presence || 'No company number in Business Profile'
+      end
+    end
+  end
+
+  def individual?
+    ['OTHER', nil, ''].include? account_type
   end
 
   def company_url
@@ -78,4 +133,10 @@ class Enquiry < ApplicationRecord
       end
     end
   end
+
+  private
+
+    def value_by_key(hash, key)
+      hash[key.to_s] || hash[key.to_sym]
+    end
 end

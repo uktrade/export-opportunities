@@ -19,11 +19,14 @@
         height: 0;
       }
     = content_for(:head)
-    %title= t('site_name')
+    %title= page_title
 
     -# Global header-footer styles
     - unless request.fullpath.include?('/admin')
       = stylesheet_link_tag('export-components')
+      = stylesheet_link_tag 'transformation/main'
+      = stylesheet_link_tag 'transformation/pages/form'
+      = stylesheet_link_tag 'transformation/pages/enquiries'
 
     = stylesheet_link_tag 'application', media: 'all'
     /[if lte IE 9]
@@ -35,7 +38,6 @@
 
     -# Global header-footer styles
     - unless request.fullpath.include?('/admin')
-      = javascript_include_tag  'dit.components.cookie-notice'
       = javascript_include_tag  'dit.classes.Dropdown'
       = javascript_include_tag  'dit.components.greatDomesticHeader'
 
@@ -46,7 +48,7 @@
 
     = render 'export_components/skip_link'
     = render 'export_components/cookie_notice'
-    = render 'export_components/header'
+    = render partial: 'export_components/header', locals: { cookie_signed_in_user: user_signed_in_cookie?}
 
     - if content_for?(:hero)
       .hero-header-wrapper

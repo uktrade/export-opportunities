@@ -39,7 +39,7 @@ feature 'JS-on adds CPV code lookup functionality', js: true do
     expect(page.body).to have_text('Create a new export opportunity')
 
     # Field has been enhanced (check for class name applied by JS)
-    cpv_input_field = find_field('opportunity[opportunity_cpv_ids][]')
+    cpv_input_field = find_field('opportunity[cpv_ids][]')
     expect(cpv_input_field['class']).to include('CpvCodeLookup')
 
     # Clear button created
@@ -64,7 +64,7 @@ feature 'JS-on adds CPV code lookup functionality', js: true do
     expect(page.body).to have_text('Create a new export opportunity')
 
     # Get the enhancement elements
-    cpv_input_field = find_field('opportunity[opportunity_cpv_ids][]')
+    cpv_input_field = find_field('opportunity[cpv_ids][]')
     cpv_input_dropdown = find('#' + cpv_input_field['aria-controls'])
 
     # Check the initial state
@@ -94,7 +94,7 @@ feature 'JS-on adds CPV code lookup functionality', js: true do
     expect(page.body).to have_text('Create a new export opportunity')
 
     # Get the enhancement elements
-    cpv_input_field = find_field('opportunity[opportunity_cpv_ids][]')
+    cpv_input_field = find_field('opportunity[cpv_ids][]')
     cpv_input_clear = find_button('Clear value')
 
     # Manually set a value to simulate either on page load or lookup population

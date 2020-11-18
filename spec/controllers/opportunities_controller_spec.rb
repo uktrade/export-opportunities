@@ -24,9 +24,9 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
              slug: 'security',           name: 'Security')
       create(:sector, featured: true, featured_order: 6, 
              slug: 'retail-and-luxury',  name: 'Retail and luxury')
-      
+
       get :index
-      
+
       industries = assigns(:featured_industries)
       expect(industries.count).to eq 6
     end
@@ -244,6 +244,8 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
           get :results, params: { s: 'Title 0' }
           subscription = assigns(:subscription)
           expect(subscription).to eq({
+                                       term: "Title 0",
+                                       cpvs: [],
                                        title: "Title 0",
                                        keywords: "Title 0",
                                        countries: [],

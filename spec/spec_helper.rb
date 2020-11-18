@@ -116,11 +116,45 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
+  config.around :each, sso: true do |example|
+    directory_sso_api_url = Figaro.env.DIRECTORY_SSO_API_DOMAIN + '/api/v1/session-user/?session_key='
+    stub_request(:get, directory_sso_api_url).to_return(body: {
+      id: 1,
+      email: "john@example.com",
+      hashed_uuid: "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e",
+      user_profile: { 
+        first_name: "John",  
+        last_name: "Bull",  
+        job_title: "Owner",  
+        mobile_phone_number: "123123123"
+      }
+    }
+    .to_json, status: 200)
+    example.run
+  end
+
+  config.around :all do |example|
+    stub_request(:any, /#{ENV["CATEGORISATION_URL"]}/).to_return(
+      body: [{
+        'sector_id':['5','20'],
+        'hsid': '9011',
+        'description': 'Microscopes, compound optical; including those for photomicrography, cinephotomicrography or microprojection',
+        'sectorname': ['Biotechnology & Pharmaceuticals','Healthcare & Medical'],
+        'cpvid': '38511000',
+        'cpv_description': 'Electron microscopes'
+      }].to_json,
+      status: 200
+    )
+    example.run
+  end
+
   config.profile_examples = nil
-  config.order = :random
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true
   config.example_status_persistence_file_path = 'spec/examples.txt'
+
+  config.order = :random
+  # config.seed = 41448
 end
 
 VCR.configure do |c|
@@ -167,6 +201,33 @@ def create_elastic_search_opportunity(result_body = {})
   }.with_indifferent_access
   result.merge!(result_body)
   result
+end
+
+def opportunity_params(title: 'title',
+                       service_provider_id: 5,
+                       sector_ids: ['2'],
+                       teaser: 'teaser',
+                       description: 'description',
+                       cpvs: [{ 
+                                            industry_id: 38511000,
+                                            industry_scheme: 'test_scheme'
+                                           }])
+  {
+    title: title,
+    country_ids: ['1'],
+    sector_ids: sector_ids,
+    type_ids: ['3'],
+    value_ids: ['4'],
+    teaser: teaser,
+    response_due_on: '2015-02-01',
+    description: description,
+    contacts_attributes: [
+      { name: 'foo', email: 'email@foo.com' },
+      { name: 'bar', email: 'email@bar.com' },
+    ],
+    service_provider_id: service_provider_id,
+    cpvs: cpvs
+  }
 end
 
 # EXAMPLE CPV search URL and RESPONSE

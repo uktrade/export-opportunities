@@ -15,16 +15,6 @@ RSpec.describe OpportunityPresenter do
   end
 
   describe '#title_with_country' do
-    it 'does not change title if source is post and created before special date' do
-      opportunity = create(:opportunity, title: 'foo', source: 0, created_at: Date.new(2018, 10, 7))
-      opportunity.countries = create_list(:country, 2)
-      presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity, [])
-
-      expect(opportunity.source).to eq('post')
-      expect(opportunity.created_at).to eq(Date.new(2018, 10, 7))
-      expect(presenter.title_with_country).to eq('foo')
-    end
-
     it 'does not change title if has no country assigned' do
       opportunity = create(:opportunity, title: 'foo', countries: [])
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity, [])

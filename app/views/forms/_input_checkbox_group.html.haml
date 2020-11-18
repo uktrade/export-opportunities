@@ -11,3 +11,7 @@
       - checkbox[:id] = "field-#{checkbox[:name]}-#{index}" unless checkbox[:id]
       - checkbox[:label][:field_id] = checkbox[:id]
       = render partial: "forms/input_checkbox", locals: { input: checkbox }
+    
+    = content = nil if local_assigns[:content].nil?
+    - if content
+      = submit_tag content['submit_button'], class: 'button'

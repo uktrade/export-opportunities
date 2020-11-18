@@ -30,9 +30,9 @@ class Admin::EnquiriesController < Admin::BaseController
         render layout: 'admin_transformed', locals: { content: get_content('admin/enquiries.yml') }
       end
       format.csv do
-        enquiries = policy_scope(Enquiry).includes(:enquiry_response).where('enquiries.created_at >= ?', @enquiry_form.from).where('enquiries.created_at < ?', @enquiry_form.to).order(created_at: :desc)
+        enquiries = policy_scope(Enquiry).includes(:enquiry_response).where('enquiries.created_at >= ?', @enquiry_form.from).where('enquiries.created_at < ?', @enquiry_form.to).order('enquiries.created_at DESC')
         zip_file_enquiries_cutoff_env_var = Figaro.env.zip_file_enquiries_cutoff ? Figaro.env.zip_file_enquiries_cutoff!.to_i : 6000
-        SendEnquiriesReportToMatchingAdminUser.perform_async(current_editor.email, enquiries.pluck(:id), @enquiry_form.from, @enquiry_form.to, zip_file_enquiries_cutoff_env_var) if @enquiry_form.dates?
+        SendEnquiriesReportToMatchingAdminUser.perform_async(current_editor.email, enquiries.pluck('enquiries.id'), @enquiry_form.from, @enquiry_form.to, zip_file_enquiries_cutoff_env_var) if @enquiry_form.dates?
         redirect_to admin_enquiries_path, notice: 'The Enquiries report has been emailed. If you have requested a large amount of data, the report will be sent as sections in separate emails.'
       end
     end
@@ -53,7 +53,7 @@ class Admin::EnquiriesController < Admin::BaseController
     @companies_house_url = companies_house_url(@enquiry.company_house_number)
     authorize @enquiry
     render layout: 'admin_transformed', locals: {
-      content: get_content('admin/enquiries.yml')
+      content: get_content('admin/enquiries.yml'),
     }
   end
 

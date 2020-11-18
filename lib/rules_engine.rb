@@ -3,12 +3,11 @@ class RulesEngine
   QUALITY_SCORE_THRESHOLD = Figaro.env.QUALITY_SCORE_THRESHOLD.present? ? Figaro.env.QUALITY_SCORE_THRESHOLD.to_i : 90
 
   def call(opportunity)
-    Rails.logger.info("Next check: #{opportunity.id}")
     # Validate sensitivity
     sensitivity_score = OppsSensitivityValidator.new.validate_each(opportunity)
 
     # if sensitivity pass score is below threshold, validate quality
-    if sensitive_value_threshold?(sensitivity_score)
+    if valid_opportunity?(sensitivity_score, opportunity)
       quality_score = OppsQualityValidator.new.validate_each(opportunity)
 
       if quality_value_threshold?(quality_score)
@@ -24,6 +23,15 @@ class RulesEngine
   end
 
   private
+
+    def valid_opportunity?(sensitivity_score, opportunity)
+      sensitive_value_threshold?(sensitivity_score) && not_about_to_expire(opportunity)
+    end
+
+    def not_about_to_expire(opportunity)
+      days_warning = Figaro.env.MIN_VOLUME_OPS_DAYS_TO_RESPOND.to_i
+      opportunity.response_due_on > days_warning.days.from_now
+    end
 
     # check if sensitivity_score is below the business thresholds we have set.
     # returns true if so, false otherwise
@@ -42,9 +50,7 @@ class RulesEngine
 
     def save_and_publish(opportunity)
       # make sure that we create a subscription notification for matching subscriptions
-      result = UpdateOpportunityStatus.new.call(opportunity, 'publish')
-
-      Rails.logger.error("This opportunity has a problem. Please edit and save to resolve any issues: #{opportunity.id}") unless result.success?
+      UpdateOpportunityStatus.new.call(opportunity, 'publish')
     end
 
     def save_as_pending(opportunity)

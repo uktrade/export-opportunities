@@ -11,12 +11,8 @@
   .confirmation-notice
     %p.notice= content["confirmation"]
 
-  = form_tag update_email_notification_path(params[:user_id]), class: 'reason-form', method: :post do
+  = form_tag update_email_notification_path(params[:unsubscription_token]), class: 'reason-form', method: :post do
     %input{:type=>"hidden", :value=>"PATCH", :name=>"_method"}
-    -# TODO: No longer required???
-      -# Deleted subscriptions...
-      - @subscription_ids&.each do |sub|
-        =sub
 
     = render partial: "forms/input_radio", locals: { input: form.input_radio("reason") }
     %input{:type=>"submit", :value=>form.content["submit"], :class=>"button"}

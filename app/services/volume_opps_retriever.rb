@@ -10,9 +10,7 @@ class VolumeOppsRetriever
     hostname = Figaro.env.OO_HOSTNAME!
     data_endpoint = Figaro.env.OO_DATA_ENDPOINT!
     token_endpoint = Figaro.env.OO_TOKEN_ENDPOINT!
-
     token_response = jwt_volume_connector_token(username, password, hostname, token_endpoint)
-
     res = jwt_volume_connector_data(JSON.parse(token_response.body)['token'], hostname, data_endpoint, from_date, to_date)
 
     while res[:has_next]
@@ -22,10 +20,13 @@ class VolumeOppsRetriever
     end
 
     # process the last page of results
-    process_result_page(res, editor) if res[:data] && !res[:has_next]
+    results = process_result_page(res, editor) if res[:data] && !res[:has_next]
+    results
   end
 
   def calculate_value(local_currency_value_hash)
+    return { id: 3 } if local_currency_value_hash.blank?
+
     value = local_currency_value_hash['amount'].to_i
     currency_name = local_currency_value_hash['currency']
 
@@ -77,7 +78,7 @@ class VolumeOppsRetriever
 
     tender_opportunity_release = opportunity_release['tender']
     tender_opportunity_release = tender_opportunity_release['items'] if tender_opportunity_release
-    opportunity_cpvs = []
+    cpvs = []
 
     tender_opportunity_release&.each do |each_tender_opportunity_release|
       classification_tender_opportunity_release = each_tender_opportunity_release['classification']
@@ -90,8 +91,7 @@ class VolumeOppsRetriever
                                cpv
                              end
       cpv_scheme = classification_tender_opportunity_release['scheme'] if classification_tender_opportunity_release
-
-      opportunity_cpvs << { industry_id: cpv_with_description, industry_scheme: cpv_scheme } if cpv
+      cpvs << { industry_id: cpv_with_description, industry_scheme: cpv_scheme } if cpv
     end
 
     if opportunity_release['planning'] && opportunity_release['planning']['budget']
@@ -122,7 +122,6 @@ class VolumeOppsRetriever
     #                  else
     #                    opportunity['pubdate']
     #                  end
-
     if country && tender_url.present?
       {
         title: title,
@@ -145,12 +144,10 @@ class VolumeOppsRetriever
         tender_url: tender_url,
         ocid: opportunity['ocid'],
         tender_source: opportunity_source,
-        opportunity_cpvs: opportunity_cpvs,
+        cpvs: cpvs,
       }
     else
-      Rails.logger.error "country: #{country} opp[countryname]: #{opportunity['countryname']}"
-      Rails.logger.error "tender_url: #{tender_url} tender url docs: #{opportunity_release['tender']['documents']}"
-      return nil
+      nil
     end
   end
 
@@ -208,7 +205,6 @@ class VolumeOppsRetriever
   def jwt_volume_connector_data(token, hostname, url, from_date, to_date)
     JwtVolumeConnector.new.data(token, hostname, url, from_date, to_date)
   rescue JSON::ParserError => e
-    Rails.logger.error "Can't parse JSON result. Probably an Application Error 500 on VO side"
     redis = Redis.new(url: Figaro.env.redis_url!)
     redis.set(:application_error, Time.zone.now)
 
@@ -225,7 +221,6 @@ class VolumeOppsRetriever
       # get language of opportunity
       opportunity_language = opportunity['language']
 
-      Rails.logger.info '.....we have ' + valid_opp.to_s + ' valid opps and ' + invalid_opp.to_s + ' invalid opps and ' + invalid_opp_params.to_s + ' invalid opp params already.....'
       opportunity_params = opportunity_params(opportunity)
 
       process_opportunity = if opportunity_params && opportunity_params[:ocid]
@@ -240,16 +235,14 @@ class VolumeOppsRetriever
       if opportunity_params && process_opportunity
         if VolumeOppsValidator.new.validate_each(opportunity_params)
           translate(opportunity_params, %i[description teaser title], opportunity_language) if should_translate?(opportunity_language)
+          opportunity_params = enforce_sentence_case(opportunity_params)
           CreateOpportunity.new(editor, :draft, :volume_opps).call(opportunity_params)
           valid_opp += 1
         else
           invalid_opp += 1
         end
-
       else
         invalid_opp_params += 1
-        Rails.logger.error "opportunity_params: #{opportunity_params}"
-        Rails.logger.info "duplicate opportunity fetch #{process_opportunity} for ocid: #{opportunity_params & [:ocid]}" unless opportunity_params
       end
     end
   end
@@ -270,6 +263,10 @@ class VolumeOppsRetriever
     hostname = Figaro.env.DL_HOSTNAME!
     api_key = Figaro.env.DL_API_KEY!
     TranslationConnector.new.call(opportunity_params, fields, original_language, hostname, api_key)
+  end
+
+  def enforce_sentence_case(opportunity_params)
+    SentenceCaseEnforcer.new(opportunity_params).call
   end
 
   # language has to NOT be english

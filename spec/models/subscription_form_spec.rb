@@ -16,13 +16,15 @@ RSpec.describe SubscriptionForm do
     Search.new(params).run
   end
 
-  describe '#call' do
+  describe '#data' do
     it 'Returns subscription data object' do
       create(:country, slug: 'spain', name: "Spain")
       create(:country, slug: 'mexico', name: "Mexico")
-      params = { s: 'food', countries: %w[spain mexico] }
+      params = { s: 'food', countries: %w[spain mexico], cpvs: ['1', '2'] }
       results = search(params)
-      subscription = SubscriptionForm.new(results).call
+      subscription = SubscriptionForm.new(results).data
+      expect(subscription[:term]).to eq('food')
+      expect(subscription[:cpvs]).to eq(['1', '2'])
       expect(subscription[:title]).to eq('food in Mexico or Spain').or eql('food in Spain or Mexico')
       expect(subscription[:keywords]).to eq('food')
       expect(subscription[:what]).to eq(' for food')
@@ -32,7 +34,7 @@ RSpec.describe SubscriptionForm do
     it 'Is valid without a filter' do
       params = { s: 'food' }
       results = search(params)
-      subscription = SubscriptionForm.new(results).call
+      subscription = SubscriptionForm.new(results).data
       expect(subscription[:title]).to eq('food')
       expect(subscription[:keywords]).to eq('food')
       expect(subscription[:what]).to eq(' for food')
@@ -42,7 +44,7 @@ RSpec.describe SubscriptionForm do
     it 'Is valid without a term' do
       params = { s: '' }
       results = search(params)
-      subscription = SubscriptionForm.new(results).call
+      subscription = SubscriptionForm.new(results).data
       expect(subscription[:title]).to eq('')
       expect(subscription[:keywords]).to eq('')
       expect(subscription[:what]).to eq('')

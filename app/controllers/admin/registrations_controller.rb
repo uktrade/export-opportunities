@@ -3,13 +3,14 @@ class Admin::RegistrationsController < Devise::RegistrationsController
   after_action :verify_authorized
   before_action :configure_permitted_parameters
   before_action :load_service_providers
+  before_action :set_no_cache_headers
 
   skip_before_action :require_no_authentication, raise: false
 
   rescue_from Pundit::NotAuthorizedError, with: :not_found
 
   layout 'admin'
-  layout 'admin_transformed', :only => [:new]
+  layout 'admin_transformed', only: %i[new create]
 
   # GET /resource/sign_up
   def new
@@ -23,6 +24,7 @@ class Admin::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     @editor_content = get_content('admin/editors.yml')
+    @editor_roles = editor_roles
     super do |resource|
       authorize resource
       resource.password = SecureRandom.hex(64)
@@ -60,7 +62,7 @@ class Admin::RegistrationsController < Devise::RegistrationsController
       @service_providers = ServiceProvider.select(:id, :name).order(name: :asc)
     end
 
-    def after_inactive_sign_up_path_for(___)
+    def after_inactive_sign_up_path_for(_)
       admin_editors_path
     end
 

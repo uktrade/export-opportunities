@@ -30,14 +30,18 @@ module ApplicationHelper
       response = nil
     end
     if response.nil? || response.code == '404'
-      return nil
+      nil
     else
-      return trade_profile_url
+      trade_profile_url
     end
   end
 
   def opportunity_expired?(response_due_on)
     response_due_on < Time.zone.now - 7.days
+  end
+
+  def page_title
+    @page_title || t('site_name')
   end
 
   private

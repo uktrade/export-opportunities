@@ -32,7 +32,7 @@ module Api
         )
         .where("enquiries.company_house_number IS NOT NULL AND enquiries.company_house_number != ''")
         .where('(enquiries.created_at, enquiries.id) > (to_timestamp(?), ?)',
-          search_after_time, search_after_id)
+               search_after_time, search_after_id)
         .order('enquiries.created_at ASC, enquiries.id ASC')
       enquiries = companies_with_number.take(MAX_PER_PAGE)
 
@@ -100,6 +100,7 @@ module Api
           logger.error "Status 401, #{message}"
           return respond(401, message)
         end
+        false
       end
 
       def to_activity_collection(activities)
@@ -172,8 +173,7 @@ module Api
       def opportunity_object(country_names, service_provider_names, opportunity)
         obj_id = 'dit:exportOpportunities:Opportunity:' + opportunity.id.to_s
         {
-          'type': 'Opportunity',
-          'dit:greatDomesticUI:searchResultType': 'Opportunity',
+          'type': ['Document', 'Opportunity', 'dit:Opportunity'],
           # The following is used by Enquiry stream, may be deprecated soon - 11 Feb 2019
           'dit:exportOpportunities:Opportunity:id': opportunity.id.to_s,
           'id': obj_id,
@@ -253,7 +253,7 @@ module Api
       end
 
       def to_search_after(object, method)
-        timestamp_str = format('%.6f', object.send(method).to_datetime.to_f)
+        timestamp_str = format('%<time>.6f', time: object.send(method).to_datetime.to_f)
         id_str = object.id.to_s
         "#{timestamp_str}_#{id_str}"
       end
@@ -332,7 +332,6 @@ module Api
 
       def respond(code, message)
         respond_to do |format|
-          response.headers['Content-Type'] = 'application/json'
           error_object = {
             message: message,
           }
@@ -342,7 +341,6 @@ module Api
 
       def respond_200(contents)
         respond_to do |format|
-          response.headers['Content-Type'] = 'application/activity+json'
           format.json { render status: :ok, json: Yajl::Encoder.encode(contents) }
         end
       end

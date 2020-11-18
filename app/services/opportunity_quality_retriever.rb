@@ -28,23 +28,24 @@ class OpportunityQualityRetriever
 
   # Returns array of OpportunityChecks
   def log_results(opportunity, check, text_to_test)
-    if check[:errors].blank?
-      [OpportunityCheck.create!(opportunity: opportunity,
-                                score: check[:score],
-                                submitted_text: text_to_test)]
-    else
-      check[:errors]&.map do |error|
-        OpportunityCheck.create!(
-          opportunity: opportunity,
-          error_id: opportunity.id,
-          score: check[:score],
-          submitted_text: text_to_test,
-          offset: error['offset'] - 1,
-          length: error['token'].length,
-          offensive_term: error['token'],
-          suggested_term: error['suggestions'][0]['suggestion']
-        )
-      end
-    end
+    logged = if check[:errors].blank?
+               [OpportunityCheck.create!(opportunity: opportunity,
+                                         score: check[:score],
+                                         submitted_text: text_to_test)]
+             else
+               check[:errors]&.map do |error|
+                 OpportunityCheck.create!(
+                   opportunity: opportunity,
+                   error_id: opportunity.id,
+                   score: check[:score],
+                   submitted_text: text_to_test,
+                   offset: error['offset'] - 1,
+                   length: error['token'].length,
+                   offensive_term: error['token'],
+                   suggested_term: error['suggestions'][0]['suggestion']
+                 )
+               end
+             end
+    logged
   end
 end

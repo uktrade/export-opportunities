@@ -98,7 +98,6 @@ class Admin::OpportunitiesController < Admin::BaseController
     load_options_for_form(@opportunity)
 
     setup_opportunity_contacts(@opportunity)
-
     authorize @opportunity
     render layout: 'admin_transformed', locals: {
       content: content,
@@ -139,12 +138,12 @@ class Admin::OpportunitiesController < Admin::BaseController
       @service_provider = opportunity.service_provider || current_editor.service_provider
       @countries = Country.all.order(:name)
       @default_country = @service_provider.country&.id if opportunity.countries.empty?
-      @sectors = Sector.all.order(:name)
+      @sectors = Sector.visible.order(:name)
       @types = Type.all.order(:name)
       @values = Value.all.order(:slug)
       @enquiry_interactions = Opportunity.enquiry_interactions.keys
       @ragg = opportunity.ragg
-      @opportunity_cpvs = opportunity.opportunity_cpvs
+      @cpvs = opportunity.cpvs
     end
 
     def setup_opportunity_contacts(opportunity)
@@ -162,7 +161,7 @@ class Admin::OpportunitiesController < Admin::BaseController
     end
 
     def opportunity_params(contacts_attributes:)
-      params.require(:opportunity).permit(:title, :slug, { country_ids: [] }, { sector_ids: [] }, { type_ids: [] }, { supplier_preference_ids: [] }, { opportunity_cpv_ids: [] }, :opportunity_cpv_ids, :response_due_on, :request_type, :tender, :request_usage, :enquiry_interaction, :value_ids, :teaser, :description, { contacts_attributes: contacts_attributes }, :service_provider_id, :ragg, :buyer_name, :buyer_address, :language, :tender_value, :source, :tender_content, :tender_url, :target_url, :tender_source, :tender_value, :ocid, :industry_id, :industry_scheme)
+      params.require(:opportunity).permit(:title, :slug, { country_ids: [] }, { sector_ids: [] }, { type_ids: [] }, { supplier_preference_ids: [] }, { cpv_ids: [] }, :cpv_ids, :response_due_on, :request_type, :tender, :request_usage, :enquiry_interaction, :value_ids, :teaser, :description, { contacts_attributes: contacts_attributes }, :service_provider_id, :ragg, :buyer_name, :buyer_address, :language, :tender_value, :source, :tender_content, :tender_url, :target_url, :tender_source, :tender_value, :ocid, :industry_id, :industry_scheme)
     end
 
     def create_contacts_attributes

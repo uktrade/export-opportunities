@@ -32,7 +32,8 @@ class CategorisationMicroservice
     response = Faraday.get url
 
     if response.status == 200
-      JSON.parse response.body
+      response = JSON.parse response.body
+      response
     else
       []
     end
@@ -40,6 +41,12 @@ class CategorisationMicroservice
 
   # Gets an array of all of the sector ids from the response
   def sector_ids
-    call.map { |result| result['sector_id'] }.flatten
+    response = call
+    if response && response[0] && response[0]['sector_id']
+      ids = response.map { |result| result['sector_id'] }.flatten
+      ids
+    else
+      []
+    end
   end
 end

@@ -52,6 +52,10 @@ class Opportunity < ApplicationRecord
         indexes :slug, type: :keyword
       end
 
+      indexes :cpvs do
+        indexes :industry_id, type: :keyword
+      end
+
       indexes :response_due_on, type: :date
       indexes :first_published_at, type: :date
       indexes :updated_at, type: :date
@@ -60,7 +64,8 @@ class Opportunity < ApplicationRecord
     end
   end
 
-  has_paper_trail class_name: 'OpportunityVersion', only: [:status]
+  has_paper_trail versions: { class_name: 'OpportunityVersion' },
+                  only: [:status]
 
   extend FriendlyId
   friendly_id :title, use: %i[slugged finders]
@@ -79,16 +84,16 @@ class Opportunity < ApplicationRecord
   enum request_usage: { samples: 0, sell_goods: 2, use_product: 4 }
   enum enquiry_interaction: { post_response: 0, third_party: 2 }
 
-  include PgSearch
+  include PgSearch::Model
 
   pg_search_scope :fuzzy_match,
-    against: %i[title teaser description],
-    using: { tsearch: { tsvector_column: 'tsv', dictionary: 'english' } }
+                  against: %i[title teaser description],
+                  using: { tsearch: { tsvector_column: 'tsv', dictionary: 'english' } }
 
   pg_search_scope :admin_match,
-    against: %i[title teaser description],
-    associated_against: { author: %i[name email] },
-    using: { tsearch: { tsvector_column: 'tsv', dictionary: 'english' } }
+                  against: %i[title teaser description],
+                  associated_against: { author: %i[name email] },
+                  using: { tsearch: { tsvector_column: 'tsv', dictionary: 'english' } }
 
   scope :published, -> { where(status: Opportunity.statuses[:publish]) }
   scope :applicable, -> { where('response_due_on >= ?', Time.zone.today) }
@@ -107,7 +112,7 @@ class Opportunity < ApplicationRecord
   has_many :subscription_notifications, dependent: :destroy
   has_many :opportunity_checks, dependent: :destroy
   has_many :opportunity_sensitivity_checks, dependent: :destroy
-  has_many :opportunity_cpvs, dependent: :destroy
+  has_many :cpvs, foreign_key: 'opportunity_id', class_name: 'OpportunityCpv', dependent: :destroy
 
   accepts_nested_attributes_for :contacts, reject_if: :all_blank
 
@@ -167,7 +172,7 @@ class Opportunity < ApplicationRecord
     self.description = description.try(:gsub, /[[:space:]]+/, ' ').try(:gsub, /&nbsp;/i, ' ')
   end
 
-  def as_indexed_json(___ = {})
+  def as_indexed_json(_ = {})
     as_json(
       only: %i[title teaser description created_at updated_at status response_due_on first_published_at source],
       include: {
@@ -175,6 +180,7 @@ class Opportunity < ApplicationRecord
         types: { only: :slug },
         sectors: { only: :slug },
         values: { only: :slug },
+        cpvs: { only: :industry_id },
       }
     )
   end
@@ -203,12 +209,6 @@ class Opportunity < ApplicationRecord
 
   def tender?
     false
-  end
-
-  def opportunity_cpv_codes
-    codes = []
-    opportunity_cpvs.each { |cpv| codes.push cpv.industry_id }
-    codes
   end
 
   def exists_in_elasticsearch?

@@ -12,6 +12,6 @@ module ReportHelper
   def report_format_progress(actual, target)
     return 0 if target.is_a?(String) || target.zero? || !target
 
-    ((actual.to_f / target.to_f) * 100).floor
+    ((actual / target.to_f) * 100).floor
   end
 end

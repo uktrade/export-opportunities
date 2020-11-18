@@ -13,7 +13,7 @@ class CreateOpportunitySlug
              opportunity.title.parameterize
            end
 
-    3.times do
+    100.times do
       return slug unless duplicate?(slug, opportunity.id)
 
       slug = "#{opportunity.title.parameterize}-#{rand}"
@@ -32,6 +32,6 @@ class CreateOpportunitySlug
 
     def rand
       @rand ||= Random.new
-      @rand.rand(999)
+      @rand.rand(99999)
     end
 end

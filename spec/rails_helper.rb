@@ -73,7 +73,12 @@ RSpec.configure do |config|
   config.before(:each, js: true) do
     create_cookie('UPDATE-JANUARY-2018-ACCEPTED', true)
   end
-  
+
+  config.before(:each) do
+    create_cookie('cookie_preferences_set', true)
+    create_cookie('cookies_policy', '{"essential":true,"settings":true,"usage":true,"campaigns":true}')
+  end
+
   # Build initial indices if not present, e.g. CircleCI
   [Opportunity, Subscription].each do |model|
     unless model.__elasticsearch__.index_exists? index: model.__elasticsearch__.index_name

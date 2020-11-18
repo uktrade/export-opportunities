@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PendingSubscriptionsController do
+RSpec.describe PendingSubscriptionsController, sso: true do
   describe '#create' do
     it 'creates a pending subscription' do
       subscription_attrs = {
@@ -12,7 +12,7 @@ RSpec.describe PendingSubscriptionsController do
       }
 
       expect { post :create, params: { subscription: subscription_attrs } }.to change { PendingSubscription.count }.by(1)
-      expect(response).to have_http_status(302)
+      expect(response).to have_http_status(201)
     end
   end
 

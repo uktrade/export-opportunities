@@ -74,13 +74,18 @@ RSpec.describe Search, elasticsearch: true do
       @post_1 = create(:opportunity, title: 'Post 1', first_published_at: 1.months.ago,
                         response_due_on: 12.months.from_now, status: :publish,
                        updated_at: 3.month.ago)
+      OpportunityCpv.create(opportunity: @post_1, industry_id: "1")
       @post_2 = create(:opportunity, title: 'Post 2', first_published_at: 2.months.ago,
                         response_due_on: 6.months.from_now, status: :publish,
                        updated_at: 2.month.ago)
+      OpportunityCpv.create(opportunity: @post_2, industry_id: "2")
       @post_3 = create(:opportunity, title: 'Post 3', first_published_at: 3.month.ago,
                        response_due_on: 18.months.from_now, status: :publish,
                        updated_at: 1.month.ago)
-      @post_1.countries << Country.create(slug: 'country-slug', name: 'Country 1')
+      @post_1.countries << Country.create(
+        slug: 'country-slug',
+        name: 'Country 1',
+        iso_code: 'cs')
       sector = Sector.create(slug: 'sector-slug', name: 'Sector 1')
       @post_1.sectors << sector
       @post_2.sectors << sector
@@ -97,35 +102,28 @@ RSpec.describe Search, elasticsearch: true do
       expect(results[:total]).to eq 1
     end
     describe 'can filter' do
+      it 'by CPV code' do
+        results = Search.new({ cpvs: '1' }).run
+        expect(results[:total]).to eq 1
+      end
+      it 'by multiple CPV codes' do
+        results = Search.new({ cpvs: '1,2' }).run
+        expect(results[:total]).to eq 2
+      end
       it 'by countries' do
         results = Search.new({ countries: ['country-slug'] }).run
         expect(results[:total]).to eq 1
-       end
+      end
+      it 'by countries' do
+        results = Search.new({ iso_codes: ['cs'] }).run
+        expect(results[:total]).to eq 1
+      end
       it 'by sectors' do
         filter = SearchFilter.new(sectors: ['sector-slug'])
         results = Search.new({ sectors: ['sector-slug'] }).run
 
         expect(results[:total]).to eq 2
       end
-    end
-    it 'can limit number of results and fetch the total_without_limit' do
-      12.times do |n|
-        create(:opportunity, title: "Post #{n+3}", created_at: 2.months.ago,
-                response_due_on: 12.months.from_now, status: :publish)
-      end
-      refresh_elasticsearch
-
-      limit = 2
-      results = Search.new({}, limit: limit).run
-
-      # ElasticSearch returns 1 result per shard, and currently 5 shards.
-      # Note, may return less than max due to data being unevenly 
-      # spread across shards, thus some shards returning less than max
-      max_number_to_find = limit * number_of_shards
-
-      expect(Opportunity.count).to be > max_number_to_find
-      expect(results[:total]).to be <= max_number_to_find
-      expect(results[:total_without_limit]).to eq 15
     end
     describe 'sorts results' do
       it 'by first_published_at' do

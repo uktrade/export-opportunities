@@ -4,6 +4,11 @@ require 'factory_bot_rails'
 require 'faker'
 I18n.reload! # Faker translations need reloading: https://github.com/stympy/faker/issues/278
 
+Opportunity.reset_column_information
+ActiveRecord::Base.connection.tables.each do |t|
+  ActiveRecord::Base.connection.reset_pk_sequence!(t)
+end
+
 # Build all sensible countries...
 Country.create(slug: 'bolivia', name: 'Bolivia')
 Country.create(slug: 'cambodia', name: 'Cambodia')
@@ -169,51 +174,59 @@ Country.create(slug: 'vietnam', name: 'Vietnam', exporting_guide_path: '/governm
 
 Sector.create(slug: 'aerospace', name: 'Aerospace')
 Sector.create(slug: 'airports', name: 'Airports')
-Sector.create(slug: 'biotechnology-pharmaceuticals', name: 'Biotechnology & Pharmaceuticals')
-Sector.create(slug: 'business-consumer-services', name: 'Business & Consumer Services')
+Sector.create(slug: 'automotive', name: 'Automotive')
 Sector.create(slug: 'chemicals', name: 'Chemicals')
+Sector.create(slug: 'construction', name: 'Construction')
+Sector.create(slug: 'environment', name: 'Environment')
+Sector.create(slug: 'mining', name: 'Mining')
+Sector.create(slug: 'railways', name: 'Railways')
+Sector.create(slug: 'software-computer-services', name: 'Software & Computer Services')
+Sector.create(slug: 'water', name: 'Water')
+Sector.create(slug: 'security', name: 'Security')
+Sector.create(slug: 'advanced-engineering', name: 'Advanced engineering')
+Sector.create(slug: 'Agriculture-horticulture-fisheries-pets', name: 'Agriculture, horticulture, fisheries and pets')
+Sector.create(slug: 'consumer-and-retail', name: 'Consumer and retail')
+Sector.create(slug: 'creative-industries', name: 'Creative industries')
+Sector.create(slug: 'education-training', name: 'Education and training')
+Sector.create(slug: 'financial-and-professional-services', name: 'Financial and professional services')
+Sector.create(slug: 'food-and-drink', name: 'Food and drink')
+Sector.create(slug: 'healthcare-services', name: 'Healthcare services')
+Sector.create(slug: 'maritime', name: 'Maritime')
+Sector.create(slug: 'pharmaceuticals-and-biotechnology', name: 'Pharmaceuticals and biotechnology')
+Sector.create(slug: 'sports-economy', name: 'Sports economy')
+Sector.create(slug: 'Space', name: 'Space')
+Sector.create(slug: 'defence', name: 'Defence')
+Sector.create(slug: 'energy', name: 'Energy')
+Sector.create(slug: 'medical-devices-equipment', name: 'Medical devices and equipment')
+Sector.create(slug: 'business-consumer-services', name: 'Business & Consumer Services')
 Sector.create(slug: 'clothing-footwear-fashion', name: 'Clothing, Footwear & Fashion')
 Sector.create(slug: 'communications', name: 'Communications')
-Sector.create(slug: 'construction', name: 'Construction')
-Sector.create(slug: 'creative-media', name: 'Creative & Media')
-Sector.create(slug: 'education-training', name: 'Education & Training')
+Sector.create(slug: 'civil-nuclear', name: 'Civil Nuclear')
 Sector.create(slug: 'electronics-it-hardware', name: 'Electronics & IT Hardware')
-Sector.create(slug: 'environment', name: 'Environment')
-Sector.create(slug: 'financial-professional-services', name: 'Financial & Professional Services')
-Sector.create(slug: 'food-drink', name: 'Food & Drink')
 Sector.create(slug: 'giftware-jewellery-tableware', name: 'Giftware, Jewellery & Tableware')
-Sector.create(slug: 'global-sports-infrastructure', name: 'Global Sports Infrastructure')
-Sector.create(slug: 'healthcare-medical', name: 'Healthcare & Medical')
 Sector.create(slug: 'household-goods-furniture-furnishings', name: 'Household Goods, Furniture & Furnishings')
 Sector.create(slug: 'leisure-tourism', name: 'Leisure & Tourism')
-Sector.create(slug: 'marine', name: 'Marine')
-Sector.create(slug: 'mechanical-electrical-process-engineering', name: 'Mechanical Electrical & Process Engineering')
 Sector.create(slug: 'metallurgical-process-plant', name: 'Metallurgical Process Plant')
 Sector.create(slug: 'metals-minerals-materials', name: 'Metals, Minerals & Materials')
-Sector.create(slug: 'mining', name: 'Mining')
 Sector.create(slug: 'oil-gas', name: 'Oil & Gas')
 Sector.create(slug: 'ports-logistics', name: 'Ports & Logistics')
 Sector.create(slug: 'power', name: 'Power')
-Sector.create(slug: 'railways', name: 'Railways')
 Sector.create(slug: 'renewable-energy', name: 'Renewable Energy')
-Sector.create(slug: 'retail-and-luxury', name: 'Retail and Luxury')
-Sector.create(slug: 'security', name: 'Security')
-Sector.create(slug: 'software-computer-services', name: 'Software & Computer Services')
 Sector.create(slug: 'textiles-interior-textiles-carpets', name: 'Textiles, Interior Textiles & Carpets')
-Sector.create(slug: 'water', name: 'Water')
+Sector.create(slug: 'technology-smart-cities', name: 'Technology and smart cities')
 
-Sector.find_by(slug: 'creative-media').try(:update, featured: true, featured_order: 1)
+Sector.find_by(slug: 'technology-smart-cities').try(:update, featured: true, featured_order: 1)
 Sector.find_by(slug: 'education-training').try(:update, featured: true, featured_order: 2)
-Sector.find_by(slug: 'food-drink').try(:update, featured: true, featured_order: 3)
-Sector.find_by(slug: 'oil-gas').try(:update, featured: true, featured_order: 4)
+Sector.find_by(slug: 'food-and-drink').try(:update, featured: true, featured_order: 3)
+Sector.find_by(slug: 'creative-industries').try(:update, featured: true, featured_order: 4)
 Sector.find_by(slug: 'security').try(:update, featured: true, featured_order: 5)
-Sector.find_by(slug: 'retail-and-luxury').try(:update, featured: true, featured_order: 6)
+Sector.find_by(slug: 'consumer-and-retail').try(:update, featured: true, featured_order: 6)
 
-Type.create(slug: 'aid-funded-business', name: 'Aid Funded Business')
-Type.create(slug: 'public-sector', name: 'Public Sector')
+Type.where(slug: 'aid-funded-business', name: 'Aid Funded Business').first_or_create
+Type.where(slug: 'public-sector', name: 'Public Sector').first_or_create
 
-Value.create(slug: '10k', name: 'Less than £100k')
-Value.create(slug: 'unknown', name: 'Value unknown')
+Value.where(slug: '10k', name: 'Less than £100k').first_or_create
+Value.where(slug: 'unknown', name: 'Value unknown').first_or_create
 
 ServiceProvider.create(name: 'Belgium Brussels')
 ServiceProvider.create(name: 'Australia Sydney')
@@ -408,173 +421,378 @@ ServiceProvider.create(name: 'Rwanda, Kigali')
 ServiceProvider.create(name: 'Venezuela Caracas')
 
 # Prime the database with basic content
-france = Country.create(slug: 'france', name: 'France', exporting_guide_path: '/government/publications/exporting-to-france')
-italy = Country.create(slug: 'italy', name: 'Italy', exporting_guide_path: '/government/publications/exporting-to-italy')
+france = Country.where(slug: 'france', name: 'France', exporting_guide_path: '/government/publications/exporting-to-france').first_or_create
+italy = Country.where(slug: 'italy', name: 'Italy', exporting_guide_path: '/government/publications/exporting-to-italy').first_or_create
 
-naples = ServiceProvider.create(name: 'Italy Naples')
-paris = ServiceProvider.create(name: 'France Paris')
+naples = ServiceProvider.where(name: 'Italy Naples').first_or_create
+paris = ServiceProvider.where(name: 'France Paris').first_or_create
 
 editor = FactoryBot.create(:editor,
-  email: 'email@example.com',
-  password: 'wintles is coming',
-  name: 'John Doe',
-  wordpress_id: '1',
-  service_provider: paris,
-  confirmed_at: DateTime.current,
-  role: 4)
+                           email: 'email@example.com',
+                           password: 'wintles is coming',
+                           name: 'John Doe',
+                           wordpress_id: '1',
+                           service_provider: paris,
+                           confirmed_at: DateTime.current,
+                           role: 4)
 
 FactoryBot.create(:editor,
-  email: 'uploader@example.com',
-  password: 'wintles is coming',
-  name: 'Uploader Jane',
-  service_provider: paris,
-  confirmed_at: DateTime.current,
-  role: 1)
+                  email: 'uploader@example.com',
+                  password: 'wintles is coming',
+                  name: 'Uploader Jane',
+                  service_provider: paris,
+                  confirmed_at: DateTime.current,
+                  role: 1)
 
-agriculture = Sector.create(slug: 'agriculture-horticulture-fisheries', name: 'Agriculture, Horticulture & Fisheries')
-automotive = Sector.create(slug: 'automotive', name: 'Automotive')
+agriculture = Sector.where(slug: 'agriculture-horticulture-fisheries', name: 'Agriculture, Horticulture & Fisheries').first_or_create
+automotive = Sector.where(slug: 'automotive', name: 'Automotive').first_or_create
 
-private_sector = Type.create(slug: 'private-sector', name: 'Private Sector')
+private_sector = Type.where(slug: 'private-sector', name: 'Private Sector').first_or_create
 
-hundred_thousand = Value.create(slug: '100k', name: 'More than £100k')
+hundred_thousand = Value.where(slug: '100k', name: 'More than £100k').first_or_create
 
 future_expiry_date = 2.years.from_now
 past_expiry_date   = 2.weeks.ago
 
 # Valid opportunity
 valid_opportunity = FactoryBot.create(:opportunity,
-  slug: 'french-sardines-required',
-  title: 'French sardines required',
-  response_due_on: 9.months.from_now,
-  author: editor,
-  service_provider: paris,
-  countries: [france],
-  sectors: [agriculture],
-  types: [private_sector],
-  values: [hundred_thousand],
-  created_at: 2.weeks.ago,
-  first_published_at: Time.zone.today,
-  status: :publish)
+                                      slug: 'french-sardines-required',
+                                      title: 'French sardines required',
+                                      response_due_on: 9.months.from_now,
+                                      author: editor,
+                                      service_provider: paris,
+                                      countries: [france],
+                                      sectors: [agriculture],
+                                      types: [private_sector],
+                                      values: [hundred_thousand],
+                                      created_at: 2.weeks.ago,
+                                      first_published_at: Time.zone.today,
+                                      source: :post,
+                                      status: :publish)
 
 # Created an enquiry for a valid opportunity
 FactoryBot.create(:enquiry, opportunity: valid_opportunity)
 
 # Expired opportunity
 FactoryBot.create(:opportunity,
-  slug: 'italy-needs-a-porsche',
-  title: 'Italy needs a porsche',
-  response_due_on: 1.month.ago,
-  author: editor,
-  service_provider: naples,
-  countries: [italy],
-  sectors: [automotive],
-  types: [Type.all.sample],
-  values: [Value.all.sample],
-  created_at: 2.months.ago,
-  first_published_at: 6.weeks.ago,
-  status: :publish)
+                  slug: 'italy-needs-a-porsche',
+                  title: 'Italy needs a porsche',
+                  response_due_on: 1.month.ago,
+                  author: editor,
+                  service_provider: naples,
+                  countries: [italy],
+                  sectors: [automotive],
+                  types: [Type.all.sample],
+                  values: [Value.all.sample],
+                  created_at: 2.months.ago,
+                  first_published_at: 6.weeks.ago,
+                  status: :publish)
 
 FactoryBot.create(:opportunity,
-  title: 'Published opportunity',
-  response_due_on: future_expiry_date,
-  author: editor,
-  service_provider: paris,
-  countries: [france],
-  sectors: [agriculture],
-  types: [private_sector],
-  values: [hundred_thousand],
-  created_at: 1.month.ago,
-  first_published_at: Time.zone.now,
-  status: :publish)
+                  title: 'Published opportunity',
+                  response_due_on: future_expiry_date,
+                  author: editor,
+                  service_provider: paris,
+                  countries: [france],
+                  sectors: [agriculture],
+                  types: [private_sector],
+                  values: [hundred_thousand],
+                  created_at: 1.month.ago,
+                  first_published_at: Time.zone.now,
+                  status: :publish)
 
 FactoryBot.create(:opportunity,
-  title: 'Pending opportunity',
-  response_due_on: future_expiry_date,
-  author: editor,
-  service_provider: naples,
-  countries: [italy],
-  sectors: [automotive],
-  types: [Type.all.sample],
-  values: [Value.all.sample],
-  status: :pending)
+                  title: 'Pending opportunity',
+                  response_due_on: future_expiry_date,
+                  author: editor,
+                  service_provider: naples,
+                  countries: [italy],
+                  sectors: [automotive],
+                  types: [Type.all.sample],
+                  values: [Value.all.sample],
+                  status: :pending)
 
 FactoryBot.create(:opportunity,
-  title: 'Pending opportunity that was once published',
-  response_due_on: future_expiry_date,
-  author: editor,
-  service_provider: naples,
-  countries: [italy],
-  sectors: [automotive],
-  types: [Type.all.sample],
-  values: [Value.all.sample],
-  created_at: 2.weeks.ago,
-  first_published_at: 1.week.ago,
-  status: :pending)
+                  title: 'Pending opportunity that was once published',
+                  response_due_on: future_expiry_date,
+                  author: editor,
+                  service_provider: naples,
+                  countries: [italy],
+                  sectors: [automotive],
+                  types: [Type.all.sample],
+                  values: [Value.all.sample],
+                  created_at: 2.weeks.ago,
+                  first_published_at: 1.week.ago,
+                  status: :pending)
 
 FactoryBot.create(:opportunity,
-  title: 'Trashed opportunity',
-  response_due_on: future_expiry_date,
-  service_provider: ServiceProvider.all.sample,
-  countries: [Country.all.sample],
-  sectors: [Sector.all.sample],
-  types: [Type.all.sample],
-  values: [Value.all.sample],
-  status: :trash)
+                  title: 'Trashed opportunity',
+                  response_due_on: future_expiry_date,
+                  service_provider: ServiceProvider.all.sample,
+                  countries: [Country.all.sample],
+                  sectors: [Sector.all.sample],
+                  types: [Type.all.sample],
+                  values: [Value.all.sample],
+                  status: :trash)
 
 FactoryBot.create(:opportunity,
-  title: 'Trashed opportunity that was once published',
-  response_due_on: future_expiry_date,
-  service_provider: ServiceProvider.all.sample,
-  countries: [Country.all.sample],
-  sectors: [Sector.all.sample],
-  types: [Type.all.sample],
-  values: [Value.all.sample],
-  created_at: 2.weeks.ago,
-  first_published_at: 1.week.ago,
-  status: :trash)
+                  title: 'Trashed opportunity that was once published',
+                  response_due_on: future_expiry_date,
+                  service_provider: ServiceProvider.all.sample,
+                  countries: [Country.all.sample],
+                  sectors: [Sector.all.sample],
+                  types: [Type.all.sample],
+                  values: [Value.all.sample],
+                  created_at: 2.weeks.ago,
+                  first_published_at: 1.week.ago,
+                  status: :trash)
 
 FactoryBot.create(:opportunity,
-  title: 'Expired published opportunity',
-  response_due_on: past_expiry_date,
-  author: editor,
-  service_provider: paris,
-  countries: [france],
-  sectors: [agriculture],
-  types: [private_sector],
-  values: [hundred_thousand],
-  created_at: 2.months.ago,
-  first_published_at: 1.month.ago,
-  status: :publish)
+                  title: 'Expired published opportunity',
+                  response_due_on: past_expiry_date,
+                  author: editor,
+                  service_provider: paris,
+                  countries: [france],
+                  sectors: [agriculture],
+                  types: [private_sector],
+                  values: [hundred_thousand],
+                  created_at: 2.months.ago,
+                  first_published_at: 1.month.ago,
+                  status: :publish)
 
 FactoryBot.create(:opportunity,
-  title: 'Expired pending opportunity',
-  response_due_on: past_expiry_date,
-  author: editor,
-  service_provider: naples,
-  countries: [italy],
-  sectors: [automotive],
-  types: [Type.all.sample],
-  values: [Value.all.sample],
-  status: :pending)
+                  title: 'Expired pending opportunity',
+                  response_due_on: past_expiry_date,
+                  author: editor,
+                  service_provider: naples,
+                  countries: [italy],
+                  sectors: [automotive],
+                  types: [Type.all.sample],
+                  values: [Value.all.sample],
+                  status: :pending)
 
 FactoryBot.create(:opportunity,
-  title: 'Expired trashed opportunity',
-  response_due_on: past_expiry_date,
-  service_provider: ServiceProvider.all.sample,
-  countries: [Country.all.sample],
-  sectors: [Sector.all.sample],
-  types: [Type.all.sample],
-  values: [Value.all.sample],
-  status: :trash)
+                  title: 'Expired trashed opportunity',
+                  response_due_on: past_expiry_date,
+                  service_provider: ServiceProvider.all.sample,
+                  countries: [Country.all.sample],
+                  sectors: [Sector.all.sample],
+                  types: [Type.all.sample],
+                  values: [Value.all.sample],
+                  status: :trash)
 
 FactoryBot.create(:opportunity,
-  title: 'Pending opportunity from Paris service provider',
-  response_due_on: future_expiry_date,
-  service_provider: paris,
-  countries: [Country.all.sample],
-  sectors: [Sector.all.sample],
-  types: [Type.all.sample],
-  values: [Value.all.sample],
-  status: :pending)
+                  title: 'Pending opportunity from Paris service provider',
+                  response_due_on: future_expiry_date,
+                  service_provider: paris,
+                  countries: [Country.all.sample],
+                  sectors: [Sector.all.sample],
+                  types: [Type.all.sample],
+                  values: [Value.all.sample],
+                  status: :pending)
 
 FactoryBot.create(:supplier_preference)
+
+Country.where(slug:'afghanistan').first.update(iso_code: 'AF')
+Country.where(slug:'albania').first.update(iso_code: 'AL')
+Country.where(slug:'algeria').first.update(iso_code: 'DZ')
+Country.where(slug:'andorra').first.update(iso_code: 'AD')
+Country.where(slug:'angola').first.update(iso_code: 'AO')
+Country.where(slug:'antigua-and-barbuda').first.update(iso_code: 'AG')
+Country.where(slug:'argentina').first.update(iso_code: 'AR')
+Country.where(slug:'armenia').first.update(iso_code: 'AM')
+Country.where(slug:'australia').first.update(iso_code: 'AU')
+Country.where(slug:'austria').first.update(iso_code: 'AT')
+Country.where(slug:'azerbaijan').first.update(iso_code: 'AZ')
+Country.where(slug:'bahrain').first.update(iso_code: 'BH')
+Country.where(slug:'bangladesh').first.update(iso_code: 'BD')
+Country.where(slug:'barbados').first.update(iso_code: 'BB')
+Country.where(slug:'belarus').first.update(iso_code: 'BY')
+Country.where(slug:'belgium').first.update(iso_code: 'BE')
+Country.where(slug:'belize').first.update(iso_code: 'BZ')
+Country.where(slug:'benin').first.update(iso_code: 'BJ')
+Country.where(slug:'bhutan').first.update(iso_code: 'BT')
+Country.where(slug:'bolivia').first.update(iso_code: 'BO')
+Country.where(slug:'bosnia-and-herzegovina').first.update(iso_code: 'BA')
+Country.where(slug:'botswana').first.update(iso_code: 'BW')
+Country.where(slug:'brazil').first.update(iso_code: 'BR')
+Country.where(slug:'british-virgin-islands').first.update(iso_code: 'VG')
+Country.where(slug:'brunei').first.update(iso_code: 'BN')
+Country.where(slug:'bulgaria').first.update(iso_code: 'BG')
+Country.where(slug:'burkina-faso').first.update(iso_code: 'BF')
+Country.where(slug:'burundi').first.update(iso_code: 'BI')
+Country.where(slug:'cambodia').first.update(iso_code: 'KH')
+Country.where(slug:'cameroon').first.update(iso_code: 'CM')
+Country.where(slug:'canada').first.update(iso_code: 'CA')
+Country.where(slug:'cape-verde').first.update(iso_code: 'CV')
+Country.where(slug:'central-african-republic').first.update(iso_code: 'CF')
+Country.where(slug:'chad').first.update(iso_code: 'TD')
+Country.where(slug:'chile').first.update(iso_code: 'CL')
+Country.where(slug:'china').first.update(iso_code: 'CN')
+Country.where(slug:'colombia').first.update(iso_code: 'CO')
+Country.where(slug:'comoros').first.update(iso_code: 'KM')
+Country.where(slug:'congo').first.update(iso_code: 'CG')
+Country.where(slug:'congo-democratic-republic').first.update(iso_code: 'CD')
+Country.where(slug:'costa-rica').first.update(iso_code: 'CR')
+Country.where(slug:'croatia').first.update(iso_code: 'HR')
+Country.where(slug:'cuba').first.update(iso_code: 'CU')
+Country.where(slug:'cyprus').first.update(iso_code: 'CY')
+Country.where(slug:'czechia').first.update(iso_code: 'CZ')
+Country.where(slug:'denmark').first.update(iso_code: 'DK')
+Country.where(slug:'dit-hq').first.update(iso_code: 'GB')
+Country.where(slug:'djibouti').first.update(iso_code: 'DJ')
+Country.where(slug:'dominica').first.update(iso_code: 'DM')
+Country.where(slug:'dominican-republic').first.update(iso_code: 'DO')
+Country.where(slug:'dso-hq').first.update(iso_code: 'GB')
+Country.where(slug:'east-timor').first.update(iso_code: 'TL')
+Country.where(slug:'ecuador').first.update(iso_code: 'EC')
+Country.where(slug:'egypt').first.update(iso_code: 'EG')
+Country.where(slug:'el-salvador').first.update(iso_code: 'SV')
+Country.where(slug:'equatorial-guinea').first.update(iso_code: 'GQ')
+Country.where(slug:'eritrea').first.update(iso_code: 'ER')
+Country.where(slug:'estonia').first.update(iso_code: 'EE')
+Country.where(slug:'eswatini').first.update(iso_code: 'SZ')
+Country.where(slug:'ethiopia').first.update(iso_code: 'ET')
+Country.where(slug:'fiji').first.update(iso_code: 'FJ')
+Country.where(slug:'finland').first.update(iso_code: 'FI')
+Country.where(slug:'france').first.update(iso_code: 'FR')
+Country.where(slug:'gabon').first.update(iso_code: 'GA')
+Country.where(slug:'georgia').first.update(iso_code: 'GE')
+Country.where(slug:'germany').first.update(iso_code: 'DE')
+Country.where(slug:'ghana').first.update(iso_code: 'GH')
+Country.where(slug:'greece').first.update(iso_code: 'GR')
+Country.where(slug:'grenada').first.update(iso_code: 'GD')
+Country.where(slug:'guatemala').first.update(iso_code: 'GT')
+Country.where(slug:'guinea').first.update(iso_code: 'GN')
+Country.where(slug:'guinea-bissau').first.update(iso_code: 'GW')
+Country.where(slug:'guyana').first.update(iso_code: 'GY')
+Country.where(slug:'haiti').first.update(iso_code: 'HT')
+Country.where(slug:'honduras').first.update(iso_code: 'HN')
+Country.where(slug:'hong-kong').first.update(iso_code: 'HK')
+Country.where(slug:'hungary').first.update(iso_code: 'HU')
+Country.where(slug:'iceland').first.update(iso_code: 'IS')
+Country.where(slug:'india').first.update(iso_code: 'IN')
+Country.where(slug:'indonesia').first.update(iso_code: 'ID')
+Country.where(slug:'iran').first.update(iso_code: 'IR')
+Country.where(slug:'iraq').first.update(iso_code: 'IQ')
+Country.where(slug:'ireland').first.update(iso_code: 'IE')
+Country.where(slug:'israel').first.update(iso_code: 'IL')
+Country.where(slug:'italy').first.update(iso_code: 'IT')
+Country.where(slug:'ivory-coast').first.update(iso_code: 'CI')
+Country.where(slug:'jamaica').first.update(iso_code: 'JM')
+Country.where(slug:'japan').first.update(iso_code: 'JP')
+Country.where(slug:'jordan').first.update(iso_code: 'JO')
+Country.where(slug:'kazakhstan').first.update(iso_code: 'KZ')
+Country.where(slug:'kenya').first.update(iso_code: 'KE')
+Country.where(slug:'kiribati').first.update(iso_code: 'KI')
+Country.where(slug:'kosovo').first.update(iso_code: 'XK')
+Country.where(slug:'kuwait').first.update(iso_code: 'KW')
+Country.where(slug:'kyrgyzstan').first.update(iso_code: 'KG')
+Country.where(slug:'laos').first.update(iso_code: 'LA')
+Country.where(slug:'latvia').first.update(iso_code: 'LV')
+Country.where(slug:'lebanon').first.update(iso_code: 'LB')
+Country.where(slug:'lesotho').first.update(iso_code: 'LS')
+Country.where(slug:'liberia').first.update(iso_code: 'LR')
+Country.where(slug:'libya').first.update(iso_code: 'LY')
+Country.where(slug:'liechtenstein').first.update(iso_code: 'LI')
+Country.where(slug:'lithuania').first.update(iso_code: 'LT')
+Country.where(slug:'luxembourg').first.update(iso_code: 'LU')
+Country.where(slug:'macao').first.update(iso_code: 'MO')
+Country.where(slug:'madagascar').first.update(iso_code: 'MG')
+Country.where(slug:'malawi').first.update(iso_code: 'MW')
+Country.where(slug:'malaysia').first.update(iso_code: 'MY')
+Country.where(slug:'maldives').first.update(iso_code: 'MV')
+Country.where(slug:'mali').first.update(iso_code: 'ML')
+Country.where(slug:'malta').first.update(iso_code: 'MT')
+Country.where(slug:'marshall-islands').first.update(iso_code: 'MH')
+Country.where(slug:'mauritania').first.update(iso_code: 'MR')
+Country.where(slug:'mauritius').first.update(iso_code: 'MU')
+Country.where(slug:'mexico').first.update(iso_code: 'MX')
+Country.where(slug:'micronesia').first.update(iso_code: 'FM')
+Country.where(slug:'moldova').first.update(iso_code: 'MD')
+Country.where(slug:'monaco').first.update(iso_code: 'MC')
+Country.where(slug:'mongolia').first.update(iso_code: 'MN')
+Country.where(slug:'montenegro').first.update(iso_code: 'ME')
+Country.where(slug:'morocco').first.update(iso_code: 'MA')
+Country.where(slug:'mozambique').first.update(iso_code: 'MZ')
+Country.where(slug:'myanmar').first.update(iso_code: 'MM')
+Country.where(slug:'namibia').first.update(iso_code: 'NA')
+Country.where(slug:'nauru').first.update(iso_code: 'NR')
+Country.where(slug:'nepal').first.update(iso_code: 'NP')
+Country.where(slug:'netherlands').first.update(iso_code: 'NL')
+Country.where(slug:'new-zealand').first.update(iso_code: 'NZ')
+Country.where(slug:'nicaragua').first.update(iso_code: 'NI')
+Country.where(slug:'niger').first.update(iso_code: 'NE')
+Country.where(slug:'nigeria').first.update(iso_code: 'NG')
+Country.where(slug:'north-korea').first.update(iso_code: 'KP')
+Country.where(slug:'north-macedonia').first.update(iso_code: 'MK')
+Country.where(slug:'norway').first.update(iso_code: 'NO')
+Country.where(slug:'oman').first.update(iso_code: 'OM')
+Country.where(slug:'pakistan').first.update(iso_code: 'PK')
+Country.where(slug:'palau').first.update(iso_code: 'PW')
+Country.where(slug:'palestinian-territories').first.update(iso_code: 'PS')
+Country.where(slug:'panama').first.update(iso_code: 'PA')
+Country.where(slug:'papua-new-guinea').first.update(iso_code: 'PG')
+Country.where(slug:'paraguay').first.update(iso_code: 'PY')
+Country.where(slug:'peru').first.update(iso_code: 'PE')
+Country.where(slug:'poland').first.update(iso_code: 'PL')
+Country.where(slug:'portugal').first.update(iso_code: 'PT')
+Country.where(slug:'qatar').first.update(iso_code: 'QA')
+Country.where(slug:'romania').first.update(iso_code: 'RO')
+Country.where(slug:'russia').first.update(iso_code: 'RU')
+Country.where(slug:'rwanda').first.update(iso_code: 'RW')
+Country.where(slug:'samoa').first.update(iso_code: 'WS')
+Country.where(slug:'san-marino').first.update(iso_code: 'SM')
+Country.where(slug:'sao-tome-and-principe').first.update(iso_code: 'ST')
+Country.where(slug:'saudi-arabia').first.update(iso_code: 'SA')
+Country.where(slug:'senegal').first.update(iso_code: 'SN')
+Country.where(slug:'serbia').first.update(iso_code: 'RS')
+Country.where(slug:'seychelles').first.update(iso_code: 'SC')
+Country.where(slug:'sierra-leone').first.update(iso_code: 'SL')
+Country.where(slug:'singapore').first.update(iso_code: 'SG')
+Country.where(slug:'slovakia').first.update(iso_code: 'SK')
+Country.where(slug:'slovenia').first.update(iso_code: 'SI')
+Country.where(slug:'solomen-islands').first.update(iso_code: 'SB')
+Country.where(slug:'somalia').first.update(iso_code: 'SO')
+Country.where(slug:'south-africa').first.update(iso_code: 'ZA')
+Country.where(slug:'south-korea').first.update(iso_code: 'KR')
+Country.where(slug:'south-sudan').first.update(iso_code: 'SS')
+Country.where(slug:'spain').first.update(iso_code: 'ES')
+Country.where(slug:'sri-lanka').first.update(iso_code: 'LK')
+Country.where(slug:'st-kitts-and-nevis').first.update(iso_code: 'KN')
+Country.where(slug:'st-lucia').first.update(iso_code: 'LC')
+Country.where(slug:'st-vincent').first.update(iso_code: 'VC')
+Country.where(slug:'sudan').first.update(iso_code: 'SD')
+Country.where(slug:'suriname').first.update(iso_code: 'SR')
+Country.where(slug:'sweden').first.update(iso_code: 'SE')
+Country.where(slug:'switzerland').first.update(iso_code: 'CH')
+Country.where(slug:'syria').first.update(iso_code: 'SY')
+Country.where(slug:'taiwan').first.update(iso_code: 'TW')
+Country.where(slug:'tajikistan').first.update(iso_code: 'TJ')
+Country.where(slug:'tanzania').first.update(iso_code: 'TZ')
+Country.where(slug:'thailand').first.update(iso_code: 'TH')
+Country.where(slug:'the-bahamas').first.update(iso_code: 'BS')
+Country.where(slug:'the-gambia').first.update(iso_code: 'GM')
+Country.where(slug:'the-philippines').first.update(iso_code: 'PH')
+Country.where(slug:'the-united-arab-emirates').first.update(iso_code: 'AE')
+Country.where(slug:'the-usa').first.update(iso_code: 'US')
+Country.where(slug:'togo').first.update(iso_code: 'TG')
+Country.where(slug:'tonga').first.update(iso_code: 'TO')
+Country.where(slug:'trinidad-and-tobago').first.update(iso_code: 'TT')
+Country.where(slug:'tunisia').first.update(iso_code: 'TN')
+Country.where(slug:'turkey').first.update(iso_code: 'TR')
+Country.where(slug:'turkmenistan').first.update(iso_code: 'TM')
+Country.where(slug:'tuvalu').first.update(iso_code: 'TV')
+Country.where(slug:'uganda').first.update(iso_code: 'UG')
+Country.where(slug:'ukraine').first.update(iso_code: 'UA')
+Country.where(slug:'ukrep').first.update( iso_code: #N')/A
+Country.where(slug:'uruguay').first.update(iso_code: 'UY')
+Country.where(slug:'uzbekistan').first.update(iso_code: 'UZ')
+Country.where(slug:'vanuatu').first.update(iso_code: 'VU')
+Country.where(slug:'vatican-city').first.update(iso_code: 'VA')
+Country.where(slug:'venezuela').first.update(iso_code: 'VE')
+Country.where(slug:'vietnam').first.update(iso_code: 'VN')
+Country.where(slug:'yemen').first.update(iso_code: 'YE')
+Country.where(slug:'zambia').first.update(iso_code: 'ZM')
+Country.where(slug:'zimbabwe').first.update(iso_code: 'ZW')
+

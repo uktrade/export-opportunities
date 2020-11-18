@@ -1,5 +1,6 @@
+require 'yaml'
+
 class ApplicationController < ActionController::Base
-  require 'yaml'
   # for how many days should we notify pingdom that a volume opps job has failed
   PUBLISH_SIDEKIQ_ERROR_DAYS = 1.freeze
 
@@ -15,6 +16,10 @@ class ApplicationController < ActionController::Base
     authenticate_or_request_with_http_basic do |name, password|
       name == Figaro.env.staging_http_user && password == Figaro.env.staging_http_pass
     end
+  end
+
+  def set_no_cache_headers
+    response.headers['Cache-Control'] = 'no-cache, no-store'
   end
 
   before_action :set_google_tag_manager
@@ -38,11 +43,18 @@ class ApplicationController < ActionController::Base
   helper_method :publisher?
   helper_method :uploader?
   helper_method :staff?
+  helper_method :opportunity_index_exists?
 
   layout :determine_layout
 
   def check
-    render json: { status: 'OK' }, status: :ok
+    # if we cant query the existence of the index in ElasticSearch, its down
+
+    if opportunity_index_exists?
+      render json: { status: 'OK' }, status: :ok
+    else
+      render json: { status: 'NOTOK' }, status: :internal_server_error
+    end
   end
 
   def api_check
@@ -92,6 +104,33 @@ class ApplicationController < ActionController::Base
     'application'
   end
 
+  # Users are sometimes signed in on SSO but not in ExOps.
+  # This method checks and signs them into ExOps if needed
+  before_action :force_sign_in_parity
+  def force_sign_in_parity
+    return if current_user
+    return if (sso_id = cookies[Figaro.env.SSO_SESSION_COOKIE]).blank?
+
+    if (sso_user = DirectoryApiClient.user_data(sso_id)).present?
+      if (user = User.find_by(email: sso_user['email'])).present?
+        sign_in user
+      end
+    else
+      cookies.delete Figaro.env.SSO_SESSION_COOKIE
+    end
+  end
+
+  # populate sso_hashed_user_id if missing
+  before_action :populate_sso_hashed_uuid
+  def populate_sso_hashed_uuid
+    if current_user &&
+       current_user.sso_hashed_uuid.blank? && 
+       (sso_id = cookies[Figaro.env.SSO_SESSION_COOKIE]).present? &&
+       (sso_user = DirectoryApiClient.user_data(sso_id)).present?
+          current_user.update(sso_hashed_uuid: sso_user["hashed_uuid"])
+    end
+  end
+
   def require_sso!
     return if current_user
 
@@ -105,6 +144,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def value_by_key(hash, key)
+    hash[key.to_s] || hash[key.to_sym]
+  end
+
   def opps_counter_stats
     @redis ||= Redis.new(url: Figaro.env.redis_url)
 
@@ -113,6 +156,21 @@ class ApplicationController < ActionController::Base
     counter_opps_published_recently = @redis.get(:opps_counters_published_recently)
 
     { total: counter_opps_total.to_i, expiring_soon: counter_opps_expiring_soon.to_i, published_recently: counter_opps_published_recently.to_i }
+  end
+
+  def opportunity_index_exists?
+    begin
+      Opportunity.__elasticsearch__.client.indices.exists? index: Opportunity.index_name
+    rescue Faraday::ConnectionFailed, TimeoutError
+      return false
+    end
+    true
+  end
+
+  def ga360_campaign_parameters(utm_source, utm_medium, utm_campaign, utm_content)
+    return nil unless utm_source && utm_medium && utm_campaign && utm_content
+
+    "?utm_source=#{utm_source}&utm_medium=#{utm_medium}&utm_campaign=#{utm_campaign}&utm_content=#{utm_content}"
   end
 
   private

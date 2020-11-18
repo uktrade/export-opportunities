@@ -1,8 +1,8 @@
 class OpportunityPresenter < PagePresenter
   include ApplicationHelper
   attr_reader :title, :teaser, :buyer_name, :buyer_address, :countries,
-    :tender_value, :tender_url, :target_url, :opportunity_cpvs, :sectors,
-    :sign_off, :created_at
+              :tender_value, :tender_url, :target_url, :cpvs, :sectors,
+              :sign_off, :created_at
 
   delegate :expired?, to: :opportunity
 
@@ -15,7 +15,7 @@ class OpportunityPresenter < PagePresenter
     @tender_value = opportunity.tender_value
     @buyer_name = opportunity&.buyer_name
     @buyer_address = opportunity&.buyer_address
-    @opportunity_cpvs = opportunity&.opportunity_cpvs
+    @cpvs = opportunity&.cpvs
     @teaser = opportunity.teaser
     @sectors = opportunity.sectors
     @created_at = opportunity.created_at
@@ -29,7 +29,7 @@ class OpportunityPresenter < PagePresenter
   def title_with_country
     # Remove special country values (e.g. 'DIT HQ')
     countries = opportunity.countries.where.not(id: [198, 199, 142, 200])
-    if source('post') && (opportunity.created_at < Date.parse(Figaro.env.POST_FORM_DEPLOYMENT_DATE) || (!countries.empty? && countries.map(&:region_id).include?(18)))
+    if source('post') && !countries.empty? && countries.map(&:region_id).include?(18)
       opportunity.title
     else
       country = if countries.size > 1
@@ -95,13 +95,13 @@ class OpportunityPresenter < PagePresenter
     links = []
     if guides.length > 5
       links.push(h.link_to('Country guides',
-        'https://www.gov.uk/government/collections/exporting-country-guides',
-        target: '_blank', rel: 'noopener'))
+                           'https://www.great.gov.uk/markets/',
+                           target: '_blank', rel: 'noopener noreferrer', title: 'Opens in a new window'))
     else
       guides.each do |country|
         link = link_to(country.name,
-          "https://www.gov.uk#{country.exporting_guide_path}",
-          target: '_blank', rel: 'noopener')
+                       country.exporting_guide_path,
+                       target: '_blank', rel: 'noopener noreferrer', title: 'Opens in a new window')
         links.push(link.html_safe)
       end
     end

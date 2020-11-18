@@ -46,8 +46,6 @@ class OpportunitySensitivityRetriever
       end
 
       { review_recommended: opp_sensitivity_check.review_recommended, category1_score: opp_sensitivity_check.category1_score, category2_score: opp_sensitivity_check.category2_score, category3_score: opp_sensitivity_check.category3_score }
-    else
-      Rails.logger.error "unknown error from API call #{hashed_response}"
     end
   end
 
@@ -76,7 +74,7 @@ class OpportunitySensitivityRetriever
       response[:address] = address[0]['Text'] if address[0]
       response[:phone] = { country_code: phone[0]['CountryCode'], number: phone[0]['Text'] } if phone[0]
 
-      return response
+      response
     end
   end
 

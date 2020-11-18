@@ -10,8 +10,9 @@ dit.page.results = (new function () {
   // Page init
   this.init = function() {
     enhanceResultFilters();
-    bindAutoUpdateListener();
     addSearchFormRestriction();
+    addAccessibilityHelpers();
+    setUpSort();
 
     delete this.init; // Run once
   }
@@ -35,21 +36,30 @@ dit.page.results = (new function () {
     });
   }
 
-  /* Auto-update results when sort value is changed.
-   **/
-  function bindAutoUpdateListener() {
-    $("#search-sort").on("change", function() {
-      this.form.submit();
-    });
-  }
-
   /* Prevent user trying to submit an empty opportunity search.
    **/
   function addSearchFormRestriction() {
     new dit.classes.SimpleFormRestrictor($(".search"));
   }
 
+  function addAccessibilityHelpers() {
+    $('.sort label', '#search-results-panel').append('<span class="verbose">Selecting an option will refresh the page.</span>');
+    $('#search-sort-visible').attr('aria-controls', 'opportunities-list');
+  }
+
+  function setUpSort(){
+    console.log("running")
+    $('.jsonly').show()
+    $("#search-sort-visible").change(function() {
+      var selectedSort = $(this).children("option:selected").val();
+      $('#hidden_sort_column_name').val(selectedSort)
+      $('.submit').click()
+    });
+  }
+
 });
+
+
 
 $(document).ready(function() {
   dit.page.results.init();

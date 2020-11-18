@@ -11,7 +11,7 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   def new
     @enquiry ||= Enquiry.find(params.fetch(:id, nil))
     @companies_house_url ||= companies_house_url(@enquiry.company_house_number)
-    @enquiry_response = EnquiryResponse.where(enquiry_id: @enquiry.id).first.presence || EnquiryResponse.new
+    @enquiry_response = EnquiryResponse.find_or_initialize_by(enquiry_id: @enquiry.id)
     @enquiry_response.enquiry = @enquiry
     @respond_by_date = @enquiry.created_at + 7.days
     authorize @enquiry_response
@@ -23,10 +23,14 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   end
 
   def enquiry_responses_params
-    ActionController::Base.helpers.sanitize params[:enquiry_response][:email_body]
-    ActionController::Base.helpers.sanitize params[:enquiry_response][:signature]
+    ActionController::Base.helpers.sanitize(params[:enquiry_response][:email_body])
+    ActionController::Base.helpers.sanitize(params[:enquiry_response][:signature])
 
-    params.require(:enquiry_response).permit(:id, :created_at, :updated_at, :email_attachment, :email_body, :editor_id, :enquiry_id, :signature, :documents, :response_type, :completed_at, attachments: [id: {}])
+    params.require(:enquiry_response)
+          .permit(
+            :id, :created_at, :updated_at, :email_body, :documents, :editor_id,
+            :enquiry_id, :signature, :response_type, :completed_at
+          )
   end
 
   def preview
@@ -59,31 +63,31 @@ class Admin::EnquiryResponsesController < Admin::BaseController
 
   private
 
-    def create_or_update
-      @enquiry_response.editor_id = logged_in_editor.id
+  def create_or_update
+    @enquiry_response.editor_id = logged_in_editor.id
 
-      authorize @enquiry_response
-      if @enquiry_response.errors.empty? && @enquiry_response.valid?
-        @enquiry_response.save
+    authorize @enquiry_response
+    if @enquiry_response.errors.empty? && @enquiry_response.valid?
+      @enquiry_response.save
 
-        enquiry_response_type = @enquiry_response.response_type
-        @web_view = true
-        case enquiry_response_type
-        when 1
-          render 'enquiry_response_mailer/_right_for_opportunity'
-        when 3
-          render 'enquiry_response_mailer/_not_right_for_opportunity'
-        when 4
-          email_send(@enquiry_response.id)
-        when 5
-          email_send(@enquiry_response.id)
-        end
-      else
-        @enquiry = @enquiry_response.enquiry
-        @companies_house_url = companies_house_url(@enquiry.company_house_number)
-        @respond_by_date = @enquiry.created_at + 7.days
-
-        render :new, status: :unprocessable_entity
+      enquiry_response_type = @enquiry_response.response_type
+      @web_view = true
+      case enquiry_response_type
+      when 1
+        render 'enquiry_response_mailer/_right_for_opportunity'
+      when 3
+        render 'enquiry_response_mailer/_not_right_for_opportunity'
+      when 4
+        email_send(@enquiry_response.id)
+      when 5
+        email_send(@enquiry_response.id)
       end
+    else
+      @enquiry = @enquiry_response.enquiry
+      @companies_house_url = companies_house_url(@enquiry.company_house_number)
+      @respond_by_date = @enquiry.created_at + 7.days
+
+      render :new, status: :unprocessable_entity
     end
+  end
 end

@@ -161,6 +161,13 @@ RSpec.describe VolumeOppsRetriever do
       expect(gbp_value[:id]).to eq 3
       expect(gbp_value[:gbp_value]).to eq -1
     end
+
+    it 'converts values to GBP in opps, from missing data' do
+      gbp_value = VolumeOppsRetriever.new.calculate_value(nil)
+
+      expect(gbp_value[:id]).to eq 3
+      expect(gbp_value[:gbp_value]).to eq nil
+    end
   end
 
 
@@ -245,7 +252,7 @@ Les langages utilisés et à considérer comme obsolètes sont Matrix, Matlab, F
 
     skip('TODO: add the tests here in a periodically running suite')
     it 'should not return 414 when the request-uri is too long' do
-      opportunity = create(:opportunity, description: Faker::Lorem::characters(8100), original_language: 'pl')
+      opportunity = create(:opportunity, description: Faker::Lorem::characters(number: 8100), original_language: 'pl')
 
       expect { VolumeOppsRetriever.new.translate(opportunity, [:description], 'pl') }.to_not raise_error
     end

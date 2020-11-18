@@ -13,7 +13,7 @@ dit.page.landing = (new function () {
   var _cache = {
     effects: []
   }
-  
+
   // Page init
   this.init = function() {
     cacheComponents();
@@ -22,10 +22,10 @@ dit.page.landing = (new function () {
     addSearchFormRestriction();
     delete this.init; // Run once
   }
-  
-  
+
+
   /* Grab and store elements that are manipulated throughout
-   * the lifetime of the page or, that are used across 
+   * the lifetime of the page or, that are used across
    * several functions
    **/
   function cacheComponents() {
@@ -36,18 +36,9 @@ dit.page.landing = (new function () {
 
   function viewAdjustments(view) {
     var alignHeights = dit.utils.alignHeights;
-    switch(view) {
-      case "desktop":
-        alignHeights(_cache.benefitTitles);
-        alignHeights(_cache.featuredIndustries);
-        enhanceTestimonials();
-        break;
-      case "tablet":
-        enhanceTestimonials();
-        break;
-      case "mobile":
-        enhanceTestimonials();
-        break;
+    if(view === "desktop") {
+      alignHeights(_cache.benefitTitles);
+      alignHeights(_cache.featuredIndustries);
     }
   }
 
@@ -56,7 +47,7 @@ dit.page.landing = (new function () {
     clearHeights(_cache.benefitTitles);
     clearHeights(_cache.featuredIndustries);
   }
-    
+
   /* Bind listener for the dit.responsive.reset event
    * to reset the view when triggered.
    **/
@@ -95,7 +86,7 @@ dit.page.landing = (new function () {
   }
 
 
-  /* Destroy both carousels and tabbedAreas to 
+  /* Destroy both carousels and tabbedAreas to
    * cope with screen resizing.
    **/
   function destroyEffects() {

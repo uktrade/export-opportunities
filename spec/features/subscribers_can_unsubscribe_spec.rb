@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'subscribers can unsubscribe' do
+feature 'subscribers can unsubscribe', sso: true do
   scenario 'unsubscribes a subscription with SSO' do
     user = create(:user)
 

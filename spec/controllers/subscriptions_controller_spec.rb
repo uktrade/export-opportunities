@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SubscriptionsController do
+RSpec.describe SubscriptionsController, sso: true do
   describe '#show' do
     it 'marks a subscription as confirmed' do
       token = SecureRandom.uuid
@@ -38,7 +38,7 @@ RSpec.describe SubscriptionsController do
     end
 
     context 'with a valid email address' do
-      it 'creates an unconfirmed subscription' do
+      it 'creates an unconfirmed subscription based on search term' do
         subscription_attrs = {
           params:{
             subscription: {
@@ -52,6 +52,23 @@ RSpec.describe SubscriptionsController do
         subscription = Subscription.last
         expect(subscription.email).to eql 'test@example.com'
         expect(subscription.search_term).to eql 'fish'
+        expect(subscription.confirmed_at).to be_present
+      end
+
+      it 'creates an unconfirmed subscription based on CPV code' do
+        subscription_attrs = {
+          params:{
+            subscription: {
+              cpvs: ['1', '2']
+            },
+          },
+        }
+
+        expect { post :create, subscription_attrs }.to change { Subscription.count }.by(1)
+
+        subscription = Subscription.last
+        expect(subscription.email).to eql 'test@example.com'
+        expect(subscription.cpvs.map(&:industry_id)).to eql ['1','2']
         expect(subscription.confirmed_at).to be_present
       end
     end

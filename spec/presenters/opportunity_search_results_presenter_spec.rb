@@ -100,6 +100,18 @@ RSpec.describe OpportunitySearchResultsPresenter do
   end
 
   describe '#found_message', elasticsearch: true do
+    it 'Returns the correct message when more than 1000 results is found' do
+      create(:opportunity, :published, title: 'food')
+      create(:opportunity, :published, title: 'food 2')
+      refresh_elasticsearch
+      params = { s: 'food' }
+      results = search(params)
+      results[:total] = 1000
+      presenter = OpportunitySearchResultsPresenter.new(content, results)
+
+      expect(presenter.found_message).to eql('1,000 results found')
+    end
+
     it 'Returns the correct message when more than one results is found' do
       create(:opportunity, :published, title: 'food')
       create(:opportunity, :published, title: 'food 2')
@@ -188,7 +200,7 @@ RSpec.describe OpportunitySearchResultsPresenter do
       presenter = OpportunitySearchResultsPresenter.new(content, results)
       input = presenter.sort_input_select
 
-      expect(input[:name]).to eql('sort_column_name')
+      expect(input[:name]).to eql('sort_column_name_visible')
       expect(input[:options][1]).to include(selected: true)
     end
   end

@@ -75,9 +75,11 @@ section {
 }
 
 .quote {
-  margin-left: auto;
-  margin-right: auto;
-  width: $cols-6;
+  padding: $spacing-1 0 0;
+  float: left;
+  &:before {
+    width: 100%;
+  }
 }
 
 .sector {
@@ -229,7 +231,7 @@ section {
       width: auto;
     }
   }
-  
+
   .Carousel {
     width: auto;
   }
@@ -252,12 +254,6 @@ section {
   }
 }
 
-@media screen and (max-width:768px) {
-  .quote {
-    width: 75%;
-  }
-}
-
 @media screen and (max-width: 680px) {
   .hero-section {
     background-size: auto;
@@ -268,7 +264,7 @@ section {
     padding: $spacing-3-m;
 
     input,
-    select, 
+    select,
     .FilterSelectInput {
       float: none;
       margin-bottom: $spacing-3-m;

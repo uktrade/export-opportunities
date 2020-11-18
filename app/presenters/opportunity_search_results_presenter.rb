@@ -54,7 +54,9 @@ class OpportunitySearchResultsPresenter < FormPresenter
 
   def found_message
     if @total > 1
-      "#{@total} results found"
+      @total_with_delimeter =
+        @total.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+      "#{@total_with_delimeter} results found"
     elsif @total.zero?
       '0 results found'
     else
@@ -87,10 +89,10 @@ class OpportunitySearchResultsPresenter < FormPresenter
       options.push(text: f.to_s, value: values[index])
     end
     input = {
-      name: 'sort_column_name',
-      id: 'search-sort',
+      name: 'sort_column_name_visible',
+      id: 'search-sort-visible',
       label: {
-        id: 'search-sort',
+        id: 'search-sort-visible',
         text: field['label'],
       },
       options: options,
@@ -109,7 +111,7 @@ class OpportunitySearchResultsPresenter < FormPresenter
     html += content_tag(:ul, 'aria-labelledby': id) do
       list_items = ''
       selected_filter_option_names(@data[:filter]).each do |filter|
-        list_items += content_tag('span', filter, 'class': 'param')
+        list_items += content_tag('li', filter, 'class': 'param')
       end
       list_items.html_safe
     end

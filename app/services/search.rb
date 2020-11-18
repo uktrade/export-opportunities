@@ -1,7 +1,8 @@
 require 'elasticsearch'
 
 class Search
-  attr_reader :term, :filter
+  include ParamsHelper
+  attr_reader :term, :filter, :cpvs
   #
   # Provides search functionality for Opportunities
   #
@@ -15,18 +16,19 @@ class Search
   #                - paged:             Which page number to return results for
   #        sort:   String, overrides params[:sort_column_name]. Options:
   #                  'response_due_on', 'first_published_at', 'updated_at'
-  #        limit:  Int number of results to stop searching at, per shard
+  #        limit:  Int number of results to return
   #        results_only: Boolean - if true then .run only provides search results
   #                without metadata, input data, and data for filters
   #
-  def initialize(params, limit: 100, results_only: false, sort: nil)
-    @term   = clean_term(params[:s])
-    @filter = SearchFilter.new(params)
+  def initialize(params, limit: 500, results_only: false, sort: nil)
+    @term = clean_term(params[:s])
+    @cpvs = clean_cpvs(params[:cpvs])
+    @filter = SearchFilter.new(country_from_iso(params))
     @sort_override = sort
-    @sort   = clean_sort(params)
-    @boost  = params['boost_search'].present?
-    @limit  = limit
-    @paged  = params[:paged]
+    @sort = clean_sort(params)
+    @boost = params['boost_search'].present?
+    @limit = limit
+    @paged = params[:paged]
     @results_only = results_only
   end
 
@@ -46,6 +48,7 @@ class Search
     def results_and_metadata(searchable, results)
       {
         term: @term,
+        cpvs: @cpvs,
         filter: @filter,
         sort: @sort,
         boost: @boost,
@@ -57,22 +60,10 @@ class Search
     end
 
     def search(searchable)
-      size = Figaro.env.OPPORTUNITY_ES_MAX_RESULT_WINDOW_SIZE || 100_000
-      searchable[:size] = size
       Opportunity.__elasticsearch__.search(searchable)
     end
 
     # -- Parameter Sanitisation --
-
-    # Cleans the term parameter
-    def clean_term(term = nil)
-      term.present? ? term.delete("'").gsub(alphanumeric_words).to_a.join(' ') : ''
-    end
-
-    # Regex to identify suitable words for term parameter
-    def alphanumeric_words
-      /([a-zA-Z0-9]*\w)/
-    end
 
     # Builds OpportunitySort based on filter
     def clean_sort(params)
@@ -91,12 +82,21 @@ class Search
       OpportunitySort.new(default_column: column, default_order: order)
     end
 
+    def country_from_iso(params)
+      return params unless params[:iso_codes].present?
+      params[:countries] = Country.where(
+        iso_code: params[:iso_codes]
+      ).map(&:slug)
+      params
+    end
+
     # -- Runs the appropriate search --
 
     # Receives cleaned @term, @filter, @sort, @limit, @boost
     # and returns objects in Elasticsearch Syntax
     def build_searchable
       OpportunitySearchBuilder.new(term: @term,
+                                   cpvs: @cpvs,
                                    boost: @boost,
                                    sort: @sort,
                                    limit: @limit,
@@ -122,27 +122,12 @@ class Search
 
     # Use search results to find and return
     # only which countries are relevant.
-    # TODO: Refactor this low performance code.
     def countries_in(results)
-      query = results.records.includes(:countries).includes(:opportunities_countries)
-      countries = []
-      country_list = []
-      query.records.each do |opportunity|
-        opportunity.countries.each do |country|
-          # Array of all countries in all opportunities in result set
-          countries.push(country)
+      CountriesOpportunity.where(opportunity: results.map(&:id)).group_by(&:country_id).map do |k, v|
+        if (c = Country.find(k))
+          c.opportunity_count = v.length
+          c
         end
-      end
-
-      # in memory group by name: {"country_name": [..Country instances..]}
-      countries_grouped_name = countries.group_by(&:name)
-      countries_grouped_name.keys.each do |country_name|
-        # set virtual attribute Country.opportunity_count
-        countries_grouped_name[country_name][0].opportunity_count = countries_grouped_name[country_name].length
-        country_list.push(countries_grouped_name[country_name][0])
-      end
-
-      # sort countries in list by asc name
-      country_list.sort_by(&:name)
+      end.sort_by(&:name)
     end
 end

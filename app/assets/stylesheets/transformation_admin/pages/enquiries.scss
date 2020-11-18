@@ -16,10 +16,6 @@
 .enquiry {
   @include associated-list;
 
-  dd.company-name {
-    font-size: $font-size-xxl;
-  }
-
   .company-name {
     line-height: $font-size-xxl;
     vertical-align: middle;

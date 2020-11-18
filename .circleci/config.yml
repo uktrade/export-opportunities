@@ -4,7 +4,7 @@ jobs:
     parallelism: 3
     working_directory: ~/export-opportunities
     docker:
-      - image: circleci/ruby:2.5.5-node
+      - image: circleci/ruby:2.7.0-node-browsers-legacy
         environment:
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
@@ -27,7 +27,6 @@ jobs:
           OO_TOKEN_ENDPOINT: $OO_TOKEN_ENDPOINT
           DISALLOW_ALL_WEB_CRAWLERS: true
           TG_API_KEY: $TG_API_KEY
-          TG_HOSTNAME: $TG_HOSTNAME
           AZ_CUSTOM_LIST_ID: $AZ_CUSTOM_LIST_ID
           AZ_HOSTNAME: $AZ_HOSTNAME
           MAILER_FROM_ADDRESS: test@example.com
@@ -48,7 +47,7 @@ jobs:
       - image: circleci/redis:4.0.9
         environment:
           REDIS_URL: "redis://localhost:6379/"
-      - image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
+      - image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
         environment:
           cluster.name: elasticsearch
           xpack.security.enabled: false
@@ -61,7 +60,7 @@ jobs:
       # restore bundle cache  
       - restore_cache:
           keys:
-            - exops-{{ checksum "Gemfile.lock" }}
+            - exops-v2-{{ checksum "Gemfile.lock" }}
 
       - run:
           name: Bundle Install
@@ -69,7 +68,7 @@ jobs:
 
       # store bundle cache
       - save_cache:
-          key: exops-{{ checksum "Gemfile.lock" }}
+          key: exops-v2-{{ checksum "Gemfile.lock" }}
           paths: 
             - vendor/bundle
 
@@ -111,7 +110,9 @@ jobs:
                       --format RspecJunitFormatter \
                       --out test_results/rspec.xml \
                       --format progress \
-                      $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+                      $(circleci tests glob "spec/**/*_spec.rb") || \
+            bundle exec rspec --only-failures \
+                      $(circleci tests glob "spec/**/*_spec.rb")
       
       # Save test results for timing analysis
       - store_test_results:

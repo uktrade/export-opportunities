@@ -27,9 +27,6 @@ class TranslationConnector
       body = JSON.parse(response.body)
       text = body['translations'][0]['text']
 
-      Rails.logger.debug ">>original text: #{opportunity_params[config]}"
-      Rails.logger.debug ">>>translated text: #{text}"
-
       # assign translated value in place
       opportunity_params[config] = text
 

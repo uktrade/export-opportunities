@@ -17,8 +17,8 @@
 
     &:before {
       @include body-special-bold;
-      color: $stone-90;
-      content: counter(li) " ";	
+      color: $dark-purple;
+      content: counter(li) " ";
       left: 0;
       min-width: 70px;
       position: absolute;

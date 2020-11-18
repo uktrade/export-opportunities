@@ -34,6 +34,7 @@ coverage/
 
 # Ignore rubocop
 rubocop.yml
+.rubocop.yml
 
 # Ignore node_modules
 node_modules/
@@ -41,7 +42,7 @@ node_modules/
 # Ignore public/system files
 public/system
 public/assets
-
+public/export-opportunities
 heroku_config_variables
 
 *.sh
@@ -90,3 +91,6 @@ output.png
 
 *.csv
 *.out
+
+# Test file
+test_clean_file

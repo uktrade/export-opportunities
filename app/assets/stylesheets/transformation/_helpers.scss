@@ -1,0 +1,22 @@
+.accessibility-skip-to-section {
+    font-size: 15px;
+    font-weight: 400;
+    background-color: transparent;
+    color: #ffffff;
+    display: inline-block;
+    padding: 15px;
+    overflow: hidden;
+    position: absolute;
+    text-indent: -1000px;
+    z-index: -1;
+    &:focus {
+      outline: #ffbf47 solid 3px;
+      outline-offset: 0;
+      background-color: #ffbf47;
+      color: #132965;
+      left: 0;
+      text-indent: 0;
+      top: 0;
+      z-index: 10
+    }
+  }

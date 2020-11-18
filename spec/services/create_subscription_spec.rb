@@ -52,6 +52,27 @@ RSpec.describe CreateSubscription do
       expect(subscription.values.map(&:slug)   ).to eq []
     end
 
+    it 'creates a subscription with two cpv codes' do
+      clean_params = Search.new({ cpvs: ['1', '2'] }) # Does not run; cleans params
+      form = SubscriptionForm.new({
+        term: clean_params.term,
+        filter: clean_params.filter,
+        cpvs: clean_params.cpvs
+      })
+
+      CreateSubscription.new.call(form, @user)
+      subscription = Subscription.last
+
+      expect(subscription.user       ).to eq @user
+      expect(subscription.title      ).to eq ''
+      expect(subscription.search_term).to eq ''
+      expect(subscription.countries.map(&:slug)).to eq []
+      expect(subscription.sectors.map(&:slug)  ).to eq []
+      expect(subscription.types.map(&:slug)    ).to eq []
+      expect(subscription.values.map(&:slug)   ).to eq []
+      expect(subscription.cpvs.map(&:industry_id)   ).to eq ['1', '2']
+    end
+
     it 'creates a subscription with a list of countries' do
       clean_params = Search.new({ countries: ['wales', 'scotland'] }) # Does not run; cleans params
       form = SubscriptionForm.new({
