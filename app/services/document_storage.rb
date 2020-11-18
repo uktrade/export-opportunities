@@ -28,6 +28,10 @@ class DocumentStorage
     obj.upload_file(file_path)
   end
 
+  def put_object(body, key)
+    @s3_client.put_object(body: body, bucket: @bucket_name, key: key)
+  end
+
   def read_file(filename)
     @s3_client.get_object(bucket: @bucket_name, key: filename)
   rescue Aws::S3::Errors::NoSuchKey

@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.7.0'
 
-gem 'rails', '6.0.3.1'
+gem 'rails', '6.0.3.3'
 gem 'bundler'
 gem 'puma', '3.12.6'
 gem 'pg', '1.1.4'
@@ -11,7 +11,7 @@ gem 'sidekiq-cron'
 gem 'sidekiq-failures'
 gem 'redis', '3.3.3'
 gem 'redis-namespace'
-gem 'faraday', '0.12.2'
+gem 'faraday', '1.0.1'
 gem 'figaro'
 gem 'friendly_id'
 gem 'immutable-struct'
@@ -19,7 +19,7 @@ gem 'immutable-struct'
 gem 'nokogiri', '1.10.8'
 
 # Authentication & authorisation
-gem 'devise', '4.7.1'
+gem 'devise', '4.7.2'
 gem 'devise-async'
 gem 'hawk-auth'
 gem 'omniauth'
@@ -34,8 +34,8 @@ gem 'sdoc'
 # Search
 gem 'pg_search'
 gem 'kaminari', '>= 1.2.1'
-gem 'elasticsearch-rails', '5.1.0'
-gem 'elasticsearch-model', '5.1.0'
+gem 'elasticsearch-rails', '7.1.1'
+gem 'elasticsearch-model', '7.1.1'
 gem 'devise-security', '0.14.3'
 
 # Styling
@@ -73,7 +73,7 @@ gem 'paper_trail', '10.3.1'
 gem 'aws-sdk'
 
 # Monitoring
-gem 'sentry-raven'
+gem 'sentry-raven', '3.0.0'
 
 # rest client for antivirus scanning
 gem 'rest-client'
@@ -133,8 +133,4 @@ group :test do
   gem 'show_me_the_cookies'
   gem 'rails-controller-testing'
   gem 'mock_redis'
-end
-
-group :production do
-  gem 'rails_12factor'
 end
