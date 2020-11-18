@@ -2,18 +2,16 @@ require 'rails_helper'
 
 RSpec.describe DeleteOldSubscriptionNotificationsWorker do
 
+  subject { DeleteOldSubscriptionNotificationsWorker.new }
+
   it 'deletes subscription notifications older than 30 days' do
-    SubscriptionNotification.destroy_all
+    SubscriptionNotification.delete_all
     create(:subscription_notification)
-    old_notification = create(:subscription_notification)
-    old_notification.update_columns(
-      updated_at: 2.months.ago,
-      created_at: 2.months.ago
-    )
+    travel_to(2.months.ago) { create(:subscription_notification) }
 
-    expect(SubscriptionNotification.count).to eq(2)
-    DeleteOldSubscriptionNotificationsWorker.new.perform
-    expect(SubscriptionNotification.count).to eq(1)
+    expect { subject.perform }
+      .to change { SubscriptionNotification.count }.from(2).to(1)
+    expect(SubscriptionNotification.where('created_at < ?', 1.month.ago))
+      .to be_empty
   end
-
 end
