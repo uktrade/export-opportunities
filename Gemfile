@@ -16,14 +16,14 @@ gem 'figaro'
 gem 'friendly_id'
 gem 'immutable-struct'
 
-gem 'nokogiri', '1.10.8'
+gem 'nokogiri', '1.11.1'
 
 # Authentication & authorisation
-gem 'devise', '4.7.2'
+gem 'devise', github: 'heartcombo/devise', branch: 'ca-omniauth-2'
 gem 'devise-async'
 gem 'hawk-auth'
-gem 'omniauth'
-gem 'omniauth-oauth2'
+gem 'omniauth', '2.0.3'
+gem 'omniauth-oauth2', '1.7.1'
 gem 'pundit', require: true
 
 # Rendering
