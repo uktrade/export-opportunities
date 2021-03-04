@@ -19,7 +19,7 @@ gem 'immutable-struct'
 gem 'nokogiri', '1.11.1'
 
 # Authentication & authorisation
-gem 'devise', github: 'heartcombo/devise', branch: 'ca-omniauth-2'
+gem 'devise', github: 'heartcombo/devise', branch: 'master'
 gem 'devise-async'
 gem 'hawk-auth'
 gem 'omniauth', '2.0.3'

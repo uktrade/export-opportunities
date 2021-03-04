@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/heartcombo/devise.git
-  revision: e16d60d0fedc5f5e6f541b2b9e901a2d53f8ceda
-  branch: ca-omniauth-2
+  revision: 0cd72a56f984a7ff089246f87a8b259120545edd
+  branch: master
   specs:
     devise (4.7.3)
       bcrypt (~> 3.0)
