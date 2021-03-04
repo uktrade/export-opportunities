@@ -1172,6 +1172,9 @@ GEM
     omniauth-oauth2 (1.7.1)
       oauth2 (~> 1.4)
       omniauth (>= 1.9, < 3)
+    omniauth-rails_csrf_protection (1.0.0)
+      actionpack (>= 4.2)
+      omniauth (~> 2.0)
     orm_adapter (0.5.0)
     paper_trail (10.3.1)
       activerecord (>= 4.2)
@@ -1447,6 +1450,7 @@ DEPENDENCIES
   normalize-scss
   omniauth (= 2.0.3)
   omniauth-oauth2 (= 1.7.1)
+  omniauth-rails_csrf_protection
   paper_trail (= 10.3.1)
   pg (= 1.1.4)
   pg_search

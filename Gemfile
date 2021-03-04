@@ -24,6 +24,7 @@ gem 'devise-async'
 gem 'hawk-auth'
 gem 'omniauth', '2.0.3'
 gem 'omniauth-oauth2', '1.7.1'
+gem 'omniauth-rails_csrf_protection'
 gem 'pundit', require: true
 
 # Rendering
