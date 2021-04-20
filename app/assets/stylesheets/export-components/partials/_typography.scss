@@ -1,0 +1,55 @@
+
+// Great specific fonts
+$brand-font: 'Overpass','Roboto', arial, helvetica, verdana;
+$brand-font-alternative: 'Roboto', arial, helvetica, verdana;
+$quote-font: 'Georgia', serif;
+
+// Great-specific typography mixins
+
+@mixin font-xlarge-normal {
+  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+@mixin font-xlarge-bold {
+  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+@mixin font-large-normal {
+  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-size: 19px;
+  font-weight: 400;
+}
+
+@mixin font-large-bold {
+  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+@mixin font-med-normal {
+  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+@mixin font-med-bold {
+  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+@mixin font-small-normal {
+  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+@mixin font-small-bold {
+  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+}

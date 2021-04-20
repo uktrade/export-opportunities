@@ -1,0 +1,160 @@
+
+// SEARCH COMPONENT
+// =================
+
+// base styling. JS disabled
+
+.great-header-search-wrapper {
+  width: 100%;
+  background-color: $white;
+
+  form {
+    float: right;
+
+    & > * {
+      float: left;
+    }
+
+    input {
+      height: 40px;
+      width: 200px;
+      font-family: $brand-font-alternative;
+      font-size: 16px;
+      padding: 0 15px;
+      border-left: 2px solid $black;
+      border-top: 2px solid $black;
+      border-bottom: 2px solid $black;
+    }
+
+    button {
+      @include button-reset;
+      color: $white;
+      border: 0;
+      font-size: 0; // hide button text visually but not for screenreaders
+      height: 40px;
+      width: 40px;
+      background-repeat: no-repeat;
+      background-position: 50%;
+      background-color: $active-blue;
+      background-image: asset-url('search-icon.svg');
+      background-size: 20px;
+      padding: 0;
+
+      &:focus,
+      &:focus:active {
+        @include focus;
+      }
+
+      &:active {
+        background-color: $focus-yellow;
+      }
+
+    }
+  }
+}
+
+.great-header-search-container {
+  @include float-clear;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+// JS enabled
+
+body.js-enabled {
+
+  .great-header-search-wrapper {
+    @include float-clear;
+    background: transparent;
+
+    form {
+      width: 240px;
+      float: right;
+      margin-left: 15px;
+      margin-top: -58px;
+      padding: 8px 0;
+
+      input {
+        border: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 1260px) {
+  .great-header-search-container {
+    margin: 0 30px;
+  }
+}
+
+@media (max-width: 900px) {
+  body.js-enabled {
+    .great-header.domestic {
+      .great-header-menu > .container {
+        padding-bottom: 0;
+      }
+
+      .great-header-nav {
+        float: none;
+        margin-right: 0;
+        margin-top: 0;
+      }
+
+      .great-header-nav.domestic .js-menu-control.expanded:after {
+        top: 145px;
+      }
+    }
+  }
+
+  .great-header-search-container {
+    margin: 0 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  body.js-enabled {
+    .great-header.domestic {
+      .great-header-menu > .container {
+        padding-bottom: 20px;
+      }
+
+      .great-header-nav {
+        margin-right: 0;
+      }
+
+      &.menu-expanded {
+        .great-header-search-wrapper {
+          display: none;
+        }
+      }
+
+      .great-header-search-wrapper form {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 0;
+        padding-top: 0;
+        padding-bottom: 20px;
+
+        input {
+          width: calc(100% - 40px);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .great-header-search-container {
+    margin: 0 20px;
+  }
+
+  .great-header-search-wrapper form {
+    float: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .great-header-search-container {
+    margin: 0 20px;
+  }
+}

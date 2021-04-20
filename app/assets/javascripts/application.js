@@ -15,3 +15,7 @@
 //
 //= require legacy_wordpress/html5shiv
 //= require legacy_wordpress/json2
+
+//= require export-components/dit.classes.Dropdown
+//= require export-components/dit.components.cookie-notice
+//= require export-components/dit.components.greatDomesticHeader

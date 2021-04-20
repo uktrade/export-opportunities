@@ -1,0 +1,164 @@
+
+// HEADER
+// =======
+
+// base styling. JS disabled
+
+@import '../partials/typography';
+@import '../partials/colours';
+@import '../partials/mixins';
+
+.great-header {
+  // need to make sure it's not underneath anything
+  position: relative;
+  z-index: 5;
+
+  // fix for SOO
+  .great-header-nav {
+    a.link,
+    a.link:hover {
+      margin-bottom: 0;
+      border: 0;
+    }
+  }
+
+  a {
+    &:active:focus {
+      background-color: $focus-yellow;
+      color: $great-blue;
+    }
+
+    &:focus {
+      @include focus
+    }
+  }
+}
+
+// links in global header
+.great-domestic-international-links {
+  a {
+    color: $mid-grey;
+  }
+
+  .active {
+    color: $great-blue;
+
+    &:after {
+      display: block;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 4px;
+      background-color: $flag-red;
+      content: '';
+    }
+  }
+}
+
+// main header menu
+.great-header-menu {
+  background-color: $great-blue;
+  position: relative;
+
+  & > .container {
+    overflow: hidden;
+    padding-bottom: 25px;
+  }
+
+  &.domestic > .container {
+    padding-top: 20px;
+  }
+
+  &.international > .container {
+    padding-top: 25px;
+  }
+
+  &.domestic .great-header-logo {
+    height: 80px;
+  }
+}
+
+// language/country select and account links
+.great-header-extra-links {
+  float: right;
+  font-size: 14px;
+  color: $white;
+
+  li {
+    display: inline-block;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:last-child {
+      margin-left: 15px;
+    }
+
+    &:active:focus span {
+      color: $great-blue;
+    }
+  }
+
+  .lang,
+  .country,
+  .account-link {
+    color: $stone;
+    margin-left: 5px;
+  }
+
+  .lang {
+    text-transform: uppercase;
+  }
+}
+
+.great-header-logo {
+  display: block;
+  float: left;
+}
+
+// main navigation
+.great-header-nav-container {
+  width: 100%;
+  background-color: $white;
+}
+
+.great-header-nav {
+  padding: 15px 0;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  a.link-heading {
+    text-decoration: underline;
+  }
+
+  .link-heading {
+    font-size: 19px;
+    color: $grey;
+  }
+}
+
+// JS enabled styling
+body.js-enabled {
+  @import 'js-header';
+}
+
+@media (max-width: 1260px) {
+  .great-header-nav {
+    margin: 0 30px;
+  }
+}
+
+@import 'mobile-header';
+
+@media (max-width: 420px) {
+  .great-header-nav {
+    margin: 0 20px;
+  }
+}
