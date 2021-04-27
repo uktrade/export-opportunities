@@ -17,13 +17,14 @@
 /* Bring in styleguide css files */
 // = require dit-styleguide/main
 
+/* Former export_components styles */
+// = require export-components/main
+
 /* New styles to be rolled into a style library */
 // = require dit-styleguide-augment/main
 
 // = require vendor/select2
 // = require vendor/select2_skin/layout
-
-
 
 /* Updated styles based on ExRed */
 @import "styleguide_export/config";

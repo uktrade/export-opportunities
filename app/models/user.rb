@@ -3,6 +3,8 @@ class User < ApplicationRecord
 
   if Figaro.env.bypass_sso?
     devise :rememberable, :omniauthable, omniauth_providers: [:developer]
+  elsif Figaro.env.MAGNA_HEADER_ENABLED
+    devise :rememberable, :omniauthable, omniauth_providers: [:magna]
   else
     devise :rememberable, :omniauthable, omniauth_providers: [:exporting_is_great]
   end

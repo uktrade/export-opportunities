@@ -10,13 +10,6 @@ GIT
       responders
       warden (~> 1.2.3)
 
-GIT
-  remote: https://github.com/uktrade/export_components.git
-  revision: 379db7c53a1bb58639e678097364b4a7c4bea6f8
-  specs:
-    export_components (2.2.3)
-      rails (>= 5.2)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -1424,7 +1417,6 @@ DEPENDENCIES
   elasticsearch-extensions
   elasticsearch-model (= 7.1.1)
   elasticsearch-rails (= 7.1.1)
-  export_components (= 2.2.3)!
   factory_bot_rails
   faker
   faraday (= 1.0.1)
