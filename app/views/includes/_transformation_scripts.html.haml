@@ -11,7 +11,10 @@
 -# namespace, native to ExOpps and inherited from original ExRed code.
 -# These files live outside ExOpps in the export-components repo.
 = javascript_include_tag  'export-components/dit.classes.Dropdown'
-= javascript_include_tag  'export-components/dit.components.greatDomesticHeader'
+- if Figaro.env.magna_header_enabled?
+  = javascript_include_tag  'export-components/dit.components.magnaHeader'
+- else
+  = javascript_include_tag  'export-components/dit.components.greatDomesticHeader'
 
 
 -# Persistent values for JS use

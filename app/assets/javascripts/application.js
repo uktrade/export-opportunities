@@ -19,3 +19,4 @@
 //= require export-components/dit.classes.Dropdown
 //= require export-components/dit.components.cookie-notice
 //= require export-components/dit.components.greatDomesticHeader
+//= require export-components/dit.components.magnaHeader

@@ -1,0 +1,72 @@
+
+// These files are copied from directory-components
+// and should not be edited here directly
+
+@import 'partials/magna-colours';
+@import 'partials/magna-mixins';
+
+// Components
+
+@import 'header-footer/magna-base';
+@import 'cookie-notice/base';
+@import 'skip-link/base';
+
+// Overrides/fixes
+
+.great-header-search-wrapper {
+  padding: 15px 0;
+}
+
+body.js-enabled {
+  .great-header-search-wrapper {
+    padding: 0;
+
+    form {
+      margin-bottom: 0;
+    }
+  }
+
+  .great-header-nav .js-menu-control {
+    &.collapsed .link-heading:after {
+      top: 0;
+    }
+
+    &.expanded .link-heading:after {
+      top: 3px;
+    }
+  }
+
+  .great-header-nav .js-collapsible-menu a {
+    padding: 5px 0;
+  }
+}
+
+.great-header,
+.great-footer {
+
+  ul {
+    margin: 0;
+
+    li {
+      list-style: none;
+      padding-left: 0;
+
+      &:before {
+        display: none;
+      }
+    }
+  }
+}
+
+.great-header-nav-list {
+  @include float-clear;
+  margin: 0 -15px;
+}
+
+@media (min-width: 641px) {
+  .column-quarter {
+    float: left;
+    width: 25%;
+    padding: 0 15px;
+  }
+}
