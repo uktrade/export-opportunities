@@ -1,0 +1,70 @@
+<div class="main-nav-container <%= device_type %>">
+  <nav id="great-header-<%= device_type %>-nav" class="main-nav <%= device_type %> expanded <% if current_user %>signed-in<% end %>" aria-label="Main menu">
+    <ul class="grid-row nav-list">
+      <% if current_user %>
+      <li class="menu-item" data-js-menu-item-container>
+        <a href="<%=Figaro.env.GREAT_GOV_URL %>" class="link-heading <% unless device_type == :mobile %>mobile-only<% end %>" id="header-home-<%= device_type %>" <% if js_tag %>data-js-menu-index=0<% end %>>Home</a>
+      </li>
+
+      <li class="menu-item" data-js-menu-item-container>
+        <a href="<%=Figaro.env.GREAT_GOV_URL %>/learn/categories/" class="link-heading new" id="header-learn-<%= device_type %>" <% if js_tag %>data-js-menu-index=0<% end %>>Learn to export</a>
+      </li>
+
+      <li class="menu-item" data-js-menu-item-container>
+        <a href="<%=Figaro.env.GREAT_GOV_URL %>/where-to-export/" class="link-heading new" id="header-where-<%= device_type %>" <% if js_tag %>data-js-menu-index=1<% end %>>Where to export</a>
+      </li>
+
+      <li class="menu-item" data-js-menu-item-container>
+        <a href="<%=Figaro.env.GREAT_GOV_URL %>/export-plan/dashboard/" class="link-heading new" id="header-make-<%= device_type %>" <% if js_tag %>data-js-menu-index=2<% end %>>Make an export plan</a>
+      </li>
+
+      <% if device_type == :mobile %>
+      <li class="menu-item" data-js-menu-item-container>
+        <a href="<%=Figaro.env.GREAT_GOV_URL %>/profile/" class="link-heading" id="header-account-<%= device_type %>" <% if js_tag %>data-js-menu-index=0<% end %>>Account</a>
+      </li>
+
+      <li class="menu-item" data-js-menu-item-container>
+        <a href="<%=Figaro.env.GREAT_GOV_URL %>/advice/" class="link-heading" id="header-advice-<%= device_type %>" <% if js_tag %>data-js-menu-index=0<% end %>>Advice</a>
+      </li>
+
+      <li class="menu-item" data-js-menu-item-container>
+        <a href="<%=Figaro.env.GREAT_GOV_URL %>/markets/" class="link-heading" id="header-markets-<%= device_type %>" <% if js_tag %>data-js-menu-index=1<% end %>>Markets</a>
+      </li>
+
+      <li class="menu-item" data-js-menu-item-container>
+        <a href="<%=Figaro.env.GREAT_GOV_URL %>/services/" class="link-heading" id="header-services-<%= device_type %>" <% if js_tag %>data-js-menu-index=2<% end %>>Services</a>
+      </li>
+      <% end %>
+
+      <% else %>
+      <li class="menu-item" data-js-menu-item-container>
+        <a href="<%=Figaro.env.GREAT_GOV_URL %>/advice/" class="link-heading" id="header-advice-<%= device_type %>" <% if js_tag %>data-js-menu-index=0<% end %>>Advice</a>
+      </li>
+
+      <li class="menu-item" data-js-menu-item-container>
+        <a href="<%=Figaro.env.GREAT_GOV_URL %>/markets/" class="link-heading" id="header-markets-<%= device_type %>" <% if js_tag %>data-js-menu-index=1<% end %>>Markets</a>
+      </li>
+
+      <li class="menu-item" data-js-menu-item-container>
+        <a href="<%=Figaro.env.GREAT_GOV_URL %>/services/" class="link-heading" id="header-services-<%= device_type %>" <% if js_tag %>data-js-menu-index=2<% end %>>Services</a>
+      </li>
+      <% end %>
+
+      <% if Figaro.env.NEWS_SECTION_ON %>
+      <li class="menu-item" data-js-menu-item-container>
+        <a href="<%= Figaro.env.GREAT_GOV_URL %>/news/" class="link-heading" id="header-news-<%= device_type %>" <% if js_tag %>data-js-menu-index=3<% end %>>News and events</a>
+      </li>
+      <% end %>
+
+      <% if current_user %>
+      <li class="menu-item" data-js-menu-item-container>
+        <a href="/export-opportunities/sign_out" class="link-heading <% unless device_type == :mobile %>mobile-only<% end %> margin-bottom-15" id="sign_out_button_<%= device_type %>">Sign out</a>
+      </li>
+      <% end %>
+    </ul>
+
+    <% unless current_user %>
+    <a href="<%= dashboard_path %>" class="button button-blue margin-top-15 mobile-only">Sign in</a>
+    <% end %>
+  </nav>
+</div>

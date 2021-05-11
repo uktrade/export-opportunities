@@ -14,7 +14,11 @@
   <%= render partial: 'includes/analytics_body' %>
   <%= render partial: 'shared/skip_link' %>
   <%= render partial: 'shared/cookie_notice' %>
+  <% if Figaro.env.magna_header_enabled? %>
+  <%= render partial: 'shared/magna_header', locals: { cookie_signed_in_user: user_signed_in_cookie?} %>
+  <% else %>
   <%= render partial: 'shared/header', locals: { cookie_signed_in_user: user_signed_in_cookie?} %>
+  <% end %>
 
   <main id="content" role="main">
     <%= content_for?(:errors) ? yield(:errors) : "" %>
