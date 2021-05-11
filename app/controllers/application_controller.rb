@@ -114,6 +114,11 @@ class ApplicationController < ActionController::Base
     if (sso_user = DirectoryApiClient.user_data(sso_id)).present?
       if (user = User.find_by(email: sso_user['email'])).present?
         sign_in user
+      elsif Figaro.env.magna_header_enabled?
+        auth_hash = { info: { email: sso_user['email'] }, provider: 'magna', uid: sso_user['id'] }
+        auth = JSON.parse(auth_hash.to_json, object_class: OpenStruct)
+        user = User.from_omniauth(auth)
+        sign_in user
       end
     else
       cookies.delete session_cookie
