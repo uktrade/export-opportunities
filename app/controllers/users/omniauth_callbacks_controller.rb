@@ -16,7 +16,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def magna
-    sso_id = cookies[session_cookie]
+    sso_id = cookies[sso_session_cookie]
     if sso_user = DirectoryApiClient.user_data(sso_id)
       request.env['omniauth.auth']['info'] = sso_user
       @user = User.from_omniauth(request.env['omniauth.auth'])
