@@ -108,8 +108,10 @@ class ApplicationController < ActionController::Base
   # This method checks and signs them into ExOps if needed
   before_action :force_sign_in_parity
   def force_sign_in_parity
+    # A sso session cookie must be present to qualify for sign-in
+    sign_out current_user unless cookies[sso_session_cookie]
     return if current_user
-    return if (sso_id = cookies[session_cookie]).blank?
+    return if (sso_id = cookies[sso_session_cookie]).blank?
 
     if (sso_user = DirectoryApiClient.user_data(sso_id)).present?
       if (user = User.find_by(email: sso_user['email'])).present?
@@ -121,7 +123,7 @@ class ApplicationController < ActionController::Base
         sign_in user
       end
     else
-      cookies.delete session_cookie
+      cookies.delete sso_session_cookie
     end
   end
 
@@ -130,7 +132,7 @@ class ApplicationController < ActionController::Base
   def populate_sso_hashed_uuid
     if current_user &&
        current_user.sso_hashed_uuid.blank? && 
-       (sso_id = cookies[session_cookie]).present? &&
+       (sso_id = cookies[sso_session_cookie]).present? &&
        (sso_user = DirectoryApiClient.user_data(sso_id)).present?
           current_user.update(sso_hashed_uuid: sso_user["hashed_uuid"])
     end
@@ -280,7 +282,7 @@ class ApplicationController < ActionController::Base
       ((Time.zone.now - Time.zone.parse(latest_sidekiq_failure)) / 86_400)
     end
 
-    def session_cookie
+    def sso_session_cookie
       return Figaro.env.MAGNA_SSO_SESSION_COOKIE if Figaro.env.magna_header_enabled?
 
       Figaro.env.SSO_SESSION_COOKIE
