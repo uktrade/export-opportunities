@@ -80,7 +80,10 @@
 
       = yield
 
-    = render 'shared/footer'
+    - if Figaro.env.magna_header_enabled?
+      = render partial: 'shared/magna_footer'
+    - else
+      = render partial: 'shared/footer'
 
     = javascript_include_tag 'modernizr.min', defer: true
     = javascript_include_tag 'application'

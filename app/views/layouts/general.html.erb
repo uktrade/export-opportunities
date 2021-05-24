@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html lang="en-GB">
-<head>
-  <title><%= t('site_name') %></title>
-  <%= csrf_meta_tags %>
-  <%= render partial: 'includes/transformation_head_tags' %>
-  <%= render partial: 'includes/transformation_styles' %>
-  <%= render partial: 'includes/transformation_scripts' %>
-  <%= yield :action_specific_head %>
+  <head>
+    <title><%= t('site_name') %></title>
+    <%= csrf_meta_tags %>
+    <%= render partial: 'includes/transformation_head_tags' %>
+    <%= render partial: 'includes/transformation_styles' %>
+    <%= render partial: 'includes/transformation_scripts' %>
+    <%= yield :action_specific_head %>
 
-  <%= render partial: 'includes/analytics_head' %>
-</head>
-<body>
-  <%= render partial: 'includes/analytics_body' %>
-  <%= render partial: 'shared/skip_link' %>
-  <%= render partial: 'shared/cookie_notice' %>
-  <% if Figaro.env.magna_header_enabled? %>
-  <%= render partial: 'shared/magna_header', locals: { cookie_signed_in_user: user_signed_in_cookie?} %>
-  <% else %>
-  <%= render partial: 'shared/header', locals: { cookie_signed_in_user: user_signed_in_cookie?} %>
-  <% end %>
+    <%= render partial: 'includes/analytics_head' %>
+  </head>
+  <body>
+    <%= render partial: 'includes/analytics_body' %>
+    <%= render partial: 'shared/skip_link' %>
+    <%= render partial: 'shared/cookie_notice' %>
+    <% if Figaro.env.magna_header_enabled? %>
+    <%= render partial: 'shared/magna_header', locals: { cookie_signed_in_user: user_signed_in_cookie?} %>
+    <% else %>
+    <%= render partial: 'shared/header', locals: { cookie_signed_in_user: user_signed_in_cookie?} %>
+    <% end %>
 
-  <main id="content" role="main">
-    <%= content_for?(:errors) ? yield(:errors) : "" %>
-    <%= content_for?(:content) ? yield(:content) : yield %>
-    <%= render "components/feedback" %>
-  </main>
+    <main id="content" role="main">
+      <%= content_for?(:errors) ? yield(:errors) : "" %>
+      <%= content_for?(:content) ? yield(:content) : yield %>
+      <%= render "components/feedback" %>
+    </main>
 
-  <%= render partial: 'shared/footer' %>
-</body>
+    <% if Figaro.env.magna_header_enabled? %>
+    <%= render partial: 'shared/magna_footer' %>
+    <% else %>
+    <%= render partial: 'shared/footer' %>
+    <% end %>
+  </body>
 </html>
