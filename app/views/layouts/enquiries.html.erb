@@ -44,6 +44,10 @@
       <%= render "components/feedback" %>
     </main>
 
+    <% if Figaro.env.magna_header_enabled? %>
+    <%= render partial: 'shared/magna_footer' %>
+    <% else %>
     <%= render partial: 'shared/footer' %>
+    <% end %>
   </body>
 </html>
