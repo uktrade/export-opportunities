@@ -1,0 +1,67 @@
+@import '../partials/typography';
+@import '../partials/mixins';
+@import '../partials/colours';
+
+.cookie-notice {
+  @include font-med-normal;
+  background-color: $stone-40;
+  padding: 10px 0;
+
+  a:focus, button:focus {
+    @include focus;
+  }
+
+  p {
+    width: calc(100% - 50px);
+    float: left;
+    margin: 0;
+  }
+
+  .container {
+    overflow: hidden;
+    padding: 3px 0; // avoid cutting off focus outline
+  }
+
+  .cookie-close {
+    float: right;
+    display: block;
+    padding: 0;
+    margin: 0 3px 0 0;
+    width: 20px;
+    height: 20px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: transparent;
+    border: 0;
+    position: relative;
+    cursor: pointer;
+
+    &:before {
+      @include up-chevron-1($mid-blue);
+      margin: 0;
+      width: 10px;
+      height: 10px;
+      position: absolute;
+      left: 4px;
+      top: 10px;
+    }
+
+    &:after {
+      @include down-chevron-1($mid-blue);
+      margin: 0;
+      width: 10px;
+      height: 10px;
+      position: absolute;
+      left: 4px;
+      top: -4px;
+    }
+
+    &:hover {
+      &:before,
+      &:after {
+        border-color: $light-blue;
+      }
+    }
+
+  }
+}

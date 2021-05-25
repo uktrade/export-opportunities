@@ -1,0 +1,47 @@
+
+<footer id="great-footer" class="great-footer">
+
+  <div class="great-footer-logo-container container">
+    <img class="great-footer-right-logo" width="180" id="great-footer-great-logo" src="<%= asset_path 'great.svg' %>" alt="Great Britain and Northern Ireland"/>
+  </div>
+
+  <nav class="great-footer-links container">
+    <ul>
+      <div class="great-footer-site-links">
+        <li>
+          <a id="footer-contact" href="<%=Figaro.env.GREAT_GOV_URL %>/contact/triage/location/">Contact us</a>
+        </li>
+        <li>
+          <a id="footer-privacy-and-cookies" href="<%=Figaro.env.GREAT_GOV_URL %>/privacy-and-cookies/">Privacy and cookies</a>
+        </li>
+        <li>
+          <a id="footer-terms-and-conditions" href="<%=Figaro.env.GREAT_GOV_URL %>/terms-and-conditions/">Terms and conditions</a>
+        </li>
+        <li>
+            <a id="footer-accessibility" href="<%=Figaro.env.GREAT_GOV_URL %>/accessibility-statement/">Accessibility</a>
+        </li>
+        <li>
+          <a id="footer-performance" href="<%=Figaro.env.GREAT_GOV_URL %>/performance-dashboard/">Performance</a>
+        </li>
+        <li>
+          <a id="footer-dit" href="https://www.gov.uk/government/organisations/department-for-international-trade/" target="_blank" title="Opens in a new window" rel="noopener noreferrer">Department for International Trade on GOV.UK</a>
+        </li>
+      </div>
+
+      <div class="great-footer-domestic-international-link">
+        <li>
+          <a id="footer-international" href="<%=Figaro.env.GREAT_GOV_URL %>/international/">Go to the page for international businesses</a>
+        </li>
+      </div>
+
+    </ul>
+  </nav>
+
+  <div class="great-global-header-footer domestic">
+    <div class="container">
+      <img id="great-global-footer-logo" class="great-global-header-footer-logo" alt="Department for International Trade" height="21" src="<%= asset_path 'dit-logo.svg' %>">
+      <p id="great-footer-copyright" class="great-footer-copyright">&copy; Crown copyright <%= Time.current.year %>. All rights reserved.</p>
+    </div>
+  </div>
+
+</footer>

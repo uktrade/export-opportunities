@@ -108,15 +108,22 @@ class ApplicationController < ActionController::Base
   # This method checks and signs them into ExOps if needed
   before_action :force_sign_in_parity
   def force_sign_in_parity
+    # A sso session cookie must be present to qualify for sign-in
+    sign_out current_user unless cookies[sso_session_cookie]
     return if current_user
-    return if (sso_id = cookies[Figaro.env.SSO_SESSION_COOKIE]).blank?
+    return if (sso_id = cookies[sso_session_cookie]).blank?
 
     if (sso_user = DirectoryApiClient.user_data(sso_id)).present?
       if (user = User.find_by(email: sso_user['email'])).present?
         sign_in user
+      elsif Figaro.env.magna_header_enabled?
+        auth_hash = { info: { email: sso_user['email'] }, provider: 'magna', uid: sso_user['id'] }
+        auth = JSON.parse(auth_hash.to_json, object_class: OpenStruct)
+        user = User.from_omniauth(auth)
+        sign_in user
       end
     else
-      cookies.delete Figaro.env.SSO_SESSION_COOKIE
+      cookies.delete sso_session_cookie
     end
   end
 
@@ -125,7 +132,7 @@ class ApplicationController < ActionController::Base
   def populate_sso_hashed_uuid
     if current_user &&
        current_user.sso_hashed_uuid.blank? && 
-       (sso_id = cookies[Figaro.env.SSO_SESSION_COOKIE]).present? &&
+       (sso_id = cookies[sso_session_cookie]).present? &&
        (sso_user = DirectoryApiClient.user_data(sso_id)).present?
           current_user.update(sso_hashed_uuid: sso_user["hashed_uuid"])
     end
@@ -139,6 +146,8 @@ class ApplicationController < ActionController::Base
 
     if Figaro.env.bypass_sso?
       redirect_to user_developer_omniauth_authorize_path
+    elsif Figaro.env.magna_header_enabled?
+      redirect_to user_magna_omniauth_authorize_path
     else
       redirect_to user_exporting_is_great_omniauth_authorize_path
     end
@@ -271,5 +280,11 @@ class ApplicationController < ActionController::Base
       return 0 unless latest_sidekiq_failure
 
       ((Time.zone.now - Time.zone.parse(latest_sidekiq_failure)) / 86_400)
+    end
+
+    def sso_session_cookie
+      return Figaro.env.MAGNA_SSO_SESSION_COOKIE if Figaro.env.magna_header_enabled?
+
+      Figaro.env.SSO_SESSION_COOKIE
     end
 end

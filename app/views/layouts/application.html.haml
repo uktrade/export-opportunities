@@ -23,7 +23,10 @@
 
     -# Global header-footer styles
     - unless request.fullpath.include?('/admin')
-      = stylesheet_link_tag('export-components')
+      - if Figaro.env.magna_header_enabled?
+        = stylesheet_link_tag('export-components/magna-main')
+      - else
+        = stylesheet_link_tag('export-components/main')
       = stylesheet_link_tag 'transformation/main'
       = stylesheet_link_tag 'transformation/pages/form'
       = stylesheet_link_tag 'transformation/pages/enquiries'
@@ -38,17 +41,24 @@
 
     -# Global header-footer styles
     - unless request.fullpath.include?('/admin')
-      = javascript_include_tag  'dit.classes.Dropdown'
-      = javascript_include_tag  'dit.components.greatDomesticHeader'
+      = javascript_include_tag  'export-components/dit.classes.Dropdown'
+      - if Figaro.env.magna_header_enabled?
+        = javascript_include_tag  'export-components/dit.components.magnaHeader'
+      - else
+        = javascript_include_tag  'export-components/dit.components.greatDomesticHeader'
 
 
   %body{id: ExportOpportunities.flipper.enabled?(:new_header_and_footer) ? nil : 'dit'}
     = render partial: 'google_analytics'
     = render partial: 'svg_icons'
 
-    = render 'export_components/skip_link'
-    = render 'export_components/cookie_notice'
-    = render partial: 'export_components/header', locals: { cookie_signed_in_user: user_signed_in_cookie?}
+    = render 'shared/skip_link'
+    = render 'shared/cookie_notice'
+
+    - if Figaro.env.magna_header_enabled?
+      = render partial: 'shared/magna_header', locals: { cookie_signed_in_user: user_signed_in_cookie? }
+    - else
+      = render partial: 'shared/header', locals: { cookie_signed_in_user: user_signed_in_cookie? }
 
     - if content_for?(:hero)
       .hero-header-wrapper
@@ -70,7 +80,10 @@
 
       = yield
 
-    = render 'export_components/footer'
+    - if Figaro.env.magna_header_enabled?
+      = render partial: 'shared/magna_footer'
+    - else
+      = render partial: 'shared/footer'
 
     = javascript_include_tag 'modernizr.min', defer: true
     = javascript_include_tag 'application'

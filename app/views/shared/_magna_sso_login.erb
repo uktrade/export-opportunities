@@ -1,0 +1,9 @@
+<% if !current_user %>
+<li class="anonymous">
+  <a id="header-sign-in-link" href="<%= dashboard_path %>" class="account-link signin">Sign in</a>
+</li>
+<% else %>
+<li class="authenticated">
+  <a id="header-profile-link" href="<%=Figaro.env.GREAT_GOV_URL %>/dashboard/" class="account-link profile">Dashboard</a>
+</li>
+<% end %>

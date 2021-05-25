@@ -20,6 +20,10 @@
 //= link legacy_wordpress/html5shiv
 //= link legacy_wordpress/json2
 
+//= link export-components/dit.classes.Dropdown
+//= link export-components/dit.components.cookie-notice
+//= link export-components/dit.components.greatDomesticHeader
+//= link export-components/dit.components.magnaHeader
 
 // Stylesheets
 //= link_tree ../stylesheets/transformation
@@ -49,3 +53,5 @@
 //= link transformation/pages/notification.css
 //= link transformation/pages/opportunity.css
 //= link transformation/pages/results.css
+//= link export-components/main.css
+//= link export-components/magna-main.css

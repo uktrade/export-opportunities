@@ -1,0 +1,179 @@
+
+// JS MOBILE HEADER
+// =================
+
+@media (max-width: 768px) {
+  .great-header-menu.international > .container {
+    padding-bottom: 25px;
+  }
+
+  .great-global-header {
+    @include float-clear;
+    height: auto;
+  }
+
+  .great-header-menu.domestic .great-header-logo {
+    margin-top: -25px;
+
+    img {
+      height: 100%;
+    }
+  }
+
+  .great-header-logo img {
+    height: 50px;
+    width: auto;
+  }
+
+  .great-header-extra-links {
+    top: 10px;
+    right: 30px;
+    position: absolute;
+  }
+
+  .great-header-menu > .container {
+    padding-bottom: 25px;
+    padding-top: 45px;
+  }
+
+  .great-header-nav-container {
+    width: 100%;
+    margin: 0;
+  }
+
+  .great-header-nav.domestic .js-top-level-list {
+    .link-heading {
+      color: $white;
+      display: block;
+    }
+
+    .js-collapsible-menu {
+      position: static;
+    }
+  }
+
+  .great-header-nav {
+    @include float-clear;
+    transition: all .2s ease;
+    position: static;
+    background-color: $lightened-great-blue;
+    height: auto;
+    margin: 0;
+    width: 100%;
+
+    .js-nav-list {
+      margin: 0 30px;
+      width: auto;
+
+      a,
+      a.link-heading {
+        text-decoration: underline;
+      }
+
+      .column-quarter {
+        width: auto;
+        float: none;
+      }
+    }
+
+    &.collapsed {
+      height: 0;
+      opacity: 0;
+      overflow: hidden;
+    }
+
+    .js-top-level-list .link-heading {
+      margin: 0;
+      padding: 15px 0;
+    }
+
+    .js-menuitem {
+      .link-heading {
+        display: block;
+        margin: 0;
+        padding: 15px 0;
+      }
+    }
+  }
+
+  .js-mobile-button {
+    @include button-reset;
+    height: 50px;
+    position: absolute;
+    top: 45px;
+    right: 30px;
+    color: $white;
+    background-color: $great-blue;
+    border: 2px solid $white;
+    padding: 10px;
+    padding-right: 45px;
+    cursor: pointer;
+
+    // burger menu/X icon
+    span {
+      position: absolute;
+      right: 10px;
+      top: 22px;
+    }
+
+    span,
+    span:after,
+    span:before {
+      background-color: $white;
+      transition: all .2s ease;
+      clear: right;
+      content: '';
+      float: right;
+      height: 2px;
+      margin: 0 0 10px 10px;
+      width: 20px;
+    }
+
+    span:before {
+      margin-top: -6px;
+    }
+
+    &:focus {
+      @include focus;
+    }
+  }
+
+  .js-mobile-button.expanded {
+    background-color: $active-blue;
+
+    span {
+      background-color: transparent;
+      transition: background-color .2s ease;
+    }
+
+    span:before,
+    span:after {
+      transition: all .2s ease;
+      width: 25px;
+      margin-right: -3px;
+    }
+
+    span:before {
+      transform: rotate(45deg);
+      margin-top: 0;
+    }
+
+    span:after {
+      transform: rotate(-45deg);
+      margin-top: -12px;
+    }
+  }
+}
+
+@media (max-width: 420px) {
+  .great-header-nav .js-nav-list {
+    margin: 0 20px;
+  }
+
+  .great-header-menu {
+    .js-mobile-button,
+    .great-header-extra-links {
+      right: 20px;
+    }
+  }
+}

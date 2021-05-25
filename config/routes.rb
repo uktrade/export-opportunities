@@ -132,7 +132,7 @@ Rails.application.routes.draw do
 
     # Legacy admin sign in paths
     get '/users/sign_in', to: redirect('export-opportunities/admin/editors/sign_in'), as: nil
-    get '/users/sign_out', to: redirect('export-opportunities/admin/editors/sign_out'), as: nil
+    # get '/users/sign_out', to: redirect('export-opportunities/admin/editors/sign_out'), as: nil
     get '/user/confirmation', to: redirect { |_params, request| "export-opportunities/admin/editor/confirmation?#{request.params.to_query}" }
 
     # Enquiry feedback
@@ -301,7 +301,7 @@ Rails.application.routes.draw do
 
   # Legacy admin sign in paths
   get '/users/sign_in', to: redirect('export-opportunities/admin/editors/sign_in')
-  get '/users/sign_out', to: redirect('export-opportunities/admin/editors/sign_out')
+  # get '/users/sign_out', to: redirect('export-opportunities/admin/editors/sign_out')
   get '/user/confirmation', to: redirect { |_params, request| "export-opportunities/admin/editor/confirmation?#{request.params.to_query}" }
 
   # Enquiry feedback

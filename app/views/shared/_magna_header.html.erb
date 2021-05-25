@@ -1,0 +1,23 @@
+
+<header id="great-domestic-header" class="great-header magna-header <% if current_user %>signed-in<% else %>signed-out<% end %>" dir="ltr" data-ga-section="header">
+
+  <% if !current_user %>
+  <%= render partial: 'shared/magna_global_header' %>
+  <% end %>
+
+  <div class="menu">
+    <div class="container">
+      <a id="great-header-logo" class="great-header-logo" href="<%= Figaro.env.GREAT_GOV_URL %>">
+        <img src="<%= asset_path 'dit-logo.png' %>" alt="Department for International Trade" height="70">
+      </a>
+      <ul class="extra-links">
+        <%= render partial: 'shared/magna_sso_login' %>
+      </ul>
+      <%= render partial: 'shared/magna_mobile_menu_button' %>
+      <%= render partial: 'shared/magna_header_nav', locals: { device_type: :desktop, js_tag: false } %>
+      <%= render partial: 'shared/magna_search' %>
+    </div>
+
+    <%= render partial: 'shared/magna_header_nav', locals: { device_type: :mobile, js_tag: true } %>
+  </div>
+</header>

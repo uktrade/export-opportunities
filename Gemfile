@@ -2,9 +2,9 @@ source 'https://rubygems.org'
 
 ruby '2.7.2'
 
-gem 'rails', '6.0.3.5'
+gem 'rails', '6.0.3.7'
 gem 'bundler'
-gem 'puma', '3.12.6'
+gem 'puma', '4.3.8'
 gem 'pg', '1.1.4'
 gem 'sidekiq'
 gem 'sidekiq-cron'
@@ -16,7 +16,7 @@ gem 'figaro'
 gem 'friendly_id'
 gem 'immutable-struct'
 
-gem 'nokogiri', '1.11.1'
+gem 'nokogiri', '1.11.4'
 
 # Authentication & authorisation
 gem 'devise', github: 'heartcombo/devise', branch: 'master'
@@ -45,7 +45,6 @@ gem 'neat', '1.8.0'
 gem 'autoprefixer-rails'
 gem 'normalize-scss'
 gem 'sass-rails'
-gem 'export_components', '2.2.3', git: 'https://github.com/uktrade/export_components.git'
 
 # Javascript
 gem 'jquery-rails'
