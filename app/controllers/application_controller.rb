@@ -108,8 +108,11 @@ class ApplicationController < ActionController::Base
   # This method checks and signs them into ExOps if needed
   before_action :force_sign_in_parity
   def force_sign_in_parity
-    # A sso session cookie must be present to qualify for sign-in
-    sign_out current_user unless cookies[sso_session_cookie]
+    # A sso session cookie must be present to qualify for sign-in – users only
+    unless request.path.include?('/admin')
+      sign_out current_user unless cookies[sso_session_cookie]
+    end
+
     return if current_user
     return if (sso_id = cookies[sso_session_cookie]).blank?
 
