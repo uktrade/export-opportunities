@@ -109,7 +109,7 @@ class ApplicationController < ActionController::Base
   before_action :force_sign_in_parity
   def force_sign_in_parity
     # A sso session cookie must be present to qualify for sign-in – users only
-    unless request.path.include?('/admin')
+    unless request.path.include?('/admin') || request.path.include?('/api')
       sign_out current_user unless cookies[sso_session_cookie]
     end
 
