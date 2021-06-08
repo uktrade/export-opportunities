@@ -7,6 +7,8 @@ MAX_PER_PAGE = 500
 
 module Api
   class ActivityStreamController < ApplicationController
+    skip_before_action :force_sign_in_parity, raise: false
+
     def index
       redirect_to(action: :enquiries, params: params)
     end
