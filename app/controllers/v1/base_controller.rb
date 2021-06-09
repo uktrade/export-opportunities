@@ -1,5 +1,6 @@
 class V1::BaseController < ApplicationController
   skip_before_action :authenticate_editor!, raise: false
+  skip_before_action :force_sign_in_parity, raise: false
   protect_from_forgery with: :null_session
 
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
