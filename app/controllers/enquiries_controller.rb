@@ -6,6 +6,8 @@ class EnquiriesController < ApplicationController
   before_action :log_cloudfront_headers
 
   def new
+    return redirect_to 'https://www.great.gov.uk/under-maintenance/'
+
     @opportunity = Opportunity.published.find_by!(slug: params[:slug])
     @enquiry = Enquiry.new_from_sso(cookies[Figaro.env.SSO_SESSION_COOKIE])
     if @opportunity.expired?
