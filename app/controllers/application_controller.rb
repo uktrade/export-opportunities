@@ -108,17 +108,11 @@ class ApplicationController < ActionController::Base
   # This method checks and signs them into ExOps if needed
   before_action :force_sign_in_parity
   def force_sign_in_parity
-    sign_out current_user unless cookies[sso_session_cookie]
     return if current_user
     return if (sso_id = cookies[sso_session_cookie]).blank?
 
     if (sso_user = DirectoryApiClient.user_data(sso_id)).present?
       if (user = User.find_by(email: sso_user['email'])).present?
-        sign_in user
-      elsif Figaro.env.magna_header_enabled?
-        auth_hash = { info: { email: sso_user['email'] }, provider: 'magna', uid: sso_user['id'] }
-        auth = JSON.parse(auth_hash.to_json, object_class: OpenStruct)
-        user = User.from_omniauth(auth)
         sign_in user
       end
     else
