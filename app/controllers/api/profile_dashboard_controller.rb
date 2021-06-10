@@ -3,8 +3,6 @@ module Api
     include RegionHelper
     protect_from_forgery with: :exception
 
-    skip_before_action :force_sign_in_parity, raise: false
-
     def index
       hashed_sso_id = params[:hashed_sso_id] || params[:sso_user_id]
       return bad_request! unless hashed_sso_id && params[:shared_secret]
