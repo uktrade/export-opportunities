@@ -1,6 +1,5 @@
 class Admin::BaseController < ApplicationController
   include Pundit
-  skip_before_action :force_sign_in_parity, raise: false
   after_action :verify_authorized
 
   before_action :authenticate_editor!
