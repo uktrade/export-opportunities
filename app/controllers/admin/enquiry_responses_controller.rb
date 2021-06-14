@@ -9,8 +9,6 @@ class Admin::EnquiryResponsesController < Admin::BaseController
   skip_before_action :authenticate_editor!, raise: false
 
   def new
-    return redirect_to 'https://www.great.gov.uk/under-maintenance/'
-
     @enquiry ||= Enquiry.find(params.fetch(:id, nil))
     @companies_house_url ||= companies_house_url(@enquiry.company_house_number)
     @enquiry_response = EnquiryResponse.find_or_initialize_by(enquiry_id: @enquiry.id)
