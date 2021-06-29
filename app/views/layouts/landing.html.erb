@@ -20,11 +20,7 @@
     <%= render partial: 'includes/reactComponents' %>
     <%= render partial: 'includes/cookie_modal' %>
     <%= render partial: 'shared/skip_link' %>
-    <% if Figaro.env.magna_header_enabled? %>
-    <%= render partial: 'shared/magna_header', locals: { cookie_signed_in_user: user_signed_in_cookie? } %>
-    <% else %>
     <%= render partial: 'shared/header', locals: { cookie_signed_in_user: user_signed_in_cookie? } %>
-    <% end %>
 
     <main id="content" role="main">
       <%= content_for?(:errors) ? yield(:errors) : "" %>
@@ -33,10 +29,6 @@
       <%= render "components/feedback" %>
     </main>
 
-    <% if Figaro.env.magna_header_enabled? %>
-    <%= render partial: 'shared/magna_footer' %>
-    <% else %>
     <%= render partial: 'shared/footer' %>
-    <% end %>
   </body>
 </html>

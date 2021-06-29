@@ -100,4 +100,4 @@ Rails.application.config.assets.precompile += %w[dit-logo.svg dit-logo.png]
 Rails.application.config.assets.precompile += %w[eig-logo-stacked.svg]
 
 Rails.application.config.assets.precompile += %w[dit.classes.Dropdown.js]
-Rails.application.config.assets.precompile += %w[dit.components.greatDomesticHeader.js dit.components.magnaHeader.js]
+Rails.application.config.assets.precompile += %w[dit.components.greatheader.js]
