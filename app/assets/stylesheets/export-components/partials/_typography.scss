@@ -83,3 +83,51 @@ $hero-line-height: 1.2;
 @mixin brand-medium {
   @include font-generator($font-size: 19px, $font-size-mobile: 16px, $line-height: 1.6, $font-weight: 700, $font-family: $brand-font)
 }
+
+@mixin font-xlarge-normal {
+  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+@mixin font-xlarge-bold {
+  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+@mixin font-large-normal {
+  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-size: 19px;
+  font-weight: 400;
+}
+
+@mixin font-large-bold {
+  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+@mixin font-med-normal {
+  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+@mixin font-med-bold {
+  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+@mixin font-small-normal {
+  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+@mixin font-small-bold {
+  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+}
