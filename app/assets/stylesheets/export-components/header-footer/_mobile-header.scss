@@ -1,17 +1,15 @@
-
 // MOBILE VIEW
 // ============
-
 // JS disabled styling
 @media (max-width: 768px) {
-  .great-header-nav {
-    .link-heading {
-      margin-top: .5em;
+    .great-header-nav {
+        .link-heading {
+            margin-top: .5em;
+        }
     }
-  }
 }
 
 // JS enabled styling
 body.js-enabled {
-  @import 'js-mobile-header';
+    @import 'js-mobile-header';
 }

@@ -13,6 +13,21 @@
 
 // Overrides/fixes
 
+@media (min-width: 768px) {
+  .great-header-search-wrapper.hidden {
+    overflow: unset;
+    position: unset;
+    text-indent: unset;
+    z-index: unset;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-nav .button {
+    margin: 15px 20px;
+  }
+}
+
 .great-header-search-wrapper {
   padding: 15px 0;
 }
