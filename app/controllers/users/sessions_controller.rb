@@ -9,16 +9,14 @@ class Users::SessionsController < Devise::SessionsController
     sso_logout_url = "#{Figaro.env.sso_endpoint_base_uri}#{Figaro.env.SSO_ENDPOINT_SSO_APPEND}/accounts/logout/"
     if Figaro.env.bypass_sso?
       root_url
-    elsif Figaro.env.magna_header_enabled?
-      magna_sso_session_cookie = Figaro.env.magna_sso_session_cookie
-      cookie = "session_key=#{cookies[magna_sso_session_cookie]}"
+    else
+      sso_session_cookie = Figaro.env.sso_session_cookie
+      cookie = "session_key=#{cookies[sso_session_cookie]}"
       Faraday.post sso_logout_url do |req|
         req.headers['Cookie'] = cookie
       end
-      cookies.delete magna_sso_session_cookie
+      cookies.delete sso_session_cookie
       root_url
-    else
-      "#{sso_logout_url}?next=#{root_url}"
     end
   end
 

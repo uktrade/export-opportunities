@@ -139,10 +139,8 @@ class ApplicationController < ActionController::Base
 
     if Figaro.env.bypass_sso?
       redirect_to user_developer_omniauth_authorize_path
-    elsif Figaro.env.magna_header_enabled?
-      redirect_to user_magna_omniauth_authorize_path
     else
-      redirect_to user_exporting_is_great_omniauth_authorize_path
+      redirect_to user_magna_omniauth_authorize_path
     end
   end
 
@@ -177,107 +175,105 @@ class ApplicationController < ActionController::Base
 
   private
 
-    def administrator?
-      current_editor&.administrator?
+  def administrator?
+    current_editor&.administrator?
+  end
+
+  def previewer?
+    current_editor&.previewer?
+  end
+
+  def publisher?
+    current_editor&.publisher?
+  end
+
+  def uploader?
+    current_editor&.uploader?
+  end
+
+  def staff?
+    current_editor&.staff?
+  end
+
+  def check_if_admin
+    not_found unless administrator?
+  end
+
+  def not_found
+    respond_to do |format|
+      format.html { render 'errors/not_found', status: :not_found }
+      format.json { render json: { errors: 'Resource not found' }, status: :not_found }
+      format.all { head 404 }
     end
+  end
 
-    def previewer?
-      current_editor&.previewer?
+  def unsupported_format
+    respond_to do |format|
+      format.json { render json: { errors: 'JSON is not supported for this resource' }, status: :not_acceptable }
+      format.all { head 406 }
     end
+  end
 
-    def publisher?
-      current_editor&.publisher?
+  def user_not_authorized
+    render 'errors/unauthorized', status: :unauthorized
+  end
+
+  def internal_server_error
+    render 'errors/internal_server_error', status: :internal_server_error
+  end
+
+  def invalid_authenticity_token(exception)
+    Raven.capture_exception(exception)
+    set_google_tag_manager
+    # ^ this method call is necessary to render
+    #   the layout. It is usually run in a before_action.
+    # The exception this method rescues from is thrown
+    # before it has the chance.
+    render 'errors/invalid_authenticity_token', status: :unprocessable_entity
+  end
+
+  # Returns content provided by .yml files in app/content folder.
+  # Intended use is to keep content separated from the view code.
+  # Should make it easier to switch later to CMS-style content editing.
+  # Note: Rails may already provide a similar service for multiple
+  # language support, so this mechanism might be replaced by that
+  # at some point in the furture.
+  def get_content(*files)
+    content = {}
+    files.each do |file|
+      content = content.merge YAML.load_file('app/content/' + file)
     end
+    content
+  end
 
-    def uploader?
-      current_editor&.uploader?
+  def redis_oo_retry_count(redis)
+    # nil-safe redis fetch from counter
+    redis.get('oo_retry_error_count').to_i
+  end
+
+  def sidekiq_retry_count
+    rs = Sidekiq::RetrySet.new
+    retry_jobs = rs.select { |retri| retri.item['class'] == 'RetrieveVolumeOpps' }
+    retry_jobs.size
+  end
+
+  def update_redis_counter(redis, sidekiq_retry_jobs_count, latest_sidekiq_failure)
+    # set initial value if it's the first time
+    redis.set('sidekiq_retry_jobs_last_failure', Time.zone.now) unless latest_sidekiq_failure
+
+    if days_since_last_failure(latest_sidekiq_failure) > PUBLISH_SIDEKIQ_ERROR_DAYS
+      redis.set('oo_retry_error_count', sidekiq_retry_jobs_count)
+      redis.set('sidekiq_retry_jobs_last_failure', Time.zone.now)
     end
+  end
 
-    def staff?
-      current_editor&.staff?
-    end
+  def days_since_last_failure(latest_sidekiq_failure)
+    return 0 unless latest_sidekiq_failure
 
-    def check_if_admin
-      not_found unless administrator?
-    end
+    ((Time.zone.now - Time.zone.parse(latest_sidekiq_failure)) / 86_400)
+  end
 
-    def not_found
-      respond_to do |format|
-        format.html { render 'errors/not_found', status: :not_found }
-        format.json { render json: { errors: 'Resource not found' }, status: :not_found }
-        format.all { head 404 }
-      end
-    end
-
-    def unsupported_format
-      respond_to do |format|
-        format.json { render json: { errors: 'JSON is not supported for this resource' }, status: :not_acceptable }
-        format.all { head 406 }
-      end
-    end
-
-    def user_not_authorized
-      render 'errors/unauthorized', status: :unauthorized
-    end
-
-    def internal_server_error
-      render 'errors/internal_server_error', status: :internal_server_error
-    end
-
-    def invalid_authenticity_token(exception)
-      Raven.capture_exception(exception)
-      set_google_tag_manager
-      # ^ this method call is necessary to render
-      #   the layout. It is usually run in a before_action.
-      # The exception this method rescues from is thrown
-      # before it has the chance.
-      render 'errors/invalid_authenticity_token', status: :unprocessable_entity
-    end
-
-    # Returns content provided by .yml files in app/content folder.
-    # Intended use is to keep content separated from the view code.
-    # Should make it easier to switch later to CMS-style content editing.
-    # Note: Rails may already provide a similar service for multiple
-    # language support, so this mechanism might be replaced by that
-    # at some point in the furture.
-    def get_content(*files)
-      content = {}
-      files.each do |file|
-        content = content.merge YAML.load_file('app/content/' + file)
-      end
-      content
-    end
-
-    def redis_oo_retry_count(redis)
-      # nil-safe redis fetch from counter
-      redis.get('oo_retry_error_count').to_i
-    end
-
-    def sidekiq_retry_count
-      rs = Sidekiq::RetrySet.new
-      retry_jobs = rs.select { |retri| retri.item['class'] == 'RetrieveVolumeOpps' }
-      retry_jobs.size
-    end
-
-    def update_redis_counter(redis, sidekiq_retry_jobs_count, latest_sidekiq_failure)
-      # set initial value if it's the first time
-      redis.set('sidekiq_retry_jobs_last_failure', Time.zone.now) unless latest_sidekiq_failure
-
-      if days_since_last_failure(latest_sidekiq_failure) > PUBLISH_SIDEKIQ_ERROR_DAYS
-        redis.set('oo_retry_error_count', sidekiq_retry_jobs_count)
-        redis.set('sidekiq_retry_jobs_last_failure', Time.zone.now)
-      end
-    end
-
-    def days_since_last_failure(latest_sidekiq_failure)
-      return 0 unless latest_sidekiq_failure
-
-      ((Time.zone.now - Time.zone.parse(latest_sidekiq_failure)) / 86_400)
-    end
-
-    def sso_session_cookie
-      return Figaro.env.MAGNA_SSO_SESSION_COOKIE if Figaro.env.magna_header_enabled?
-
-      Figaro.env.SSO_SESSION_COOKIE
-    end
+  def sso_session_cookie
+    Figaro.env.SSO_SESSION_COOKIE
+  end
 end

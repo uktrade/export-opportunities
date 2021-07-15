@@ -36,7 +36,7 @@
 }
 
 @mixin focus {
-  outline: $focus-yellow solid 3px;
+  outline: $focus-yellow solid 4px;
   outline-offset: 0;
 }
 
@@ -76,7 +76,7 @@
 @mixin great-button($colour: $active-blue) {
   @include button-reset;
   font-size: 19px;
-  white-space: nowrap;
+  text-align: center;
   display: inline-block;
   font-weight: 700;
   font-family: $brand-font;
@@ -174,7 +174,7 @@
   top: 1px;
   border-color: $colour;
   border-width: 0 2px 2px 0;
-  margin: 7px 0 0 10px;
+  margin: 2px 0 0 10px;
 }
 
 @mixin down-chevron-1($colour) {
@@ -214,7 +214,7 @@
   top: 5px;
 }
 
-@mixin container() {
+@mixin container {
   position: relative;
 
   &:after {
@@ -235,19 +235,4 @@
       margin: 0 20px;
     }
   }
-}
-
-@mixin grid-column($width, $full-width: tablet, $float: left) {
-
-  @include media($full-width) {
-    float: $float;
-    width: percentage($width);
-  }
-
-  @include ie-lte(7) {
-    width: (($site-width + $gutter) * $width) - $gutter;
-  }
-
-  padding: 0 $gutter-half;
-  @include box-sizing(border-box);
 }
