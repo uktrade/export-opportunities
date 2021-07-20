@@ -7,7 +7,7 @@ module Api
 
     def search
       return not_found unless (term = params[:description])
-
+      # binding.pry
       results = Cn2019.search(query(term)).records
 
       respond_to do |format|
