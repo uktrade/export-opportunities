@@ -103,18 +103,6 @@
 
         %tfoot
           %tr
-            %td{ :style=>"font-family:Arial,sans-serif; font-size:15px; padding:30px 30px 30px 30px;" }
-              %table{ :cellspacing=>"0", :cellpadding=>"0", :border=>"0", :width=>"100%" }
-                %tr
-                  %td
-                    %p
-                      The Exporting is GREAT team
-                      %br
-                      = link_to Figaro.env.EXPORT_READINESS_URL.to_s, "www.great.gov.uk" + ApplicationController.new.ga360_campaign_parameters('email_alerts','email','exportOps','great')
-                  %td{:style=>"text-align:right;"}
-                    = image_tag "email/EIGLogo@2x.jpg", { :alt=>"Exporting is GREAT", :style=>"display:block; margin-bottom:10px;", :height=>"70" }
-
-          %tr
             %td{ :style=>"padding: 0px 30px 0 30px" }
               %hr{ :style=>"background-color:#B00D23; border-color:#B00D23; border-style:solid; border-width:2px; height:2px; margin:0px" }
 
