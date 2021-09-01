@@ -2,27 +2,27 @@ source 'https://rubygems.org'
 
 ruby '2.7.2'
 
-gem 'rails', '6.0.3.7'
+gem 'rails', '6.1.4.1'
 gem 'bundler'
-gem 'puma', '4.3.8'
-gem 'pg', '1.1.4'
+gem 'puma', '5.4.0'
+gem 'pg', '1.2.3'
 gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'sidekiq-failures'
-gem 'redis', '3.3.3'
+gem 'redis', '4.4.0'
 gem 'redis-namespace'
-gem 'faraday', '1.0.1'
+gem 'faraday', '1.7.1'
 gem 'figaro'
 gem 'friendly_id'
 gem 'immutable-struct'
 
-gem 'nokogiri', '1.11.4'
+gem 'nokogiri', '1.12.4'
 
 # Authentication & authorisation
 gem 'devise', github: 'heartcombo/devise', branch: 'master'
 gem 'devise-async'
 gem 'hawk-auth'
-gem 'omniauth', '2.0.3'
+gem 'omniauth', '2.0.4'
 gem 'omniauth-oauth2', '1.7.1'
 gem 'omniauth-rails_csrf_protection'
 gem 'pundit', require: true
@@ -41,7 +41,6 @@ gem 'devise-security', '0.14.3'
 
 # Styling
 gem 'bourbon'
-gem 'neat', '1.8.0'
 gem 'autoprefixer-rails'
 gem 'normalize-scss'
 gem 'sass-rails'
@@ -104,7 +103,7 @@ end
 
 group :development do
   gem 'web-console'
-  gem 'rubocop', '~> 0.77.0', require: false
+  gem 'rubocop', '~> 1.20.0', require: false
   gem 'rubocop-faker'
   gem 'listen'
 end

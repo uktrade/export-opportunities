@@ -69,6 +69,8 @@ Rails.application.configure do
     Bullet.rails_logger = true
   end
 
+  config.hosts << 'greatcms.trade.great'
+
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
