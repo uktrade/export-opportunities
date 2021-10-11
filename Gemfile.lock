@@ -1251,7 +1251,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     rdoc (6.3.2)
-    redis (4.4.0)
+    redis (4.1.4)
     redis-namespace (1.7.0)
       redis (>= 3.0.4)
     regexp_parser (1.7.0)
@@ -1332,10 +1332,11 @@ GEM
       activesupport (>= 4.2.0)
     show_me_the_cookies (5.0.1)
       capybara (>= 2, < 4)
-    sidekiq (6.2.2)
-      connection_pool (>= 2.2.2)
+    sidekiq (5.2.9)
+      connection_pool (~> 2.2, >= 2.2.2)
       rack (~> 2.0)
-      redis (>= 4.2.0)
+      rack-protection (>= 1.5.0)
+      redis (>= 3.3.5, < 4.2)
     sidekiq-cron (1.2.0)
       fugit (~> 1.1)
       sidekiq (>= 4.2.1)
@@ -1455,7 +1456,7 @@ DEPENDENCIES
   pundit-matchers
   rails (= 6.0.4.1)
   rails-controller-testing
-  redis (= 4.4.0)
+  redis (= 4.1.4)
   redis-namespace
   rest-client
   rspec-collection_matchers
@@ -1472,7 +1473,7 @@ DEPENDENCIES
   sentry-raven (= 3.0.0)
   shoulda-matchers
   show_me_the_cookies
-  sidekiq (= 6.2.2)
+  sidekiq (= 5.2.9)
   sidekiq-cron (= 1.2.0)
   sidekiq-failures (= 1.0.1)
   simplecov
