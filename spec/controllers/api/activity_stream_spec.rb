@@ -379,7 +379,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         )
         begin
           get :enquiries, params: { format: :json }
-        rescue SocketError => ex
+        rescue Redis::CannotConnectError => ex
         end
         expect(ex.backtrace.to_s).to include('/redis/')
       end
@@ -396,7 +396,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         get :enquiries, params: { format: :json }
 
         expect(JSON.parse(response.body)['orderedItems']).to eq([])
-        expect(response.headers['Content-Type']).to eq('application/activity+json')
+        expect(response.headers['Content-Type']).to eq('application/json; charset=utf-8')
       end
 
     end
