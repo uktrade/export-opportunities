@@ -17,7 +17,7 @@ feature "User viewing opportunity notification email" do
     assert subscription.unsubscribed_at != nil
   end
 
-  scenario 'can unsubscribed from with old encrypted ID method', focus: true do
+  scenario 'can unsubscribed from with old encrypted ID method' do
     user = create(:user, email: 'test@example.com')
     subscription = create(:subscription, user: user)
     assert_nil subscription.unsubscribed_at
