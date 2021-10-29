@@ -663,15 +663,6 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         expect(items.length).to eq(0)
       end
 
-      it 'Does not return expired opportunities' do
-        create_opportunity(:published)
-
-        Timecop.freeze(Time.utc(2010, 9, 1, 12, 1, 2)) do
-          items = get_feed(activity_stream_opportunities_path)
-          expect(items.length).to eq(0)
-        end
-      end
-
       it 'returns opportunities in date order' do
         # Create two an opportunities
         for i in 0..1 do
