@@ -379,7 +379,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         )
         begin
           get :enquiries, params: { format: :json }
-        rescue SocketError => ex
+        rescue Redis::CannotConnectError => ex
         end
         expect(ex.backtrace.to_s).to include('/redis/')
       end
@@ -396,7 +396,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         get :enquiries, params: { format: :json }
 
         expect(JSON.parse(response.body)['orderedItems']).to eq([])
-        expect(response.headers['Content-Type']).to eq('application/activity+json')
+        expect(response.headers['Content-Type']).to eq('application/json; charset=utf-8')
       end
 
     end
@@ -661,15 +661,6 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
 
         items = get_feed(activity_stream_opportunities_path)
         expect(items.length).to eq(0)
-      end
-
-      it 'Does not return expired opportunities' do
-        create_opportunity(:published)
-
-        Timecop.freeze(Time.utc(2010, 9, 1, 12, 1, 2)) do
-          items = get_feed(activity_stream_opportunities_path)
-          expect(items.length).to eq(0)
-        end
       end
 
       it 'returns opportunities in date order' do
