@@ -177,6 +177,7 @@ module Api
           'id': obj_id,
           'name': opportunity.title,
           'url': opportunity_url(opportunity, host: Figaro.env.DOMAIN),
+          'published': opportunity.first_published_at.to_datetime.rfc3339,
           'endTime': opportunity.response_due_on.to_datetime.rfc3339,
           'summary': opportunity.teaser,
           'content': opportunity.description,
@@ -185,6 +186,10 @@ module Api
             'type': ['Organization', 'dit:ServiceProvider'],
             'name': service_provider_names[opportunity.id],
           },
+          'attributedTo': [{
+            'type': 'dit:exportOpportunities:SourceType',
+            'name': opportunity.source,
+          }],
         }
       end
 

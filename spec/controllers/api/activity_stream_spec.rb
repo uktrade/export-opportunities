@@ -610,7 +610,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           buyer_name:         options[:buyer_name] || "Xi Weng Manufacturing",
           buyer_address:      options[:buyer_address] || 
             "2002 Jiabin Rd, RenMin NanLu, Luohu Qu, Shenzhen Shi, Guangdong Sheng, China, 518011",
-          first_published_at: options[:first_published_at] || Time.now,
+          first_published_at: options[:first_published_at] || Time.utc(2001, 9, 3),
           response_due_on:    options[:response_due_on] || Time.utc(2008, 12, 1),
           teaser:             options[:teaser] || "Looking for 50kg of 2x4 Oak Wood Blocks",
           description:        options[:description] || 
@@ -650,10 +650,12 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         expect(item['object']['id']).to eq("dit:exportOpportunities:Opportunity:#{opportunity.id}")
         expect(item['object']['name']).to eq('2x4 Wood')
         expect(item['object']['url']).to eq("#{domain}/export-opportunities/opportunities/2x4-wood")
+        expect(item['object']['published']).to eq('2001-09-03T00:00:00+00:00')
         expect(item['object']['endTime']).to eq('2008-12-01T00:00:00+00:00')
         expect(item['object']['summary']).to eq('Looking for 50kg of 2x4 Oak Wood Blocks')
         expect(item['object']['content']).to eq('We are proud to announce the tender for our annual wood block requirement. 
           We are looking for 50kg of 2x4 Oak Wood Blocks')
+        expect(item['object']['attributedTo'][0]['name']).to eq('post')
       end
 
       it 'Does not return unpublished opportunities' do
