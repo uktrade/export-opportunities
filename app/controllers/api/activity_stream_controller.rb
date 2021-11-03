@@ -177,7 +177,7 @@ module Api
           'id': obj_id,
           'name': opportunity.title,
           'url': opportunity_url(opportunity, host: Figaro.env.DOMAIN),
-          'published': opportunity.first_published_at&.to_datetime.rfc3339,
+          'published': opportunity.first_published_at&.to_datetime&.rfc3339,
           'endTime': opportunity.response_due_on.to_datetime.rfc3339,
           'summary': opportunity.teaser,
           'content': opportunity.description,
