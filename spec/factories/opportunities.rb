@@ -10,6 +10,7 @@ FactoryBot.define do
     sequence(:slug) { |n| [title.downcase.parameterize, n].join('-') }
     source { :post }
     status { :pending }
+    first_published_at { Faker::Time.backward(days: 100, period: :morning) }
     response_due_on { Faker::Time.forward(days: 23, period: :morning) }
 
     trait :published do
