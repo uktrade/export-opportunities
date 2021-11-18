@@ -48,7 +48,7 @@ gem 'sass-rails'
 
 # Javascript
 gem 'jquery-rails'
-gem 'ckeditor'
+# gem 'ckeditor'
 
 # Ruby tools
 gem 'stringex', require: false

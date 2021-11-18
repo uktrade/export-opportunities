@@ -1,7 +1,7 @@
 
 //= require jquery-3.3.1.min
 //= require jquery.charactercounter
-//= require datepicker.lang.en.js
+//= require datepicker.lang.en
 //= require datepicker
 //= require moment
 //= require js.cookie
@@ -20,4 +20,4 @@
 //= require components/EnquiryResponse
 //= require components/ToggleFieldEdit
 //= require components/UploadWidget
-//= require admin.init.js
+//= require admin.init

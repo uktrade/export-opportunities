@@ -1,4 +1,3 @@
-//= require config
 //= require jquery.placeholder.min
 //= require jquery.charactercounter
 //= require select2

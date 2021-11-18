@@ -1005,8 +1005,6 @@ GEM
     capybara-screenshot (1.0.24)
       capybara (>= 1.0, < 4)
       launchy
-    ckeditor (5.1.0)
-      orm_adapter (~> 0.5.0)
     cliver (0.3.2)
     coderay (1.1.2)
     concurrent-ruby (1.1.9)
@@ -1408,7 +1406,6 @@ DEPENDENCIES
   capybara
   capybara-email
   capybara-screenshot
-  ckeditor
   database_cleaner
   devise!
   devise-async
