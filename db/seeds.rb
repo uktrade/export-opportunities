@@ -785,7 +785,7 @@ Country.where(slug:'turkmenistan').first.update(iso_code: 'TM')
 Country.where(slug:'tuvalu').first.update(iso_code: 'TV')
 Country.where(slug:'uganda').first.update(iso_code: 'UG')
 Country.where(slug:'ukraine').first.update(iso_code: 'UA')
-Country.where(slug:'ukrep').first.update( iso_code: #N')/A
+Country.where(slug:'ukrep').first.update( iso_code: 'N/A')
 Country.where(slug:'uruguay').first.update(iso_code: 'UY')
 Country.where(slug:'uzbekistan').first.update(iso_code: 'UZ')
 Country.where(slug:'vanuatu').first.update(iso_code: 'VU')
