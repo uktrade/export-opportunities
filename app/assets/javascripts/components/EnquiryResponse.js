@@ -105,8 +105,8 @@ ukti.EnquiryResponse = (function($) {
           event.editor.element.$.dispatchEvent(raiseEvent);
         });
       });
-      CKEDITOR.replace( 'enquiry_response_email_body' );
-      CKEDITOR.replace( 'enquiry_response_signature' );
+      CKEDITOR.replace('enquiry_response_email_body');
+      CKEDITOR.replace('enquiry_response_signature');
     };
 
     var initToggleFieldEdit = function () {

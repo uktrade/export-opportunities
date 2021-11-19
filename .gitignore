@@ -42,7 +42,8 @@ node_modules/
 # Ignore public/system files
 public/system
 public/assets
-public/export-opportunities
+public/export-opportunities/assets/*
+!public/export-opportunities/assets/ckeditor
 heroku_config_variables
 
 *.sh

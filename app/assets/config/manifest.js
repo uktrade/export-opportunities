@@ -2,7 +2,6 @@
 //= link_directory ../javascripts .js
 //= link_directory ../stylesheets .css
 
-//= require config
 //= require jquery.placeholder.min
 //= require jquery.charactercounter
 //= require select2
