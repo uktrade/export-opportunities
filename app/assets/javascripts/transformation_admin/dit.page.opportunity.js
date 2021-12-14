@@ -2,6 +2,7 @@
 //
 // required dit.js
 // required dit.utils.js
+//= require components/AsyncLoad
 //= require transformation/dit.class.selective_lookup.js
 //= require transformation/dit.class.cpv_code_lookup.js
 //= require transformation/dit.class.data_provider.js
@@ -9,6 +10,11 @@
 //= require transformation/dit.class.filter_multiple_select.js
 //= require transformation/dit.class.expander.js
 
+var ukti = window.ukti || {};
+
+ukti.config = {
+  'ckeditorPath': '/export-opportunities/assets/ckeditor/ckeditor.js',
+};
 
 dit.page.opportunity = (new function () {
   var _cache = {}
@@ -19,6 +25,7 @@ dit.page.opportunity = (new function () {
     setupFilterMultipleSelectFields();
     setupExpanders();
     setupCpvLookup();
+    loadTextEditorScript();
 
     delete this.init; // Run once
   }
@@ -145,6 +152,42 @@ dit.page.opportunity = (new function () {
     }
   }
 
+  function loadTextEditorScript() {
+    if (ukti.config.ckeditorPath) {
+      ukti.asyncLoad.init(ukti.config.ckeditorPath, initTextEditor);
+    }
+  }
+
+  function initTextEditor() {
+    CKEDITOR.stylesSet.add('mystyles', [
+      // Block-level styles
+      { name: 'Heading 1', element: 'h1'},
+      { name: 'Heading 2', element: 'h2'},
+      { name: 'Heading 3', element: 'h3'},
+      { name: 'Introduction', element: 'p', attributes: { 'class': 'introduction'} },
+      // Inline styles
+      { name: 'Link button', element: 'a', attributes: { 'class': 'button' } },
+      { name: 'List', element: 'ul', attributes: { 'class': 'list list-bullet' } },
+      // Object styles
+      { name: 'Stretch', element: 'img', attributes: { 'class': 'stretch' } },
+    ]);
+    CKEDITOR.on('instanceReady', function(evt) {
+      var editor = evt.editor;
+      editor.on('focus', function(event) {
+        event.editor.container.$.classList.add(focusOutlineClassname);
+      });
+      editor.on('blur', function(event) {
+        event.editor.container.$.classList.remove(focusOutlineClassname);
+      });
+      editor.on('change', function(event) {
+        event.editor.updateElement();
+        var raiseEvent = document.createEvent('Event');
+        raiseEvent.initEvent('change', true, true);
+        event.editor.element.$.dispatchEvent(raiseEvent);
+      });
+    });
+    CKEDITOR.replace('opportunity_description');
+  };
 });
 
 $(document).ready(function() {
