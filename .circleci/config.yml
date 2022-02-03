@@ -47,9 +47,9 @@ jobs:
       - image: circleci/redis:4.0.9
         environment:
           REDIS_URL: "redis://localhost:6379/"
-      - image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
+      - image: opensearchproject/opensearch:1.2.2
         environment:
-          cluster.name: elasticsearch
+          cluster.name: opensearch
           xpack.security.enabled: false
           transport.host: localhost
           network.host: 127.0.0.1
