@@ -1,7 +1,4 @@
-- if Figaro.env.magna_header_enabled?
-  = stylesheet_link_tag 'export-components/magna-main', media: 'all'
-- else
-  = stylesheet_link_tag 'export-components/main', media: 'all'
+= stylesheet_link_tag 'export-components/main', media: 'all'
 = stylesheet_link_tag 'transformation/main', media: 'all'
 /[if IE 9]
   = stylesheet_link_tag 'transformation/main_ie9_fixes'

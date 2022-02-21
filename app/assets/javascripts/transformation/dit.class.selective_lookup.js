@@ -228,7 +228,7 @@
    * @datamapping (Object) Allow change of required key name
    **/
   SelectiveLookup.prototype.setContent = function() {
-    var data = this._private.service.data;
+    var data = this._private.service.data['items'];
     var $list = this._private.$list.empty();
     var map;
     if(data && data.length) {

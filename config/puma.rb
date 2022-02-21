@@ -4,14 +4,6 @@
 # the maximum value specified for Puma. Default is set to 5 threads for minimum
 # and maximum; this matches the default thread size of Active Record.
 
-# Specifies the `port` that Puma will listen on to receive requests; default is 3000.
-#
-port        ENV.fetch('PORT') { 3000 }
-
-# Specifies the `environment` that Puma will run in.
-#
-environment ENV.fetch('RAILS_ENV') { 'development' }
-
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked webserver processes. If using threads and workers together
 # the concurrency of the application would be max `threads` * `workers`.
@@ -53,7 +45,6 @@ environment ENV.fetch('RAILS_ENV') { 'development' }
 plugin :tmp_restart
 
 tag 'export-opportunities-zeus-ex-machina'
-daemonize false
 
 port Integer(ENV.fetch('PORT', 3000))
 environment ENV['RAILS_ENV'] || 'development'

@@ -155,6 +155,10 @@ Rails.application.routes.draw do
     get '/email_notifications/unsubscribe_all/:unsubscription_token', to: 'email_notifications#destroy', as: :delete_email_notifications
     patch '/email_notifications/unsubscribe_all/:unsubscription_token', to: 'email_notifications#update', as: :update_email_notification
 
+    get '/api/cn/cpv', action: :search,
+                       controller: 'api/cpv_lookup',
+                       format: :json,
+                       via: [:get]
     get '/api/profile_dashboard', action: :index, controller: 'api/profile_dashboard', format: 'json', via: [:get]
     get '/api/opportunities', action: :opportunities, controller: 'api/profile_dashboard', format: 'json', via: [:get]
     get '/api/activity_stream/', action: :index,
@@ -323,6 +327,10 @@ Rails.application.routes.draw do
   get '/email_notifications/unsubscribe_all/:unsubscription_token', to: 'email_notifications#destroy'
   patch '/email_notifications/unsubscribe_all/:unsubscription_token', to: 'email_notifications#update'
 
+  get '/api/cn/cpv', action: :search,
+                     controller: 'api/cpv_lookup',
+                     format: :json,
+                     via: [:get]
   get '/api/profile_dashboard', action: :index, controller: 'api/profile_dashboard', format: 'json', via: [:get]
   get '/api/activity_stream/', action: :index,
     controller: 'api/activity_stream', format: 'json', via: [:get] # Old route

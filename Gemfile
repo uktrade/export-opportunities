@@ -2,21 +2,21 @@ source 'https://rubygems.org'
 
 ruby '2.7.4'
 
-gem 'rails', '6.0.3.7'
+gem 'rails', '6.0.4.6'
 gem 'bundler'
-gem 'puma', '4.3.8'
+gem 'puma', '5.6.2'
 gem 'pg', '1.1.4'
-gem 'sidekiq'
-gem 'sidekiq-cron'
-gem 'sidekiq-failures'
-gem 'redis', '3.3.3'
+gem 'sidekiq', '>= 6.4.0'
+gem 'sidekiq-cron', '1.2.0'
+gem 'sidekiq-failures', '1.0.1'
+gem 'redis', '>= 4.2.0'
 gem 'redis-namespace'
 gem 'faraday', '1.0.1'
 gem 'figaro'
 gem 'friendly_id'
 gem 'immutable-struct'
 
-gem 'nokogiri', '1.11.4'
+gem 'nokogiri', '1.12.5'
 
 # Authentication & authorisation
 gem 'devise', github: 'heartcombo/devise', branch: 'master'
@@ -48,7 +48,7 @@ gem 'sass-rails'
 
 # Javascript
 gem 'jquery-rails'
-gem 'ckeditor'
+# gem 'ckeditor'
 
 # Ruby tools
 gem 'stringex', require: false

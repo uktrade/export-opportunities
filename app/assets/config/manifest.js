@@ -2,7 +2,6 @@
 //= link_directory ../javascripts .js
 //= link_directory ../stylesheets .css
 
-//= require config
 //= require jquery.placeholder.min
 //= require jquery.charactercounter
 //= require select2
@@ -22,8 +21,7 @@
 
 //= link export-components/dit.classes.Dropdown
 //= link export-components/dit.components.cookie-notice
-//= link export-components/dit.components.greatDomesticHeader
-//= link export-components/dit.components.magnaHeader
+//= link export-components/dit.components.header
 
 // Stylesheets
 //= link_tree ../stylesheets/transformation
@@ -54,4 +52,3 @@
 //= link transformation/pages/opportunity.css
 //= link transformation/pages/results.css
 //= link export-components/main.css
-//= link export-components/magna-main.css
