@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.7.4'
 
-gem 'rails', '6.0.4.6'
+gem 'rails', '6.0.4.7'
 gem 'bundler'
 gem 'puma', '5.6.2'
 gem 'pg', '1.1.4'
