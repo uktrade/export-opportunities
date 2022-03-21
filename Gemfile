@@ -90,6 +90,9 @@ gem 'actionpack-page_caching'
 # Sentence splitting
 gem 'pragmatic_segmenter'
 
+# Govt Notify service API client
+gem 'notifications-ruby-client'
+
 group :development, :test do
   gem 'byebug'
   gem 'faker'

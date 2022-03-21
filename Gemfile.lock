@@ -1148,6 +1148,8 @@ GEM
       racc (~> 1.4)
     normalize-scss (7.0.1)
       sass (~> 3.3)
+    notifications-ruby-client (5.3.0)
+      jwt (>= 1.5, < 3)
     oauth2 (1.4.4)
       faraday (>= 0.8, < 2.0)
       jwt (>= 1.0, < 3.0)
@@ -1435,6 +1437,7 @@ DEPENDENCIES
   neat (= 1.8.0)
   nokogiri (>= 1.13.2)
   normalize-scss
+  notifications-ruby-client
   omniauth (= 2.0.3)
   omniauth-oauth2 (= 1.7.1)
   omniauth-rails_csrf_protection
