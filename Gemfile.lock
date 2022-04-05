@@ -1388,7 +1388,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    yajl-ruby (1.4.1)
+    yajl-ruby (1.4.2)
     zeitwerk (2.5.4)
 
 PLATFORMS
