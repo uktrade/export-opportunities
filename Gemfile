@@ -16,7 +16,7 @@ gem 'figaro'
 gem 'friendly_id'
 gem 'immutable-struct'
 
-gem 'nokogiri', '>= 1.13.2'
+gem 'nokogiri', '>= 1.13.4'
 
 # Authentication & authorisation
 gem 'devise', github: 'heartcombo/devise', branch: 'master'
@@ -59,7 +59,7 @@ gem 'hairtrigger', '0.2.23'
 gem 'active_record_union'
 
 # Parsing JSON
-gem 'yajl-ruby', '>= 1.3.1'
+gem 'yajl-ruby', '>= 1.4.2'
 
 # Developer tools
 gem 'pry-rails'
