@@ -1143,7 +1143,7 @@ GEM
       thor (~> 0.19)
     netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.13.4)
+    nokogiri (1.13.6)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     normalize-scss (7.0.1)
@@ -1435,7 +1435,7 @@ DEPENDENCIES
   listen
   mock_redis
   neat (= 1.8.0)
-  nokogiri (>= 1.13.4)
+  nokogiri (>= 1.13.5)
   normalize-scss
   notifications-ruby-client
   omniauth (= 2.0.3)

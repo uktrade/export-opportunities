@@ -16,7 +16,7 @@ gem 'figaro'
 gem 'friendly_id'
 gem 'immutable-struct'
 
-gem 'nokogiri', '>= 1.13.4'
+gem 'nokogiri', '>= 1.13.5'
 
 # Authentication & authorisation
 gem 'devise', github: 'heartcombo/devise', branch: 'master'
