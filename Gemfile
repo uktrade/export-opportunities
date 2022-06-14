@@ -58,8 +58,9 @@ gem 'addressable'
 gem 'hairtrigger', '0.2.23'
 gem 'active_record_union'
 
-# Parsing JSON
+# JSON
 gem 'yajl-ruby', '>= 1.4.3'
+gem 'jmespath', '1.6.1'
 
 # Developer tools
 gem 'pry-rails'
