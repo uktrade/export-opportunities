@@ -48,6 +48,12 @@ module ExportOpportunities
 
     config.action_controller.page_cache_directory = "#{Rails.root.to_s}/public"
 
+    # Specify classes deemed "safe" for deserialisation
+    # https://discuss.rubyonrails.org/t/cve-2022-32224-possible-rce-escalation-bug-with-serialized-columns-in-active-record/81017
+    config.active_record.yaml_column_permitted_classes = [
+      Symbol, Set, ActionController::Parameters, ActiveSupport::HashWithIndifferentAccess
+    ]
+
     # precompile assets
     # config.serve_static_assets = true
 
