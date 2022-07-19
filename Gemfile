@@ -2,9 +2,9 @@ source 'https://rubygems.org'
 
 ruby '2.7.4'
 
-gem 'rails', '6.0.4.6'
+gem 'rails', '6.0.5.1'
 gem 'bundler'
-gem 'puma', '5.6.2'
+gem 'puma', '5.6.4'
 gem 'pg', '1.1.4'
 gem 'sidekiq', '>= 6.4.0'
 gem 'sidekiq-cron', '1.2.0'
@@ -16,7 +16,7 @@ gem 'figaro'
 gem 'friendly_id'
 gem 'immutable-struct'
 
-gem 'nokogiri', '1.12.5'
+gem 'nokogiri', '>= 1.13.6'
 
 # Authentication & authorisation
 gem 'devise', github: 'heartcombo/devise', branch: 'master'
@@ -58,8 +58,9 @@ gem 'addressable'
 gem 'hairtrigger', '0.2.23'
 gem 'active_record_union'
 
-# Parsing JSON
-gem 'yajl-ruby', '>= 1.3.1'
+# JSON
+gem 'yajl-ruby', '>= 1.4.3'
+gem 'jmespath', '1.6.1'
 
 # Developer tools
 gem 'pry-rails'
@@ -89,6 +90,9 @@ gem 'actionpack-page_caching'
 
 # Sentence splitting
 gem 'pragmatic_segmenter'
+
+# Govt Notify service API client
+gem 'notifications-ruby-client'
 
 group :development, :test do
   gem 'byebug'
