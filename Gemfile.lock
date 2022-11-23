@@ -1143,7 +1143,7 @@ GEM
       thor (~> 0.19)
     netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.13.7)
+    nokogiri (1.13.9)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     normalize-scss (7.0.1)
@@ -1361,7 +1361,7 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.10)
     timecop (0.9.1)
-    tzinfo (1.2.9)
+    tzinfo (1.2.10)
       thread_safe (~> 0.1)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
@@ -1436,7 +1436,7 @@ DEPENDENCIES
   listen
   mock_redis
   neat (= 1.8.0)
-  nokogiri (>= 1.13.6)
+  nokogiri (>= 1.13.9)
   normalize-scss
   notifications-ruby-client
   omniauth (= 2.0.3)
