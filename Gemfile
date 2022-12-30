@@ -16,10 +16,10 @@ gem 'figaro'
 gem 'friendly_id'
 gem 'immutable-struct'
 
-gem 'nokogiri', '>= 1.13.9'
+gem 'nokogiri', '>= 1.13.10'
 
 # Authentication & authorisation
-gem 'devise', github: 'heartcombo/devise', branch: 'master'
+gem 'devise', '4.8.1'
 gem 'devise-async'
 gem 'hawk-auth'
 gem 'omniauth', '2.0.3'
