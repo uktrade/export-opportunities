@@ -1007,7 +1007,7 @@ GEM
       launchy
     cliver (0.3.2)
     coderay (1.1.2)
-    concurrent-ruby (1.1.10)
+    concurrent-ruby (1.2.0)
     connection_pool (2.3.0)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
@@ -1077,7 +1077,7 @@ GEM
     fuubar (2.5.0)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
-    globalid (1.0.0)
+    globalid (1.1.0)
       activesupport (>= 5.0)
     hairtrigger (0.2.23)
       activerecord (>= 5.0, < 7)
@@ -1093,7 +1093,7 @@ GEM
     http-accept (1.7.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
-    i18n (1.11.0)
+    i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     immutable-struct (2.4.1)
     interception (0.5)
@@ -1135,7 +1135,7 @@ GEM
     mime-types-data (3.2020.0512)
     mini_mime (1.1.2)
     mini_portile2 (2.8.1)
-    minitest (5.16.2)
+    minitest (5.17.0)
     mock_redis (0.23.0)
     multi_json (1.15.0)
     multi_xml (0.6.0)
@@ -1366,7 +1366,7 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.10)
     timecop (0.9.1)
-    tzinfo (1.2.10)
+    tzinfo (1.2.11)
       thread_safe (~> 0.1)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
@@ -1394,7 +1394,7 @@ GEM
     xpath (3.2.0)
       nokogiri (~> 1.8)
     yajl-ruby (1.4.3)
-    zeitwerk (2.6.0)
+    zeitwerk (2.6.7)
 
 PLATFORMS
   ruby
