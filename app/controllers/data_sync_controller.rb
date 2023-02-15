@@ -10,7 +10,7 @@ class DataSyncController < ApplicationController
   #
   def check
     # Set up redis
-    @redis ||= Redis.new(url: Figaro.env.redis_url)
+    @redis ||= Redis.new(url: Figaro.env.REDIS_URL)
     response = { git_revision: ExportOpportunities::REVISION, status: 'OK', status_code: 200 }
 
     # Do databases match? If not, save disparity data to 'result' key

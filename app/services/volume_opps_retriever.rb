@@ -205,7 +205,7 @@ class VolumeOppsRetriever
   def jwt_volume_connector_data(token, hostname, url, from_date, to_date)
     JwtVolumeConnector.new.data(token, hostname, url, from_date, to_date)
   rescue JSON::ParserError => e
-    redis = Redis.new(url: Figaro.env.redis_url!)
+    redis = Redis.new(url: Figaro.env.REDIS_URL!)
     redis.set(:application_error, Time.zone.now)
 
     raise e

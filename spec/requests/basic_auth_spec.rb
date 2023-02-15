@@ -48,7 +48,7 @@ RSpec.describe 'Basic auth', :elasticsearch, :commit, type: :request do
       allow(fake_env).to receive(:staging_http_pass).and_return(nil)
       allow(fake_env).to receive(:enquiry_endpoint_token).and_return('fake_token')
       allow(fake_env).to receive(:CONTACT_US_FORM).and_return(nil)
-      allow(fake_env).to receive(:redis_url).and_return(nil)
+      allow(fake_env).to receive(:REDIS_URL).and_return(nil)
     end
 
     (PUBLIC_VIEW_ROUTES + ADMIN_VIEW_ROUTES).each do |route|
