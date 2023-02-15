@@ -313,7 +313,7 @@ module Api
       end
 
       def nonce_available?(nonce, id)
-        redis = Redis.new(url: Figaro.env.redis_url)
+        redis = Redis.new(url: Figaro.env.REDIS_URL)
         key = "activity-stream-nonce-#{nonce}-#{id}"
         key_set = redis.setnx(key, true)
         redis.expire(key, 120) if key_set

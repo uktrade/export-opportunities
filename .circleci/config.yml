@@ -4,7 +4,7 @@ jobs:
     parallelism: 3
     working_directory: ~/export-opportunities
     docker:
-      - image: circleci/ruby:2.7.7-browsers
+      - image: cimg/ruby:2.7.7-browsers
         environment:
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
@@ -39,12 +39,12 @@ jobs:
           DL_HOSTNAME: $DL_HOSTNAME
           DL_API_KEY: $DL_API_KEY
           TRANSLATE_OPPORTUNITIES: true
-      - image: circleci/postgres:latest
+      - image: cimg/postgres:13.9
         environment:
           POSTGRES_USER: user
           POSTGRES_DB:  circle_test
           POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-      - image: circleci/redis:6.2.10
+      - image: cimg/redis:6.2.10
         environment:
           REDIS_URL: "redis://localhost:6379/"
       - image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3

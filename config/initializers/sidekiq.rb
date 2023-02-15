@@ -3,7 +3,7 @@ require 'sidekiq/web'
 require 'sidekiq/cron/web'
 
 Sidekiq.configure_server do |config|
-  config.redis = { url: Figaro.env.redis_url! }
+  config.redis = { url: Figaro.env.REDIS_URL! }
   schedule_file = 'config/sidekiq_schedule.yml'
 
   if File.exist?(schedule_file) && Sidekiq.server?
@@ -12,7 +12,7 @@ Sidekiq.configure_server do |config|
 end
 
 Sidekiq.configure_client do |config|
-  config.redis = { url: Figaro.env.redis_url! }
+  config.redis = { url: Figaro.env.REDIS_URL! }
 end
 
 Sidekiq::Web.use(Rack::Auth::Basic) do |user, password|

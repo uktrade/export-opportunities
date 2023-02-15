@@ -44,7 +44,7 @@ class JwtVolumeConnector
     { data: response_body['results'], has_next: has_next, next_url: response_body['next'], status: response.status, count: response_body['count'] }
   rescue JSON::ParserError => e
     Rails.logger.error 'Can\'t parse JSON result. Probably an Application Error 500 on VO side'
-    redis = Redis.new(url: Figaro.env.redis_url!)
+    redis = Redis.new(url: Figaro.env.REDIS_URL!)
     redis.set(:application_error, Time.zone.now)
     raise e
   end

@@ -6,5 +6,5 @@ test:
 
 production:
   adapter: redis
-  url: Figaro.env.redis_url
+  url: Figaro.env.REDIS_URL
   channel_prefix: export_opportunities_production
