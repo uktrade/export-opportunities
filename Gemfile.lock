@@ -1348,7 +1348,7 @@ GEM
     sexp_processor (4.14.1)
     shoulda-matchers (4.3.0)
       activesupport (>= 4.2.0)
-    show_me_the_cookies (5.0.1)
+    show_me_the_cookies (6.0.0)
       capybara (>= 2, < 4)
     sidekiq (6.5.8)
       connection_pool (>= 2.2.5, < 3)
@@ -1491,7 +1491,7 @@ DEPENDENCIES
   sdoc
   sentry-raven (= 3.0.0)
   shoulda-matchers
-  show_me_the_cookies
+  show_me_the_cookies (= 6.0.0)
   sidekiq (= 6.5.8)
   sidekiq-cron (= 1.9.1)
   sidekiq-failures (= 1.0.1)

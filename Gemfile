@@ -134,7 +134,7 @@ group :test do
   gem 'simplecov'
   gem 'vcr'
   gem 'elasticsearch-extensions'
-  gem 'show_me_the_cookies'
+  gem 'show_me_the_cookies', '6.0.0'
   gem 'rails-controller-testing'
   gem 'mock_redis'
 end
