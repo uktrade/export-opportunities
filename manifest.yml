@@ -1,6 +1,6 @@
 ---
 applications:
   - buildpacks: 
-      - https://github.com/cloudfoundry/ruby-buildpack.git#v1.8.53
+      - https://github.com/cloudfoundry/ruby-buildpack.git#v1.8.61
     health-check-type: http
     health-check-http-endpoint: /export-opportunities/check

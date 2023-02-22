@@ -6,7 +6,7 @@ class OpportunitiesCounters
   sidekiq_options retry: false
 
   def perform
-    redis = Redis.new(url: Figaro.env.redis_url!)
+    redis = Redis.new(url: Figaro.env.REDIS_URL!)
     today = Time.zone.now
     tomorrow = today + 3.days
     yesterday = today - 1.day

@@ -1,22 +1,22 @@
 source 'https://rubygems.org'
 
-ruby '2.7.4'
+ruby '2.7.7'
 
-gem 'rails', '6.0.5.1'
+gem 'rails', '6.0.6.1'
 gem 'bundler'
 gem 'puma', '5.6.4'
 gem 'pg', '1.1.4'
-gem 'sidekiq', '>= 6.4.0'
-gem 'sidekiq-cron', '1.2.0'
+gem 'sidekiq', '6.5.8'
+gem 'sidekiq-cron', '1.9.1'
 gem 'sidekiq-failures', '1.0.1'
-gem 'redis', '>= 4.2.0'
-gem 'redis-namespace'
+gem 'redis', '4.8.1'
+gem 'redis-namespace', '1.10.0'
 gem 'faraday', '1.0.1'
 gem 'figaro'
 gem 'friendly_id'
 gem 'immutable-struct'
 
-gem 'nokogiri', '>= 1.13.9'
+gem 'nokogiri', '>= 1.13.10'
 
 # Authentication & authorisation
 gem 'devise', github: 'heartcombo/devise', branch: 'master'
@@ -65,9 +65,9 @@ gem 'jmespath', '1.6.1'
 # Developer tools
 gem 'pry-rails'
 gem 'premailer-rails'
-gem 'flipper'
-gem 'flipper-redis'
-gem 'flipper-ui'
+gem 'flipper', '0.26.0'
+gem 'flipper-redis', '0.26.0'
+gem 'flipper-ui', '0.26.0'
 gem 'paper_trail', '10.3.1'
 
 # aws sdk for s3 storage of post-user communications
@@ -134,7 +134,7 @@ group :test do
   gem 'simplecov'
   gem 'vcr'
   gem 'elasticsearch-extensions'
-  gem 'show_me_the_cookies'
+  gem 'show_me_the_cookies', '6.0.0'
   gem 'rails-controller-testing'
   gem 'mock_redis'
 end

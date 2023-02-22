@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'webops can monitor services' do
   before(:each) do
-    @redis =  Redis.new(url: Figaro.env.redis_url!)
+    @redis =  Redis.new(url: Figaro.env.REDIS_URL!)
     @redis.del(:sidekiq_retry_jobs_last_failure)
     @redis.del(:es_data_sync_error_ts)
   end

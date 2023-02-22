@@ -58,7 +58,7 @@ class ApplicationController < ActionController::Base
   end
 
   def api_check
-    @redis ||= Redis.new(url: Figaro.env.redis_url)
+    @redis ||= Redis.new(url: Figaro.env.REDIS_URL)
 
     latest_sidekiq_failure = @redis.get(:sidekiq_retry_jobs_last_failure)
 
@@ -149,7 +149,7 @@ class ApplicationController < ActionController::Base
   end
 
   def opps_counter_stats
-    @redis ||= Redis.new(url: Figaro.env.redis_url)
+    @redis ||= Redis.new(url: Figaro.env.REDIS_URL)
 
     counter_opps_expiring_soon = @redis.get(:opps_counters_expiring_soon)
     counter_opps_total = @redis.get(:opps_counters_total)
