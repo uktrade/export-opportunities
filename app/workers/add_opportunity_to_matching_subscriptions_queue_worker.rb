@@ -1,6 +1,4 @@
-class AddOpportunityToMatchingSubscriptionsQueueWorker
-  include Sidekiq::Worker
-
+class AddOpportunityToMatchingSubscriptionsQueueWorker < ActiveJob::Base
   sidekiq_options retry: false
 
   def perform(opportunity_id)

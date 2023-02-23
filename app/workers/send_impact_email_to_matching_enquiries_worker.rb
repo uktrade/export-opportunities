@@ -1,6 +1,4 @@
-class SendImpactEmailToMatchingEnquiriesWorker
-  include Sidekiq::Worker
-
+class SendImpactEmailToMatchingEnquiriesWorker < ActiveJob::Base
   sidekiq_options retry: false
 
   def perform

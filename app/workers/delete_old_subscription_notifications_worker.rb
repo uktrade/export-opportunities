@@ -1,6 +1,4 @@
-class DeleteOldSubscriptionNotificationsWorker
-  include Sidekiq::Worker
-
+class DeleteOldSubscriptionNotificationsWorker < ActiveJob::Base
   sidekiq_options retry: false
 
   def perform
