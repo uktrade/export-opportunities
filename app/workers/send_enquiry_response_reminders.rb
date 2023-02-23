@@ -1,6 +1,4 @@
-class SendEnquiryResponseReminders
-  include Sidekiq::Worker
-
+class SendEnquiryResponseReminders < ActiveJob::Base
   #
   # Finds enquiries that do not have a completed response
   # and sends a reminder email 7 days later. Planned to run
