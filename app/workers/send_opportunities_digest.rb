@@ -1,8 +1,6 @@
 require 'set'
 
-class SendOpportunitiesDigest
-  include Sidekiq::Worker
-
+class SendOpportunitiesDigest < ActiveJob::Base
   def perform
     yesterday_date = (Time.zone.now - 1.day).strftime('%Y-%m-%d')
     today_date = Time.zone.now.strftime('%Y-%m-%d')

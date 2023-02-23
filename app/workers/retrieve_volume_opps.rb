@@ -1,6 +1,4 @@
-class RetrieveVolumeOpps
-  include Sidekiq::Worker
-
+class RetrieveVolumeOpps < ActiveJob::Base
   sidekiq_options retry: 4
 
   def perform

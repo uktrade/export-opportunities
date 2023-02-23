@@ -1,9 +1,8 @@
 require 'matrix'
 require 'csv'
 
-class SendMonthlyReportToMatchingAdminUser
+class SendMonthlyReportToMatchingAdminUser < ActiveJob::Base
   include ReportHelper
-  include Sidekiq::Worker
   sidekiq_options retry: false
 
   def perform(current_editor_email, params)

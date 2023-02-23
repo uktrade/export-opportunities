@@ -6,7 +6,7 @@ RSpec.describe AddOpportunityToMatchingSubscriptionsQueueWorker, :elasticsearch,
     create_list(:subscription, 2, search_term: 'matching')
 
     expect do
-      AddOpportunityToMatchingSubscriptionsQueueWorker.perform_async(opportunity.id)
+      AddOpportunityToMatchingSubscriptionsQueueWorker.perform_later(opportunity.id)
     end.to change { SubscriptionNotification.count }.by(2)
   end
 
@@ -16,7 +16,7 @@ RSpec.describe AddOpportunityToMatchingSubscriptionsQueueWorker, :elasticsearch,
     create_list(:subscription, 2, user: user, search_term: 'matching')
 
     expect do
-      AddOpportunityToMatchingSubscriptionsQueueWorker.perform_async(opportunity.id)
+      AddOpportunityToMatchingSubscriptionsQueueWorker.perform_later(opportunity.id)
     end.to change { SubscriptionNotification.count }.by(1)
   end
 
@@ -27,7 +27,7 @@ RSpec.describe AddOpportunityToMatchingSubscriptionsQueueWorker, :elasticsearch,
     create(:subscription, user: user, search_term: 'subscription')
 
     expect do
-      AddOpportunityToMatchingSubscriptionsQueueWorker.perform_async(opportunity.id)
+      AddOpportunityToMatchingSubscriptionsQueueWorker.perform_later(opportunity.id)
     end.to change { SubscriptionNotification.count }.by(1)
   end
 
@@ -37,7 +37,7 @@ RSpec.describe AddOpportunityToMatchingSubscriptionsQueueWorker, :elasticsearch,
       subscription = create(:subscription, search_term: 'matching')
 
       expect do
-        AddOpportunityToMatchingSubscriptionsQueueWorker.perform_async(opportunity.id)
+        AddOpportunityToMatchingSubscriptionsQueueWorker.perform_later(opportunity.id)
       end.to change { subscription.notifications.count }.by(1)
 
       expect(subscription.notifications.last.opportunity).to eq opportunity
@@ -53,7 +53,7 @@ RSpec.describe AddOpportunityToMatchingSubscriptionsQueueWorker, :elasticsearch,
       expect_any_instance_of(SubscriptionFinder).to receive(:call).and_return([first_subscription, second_subscription])
 
       expect do
-        AddOpportunityToMatchingSubscriptionsQueueWorker.perform_async(opportunity.id)
+        AddOpportunityToMatchingSubscriptionsQueueWorker.perform_later(opportunity.id)
       end.to change { SubscriptionNotification.count }.by(1)
     end
   end
