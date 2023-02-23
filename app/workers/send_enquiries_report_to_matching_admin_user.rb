@@ -2,8 +2,7 @@ require 'matrix'
 require 'csv'
 require 'zip'
 
-class SendEnquiriesReportToMatchingAdminUser
-  include Sidekiq::Worker
+class SendEnquiriesReportToMatchingAdminUser < ActiveJob::Base
   sidekiq_options retry: false
 
   def perform(current_editor_email, enquiries, from_date, to_date, zip_file_enquiries_cutoff)

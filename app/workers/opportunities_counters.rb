@@ -1,8 +1,6 @@
 require 'set'
 
-class OpportunitiesCounters
-  include Sidekiq::Worker
-
+class OpportunitiesCounters < ActiveJob::Base
   sidekiq_options retry: false
 
   def perform
