@@ -20,7 +20,7 @@ class SendOpportunitiesDigest < ActiveJob::Base
       subscriptions = SubscriptionNotification.joins(:subscription).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at <= ? and subscriptions.user_id = ? and sent=false and subscriptions.unsubscribed_at is null', yesterday_date, today_date, user_id).group(:subscription_id).count(:opportunity_id)
 
       subscriptions.each do |subscription_id, subscription_count|
-        # the one random opportunity that we are going to use for this subscription. order by source to fetch DIT opps first
+        # the one random opportunity that we are going to use for this subscription. order by source to fetch DBT opps first
         sample_opportunity = SubscriptionNotification.where(subscription_id: subscription_id).includes(:subscription).joins(:opportunity).where(sent: false).where('subscription_notifications.created_at >= ? and subscription_notifications.created_at <= ?', yesterday_date, today_date).select(:subscription_id).select(:opportunity_id).order('opportunities.source').first.opportunity
         subscription = Subscription.find(subscription_id)
         struct[:subscriptions][subscription_id] = {
