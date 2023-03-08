@@ -2,9 +2,9 @@
 [![Dependency Status](https://gemnasium.com/badges/github.com/uktrade/export-opportunities.svg)](https://gemnasium.com/github.com/uktrade/export-opportunities)
 
 
-# DIT Exporting is GREAT
+# DBT Exporting is GREAT
 
-*NOTE* The name of the organisation has changed from UKTI to DIT. In all
+*NOTE* The name of the organisation has changed from DIT to DBT. In all
 user-facing pages this change has been made, but some existing entities like
 databases may continue to be called ukti.
 

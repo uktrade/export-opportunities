@@ -555,9 +555,9 @@ RSpec.describe OpportunityPresenter do
       expect(lines[2]).to eq(content['sign_off_extra'])
     end
 
-    # Specific exceptions for DIT
+    # Specific exceptions for DBT
     # ['specific', 'standard', 'provider', 'names', 'here'].include?(provider_name)
-    it 'returns standard DIT sign off content for specific providers' do
+    it 'returns standard DBT sign off content for specific providers' do
       provider = create(:service_provider, name: 'DIT HQ')
       opportunity = create(:opportunity)
       presenter = OpportunityPresenter.new(ActionController::Base.helpers, opportunity, content)
@@ -604,7 +604,7 @@ RSpec.describe OpportunityPresenter do
       country_name = provider.country.name
 
       expect(lines.length).to eq(2)
-      expect(lines[0]).to eq("Express your interest to the Department for International Trade team in the #{country_name}.")
+      expect(lines[0]).to eq("Express your interest to the Department for Business and Trade team in the #{country_name}.")
       expect(lines[1]).to eq(content['sign_off_extra'])
     end
 
@@ -620,7 +620,7 @@ RSpec.describe OpportunityPresenter do
       country_name = provider.country.name
 
       expect(lines.length).to eq(2)
-      expect(lines[0]).to eq("Express your interest to the Department for International Trade team in Africa.")
+      expect(lines[0]).to eq("Express your interest to the Department for Business and Trade team in Africa.")
       expect(lines[1]).to eq(content['sign_off_extra'])
 
       # And another which looks for 'Africa' in the region name...
@@ -633,7 +633,7 @@ RSpec.describe OpportunityPresenter do
       country_name = provider.country.name
 
       expect(lines.length).to eq(2)
-      expect(lines[0]).to eq("Express your interest to the Department for International Trade team in Africa.")
+      expect(lines[0]).to eq("Express your interest to the Department for Business and Trade team in Africa.")
       expect(lines[1]).to eq(content['sign_off_extra'])
     end
 
@@ -648,7 +648,7 @@ RSpec.describe OpportunityPresenter do
       country_name = provider.country.name
 
       expect(lines.length).to eq(2)
-      expect(lines[0]).to eq("Express your interest to the Department for International Trade team in #{country_name}.")
+      expect(lines[0]).to eq("Express your interest to the Department for Business and Trade team in #{country_name}.")
       expect(lines[1]).to eq(content['sign_off_extra'])
     end
 
@@ -661,7 +661,7 @@ RSpec.describe OpportunityPresenter do
       country_name = provider.country.name
 
       expect(lines.length).to eq(2)
-      expect(lines[0]).to eq("Express your interest to the Department for International Trade team in #{country_name}.")
+      expect(lines[0]).to eq("Express your interest to the Department for Business and Trade team in #{country_name}.")
       expect(lines[1]).to eq(content['sign_off_extra'])
     end
   end

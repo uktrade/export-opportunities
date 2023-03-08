@@ -96,7 +96,7 @@ Rails.application.config.assets.precompile += %w[transformation_admin/dit.page.e
 Rails.application.config.assets.precompile += %w[export-components.css]
 Rails.application.config.assets.precompile += %w[search-icon.svg search.sgv]
 Rails.application.config.assets.precompile += %w[great.svg]
-Rails.application.config.assets.precompile += %w[dit-logo.svg dit-logo.png]
+Rails.application.config.assets.precompile += %w[dbt-logo.svg dfbt-logo-white.png]
 Rails.application.config.assets.precompile += %w[eig-logo-stacked.svg]
 
 Rails.application.config.assets.precompile += %w[dit.classes.Dropdown.js]

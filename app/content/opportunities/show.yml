@@ -8,8 +8,8 @@ disclaimer_2: Before entering into a contract you need to apply for any necessar
 disclaimer_3: This opportunity has been translated from its original language. You should check if you need to apply in the original language.
 
 sign_off_dfid: Express your interest to the Department for International Development.
-sign_off_default: Express your interest to the Department for International Trade team in [$determiner][$place_name].
-sign_off_dit: Express your interest to the Department for International Trade.
+sign_off_default: Express your interest to the Department for Business and Trade team in [$determiner][$place_name].
+sign_off_dit: Express your interest to the Department for Business and Trade.
 sign_off_partner_1: Express your interest to the [$partner_name][ in $country_name].
 sign_off_partner_1a: Express your interest to [$partner_name][ in $country_name].
 sign_off_partner_2: The [$partner_name] is our chosen partner to deliver trade services in [$country_name].

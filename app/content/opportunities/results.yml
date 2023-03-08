@@ -29,8 +29,8 @@ fields:
   sources:
     question: Opportunities provided by
     options:
-      - label: DIT
-        description: (Department for International Trade)
+      - label: DBT
+        description: (Department for Business and Trade)
       - label: Third party
 
   industries:
