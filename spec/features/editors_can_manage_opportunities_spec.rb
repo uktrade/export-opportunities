@@ -364,7 +364,7 @@ feature 'Administering opportunities' do
         expect(page.body).to have_content('Azure internal list')
       end
 
-      scenario 'published opportunity with a BST error coming from DIT list' do
+      scenario 'published opportunity with a BST error coming from DBT list' do
         admin = create(:admin)
         opportunity = create(:opportunity, status: :publish, title: 'A sample title', slug: 'swearing-contest')
         opportunity_sensitivity_check = OpportunitySensitivityCheck.new
@@ -389,7 +389,7 @@ feature 'Administering opportunities' do
         click_on opportunity.title
 
         expect(page.body).to have_content('innovative jam')
-        expect(page.body).to have_content('DIT list')
+        expect(page.body).to have_content('DBT list')
       end
     end
   end

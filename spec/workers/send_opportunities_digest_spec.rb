@@ -16,7 +16,7 @@ RSpec.describe SendOpportunitiesDigest, :elasticsearch, :commit, sidekiq: :inlin
     expect(subscription_notification.sent).to eq true
   end
 
-  it 'picks the DIT opportunity when there is one' do
+  it 'picks the DBT opportunity when there is one' do
     ActionMailer::Base.deliveries.clear
 
     notification_creation_timestamp = Time.zone.now - 1.day + 3.hours

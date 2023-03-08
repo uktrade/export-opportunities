@@ -237,7 +237,7 @@ RSpec.feature 'users can apply for opportunities', js: true, sso: true do
     expect(page).to have_content 'invalid_credentials'
   end
 
-  scenario 'user enquiries are emailed to DIT' do
+  scenario 'user enquiries are emailed to DBT' do
     allow(Figaro.env).to receive(:enquiries_cc_email).and_return('dit-cc@example.org')
     clear_email
 
