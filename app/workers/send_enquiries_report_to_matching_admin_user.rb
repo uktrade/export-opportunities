@@ -7,8 +7,8 @@ class SendEnquiriesReportToMatchingAdminUser < ActiveJob::Base
 
   def perform(current_editor_email, enquiries, from_date, to_date, zip_file_enquiries_cutoff)
     @enquiries = Enquiry.where(id: enquiries)
-    from_date = Date.strptime(from_date, '%d/%m/%Y')
-    to_date = Date.strptime(to_date, '%d/%m/%Y')
+    from_date = Date.strptime(from_date.to_s, '%d/%m/%Y')
+    to_date = Date.strptime(to_date.to_s, '%d/%m/%Y')
     @enquiries = @enquiries.where(created_at: from_date..to_date)
 
     csv = EnquiryCSV.new(@enquiries)
