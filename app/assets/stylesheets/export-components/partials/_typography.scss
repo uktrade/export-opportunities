@@ -1,8 +1,27 @@
+@font-face {
+  font-family: 'FS Lucas';
+  src: url('/static/fonts/FSLucas-Regular.woff2') format('woff2'),
+    url('/static/fonts/FSLucas-Regular.woff') format('woff'),
+    url('/static/fonts/FSLucas-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'FS Lucas SemiBold';
+  src: url('/static/fonts/FSLucas-SemiBold.eot'),
+    url('/static/fonts/FSLucas-SemiBold.eot?#iefix') format('embedded-opentype'),
+    url('/static/fonts/FSLucas-SemiBold.woff2') format('woff2'),
+    url('/static/fonts/FSLucas-SemiBold.woff') format('woff'),
+    url('/static/fonts/FSLucas-SemiBold.ttf') format('truetype'),
+    url('/static/fonts/FSLucas-SemiBold.svg#UbuntuBold') format('svg');
+}
+
 
 
 // Great specific fonts
-$brand-font: 'Overpass', 'Roboto', arial, helvetica, verdana;
-$brand-font-alternative: 'Roboto', arial, helvetica, verdana;
+$brand-font: "FS Lucas", Arial, Helvetica, Verdana;
+$brand-font-alternative: "FS Lucas SemiBold", Arial, Helvetica, Verdana;
 $quote-font: 'Georgia', serif;
 $line-height: 1.6;
 $hero-line-height: 1.2;

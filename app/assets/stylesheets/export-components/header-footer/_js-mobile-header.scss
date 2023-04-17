@@ -20,10 +20,15 @@
     background-color: #ffbf47;
     color: #1e1348;
 }
+#great-domestic-header {
+    >.menu{
+        padding: 10px 0;
+    }
+}
 
 .great-header .menu,
 .great-sub-header .menu {
-    background-color: #1e1348;
+    background-color: $color-header-footer;
     position: relative;
 }
 
@@ -269,7 +274,7 @@
 }
 
 .magna-header.great-header .main-nav.mobile.expanded {
-    background: #4b426d;
+    background: $color-header-footer;
     // padding: 0 20px;
     z-index: 1;
 }
@@ -338,7 +343,7 @@
     top: 45px;
     right: 0;
     color: #ffffff;
-    background-color: #1e1348;
+    background-color: $color-header-footer;
     border: 2px solid #ffffff;
     padding: 10px 45px 10px 10px;
     cursor: pointer;
@@ -543,7 +548,7 @@
         top: 45px;
         right: 0;
         color: #ffffff;
-        background-color: #1e1348;
+        background-color: $color-header-footer;
         border: 2px solid #ffffff;
         padding: 10px 45px 10px 10px;
         cursor: pointer;
@@ -634,7 +639,8 @@
 }
 
 #great-domestic-header .account-link {
-    color: #dfd5c5;
+    color: white;
+    font-size: 20px;
     text-decoration: none;
 }
 

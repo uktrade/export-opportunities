@@ -150,18 +150,19 @@ button.text {
 	line-height:25px; 
 }
 
-a.link {
+a, .link {
+  color: #1D70B8;
 	font-size:18px;
 	font-weight:400;
 	line-height:25px;
 }
 
 a.link-default {
-  color: #006ccc;
+  color: #1D70B8;
   cursor: pointer;
   text-decoration: underline;
 }
 
 a.link-default:active, a.link-default:hover {
-  color: #00549f;
+ color: #1D70B8;;
 }
