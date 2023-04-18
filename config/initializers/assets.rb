@@ -101,3 +101,7 @@ Rails.application.config.assets.precompile += %w[eig-logo-stacked.svg]
 
 Rails.application.config.assets.precompile += %w[dit.classes.Dropdown.js]
 Rails.application.config.assets.precompile += %w[dit.components.greatheader.js]
+
+############################################## 2023 Reskin ##############################################
+# Fonts# ---------------------------------
+# Rails.application.config.assets.precompile << /\.(?:eot|woff|ttf)\z/

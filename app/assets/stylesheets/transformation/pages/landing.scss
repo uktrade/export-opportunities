@@ -9,6 +9,8 @@
 @import "transformation/effects/carousel";
 @import "transformation/effects/tabbed_area";
 
+$brand-font-alternative: "FS Lucas SemiBold", Arial, Helvetica, Verdana;
+
 $mobile-size: 758px;
 
 section {
@@ -28,6 +30,10 @@ section {
 .breadcrumbs {
   a {
     color: inherit;
+    font-size: 20px;
+  }
+  .current{
+    font-size: 20px;
   }
 }
 
@@ -60,6 +66,10 @@ section {
   box-sizing: border-box;
   background-position-x: 45vw;
   padding-bottom: 30px !important;
+
+  h1{
+    font-family: $brand-font-alternative!important;
+  }
 
   .container {
     @media only screen and (max-width: $mobile-size) {

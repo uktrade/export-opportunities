@@ -1,6 +1,5 @@
-a {
-  font-family: "Roboto",arial,helvetica,sans-serif;
-}
+$brand-font: "FS Lucas", Arial, Helvetica, Verdana;
+$header-font: "FS Lucas SemiBold", Arial, Helvetica, Verdana;
 
 h1,
 .h1 {
@@ -140,7 +139,7 @@ p.lead {
 /* The below are not used yet */
 
 blockquote {
-  font-family: "Roboto",arial,helvetica,sans-serif;
+  font-family: $brand-font;
 }
 
 button.text {
@@ -152,7 +151,7 @@ button.text {
 
 a, .link {
   color: #1D70B8;
-	font-size:18px;
+	font-size:20px;
 	font-weight:400;
 	line-height:25px;
 }

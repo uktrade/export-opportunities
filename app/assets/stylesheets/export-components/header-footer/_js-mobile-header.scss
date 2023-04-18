@@ -203,7 +203,7 @@
     color: #ffffff;
     font-family: inherit;
     display: block;
-    font-size: 16px;
+    font-size: 20px;
     line-height: 30px;
     padding: 15px;
     text-decoration: none;
@@ -299,8 +299,8 @@
     background: none;
     border: 0;
     color: #fff;
-    font-family: Overpass, Arial, Helvetica, Verdana;
-    font-size: 18px;
+    font-family: $brand-font;
+    font-size: 20px;
     letter-spacing: 0;
     line-height: 16px;
     padding: 20px 0;
@@ -407,7 +407,7 @@
 }
 
 .magna-header .js-mobile-button.expanded {
-    background-color: #006ccc;
+    background-color: #1D70B8;
     z-index: 1;
 }
 
@@ -453,10 +453,10 @@
 }
 
 .magna-header .user-greeting {
-    background: #006ccc;
+    background: #1D70B8;
     color: #fff;
     display: none;
-    font-family: Overpass, Arial, Helvetica, Verdana;
+    font-family: $brand-font-alternative;
     font-size: 20px;
     padding: 15px 20px;
 }
@@ -612,7 +612,7 @@
     }
 
     .js-mobile-button.expanded {
-        background-color: #006ccc;
+        background-color: #1D70B8;
     }
 
     .js-mobile-button.expanded .burger-icon {
