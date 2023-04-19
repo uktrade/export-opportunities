@@ -5,9 +5,9 @@ $font-path: "/export-opportunities/assets/fonts";
 
 @font-face {
   font-family: "FS Lucas";
-  src: url("#{$font-path}/FSLucas-Regular.woff2") format("woff2"),
-    url("#{$font-path}/FSLucas-Regular.woff") format("woff"),
-    url("#{$font-path}/FSLucas-Regular.ttf") format("truetype");
+  src: font-url("FSLucas-Regular.woff2") format("woff2"),
+    font-url("FSLucas-Regular.woff") format("woff"),
+    font-url("FSLucas-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }

@@ -1,22 +1,20 @@
-$font-path: "/export-opportunities/assets/fonts";
-
 @font-face {
   font-family: "FS Lucas";
-  src: url("#{$font-path}/FSLucas-Regular.woff2") format("woff2"),
-    url("#{$font-path}/FSLucas-Regular.woff") format("woff"),
-    url("#{$font-path}/FSLucas-Regular.ttf") format("truetype");
+  src: font-url("FSLucas-Regular.woff2") format("woff2"),
+    font-url("FSLucas-Regular.woff") format("woff"),
+    font-url("FSLucas-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: "FS Lucas SemiBold";
-  src: url("#{$font-path}/FSLucas-SemiBold.eot"),
-    url("#{$font-path}/FSLucas-SemiBold.eot?#iefix") format("embedded-opentype"),
-    url("#{$font-path}/FSLucas-SemiBold.woff2") format("woff2"),
-    url("#{$font-path}/FSLucas-SemiBold.woff") format("woff"),
-    url("#{$font-path}/FSLucas-SemiBold.ttf") format("truetype"),
-    url("#{$font-path}/FSLucas-SemiBold.svg#UbuntuBold") format("svg");
+  src: font-url("FSLucas-SemiBold.eot"),
+    font-url("FSLucas-SemiBold.eot?#iefix") format("embedded-opentype"),
+    font-url("FSLucas-SemiBold.woff2") format("woff2"),
+    font-url("#{$font-path}/FSLucas-SemiBold.woff") format("woff"),
+    font-url("#{$font-path}/FSLucas-SemiBold.ttf") format("truetype"),
+    font-url("#{$font-path}/FSLucas-SemiBold.svg#UbuntuBold") format("svg");
 }
 
 // Great specific fonts

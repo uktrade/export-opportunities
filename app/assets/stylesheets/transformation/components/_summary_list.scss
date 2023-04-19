@@ -39,7 +39,7 @@
 
 
 // RESPONSIVE
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1000px) {
   .summary-list {
     a {
       @include columns(7);
@@ -59,7 +59,7 @@
 }
 
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 640px) {
   .summary-list {
     a {
       @include heading-s-mob;

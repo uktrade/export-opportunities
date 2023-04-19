@@ -15,6 +15,10 @@ $mobile-size: 758px;
 
 section {
   padding: $spacing-1 0;
+
+  @media only screen and (max-width: $mobile-size) {
+    padding: 30px 0;
+  }
 }
 
 .benefit {
@@ -32,7 +36,7 @@ section {
     color: inherit;
     font-size: 20px;
   }
-  .current{
+  .current {
     font-size: 20px;
   }
 }
@@ -67,8 +71,8 @@ section {
   background-position-x: 45vw;
   padding-bottom: 30px !important;
 
-  h1{
-    font-family: $brand-font-alternative!important;
+  h1 {
+    font-family: $brand-font-alternative !important;
   }
 
   .container {
@@ -295,12 +299,8 @@ section {
 }
 
 @media screen and (max-width: $mobile-size) {
-  section {
-    padding-top: $spacing-2;
-  }
-
-  #recent-opportunities {
-    padding-bottom: $spacing-2;
+  section, #service-promotion  {
+    padding: 30px 0;
   }
 }
 
@@ -328,8 +328,7 @@ section {
     display: block;
     background-image: asset_url("export-opportunities-header.png");
     background-repeat: no-repeat;
-
-    height: 211px;
+    height: 43vw;
     background-size: contain;
     background-position-x: center;
   }
@@ -337,6 +336,9 @@ section {
 
 #auxiliary-search {
   background-color: #eef2f6;
+  h2{
+    margin-bottom: 0;
+  }
   > div.container:nth-child(2) {
     form {
       background-color: #e0e8ef;
