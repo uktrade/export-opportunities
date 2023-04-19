@@ -1,8 +1,5 @@
 // FONT vars and mixins
 // ------------------------------
-
-$font-path: "/export-opportunities/assets/fonts";
-
 @font-face {
   font-family: "FS Lucas";
   src: font-url("FSLucas-Regular.woff2") format("woff2"),
@@ -14,12 +11,12 @@ $font-path: "/export-opportunities/assets/fonts";
 
 @font-face {
   font-family: "FS Lucas SemiBold";
-  src: url("#{$font-path}/FSLucas-SemiBold.eot"),
-    url("#{$font-path}/FSLucas-SemiBold.eot?#iefix") format("embedded-opentype"),
-    url("#{$font-path}/FSLucas-SemiBold.woff2") format("woff2"),
-    url("#{$font-path}/FSLucas-SemiBold.woff") format("woff"),
-    url("#{$font-path}/FSLucas-SemiBold.ttf") format("truetype"),
-    url("#{$font-path}/FSLucas-SemiBold.svg#UbuntuBold") format("svg");
+  src: font-url("FSLucas-SemiBold.eot"),
+    font-url("FSLucas-SemiBold.eot?#iefix") format("embedded-opentype"),
+    font-url("FSLucas-SemiBold.woff2") format("woff2"),
+    font-url("FSLucas-SemiBold.woff") format("woff"),
+    font-url("FSLucas-SemiBold.ttf") format("truetype"),
+    font-url("FSLucas-SemiBold.svg#UbuntuBold") format("svg");
 }
 
 $brand-font-standard: "FS Lucas", Arial, Helvetica, Verdana;
