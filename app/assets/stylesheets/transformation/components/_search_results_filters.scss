@@ -55,6 +55,7 @@
 .selected-filters {
   margin-bottom: $spacing-3;
   padding: $spacing-4;
+  padding-left: 0;
   position: relative;
 
   .param {
@@ -72,12 +73,6 @@
   .reset {
     @include link;
     @include body-s;
-  }
-
-  &:after {
-    @include great-red-trim;
-    bottom: 0;
-    top: initial;
   }
 }
 
