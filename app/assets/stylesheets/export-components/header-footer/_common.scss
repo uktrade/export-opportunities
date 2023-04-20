@@ -15,9 +15,31 @@
 .great-global-header-footer.international .great-global-header-footer-logo {
   margin-top: 11px;
 }
+.great-global-header-footer.domestic {
+  padding: 20px 0;
+  height: fit-content;
 
+  >div {
+
+    display: flex;
+    align-items: center;
+
+    p {
+      margin-left: auto;
+    }
+    
+    @media only screen and (max-width: 600px) {
+      flex-direction: column;
+      justify-self: unset;
+      align-items: flex-start;
+      p{
+        margin: 0;
+      }
+    }
+  }
+}
 .great-global-header-footer.domestic .great-global-header-footer-logo {
-  margin-top: 15px;
+  height: 30px;
 }
 
 .great-global-header-footer {
@@ -32,6 +54,7 @@
   .great-global-header-footer-logo {
     float: left;
     white-space: nowrap;
+    
   }
 
   .great-domestic-international-links {

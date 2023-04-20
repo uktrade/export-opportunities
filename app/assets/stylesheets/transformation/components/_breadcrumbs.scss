@@ -5,9 +5,11 @@
   margin: 0;
 
   a {
-    color: $grey;
+    color: #212427;
     text-decoration: underline;
     font-size: 20px;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
   }
 
    .current{
@@ -15,10 +17,16 @@
   }
 
   .separator {
-    @include right-chevron-2($light-grey);
+    @include right-chevron-2(#212427);
     box-sizing: initial;
     overflow: hidden;
     text-indent: -1000px;
+    width: 8px;
+    height: 8px;
+    border-width: 3px 3px 0 0 ;
+    margin: 0 10px;
+    margin-bottom: 2px;
+    
   }
 
   span:last-child:after {

@@ -87,6 +87,7 @@
 
     .separator {
       @include access-hidden;
+      color: blue
     }
 
     .text  {

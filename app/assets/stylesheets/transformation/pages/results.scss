@@ -184,6 +184,8 @@ form {
 
   .ExpanderControl {
     outline: none;
+    font-family: $brand-font-alternative;
+    font-size: 24px;
 
     &:before {
       @include down-chevron-1($black);

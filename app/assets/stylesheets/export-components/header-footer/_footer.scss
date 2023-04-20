@@ -26,6 +26,12 @@
   a {
     font-size: 15px;
     color: $light-grey;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+     &:hover, &:focus, &:active{
+      color: white!important;
+      text-decoration: none;
+    }
   }
 }
 
