@@ -24,8 +24,13 @@
     padding-right: $spacing-4;
   }
 
-  .next {
+  .next, .previous {
     float: right;
+    @include button-base;
+    background-color: $blue-3;
+    border-color: $blue-3;
+    color: $white;
+    cursor: default;
   }
 
   .previous {

@@ -4,7 +4,7 @@
 
 .cookie-notice {
   @include font-med-normal;
-  background-color: $stone-40;
+  background-color: $color-alternative-background;
   padding: 10px 0;
 
   a:focus, button:focus {

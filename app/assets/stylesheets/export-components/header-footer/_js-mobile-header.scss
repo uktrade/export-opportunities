@@ -20,10 +20,15 @@
     background-color: #ffbf47;
     color: #1e1348;
 }
+#great-domestic-header {
+    >.menu{
+        padding: 10px 0;
+    }
+}
 
 .great-header .menu,
 .great-sub-header .menu {
-    background-color: #1e1348;
+    background-color: $color-header-footer;
     position: relative;
 }
 
@@ -198,7 +203,7 @@
     color: #ffffff;
     font-family: inherit;
     display: block;
-    font-size: 16px;
+    font-size: 20px;
     line-height: 30px;
     padding: 15px;
     text-decoration: none;
@@ -269,7 +274,7 @@
 }
 
 .magna-header.great-header .main-nav.mobile.expanded {
-    background: #4b426d;
+    background: $color-header-footer;
     // padding: 0 20px;
     z-index: 1;
 }
@@ -294,8 +299,8 @@
     background: none;
     border: 0;
     color: #fff;
-    font-family: Overpass, Arial, Helvetica, Verdana;
-    font-size: 18px;
+    font-family: $brand-font;
+    font-size: 20px;
     letter-spacing: 0;
     line-height: 16px;
     padding: 20px 0;
@@ -338,7 +343,7 @@
     top: 45px;
     right: 0;
     color: #ffffff;
-    background-color: #1e1348;
+    background-color: $color-header-footer;
     border: 2px solid #ffffff;
     padding: 10px 45px 10px 10px;
     cursor: pointer;
@@ -402,7 +407,7 @@
 }
 
 .magna-header .js-mobile-button.expanded {
-    background-color: #006ccc;
+    background-color: #1D70B8;
     z-index: 1;
 }
 
@@ -448,10 +453,10 @@
 }
 
 .magna-header .user-greeting {
-    background: #006ccc;
+    background: #1D70B8;
     color: #fff;
     display: none;
-    font-family: Overpass, Arial, Helvetica, Verdana;
+    font-family: $brand-font-alternative;
     font-size: 20px;
     padding: 15px 20px;
 }
@@ -543,7 +548,7 @@
         top: 45px;
         right: 0;
         color: #ffffff;
-        background-color: #1e1348;
+        background-color: $color-header-footer;
         border: 2px solid #ffffff;
         padding: 10px 45px 10px 10px;
         cursor: pointer;
@@ -607,7 +612,7 @@
     }
 
     .js-mobile-button.expanded {
-        background-color: #006ccc;
+        background-color: #1D70B8;
     }
 
     .js-mobile-button.expanded .burger-icon {
@@ -634,7 +639,8 @@
 }
 
 #great-domestic-header .account-link {
-    color: #dfd5c5;
+    color: white;
+    font-size: 20px;
     text-decoration: none;
 }
 

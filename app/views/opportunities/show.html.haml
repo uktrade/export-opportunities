@@ -2,8 +2,11 @@
 - opportunity = OpportunityPresenter.new(self, @opportunity, @content)
 - page.add_breadcrumb_current(opportunity.title_with_country)
 
-.container
-  = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
+.breadcrumb-container
+  .container
+    = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
+
+.container.margin-top-30
 
   %article.opportunity
     %h1

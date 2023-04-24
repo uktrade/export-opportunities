@@ -430,20 +430,17 @@
       width: 60%; } }
 
 #footer {
-  font-family: "Roboto", arial, helvetica, sans-serif;
   font-size: 19px;
   font-weight: 400;
   line-height: 1.58em;
   background-color: #1e1348;
   color: #d8d8d8;
   position: relative;
-  font-family: "Roboto", arial, helvetica, sans-serif;
   font-size: 19px;
   font-weight: 400;
   line-height: 1.58em; }
   #footer a {
     color: #d8d8d8;
-    font-family: "Roboto", arial, helvetica, sans-serif;
     font-size: 15px;
     font-weight: 400;
     line-height: 1.47em; }
@@ -481,7 +478,6 @@
       top: -20px;
       width: 45px; }
   #footer .site-links a {
-    font-family: "Roboto", arial, helvetica, sans-serif;
     font-size: 15px;
     font-weight: 400;
     line-height: 1.47em;
@@ -502,7 +498,6 @@
   .global-footer img {
     vertical-align: middle; }
   .global-footer span {
-    font-family: "Roboto", arial, helvetica, sans-serif;
     font-size: 13px;
     font-weight: 400;
     line-height: 1.54em;
@@ -535,7 +530,6 @@
       top: -30px;
       width: 100.5%; }
   #footer .list-heading {
-    font-family: "Roboto", arial, helvetica, sans-serif;
     font-size: 15px;
     font-weight: 400;
     line-height: 1.47em; }
@@ -580,7 +574,6 @@
   float: right;
   padding-top: 44px; }
   #menu a {
-    font-family: "Roboto", arial, helvetica, sans-serif;
     font-size: 15px;
     font-weight: 400;
     line-height: 1.47em;
@@ -718,7 +711,6 @@
     transition: none;
     z-index: 1; }
     #menu a {
-      font-family: "Roboto", arial, helvetica, sans-serif;
       font-size: 19px;
       font-weight: 600;
       line-height: 1.58em;
@@ -789,7 +781,6 @@
       overflow: hidden;
       transition: none; }
   #menu-activator {
-    font-family: "Roboto", arial, helvetica, sans-serif;
     font-size: 15px;
     font-weight: 400;
     line-height: 1.47em;

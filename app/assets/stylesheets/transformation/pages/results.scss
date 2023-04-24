@@ -1,10 +1,9 @@
-@import 'transformation/config';
-@import 'transformation/forms';
-@import 'transformation/components/opportunity_list';
-@import 'transformation/components/pagination';
-@import 'transformation/components/search_results_filters';
-@import 'transformation/effects/expander';
-
+@import "transformation/config";
+@import "transformation/forms";
+@import "transformation/components/opportunity_list";
+@import "transformation/components/pagination";
+@import "transformation/components/search_results_filters";
+@import "transformation/effects/expander";
 
 form {
   max-width: none;
@@ -35,42 +34,44 @@ form {
   }
 
   .param {
-    background-color: $stone;
-    border-radius: 5px;
+    background-color: #DDE5ED;
     display: inline-block;
     margin-bottom: 5px;
     padding: 2px 15px;
   }
-
 }
 
 .subscription-link {
-  .hidden{
+  .hidden {
     display: none;
   }
   margin-top: 56px;
   margin-bottom: 20px;
   float: left;
-  input, a, span{
+  input,
+  a,
+  span {
     font-weight: bold;
   }
-  img{
+  img {
     height: 20px;
     float: left;
     margin-right: 20px;
   }
 }
 
-.jsonly{
+.jsonly {
   display: none;
 }
 
 @keyframes spinner {
-  to {transform: rotate(360deg);}
+  to {
+    transform: rotate(360deg);
+  }
 }
- 
+
 .spinner:before {
-  content: '';
+  content: "";
   box-sizing: border-box;
   position: absolute;
   width: 20px;
@@ -80,9 +81,8 @@ form {
   border-radius: 50%;
   border-top: 2px solid #07d;
   border-right: 2px solid transparent;
-  animation: spinner .6s linear infinite;
+  animation: spinner 0.6s linear infinite;
 }
-
 
 .search {
   float: right;
@@ -94,7 +94,7 @@ form {
     float: left;
     margin: 0;
     min-width: 225px;
-    
+
     span {
       font-weight: normal;
     }
@@ -150,7 +150,6 @@ form {
   }
 }
 
-
 .search-results-filters {
   float: left;
   margin-top: 3px;
@@ -185,6 +184,8 @@ form {
 
   .ExpanderControl {
     outline: none;
+    font-family: $brand-font-alternative;
+    font-size: 24px;
 
     &:before {
       @include down-chevron-1($black);
@@ -249,12 +250,11 @@ form {
 }
 
 #opportunity-search-results {
-  background-color: $stone-50;
-  margin: 0;
   padding: $spacing-3 0;
   overflow: hidden;
+    border-bottom: 1px solid #d6e0e5;
+      margin-bottom: 30px;
 }
-
 
 // RESPONSIVE
 @media (max-width: 1024px) {
@@ -291,7 +291,7 @@ form {
   .information {
     display: block;
     margin-bottom: $spacing-3;
-    width: auto
+    width: auto;
   }
 
   .search {

@@ -1,7 +1,7 @@
 // Typography
-$base-font-family: Roboto, sans-serif;
+$base-font-family: "FS Lucas", Arial, Helvetica, Verdana;
 
-$heading-font-family: Roboto, sans-serif;
+$heading-font-family: "FS Lucas SemiBold", Arial, Helvetica, Verdana;
 
 // Font Sizes
 $small-font-size: 0.875em;
@@ -67,13 +67,13 @@ $black:      rgb(0,0,0);
 $white:      rgb(255,255,255);
 
 $purple:     rgb(79,11,123);
-$mid-blue:   rgb(0,84,159);
+$mid-blue:   #1D70B8;
 $aqua:       rgb(0,126,163);
 
 
 // Font Colors
-$base-font-color: #4a4a4a;
-$header-font-color: #4a4a4a;
+$base-font-color: #212427;
+$header-font-color: #212427;
 $secondary-font-color: shade($stone, 50%);
 $action-color: $black;
 

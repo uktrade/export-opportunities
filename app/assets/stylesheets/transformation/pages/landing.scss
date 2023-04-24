@@ -1,16 +1,24 @@
-@import 'transformation/config';
-@import 'transformation/forms';
-@import 'transformation/components/opportunity_list';
-@import 'transformation/components/search_form';
-@import 'transformation/components/steps_indicator';
-@import 'transformation/components/quote';
-@import 'transformation/components/summary_list';
-@import 'transformation/components/filter_select';
-@import 'transformation/effects/carousel';
-@import 'transformation/effects/tabbed_area';
+@import "transformation/config";
+@import "transformation/forms";
+@import "transformation/components/opportunity_list";
+@import "transformation/components/search_form";
+@import "transformation/components/steps_indicator";
+@import "transformation/components/quote";
+@import "transformation/components/summary_list";
+@import "transformation/components/filter_select";
+@import "transformation/effects/carousel";
+@import "transformation/effects/tabbed_area";
+
+$brand-font-alternative: "FS Lucas SemiBold", Arial, Helvetica, Verdana;
+
+$mobile-size: 758px;
 
 section {
   padding: $spacing-1 0;
+
+  @media only screen and (max-width: $mobile-size) {
+    padding: 30px 0;
+  }
 }
 
 .benefit {
@@ -26,6 +34,10 @@ section {
 .breadcrumbs {
   a {
     color: inherit;
+    font-size: 20px;
+  }
+  .current {
+    font-size: 20px;
   }
 }
 
@@ -51,11 +63,37 @@ section {
 }
 
 .hero-section {
-  background-image: asset_url("backgrounds/ExOpps_HeroBanner1290x400_27@2x.jpg");
-  background-position: top left;
+  background-image: asset_url("export-opportunities-header.png");
   background-repeat: no-repeat;
-  background-size: cover;
-  padding: 0 0 $spacing-3 0;
+  background-size: auto 120%;
+  min-height: 385px;
+  box-sizing: border-box;
+  background-position-x: 45vw;
+  padding-bottom: 30px !important;
+
+  h1 {
+    font-family: $brand-font-alternative !important;
+  }
+
+  .container {
+    @media only screen and (max-width: $mobile-size) {
+      margin: 0;
+      > div:first-of-type {
+        margin: 0 20px;
+      }
+    }
+  }
+
+  @media only screen and (min-width: $mobile-size) and (max-width: 1000px) {
+    background-position-x: 23vw;
+  }
+
+  @media only screen and (max-width: $mobile-size) {
+    background: none;
+    p {
+      width: 100% !important;
+    }
+  }
 
   h1 {
     @include heading-hero;
@@ -63,7 +101,12 @@ section {
   }
 
   p {
-    width: $cols-6;
+    width: 50%;
+    margin-bottom: 50px;
+    @media only screen and (max-width: $mobile-size) {
+      margin-bottom: 30px;
+      padding-bottom: 0 !important;
+    }
   }
 
   .number {
@@ -88,18 +131,15 @@ section {
 }
 
 .search-section {
-  background-color: $great-blue;
-  color: $white;
-
   p {
-    width: $cols-6;
+    width: 60%;
   }
 
   .error {
     position: relative;
 
     select,
-    [type='search'] {
+    [type="search"] {
       border-color: $flag-red;
       outline: $flag-red solid 1px;
     }
@@ -120,11 +160,6 @@ section {
         top: $spacing-3;
         width: 3px;
       }
-    }
-
-    .term {
-      margin-left: $spacing-4;
-      width: calc(#{$cols-5} - #{$spacing-4});
     }
   }
 }
@@ -148,7 +183,7 @@ section {
 }
 
 #featured-industries {
-  background-color: $stone-light;
+  background-color: $color-alternative-background;
 }
 
 #recent-opportunities {
@@ -166,12 +201,14 @@ section {
 }
 
 #service-promotion {
-  background: $great-blue image_url('backgrounds/ExOpps_Benefits1290x830_3@2x.jpg') no-repeat center;
+  background: $color-header-footer
+    image_url("backgrounds/ExOpps_Benefits1290x830_3@2x.jpg") no-repeat center;
   background-size: 100%;
   overflow: hidden;
   padding: $spacing-1 0;
 
-  h2, ul {
+  h2,
+  ul {
     color: $white;
     max-width: 545px;
     width: $cols-8;
@@ -185,7 +222,7 @@ section {
   li {
     @include items(2, $spacing-3);
     @include body-s;
-    border-top: 4px solid $great-red;
+    border-top: 4px solid #1d70b8;
     color: $white;
     margin-bottom: $spacing-3;
     padding-top: $spacing-4;
@@ -200,7 +237,7 @@ section {
 }
 
 #testimonials {
-  background-color: $stone-30;
+  background-color: $color-alternative-background;
   padding: 70px 0 $spacing-3 0;
   position: relative;
 
@@ -220,7 +257,7 @@ section {
   }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: $mobile-size) {
   .benefit {
     float: none;
     margin-left: 0;
@@ -230,10 +267,11 @@ section {
 
   .search-section p {
     width: 100%;
+    padding-bottom: 30px;
   }
 
   .companies {
-     margin-bottom: $spacing-1;
+    margin-bottom: $spacing-1;
     .company {
       float: none;
       margin-left: 0;
@@ -245,27 +283,23 @@ section {
     width: auto;
   }
 
-
   #service-promotion {
     background-image: none;
-    h2, ul {
+    h2,
+    ul {
       max-width: none;
       width: auto;
     }
   }
 }
 
-@media screen and (max-width:768px) {
-  section {
-    padding-top: $spacing-2;
-  }
-
-  #recent-opportunities {
-    padding-bottom: $spacing-2;
+@media screen and (max-width: $mobile-size) {
+  section, #service-promotion  {
+    padding: 30px 0;
   }
 }
 
-@media screen and (max-width:480px) {
+@media screen and (max-width: 480px) {
   .hero-section {
     h1 {
       @include heading-hero-mob;
@@ -281,3 +315,34 @@ section {
   }
 }
 
+.mobile-hero-image {
+  display: none;
+
+  @media only screen and (max-width: $mobile-size) {
+    margin-top: 20px;
+    display: block;
+    background-image: asset_url("export-opportunities-header.png");
+    background-repeat: no-repeat;
+    height: 43vw;
+    background-size: contain;
+    background-position-x: center;
+  }
+}
+
+#auxiliary-search {
+  background-color: #eef2f6;
+  h2{
+    margin-bottom: 0;
+  }
+  > div.container:nth-child(2) {
+    form {
+      background-color: #e0e8ef;
+    }
+    @media only screen and (max-width: $mobile-size) {
+      margin: 0;
+      form {
+        background-color: #eef2f6;
+      }
+    }
+  }
+}

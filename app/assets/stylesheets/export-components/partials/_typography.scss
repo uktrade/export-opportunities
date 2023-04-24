@@ -1,14 +1,37 @@
+@font-face {
+  font-family: "FS Lucas";
+  src: font-url("FSLucas-Regular.woff2") format("woff2"),
+    font-url("FSLucas-Regular.woff") format("woff"),
+    font-url("FSLucas-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
+@font-face {
+  font-family: "FS Lucas SemiBold";
+  src: font-url("FSLucas-SemiBold.eot"),
+    font-url("FSLucas-SemiBold.eot?#iefix") format("embedded-opentype"),
+    font-url("FSLucas-SemiBold.woff2") format("woff2"),
+    font-url("FSLucas-SemiBold.woff") format("woff"),
+    font-url("FSLucas-SemiBold.ttf") format("truetype"),
+    font-url("FSLucas-SemiBold.svg#UbuntuBold") format("svg");
+}
 
 // Great specific fonts
-$brand-font: 'Overpass', 'Roboto', arial, helvetica, verdana;
-$brand-font-alternative: 'Roboto', arial, helvetica, verdana;
-$quote-font: 'Georgia', serif;
+$brand-font: "FS Lucas", Arial, Helvetica, Verdana;
+$brand-font-alternative: "FS Lucas SemiBold", Arial, Helvetica, Verdana;
+$quote-font: "Georgia", serif;
 $line-height: 1.6;
 $hero-line-height: 1.2;
 
-
-@mixin font-generator($font-family: $brand-font-alternative, $font-size: 19px, $font-size-mobile: 16px, $font-weight: 400, $font-style: normal, $line-height: 1.6) {
+@mixin font-generator(
+  $font-family: $brand-font-alternative,
+  $font-size: 19px,
+  $font-size-mobile: 16px,
+  $font-weight: 400,
+  $font-style: normal,
+  $line-height: 1.6
+) {
   font-weight: $font-weight;
   font-size: $font-size-mobile;
   font-family: $font-family;
@@ -21,113 +44,189 @@ $hero-line-height: 1.2;
 }
 
 @mixin body-xlarge {
-  @include font-generator($font-size: 36px, $font-size-mobile: 24px, $line-height: 1.6)
+  @include font-generator(
+    $font-size: 36px,
+    $font-size-mobile: 24px,
+    $line-height: 1.6
+  );
 }
 
 @mixin body-large {
-  @include font-generator($font-size: 24px, $font-size-mobile: 19px, $line-height: 1.6)
+  @include font-generator(
+    $font-size: 24px,
+    $font-size-mobile: 19px,
+    $line-height: 1.6
+  );
 }
 
 @mixin body-medium {
-  @include font-generator($font-size: 19px, $font-size-mobile: 16px, $line-height: 1.6)
+  @include font-generator(
+    $font-size: 19px,
+    $font-size-mobile: 16px,
+    $line-height: 1.6
+  );
 }
 
 @mixin body-small {
-  @include font-generator($font-size: 16px, $font-size-mobile: 14px, $line-height: 1.6)
+  @include font-generator(
+    $font-size: 16px,
+    $font-size-mobile: 14px,
+    $line-height: 1.6
+  );
 }
 
 @mixin quote-xlarge {
-  @include font-generator($font-size: 36px, $font-size-mobile: 24px, $line-height: 1.6)
+  @include font-generator(
+    $font-size: 36px,
+    $font-size-mobile: 24px,
+    $line-height: 1.6
+  );
 }
 
 @mixin quote-large {
-  @include font-generator($font-size: 24px, $font-size-mobile: 19px, $line-height: 1.6)
+  @include font-generator(
+    $font-size: 24px,
+    $font-size-mobile: 19px,
+    $line-height: 1.6
+  );
 }
 
 @mixin quote-medium {
-  @include font-generator($font-size: 19px, $font-size-mobile: 16px, $line-height: 1.6)
+  @include font-generator(
+    $font-size: 19px,
+    $font-size-mobile: 16px,
+    $line-height: 1.6
+  );
 }
 
 @mixin quote-small {
-  @include font-generator($font-size: 16px, $font-size-mobile: 14px, $line-height: 1.6)
+  @include font-generator(
+    $font-size: 16px,
+    $font-size-mobile: 14px,
+    $line-height: 1.6
+  );
 }
 
 @mixin body-xlarge-bold {
-  @include font-generator($font-size: 36px, $font-size-mobile: 24px, $line-height: 1.6, $font-weight: 700)
+  @include font-generator(
+    $font-size: 36px,
+    $font-size-mobile: 24px,
+    $line-height: 1.6,
+    $font-weight: 700
+  );
 }
 
 @mixin body-large-bold {
-  @include font-generator($font-size: 24px, $font-size-mobile: 19px, $line-height: 1.6, $font-weight: 700)
+  @include font-generator(
+    $font-size: 24px,
+    $font-size-mobile: 19px,
+    $line-height: 1.6,
+    $font-weight: 700
+  );
 }
 
 @mixin body-medium-bold {
-  @include font-generator($font-size: 19px, $font-size-mobile: 16px, $font-weight: 700, $line-height: 1.6)
+  @include font-generator(
+    $font-size: 19px,
+    $font-size-mobile: 16px,
+    $font-weight: 700,
+    $line-height: 1.6
+  );
 }
 
 @mixin body-small-bold {
-  @include font-generator($font-size: 16px, $font-size-mobile: 14px, $line-height: 1.6, $font-weight: 700)
+  @include font-generator(
+    $font-size: 16px,
+    $font-size-mobile: 14px,
+    $line-height: 1.6,
+    $font-weight: 700
+  );
 }
 
 @mixin brand-xxlarge {
-  @include font-generator($font-size: 48px, $font-size-mobile: 32px, $line-height: 1.2, $font-weight: 700, $font-family: $brand-font)
+  @include font-generator(
+    $font-size: 48px,
+    $font-size-mobile: 32px,
+    $line-height: 1.2,
+    $font-weight: 700,
+    $font-family: $brand-font
+  );
 }
 
 @mixin brand-xlarge {
-  @include font-generator($font-size: 36px, $font-size-mobile: 24px, $line-height: 1.4, $font-weight: 700, $font-family: $brand-font)
+  @include font-generator(
+    $font-size: 36px,
+    $font-size-mobile: 24px,
+    $line-height: 1.4,
+    $font-weight: 700,
+    $font-family: $brand-font
+  );
 }
 
 @mixin brand-large {
-  @include font-generator($font-size: 24px, $font-size-mobile: 19px, $line-height: 1.6, $font-weight: 700, $font-family: $brand-font)
+  @include font-generator(
+    $font-size: 24px,
+    $font-size-mobile: 19px,
+    $line-height: 1.6,
+    $font-weight: 700,
+    $font-family: $brand-font
+  );
 }
 
 @mixin brand-medium {
-  @include font-generator($font-size: 19px, $font-size-mobile: 16px, $line-height: 1.6, $font-weight: 700, $font-family: $brand-font)
+  @include font-generator(
+    $font-size: 19px,
+    $font-size-mobile: 16px,
+    $line-height: 1.6,
+    $font-weight: 700,
+    $font-family: $brand-font
+  );
 }
 
 @mixin font-xlarge-normal {
-  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-family: $brand-font;
   font-size: 24px;
   font-weight: 400;
 }
 
 @mixin font-xlarge-bold {
-  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-family: $brand-font;
   font-size: 24px;
   font-weight: 700;
 }
 
 @mixin font-large-normal {
-  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-family: $brand-font;
   font-size: 19px;
   font-weight: 400;
 }
 
 @mixin font-large-bold {
-  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-family: $brand-font;
   font-size: 19px;
   font-weight: 700;
 }
 
 @mixin font-med-normal {
-  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-family: $brand-font;
   font-size: 15px;
   font-weight: 400;
 }
 
 @mixin font-med-bold {
-  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-family: $brand-font;
   font-size: 15px;
   font-weight: 700;
 }
 
 @mixin font-small-normal {
-  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-family: $brand-font;
   font-size: 12px;
   font-weight: 400;
 }
 
 @mixin font-small-bold {
-  font-family: 'Roboto', arial, helvetica, sans-serif;
+  font-family: $brand-font;
   font-size: 12px;
   font-weight: 700;
 }

@@ -320,7 +320,7 @@ textarea {
   input:checked + label {
     &::after {
       background: transparent;
-      border: solid $blue-1;
+      border: solid #212427;
       border-width: 0 0 5px 5px;
       content: "";
       height: 7px;

@@ -53,30 +53,26 @@
 }
 
 .selected-filters {
-  background-color: $stone-30;
   margin-bottom: $spacing-3;
   padding: $spacing-4;
+  padding-left: 0;
   position: relative;
 
   .param {
     @include body-s;
-    background-color: $stone;
-    border-radius: 5px;
+    background-color: #DDE5ED;
     clear: both;
     display: inline-block;
     margin: 0 5px 5px 0;
     padding: 2px 15px;
+    &::before{
+      display: none
+    }
   }
 
   .reset {
     @include link;
     @include body-s;
-  }
-
-  &:after {
-    @include great-red-trim;
-    bottom: 0;
-    top: initial;
   }
 }
 

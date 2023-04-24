@@ -1,12 +1,17 @@
 %section#hero-banner.hero-section.search-section
   .container
-    = render partial: 'components/breadcrumbs', locals: { breadcrumbs: @page.breadcrumbs }
-    
-    %h1= @content["title"]
-    %p= @page.description @opportunities_stats[:total]
+
+    %div
+      %h1= @content["title"]
+      %p= @page.description @opportunities_stats[:total]
     = render partial: "opportunities/search_form", locals: { regions: @regions, countries: @countries }
 
+%div.breadcrumb-container
+  %div.container
+    = render partial: 'components/breadcrumbs', locals: { breadcrumbs: @page.breadcrumbs }
 
+%div.mobile-hero-image
+  
 %section#recent-opportunities
   .container
     %h2 Latest export opportunities
@@ -67,4 +72,6 @@
 %section#auxiliary-search.search-section
   .container
     %h2= @content["title"]
+  %div.container  
     = render partial: "opportunities/search_form", locals: { regions: @regions, countries: @countries }
+
