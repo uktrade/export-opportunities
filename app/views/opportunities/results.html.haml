@@ -1,8 +1,9 @@
-.container
-  = render partial: 'components/breadcrumbs', locals: { breadcrumbs: @page.breadcrumbs }
-
-#opportunity-search-results
+.breadcrumb-container
   .container
+    = render partial: 'components/breadcrumbs', locals: { breadcrumbs: @page.breadcrumbs }
+
+#opportunity-search-results.container
+  %div
     %h1.verbose= @results.content['title']
     .information
       %p= @results.information

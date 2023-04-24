@@ -4,6 +4,7 @@
     display: block;
     font-weight: bold;
     margin: 10px $spacing-4 #{$spacing-4 + 4px} $spacing-4; /* 4px compensates for red trim */
+    text-decoration: none;
   }
 
   img {
@@ -38,7 +39,7 @@
 
 
 // RESPONSIVE
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1000px) {
   .summary-list {
     a {
       @include columns(7);
@@ -58,7 +59,7 @@
 }
 
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 640px) {
   .summary-list {
     a {
       @include heading-s-mob;

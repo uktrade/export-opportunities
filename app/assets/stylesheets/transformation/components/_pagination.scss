@@ -1,11 +1,19 @@
+
+
+
 .pagination {
   text-align: center;
 
   a {
     @include button-ghost($active-blue, $white);
+    // @include secondary-button();
+
     margin-bottom: $spacing-4;
     padding-left: $spacing-4;
     padding-right: $spacing-4;
+    &:hover, &:focus{
+      // @include primary-button()
+    }
   }
 
   li {

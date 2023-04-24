@@ -127,7 +127,7 @@
     &::-webkit-input-placeholder,
     &:-ms-input-placeholder,
     &::-moz-placeholder {
-      font-family: Roboto;
+      font-family: $brand-font;
       font-size: 16px;
       letter-spacing: -0.3px;
       color: $midgrey;

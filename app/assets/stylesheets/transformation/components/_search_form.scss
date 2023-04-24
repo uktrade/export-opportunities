@@ -1,21 +1,32 @@
+$mobile-size: 768px;
+
 .search-form {
-  background-color: $grey-special;
+  display: inline-flex;
+  flex-wrap: wrap;
+  width: 100%;
+  flex-grow: 1;
+  gap: 20px;
+  background-color: $color-alternative-background;
   max-width: none;
   padding: $spacing-3;
+  margin-bottom: 0;
+   @media only screen and (max-width: $mobile-size) {
+    padding: 20px;
+   }
 
   label {
     margin-bottom: 0;
   }
 
   input {
-    height: 54px;
-    margin: 0;
+    height: 50px;
+    max-width: initial;
   }
 
   select {
     background-color: $white;
     float: left;
-    height: 54px;
+    height: 50px;
     left: -2px;
     margin: 0;
     position: relative;
@@ -25,63 +36,69 @@
   .filter {
     float: left;
     width: $cols-4;
+    flex-grow: 1;
+    min-width: 300px;
   }
 
   .submit {
     float: left;
-    margin: 0 0 0 $spacing-4;
+    margin: 0;
     padding-left: 0;
     padding-right: 0;
     width: calc(#{$cols-3} - #{$spacing-4});
+    min-width: 200px;
+    flex-grow: 1;
+    max-width: initial;
   }
 
   .term {
+    min-width: 300px;
     float: left;
-    width: $cols-5;
+    width: $cols-4;
+    flex-grow: 1;
   }
-
-  &:after {
-    clear: both;
-    content: "";
-    display: block;
-  }
+    @media only screen and (max-width: 640px) {
+   .filter, .term, .submit {
+    width: 100%;
+   }
+}
 }
 
 // RESPONSIVE
-@media screen and (max-width: 980px) {
-  .search-form {
-    padding-bottom: $spacing-3;
+// @media screen and (max-width: 980px) {
+//   .search-form {
+//     padding-bottom: $spacing-3;
 
-    label {
-      margin-bottom: $spacing-3;
-    }
+//     label {
+//       margin-bottom: $spacing-3;
+//     }
 
-    .filter {
-      width: $cols-5;
-    }
+//     .filter {
+//       width: $cols-5;
+//     }
 
-    .submit {
-      margin: 0;
-      width: $cols-4;
-    }
+//     .submit {
+//       margin: 0;
+//       width: $cols-4;
+//     }
 
-    .term {
-      width: $cols-7;
-    }
-  }
-}
+//     .term {
+//       width: $cols-7;
+//     }
+//   }
+// }
 
-@media screen and (max-width: 768px) {
-  .search-form {
-    .filter,
-    label,
-    .submit,
-    .term,
-    .term select {
-      width: 100%;
-    }
-    input {
-      max-width: none;
-    }
-  }
-}
+// @media screen and (max-width: 768px) {
+//   .search-form {
+//     .filter,
+//     label,
+//     .submit,
+//     .term,
+//     .term select {
+//       width: 100%;
+//     }
+//     input {
+//       max-width: none;
+//     }
+//   }
+// }

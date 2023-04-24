@@ -66,7 +66,7 @@
         }
 
 		.main-nav.mobile.expanded {
-			background: #4b426d;
+			background: $color-header-footer;
 			// padding: 0 20px 0;
             z-index: 1;
             
@@ -88,7 +88,7 @@
 				background: none;
 				border: 0;
 				color: #fff;
-				font-family: Overpass, Arial, Helvetica, Verdana;
+				font-family: $brand-font;
 				font-size: 18px;
 				letter-spacing: 0;
 				line-height: 16px;
@@ -114,6 +114,10 @@
 		}
 	}
 
+	#mobile-menu-button{
+		font-size: 20px!important;
+	}
+
 	.js-mobile-button {
 		display: none;
 
@@ -124,9 +128,10 @@
 		top: 45px;
 		right: 0;
 		color: $white;
-		background-color: $great-blue;
+		background-color: $color-header-footer;
 		border: 2px solid $white;
 		padding: 10px 45px 10px 10px;
+		font-size: 20px;
 		cursor: pointer;
 
 		&:focus {
@@ -207,10 +212,10 @@
     }
     
     .user-greeting {
-        background: #006ccc;
+        background: #1D70B8;
         color: #fff;
         display: none;
-        font-family: Overpass, Arial, Helvetica, Verdana;
+        font-family: $brand-font;
         font-size: 20px;
         padding: 15px 20px;
     }

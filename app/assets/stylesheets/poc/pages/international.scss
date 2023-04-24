@@ -26,6 +26,10 @@ section {
   a {
     color: inherit;
   }
+
+  .current{
+    font-size: 20px;
+  }
 }
 
 .companies {
@@ -46,7 +50,7 @@ section {
 }
 
 .hero-section {
-  background-image: asset_url("backgrounds/ExOpps_HeroBanner1290x400_26@2x.png");
+  background-image: asset_url("export-opportunities-header.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100%;
@@ -87,7 +91,6 @@ section {
 }
 
 .search-section {
-  background-color: $great-blue;
   color: $white;
 
   p {
@@ -114,7 +117,7 @@ section {
 }
 
 #featured-industries {
-  background-color: $stone-light;
+  background-color: $color-alternative-background;
 }
 
 #recent-opportunities {
@@ -140,7 +143,7 @@ section {
 }
 
 #service-promotion {
-  background: $great-blue image_url('backgrounds/ExOpps_Benefits1290x830_3@2x.jpg') no-repeat center;
+  background: $color-header-footer image_url('backgrounds/ExOpps_Benefits1290x830_3@2x.jpg') no-repeat center;
   background-size: 100%;
   overflow: hidden;
   padding: $spacing-1 0;
