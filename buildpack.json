@@ -1,0 +1,10 @@
+{
+  "builpacks": [
+    {
+      "paketo-buildpacks": "python"
+    },
+    {
+      "paketo-buildpacks": "nodejs"
+    }
+  ]
+}
