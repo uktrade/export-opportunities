@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.7.7'
 
-gem 'rails', '6.0.6.1'
+gem 'rails', '6.1.7.3'
 gem 'bundler'
 gem 'puma', '5.6.4'
 gem 'pg', '1.1.4'
@@ -19,7 +19,7 @@ gem 'immutable-struct'
 gem 'nokogiri', '>= 1.13.10'
 
 # Authentication & authorisation
-gem 'devise', github: 'heartcombo/devise', branch: 'master'
+gem 'devise'
 gem 'devise-async'
 gem 'hawk-auth'
 gem 'omniauth', '2.0.3'
@@ -35,13 +35,14 @@ gem 'sdoc'
 # Search
 gem 'pg_search'
 gem 'kaminari', '>= 1.2.1'
+gem 'elasticsearch', '7.9.0'
 gem 'elasticsearch-rails', '7.1.1'
 gem 'elasticsearch-model', '7.1.1'
 gem 'devise-security', '0.14.3'
 
 # Styling
 gem 'bourbon'
-gem 'neat', '1.8.0'
+gem 'neat'
 gem 'autoprefixer-rails'
 gem 'normalize-scss'
 gem 'sass-rails'
