@@ -4,7 +4,7 @@ ruby '2.7.7'
 
 gem 'rails', '6.1.7.4'
 gem 'bundler'
-gem 'puma', '5.6.4'
+gem 'puma', '5.6.7'
 gem 'pg', '1.1.4'
 gem 'sidekiq', '6.5.8'
 gem 'sidekiq-cron', '1.9.1'
