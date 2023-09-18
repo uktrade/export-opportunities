@@ -2,11 +2,11 @@ source 'https://rubygems.org'
 
 ruby '2.7.7'
 
-gem 'rails', '6.1.7.4'
+gem 'rails', '6.1.7.5'
 gem 'bundler'
 gem 'puma', '5.6.7'
 gem 'pg', '1.1.4'
-gem 'sidekiq', '6.5.8'
+gem 'sidekiq', '7.1.3'
 gem 'sidekiq-cron', '1.9.1'
 gem 'sidekiq-failures', '1.0.1'
 gem 'redis', '4.8.1'
