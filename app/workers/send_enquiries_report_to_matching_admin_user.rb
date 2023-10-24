@@ -30,10 +30,10 @@ class SendEnquiriesReportToMatchingAdminUser < ActiveJob::Base
           zipfile.get_output_stream(zipped_filename + '.csv') { |f| f.puts [header] + data.shift(zip_file_enquiries_cutoff_ses_limit) }
         end
 
-        EnquiriesReportMailer.send_report(zipped_filename + '.zip', current_editor_email, true).deliver_later!
+        EnquiriesReportMailer.send_report(zipped_filename + '.zip', current_editor_email, true).deliver_now!
       end
     else
-      EnquiriesReportMailer.send_report(csv_file, current_editor_email, false).deliver_later!
+      EnquiriesReportMailer.send_report(csv_file, current_editor_email, false).deliver_now!
     end
   end
 
