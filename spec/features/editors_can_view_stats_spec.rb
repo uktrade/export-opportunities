@@ -363,7 +363,7 @@ RSpec.feature 'Editors can view stats' do
 
       choose 'granularity', option: 'Universe'
 
-      uncheck('DBT')
+      uncheck('DIT')
 
       click_on(@content['submit_button'], match: :first)
     end
