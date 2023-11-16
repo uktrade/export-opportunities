@@ -88,7 +88,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
        it 'routes to the feed correctly if you request application/xml' do
         @request.env['HTTP_ACCEPT'] = 'application/xml'
         get :index
-        expect(response.content_type).to eq('application/xml')
+        expect(response.content_type).to eq('application/xml; charset=utf-8')
         expect(response.body).to have_css('feed')
       end
 

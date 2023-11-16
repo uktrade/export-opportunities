@@ -8,7 +8,7 @@ RSpec.describe CompanyDetailsController, type: :controller do
       allow_any_instance_of(CompanyHouseFinder).to receive(:call).and_return([company_detail])
       response = get :index, params: { search: 'Dxw Ltd' }
 
-      expect(response.content_type).to eql('application/json')
+      expect(response.content_type).to eql('application/json; charset=utf-8')
       data = JSON.parse(response.body)
       expect(data[0]['name']).to eql company_detail.name
       expect(data[0]['number']).to eql company_detail.number
