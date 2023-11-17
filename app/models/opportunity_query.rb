@@ -60,8 +60,7 @@ class OpportunityQuery
       query = query.joins(:types).merge(Type.where(slug: @filters.types)) if @filters.types.present?
       query = query.joins(:values).merge(Value.where(slug: @filters.values)) if @filters.values.present?
 
-      # Without an argument, .count will produce invalid SQL in this context
-      @count = query.count(:all)
+      @count = query.count('opportunities.id')
 
       query = query.page(@page).per(@per_page)
 
