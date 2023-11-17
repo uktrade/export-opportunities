@@ -37,8 +37,8 @@ feature 'admins can download opportunities' do
 
   scenario 'downloading opportunities by date range' do
     skip('works IRL, need to update test')
-    in_range = create(:opportunity, created_at: Date.new(2016, 6, 15))
-    out_of_range = create(:opportunity, created_at: Date.new(2016, 7, 15))
+    in_range = create(:opportunity, created_at: Date.new(2019, 6, 15))
+    out_of_range = create(:opportunity, created_at: Date.new(2019, 7, 15))
 
     admin = create(:admin)
 
