@@ -47,11 +47,11 @@ feature 'admins can download opportunities' do
 
     expect(page).to have_button('Download as CSV')
 
-    select '2016', from: 'created_at_from_year'
+    select '2019', from: 'created_at_from_year'
     select 'June', from: 'created_at_from_month'
     select '1', from: 'created_at_from_day'
 
-    select '2016', from: 'created_at_to_year'
+    select '2019', from: 'created_at_to_year'
     select 'July', from: 'created_at_to_month'
     select '1', from: 'created_at_to_day'
 
@@ -71,11 +71,11 @@ feature 'admins can download opportunities' do
     visit admin_opportunities_path
     click_on 'Download'
 
-    select '2016', from: 'created_at_from_year'
+    select '2019', from: 'created_at_from_year'
     select 'March', from: 'created_at_from_month'
     select '1', from: 'created_at_from_day'
 
-    select '2016', from: 'created_at_to_year'
+    select '2019', from: 'created_at_to_year'
     select 'February', from: 'created_at_to_month'
     select '1', from: 'created_at_to_day'
 
@@ -90,11 +90,11 @@ feature 'admins can download opportunities' do
     login_as(admin)
     visit '/export-opportunities/admin/opportunities/downloads/new'
 
-    select '2016', from: 'created_at_from_year'
+    select '2019', from: 'created_at_from_year'
     select 'February', from: 'created_at_from_month'
     select '1', from: 'created_at_from_day'
 
-    select '2016', from: 'created_at_to_year'
+    select '2019', from: 'created_at_to_year'
     select 'February', from: 'created_at_to_month'
     select '31', from: 'created_at_to_day'
 
@@ -109,11 +109,11 @@ feature 'admins can download opportunities' do
     login_as(admin)
     visit '/export-opportunities/admin/opportunities/downloads/new'
 
-    select '2016', from: 'created_at_from_year'
+    select '2019', from: 'created_at_from_year'
     select 'February', from: 'created_at_from_month'
     select '31', from: 'created_at_from_day'
 
-    select '2016', from: 'created_at_to_year'
+    select '2019', from: 'created_at_to_year'
     select 'March', from: 'created_at_to_month'
     select '1', from: 'created_at_to_day'
 
@@ -129,11 +129,11 @@ feature 'admins can download opportunities' do
     login_as(admin)
     visit '/export-opportunities/admin/opportunities/downloads/new'
 
-    select '2016', from: 'created_at_from_year'
+    select '2019', from: 'created_at_from_year'
     select 'February', from: 'created_at_from_month'
     select '1', from: 'created_at_from_day'
 
-    select '2016', from: 'created_at_to_year'
+    select '2019', from: 'created_at_to_year'
     select 'March', from: 'created_at_to_month'
     select '1', from: 'created_at_to_day'
 
@@ -148,11 +148,11 @@ feature 'admins can download opportunities' do
     login_as(admin)
     visit '/export-opportunities/admin/opportunities/downloads/new'
 
-    select '2016', from: 'created_at_from_year'
+    select '2019', from: 'created_at_from_year'
     select 'February', from: 'created_at_from_month'
     select '31', from: 'created_at_from_day'
 
-    select '2016', from: 'created_at_to_year'
+    select '2019', from: 'created_at_to_year'
     select 'March', from: 'created_at_to_month'
     select '1', from: 'created_at_to_day'
 
@@ -168,11 +168,11 @@ feature 'admins can download opportunities' do
     login_as(admin)
     visit '/export-opportunities/admin/opportunities/downloads/new'
 
-    select '2016', from: 'created_at_from_year'
+    select '2019', from: 'created_at_from_year'
     select 'February', from: 'created_at_from_month'
     select '1', from: 'created_at_from_day'
 
-    select '2016', from: 'created_at_to_year'
+    select '2019', from: 'created_at_to_year'
     select 'March', from: 'created_at_to_month'
     select '1', from: 'created_at_to_day'
 
@@ -180,7 +180,7 @@ feature 'admins can download opportunities' do
 
     expect(page).to have_button('Download as CSV', disabled: true)
 
-    select '2016', from: 'created_at_from_year'
+    select '2019', from: 'created_at_from_year'
     select 'February', from: 'created_at_from_month'
     select '1', from: 'created_at_from_day'
 
