@@ -59,7 +59,7 @@ feature 'Administering opportunities' do
 
     fill_in 'opportunity_title', with: 'Panama - Basic sanitation infrastructure'
     fill_in 'opportunity_teaser', with: 'A new life awaits you in the off-world colonies!'
-    fill_in_response_due_on '2016', '06', '04'
+    fill_in_response_due_on '2023', '06', '04'
     fill_in 'opportunity_description', with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
     fill_in_contact_details
     click_on form['submit_create']
@@ -91,7 +91,7 @@ feature 'Administering opportunities' do
 
     fill_in 'opportunity_title', with: 'A chance to begin again in a golden land of opportunity and adventure'
     fill_in 'opportunity_teaser', with: 'A new life awaits you in the off-world colonies!'
-    fill_in_response_due_on '2016', '06', '04'
+    fill_in_response_due_on '2023', '06', '04'
     fill_in 'opportunity_description', with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
     select service_provider.name, from: 'Service provider'
     fill_in_contact_details
@@ -113,7 +113,7 @@ feature 'Administering opportunities' do
 
     fill_in 'opportunity_title', with: 'A chance to begin again in a golden land of opportunity and adventure'
     fill_in 'opportunity_teaser', with: 'A new life awaits you in the off-world colonies!'
-    fill_in_response_due_on '2016', '06', '04'
+    fill_in_response_due_on '2023', '06', '04'
     fill_in 'opportunity_description', with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
     select service_provider.name, from: 'Service provider'
     fill_in_contact_details
@@ -163,7 +163,7 @@ feature 'Administering opportunities' do
 
       fill_in 'opportunity_title', with: 'A chance to begin again in a golden land of opportunity and adventure'
       fill_in 'opportunity_teaser', with: 'A new life awaits you in the off-world colonies!'
-      fill_in_response_due_on '2016', '06', '04'
+      fill_in_response_due_on '2023', '06', '04'
       fill_in 'opportunity_description', with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
       select service_provider.name, from: 'Service provider'
       fill_in_contact_details
@@ -187,7 +187,7 @@ feature 'Administering opportunities' do
 
       fill_in 'opportunity_title', with: 'A chance to begin again in a golden land of opportunity and adventure'
       fill_in 'opportunity_teaser', with: 'A new life awaits you in the off-world colonies!'
-      fill_in_response_due_on '2016', '06', '04'
+      fill_in_response_due_on '2023', '06', '04'
       fill_in 'opportunity_description', with: 'Replicants are like any other machine. They’re either a benefit or a hazard. If they’re a benefit, it’s not my problem.'
       select service_provider.name, from: 'Service provider'
       fill_in_contact_details

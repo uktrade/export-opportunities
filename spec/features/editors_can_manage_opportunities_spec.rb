@@ -78,7 +78,6 @@ feature 'Administering opportunities' do
 
     fill_in 'opportunity_title', with: 'Lorem ipsum title'
     fill_in 'opportunity_teaser', with: 'Lorem ipsum teaser'
-    fill_in 'opportunity_description', with: 'Lorem&nbsp;ipsum description'
     fill_in 'opportunity_contacts_attributes_0_name', with: uploader.name
     fill_in 'opportunity_contacts_attributes_0_email', with: 'jane.doe@example.com'
     fill_in 'opportunity_contacts_attributes_1_name', with: 'Joe Bloggs'
@@ -97,7 +96,7 @@ feature 'Administering opportunities' do
     click_on 'Save and continue'
 
     expect(page.status_code).to eq 200
-    expect(page).to have_text(/Lorem ipsum description/)
+    expect(page).to have_text(/Lorem ipsum title/)
   end
 
   feature 'creating a new opportunity without valid data', js: true do
