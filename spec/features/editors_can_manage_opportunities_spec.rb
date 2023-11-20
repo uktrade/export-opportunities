@@ -23,7 +23,7 @@ feature 'Administering opportunities' do
 
     fill_in 'opportunity_title', with: 'Lorem ipsum title'
     fill_in 'opportunity_teaser', with: 'Lorem ipsum teaser'
-    fill_in 'opportunity_description', with: 'Lorem ipsum description'
+    fill_in 'cke_1_contents', with: 'Lorem ipsum description'
     fill_in 'opportunity_contacts_attributes_0_name', with: uploader.name
     fill_in 'opportunity_contacts_attributes_0_email', with: 'jane.doe@example.com'
     fill_in 'opportunity_contacts_attributes_1_name', with: 'Joe Bloggs'
