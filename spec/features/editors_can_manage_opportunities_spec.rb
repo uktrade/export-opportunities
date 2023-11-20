@@ -134,7 +134,7 @@ feature 'Administering opportunities' do
     scenario 'create an opportunity without valid contact details' do
       fill_in 'opportunity_title', with: 'Lorem ipsum title'
       fill_in 'opportunity_teaser', with: 'Lorem ipsum teaser'
-      fill_in 'opportunity_description', with: 'Lorem ipsum description'
+      fill_in 'opportunity_description', type: :hidden, with: 'Lorem ipsum description'
       fill_in 'opportunity_contacts_attributes_0_name', with: 'Jane Doe'
       fill_in 'opportunity_contacts_attributes_0_email', with: 'jane.doe.com'
       fill_in 'opportunity_contacts_attributes_1_name', with: 'Joe Bloggs'
@@ -148,7 +148,7 @@ feature 'Administering opportunities' do
 
     scenario 'creates a new opportunity without valid title and teaser lengths', :elasticsearch, :commit, js: true do
       fill_in 'opportunity_title', with: 'Lorem ipsum title'
-      fill_in 'opportunity_description', with: 'Lorem ipsum description'
+      fill_in 'opportunity_description', type: :hidden, with: 'Lorem ipsum description'
       fill_in 'opportunity_contacts_attributes_0_name', with: 'Jane Doe'
       fill_in 'opportunity_contacts_attributes_0_email', with: 'jane.doe.com'
       fill_in 'opportunity_contacts_attributes_1_name', with: 'Joe Bloggs'
