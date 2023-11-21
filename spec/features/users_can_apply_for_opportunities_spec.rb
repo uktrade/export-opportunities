@@ -294,8 +294,12 @@ RSpec.feature 'users can apply for opportunities', js: true, sso: true do
   end
 
   def fill_in_form_personal_data_if_no_profile
-    fill_in 'First name', with: Faker::Name.first_name
-    fill_in 'Last name', with: Faker::Name.last_name
+    if has_field?('First Name') do
+      fill_in 'First name', with: Faker::Name.first_name
+    end
+    if has_field?('Last Name') do
+      fill_in 'Last name', with: Faker::Name.last_name
+    end
   end
 
   def fill_in_form_as_individual
