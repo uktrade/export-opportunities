@@ -48,6 +48,7 @@ describe OpportunityCSV do
         status: :pending,
         response_due_on: Date.new(2015, 8, 15),
         created_at: DateTime.new(2016, 7, 21, 10, 0, 12).utc,
+        first_published_at: DateTime.new(2016, 8, 15, 10, 25, 19).utc,
         updated_at: Date.new(2016, 7, 27),
         contacts: [
           create(:contact, email: 'contact@example.com'),
@@ -56,7 +57,7 @@ describe OpportunityCSV do
         author: uploader
       )
 
-      expected_row = "2016-07-21 10:00:12,,2016/07/27,Morocco - English language training requested,0,Morocco OBNI,\"contact@example.com,second@example.com\",author@example.com,2015/08/15,,,Pending\n"
+      expected_row = "2016-07-21 10:00:12,2016-08-15 10:25:19,2016/07/27,Morocco - English language training requested,0,Morocco OBNI,\"contact@example.com,second@example.com\",author@example.com,2015/08/15,,,Pending\n"
 
       expect { |b| subject.each(&b) }.to yield_successive_args(expected_header, expected_row)
     end
