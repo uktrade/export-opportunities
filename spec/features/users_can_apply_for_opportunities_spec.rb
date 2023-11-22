@@ -309,14 +309,14 @@ RSpec.feature 'users can apply for opportunities', js: true, sso: true do
     if has_field?('enquiry_company_telephone')
       fill_in 'Phone number (optional)', with: Faker::PhoneNumber.phone_number
     end
-
-    fill_in 'Business name', with: Faker::Company.name
-    fill_in 'Companies House number (optional)',
-      with: Faker::Number.between(from: 10000000, to: 99999999)
-    fill_in 'Address', with: Faker::Address.street_address
-    fill_in 'Post code', with: Faker::Address.postcode
-
-    find("#add_trading_address", visible: false).trigger('click')
+    if has_field?('enquiry_company_name')
+        fill_in 'Business name', with: Faker::Company.name
+        fill_in 'Companies House number (optional)',
+          with: Faker::Number.between(from: 10000000, to: 99999999)
+        fill_in 'Address', with: Faker::Address.street_address
+        fill_in 'Post code', with: Faker::Address.postcode
+    end
+    find_by_id("add_trading_address", visible: false).trigger('click')
     fill_in 'Trading address', with: Faker::Address.postcode
     fill_in 'Trading post code', with: Faker::Address.postcode
     
@@ -334,7 +334,7 @@ RSpec.feature 'users can apply for opportunities', js: true, sso: true do
       fill_in 'Post code', with: Faker::Address.postcode
     end
 
-    find("#add_trading_address", visible: false).trigger('click')
+    find_by_id("add_trading_address", visible: false).trigger('click')
     fill_in 'Trading address', with: Faker::Address.postcode
     fill_in 'Trading post code', with: Faker::Address.postcode
 
