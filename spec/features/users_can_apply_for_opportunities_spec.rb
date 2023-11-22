@@ -330,7 +330,9 @@ RSpec.feature 'users can apply for opportunities', js: true, sso: true do
     if has_field?('enquiry_company_telephone')
       fill_in 'Phone number (optional)', with: Faker::PhoneNumber.phone_number
     end
-    fill_in 'Post code', with: Faker::Address.postcode
+    if has_field?('enquiry_company_postcode')
+      fill_in 'Post code', with: Faker::Address.postcode
+    end
 
     find("#add_trading_address", visible: false).trigger('click')
     fill_in 'Trading address', with: Faker::Address.postcode

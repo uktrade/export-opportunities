@@ -81,7 +81,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
     context 'provides an XML-based Atom feed' do
       it 'provides the correct MIME type' do
         get :index, params: { format: 'atom' }
-        expect(response.content_type).to eq('application/atom+xml')
+        expect(response.content_type).to eq('application/atom+xml; charset=utf-8')
         expect(response.body).to have_css('feed')
       end
 
@@ -95,7 +95,7 @@ RSpec.describe OpportunitiesController, :elasticsearch, :commit, type: :controll
        it 'routes to the feed correctly if you request application/atom+xml' do
         @request.env['HTTP_ACCEPT'] = 'application/atom+xml'
         get :index
-        expect(response.content_type).to eq('application/atom+xml')
+        expect(response.content_type).to eq('application/atom+xml; charset=utf-8')
         expect(response.body).to have_css('feed')
       end
 
