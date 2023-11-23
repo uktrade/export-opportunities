@@ -323,10 +323,10 @@ RSpec.feature 'users can apply for opportunities', js: true, sso: true do
     end
     if has_field?('enquiry_company_url')
         fill_in 'Your business web address (optional)', with: Faker::Internet.url
+        select Sector.all.sample.name, from: "Which industry is your company in?"
+        select 'Not yet', from: 'enquiry_existing_exporter'
+        fill_in :enquiry_company_explanation, with: Faker::Company.bs
     end
-    select Sector.all.sample.name, from: "Which industry is your company in?"
-    select 'Not yet', from: 'enquiry_existing_exporter'
-    fill_in :enquiry_company_explanation, with: Faker::Company.bs
   end
 
   def fill_in_form_as_limited_company
@@ -342,13 +342,12 @@ RSpec.feature 'users can apply for opportunities', js: true, sso: true do
         fill_in 'Trading address', with: Faker::Address.postcode
         fill_in 'Trading post code', with: Faker::Address.postcode
     end
-
     if has_field?('enquiry_company_url')
         fill_in 'Your business web address (optional)', with: Faker::Internet.url
+        select Sector.all.sample.name, from: "Which industry is your company in?"
+        select 'Not yet', from: 'enquiry_existing_exporter'
+        fill_in :enquiry_company_explanation, with: Faker::Company.bs
     end
-    select Sector.all.sample.name, from: "Which industry is your company in?"
-    select 'Not yet', from: 'enquiry_existing_exporter'
-    fill_in :enquiry_company_explanation, with: Faker::Company.bs
   end
 
   def apply_to_opportunity(opportunity)
