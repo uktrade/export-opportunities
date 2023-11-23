@@ -1,5 +1,14 @@
 require 'rails_helper'
 
+=begin
+NOTE: The OppsQualityConnector feature no longer works, and has been depreciated. The original service that OppsQualityConnector
+called was https://api.cognitive.microsoft.com/bing/v7.0/SpellCheck. This service has now been moved to
+https://api.bing.microsoft.com/v7.0/spellcheck. If this product is ever re-written in future (likely in Python and as
+part of great-cms, then the TG_HOSTNAME Env var on Vault will need to be updated to the new API endpoint:
+https://api.bing.microsoft.com/v7.0/spellcheck. A new API key will also have to be acquired, and placed in the Env Var
+TG_API_KEY.
+=end
+
 RSpec.describe OppsQualityConnector do
   describe '#call' do
     it 'calls quality connector with NO errors in submitted text' do
