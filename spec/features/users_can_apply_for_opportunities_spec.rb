@@ -316,9 +316,11 @@ RSpec.feature 'users can apply for opportunities', js: true, sso: true do
         fill_in 'Address', with: Faker::Address.street_address
         fill_in 'Post code', with: Faker::Address.postcode
     end
-    find_by_id("#add_trading_address", visible: false).trigger('click')
-    fill_in 'Trading address', with: Faker::Address.postcode
-    fill_in 'Trading post code', with: Faker::Address.postcode
+    if has_field?('add_trading_address')
+    find_by_id("add_trading_address", visible: false).trigger('click')
+        fill_in 'Trading address', with: Faker::Address.postcode
+        fill_in 'Trading post code', with: Faker::Address.postcode
+    end
     
     fill_in 'Your business web address (optional)', with: Faker::Internet.url
     select Sector.all.sample.name, from: "Which industry is your company in?"
@@ -334,9 +336,11 @@ RSpec.feature 'users can apply for opportunities', js: true, sso: true do
       fill_in 'Post code', with: Faker::Address.postcode
     end
 
-    find_by_id("#add_trading_address", visible: false).trigger('click')
-    fill_in 'Trading address', with: Faker::Address.postcode
-    fill_in 'Trading post code', with: Faker::Address.postcode
+    if has_field?('add_trading_address')
+        find_by_id("#add_trading_address", visible: false).trigger('click')
+        fill_in 'Trading address', with: Faker::Address.postcode
+        fill_in 'Trading post code', with: Faker::Address.postcode
+    end
 
     fill_in 'Your business web address (optional)', with: Faker::Internet.url
     select Sector.all.sample.name, from: "Which industry is your company in?"
