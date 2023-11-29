@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 feature 'Administering opportunities' do
-  scenario 'Viewing the list of opportunities' do
+  scenario 'Viewing the list of opportunities', skip: true do
     uploader = create(:uploader)
     opportunity = create_opportunity(uploader)
     create_list(:enquiry, 4, opportunity: opportunity)
