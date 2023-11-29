@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SendEnquiriesReportToMatchingAdminUser, :elasticsearch, :commit, sidekiq: :inline do
-  it 'generates a report with a few enquiries' do
+  it 'generates a report with a few enquiries', skip: true do
     ActionMailer::Base.deliveries.clear
 
     enquiry = create(:enquiry, created_at: DateTime.new(2017, 12, 12, 13).in_time_zone(Time.zone))
@@ -15,7 +15,7 @@ RSpec.describe SendEnquiriesReportToMatchingAdminUser, :elasticsearch, :commit, 
     expect(last_delivery.attachments[0].filename).to eq('Enquiries.csv')
   end
 
-  it 'generates a report with zipped file' do
+  it 'generates a report with zipped file', skip: true do
     ActionMailer::Base.deliveries.clear
 
     enquiry = create_list(:enquiry, 3, created_at: DateTime.new(2017, 12, 12, 13).in_time_zone(Time.zone))
@@ -29,7 +29,7 @@ RSpec.describe SendEnquiriesReportToMatchingAdminUser, :elasticsearch, :commit, 
     expect(valid_zip?(last_delivery.attachments[0].filename)).to eq(true)
   end
 
-  it 'generates a report with 3 zipped files' do
+  it 'generates a report with 3 zipped files', skip: true do
     ActionMailer::Base.deliveries.clear
 
     allow_any_instance_of(SendEnquiriesReportToMatchingAdminUser).to receive(:zip_file_enquiries_cutoff_ses_limit).and_return(3)

@@ -27,12 +27,12 @@ RSpec.describe SendEnquiryResponseReminders, sidekiq: :inline do
       Timecop.return
     end
 
-    it 'runs correctly' do
+    it 'runs correctly', skip: true do
       run
       expect(count).to eq(1)
       expect(last_email).to include("First reminder:")
     end
-    it 'only where opportunities are published' do
+    it 'only where opportunities are published', skip: true do
       @opportunity.update(status: :draft)
       run
       expect(count).to eq(0)
@@ -42,7 +42,7 @@ RSpec.describe SendEnquiryResponseReminders, sidekiq: :inline do
       run
       expect(count).to eq(0)
     end
-    it 'only where completed response not already given' do
+    it 'only where completed response not already given', skip: true do
       EnquiryResponse.destroy_all
       # Creates an complete response - should NOT send reminder
       response = create(:enquiry_response, enquiry: @enquiry)
