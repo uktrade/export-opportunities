@@ -86,9 +86,9 @@ module Helpers
           } \
         } \
         else { \
-          console.log('THE URL DID NOT MATCH IN stub_ajax_request\\n'); \
-          console.log('options.url: ' + options.url + '\\n'); \
-          console.log('passed url: ' + '" + url + "' + '\\n'); \
+          window.console.log('THE URL DID NOT MATCH IN stub_ajax_request\\n'); \
+          window.console.log('options.url: ' + options.url + '\\n'); \
+          window.console.log('passed url: ' + '" + url + "' + '\\n'); \
         } \
       }); \
     ")
@@ -238,7 +238,7 @@ end
 # RESPONSE =
 def cpv_search_response
   JSON.generate(
-    [
+    "items": [
       {
         'order': '1971397',
         'level': '5',
