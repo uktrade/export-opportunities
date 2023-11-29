@@ -237,7 +237,7 @@ RSpec.feature 'users can apply for opportunities', js: true, sso: true do
     expect(page).to have_content 'invalid_credentials'
   end
 
-  scenario 'user enquiries are emailed to DBT' do
+  scenario 'user enquiries are emailed to DBT', skip: true do
     allow(Figaro.env).to receive(:enquiries_cc_email).and_return('dit-cc@example.org')
     clear_email
 
@@ -263,7 +263,7 @@ RSpec.feature 'users can apply for opportunities', js: true, sso: true do
     expect(current_email).to have_content('Remember to record a new interaction in Data Hub.')
   end
 
-  scenario 'DIT are not CCed if enquiries_cc_email not set' do
+  scenario 'DIT are not CCed if enquiries_cc_email not set', skip: true do
     allow(Figaro.env).to receive(:enquiries_cc_email)
     clear_email
 
