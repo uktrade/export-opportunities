@@ -14,7 +14,7 @@ RSpec.describe EnquiryMailer, type: :mailer do
       expect(last_delivery.to_s).to include(enquiry.company_name)
     end
 
-    it 'sends an enquiry to a PTU exempted service provider', do
+    it 'sends an enquiry to a PTU exempted service provider' do
       excepted_service_provider_id = Figaro.env.PTU_EXEMPT_SERVICE_PROVIDERS
       service_provider = create(:service_provider, id: excepted_service_provider_id.split(',').first)
       author = create(:editor, service_provider: service_provider)
