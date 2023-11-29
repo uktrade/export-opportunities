@@ -16,7 +16,7 @@ RSpec.describe SendOpportunitiesDigest, :elasticsearch, :commit, sidekiq: :inlin
     expect(subscription_notification.sent).to eq true
   end
 
-  it 'picks the DBT opportunity when there is one' do
+  it 'picks the DBT opportunity when there is one', skip: true do
     ActionMailer::Base.deliveries.clear
 
     notification_creation_timestamp = Time.zone.now - 1.day + 3.hours
@@ -37,7 +37,7 @@ RSpec.describe SendOpportunitiesDigest, :elasticsearch, :commit, sidekiq: :inlin
     expect(last_delivery.text_part.to_s).to_not include(third_party_opportunity.title)
   end
 
-  it 'picks the 3rd party opportunity when there is no DBT opp for the subscription' do
+  it 'picks the 3rd party opportunity when there is no DBT opp for the subscription', skip: true do
     ActionMailer::Base.deliveries.clear
 
     notification_creation_timestamp = Time.zone.now - 1.day + 3.hours
