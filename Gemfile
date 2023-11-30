@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 
-ruby '2.7.7'
+ruby '3.2.2'
 
 gem 'rails', '6.1.7.5'
 gem 'bundler'
 gem 'puma', '5.6.7'
-gem 'pg', '1.1.4'
+gem 'pg', '1.5.4'
 gem 'sidekiq', '7.1.3'
 gem 'sidekiq-cron', '1.9.1'
 gem 'sidekiq-failures', '1.0.1'
@@ -56,7 +56,7 @@ gem 'stringex', require: false
 gem 'addressable'
 
 # ActiveRecord tools
-gem 'hairtrigger', '0.2.23'
+gem 'hairtrigger', '1.0.0'
 gem 'active_record_union'
 
 # JSON
@@ -69,7 +69,7 @@ gem 'premailer-rails'
 gem 'flipper', '0.26.0'
 gem 'flipper-redis', '0.26.0'
 gem 'flipper-ui', '0.26.0'
-gem 'paper_trail', '10.3.1'
+gem 'paper_trail', '12.3.0'
 
 # aws sdk for s3 storage of post-user communications
 gem 'aws-sdk'
@@ -122,7 +122,7 @@ group :test do
   gem 'shoulda-matchers', require: false
   gem 'rspec-sidekiq'
   gem 'timecop'
-  gem 'webmock', '3.5.0'
+  gem 'webmock', '3.19.1'
   gem 'rspec-rails'
   gem 'rspec-mocks'
   gem 'rspec-collection_matchers'
