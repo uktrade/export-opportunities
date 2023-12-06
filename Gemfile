@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 ruby '3.2.2'
 
+gem 'matrix', '0.4.2'
 gem 'rails', '6.1.7.5'
 gem 'bundler'
 gem 'puma', '5.6.7'
