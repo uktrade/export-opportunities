@@ -3,11 +3,11 @@ module SingleSignOnHelpers
     if Figaro.env.bypass_sso?
       provider = :developer
     else
-      provider = :exporting_is_great
+      provider = :magna
     end
 
     OmniAuth.config.mock_auth[provider] = OmniAuth::AuthHash.new(
-      provider: 'exporting_is_great',
+      provider: provider,
       uid: uid.to_s,
       info: {
         email: email,

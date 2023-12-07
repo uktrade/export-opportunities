@@ -21,6 +21,17 @@ RSpec.feature 'users can apply for opportunities', js: true, sso: true do
   end
 
   scenario 'when they are logged in as an individual - no response from directory-api' do
+    allow(DirectoryApiClient).to receive(:user_data){{
+      id: 1,
+      email: "email@example.com",
+      hashed_uuid: "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e",
+      user_profile: {
+        first_name: "John",
+        last_name: "Bull",
+        job_title: nil,
+        mobile_phone_number: nil
+      }
+    }}
     visit '/export-opportunities/enquiries/great-opportunity'
 
     expect(page).not_to have_field 'Email Address'
@@ -73,11 +84,11 @@ RSpec.feature 'users can apply for opportunities', js: true, sso: true do
 
   scenario 'when they are logged in as an individual - incomplete data' do
     allow(DirectoryApiClient).to receive(:user_data){{
-      id: nil,
-      email: "",
-      hashed_uuid: "",
+      id: 1,
+      email: "email@example.com",
+      hashed_uuid: "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e",
       user_profile: {
-        first_name: "",
+        first_name: "John",
         last_name: "",
         job_title: "",
         mobile_phone_number: ""
@@ -186,11 +197,11 @@ RSpec.feature 'users can apply for opportunities', js: true, sso: true do
 
   scenario 'when they are logged in as a limited company - incomplete data' do
     allow(DirectoryApiClient).to receive(:user_data){{
-      id: nil,
-      email: "",
-      hashed_uuid: "",
+      id: 1,
+      email: "email@example.com",
+      hashed_uuid: "88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e",
       user_profile: {
-        first_name: "",
+        first_name: "John",
         last_name: "",
         job_title: "",
         mobile_phone_number: ""
@@ -227,7 +238,7 @@ RSpec.feature 'users can apply for opportunities', js: true, sso: true do
     if Figaro.env.bypass_sso?
       provider = :developer
     else
-      provider = :exporting_is_great
+      provider = :magna
     end
     OmniAuth.config.mock_auth[provider] = :invalid_credentials
 
