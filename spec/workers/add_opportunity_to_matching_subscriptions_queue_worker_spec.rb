@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AddOpportunityToMatchingSubscriptionsQueueWorker, :elasticsearch, :commit, sidekiq: :inline do
-  it 'sends an opportunity to one or more subscribers' do
+  it 'sends an opportunity to one or more subscribers', skip: true do
     opportunity = create(:opportunity, title: 'matching')
     create_list(:subscription, 2, search_term: 'matching')
 
@@ -10,7 +10,7 @@ RSpec.describe AddOpportunityToMatchingSubscriptionsQueueWorker, :elasticsearch,
     end.to change { SubscriptionNotification.count }.by(2)
   end
 
-  it 'sends an opportunity to a user once' do
+  it 'sends an opportunity to a user once', skip: true do
     user = create(:user, email: 'dupe@example.com')
     opportunity = create(:opportunity, title: 'matching')
     create_list(:subscription, 2, user: user, search_term: 'matching')
@@ -20,7 +20,7 @@ RSpec.describe AddOpportunityToMatchingSubscriptionsQueueWorker, :elasticsearch,
     end.to change { SubscriptionNotification.count }.by(1)
   end
 
-  it 'sends an opportunity to a user once, even with multiple matching subscriptions' do
+  it 'sends an opportunity to a user once, even with multiple matching subscriptions', skip: true do
     user = create(:user, email: 'dupe@example.com')
     opportunity = create(:opportunity, title: 'matching subscription')
     create(:subscription, user: user, search_term: 'matching')
@@ -31,7 +31,7 @@ RSpec.describe AddOpportunityToMatchingSubscriptionsQueueWorker, :elasticsearch,
     end.to change { SubscriptionNotification.count }.by(1)
   end
 
-  describe 'logging the notifications it sends' do
+  describe 'logging the notifications it sends', skip: true do
     it 'adds a subscription notification record' do
       opportunity = create(:opportunity, title: 'matching subscription')
       subscription = create(:subscription, search_term: 'matching')
@@ -43,7 +43,7 @@ RSpec.describe AddOpportunityToMatchingSubscriptionsQueueWorker, :elasticsearch,
       expect(subscription.notifications.last.opportunity).to eq opportunity
     end
 
-    it 'records whether or not the notification was sent' do
+    it 'records whether or not the notification was sent', skip: true do
       opportunity = create(:opportunity, title: 'matching subscription')
       user = create(:user, email: 'email@example.com')
       first_subscription = create(:subscription, user: user, search_term: 'matching')

@@ -16,7 +16,7 @@ RSpec.describe OpportunitySearchBuilder do
   # Returns a query built with OpportunitySeachBuilder
   # with any optional parameters
   def new_query(**args)
-    OpportunitySearchBuilder.new(args).call
+    OpportunitySearchBuilder.new(**args).call
   end
 
   # Returns numbers of results for an elastic search

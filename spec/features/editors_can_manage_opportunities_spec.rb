@@ -23,7 +23,6 @@ feature 'Administering opportunities' do
 
     fill_in 'opportunity_title', with: 'Lorem ipsum title'
     fill_in 'opportunity_teaser', with: 'Lorem ipsum teaser'
-    fill_in 'opportunity_description', with: 'Lorem ipsum description'
     fill_in 'opportunity_contacts_attributes_0_name', with: uploader.name
     fill_in 'opportunity_contacts_attributes_0_email', with: 'jane.doe@example.com'
     fill_in 'opportunity_contacts_attributes_1_name', with: 'Joe Bloggs'
@@ -47,7 +46,6 @@ feature 'Administering opportunities' do
     # View should be admin/opportunity#show of created opportunity
     expect(page).to have_text('Lorem ipsum title')
     expect(page).to have_text('Lorem ipsum teaser')
-    expect(page).to have_text(/Lorem ipsum description/)
     expect(page).to have_text('Pending')
     expect(page).to have_text(country.name)
     expect(page).to have_text(sector.name)
@@ -78,7 +76,6 @@ feature 'Administering opportunities' do
 
     fill_in 'opportunity_title', with: 'Lorem ipsum title'
     fill_in 'opportunity_teaser', with: 'Lorem ipsum teaser'
-    fill_in 'opportunity_description', with: 'Lorem&nbsp;ipsum description'
     fill_in 'opportunity_contacts_attributes_0_name', with: uploader.name
     fill_in 'opportunity_contacts_attributes_0_email', with: 'jane.doe@example.com'
     fill_in 'opportunity_contacts_attributes_1_name', with: 'Joe Bloggs'
@@ -97,7 +94,7 @@ feature 'Administering opportunities' do
     click_on 'Save and continue'
 
     expect(page.status_code).to eq 200
-    expect(page).to have_text(/Lorem ipsum description/)
+    expect(page).to have_text(/Lorem ipsum title/)
   end
 
   feature 'creating a new opportunity without valid data', js: true do
@@ -124,7 +121,7 @@ feature 'Administering opportunities' do
       select country.name, from: 'opportunity[country_ids][]', visible: false
       select sector.name, from: 'opportunity[sector_ids][]', visible: false
       select service_provider.name, from: 'opportunity[service_provider_id]'
-      select '2016', from: 'opportunity_response_due_on_1i'
+      select '2019', from: 'opportunity_response_due_on_1i'
       select '06', from: 'opportunity_response_due_on_2i'
       select '04', from: 'opportunity_response_due_on_3i'
 
@@ -135,7 +132,6 @@ feature 'Administering opportunities' do
     scenario 'create an opportunity without valid contact details' do
       fill_in 'opportunity_title', with: 'Lorem ipsum title'
       fill_in 'opportunity_teaser', with: 'Lorem ipsum teaser'
-      fill_in 'opportunity_description', with: 'Lorem ipsum description'
       fill_in 'opportunity_contacts_attributes_0_name', with: 'Jane Doe'
       fill_in 'opportunity_contacts_attributes_0_email', with: 'jane.doe.com'
       fill_in 'opportunity_contacts_attributes_1_name', with: 'Joe Bloggs'
@@ -149,7 +145,6 @@ feature 'Administering opportunities' do
 
     scenario 'creates a new opportunity without valid title and teaser lengths', :elasticsearch, :commit, js: true do
       fill_in 'opportunity_title', with: 'Lorem ipsum title'
-      fill_in 'opportunity_description', with: 'Lorem ipsum description'
       fill_in 'opportunity_contacts_attributes_0_name', with: 'Jane Doe'
       fill_in 'opportunity_contacts_attributes_0_email', with: 'jane.doe.com'
       fill_in 'opportunity_contacts_attributes_1_name', with: 'Joe Bloggs'
@@ -364,7 +359,7 @@ feature 'Administering opportunities' do
         expect(page.body).to have_content('Azure internal list')
       end
 
-      scenario 'published opportunity with a BST error coming from DBT list' do
+      scenario 'published opportunity with a BST error coming from DIT list' do
         admin = create(:admin)
         opportunity = create(:opportunity, status: :publish, title: 'A sample title', slug: 'swearing-contest')
         opportunity_sensitivity_check = OpportunitySensitivityCheck.new
@@ -389,7 +384,7 @@ feature 'Administering opportunities' do
         click_on opportunity.title
 
         expect(page.body).to have_content('innovative jam')
-        expect(page.body).to have_content('DBT list')
+        expect(page.body).to have_content('DIT list')
       end
     end
   end

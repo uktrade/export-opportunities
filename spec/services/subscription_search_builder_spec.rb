@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe SubscriptionSearchBuilder do
   describe '.new' do
-    subject { SubscriptionSearchBuilder.new(args) }
+    subject { SubscriptionSearchBuilder.new(**args) }
 
     let(:attrs) do
       [subject.sectors, subject.countries, subject.types, subject.values]
@@ -40,7 +40,7 @@ RSpec.describe SubscriptionSearchBuilder do
   end
 
   describe '#call' do
-    subject { SubscriptionSearchBuilder.new(args).call }
+    subject { SubscriptionSearchBuilder.new(**args).call }
 
     let(:expected_base_query) do
       {

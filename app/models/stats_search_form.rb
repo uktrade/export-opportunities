@@ -14,9 +14,9 @@ class StatsSearchForm
     @granularity = GranularityField.new(params[:granularity])
     @source = SourceField.new(params[:post], params[:third_party], params[:granularity].nil?)
 
-    @region_id = params[:Region] && params[:Region]['region_ids'].map(&:to_i) || []
-    @country_id = params[:Country] && params[:Country]['country_ids'].map(&:to_i) || []
-    @service_provider_id = params[:ServiceProvider] && params[:ServiceProvider]['service_provider_ids'].map(&:to_i) || []
+    @region_id = params[:Region] && params[:Region][:region_ids].map(&:to_i) || []
+    @country_id = params[:Country] && params[:Country][:country_ids].map(&:to_i) || []
+    @service_provider_id = params[:ServiceProvider] && params[:ServiceProvider][:service_provider_ids].map(&:to_i) || []
 
     @error_messages = []
   end

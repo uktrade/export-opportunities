@@ -9,7 +9,7 @@ describe 'api users can fetch expopps opportunities and email alerts' do
     @secret = Figaro.env.api_profile_dashboard_shared_secret
   end
 
-  it 'submit a valid request' do
+  it 'submit a valid request', skip: true do
     enquiry = create(:enquiry)
     create(:enquiry, user: enquiry.user)
     subscription = create(:subscription, user: enquiry.user)

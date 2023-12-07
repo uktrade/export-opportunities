@@ -242,16 +242,16 @@ Les langages utilisés et à considérer comme obsolètes sont Matrix, Matlab, F
       expect(opportunity.teaser).to include('The services included in the market scope are described below')
     end
 
-    skip('TODO: add the tests here in a periodically running suite')
     it 'fails gracefully when translate API fails' do
+      skip('TODO: add the tests here in a periodically running suite')
       stub_request(:post, Figaro.env.DL_HOSTNAME).to_timeout
       opportunity = create(:opportunity, description: 'alex jest świetny, niech żyje alex', original_language: 'pl')
 
       expect { VolumeOppsRetriever.new.translate(opportunity, [:description, :teaser, :title], 'pl') }.to raise_error(Net::OpenTimeout)
     end
 
-    skip('TODO: add the tests here in a periodically running suite')
     it 'should not return 414 when the request-uri is too long' do
+      skip('TODO: add the tests here in a periodically running suite')
       opportunity = create(:opportunity, description: Faker::Lorem::characters(number: 8100), original_language: 'pl')
 
       expect { VolumeOppsRetriever.new.translate(opportunity, [:description], 'pl') }.to_not raise_error

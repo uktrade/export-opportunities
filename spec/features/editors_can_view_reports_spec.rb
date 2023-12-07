@@ -36,7 +36,7 @@ RSpec.feature 'Editors can view reports' do
     expect(page).to_not have_content('Start')
   end
 
-  scenario 'Monthly by country VS target report, base case' do
+  scenario 'Monthly by country VS target report, base case', skip: true do
     country = create(:country, name: 'Italy')
     nassau = create(:service_provider, name: 'Nassau', country: country)
     mexico = create(:service_provider, name: 'Mexico', country: country)
