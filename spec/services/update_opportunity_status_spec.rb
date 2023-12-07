@@ -33,7 +33,7 @@ RSpec.describe UpdateOpportunityStatus do
     end
 
     it 'notifies subscribers if the new status is publish' do
-      opportunity = create(:opportunity, :unpublished)
+      opportunity = create(:opportunity, :unpublished, first_published_at: nil)
       notification_sender = fake_subscriber_notification_sender
 
       described_class.new(notification_sender).call(opportunity, 'publish')
@@ -43,7 +43,7 @@ RSpec.describe UpdateOpportunityStatus do
 
     context 'when the status is set to "publish" for the first time' do
       it 'records the time' do
-        opportunity = create(:opportunity, :unpublished)
+        opportunity = create(:opportunity, :unpublished, first_published_at: nil)
         now = Time.now.utc
 
         Timecop.freeze(now) do
