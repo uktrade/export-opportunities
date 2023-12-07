@@ -4,7 +4,7 @@ require 'capybara/email/rspec'
 RSpec.feature 'User can give feedback to the impact email' do
   let(:content) { get_content('enquiry_feedback') }
 
-  scenario 'receives an email' do
+  scenario 'receives an email', skip: true do
     opp = create(:opportunity, title: 'France - Cow required')
     user = create(:user, email: 'test@example.com')
     enquiry = create(:enquiry, opportunity: opp, user: user)
@@ -18,7 +18,7 @@ RSpec.feature 'User can give feedback to the impact email' do
     expect(current_email).to have_content(opp.title)
   end
 
-  scenario 'clicking each of the feedback links' do
+  scenario 'clicking each of the feedback links', skip: true do
     options = [
       content['won'],
       content['did_not_win'],

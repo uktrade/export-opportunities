@@ -20,7 +20,7 @@ class SendMonthlyReportToMatchingAdminUser < ActiveJob::Base
           stats_from: { year: start_period_date.year, month: start_period_date.month, day: start_period_date.day },
           stats_to: { year: end_period_date.year, month: end_period_date.month, day: end_period_date.day },
           granularity: 'Country',
-          Country: { country_ids: country_id }
+          Country: { country_ids: [country_id] }
         )
 
         sc = StatsCalculator.new.call(@stats_search_form)

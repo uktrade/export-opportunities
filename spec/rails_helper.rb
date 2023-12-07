@@ -80,7 +80,7 @@ RSpec.configure do |config|
   end
 
   # Build initial indices if not present, e.g. CircleCI
-  [Opportunity, Subscription].each do |model|
+  [Opportunity, Subscription, Cn2019].each do |model|
     unless model.__elasticsearch__.index_exists? index: model.__elasticsearch__.index_name
       model.__elasticsearch__.create_index!(force: true)
       sleep 2

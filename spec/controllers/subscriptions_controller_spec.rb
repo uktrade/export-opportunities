@@ -47,7 +47,7 @@ RSpec.describe SubscriptionsController, sso: true do
           },
         }
 
-        expect { post :create, subscription_attrs }.to change { Subscription.count }.by(1)
+        expect { post :create, **subscription_attrs }.to change { Subscription.count }.by(1)
 
         subscription = Subscription.last
         expect(subscription.email).to eql 'test@example.com'
@@ -64,7 +64,7 @@ RSpec.describe SubscriptionsController, sso: true do
           },
         }
 
-        expect { post :create, subscription_attrs }.to change { Subscription.count }.by(1)
+        expect { post :create, **subscription_attrs }.to change { Subscription.count }.by(1)
 
         subscription = Subscription.last
         expect(subscription.email).to eql 'test@example.com'
@@ -92,7 +92,7 @@ RSpec.describe SubscriptionsController, sso: true do
           },
         }
 
-        expect { post :create, subscription_attrs }.to change { Subscription.count }.by(1)
+        expect { post :create, **subscription_attrs }.to change { Subscription.count }.by(1)
 
         subscription = Subscription.last
         expect(subscription.email).to eql 'test@example.com'
@@ -124,7 +124,7 @@ RSpec.describe SubscriptionsController, sso: true do
           },
         }
 
-        expect { post :create, subscription_attrs }.to change { Subscription.count }.by(1)
+        expect { post :create, **subscription_attrs }.to change { Subscription.count }.by(1)
 
         subscription = Subscription.last
         expect(subscription.email).to eql 'test@example.com'
