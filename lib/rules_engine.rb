@@ -8,14 +8,14 @@ class RulesEngine
 
     # if sensitivity pass score is below threshold, validate quality
     if valid_opportunity?(sensitivity_score, opportunity)
-      quality_score = OppsQualityValidator.new.validate_each(opportunity)
-
-      if quality_value_threshold?(quality_score)
-        save_and_publish(opportunity)
-      else
+      # quality_score = OppsQualityValidator.new.validate_each(opportunity)
+      save_and_publish(opportunity)
+      # if quality_value_threshold?(quality_score)
+        # save_and_publish(opportunity)
+      # else
         # opp is valid, sensitivity value is OK but quality may be below threshold
-        save_as_pending(opportunity)
-      end
+        # save_as_pending(opportunity)
+      # end
     else
       # opp is valid, sensitivity value is BAD, we don't know about quality
       save_as_trash(opportunity)

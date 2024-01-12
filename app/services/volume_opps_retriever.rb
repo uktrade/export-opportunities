@@ -4,19 +4,19 @@ require 'translation_connector'
 class VolumeOppsRetriever
   include ApplicationHelper
 
-  def call(editor, from_date, to_date)
+  def call(editor, date)
     username = Figaro.env.OO_USERNAME!
     password = Figaro.env.OO_PASSWORD!
     hostname = Figaro.env.OO_HOSTNAME!
     data_endpoint = Figaro.env.OO_DATA_ENDPOINT!
     token_endpoint = Figaro.env.OO_TOKEN_ENDPOINT!
     token_response = jwt_volume_connector_token(username, password, hostname, token_endpoint)
-    res = jwt_volume_connector_data(JSON.parse(token_response.body)['token'], hostname, data_endpoint, from_date, to_date)
+    res = jwt_volume_connector_data(JSON.parse(token_response.body)['token'], hostname, data_endpoint, date)
 
     while res[:has_next]
       # store data from page
       process_result_page(res, editor)
-      res = jwt_volume_connector_data(JSON.parse(token_response.body)['token'], res[:next_url], '', from_date, to_date)
+      res = jwt_volume_connector_data(JSON.parse(token_response.body)['token'], res[:next_url], '', date)
     end
 
     # process the last page of results
@@ -71,7 +71,7 @@ class VolumeOppsRetriever
                   else
                     vo_countryname
                   end
-    country = Country.where('name like ?', countryname).first
+    country = Country.where('name ilike ?', countryname).first
 
     opportunity_release = opportunity['json']['releases'][0]
     opportunity_source = opportunity['source']
@@ -140,7 +140,7 @@ class VolumeOppsRetriever
         tender_value: gbp_value.present? ? Integer(gbp_value).floor : nil,
         source: :volume_opps,
         tender_content: opportunity['json'].to_json,
-        first_published_at: nil,
+        first_published_at: Time.parse(opportunity['releasedate']),
         tender_url: tender_url,
         ocid: opportunity['ocid'],
         tender_source: opportunity_source,
@@ -202,8 +202,8 @@ class VolumeOppsRetriever
     JwtVolumeConnector.new.token(username, password, hostname, token_endpoint)
   end
 
-  def jwt_volume_connector_data(token, hostname, url, from_date, to_date)
-    JwtVolumeConnector.new.data(token, hostname, url, from_date, to_date)
+  def jwt_volume_connector_data(token, hostname, url, date)
+    JwtVolumeConnector.new.data(token, hostname, url, date)
   rescue JSON::ParserError => e
     redis = Redis.new(url: Figaro.env.REDIS_URL!)
     redis.set(:application_error, Time.zone.now)
@@ -223,12 +223,18 @@ class VolumeOppsRetriever
 
       opportunity_params = opportunity_params(opportunity)
 
-      process_opportunity = if opportunity_params && opportunity_params[:ocid]
-                              opportunity_doesnt_exist?(opportunity_params[:ocid])
-                            elsif opportunity_params.nil?
+      end_date_str = opportunity_params[:response_due_on] if opportunity_params && opportunity_params[:response_due_on]
+
+      process_opportunity = if opportunity_params.nil?
+                              false
+                            elsif end_date_str.nil?
+                              false
+                            elsif end_date_str && (Time.parse(end_date_str) < Time.zone.now)
                               false
                             elsif opportunity_params[:ocid].nil?
                               false
+                            elsif opportunity_params && opportunity_params[:ocid]
+                              opportunity_doesnt_exist?(opportunity_params[:ocid])
                             end
 
       # count valid/invalid opps
@@ -236,7 +242,7 @@ class VolumeOppsRetriever
         if VolumeOppsValidator.new.validate_each(opportunity_params)
           translate(opportunity_params, %i[description teaser title], opportunity_language) if should_translate?(opportunity_language)
           opportunity_params = enforce_sentence_case(opportunity_params)
-          CreateOpportunity.new(editor, :draft, :volume_opps).call(opportunity_params)
+          CreateOpportunity.new(editor, :publish, :volume_opps).call(opportunity_params)
           valid_opp += 1
         else
           invalid_opp += 1

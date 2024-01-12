@@ -22,9 +22,16 @@ class JwtVolumeConnector
     post
   end
 
-  def data(token, hostname, url, from_date, to_date)
+  def data(token, hostname, url, date)
     unless token && hostname && url
       raise Exception, 'invalid input'
+    end
+
+    query_params = ''
+    unless url.blank?
+      now = Time.zone.now
+      today_date = now.strftime('%Y-%m-%d')
+      query_params = "&releasedate=#{date}&min_enddate=#{today_date}"
     end
 
     connection = Faraday.new(url: hostname) do |f|
@@ -34,7 +41,7 @@ class JwtVolumeConnector
     end
 
     response = connection.get do |req|
-      req.url hostname + url + "&min_releasedate=#{from_date}&max_releasedate=#{to_date}"
+      req.url hostname + url + query_params
       req.headers['Authorization'] = 'JWT ' + token
     end
 
