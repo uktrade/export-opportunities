@@ -1624,7 +1624,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2023.0218.1)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.4)
+    mini_portile2 (2.8.5)
     minitest (5.20.0)
     mock_redis (0.36.0)
       ruby2_keywords
@@ -1645,7 +1645,7 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.5.9)
-    nokogiri (1.15.4)
+    nokogiri (1.16.2)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     normalize-scss (7.0.1)
@@ -1707,14 +1707,14 @@ GEM
     psych (5.1.0)
       stringio
     public_suffix (5.0.1)
-    puma (5.6.7)
+    puma (5.6.8)
       nio4r (~> 2.0)
     pundit (2.3.0)
       activesupport (>= 3.0.0)
     pundit-matchers (2.0.0)
       rspec-rails (>= 3.0.0)
     raabro (1.4.0)
-    racc (1.7.1)
+    racc (1.7.3)
     rack (2.2.8)
     rack-protection (3.0.6)
       rack
@@ -1956,7 +1956,7 @@ DEPENDENCIES
   matrix (= 0.4.2)
   mock_redis
   neat
-  nokogiri (>= 1.13.10)
+  nokogiri (>= 1.16.2)
   normalize-scss
   notifications-ruby-client
   omniauth (= 2.0.3)
@@ -1971,7 +1971,7 @@ DEPENDENCIES
   pry-rails
   pry-rescue
   pry-stack_explorer
-  puma (= 5.6.7)
+  puma (= 5.6.8)
   pundit
   pundit-matchers
   rails (= 6.1.7.5)
