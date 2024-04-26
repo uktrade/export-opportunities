@@ -45,7 +45,7 @@ jobs:
           POSTGRES_USER: user
           POSTGRES_DB:  circle_test
           POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-      - image: cimg/redis:6.2.10
+      - image: cimg/redis:7.2.4
         environment:
           REDIS_URL: "redis://localhost:6379/"
       - image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3

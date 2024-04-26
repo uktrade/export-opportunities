@@ -1,0 +1,28 @@
+### 1. Pull offical Python
+FROM ruby:3.2.2
+
+### 2. Add Environment variables
+ENV DOCKERIZE_VERSION v0.6.1
+ENV BUNDLER_VERSION=2.1.4
+
+### 3. Create working directory
+RUN mkdir /app
+WORKDIR /app
+
+### 4. Install dependancies
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client wget
+
+### 5. Add dockerize to allow waiting for the DB to load.
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+
+### 6. Copy project to container
+COPY . /app/
+
+### 7. Install dependancies
+RUN bundle install
+
+### 8. Configure the main process to run when running the image
+CMD ["rails", "server", "-b", "0.0.0.0"]
+
