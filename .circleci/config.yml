@@ -40,7 +40,7 @@ jobs:
           DL_API_KEY: $DL_API_KEY
           TRANSLATE_OPPORTUNITIES: true
           OPENSSL_CONF: /dev/null
-      - image: cimg/postgres:13.9
+      - image: cimg/postgres:16.2
         environment:
           POSTGRES_USER: user
           POSTGRES_DB:  circle_test

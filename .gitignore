@@ -92,3 +92,6 @@ output.png
 
 # Test file
 test_clean_file
+
+#Docker config file
+Dockerfile.dev 
