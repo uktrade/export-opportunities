@@ -10,7 +10,7 @@ gem 'pg', '1.5.4'
 gem 'sidekiq', '7.1.3'
 gem 'sidekiq-cron', '1.9.1'
 gem 'sidekiq-failures', '1.0.1'
-gem 'redis', '4.8.1'
+gem 'redis', '5.2.0'
 gem 'redis-namespace', '1.10.0'
 gem 'faraday', '1.0.1'
 gem 'figaro'
@@ -110,7 +110,7 @@ end
 
 group :development do
   gem 'web-console'
-  gem 'rubocop', '~> 0.77.0', require: false
+  gem 'rubocop', '~> 1.0.0', require: false
   gem 'rubocop-faker'
   gem 'listen'
 end
