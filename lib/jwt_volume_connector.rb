@@ -31,7 +31,7 @@ class JwtVolumeConnector
     unless url.blank?
       now = Time.zone.now
       today_date = now.strftime('%Y-%m-%d')
-      query_params = "&releasedate=#{date}&min_enddate=#{today_date}"
+      query_params = "&date_created=#{date}&max_releasedate=#{today_date}"
     end
 
     connection = Faraday.new(url: hostname) do |f|
