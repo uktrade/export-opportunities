@@ -11,12 +11,12 @@ class VolumeOppsRetriever
     data_endpoint = Figaro.env.OO_DATA_ENDPOINT!
     token_endpoint = Figaro.env.OO_TOKEN_ENDPOINT!
     token_response = jwt_volume_connector_token(username, password, hostname, token_endpoint)
-    res = jwt_volume_connector_data(JSON.parse(token_response.body)['token'], hostname, data_endpoint, from_date, to_date)
+    res = jwt_volume_connector_data(JSON.parse(token_response.body)['access_token'], hostname, data_endpoint, from_date, to_date)
 
     while res[:has_next]
       # store data from page
       process_result_page(res, editor)
-      res = jwt_volume_connector_data(JSON.parse(token_response.body)['token'], res[:next_url], '', from_date, to_date)
+      res = jwt_volume_connector_data(JSON.parse(token_response.body)['access_token'], res[:next_url], '', from_date, to_date)
     end
 
     # process the last page of results
@@ -24,15 +24,11 @@ class VolumeOppsRetriever
     results
   end
 
-  def calculate_value(local_currency_value_hash)
-    return { id: 3 } if local_currency_value_hash.blank?
+  def calculate_value_id(gbp_value)
+    return 3 if gbp_value.blank?
 
-    value = local_currency_value_hash['amount'].to_i
-    currency_name = local_currency_value_hash['currency']
+    value = gbp_value.to_i
 
-    return { id: 3 } if value.nil? || currency_name.nil?
-
-    gbp_value = value_to_gbp(value, currency_name)
     # set value to:
     # 2, less than 100k
     # 1, 100k-1m
@@ -40,24 +36,25 @@ class VolumeOppsRetriever
     # 4, GBP1m-5m
     # 5, GBP5m-50m
     # 6, more than GBP50m,
-    id = if gbp_value < 100_000 && gbp_value >= 0
+    id = if value < 100_000 && value >= 0
            2
-         elsif gbp_value >= 100_000 && gbp_value < 1_000_000
+         elsif value >= 100_000 && value < 1_000_000
            1
-         elsif gbp_value >= 1_000_000 && gbp_value < 5_000_000
+         elsif value >= 1_000_000 && value < 5_000_000
            4
-         elsif gbp_value >= 5_000_000 && gbp_value < 50_000_000
+         elsif value >= 5_000_000 && value < 50_000_000
            5
-         elsif gbp_value > 50_000_000
+         elsif value > 50_000_000
            6
          else
            3
          end
-    { id: id, gbp_value: gbp_value }
+    id
   end
 
   def opportunity_params(opportunity)
-    vo_countryname = opportunity['countryname']
+    opportunity_release = opportunity['releases'][0]
+    vo_countryname = opportunity_release['parties'][0]['address']['countryName']
     # in these four corner cases we store country name in a significantly different way than the ISO name, so we need to transform ISO name -> ExOpps name
     countryname = case vo_countryname
                   when 'United States'
@@ -71,48 +68,27 @@ class VolumeOppsRetriever
                   else
                     vo_countryname
                   end
-    country = Country.where('name like ?', countryname).first
-
-    opportunity_release = opportunity['json']['releases'][0]
-    opportunity_source = opportunity['source']
+    country = Country.where('name ilike ?', countryname).first
 
     tender_opportunity_release = opportunity_release['tender']
-    tender_opportunity_release = tender_opportunity_release['items'] if tender_opportunity_release
+    opportunity_source = tender_opportunity_release['documents'][0]['title'] if tender_opportunity_release['documents'] && tender_opportunity_release['documents'][0]
+  
     cpvs = []
 
-    tender_opportunity_release&.each do |each_tender_opportunity_release|
-      classification_tender_opportunity_release = each_tender_opportunity_release['classification']
+    gbp_value = tender_opportunity_release['gbp_value']
+    value_id = calculate_value_id(gbp_value)
 
-      cpv = classification_tender_opportunity_release['id'].to_i if classification_tender_opportunity_release
-      cpv_obj = CategorisationMicroservice.new(cpv).call
-      cpv_with_description = if cpv_obj && cpv_obj[0] && cpv_obj[0]['cpv_description']
-                               "#{cpv}: #{cpv_obj[0]['cpv_description']}"
-                             else
-                               cpv
-                             end
-      cpv_scheme = classification_tender_opportunity_release['scheme'] if classification_tender_opportunity_release
-      cpvs << { industry_id: cpv_with_description, industry_scheme: cpv_scheme } if cpv
-    end
+    response_due_on = tender_opportunity_release['tenderPeriod']['endDate'] if tender_opportunity_release['tenderPeriod']
+    description = tender_opportunity_release['description'].presence
 
-    if opportunity_release['planning'] && opportunity_release['planning']['budget']
-      values = calculate_value(opportunity_release['planning']['budget']['amount'])
-      value_id = values[:id]
-      gbp_value = values[:gbp_value]
-    else
-      # value unknown
-      value_id = 3
-    end
-    response_due_on = opportunity_release['tender']['tenderPeriod']['endDate'] if opportunity_release['tender']['tenderPeriod']
-    description = opportunity_release['tender']['description'].presence
-
-    title = if opportunity_release['tender']['title'].present?
-              clean_title(opportunity_release['tender']['title'])
+    title = if tender_opportunity_release['title'].present?
+              clean_title(tender_opportunity_release['title'])
             end
 
     buyer = opportunity_release['buyer']
     tender_url = nil
 
-    opportunity_release['tender']['documents']&.each do |document|
+    tender_opportunity_release['documents']&.each do |document|
       tender_url = document['url'].to_s if document['id'].eql?('tender_url')
     end
 
@@ -139,10 +115,10 @@ class VolumeOppsRetriever
         language: opportunity_release['language'].presence,
         tender_value: gbp_value.present? ? Integer(gbp_value).floor : nil,
         source: :volume_opps,
-        tender_content: opportunity['json'].to_json,
-        first_published_at: nil,
+        tender_content: opportunity_release.to_json,
+        first_published_at: Time.zone.parse(opportunity_release['date']),
         tender_url: tender_url,
-        ocid: opportunity['ocid'],
+        ocid: opportunity_release['ocid'],
         tender_source: opportunity_source,
         cpvs: cpvs,
       }
@@ -218,17 +194,25 @@ class VolumeOppsRetriever
     invalid_opp_params = 0
 
     res[:data].each do |opportunity|
-      # get language of opportunity
-      opportunity_language = opportunity['language']
-
       opportunity_params = opportunity_params(opportunity)
 
-      process_opportunity = if opportunity_params && opportunity_params[:ocid]
-                              opportunity_doesnt_exist?(opportunity_params[:ocid])
-                            elsif opportunity_params.nil?
+      # get language of opportunity
+      opportunity_language = opportunity_params[:language] if opportunity_params && opportunity_params[:language]
+
+      end_date_str = opportunity_params[:response_due_on] if opportunity_params && opportunity_params[:response_due_on]
+
+      process_opportunity = if opportunity_params.nil?
+                              false
+                            elsif end_date_str.nil?
+                              false
+                            elsif end_date_str && (Time.zone.parse(end_date_str) < Time.zone.now)
                               false
                             elsif opportunity_params[:ocid].nil?
                               false
+                            elsif opportunity_params[:description].nil?
+                              false
+                            elsif opportunity_params && opportunity_params[:ocid]
+                              opportunity_doesnt_exist?(opportunity_params[:ocid])
                             end
 
       # count valid/invalid opps
@@ -236,7 +220,7 @@ class VolumeOppsRetriever
         if VolumeOppsValidator.new.validate_each(opportunity_params)
           translate(opportunity_params, %i[description teaser title], opportunity_language) if should_translate?(opportunity_language)
           opportunity_params = enforce_sentence_case(opportunity_params)
-          CreateOpportunity.new(editor, :draft, :volume_opps).call(opportunity_params)
+          CreateOpportunity.new(editor, :publish, :volume_opps).call(opportunity_params)
           valid_opp += 1
         else
           invalid_opp += 1
