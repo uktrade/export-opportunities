@@ -124,6 +124,7 @@
 
     - content_for :disclaimer_content  do
       .disclaimer
+        %h2 Disclaimer
         %p= @content["disclaimer_1"]
         %p= @content["disclaimer_2"]
         -if opportunity.translated?

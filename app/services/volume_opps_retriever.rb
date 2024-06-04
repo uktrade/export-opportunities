@@ -54,7 +54,7 @@ class VolumeOppsRetriever
 
   def opportunity_params(opportunity)
     opportunity_release = opportunity['releases'][0]
-    vo_countryname = opportunity_release['parties'][0]['address']['countryName']
+    vo_countryname = opportunity_release['parties'][0]['address']&.dig('countryName')
     # in these four corner cases we store country name in a significantly different way than the ISO name, so we need to transform ISO name -> ExOpps name
     countryname = case vo_countryname
                   when 'United States'
