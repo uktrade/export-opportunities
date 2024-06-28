@@ -19,6 +19,7 @@ module VirusScannerHelper
   end
 
   def scan_clean(filename, file_blob)
+    filename = ActiveStorage::Filename.new(filename).sanitized
     File.open(filename, 'wb') do |f|
       f.write file_blob.read
     end
