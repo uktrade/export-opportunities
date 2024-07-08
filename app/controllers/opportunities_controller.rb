@@ -1,5 +1,4 @@
 class OpportunitiesController < ApplicationController
-  protect_from_forgery except: :index
   include RegionHelper
 
   #
