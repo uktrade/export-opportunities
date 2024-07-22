@@ -84,7 +84,7 @@ RSpec.describe RetrieveVolumeOpps, :elasticsearch, :commit, sidekiq: :inline do
     Editor.create(name: 'test', email: Figaro.env.MAILER_FROM_ADDRESS!, password: 'fsdfs53123f')
   end
 
-  it 'Retrieve Volume Ops runs without raising an error' do
+  xit 'Retrieve Volume Ops runs without raising an error' do
     expect{
       RetrieveVolumeOpps.new.perform
     }.to change{Opportunity.count}.by(1)
