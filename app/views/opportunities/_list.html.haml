@@ -3,7 +3,7 @@
     = cache opp do
       - opportunity = OpportunityPresenter.new(self, opp)
       %li{:class=>"#{opportunity.css_class_name}"}
-        = link_to opportunity.title_with_country, opportunity_path(opp), {:class => "title" }
+        %link(rel="canonical" class="title" href='#{opportunity_path(opp)}') #{opportunity.title_with_country}
 
         %span.text
           = opportunity.teaser
