@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   # Protect by basic auth on staging
   # Use basic auth if set in the environment
   before_action :basic_auth, except: :check
+  # before_action :force_trailing_slash
 
   rescue_from ActionController::InvalidAuthenticityToken, with: :invalid_authenticity_token
 
@@ -275,5 +276,28 @@ class ApplicationController < ActionController::Base
 
   def sso_session_cookie
     Figaro.env.SSO_SESSION_COOKIE
+  end
+
+  # Appends a trailing slash to the end of every URL that doesn't
+  # already end with one. File names shouldn't have trailing slashes,
+  # so we'll want to account for this.
+  def force_trailing_slash
+    return if file?
+    return if trailing_slash?
+
+    url = url_for \
+      request.path_parameters
+        .merge(request.query_parameters)
+        .merge(trailing_slash: true)
+
+    redirect_to url, status: :moved_permanently
+  end
+
+  def trailing_slash?
+    URI(request.original_url).path.ends_with? '/'
+  end
+
+  def file?
+    URI(request.original_url).path.split("/")[-1]&.include? '.'
   end
 end
