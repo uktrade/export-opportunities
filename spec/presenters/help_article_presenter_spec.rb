@@ -36,7 +36,7 @@ RSpec.describe HelpArticlePresenter do
 
       expect(first_section[:id]).to eq('kroxldyphivc')
       expect(first_section[:content]).to eq('some_content')
-      expect(first_section[:url]).to eq('/export-opportunities/admin/help/url/kroxldyphivc')
+      expect(first_section[:url]).to eq('/export-opportunities/admin/help/url/kroxldyphivc/')
       expect(first_section[:current]).to eq false
     end
 
@@ -47,7 +47,7 @@ RSpec.describe HelpArticlePresenter do
 
       expect(first_section[:id]).to eq('chare')
       expect(first_section[:content]).to eq('some_content')
-      expect(first_section[:url]).to eq('/export-opportunities/admin/help/url/chare')
+      expect(first_section[:url]).to eq('/export-opportunities/admin/help/url/chare/')
       expect(first_section[:current]).to eq true
     end
   end

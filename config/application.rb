@@ -23,6 +23,9 @@ module ExportOpportunities
 
     config.exceptions_app = routes
 
+    # Generate trailing slashes
+    routes.default_url_options[:trailing_slash] = true
+
     # GZIP our responses when supported by client
     config.middleware.use Rack::Deflater
 
