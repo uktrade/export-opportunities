@@ -5,6 +5,9 @@
 
     <title>Search results - <%= t('site_name') %> - great.gov.uk</title>
     <%= csrf_meta_tags %>
+    <%= canonical_tag opportunities_url %>
+    <%= hreflang_tags opportunities_url %>
+
     <%= render partial: 'includes/transformation_head_tags' %>
     <%= render partial: 'includes/transformation_styles' %>
     <%= render partial: 'includes/transformation_scripts' %>

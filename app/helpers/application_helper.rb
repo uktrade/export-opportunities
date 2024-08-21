@@ -44,6 +44,17 @@ module ApplicationHelper
     @page_title || t('site_name')
   end
 
+  def canonical_tag(url)
+    tag(:link, rel: "canonical", href: url)
+  end
+
+  def hreflang_tags(url)
+    [
+      tag(:link, rel: "alternate", hreflang: "en-gb", href: url),
+      tag(:link, rel: "alternate", hreflang: "x-default", href: root_url)
+    ].join("\n").html_safe
+  end
+
   private
 
     def html_tags?(text)

@@ -203,7 +203,7 @@ feature 'Administering opportunities' do
 
       expect(page).to have_current_path(admin_opportunity_url(opportunity), url: true)
       expect(page).to have_text(opportunity.title)
-      expect(current_path).to eq('/export-opportunities/admin/opportunities/export-opportunities-133')
+      expect(current_path).to eq('/export-opportunities/admin/opportunities/export-opportunities-133/')
     end
 
     scenario 'updates a duplicate slug opportunity ending in -3 (1 digit), should not change the random id appended to slug' do
