@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   # Protect by basic auth on staging
   # Use basic auth if set in the environment
   before_action :basic_auth, except: :check
-  # before_action :force_trailing_slash
+  before_action :force_trailing_slash
 
   rescue_from ActionController::InvalidAuthenticityToken, with: :invalid_authenticity_token
 
