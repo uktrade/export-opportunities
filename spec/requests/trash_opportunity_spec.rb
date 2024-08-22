@@ -5,9 +5,9 @@ RSpec.describe 'Trash an opportunity' do
     it 'allows trashing opportunities' do
       login_as create(:admin)
       create(:opportunity, slug: 'unpublishable-opportunity', status: :pending)
-      delete '/export-opportunities/admin/opportunities/unpublishable-opportunity/status'
+      delete '/export-opportunities/admin/opportunities/unpublishable-opportunity/status/'
 
-      expect(response.code).to redirect_to('/export-opportunities/admin/opportunities/unpublishable-opportunity')
+      expect(response.code).to redirect_to('/export-opportunities/admin/opportunities/unpublishable-opportunity/')
     end
   end
 
@@ -16,7 +16,7 @@ RSpec.describe 'Trash an opportunity' do
       uploader = create(:uploader)
       login_as uploader
       create(:opportunity, slug: 'unpublishable-opportunity', status: :pending, author: uploader)
-      delete '/export-opportunities/admin/opportunities/unpublishable-opportunity/status'
+      delete '/export-opportunities/admin/opportunities/unpublishable-opportunity/status/'
 
       expect(response.status).to eq 401
     end
@@ -24,7 +24,7 @@ RSpec.describe 'Trash an opportunity' do
       uploader = create(:uploader)
       login_as uploader
       create(:opportunity, slug: 'trashed-opportunity', status: :trash, author: uploader)
-      patch '/export-opportunities/admin/opportunities/trashed-opportunity/status', params: { status: 'pending' }
+      patch '/export-opportunities/admin/opportunities/trashed-opportunity/status/', params: { status: 'pending' }
 
       expect(response.status).to eq 401
     end
@@ -34,7 +34,7 @@ RSpec.describe 'Trash an opportunity' do
     it 'disallows trashing opportunities' do
       login_as create(:admin)
       create(:opportunity, slug: 'unpublishable-opportunity', status: :publish)
-      delete '/export-opportunities/admin/opportunities/unpublishable-opportunity/status'
+      delete '/export-opportunities/admin/opportunities/unpublishable-opportunity/status/'
 
       expect(response.status).to eq 401
     end

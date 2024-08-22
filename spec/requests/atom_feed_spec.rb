@@ -33,12 +33,12 @@ RSpec.describe 'Viewing the ATOM feed for opportunities',
     expect(body.at_css('feed > link[rel=self]').attr('type')).to eql 'application/atom+xml'
     expect(body.at_css('feed > link[rel=self]').attr('href')).to eql 'http://www.example.com/export-opportunities/opportunities.atom'
     expect(body.at_css('feed > link[rel=alternate]').attr('type')).to eql 'text/html'
-    expect(body.at_css('feed > link[rel=alternate]').attr('href')).to eql "http://www.example.com/export-opportunities/opportunities"
+    expect(body.at_css('feed > link[rel=alternate]').attr('href')).to eql "http://www.example.com/export-opportunities/opportunities/"
 
     expect(body.at_css('feed > entry > title').text).to eql 'Atom Feed Required'
     expect(body.at_css('feed > entry > id').text).to eql 'tag:www.example.com,2016:Opportunity/0a0a7bdc-0da8-439a-978a-758601d7a8ce'
     expect(body.at_css('feed > entry > link').attr('rel')).to eql 'alternate'
-    expect(body.at_css('feed > entry > link').attr('href')).to eql 'http://www.example.com/export-opportunities/opportunities/atom-feed-required'
+    expect(body.at_css('feed > entry > link').attr('href')).to eql 'http://www.example.com/export-opportunities/opportunities/atom-feed-required/'
     expect(body.at_css('feed > entry > link').attr('type')).to eql 'text/html'
     expect(body.at_css('feed > entry > updated').text).to eql '2016-09-20T18:00:00Z'
     expect(body.at_css('feed > entry > published').text).to eql '2016-09-11T18:00:00Z'

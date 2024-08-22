@@ -6,7 +6,7 @@ feature 'Trashing opportunities' do
     opportunity = create(:opportunity, title: 'Unpublishable Opportunity', status: :pending)
     login_as(admin)
 
-    visit "/export-opportunities/admin/opportunities/#{opportunity.id}"
+    visit "/export-opportunities/admin/opportunities/#{opportunity.id}/"
 
     click_on('Trash')
 

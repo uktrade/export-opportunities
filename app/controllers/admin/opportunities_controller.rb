@@ -203,6 +203,10 @@ class Admin::OpportunitiesController < Admin::BaseController
       def sanitized_search
         return unless @raw_search_term
 
+        if @raw_search_term.length > 1000
+          raise ArgumentError, 'Input too long'
+        end
+
         @raw_search_term.gsub(alphanumeric_words_and_emails).to_a.join(' ')
       end
 
