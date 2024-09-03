@@ -1,5 +1,6 @@
 require_relative 'boot'
 require_relative '../lib/rack_x_robots_tag'
+require_relative '../lib/formatters/asim_formatter'
 
 require 'rails/all'
 
@@ -22,6 +23,22 @@ module ExportOpportunities
     config.action_view.sanitized_allowed_attributes = []
 
     config.exceptions_app = routes
+
+    # Enable ASIM logging if ENABLE_ASIM_LOGGER is set to 'true'
+    if ENV["ENABLE_ASIM_LOGGER"] == "true"
+      config.lograge.enabled = true
+      config.lograge.formatter = Formatters::AsimFormatter.new
+      config.logger = ActiveSupport::TaggedLogging.new(Logger.new($stdout))
+      config.log_tags = JsonTaggedLogger::LogTagsConfig.generate(
+        :request_id,
+        :remote_ip,
+        JsonTaggedLogger::TagFromSession.get(:user_id),
+        :user_agent,
+      )
+    else
+      # normal development logging configuration
+      config.logger = ActiveSupport::TaggedLogging.new(ActiveSupport::Logger.new($stdout))
+    end
 
     # Generate trailing slashes
     routes.default_url_options[:trailing_slash] = true
