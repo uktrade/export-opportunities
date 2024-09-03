@@ -19,6 +19,10 @@ gem 'immutable-struct'
 
 gem 'nokogiri', '>= 1.16.7'
 
+# Log formatting
+gem "json_tagged_logger"
+gem "lograge"
+
 # Authentication & authorisation
 gem 'devise'
 gem 'devise-async'
