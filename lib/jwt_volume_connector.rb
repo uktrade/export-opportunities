@@ -34,18 +34,43 @@ class JwtVolumeConnector
     end
 
     response = connection.get do |req|
-      req.url hostname + url + "&min_releasedate=#{from_date}&max_releasedate=#{to_date}"
-      req.headers['Authorization'] = 'JWT ' + token
+      req.url hostname + url + "&release_date__gte=#{from_date}&release_date__lte=#{to_date}"
+      req.headers['Authorization'] = 'Bearer ' + token
     end
-
-    response_body = JSON.parse(response.body)
+    response_body = rectify_payload(JSON.parse(response.body), response.env.url)
     has_next ||= response_body['next']
 
-    { data: response_body['results'], has_next: has_next, next_url: response_body['next'], status: response.status, count: response_body['count'] }
+    {
+      data: response_body['results'],
+      has_next: has_next,
+      next_url: response_body['next'],
+      status: response.status,
+      count: response_body['count']
+    }
   rescue JSON::ParserError => e
     Rails.logger.error 'Can\'t parse JSON result. Probably an Application Error 500 on VO side'
     redis = Redis.new(url: Figaro.env.REDIS_URL!)
     redis.set(:application_error, Time.zone.now)
     raise e
+  end
+
+  private
+
+  def rectify_payload(body, url)
+    max_limit = 9900
+    count = body['result_count']
+    offset = body['offset']
+    limit = body['limit']
+    if (offset < max_limit) && (((count - offset) / limit).positive?)
+      body['next'] = build_next_url(url, offset + limit)
+    end
+    body
+  end
+
+  def build_next_url(url, next_offset)
+    query = Rack::Utils.parse_query(url.query)
+    query['offset'] = next_offset
+    url.query = Rack::Utils.build_query(query)
+    url.to_s
   end
 end
