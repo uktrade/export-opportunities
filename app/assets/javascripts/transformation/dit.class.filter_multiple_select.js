@@ -321,7 +321,7 @@
       for(var i=0; i<data.length; ++i) {
         // Note: Only need to set a tabindex attribute to allow focus.
         // The value is not important here.
-        $list.append('<li role="option" data-value="' + data[i]['value'] + '" tabindex="-1">' + data[i]['text'] + '</li>');
+        $list.append($('<li pep="pep" role="option" data-value="' + data[i]['value'] + '" tabindex="-1"></li>').text(data[i]['text']));
       }
     }
     else {
@@ -414,7 +414,7 @@
     var $selected = this._private.$select.find(":selected");
     $display.empty();
     $selected.each(function() {
-      $display.append('<li>' + $(this).text() + '</li>');
+      $display.append($('<li></li>').text(this.text));
     });
   }
 
