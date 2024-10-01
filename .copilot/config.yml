@@ -1,4 +1,4 @@
-repository: public.ecr.aws/export-opportunities
+repository: export-opportunities
 builder:
   name: paketobuildpacks/builder-jammy-full
   version: 0.3.339
