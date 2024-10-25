@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en-gb">
   <head>
     <% @page_type = 'OpportunityPage' %>
 
     <title><%= @opportunity.title %> - <%= t('site_name') %> - great.gov.uk</title>
     <%= csrf_meta_tags %>
-    <%= canonical_tag opportunities_url %>
-    <%= hreflang_tags opportunity_url %>
     <%= render partial: 'includes/transformation_head_tags' %>
     <%= render partial: 'includes/transformation_styles' %>
     <%= render partial: 'includes/transformation_scripts' %>

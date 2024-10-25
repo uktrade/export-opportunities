@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pingdom_http_custom_check>
+    <status><%= @status %></status>
+    <response_time><%= (Time.now - request.env[:timestamp]).in_milliseconds.round(3) %></response_time>
+</pingdom_http_custom_check>
+
+
