@@ -9,7 +9,8 @@ Rails.application.routes.draw do
     get 'check' => 'application#check'
     get 'data_sync_check' => 'data_sync#check'
     get 'api_check' => 'application#api_check'
-    get "robots.txt" => "robots_txts#show"
+    get 'robots.txt' => 'robots_txts#show'
+    get '/pingdom/ping' => 'application#ping'
 
     devise_for :users, module: 'users', skip: :sessions
 
@@ -182,7 +183,7 @@ Rails.application.routes.draw do
   get 'check' => 'application#check'
   get 'data_sync_check' => 'application#data_sync_check'
   get 'api_check' => 'application#api_check'
-  get "robots.txt" => "robots_txts#show"
+  get 'robots.txt' => 'robots_txts#show'
 
   # devise_for :users, module: 'users', skip: :sessions
 

@@ -1,5 +1,6 @@
 require_relative 'boot'
 require_relative '../lib/rack_x_robots_tag'
+require_relative '../lib/append_timestamp'
 require_relative '../lib/formatters/asim_formatter'
 
 require 'rails/all'
@@ -48,6 +49,9 @@ module ExportOpportunities
 
     # No indexing (if env.DISALLOW_ALL_WEB_CRAWLERS)
     config.middleware.use Rack::XRobotsTag
+
+    # Add timestamp to request
+    config.middleware.use AppendTimestamp
 
     # Use Sidekiq to process jobs from ActiveJob
     config.active_job.queue_adapter = :sidekiq
