@@ -103,6 +103,8 @@ Rails.application.routes.draw do
 
     get '/enquiries/:slug' => 'enquiries#new', as: :new_enquiry
     post '/enquiries/:slug' => 'enquiries#create', as: :enquiries
+    post '/enquiries/:slug/feedback' => 'customer_satisfaction_feedback#create', as: :customer_satisfaction_rating
+    patch '/enquiries/:slug/feedback' => 'customer_satisfaction_feedback#update', as: :customer_satisfaction_feedback
 
     resources :company_details, only: [:index]
 

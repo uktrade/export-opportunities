@@ -1,7 +1,5 @@
 - page = PagePresenter.new(@content)
 - page.add_breadcrumb_current('Expression of interest submitted')
-- content_for :action_specific_head  do
-  = stylesheet_link_tag 'csat/form'
 
 .container
   = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
@@ -13,4 +11,5 @@
         Your expression of interest has been submitted and will be reviewed. You will be notified of any potential next steps in 5 working days.
         = link_to 'View your expressions of interest to date', dashboard_path, class: 'button'
 
-  = render partial: "customer_satisfaction_feedback/form"
+  %section
+    %h5 Thank you for helping us to improve this service
