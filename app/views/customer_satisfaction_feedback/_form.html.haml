@@ -1,0 +1,16 @@
+%section
+  .container
+    %div
+      = form_tag customer_satisfaction_rating_path, method: :post do
+        %div
+          %div
+            %div
+              = field_set_tag 'Overall, how would you rate your experience with With the Export Opportunities service today?' do
+                %div
+                  = collection_radio_buttons(:feedback, :satisfaction_rating, CustomerSatisfactionFeedback::SATISFACTION_CHOICES, :first, :last) do |b|
+                    %div
+                      = b.radio_button(class: 'multiple-choice')
+                      = b.label
+        %div
+          = submit_tag 'Submit and continue', class: 'button'
+          = submit_tag 'Cancel', class: 'button'
