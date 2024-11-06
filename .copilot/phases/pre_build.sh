@@ -21,3 +21,7 @@ else
 fi
 
 # Add commands below to run as part of the pre_build phase
+
+cp ./config/application.example.yml ./config/application.yml
+echo "LIST DIR"
+ls ./config
