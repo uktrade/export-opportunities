@@ -110,3 +110,4 @@ COMPANIES_HOUSE_BASE_URL: ''
 
 MAILTRAP_USERNAME: 'build'
 MAILTRAP_PASSWORD: 'build_password'
+MAILDER_DOMAIN: 'smtp.mailtrap.io'
