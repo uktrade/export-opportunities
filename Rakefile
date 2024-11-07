@@ -13,6 +13,8 @@ namespace :cf do
   task :on_first_instance do
     instance_index = if ENV['VCAP_APPLICATION'] && JSON.parse(ENV['VCAP_APPLICATION'])
                        JSON.parse(ENV['VCAP_APPLICATION'])['instance_index']
+                     elsif ENV['COPILOT_APPLICATION_NAME']
+                       0
                      end
     exit(0) unless instance_index.zero?
   end
