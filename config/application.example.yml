@@ -12,6 +12,7 @@ MAILER_HOST: "127.0.0.1"
 MAILER_PORT: "1025"
 MAILER_FROM_ADDRESS: "develop@exportingisgreat.gov.uk"
 MAILER_NOREPLY_ADDRESS: 'noreply@exportingisgreat.gov.uk'
+MAILER_DOMAIN: 'c'
 
 # Redis
 REDIS_URL: redis://localhost:6379
@@ -108,7 +109,7 @@ CPV_CODE_LOOKUP_URL: "debug"
 TRADE_PROFILE_PAGE: ''
 COMPANIES_HOUSE_BASE_URL: ''
 
-MAILTRAP_USERNAME: 'build'
-MAILTRAP_PASSWORD: 'build_password'
-MAILER_DOMAIN: 'smtp.mailtrap.io'
+MAILTRAP_USERNAME: 'a'
+MAILTRAP_PASSWORD: 'b'
+
 OPENSEARCH_URL: 'http://localhost:9200'
