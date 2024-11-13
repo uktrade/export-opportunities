@@ -7,3 +7,4 @@ set -e
 
 export COPILOT_ENVIRONMENT_NAME='build'
 rm ./config/application.yml
+chmod +t .
