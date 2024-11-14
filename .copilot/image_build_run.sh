@@ -6,8 +6,6 @@ set -e
 # Add commands below to run inside the container after all the other buildpacks have been applied
 
 export COPILOT_ENVIRONMENT_NAME='build'
-export TMPDIR='/tmp/workspace'
 
 rm ./config/application.yml
-mkdir /tmp/workspace
-chmod +t /tmp/workspace .
+chmod +t /tmp
