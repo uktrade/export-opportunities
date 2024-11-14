@@ -9,3 +9,4 @@ export COPILOT_ENVIRONMENT_NAME='build'
 export TMPDIR='/tmp/workspace'
 
 rm ./config/application.yml
+mkdir /tmp/workspace
