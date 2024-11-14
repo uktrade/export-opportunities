@@ -10,4 +10,4 @@ export TMPDIR='/tmp/workspace'
 
 rm ./config/application.yml
 mkdir /tmp/workspace
-chmod +t /tmp/workspace
+chmod +t /tmp/workspace .
