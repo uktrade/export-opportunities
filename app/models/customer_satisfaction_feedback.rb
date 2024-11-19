@@ -25,6 +25,19 @@ class CustomerSatisfactionFeedback < ApplicationRecord
     ['EXTREMELY_LIKELY', 'Extremely likely'],
     ['DONT_KNOW_OR_PREFER_NOT_TO_SAY', 'Don\'t know/prefer not to say']
   ]
+  #validates :service_improvements_feedback, length: { maximum: 1200 }
+  validate :check_issues_validation
+
+  def check_issues_validation
+    puts experienced_issues
+    puts experienced_issues.class
+    puts experienced_issues.length
+    puts experienced_issues.include? 'NO_ISSUE'
+    if experienced_issues.include? 'NO_ISSUE' && experienced_issues.length > 1
+      puts 'in the thing'
+      errors.add(:experienced_issues, "can't both experience issues and have no issues")
+    end
+  end
 
   self.table_name = :csat_feedback
 end
