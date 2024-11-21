@@ -31,7 +31,7 @@ Rails.application.configure do
   }
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = false
+  config.assets.compile = true
 
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
@@ -125,4 +125,18 @@ Rails.application.configure do
   mailer_logger = Logger.new(STDOUT)
   mailer_logger.level = Logger::INFO
   config.action_mailer.logger = mailer_logger
+
+  # Compile the PosgreSQL connection string at build time on the DBT platform
+  if ENV['COPILOT_ENVIRONMENT_NAME'] && ENV['DATABASE_CREDENTIALS']
+    database_credentials = JSON.parse(ENV['DATABASE_CREDENTIALS'])
+
+    engine = database_credentials['engine']
+    username = database_credentials['username']
+    password = database_credentials['password']
+    host = database_credentials['host']
+    port = database_credentials['port']
+    dbname = database_credentials['dbname']
+
+    ENV['DATABASE_URL'] = "#{engine}://#{username}:#{password}@#{host}:#{port}/#{dbname}"
+  end
 end

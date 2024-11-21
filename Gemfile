@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 
-ruby '3.2.2'
+ruby '~> 3.2.0'
 
 gem 'matrix', '0.4.2'
 gem 'rails', '6.1.7.8'
 gem 'bundler'
-gem 'puma', '5.6.8'
+gem 'puma', '5.6.9'
 gem 'pg', '1.5.4'
 gem 'sidekiq', '7.1.3'
 gem 'sidekiq-cron', '1.9.1'
