@@ -1,7 +1,7 @@
 - page = PagePresenter.new(@content)
 - page.add_breadcrumb_current('Expression of interest submitted')
-- content_for :action_specific_head  do
-  = javascript_include_tag 'hcsat/conditional_other_reveal'
+= javascript_include_tag 'hcsat/conditional_other_input'
+= javascript_include_tag 'hcsat/character_count'
 
 .container
   = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
@@ -52,7 +52,7 @@
 
               .hcsat__heading.govuk-margin-bottom-6
                 = field_set_tag 'How likely are you to use this service again?' do
-                  %div
+                  .govuk-margin-top-4
                     = collection_radio_buttons(:feedback, :likelihood_of_return, CustomerSatisfactionFeedback::LIKELIHOOD_CHOICES, :first, :last, class: 'hcsat__fieldset') do |b|
                       .hcsat__radios_item
                         = b.radio_button(class: 'multiple-choice hcsat__radios_input govuk-margin-bottom-2')
@@ -65,7 +65,7 @@
                     Don't include any personal information, like your name or email address.
 
                 = text_area_tag 'feedback[service_improvements_feedback]', nil, placeholder: 'input value'
-                .hcsat__caption.govuk-margin-bottom-6
+                .hcsat__caption.govuk-margin-bottom-6.govuk-margin-top-2#character_counter
                   You have 1200 characters remaining
 
           %div

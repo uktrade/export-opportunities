@@ -8,8 +8,8 @@
               = field_set_tag 'Overall, how would you rate your experience with the Export Opportunities service today?', class: 'hcsat__heading'  do
                 .govuk-margin-top-4
                   = collection_radio_buttons(:feedback, :satisfaction_rating, CustomerSatisfactionFeedback::SATISFACTION_CHOICES, :first, :last, class: 'hcsat__fieldset') do |b|
-                    %div.hcsat__radios_item
-                      = b.radio_button(class: 'multiple-choice hcsat__radios_input govuk-margin-bottom-2')
+                    %div.hcsat__radios_item.govuk-margin-bottom-2
+                      = b.radio_button(class: 'multiple-choice hcsat__radios_input')
                       = b.label(class: 'hcsat__body_text hcsat__radios_label')
         .govuk-margin-top-4
           = submit_tag 'Submit and continue', class: 'button '
