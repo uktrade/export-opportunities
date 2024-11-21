@@ -39,10 +39,6 @@ $govuk-radios-label-padding-left-right: $govuk-spacing-3;
     display:inline-flex;
 }
 
-.abc {
-    font-size: 20px;
-}
-
 .hcsat__heading {
     font-size: 18px;
     font-weight: 600;
@@ -87,6 +83,7 @@ $govuk-radios-label-padding-left-right: $govuk-spacing-3;
     // __item using flex-wrap because we want hints on a separate line
     max-width: calc(100% - #{($govuk-radios-label-padding-left-right + $govuk-touch-target-size + $govuk-spacing-3)});
     margin-bottom: 0;
+    margin-left: $govuk-spacing-3;
     padding: ($govuk-spacing-1 + $govuk-border-width-form-element) $govuk-spacing-1;
     cursor: pointer;
     // remove 300ms pause on mobile
@@ -276,4 +273,9 @@ $govuk-radios-label-padding-left-right: $govuk-spacing-3;
     padding-left: 35px;
     border-left: 4px solid #bdbdbd;
     margin-bottom: 20px;
+}
+
+.hcsat__error {
+    font-weight: 600;
+    color: #D4351C;
 }
