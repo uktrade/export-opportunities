@@ -1,7 +1,7 @@
 - page = PagePresenter.new(@content)
 - page.add_breadcrumb_current('Expression of interest submitted')
-= javascript_include_tag 'hcsat/conditional_other_input'
-= javascript_include_tag 'hcsat/character_count'
+- content_for :action_specific_head  do
+  = javascript_include_tag 'hcsat/conditional_other_reveal'
 
 .container
   = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
@@ -38,7 +38,7 @@
                   .hcsat__caption.govuk-margin-top-2.govuk-margin-bottom-4
                     Select all that apply.
                   %div
-                    = collection_check_boxes(:feedback, :experienced_issues, CustomerSatisfactionFeedback::ISSUES_CHOICES, :first, :last, include_hidden: false, class: 'hcsat__fieldset') do |b|
+                    = collection_check_boxes(:csat, :experienced_issues, @csat.class::ISSUES_CHOICES, :first, :last, include_hidden: false, class: 'hcsat__fieldset') do |b|
                       .hcsat__checkboxes_item
                         = b.check_box(class: 'multiple-choice hcsat__checkboxes_input')
                         = b.label(class: 'hcsat__body_text hcsat__checkboxes_label')
@@ -46,14 +46,14 @@
                         %div
                           %div
                             .govuk-margin-bottom-2.hcsat__checkboxes_conditional#conditional_reveal_container
-                              = label_tag 'feedback[other_detail]', 'Please describe the issue', class: 'govuk-margin-bottom-1'
-                              = text_field_tag 'feedback[other_detail]'
+                              = label_tag 'csat[other_detail]', 'Please describe the issue', class: 'govuk-margin-bottom-1'
+                              = text_field_tag 'csat[other_detail]'
                         %div.hcsat__heading.govuk-margin-bottom-2 Or
 
               .hcsat__heading.govuk-margin-bottom-6
                 = field_set_tag 'How likely are you to use this service again?' do
-                  .govuk-margin-top-4
-                    = collection_radio_buttons(:feedback, :likelihood_of_return, CustomerSatisfactionFeedback::LIKELIHOOD_CHOICES, :first, :last, class: 'hcsat__fieldset') do |b|
+                  %div
+                    = collection_radio_buttons(:csat, :likelihood_of_return, @csat.class::LIKELIHOOD_CHOICES, :first, :last, class: 'hcsat__fieldset') do |b|
                       .hcsat__radios_item
                         = b.radio_button(class: 'multiple-choice hcsat__radios_input govuk-margin-bottom-2')
                         = b.label(class: 'hcsat__body_text hcsat__radios_label')
@@ -64,8 +64,8 @@
                   .hcsat__caption.govuk-margin-top-1.govuk-margin-bottom-2
                     Don't include any personal information, like your name or email address.
 
-                = text_area_tag 'feedback[service_improvements_feedback]', nil, placeholder: 'input value'
-                .hcsat__caption.govuk-margin-bottom-6.govuk-margin-top-2#character_counter
+                = text_area_tag 'csat[service_improvements_feedback]', nil, placeholder: 'input value'
+                .hcsat__caption.govuk-margin-bottom-6
                   You have 1200 characters remaining
 
           %div
