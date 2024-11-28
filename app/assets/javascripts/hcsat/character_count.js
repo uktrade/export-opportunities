@@ -9,7 +9,6 @@ class HCSATCharacterCount {
             var currentCount = this.textArea.value.length
 
             if (currentCount < 1201) {
-                console.log(this.characterCounter.classList)
                 if (this.characterCounter.classList.contains('hcsat__error')) {
                     this.characterCounter.classList.remove('hcsat__error')
                 }
@@ -27,6 +26,6 @@ class HCSATCharacterCount {
 }   
 
 document.addEventListener('DOMContentLoaded', () => {
-    HCSATCharacterCount = new HCSATCharacterCount('feedback_service_improvements_feedback', 'character_counter');
+    HCSATCharacterCount = new HCSATCharacterCount('csat_service_improvements_feedback', 'character_counter');
     HCSATCharacterCount.initialiseCharacterCount()
 });
