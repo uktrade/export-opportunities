@@ -13,8 +13,10 @@ class CustomerSatisfactionFeedbackController < ApplicationController
 
   # PATCH /enquiries/:slug/feedback
   def update
-    feedback = CustomerSatisfactionFeedback.find(params['id'])
-    feedback_params = params.require(:feedback)
-    feedback.update!(feedback_params)
+    @csat = CustomerSatisfactionFeedback.find(params['id'])
+    csat_params = params.require(:csat)
+    unless @csat.update(csat_params)
+      render :create
+    end
   end
 end
