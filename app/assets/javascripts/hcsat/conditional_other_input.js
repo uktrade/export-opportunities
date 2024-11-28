@@ -53,6 +53,6 @@ class HCSATCheckboxes {
 
 document.addEventListener('DOMContentLoaded', () => {
     HCSATCheckboxes = new HCSATCheckboxes();
-    HCSATCheckboxes.initializeConditionalOtherInput('feedback_experienced_issues_other','conditional_reveal_container')
-    HCSATCheckboxes.initialiseExclusiveCheckBox('feedback_experienced_issues_no_issue', 'conditional_reveal_container')
+    HCSATCheckboxes.initializeConditionalOtherInput('csat_experienced_issues_other','conditional_reveal_container')
+    HCSATCheckboxes.initialiseExclusiveCheckBox('csat_experienced_issues_no_issue', 'conditional_reveal_container')
 });
