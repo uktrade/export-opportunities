@@ -13,4 +13,4 @@
                       = b.label(class: 'hcsat__body_text hcsat__radios_label')
         .govuk-margin-top-4
           = submit_tag 'Submit and continue', class: 'button '
-          = submit_tag 'Cancel', class: 'button'
+          = button_to 'Cancel', customer_satisfaction_cancel_path, method: :get, class: 'button'

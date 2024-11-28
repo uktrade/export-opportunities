@@ -78,4 +78,4 @@
 
           %div
             = submit_tag 'Submit feedback', class: 'button'
-            = submit_tag 'Cancel', class: 'button'
+            = button_to 'Cancel', customer_satisfaction_cancel_path, method: :get, class: 'button'

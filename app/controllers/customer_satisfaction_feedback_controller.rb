@@ -19,4 +19,8 @@ class CustomerSatisfactionFeedbackController < ApplicationController
       render :create
     end
   end
+
+  def cancel
+    render :update
+  end
 end
