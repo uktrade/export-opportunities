@@ -1,4 +1,6 @@
+require 'cgi'
 require 'json'
+require 'uri'
 
 # https://github.com/omniauth/omniauth/issues/872
 Hashie.logger = Logger.new(nil)
