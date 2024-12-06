@@ -17,7 +17,7 @@ RSpec.describe 'CSRF behaviour', type: :request do
   end
 
   it 'notifies Sentry with exception data' do
-    expect(Raven).to receive(:capture_exception)
+    expect(Sentry).to receive(:capture_exception)
     post '/export-opportunities/admin/editors/sign_in', params: { authenticity_token: 'rubbish' }
   end
 end

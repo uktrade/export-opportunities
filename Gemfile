@@ -80,7 +80,8 @@ gem 'paper_trail', '12.3.0'
 gem 'aws-sdk'
 
 # Monitoring
-gem 'sentry-raven', '3.0.0'
+gem 'sentry-ruby'
+gem 'sentry-rails'
 
 # rest client for antivirus scanning
 gem 'rest-client'
