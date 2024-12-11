@@ -1,12 +1,11 @@
-input.multiple-choice {
-    display: inline;
-}
 .hidden {
     display: none;
 }
 $govuk-spacing-1: 5px;
 $govuk-spacing-2: 10px;
 $govuk-spacing-3: 15px;
+$govuk-spacing-4: 20px;
+$govuk-spacing-5: 25px;
 $govuk-spacing-6: 30px;
 $govuk-touch-target-gutter: 4px;
 $govuk-radios-size: 40px;
@@ -63,6 +62,11 @@ $govuk-radios-label-padding-left-right: $govuk-spacing-3;
     font-weight: 400; 
 }
 
+// HCSAT radios and checkboxes scss taken from govuk-frontend
+// https://www.npmjs.com/package/govuk-frontend?activeTab=code
+// dist/govuk/components/radios/_index.scss
+// dist/govuk/components/checkboxes/_index.scss
+
 .hcsat__radios_input, .hcsat__checkboxes_input {
     z-index: 1;
     width: $govuk-touch-target-size;
@@ -74,11 +78,6 @@ $govuk-radios-label-padding-left-right: $govuk-spacing-3;
 
 .hcsat__radios_label {
     align-self: center;
-
-    // Ensure that the width of the label is never more than the width of the
-    // container minus the input width minus the padding on either side of
-    // the label. This prevents the label from going onto the next line due to
-    // __item using flex-wrap because we want hints on a separate line
     max-width: calc(100% - #{($govuk-radios-label-padding-left-right + $govuk-touch-target-size + $govuk-spacing-3)});
     margin-bottom: 0;
     margin-left: $govuk-spacing-3;
@@ -102,13 +101,8 @@ $govuk-radios-label-padding-left-right: $govuk-spacing-3;
 
     &::after {
         $radio-button-size: $govuk-spacing-2;
-    
         content: "";
         position: absolute;
-    
-        // Positioned by getting half the touch target, so we have the centre of the
-        // input, and then moving back by the button's border width, thus positioning
-        // the centre of the button in the centre of the input.
         top: ($govuk-touch-target-size / 2) - $radio-button-size;
         left: ($govuk-touch-target-size / 2) - $radio-button-size;
         width: 0;
@@ -185,11 +179,12 @@ $govuk-radios-label-padding-left-right: $govuk-spacing-3;
     box-shadow: 0 0 0 $govuk-focus-width yellow;
 }
 
-  // Selected state
+// Selected state
 .hcsat__checkboxes_input:checked + .hcsat__checkboxes_label::after {
     opacity: 1;
 }
 
+// Recreate govuk spacing override utilities in ExOps
 .govuk-margin-bottom-1 {
     margin-bottom: 5px;
 }
@@ -223,20 +218,13 @@ $govuk-radios-label-padding-left-right: $govuk-spacing-3;
 }
 
 .govuk-margin-bottom-6 {
-    margin-bottom: 20px;
-
-    @media (min-width: 641px) {
-        margin-bottom: 30px;
-    }
+    margin-bottom: 30px;
 }
 
 .govuk-margin-top-6 {
-    margin-top: 20px;
-
-    @media (min-width: 641px) {
-        margin-top: 30px;
-    }
+    margin-top: 30px;
 }
+
 .hcsat__checkboxes_conditional {
     margin-left: 20px;
     padding-left: 35px;

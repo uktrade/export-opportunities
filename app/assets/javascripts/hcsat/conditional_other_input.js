@@ -4,8 +4,10 @@ class HCSATCheckboxes {
         const checkbox = document.getElementById(checkBoxId)
         const revealContainer = document.getElementById(revealContainerId)
 
-        // initially hide for js users
-        revealContainer.classList.add('hidden')
+        // initially hide for js users, unless already ticked on form autofill post-error
+        if (!(checkbox.checked)) {
+            revealContainer.classList.add('hidden')
+        }
         
         checkbox.addEventListener('change', async (event) => {
             if (checkbox.checked) {

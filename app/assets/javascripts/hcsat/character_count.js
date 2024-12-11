@@ -5,7 +5,7 @@ class HCSATCharacterCount {
     }
 
     initialiseCharacterCount() {
-        this.textArea.addEventListener('keyup', async (event ) => {
+        const checkCharacterCount = () => {
             var currentCount = this.textArea.value.length
 
             if (currentCount < 1201) {
@@ -18,11 +18,16 @@ class HCSATCharacterCount {
                     this.characterCounter.classList.add('hcsat__error')
                 }
                 this.characterCounter.innerHTML = "You have " + Math.abs(1200 - currentCount)+" characters too many"
-            }
+            }    
+        }
+        // Remove hidden class to show for js users, and init with correct message
+        this.characterCounter.classList.remove('hidden')
+        checkCharacterCount()
 
-            
-    })
-}
+        this.textArea.addEventListener('keyup', async (event ) => {
+            checkCharacterCount()
+        })
+    }
 }   
 
 document.addEventListener('DOMContentLoaded', () => {

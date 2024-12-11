@@ -30,9 +30,7 @@ class CustomerSatisfactionFeedback < ApplicationRecord
   validate :validate_experienced_issues
 
   def validate_experienced_issues
-    puts 'validating for experienced_issues...'
     if (experienced_issues.include? 'NO_ISSUE') && (experienced_issues.length > 1)
-      puts 'in the thing'
       errors.add(:experienced_issues, "can't both experience issues and have no issues")
     end
   end
