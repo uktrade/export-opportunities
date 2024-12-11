@@ -5,7 +5,7 @@ class CustomerSatisfactionFeedbackController < ApplicationController
 
   # POST /enquiries/:slug/feedback
   def create
-    rating_params = params.require(:feedback).permit(:satisfaction_rating)
+    rating_params = params.require(:feedback)
     @csat = CustomerSatisfactionFeedback.new(rating_params)
     @csat.url = request.path
     @csat.save!
