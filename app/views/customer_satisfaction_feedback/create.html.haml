@@ -1,0 +1,84 @@
+- page = PagePresenter.new(@content)
+- page.add_breadcrumb_current('Expression of interest submitted')
+= javascript_include_tag 'hcsat/conditional_other_input'
+= javascript_include_tag 'hcsat/character_count'
+
+.container
+  = render partial: "components/breadcrumbs", locals: { breadcrumbs: page.breadcrumbs }
+
+  %section
+    .confirmation-notice
+      %h1.notice Thank you
+      %p.message
+        Your expression of interest has been submitted and will be reviewed. You will be notified of any potential next steps in 5 working days.
+        = link_to 'View your expressions of interest to date', dashboard_path, class: 'button'
+
+  %section
+    .container.hcsat
+      - if @csat.errors.any?
+        .hcsat__error_summary.govuk-margin-bottom-4.govuk-margin-top-4
+          %h2.hcsat__error_summary_heading.govuk-margin-bottom-3 There is a problem
+          %ul{'aria-labelledby': 'errors-list-label'}
+            - @csat.errors.each do |error|
+              %li.hcsat__error_summary_list_item.govuk-margin-bottom-1
+                %a{ :href => "#csat_#{error.attribute}", :class => %w[hcsat__error_summary_link govuk-margin-bottom-1] } 
+                  = error.full_message
+      %div
+        %div
+          .hcsat__submission_confirmation_container
+            = image_tag('green-tick.svg')
+            %h2.hcsat__submission_confirmation Thank you for submitting your rating
+          %div
+            %p.hcsat__heading.govuk-margin-bottom-6
+              To help us improve our service, we'd like to know more about your experience today. It will only take a minute to complete.
+
+        = form_tag customer_satisfaction_feedback_path, method: :patch do
+          = hidden_field_tag 'id', @csat.id
+          %div
+            %div#csat_experienced_issues
+              %div{ class: (@csat.errors[:experienced_issues].present? ? 'hcsat__form_group_error' : nil) }
+                .hcsat__heading.govuk-margin-bottom-6
+                  = field_set_tag 'Did you experience any of the following issues?' do
+                    .hcsat__caption.govuk-margin-top-2
+                      Select all that apply.
+                    - if @csat.errors[:experienced_issues].present?
+                      .hcsat__error.govuk-margin-top-2 Select issues you experienced, or select ‘I did not experience any issues’
+                    .govuk-margin-top-4
+                      = collection_check_boxes(:csat, :experienced_issues, @csat.class::ISSUES_CHOICES, :first, :last, include_hidden: false, class: 'hcsat__fieldset') do |b|
+                        .hcsat__checkboxes_item
+                          = b.check_box(class: 'multiple-choice hcsat__checkboxes_input')
+                          = b.label(class: 'hcsat__body_text hcsat__checkboxes_label')
+                        - if b.value == 'OTHER'
+                          %div
+                            %div
+                              .govuk-margin-bottom-2.hcsat__checkboxes_conditional#conditional_reveal_container
+                                = label_tag 'csat[other_detail]', 'Please describe the issue', class: 'govuk-margin-bottom-1'
+                                = text_field_tag 'csat[other_detail]', @csat.other_detail
+                          %div.hcsat__heading.govuk-margin-bottom-2 Or
+
+              .hcsat__heading.govuk-margin-bottom-6
+                = field_set_tag 'How likely are you to use this service again?' do
+                  .govuk-margin-top-4
+                    = collection_radio_buttons(:csat, :likelihood_of_return, @csat.class::LIKELIHOOD_CHOICES, :first, :last, class: 'hcsat__fieldset') do |b|
+                      .hcsat__radios_item
+                        = b.radio_button(class: 'multiple-choice hcsat__radios_input govuk-margin-bottom-2')
+                        = b.label(class: 'hcsat__body_text hcsat__radios_label')
+
+              %div{ class: (@csat.errors[:service_improvements_feedback].present? ? 'hcsat__form_group_error' : nil) }
+                %h2.hcsat__heading
+                  How could we improve this service?
+                  .hcsat__caption.govuk-margin-top-1.govuk-margin-bottom-2
+                    Don't include any personal information, like your name or email address.
+                  - if @csat.errors[:service_improvements_feedback].present?
+                    .hcsat__error.govuk-margin-bottom-2 
+                      Your feedback must be 1200 characters or less, you have 
+                      = @csat.service_improvements_feedback.length
+                      characters
+                      
+                = text_area_tag 'csat[service_improvements_feedback]', @csat.service_improvements_feedback, placeholder: ''
+                .hcsat__caption.govuk-margin-bottom-6#character_counter
+                  You have 1200 characters remaining
+
+          .govuk-margin-top-4
+            = submit_tag 'Submit feedback', class: 'button'
+            = button_to 'Cancel', customer_satisfaction_cancel_path, method: :get, class: 'button'

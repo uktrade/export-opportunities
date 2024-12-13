@@ -52,4 +52,5 @@
 //= link transformation/pages/opportunity.css
 //= link transformation/pages/results.css
 //= link export-components/main.css
+//= link csat/form.css
 //= link_tree ../fonts

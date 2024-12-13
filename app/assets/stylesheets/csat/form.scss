@@ -1,0 +1,275 @@
+.hidden {
+    display: none;
+}
+$govuk-spacing-1: 5px;
+$govuk-spacing-2: 10px;
+$govuk-spacing-3: 15px;
+$govuk-spacing-4: 20px;
+$govuk-spacing-5: 25px;
+$govuk-spacing-6: 30px;
+$govuk-touch-target-gutter: 4px;
+$govuk-radios-size: 40px;
+$govuk-checkboxes-size: 40px;
+$govuk-checkboxes-label-padding-left-right: $govuk-spacing-3;
+$govuk-checkbox-check-horizontal-position: 10px;
+$govuk-touch-target-size: ($govuk-radios-size + $govuk-touch-target-gutter);
+$govuk-small-radios-size: 24px;
+$govuk-radios-label-padding-left-right: $govuk-spacing-3;
+$govuk-focus-width: 3px;
+$govuk-radios-focus-width: $govuk-focus-width + 1px;
+$govuk-border-width-form-element: 2px;
+$govuk-radios-label-padding-left-right: $govuk-spacing-3;
+
+.hcsat {
+    padding-top: $govuk-spacing-6;
+    border-top: #d8d8d8 solid 2px;
+    * fieldset {
+        border: none;
+    }
+    * textarea {
+        margin-bottom:0px;
+    }
+}
+
+
+.hcsat__submission_confirmation_container {
+    display:inline-flex;
+}
+
+.hcsat__heading {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 25px;
+}
+
+.hcsat__submission_confirmation {
+    @extend .hcsat__heading;
+    padding-left: $govuk-spacing-2;
+    margin-top: $govuk-spacing-6;
+    margin-bottom: $govuk-spacing-6;
+}
+
+.hcsat__body_text {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 25px;
+}
+
+.hcsat__caption {
+    color: #505A5F;
+    font-size: 18px;
+    line-height: 25px;
+    font-weight: 400; 
+}
+
+// HCSAT radios and checkboxes scss taken from govuk-frontend
+// https://www.npmjs.com/package/govuk-frontend?activeTab=code
+// dist/govuk/components/radios/_index.scss
+// dist/govuk/components/checkboxes/_index.scss
+
+.hcsat__radios_input, .hcsat__checkboxes_input {
+    z-index: 1;
+    width: $govuk-touch-target-size;
+    height: $govuk-touch-target-size;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.hcsat__radios_label {
+    align-self: center;
+    max-width: calc(100% - #{($govuk-radios-label-padding-left-right + $govuk-touch-target-size + $govuk-spacing-3)});
+    margin-bottom: 0;
+    margin-left: $govuk-spacing-3;
+    padding: ($govuk-spacing-1 + $govuk-border-width-form-element) $govuk-spacing-1;
+    cursor: pointer;
+    // remove 300ms pause on mobile
+    touch-action: manipulation;
+
+    &::before {
+        content: "";
+        box-sizing: border-box;
+        position: absolute;
+        top: ($govuk-touch-target-gutter / 2);
+        left: ($govuk-touch-target-gutter / 2);
+        width: $govuk-radios-size;
+        height: $govuk-radios-size;
+        border: $govuk-border-width-form-element solid black;
+        border-radius: 50%;
+        background: transparent;
+      }
+
+    &::after {
+        $radio-button-size: $govuk-spacing-2;
+        content: "";
+        position: absolute;
+        top: ($govuk-touch-target-size / 2) - $radio-button-size;
+        left: ($govuk-touch-target-size / 2) - $radio-button-size;
+        width: 0;
+        height: 0;
+        border: $radio-button-size solid black;
+        border-radius: 50%;
+        opacity: 0;
+        background: black;
+      }
+}
+
+// Focused state
+.hcsat__radios_input:focus + .hcsat__radios_label::before {
+    border-width: 4px;
+    outline: $govuk-focus-width solid transparent;
+    outline-offset: 1px;
+    box-shadow: 0 0 0 $govuk-radios-focus-width yellow;
+}
+
+// Selected state
+.hcsat__radios_input:checked + .hcsat__radios_label::after {
+    opacity: 1;
+}
+
+.hcsat__radios_item, .hcsat__checkboxes_item{
+    display:flex;
+    flex-wrap: wrap;
+    position: relative;
+    margin-bottom: $govuk-spacing-2;
+}
+
+.hcsat__checkboxes_label {
+    align-self: center;
+    max-width: calc(100% - #{(($govuk-checkboxes-label-padding-left-right * 2) + $govuk-touch-target-size)});
+    margin-bottom: 0;
+    padding: ($govuk-spacing-1 + $govuk-border-width-form-element) $govuk-spacing-3;
+    cursor: pointer;
+    touch-action: manipulation;
+
+    &::before {
+        content: "";
+        box-sizing: border-box;
+        position: absolute;
+        top: ($govuk-touch-target-gutter / 2);
+        left: ($govuk-touch-target-gutter / 2);
+        width: $govuk-checkboxes-size;
+        height: $govuk-checkboxes-size;
+        border: $govuk-border-width-form-element solid currentcolor;
+        background: transparent;
+      }
+
+      &::after {
+        content: "";
+        box-sizing: border-box;
+        position: absolute;
+        top: 13px;
+        left: $govuk-checkbox-check-horizontal-position;
+        width: 23px;
+        height: 12px;
+        transform: rotate(-45deg);
+        border: solid;
+        border-width: 0 0 5px 5px;
+        border-top-color: transparent;
+        opacity: 0;
+        background: transparent;
+      }
+  }
+
+// Focused state
+.hcsat__checkboxes_input:focus + .hcsat__checkboxes_label::before {
+    border-width: 4px;
+    outline: $govuk-focus-width solid transparent;
+    outline-offset: 1px;
+    box-shadow: 0 0 0 $govuk-focus-width yellow;
+}
+
+// Selected state
+.hcsat__checkboxes_input:checked + .hcsat__checkboxes_label::after {
+    opacity: 1;
+}
+
+// Recreate govuk spacing override utilities in ExOps
+.govuk-margin-bottom-1 {
+    margin-bottom: 5px;
+}
+
+.govuk-margin-top-1 {
+    margin-top: 5px;
+}
+
+.govuk-margin-bottom-2 {
+    margin-bottom: 10px;
+}
+
+.govuk-margin-top-2 {
+    margin-top: 10px;
+}
+
+.govuk-margin-bottom-3 { 
+    margin-bottom: 15px;
+}
+
+.govuk-margin-top-3 { 
+    margin-top: 15px;
+}
+
+.govuk-margin-bottom-4 {
+    margin-bottom: 20px;
+}
+
+.govuk-margin-top-4 {
+    margin-top: 20px;
+}
+
+.govuk-margin-bottom-6 {
+    margin-bottom: 30px;
+}
+
+.govuk-margin-top-6 {
+    margin-top: 30px;
+}
+
+.hcsat__checkboxes_conditional {
+    margin-left: 20px;
+    padding-left: 35px;
+    border-left: 4px solid #bdbdbd;
+    margin-bottom: 20px;
+}
+
+.hcsat__error_summary{
+    border: 5px solid #cf102d;
+    padding: 20px;
+}
+
+.hcsat__error_summary_heading {
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 40px;
+}
+
+.hcsat__error_summary_list_item {
+    &::before {
+        display: none;
+    }
+}
+
+.hcsat__error_summary_link {
+    color: #D4351C;
+    font-family: "Noto Sans";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 25px;
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: none;
+    text-decoration-thickness: auto;
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+}
+
+.hcsat__error {
+    font-weight: 600;
+    color: #D4351C;
+}
+
+.hcsat__form_group_error {
+    padding-left: 15px;
+    border-left: 5px solid #cf102d;
+}
