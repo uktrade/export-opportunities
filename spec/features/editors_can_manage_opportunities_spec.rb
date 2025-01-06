@@ -121,7 +121,7 @@ feature 'Administering opportunities' do
       select country.name, from: 'opportunity[country_ids][]', visible: false
       select sector.name, from: 'opportunity[sector_ids][]', visible: false
       select service_provider.name, from: 'opportunity[service_provider_id]'
-      select '2019', from: 'opportunity_response_due_on_1i'
+      select '2020', from: 'opportunity_response_due_on_1i'
       select '06', from: 'opportunity_response_due_on_2i'
       select '04', from: 'opportunity_response_due_on_3i'
 
