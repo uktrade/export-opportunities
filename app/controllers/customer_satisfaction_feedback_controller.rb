@@ -8,7 +8,10 @@ class CustomerSatisfactionFeedbackController < ApplicationController
     rating_params = params.require(:feedback)
     @csat = CustomerSatisfactionFeedback.new(rating_params)
     @csat.url = request.path
-    @csat.save!
+
+    unless @csat.save
+      render 'enquiries/create.html'
+    end
   end
 
   # PATCH /enquiries/:slug/feedback
