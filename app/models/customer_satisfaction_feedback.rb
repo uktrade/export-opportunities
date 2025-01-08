@@ -28,6 +28,7 @@ class CustomerSatisfactionFeedback < ApplicationRecord
   self.table_name = :csat_feedback
   validates :service_improvements_feedback, length: { maximum: 1200 }
   validate :validate_experienced_issues
+  validates :satisfaction_rating, presence: true
 
   def validate_experienced_issues
     if (experienced_issues.include? 'NO_ISSUE') && (experienced_issues.length > 1)

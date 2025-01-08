@@ -1,5 +1,13 @@
 %section
   .container.hcsat
+    - if @csat.errors.any?
+      .hcsat__error_summary.govuk-margin-bottom-4.govuk-margin-top-4
+        %h2.hcsat__error_summary_heading.govuk-margin-bottom-3 There is a problem
+        %ul{'aria-labelledby': 'errors-list-label'}
+          - @csat.errors.each do |error|
+            %li.hcsat__error_summary_list_item.govuk-margin-bottom-1
+              %a{ :href => "#csat_#{error.attribute}", :class => %w[hcsat__error_summary_link govuk-margin-bottom-1] } 
+                = error.full_message
     %div
       = form_tag customer_satisfaction_rating_path, method: :post do
         .abc
