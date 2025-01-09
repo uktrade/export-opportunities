@@ -8,6 +8,8 @@
             %li.hcsat__error_summary_list_item.govuk-margin-bottom-1
               %a{ :href => "#csat_#{error.attribute}", :class => %w[hcsat__error_summary_link govuk-margin-bottom-1] } 
                 = error.full_message
+
+  - if @show_feedback_form
     %div
       = form_tag customer_satisfaction_rating_path, method: :post do
         .abc

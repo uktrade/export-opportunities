@@ -16,6 +16,7 @@ class EnquiriesController < ApplicationController
   end
 
   def create
+    @show_feedback_form = Figaro.env.CUSTOMER_SATISFACTION_FEEDBACK_FORM
     @csat = CustomerSatisfactionFeedback.new
     @opportunity = Opportunity.find_by!(slug: params[:slug])
     @enquiry = current_user.enquiries.new(enquiry_params)

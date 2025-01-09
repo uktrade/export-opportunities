@@ -5,6 +5,7 @@ class CustomerSatisfactionFeedbackController < ApplicationController
 
   # POST /enquiries/:slug/feedback
   def create
+    @show_feedback_form = Figaro.env.CUSTOMER_SATISFACTION_FEEDBACK_FORM
     rating_params = params.require(:feedback)
     @csat = CustomerSatisfactionFeedback.new(rating_params)
     @csat.url = request.path
