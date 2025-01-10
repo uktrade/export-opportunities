@@ -7,12 +7,12 @@ class DocumentUrlShortener
 
   def s3_link(user_id, hashed_id)
     unless user_id
-      Raven.capture_exception('no user_id found for S3 lookup')
+      Sentry.capture_exception('no user_id found for S3 lookup')
       raise Exception, 'need either one of user or enquiry id as input'
     end
 
     unless hashed_id
-      Raven.capture_exception('need hashed id as input for S3 lookup')
+      Sentry.capture_exception('need hashed id as input for S3 lookup')
       raise Exception, 'need hashed_id as input' unless hashed_id
     end
 

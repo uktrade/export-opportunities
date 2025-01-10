@@ -3,7 +3,8 @@ class ErrorsController < ApplicationController
 
   def not_found
     super
-    Raven.capture_exception('page not found')
+    
+    Sentry.capture_exception(ActionController::RoutingError.new('page not found'))
   end
 
   def internal_server_error

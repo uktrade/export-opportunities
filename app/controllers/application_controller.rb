@@ -224,7 +224,7 @@ class ApplicationController < ActionController::Base
   end
 
   def invalid_authenticity_token(exception)
-    Raven.capture_exception(exception)
+    Sentry.capture_exception(exception)
     set_google_tag_manager
     # ^ this method call is necessary to render
     #   the layout. It is usually run in a before_action.

@@ -2,7 +2,7 @@ namespace :elasticsearch do
   desc 'Import all opportunities into ElasticSearch, deleting and recreating the index'
   task import_opportunities: :environment do
     # we need all opportunities or else pending opps won't get into the index and can never get published
-    opportunities = Opportunity.all
+    opportunities = Opportunity.published.applicable.order(updated_at: :desc)
 
     if Opportunity.__elasticsearch__.client.indices.exists? index: Opportunity.index_name
       print 'deleting index:', Opportunity.index_name, '...'
@@ -23,7 +23,7 @@ namespace :elasticsearch do
 
   desc 'Import all subscriptions into ElasticSearch, deleting and recreating the index'
   task import_subscriptions: :environment do
-    subscriptions = Subscription.all
+    subscriptions = Subscription.active.confirmed
 
     if Subscription.__elasticsearch__.client.indices.exists? index: Subscription.index_name
       print 'deleting index:', Subscription.index_name, '...'

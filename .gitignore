@@ -51,6 +51,9 @@ heroku_config_variables
 # local deployment scripts
 *.sh
 
+!.gitignore
+!.copilot/**/*.sh
+
 # pre commit hooks
 .pre-commit-config.yaml
 public/uploads/

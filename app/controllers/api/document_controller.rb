@@ -12,7 +12,7 @@ module Api
       @result = {}
       doc_params = params['enquiry_response']
       unless doc_params
-        Raven.capture_exception('no doc_params found. cant process document creation in enquiry response')
+        Sentry.capture_exception('no doc_params found. cant process document creation in enquiry response')
         raise Exception, 'no doc params found'
       end
 
@@ -29,8 +29,8 @@ module Api
           document_url = 'https://s3.' + Figaro.env.aws_region_ptu! + '.amazonaws.com/' + Figaro.env.post_user_communication_s3_bucket! + '/' + s3_filename
           short_url = DocumentUrlShortener.new.shorten_and_save_link(document_url, user_id, enquiry_id, original_filename)
         else
-          Raven.capture_exception('couldnt store file to S3:')
-          Raven.capture_exception(doc_params)
+          Sentry.capture_exception('couldnt store file to S3:')
+          Sentry.capture_exception(doc_params)
           return {
             errors: {
               type: 'error saving',

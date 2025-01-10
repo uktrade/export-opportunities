@@ -1,0 +1,9 @@
+{
+    "scripts": {
+        "start": "echo start",
+        "build": "echo build"
+    },
+    "engines": {
+        "node": "20"
+    }
+}

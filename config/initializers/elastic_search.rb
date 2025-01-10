@@ -1,11 +1,13 @@
+require 'cgi'
 require 'json'
+require 'uri'
 
 # https://github.com/omniauth/omniauth/issues/872
 Hashie.logger = Logger.new(nil)
 
 if Rails.env.production?
   if ENV['COPILOT_ENVIRONMENT_NAME'] # DBT Platform
-    kwargs = { url: ENV.fetch('OPENSEARCH_URL') }
+    kwargs = { url: URI::parse(CGI.unescape(ENV.fetch('OPENSEARCH_URL'))) }
   elsif ENV['VCAP_SERVICES'] # Govt PaaS / Clout Foundry Platform
     kwargs = { url: JSON.parse(ENV['VCAP_SERVICES'])['opensearch'][0]["credentials"]["uri"] }
   else

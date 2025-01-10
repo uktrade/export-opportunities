@@ -51,6 +51,8 @@
 
     = render partial: 'shared/header', locals: { cookie_signed_in_user: user_signed_in_cookie? }
 
+    = render partial: 'shared/migration_banner'
+
     - if content_for?(:hero)
       .hero-header-wrapper
         %header.hero-header
