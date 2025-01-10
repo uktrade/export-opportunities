@@ -212,6 +212,6 @@ class Opportunity < ApplicationRecord
   end
 
   def exists_in_elasticsearch?
-    Opportunity.__elasticsearch__.client.exists? index: Opportunity.index_name, type: 'opportunity', id: id
+    Opportunity.__elasticsearch__.client.exists? index: Opportunity.index_name, id: id
   end
 end
