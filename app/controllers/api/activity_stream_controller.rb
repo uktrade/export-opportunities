@@ -81,6 +81,27 @@ module Api
       respond_200 contents
     end
 
+    def csat_feedback
+      check_auth && return
+
+      search_after = params.fetch(:search_after, '0.000000_0')
+      search_after_time_str, search_after_id_str = search_after.split('_')
+      search_after_time = Float(search_after_time_str)
+      search_after_id = Integer(search_after_id_str)
+
+      csat_feedback = CustomerSatisfactionFeedback.all
+
+      contents = to_activity_collection(csat_feedback).merge(
+        if csat_feedback.empty?
+          {}
+        else
+          { next: "#{request.base_url}#{request.env['PATH_INFO']}?search_after=#{to_search_after(csat_feedback[-1], :updated_at)}" }
+        end
+      )
+
+      respond_200 contents
+    end
+
     private
 
       def check_auth

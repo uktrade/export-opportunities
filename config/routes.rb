@@ -171,6 +171,9 @@ Rails.application.routes.draw do
       controller: 'api/activity_stream', format: 'json', via: [:get], as: :activity_stream_enquiries
     get '/api/activity_stream/opportunities', action: :opportunities,
       controller: 'api/activity_stream', format: 'json', via: [:get], as: :activity_stream_opportunities
+    get '/api/activity_stream/csat_feedback', action: :csat_feedback,
+      controller: 'api/activity_stream', format: 'json', via: [:get], as: :activity_stream_csat_feedback
+
     post '/api/document/', action: :create, controller: 'api/document'
 
     match '*path', to: 'errors#not_found', via: %i[get post patch put delete]
