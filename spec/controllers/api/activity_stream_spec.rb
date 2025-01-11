@@ -827,7 +827,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         expect(item['updated_at']).to eq('2008-09-01T12:01:02.000Z')
       end
 
-      it 'is paginated with a link element if there are MAX_PER_PAGE opportunities' do
+      it 'is paginated with a link element if there are MAX_PER_PAGE csat feedback responses' do
         CustomerSatisfactionFeedback.destroy_all
 
         stub_const("MAX_PER_PAGE", 20)
