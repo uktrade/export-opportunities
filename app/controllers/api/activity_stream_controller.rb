@@ -89,13 +89,17 @@ module Api
       search_after_time = Float(search_after_time_str)
       search_after_id = Integer(search_after_id_str)
 
-      csat_feedback = CustomerSatisfactionFeedback.all
+      csat_feedback = CustomerSatisfactionFeedback
+        .where('(csat_feedback.created_at, csat_feedback.id) > (to_timestamp(?), ?)',
+                search_after_time, search_after_id)
+        .order('created_at ASC, id ASC')
+        .take(MAX_PER_PAGE)
 
       contents = to_activity_collection(csat_feedback).merge(
         if csat_feedback.empty?
           {}
         else
-          { next: "#{request.base_url}#{request.env['PATH_INFO']}?search_after=#{to_search_after(csat_feedback[-1], :updated_at)}" }
+          { next: "#{request.base_url}#{request.env['PATH_INFO']}?search_after=#{to_search_after(csat_feedback[-1], :created_at)}" }
         end
       )
 
