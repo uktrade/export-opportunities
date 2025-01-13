@@ -815,16 +815,17 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
 
         expect(items.length).to eq(1)
         item = items[0]
+        item_object = item["object"]
 
-        expect(item['url']).to eq('www.bob.com')
-        expect(item['user_journey']).to eq('OPPORTUNITY')
-        expect(item['satisfaction_rating']).to eq('SATISFIED')
-        expect(item['experienced_issues']).to eq([])
-        expect(item['other_detail']).to eq('Blah')
-        expect(item['likelihood_of_return']).to eq('EXTREMELY_UNLIKELY')
-        expect(item['service_improvements_feedback']).to eq('Blah')
-        expect(item['created_at']).to eq('2008-09-01T12:01:02.000Z')
-        expect(item['updated_at']).to eq('2008-09-01T12:01:02.000Z')
+        expect(item['id']).to eq("dit:exportOpportunities:HCSATFeedbackData:#{feedback.id}:Update")
+        expect(item['type']).to eq('Update')
+        expect(item_object['url']).to eq('www.bob.com')
+        expect(item_object['user_journey']).to eq('OPPORTUNITY')
+        expect(item_object['satisfaction_rating']).to eq('SATISFIED')
+        expect(item_object['experienced_issues']).to eq([])
+        expect(item_object['other_detail']).to eq('Blah')
+        expect(item_object['likelihood_of_return']).to eq('EXTREMELY_UNLIKELY')
+        expect(item_object['service_improvements_feedback']).to eq('Blah')
       end
 
       it 'is paginated with a link element if there are MAX_PER_PAGE csat feedback responses' do
@@ -873,7 +874,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         feed_hash_2 = JSON.parse(response.body)
         
         expect(feed_hash_2.key?('next')).to eq(true)
-        expect(feed_hash_2['orderedItems'][0]['id']).to eq(id_21)
+        expect(feed_hash_2['orderedItems'][0]['id']).to eq("dit:exportOpportunities:HCSATFeedbackData:#{id_21}:Update")
 
         @request.headers['Authorization'] = auth_header(
           Time.now.getutc.to_i,

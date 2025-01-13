@@ -95,7 +95,10 @@ module Api
         .order('created_at ASC, id ASC')
         .take(MAX_PER_PAGE)
 
-      contents = to_activity_collection(csat_feedback).merge(
+      prefix = 'dit:exportOpportunities:HCSATFeedbackData:'
+      items = csat_feedback.map { |feedback| csat_feedback_to_activity(feedback, prefix) }
+
+      contents = to_activity_collection(items).merge(
         if csat_feedback.empty?
           {}
         else
@@ -190,6 +193,33 @@ module Api
           'type': 'Create',
           'published': opportunity.created_at.to_datetime.rfc3339,
           'object': opportunity_object(country_names, service_provider_names, opportunity),
+        }
+      end
+
+      def csat_feedback_to_activity(csat_feedback, prefix)
+        obj_id = prefix + csat_feedback.id.to_s
+        activity_id = obj_id + ':Update'
+        {
+          'id': activity_id,
+          'type': 'Update',
+          'object': csat_feedback_object(csat_feedback, prefix),
+        }
+      end
+
+      def csat_feedback_object(csat_feedback, prefix)
+        obj_id = prefix + csat_feedback.id.to_s
+
+        {
+          'type': 'Update',
+          'id': obj_id,
+          'type': prefix,
+          'url': csat_feedback.url,
+          'user_journey': csat_feedback.user_journey,
+          'satisfaction_rating': csat_feedback.satisfaction_rating,
+          'experienced_issues': csat_feedback.experienced_issues,
+          'other_detail': csat_feedback.other_detail,
+          'service_improvements_feedback': csat_feedback.service_improvements_feedback,
+          'likelihood_of_return': csat_feedback.likelihood_of_return,
         }
       end
 
