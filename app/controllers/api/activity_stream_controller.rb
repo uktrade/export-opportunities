@@ -210,8 +210,7 @@ module Api
         obj_id = prefix + ':' + csat_feedback.id.to_s
 
         {
-          'type': 'Update',
-          'id': obj_id,
+          'id': csat_feedback.id,
           'type': prefix,
           'url': csat_feedback.url,
           'user_journey': csat_feedback.user_journey,
