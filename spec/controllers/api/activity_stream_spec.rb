@@ -819,6 +819,9 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
 
         expect(item['id']).to eq("dit:exportOpportunities:HCSATFeedbackData:#{feedback.id}:Update")
         expect(item['type']).to eq('Update')
+
+        expect(item_object['id']).to eq("dit:exportOpportunities:HCSATFeedbackData:#{feedback.id}")
+        expect(item_object['type']).to eq('dit:exportOpportunities:HCSATFeedbackData')
         expect(item_object['url']).to eq('www.bob.com')
         expect(item_object['user_journey']).to eq('OPPORTUNITY')
         expect(item_object['satisfaction_rating']).to eq('SATISFIED')

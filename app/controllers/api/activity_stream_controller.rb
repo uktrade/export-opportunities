@@ -95,7 +95,7 @@ module Api
         .order('created_at ASC, id ASC')
         .take(MAX_PER_PAGE)
 
-      prefix = 'dit:exportOpportunities:HCSATFeedbackData:'
+      prefix = 'dit:exportOpportunities:HCSATFeedbackData'
       items = csat_feedback.map { |feedback| csat_feedback_to_activity(feedback, prefix) }
 
       contents = to_activity_collection(items).merge(
@@ -197,7 +197,7 @@ module Api
       end
 
       def csat_feedback_to_activity(csat_feedback, prefix)
-        obj_id = prefix + csat_feedback.id.to_s
+        obj_id = prefix + ':' + csat_feedback.id.to_s
         activity_id = obj_id + ':Update'
         {
           'id': activity_id,
@@ -207,7 +207,7 @@ module Api
       end
 
       def csat_feedback_object(csat_feedback, prefix)
-        obj_id = prefix + csat_feedback.id.to_s
+        obj_id = prefix + ':' + csat_feedback.id.to_s
 
         {
           'type': 'Update',
