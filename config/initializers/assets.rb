@@ -103,3 +103,9 @@ Rails.application.config.assets.precompile += %w[icons/exclamation.svg]
 
 Rails.application.config.assets.precompile += %w[dit.classes.Dropdown.js]
 Rails.application.config.assets.precompile += %w[dit.components.greatheader.js]
+
+# HCSAT
+# ---------------------------------
+Rails.application.config.assets.precompile += %w[green-tick.svg]
+Rails.application.config.assets.precompile += %w[hcsat/conditional_other_input.js]
+Rails.application.config.assets.precompile += %w[hcsat/character_count.js]

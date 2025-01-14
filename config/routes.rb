@@ -103,6 +103,9 @@ Rails.application.routes.draw do
 
     get '/enquiries/:slug' => 'enquiries#new', as: :new_enquiry
     post '/enquiries/:slug' => 'enquiries#create', as: :enquiries
+    get '/enquiries/:slug/feedback' => 'customer_satisfaction_feedback#cancel', as: :customer_satisfaction_cancel
+    post '/enquiries/:slug/feedback' => 'customer_satisfaction_feedback#create', as: :customer_satisfaction_rating
+    patch '/enquiries/:slug/feedback' => 'customer_satisfaction_feedback#update', as: :customer_satisfaction_feedback
 
     resources :company_details, only: [:index]
 
@@ -168,6 +171,9 @@ Rails.application.routes.draw do
       controller: 'api/activity_stream', format: 'json', via: [:get], as: :activity_stream_enquiries
     get '/api/activity_stream/opportunities', action: :opportunities,
       controller: 'api/activity_stream', format: 'json', via: [:get], as: :activity_stream_opportunities
+    get '/api/activity_stream/csat_feedback', action: :csat_feedback,
+      controller: 'api/activity_stream', format: 'json', via: [:get], as: :activity_stream_csat_feedback
+
     post '/api/document/', action: :create, controller: 'api/document'
 
     match '*path', to: 'errors#not_found', via: %i[get post patch put delete]

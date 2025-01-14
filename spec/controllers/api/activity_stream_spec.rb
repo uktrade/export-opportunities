@@ -780,4 +780,127 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
 
     end
   end
+
+  describe 'GET #csat_feedback' do 
+    describe 'content' do
+      before do
+        Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2))
+      end
+
+      after do
+        Timecop.return
+      end
+
+      def get_feed(path, params={})
+        @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
+        @request.headers['Authorization'] = auth_header(
+          Time.now.getutc.to_i,
+          Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+          Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+          path,
+          '',
+        )
+        get :csat_feedback, params: { format: :json }.merge(params)
+
+        JSON.parse(response.body)['orderedItems']
+      end
+
+      it 'Returns the csat feedback' do
+        feedback = create(:csat_feedback, created_at: Time.now)
+
+        items = get_feed(activity_stream_csat_feedback_path)
+
+        uri = URI.parse(ENV["DOMAIN"])
+        domain = "#{uri.scheme}://#{uri.host}"
+
+        expect(items.length).to eq(1)
+        item = items[0]
+        item_object = item["object"]
+
+        expect(item['id']).to eq("dit:exportOpportunities:HCSATFeedbackData:#{feedback.id}:Update")
+        expect(item['type']).to eq('Update')
+
+        expect(item_object['id']).to eq(feedback.id)
+        expect(item_object['type']).to eq('dit:exportOpportunities:HCSATFeedbackData')
+        expect(item_object['url']).to eq('www.bob.com')
+        expect(item_object['user_journey']).to eq('OPPORTUNITY')
+        expect(item_object['satisfaction_rating']).to eq('SATISFIED')
+        expect(item_object['experienced_issues']).to eq([])
+        expect(item_object['other_detail']).to eq('Blah')
+        expect(item_object['likelihood_of_return']).to eq('EXTREMELY_UNLIKELY')
+        expect(item_object['service_improvements_feedback']).to eq('Blah')
+      end
+
+      it 'is paginated with a link element if there are MAX_PER_PAGE csat feedback responses' do
+        CustomerSatisfactionFeedback.destroy_all
+
+        stub_const("MAX_PER_PAGE", 20)
+        Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2, 344590)) do
+          for i in 1..21 do
+            feedback = create(:csat_feedback)
+            feedback.update_column(:created_at, Time.now + i.days)
+          end
+        end
+        
+        # Fetch data for search_after() to help generate 'next' URL
+        twenty = CustomerSatisfactionFeedback.order(:created_at)[19]
+        id_20 = twenty.id
+        timestamp_20 = format('%.6f', twenty.created_at.to_datetime.to_f)
+        twenty_one = CustomerSatisfactionFeedback.order(:created_at)[20]
+        id_21 = twenty_one.id
+        timestamp_21 = format('%.6f', twenty_one.created_at.to_datetime.to_f)
+
+        @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
+        @request.headers['Authorization'] = auth_header(
+          Time.now.getutc.to_i,
+          Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+          Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+          activity_stream_csat_feedback_path,
+          '',
+        )
+        get :csat_feedback, params: { format: :json }
+        feed_hash_1 = JSON.parse(response.body)
+
+        expect(feed_hash_1['orderedItems'].length).to eq(20)
+        expect(feed_hash_1.key?('next')).to eq(true)
+        expect(feed_hash_1['next']).to include("?search_after=#{timestamp_20}_#{id_20}")
+
+        @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
+        @request.headers['Authorization'] = auth_header(
+          Time.now.getutc.to_i,
+          Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+          Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+          "#{activity_stream_csat_feedback_path}?search_after=#{timestamp_20}_#{id_20}",
+          '',
+        )
+        get :csat_feedback, params: { format: :json, search_after: "#{timestamp_20}_#{id_20}" }
+        feed_hash_2 = JSON.parse(response.body)
+        
+        expect(feed_hash_2.key?('next')).to eq(true)
+        expect(feed_hash_2['orderedItems'][0]['id']).to eq("dit:exportOpportunities:HCSATFeedbackData:#{id_21}:Update")
+
+        @request.headers['Authorization'] = auth_header(
+          Time.now.getutc.to_i,
+          Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
+          Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+          "#{activity_stream_csat_feedback_path}?search_after=#{timestamp_21}_#{id_21}",
+          '',
+        )
+        get :csat_feedback, params: { format: :json, search_after: "#{timestamp_21}_#{id_21}" }
+        feed_hash_3 = JSON.parse(response.body)
+        expect(feed_hash_3.key?('next')).to eq(false)
+        expect(feed_hash_3['orderedItems']).to eq([])
+      end
+    end
+    
+
+    describe "authorization" do
+      it 'responds with a 401 error if Authorization header is not set' do
+        @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
+        get :csat_feedback, params: { format: :json }
+        expect(response.status).to eq(401)
+        expect(response.body).to eq(%({"message":"Authorization header is missing"}))
+      end
+    end
+  end
 end

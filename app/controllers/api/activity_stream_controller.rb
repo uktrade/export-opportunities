@@ -81,6 +81,34 @@ module Api
       respond_200 contents
     end
 
+    def csat_feedback
+      check_auth && return
+
+      search_after = params.fetch(:search_after, '0.000000_0')
+      search_after_time_str, search_after_id_str = search_after.split('_')
+      search_after_time = Float(search_after_time_str)
+      search_after_id = Integer(search_after_id_str)
+
+      csat_feedback = CustomerSatisfactionFeedback
+        .where('(csat_feedback.created_at, csat_feedback.id) > (to_timestamp(?), ?)',
+                search_after_time, search_after_id)
+        .order('created_at ASC, id ASC')
+        .take(MAX_PER_PAGE)
+
+      prefix = 'dit:exportOpportunities:HCSATFeedbackData'
+      items = csat_feedback.map { |feedback| csat_feedback_to_activity(feedback, prefix) }
+
+      contents = to_activity_collection(items).merge(
+        if csat_feedback.empty?
+          {}
+        else
+          { next: "#{request.base_url}#{request.env['PATH_INFO']}?search_after=#{to_search_after(csat_feedback[-1], :created_at)}" }
+        end
+      )
+
+      respond_200 contents
+    end
+
     private
 
       def check_auth
@@ -165,6 +193,32 @@ module Api
           'type': 'Create',
           'published': opportunity.created_at.to_datetime.rfc3339,
           'object': opportunity_object(country_names, service_provider_names, opportunity),
+        }
+      end
+
+      def csat_feedback_to_activity(csat_feedback, prefix)
+        obj_id = prefix + ':' + csat_feedback.id.to_s
+        activity_id = obj_id + ':Update'
+        {
+          'id': activity_id,
+          'type': 'Update',
+          'object': csat_feedback_object(csat_feedback, prefix),
+        }
+      end
+
+      def csat_feedback_object(csat_feedback, prefix)
+        obj_id = prefix + ':' + csat_feedback.id.to_s
+
+        {
+          'id': csat_feedback.id,
+          'type': prefix,
+          'url': csat_feedback.url,
+          'user_journey': csat_feedback.user_journey,
+          'satisfaction_rating': csat_feedback.satisfaction_rating,
+          'experienced_issues': csat_feedback.experienced_issues,
+          'other_detail': csat_feedback.other_detail,
+          'service_improvements_feedback': csat_feedback.service_improvements_feedback,
+          'likelihood_of_return': csat_feedback.likelihood_of_return,
         }
       end
 
