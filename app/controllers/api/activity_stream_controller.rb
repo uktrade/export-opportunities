@@ -316,8 +316,6 @@ module Api
       end
 
       def authenticate(request)
-        return [false, 'Connecting from unauthorized IP'] unless request.headers.key?('X-Forwarded-For')
-
         remote_ips = request.headers['X-Forwarded-For'].gsub(/\s+/, '').split(',')
         return [false, 'Connecting from unauthorized IP'] unless remote_ips.length >= 2
 
