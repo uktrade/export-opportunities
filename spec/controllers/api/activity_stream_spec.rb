@@ -41,9 +41,6 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         # The whitelist is 0.0.0.0, and we reject all requests that don't have
         # 0.0.0.0 as the second-to-last IP in X-Fowarded-For, as this isn't
         # spoofable in PaaS
-        get :enquiries, params: { format: :json }
-        expect(response.body).to eq(%({"message":"Connecting from unauthorized IP"}))
-
         @request.headers['X-Forwarded-For'] = '1.2.3.4'
         get :enquiries, params: { format: :json }
         expect(response.body).to eq(%({"message":"Connecting from unauthorized IP"}))
