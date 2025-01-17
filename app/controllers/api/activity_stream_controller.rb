@@ -316,12 +316,6 @@ module Api
       end
 
       def authenticate(request)
-        remote_ips = request.headers['X-Forwarded-For'].gsub(/\s+/, '').split(',')
-        return [false, 'Connecting from unauthorized IP'] unless remote_ips.length >= 2
-
-        authorized_ip_addresses = Figaro.env.ACTIVITY_STREAM_IP_WHITELIST.split(',')
-        return [false, 'Connecting from unauthorized IP'] unless authorized_ip_addresses.include?(remote_ips[-2])
-
         return [false, 'Authorization header is missing'] unless request.headers.key?('Authorization')
 
         parsed_header_array = request.headers['Authorization'].scan(/([a-z]+)="([^"]+)"/)
