@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'hawk'
 require 'json'
 require 'rails_helper'
@@ -296,7 +294,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
         @request.headers['Authorization'] = auth_header(
           Time.now.getutc.to_i,
-          "#{Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID}something-incorrect",
+          Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID + 'something-incorrect',
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           activity_stream_enquiries_path,
           ''
@@ -312,7 +310,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         @request.headers['Authorization'] = auth_header(
           Time.now.getutc.to_i,
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
-          "#{Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY}something-incorrect",
+          Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY + 'something-incorrect',
           activity_stream_enquiries_path,
           ''
         )
@@ -374,7 +372,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           get :enquiries, params: { format: :json }
         rescue Redis::CannotConnectError => e
         end
-        expect(ex.backtrace.to_s).to include('/redis/')
+        expect(e.backtrace.to_s).to include('/redis/')
       end
 
       it 'responds with no items if Authorization header is set and correct' do
@@ -643,7 +641,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         expect(item['object']['endTime']).to eq('2008-12-01T00:00:00+00:00')
         expect(item['object']['summary']).to eq('Looking for 50kg of 2x4 Oak Wood Blocks')
         expect(item['object']['content']).to eq('We are proud to announce the tender for our annual wood block requirement.
-          We are looking for 50kg of 2x4 Oak Wood Blocks')
+                     We are looking for 50kg of 2x4 Oak Wood Blocks')
         expect(item['object']['attributedTo'][0]['name']).to eq('post')
       end
 
@@ -659,7 +657,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         (0..1).each do |i|
           op = create_opportunity(:published, {
                                     title: "2x4 Wood #{i}",
-                                    slug: "2x4-wood-#{i}"
+            slug: "2x4-wood-#{i}"
                                   })
           op.update_column(:updated_at, Time.now + i.days)
         end
@@ -677,7 +675,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         (0..1).each do |i|
           op = create_opportunity(:published, {
                                     title: "2x4 Wood #{i}",
-                                    slug: "2x4-wood-#{i}"
+            slug: "2x4-wood-#{i}"
                                   })
           op.update_column(:updated_at, Time.now)
         end
@@ -698,8 +696,8 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           (1..21).each do |i|
             op = create_opportunity(:published, {
                                       title: "2x4 Wood #{i}",
-                                      slug: "2x4-wood-#{i}",
-                                      service_provider: ServiceProvider.find(ServiceProvider.ids.sample)
+              slug: "2x4-wood-#{i}",
+              service_provider: ServiceProvider.find(ServiceProvider.ids.sample)
                                     })
             op.update_column(:updated_at, Time.now + i.days)
           end
@@ -877,6 +875,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         expect(feed_hash_3['orderedItems']).to eq([])
       end
     end
+
 
     describe 'authorization' do
       it 'responds with a 401 error if Authorization header is not set' do
