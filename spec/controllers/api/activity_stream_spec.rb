@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'hawk'
 require 'json'
 require 'rails_helper'
@@ -7,9 +9,9 @@ def auth_header(ts, key_id, secret_key, uri, payload)
   credentials = {
     id: key_id,
     key: secret_key,
-    algorithm: 'sha256',
+    algorithm: 'sha256'
   }
-  return Hawk::Client.build_authorization_header(
+  Hawk::Client.build_authorization_header(
     credentials: credentials,
     ts: ts,
     method: 'GET',
@@ -17,7 +19,7 @@ def auth_header(ts, key_id, secret_key, uri, payload)
     host: 'test.host',
     port: '443',
     content_type: '',
-    payload: payload,
+    payload: payload
   )
 end
 
@@ -27,7 +29,6 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
   end
 
   describe 'GET #enquiries' do
-
     it 'if activity_stream is not enabled responds with a 403 error' do
       allow(Figaro.env).to receive('ACTIVITY_STREAM_ENABLED').and_return(nil)
       get :enquiries, params: { format: :json }
@@ -35,8 +36,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       expect(response.body).to eq(%({"message":"Activity Stream is disabled"}))
     end
 
-    describe "authorization" do
-
+    describe 'authorization' do
       it 'responds with a 401 error if connecting from unauthorized IP' do
         # The whitelist is 0.0.0.0, and we reject all requests that don't have
         # 0.0.0.0 as the second-to-last IP in X-Fowarded-For, as this isn't
@@ -57,7 +57,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         get :enquiries, params: { format: :json }
         expect(response.body).to eq(%({"message":"Connecting from unauthorized IP"}))
       end
-      
+
       it 'responds with a 401 error if Authorization header is not set' do
         @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
         get :enquiries, params: { format: :json }
@@ -67,12 +67,12 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
 
       it 'responds with a 401 if Authorization header in invalid format' do
         @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
-        @request.headers['Authorization'] = 'Hawk'  # Should have a space after
+        @request.headers['Authorization'] = 'Hawk' # Should have a space after
         get :enquiries, params: { format: :json }
         expect(response.status).to eq(401)
         expect(response.body).to eq(%({"message":"Invalid header"}))
 
-        @request.headers['Authorization'] = 'Hawk  '  # Should not have two spaces after
+        @request.headers['Authorization'] = 'Hawk  ' # Should not have two spaces after
         get :enquiries, params: { format: :json }
         expect(response.status).to eq(401)
         expect(response.body).to eq(%({"message":"Invalid header"}))
@@ -92,27 +92,27 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         expect(response.status).to eq(401)
         expect(response.body).to eq(%({"message":"Invalid header"}))
 
-        @request.headers['Authorization'] = 'Hawk b="a" c="d"'  # Should have commas
+        @request.headers['Authorization'] = 'Hawk b="a" c="d"' # Should have commas
         get :enquiries, params: { format: :json }
         expect(response.status).to eq(401)
         expect(response.body).to eq(%({"message":"Invalid header"}))
 
-        @request.headers['Authorization'] = 'Hawk, b="a", c="d"'  # Should not have comma after Hawk
+        @request.headers['Authorization'] = 'Hawk, b="a", c="d"' # Should not have comma after Hawk
         get :enquiries, params: { format: :json }
         expect(response.status).to eq(401)
         expect(response.body).to eq(%({"message":"Invalid header"}))
 
-        @request.headers['Authorization'] = 'Hawk b="a",c="d"'  # Should have space after comma
+        @request.headers['Authorization'] = 'Hawk b="a",c="d"' # Should have space after comma
         get :enquiries, params: { format: :json }
         expect(response.status).to eq(401)
         expect(response.body).to eq(%({"message":"Invalid header"}))
 
-        @request.headers['Authorization'] = 'Hawk b="a", c="d" '  # Should not have trailing space
+        @request.headers['Authorization'] = 'Hawk b="a", c="d" ' # Should not have trailing space
         get :enquiries, params: { format: :json }
         expect(response.status).to eq(401)
         expect(response.body).to eq(%({"message":"Invalid header"}))
 
-        @request.headers['Authorization'] = 'Hawk B="a"'  # Keys must be lower case
+        @request.headers['Authorization'] = 'Hawk B="a"' # Keys must be lower case
         get :enquiries, params: { format: :json }
         expect(response.status).to eq(401)
         expect(response.body).to eq(%({"message":"Invalid header"}))
@@ -122,7 +122,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           activity_stream_enquiries_path,
-          '',
+          ''
         ).sub('Hawk ', 'AWS ')
         get :enquiries, params: { format: :json }
 
@@ -134,8 +134,8 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           activity_stream_enquiries_path,
-          '',
-        ).sub('Hawk ', ' Hawk ')  # Should not have leading space
+          ''
+        ).sub('Hawk ', ' Hawk ') # Should not have leading space
         get :enquiries, params: { format: :json }
 
         expect(response.status).to eq(401)
@@ -146,7 +146,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           activity_stream_enquiries_path,
-          '',
+          ''
         ).sub('Hawk ', '')
         get :enquiries, params: { format: :json }
 
@@ -158,7 +158,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           activity_stream_enquiries_path,
-          '',
+          ''
         ).sub('Hawk ', ', ')
         get :enquiries, params: { format: :json }
 
@@ -170,7 +170,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           activity_stream_enquiries_path,
-          '',
+          ''
         ).sub('Hawk ', '", ')
         get :enquiries, params: { format: :json }
 
@@ -185,7 +185,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           activity_stream_enquiries_path,
-          '',
+          ''
         )
         get :enquiries, params: { format: :json }
 
@@ -199,7 +199,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         get :enquiries, params: { format: :json }
 
         expect(response.status).to eq(401)
-        expect(response.body).to include("Missing ts")
+        expect(response.body).to include('Missing ts')
       end
 
       it 'responds with a 401 if Authorization header has non integer ts' do
@@ -208,7 +208,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         get :enquiries, params: { format: :json }
 
         expect(response.status).to eq(401)
-        expect(response.body).to include("Invalid ts")
+        expect(response.body).to include('Invalid ts')
       end
 
       it 'responds with a 401 if Authorization header has empty ts' do
@@ -217,7 +217,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         get :enquiries, params: { format: :json }
 
         expect(response.status).to eq(401)
-        expect(response.body).to include("Missing ts")
+        expect(response.body).to include('Missing ts')
       end
 
       it 'responds with a 401 if Authorization header misses mac' do
@@ -226,7 +226,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         get :enquiries, params: { format: :json }
 
         expect(response.status).to eq(401)
-        expect(response.body).to include("Missing mac")
+        expect(response.body).to include('Missing mac')
       end
 
       it 'responds with a 401 if Authorization header has empty mac' do
@@ -235,7 +235,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         get :enquiries, params: { format: :json }
 
         expect(response.status).to eq(401)
-        expect(response.body).to include("Missing mac")
+        expect(response.body).to include('Missing mac')
       end
 
       it 'responds with a 401 if Authorization header misses hash' do
@@ -244,7 +244,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         get :enquiries, params: { format: :json }
 
         expect(response.status).to eq(401)
-        expect(response.body).to include("Missing hash")
+        expect(response.body).to include('Missing hash')
       end
 
       it 'responds with a 401 if Authorization header has empty hash' do
@@ -253,7 +253,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         get :enquiries, params: { format: :json }
 
         expect(response.status).to eq(401)
-        expect(response.body).to include("Missing hash")
+        expect(response.body).to include('Missing hash')
       end
 
       it 'responds with a 401 if Authorization header misses nonce' do
@@ -262,7 +262,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         get :enquiries, params: { format: :json }
 
         expect(response.status).to eq(401)
-        expect(response.body).to include("Missing hash")
+        expect(response.body).to include('Missing hash')
       end
 
       it 'responds with a 401 if Authorization header has empty nonce' do
@@ -271,7 +271,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         get :enquiries, params: { format: :json }
 
         expect(response.status).to eq(401)
-        expect(response.body).to include("Missing hash")
+        expect(response.body).to include('Missing hash')
       end
 
       it 'responds with a 401 if Authorization header misses id' do
@@ -280,7 +280,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         get :enquiries, params: { format: :json }
 
         expect(response.status).to eq(401)
-        expect(response.body).to include("Missing id")
+        expect(response.body).to include('Missing id')
       end
 
       it 'responds with a 401 if Authorization header has empty id' do
@@ -289,17 +289,17 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         get :enquiries, params: { format: :json }
 
         expect(response.status).to eq(401)
-        expect(response.body).to include("Missing id")
+        expect(response.body).to include('Missing id')
       end
 
       it 'responds with a 401 if Authorization header uses incorrect key ID' do
         @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
         @request.headers['Authorization'] = auth_header(
           Time.now.getutc.to_i,
-          Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID + 'something-incorrect',
+          "#{Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID}something-incorrect",
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           activity_stream_enquiries_path,
-          '',
+          ''
         )
         get :enquiries, params: { format: :json }
 
@@ -312,14 +312,14 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         @request.headers['Authorization'] = auth_header(
           Time.now.getutc.to_i,
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
-          Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY + 'something-incorrect',
+          "#{Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY}something-incorrect",
           activity_stream_enquiries_path,
-          '',
+          ''
         )
         get :enquiries, params: { format: :json }
 
         expect(response.status).to eq(401)
-        expect(response.body).to include("Invalid mac")
+        expect(response.body).to include('Invalid mac')
       end
 
       it 'responds with a 401 if Authorization header uses incorrect payload' do
@@ -329,12 +329,12 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           activity_stream_enquiries_path,
-          'something-incorrect',
+          'something-incorrect'
         )
         get :enquiries, params: { format: :json }
 
         expect(response.status).to eq(401)
-        expect(response.body).to include("Invalid hash")
+        expect(response.body).to include('Invalid hash')
       end
 
       it 'responds with a 401 if header is reused' do
@@ -344,7 +344,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           activity_stream_enquiries_path,
-          '',
+          ''
         )
         get :enquiries, params: { format: :json }
 
@@ -368,11 +368,11 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           activity_stream_enquiries_path,
-          '',
+          ''
         )
         begin
           get :enquiries, params: { format: :json }
-        rescue Redis::CannotConnectError => ex
+        rescue Redis::CannotConnectError => e
         end
         expect(ex.backtrace.to_s).to include('/redis/')
       end
@@ -384,18 +384,16 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           activity_stream_enquiries_path,
-          '',
+          ''
         )
         get :enquiries, params: { format: :json }
 
         expect(JSON.parse(response.body)['orderedItems']).to eq([])
         expect(response.headers['Content-Type']).to eq('application/json; charset=utf-8')
       end
-
     end
 
-    describe "content" do
-
+    describe 'content' do
       it 'does not have any entry elements if an enquiry made without a company number' do
         create(:enquiry, company_house_number: nil)
 
@@ -405,7 +403,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           activity_stream_enquiries_path,
-          '',
+          ''
         )
         get :enquiries, params: { format: :json }
 
@@ -421,7 +419,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           activity_stream_enquiries_path,
-          '',
+          ''
         )
         get :enquiries, params: { format: :json }
 
@@ -443,7 +441,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           activity_stream_enquiries_path,
-          '',
+          ''
         )
         get :enquiries, params: { format: :json }
         feed_hash = JSON.parse(response.body)
@@ -451,7 +449,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         items = feed_hash['orderedItems']
         expect(items.length).to eq(1)
 
-        item =  items[0]
+        item = items[0]
         expect(item['id']).to eq("dit:exportOpportunities:Enquiry:#{enquiry.id}:Create")
         expect(item['type']).to eq('Create')
         expect(item['object']['published']).to eq('2008-09-01T12:01:02+00:00')
@@ -482,7 +480,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           activity_stream_enquiries_path,
-          '',
+          ''
         )
         get :enquiries, params: { format: :json }
         feed_hash = JSON.parse(response.body)
@@ -493,7 +491,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         elastic_search_bulk_1 = items[0]
         expect(elastic_search_bulk_1['object']['published']).to eq('2008-09-01T12:01:02+00:00')
 
-        elastic_search_bulk_2 =  items[1]
+        elastic_search_bulk_2 = items[1]
         expect(elastic_search_bulk_2['object']['published']).to eq('2008-09-01T12:01:03+00:00')
       end
 
@@ -514,7 +512,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           activity_stream_enquiries_path,
-          '',
+          ''
         )
         get :enquiries, params: { format: :json }
         feed_hash = JSON.parse(response.body)
@@ -524,7 +522,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         elastic_search_bulk_1 = items[0]
         expect(elastic_search_bulk_1['actor'][0]['dit:companiesHouseNumber']).to eq('124')
 
-        elastic_search_bulk_2 =  items[1]
+        elastic_search_bulk_2 = items[1]
         expect(elastic_search_bulk_2['actor'][0]['dit:companiesHouseNumber']).to eq('123')
       end
 
@@ -533,10 +531,10 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         country_2 = create(:country)
 
         # Creating records takes quite a while. Stub for a quicker test
-        stub_const("MAX_PER_PAGE", 20)
-        Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2, 344590)) do
-          for i in 1..21 do
-            enquiry = create(:enquiry, company_house_number: i.to_s, id:(2923 + i))
+        stub_const('MAX_PER_PAGE', 20)
+        Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2, 344_590)) do
+          (1..21).each do |i|
+            enquiry = create(:enquiry, company_house_number: i.to_s, id: (2923 + i))
             enquiry.opportunity.countries = [country_1, country_2]
           end
         end
@@ -547,7 +545,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           activity_stream_enquiries_path,
-          '',
+          ''
         )
         get :enquiries, params: { format: :json }
         feed_hash_1 = JSON.parse(response.body)
@@ -562,7 +560,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           "#{activity_stream_enquiries_path}?search_after=1220270462.344590_2943",
-          '',
+          ''
         )
         get :enquiries, params: { format: :json, search_after: '1220270462.344590_2943' }
         feed_hash_2 = JSON.parse(response.body)
@@ -574,7 +572,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           "#{activity_stream_enquiries_path}?search_after=1220270462.344590_2944",
-          '',
+          ''
         )
         get :enquiries, params: { format: :json, search_after: '1220270462.344590_2944' }
         feed_hash_3 = JSON.parse(response.body)
@@ -585,9 +583,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
   end
 
   describe 'GET #opportunities' do
-
-    describe "content" do
-
+    describe 'content' do
       before do
         Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2))
       end
@@ -596,31 +592,31 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Timecop.return
       end
 
-      def create_opportunity(state=:published, options={})
+      def create_opportunity(state = :published, options = {})
         options = {
-          title:              options[:title] || "2x4 Wood",
-          slug:               options[:slug] ||"2x4-wood",
-          buyer_name:         options[:buyer_name] || "Xi Weng Manufacturing",
-          buyer_address:      options[:buyer_address] || 
-            "2002 Jiabin Rd, RenMin NanLu, Luohu Qu, Shenzhen Shi, Guangdong Sheng, China, 518011",
+          title: options[:title] || '2x4 Wood',
+          slug: options[:slug] || '2x4-wood',
+          buyer_name: options[:buyer_name] || 'Xi Weng Manufacturing',
+          buyer_address: options[:buyer_address] ||
+                         '2002 Jiabin Rd, RenMin NanLu, Luohu Qu, Shenzhen Shi, Guangdong Sheng, China, 518011',
           first_published_at: options[:first_published_at] || Time.utc(2001, 9, 3),
-          response_due_on:    options[:response_due_on] || Time.utc(2008, 12, 1),
-          teaser:             options[:teaser] || "Looking for 50kg of 2x4 Oak Wood Blocks",
-          description:        options[:description] || 
-            "We are proud to announce the tender for our annual wood block requirement. 
-          We are looking for 50kg of 2x4 Oak Wood Blocks"
+          response_due_on: options[:response_due_on] || Time.utc(2008, 12, 1),
+          teaser: options[:teaser] || 'Looking for 50kg of 2x4 Oak Wood Blocks',
+          description: options[:description] ||
+                       "We are proud to announce the tender for our annual wood block requirement.
+                     We are looking for 50kg of 2x4 Oak Wood Blocks"
         }
         create(:opportunity, state, options)
       end
 
-      def get_feed(path, params={})
+      def get_feed(path, params = {})
         @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
         @request.headers['Authorization'] = auth_header(
           Time.now.getutc.to_i,
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           path,
-          '',
+          ''
         )
         get :opportunities, params: { format: :json }.merge(params)
 
@@ -631,7 +627,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         opportunity = create_opportunity(:published)
         items = get_feed(activity_stream_opportunities_path)
 
-        uri = URI.parse(ENV["DOMAIN"])
+        uri = URI.parse(ENV['DOMAIN'])
         domain = "#{uri.scheme}://#{uri.host}"
 
         expect(items.length).to eq(1)
@@ -646,7 +642,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         expect(item['object']['published']).to eq('2001-09-03T00:00:00+00:00')
         expect(item['object']['endTime']).to eq('2008-12-01T00:00:00+00:00')
         expect(item['object']['summary']).to eq('Looking for 50kg of 2x4 Oak Wood Blocks')
-        expect(item['object']['content']).to eq('We are proud to announce the tender for our annual wood block requirement. 
+        expect(item['object']['content']).to eq('We are proud to announce the tender for our annual wood block requirement.
           We are looking for 50kg of 2x4 Oak Wood Blocks')
         expect(item['object']['attributedTo'][0]['name']).to eq('post')
       end
@@ -660,14 +656,14 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
 
       it 'returns opportunities in date order' do
         # Create two an opportunities
-        for i in 0..1 do
+        (0..1).each do |i|
           op = create_opportunity(:published, {
-            title:              "2x4 Wood #{i}",
-            slug:               "2x4-wood-#{i}"
-          })
+                                    title: "2x4 Wood #{i}",
+                                    slug: "2x4-wood-#{i}"
+                                  })
           op.update_column(:updated_at, Time.now + i.days)
         end
-        
+
         items = get_feed(activity_stream_opportunities_path)
 
         expect(items.length).to eq(2)
@@ -678,11 +674,11 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       it 'in ID order if two opportunities are made at the same time' do
         Opportunity.destroy_all
 
-        for i in 0..1 do
+        (0..1).each do |i|
           op = create_opportunity(:published, {
-            title:              "2x4 Wood #{i}",
-            slug:               "2x4-wood-#{i}",
-          })
+                                    title: "2x4 Wood #{i}",
+                                    slug: "2x4-wood-#{i}"
+                                  })
           op.update_column(:updated_at, Time.now)
         end
 
@@ -695,20 +691,19 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
 
       it 'is paginated with a link element if there are MAX_PER_PAGE opportunities' do
         Opportunity.destroy_all
-        ServiceProvider.create(name: "British Embassy")
+        ServiceProvider.create(name: 'British Embassy')
 
-        stub_const("MAX_PER_PAGE", 20)
-        Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2, 344590)) do
-          for i in 1..21 do
+        stub_const('MAX_PER_PAGE', 20)
+        Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2, 344_590)) do
+          (1..21).each do |i|
             op = create_opportunity(:published, {
-              title:              "2x4 Wood #{i}",
-              slug:               "2x4-wood-#{i}",
-              service_provider:   ServiceProvider.find(ServiceProvider.ids.shuffle.first)
-            })
+                                      title: "2x4 Wood #{i}",
+                                      slug: "2x4-wood-#{i}",
+                                      service_provider: ServiceProvider.find(ServiceProvider.ids.sample)
+                                    })
             op.update_column(:updated_at, Time.now + i.days)
           end
         end
-
 
         # Fetch data for search_after() to help generate 'next' URL
         twenty = Opportunity.order(:updated_at)[19]
@@ -724,7 +719,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           activity_stream_opportunities_path,
-          '',
+          ''
         )
         get :opportunities, params: { format: :json }
         feed_hash_1 = JSON.parse(response.body)
@@ -739,11 +734,11 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           "#{activity_stream_opportunities_path}?search_after=#{timestamp_20}_#{id_20}",
-          '',
+          ''
         )
         get :opportunities, params: { format: :json, search_after: "#{timestamp_20}_#{id_20}" }
         feed_hash_2 = JSON.parse(response.body)
-        
+
         expect(feed_hash_2.key?('next')).to eq(true)
         expect(feed_hash_2['orderedItems'][0]['id']).to eq("dit:exportOpportunities:Opportunity:#{id_21}:Create")
 
@@ -752,29 +747,26 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           "#{activity_stream_opportunities_path}?search_after=#{timestamp_21}_#{id_21}",
-          '',
+          ''
         )
         get :opportunities, params: { format: :json, search_after: "#{timestamp_21}_#{id_21}" }
         feed_hash_3 = JSON.parse(response.body)
         expect(feed_hash_3.key?('next')).to eq(false)
         expect(feed_hash_3['orderedItems']).to eq([])
       end
-
     end
 
-    describe "authorization" do
-
+    describe 'authorization' do
       it 'responds with a 401 error if Authorization header is not set' do
         @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
         get :opportunities, params: { format: :json }
         expect(response.status).to eq(401)
         expect(response.body).to eq(%({"message":"Authorization header is missing"}))
       end
-
     end
   end
 
-  describe 'GET #csat_feedback' do 
+  describe 'GET #csat_feedback' do
     describe 'content' do
       before do
         Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2))
@@ -784,14 +776,14 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         Timecop.return
       end
 
-      def get_feed(path, params={})
+      def get_feed(path, params = {})
         @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
         @request.headers['Authorization'] = auth_header(
           Time.now.getutc.to_i,
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           path,
-          '',
+          ''
         )
         get :csat_feedback, params: { format: :json }.merge(params)
 
@@ -803,12 +795,12 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
 
         items = get_feed(activity_stream_csat_feedback_path)
 
-        uri = URI.parse(ENV["DOMAIN"])
+        uri = URI.parse(ENV['DOMAIN'])
         domain = "#{uri.scheme}://#{uri.host}"
 
         expect(items.length).to eq(1)
         item = items[0]
-        item_object = item["object"]
+        item_object = item['object']
 
         expect(item['id']).to eq("dit:exportOpportunities:HCSATFeedbackData:#{feedback.id}:Update")
         expect(item['type']).to eq('Update')
@@ -827,14 +819,14 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
       it 'is paginated with a link element if there are MAX_PER_PAGE csat feedback responses' do
         CustomerSatisfactionFeedback.destroy_all
 
-        stub_const("MAX_PER_PAGE", 20)
-        Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2, 344590)) do
-          for i in 1..21 do
+        stub_const('MAX_PER_PAGE', 20)
+        Timecop.freeze(Time.utc(2008, 9, 1, 12, 1, 2, 344_590)) do
+          (1..21).each do |i|
             feedback = create(:csat_feedback)
             feedback.update_column(:created_at, Time.now + i.days)
           end
         end
-        
+
         # Fetch data for search_after() to help generate 'next' URL
         twenty = CustomerSatisfactionFeedback.order(:created_at)[19]
         id_20 = twenty.id
@@ -849,7 +841,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           activity_stream_csat_feedback_path,
-          '',
+          ''
         )
         get :csat_feedback, params: { format: :json }
         feed_hash_1 = JSON.parse(response.body)
@@ -864,11 +856,11 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           "#{activity_stream_csat_feedback_path}?search_after=#{timestamp_20}_#{id_20}",
-          '',
+          ''
         )
         get :csat_feedback, params: { format: :json, search_after: "#{timestamp_20}_#{id_20}" }
         feed_hash_2 = JSON.parse(response.body)
-        
+
         expect(feed_hash_2.key?('next')).to eq(true)
         expect(feed_hash_2['orderedItems'][0]['id']).to eq("dit:exportOpportunities:HCSATFeedbackData:#{id_21}:Update")
 
@@ -877,7 +869,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
           Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
           Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
           "#{activity_stream_csat_feedback_path}?search_after=#{timestamp_21}_#{id_21}",
-          '',
+          ''
         )
         get :csat_feedback, params: { format: :json, search_after: "#{timestamp_21}_#{id_21}" }
         feed_hash_3 = JSON.parse(response.body)
@@ -885,9 +877,8 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         expect(feed_hash_3['orderedItems']).to eq([])
       end
     end
-    
 
-    describe "authorization" do
+    describe 'authorization' do
       it 'responds with a 401 error if Authorization header is not set' do
         @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
         get :csat_feedback, params: { format: :json }
