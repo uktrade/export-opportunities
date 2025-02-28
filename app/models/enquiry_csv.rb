@@ -46,10 +46,9 @@ class EnquiryCSV
       :opportunity_id
     ).includes(:enquiry_response)
 
-    @users_lookup = User.pluck(:id, :email).to_h
-    @opportunities_lookup = Opportunity.pluck(:id, :title).to_h
-    @service_provider_lookup = build_service_providers_hash
-    @countries_lookup = build_countries_hash
+    # Get unique IDs to minimize data loading
+    @user_ids = @enquiries.pluck(:user_id).uniq
+    @opportunity_ids = @enquiries.pluck(:opportunity_id).uniq
   end
 
   def each
@@ -57,8 +56,14 @@ class EnquiryCSV
 
     yield header
 
-    @enquiries.find_each(batch_size: 500) do |enquiry|
-      yield row_for(enquiry)
+    # Load lookup data in batches to reduce memory usage
+    users_lookup = load_users_lookup
+    opportunities_lookup = load_opportunities_lookup
+    service_provider_lookup = load_service_providers_lookup
+    countries_lookup = load_countries_lookup
+
+    @enquiries.find_each(batch_size: 100) do |enquiry|
+      yield row_for(enquiry, users_lookup, opportunities_lookup, service_provider_lookup, countries_lookup)
     end
   end
 
@@ -68,7 +73,7 @@ class EnquiryCSV
       CSV_HEADERS.join(',') + "\n"
     end
 
-    def row_for(enquiry)
+    def row_for(enquiry, users_lookup, opportunities_lookup, service_provider_lookup, countries_lookup)
       line = [
         enquiry.company_name,
         enquiry.first_name,
@@ -78,10 +83,10 @@ class EnquiryCSV
         enquiry.company_telephone,
         format_datetime(enquiry.created_at),
         enquiry.company_sector,
-        @opportunities_lookup[enquiry.opportunity_id],
-        @countries_lookup[enquiry.opportunity_id],
-        @users_lookup[enquiry.user_id],
-        @service_provider_lookup[enquiry.opportunity_id],
+        opportunities_lookup[enquiry.opportunity_id],
+        countries_lookup[enquiry.opportunity_id],
+        users_lookup[enquiry.user_id],
+        service_provider_lookup[enquiry.opportunity_id],
         enquiry.data_protection ? 'Yes' : 'No',
         enquiry.company_house_number,
         enquiry.company_url,
@@ -96,17 +101,36 @@ class EnquiryCSV
       CSV.generate_line(line)
     end
 
-    def build_countries_hash
-      ActiveRecord::Base
-        .connection
-        .select_rows("SELECT countries_opportunities.opportunity_id, STRING_AGG(countries.name, ' ' ORDER BY name) FROM countries_opportunities INNER JOIN countries on (countries_opportunities.country_id = countries.id) GROUP BY countries_opportunities.opportunity_id")
-        .to_h
+    def load_users_lookup
+      # Only load the users we need
+      User.where(id: @user_ids).pluck(:id, :email).to_h
     end
 
-    def build_service_providers_hash
-      ActiveRecord::Base
-        .connection
-        .select_rows('SELECT opportunities.id, service_providers.name FROM opportunities INNER JOIN service_providers ON (opportunities.service_provider_id = service_providers.id)')
+    def load_opportunities_lookup
+      # Only load the opportunities we need
+      Opportunity.where(id: @opportunity_ids).pluck(:id, :title).to_h
+    end
+
+    def load_countries_lookup
+      return {} if @opportunity_ids.empty?
+
+      countries_data = CountriesOpportunity
+        .joins(:country)
+        .where(opportunity_id: @opportunity_ids)
+        .group(:opportunity_id)
+        .select("opportunity_id, STRING_AGG(countries.name, ' ' ORDER BY name)")
+        .map { |record| [record.opportunity_id, record.string_agg] }
+
+      Hash[countries_data]
+    end
+
+    def load_service_providers_lookup
+      return {} if @opportunity_ids.empty?
+
+      Opportunity
+        .joins(:service_provider)
+        .where(id: @opportunity_ids)
+        .pluck(:id, 'service_providers.name')
         .to_h
     end
 
