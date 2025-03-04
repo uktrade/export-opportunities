@@ -47,17 +47,13 @@ class DocumentValidation
 
   def clamav_scan(filename, file_blob)
     scan_result = scan_clean(filename, file_blob)
-    @result = if scan_result['malware']
-                scan_result_type = if scan_result['reason'].eql? 'Heuristics.Encrypted.Zip'
-                                     'cant_scan'
-                                   else
-                                     'virus'
-                                   end
+    @result = if scan_result == 'NOTOK'
+                scan_result_type = 'virus'
                 {
                   status: 200,
                   errors: {
                     type: scan_result_type,
-                    message: scan_result['reason'],
+                    message: 'NOTOK',
                   },
                 }
               else
