@@ -99,6 +99,7 @@ Rails.application.config.assets.precompile += %w[search-icon.svg search.sgv]
 Rails.application.config.assets.precompile += %w[great.svg]
 Rails.application.config.assets.precompile += %w[dbt-logo.svg dfbt-logo-white.png]
 Rails.application.config.assets.precompile += %w[eig-logo-stacked.svg]
+Rails.application.config.assets.precompile += %w[icons/exclamation.svg]
 
 Rails.application.config.assets.precompile += %w[dit.classes.Dropdown.js]
 Rails.application.config.assets.precompile += %w[dit.components.greatheader.js]
