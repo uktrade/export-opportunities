@@ -7,8 +7,6 @@ set -e
 
 rm ./config/application.yml
 
-cp -r /workspace/db/ /workspace/db-copy/
-
 rm -rf /workspace/tmp
 rm -rf /workspace/db
 rm -rf /workspace/log
