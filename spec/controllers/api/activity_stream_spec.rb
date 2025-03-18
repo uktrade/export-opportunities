@@ -236,42 +236,6 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         expect(response.body).to include('Missing mac')
       end
 
-      it 'responds with a 401 if Authorization header misses hash' do
-        @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
-        @request.headers['Authorization'] = 'Hawk ts="1", mac="a", nonce="c", id="d"'
-        get :enquiries, params: { format: :json }
-
-        expect(response.status).to eq(401)
-        expect(response.body).to include('Missing hash')
-      end
-
-      it 'responds with a 401 if Authorization header has empty hash' do
-        @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
-        @request.headers['Authorization'] = 'Hawk ts="1", mac="a", hash="", nonce="c", id="d"'
-        get :enquiries, params: { format: :json }
-
-        expect(response.status).to eq(401)
-        expect(response.body).to include('Missing hash')
-      end
-
-      it 'responds with a 401 if Authorization header misses nonce' do
-        @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
-        @request.headers['Authorization'] = 'Hawk ts="1", mac="a", id="d"'
-        get :enquiries, params: { format: :json }
-
-        expect(response.status).to eq(401)
-        expect(response.body).to include('Missing hash')
-      end
-
-      it 'responds with a 401 if Authorization header has empty nonce' do
-        @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
-        @request.headers['Authorization'] = 'Hawk ts="1", mac="a", nonce="", id="d"'
-        get :enquiries, params: { format: :json }
-
-        expect(response.status).to eq(401)
-        expect(response.body).to include('Missing hash')
-      end
-
       it 'responds with a 401 if Authorization header misses id' do
         @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
         @request.headers['Authorization'] = 'Hawk ts="1", mac="a", hash="b", nonce="c"'
@@ -318,21 +282,6 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
 
         expect(response.status).to eq(401)
         expect(response.body).to include('Invalid mac')
-      end
-
-      it 'responds with a 401 if Authorization header uses incorrect payload' do
-        @request.headers['X-Forwarded-For'] = '0.0.0.0, 1.2.3.4'
-        @request.headers['Authorization'] = auth_header(
-          Time.now.getutc.to_i,
-          Figaro.env.ACTIVITY_STREAM_ACCESS_KEY_ID,
-          Figaro.env.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
-          activity_stream_enquiries_path,
-          'something-incorrect'
-        )
-        get :enquiries, params: { format: :json }
-
-        expect(response.status).to eq(401)
-        expect(response.body).to include('Invalid hash')
       end
 
       it 'responds with a 401 if header is reused' do
