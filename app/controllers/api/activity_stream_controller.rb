@@ -334,7 +334,6 @@ module Api
         return [false, 'Invalid header']  unless /^Hawk (((?<="), )?[a-z]+="[^"]*")*$/.match?(request.headers['Authorization'])
         return [false, 'Missing ts']      unless parsed_header.key? :ts
         return [false, 'Invalid ts']      unless /\d+/.match?(parsed_header[:ts])
-        return [false, 'Missing hash']    unless parsed_header.key? :hash
         return [false, 'Missing mac']     unless parsed_header.key? :mac
         return [false, 'Missing nonce']   unless parsed_header.key? :nonce
         return [false, 'Missing id']      unless parsed_header.key? :id
@@ -359,7 +358,6 @@ module Api
             OpenSSL::Digest.new('sha256'), correct_credentials[:key], canonical_request
           )
         ).strip
-        return [false, 'Invalid hash']  unless secure_compare(correct_payload_hash, parsed_header[:hash])
         return [false, 'Stale ts']      unless (Time.now.getutc.to_i - parsed_header[:ts].to_i).abs <= 60
         return [false, 'Invalid mac']   unless secure_compare(correct_mac, parsed_header[:mac])
         return [false, 'Invalid nonce'] unless nonce_available?(parsed_header[:nonce], parsed_header[:id])
