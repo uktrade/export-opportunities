@@ -17,8 +17,7 @@
     = link_to "Export Opportunities service", root_url + ApplicationController.new.ga360_campaign_parameters('email_alerts','email','exportOps_unsubscribe','visitOps')
     and type in the product or service you're interested in. You will then be prompted to sign up for email alerts for this search term.
   %li{ style: "margin-bottom:15px;" }
-    You will be asked to sign into your great.gov.uk account to complete the process. If you don't have an account you will be prompted to create one.
-
+    You will be asked to sign into your #{ApplicationController.new.is_bgs_site?} account to complete the process. If you don't have an account you will be prompted to create one.
 
 - content_for :email_sub_footer do
   %table{ border: "0", cellpadding: "30", cellspacing: "0", width: "600" }

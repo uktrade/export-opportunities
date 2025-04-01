@@ -3,7 +3,7 @@
   <% @page_type = 'LandingPage' %>
 
   <head>
-    <title><%= t('site_name') %> - great.gov.uk</title>
+    <title><%= t('site_name') %> - <%= is_bgs_site? %> </title>
     <%= csrf_meta_tags %>
     <%= canonical_tag root_url %>
     <%= hreflang_tags root_url %>

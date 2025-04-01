@@ -3,7 +3,7 @@
   <head>
     <% @page_type = 'SearchResultsPage' %>
 
-    <title>Search results - <%= t('site_name') %> - great.gov.uk</title>
+    <title>Search results - <%= t('site_name') %> - <%= is_bgs_site? %> </title>
     <%= csrf_meta_tags %>
     <%= canonical_tag opportunities_url %>
     <%= hreflang_tags opportunities_url %>

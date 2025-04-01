@@ -1,6 +1,7 @@
 require 'yaml'
 
 class ApplicationController < ActionController::Base
+  include DomainHelper
   # for how many days should we notify pingdom that a volume opps job has failed
   PUBLISH_SIDEKIQ_ERROR_DAYS = 1.freeze
 

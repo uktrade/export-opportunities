@@ -3,7 +3,7 @@
   <% @page_type = 'NotificationPage' %>
 
   <head>
-    <title><%= @title %> - <%= t('site_name') %> - great.gov.uk</title>
+    <title><%= @title %> - <%= t('site_name') %> - <%= is_bgs_site? %> </title>
     <%= csrf_meta_tags %>
     <%= render partial: 'includes/transformation_head_tags' %>
     <%= render partial: 'includes/transformation_styles' %>

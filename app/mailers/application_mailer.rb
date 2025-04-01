@@ -3,6 +3,8 @@ require 'stringex/core_ext'
 require 'yaml'
 
 class ApplicationMailer < ActionMailer::Base
+  include DomainHelper
+
   after_action :subject_to_ascii!
   layout 'email'
 
