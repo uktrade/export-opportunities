@@ -80,10 +80,10 @@
 
     %dl.update
       %dt
-        Launch of a new look #{link_to 'great.gov.uk', 'https://www.great.gov.uk'}
+        Launch of a new look #{link_to is_bgs_site?, "https://www.#{is_bgs_site?}"}
         %span.verbose ,
         %span.date 11 December
-      %dd.change a filter tool as part of a new #{link_to 'great.gov.uk', 'https://www.great.gov.uk'} design, to help UK companies apply for opportunities for which they are most suitable
+      %dd.change a filter tool as part of a new #{link_to is_bgs_site?, "https://www.#{is_bgs_site?}"} design, to help UK companies apply for opportunities for which they are most suitable
 
     %dl.update
       %dt

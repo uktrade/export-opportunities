@@ -95,7 +95,7 @@ class OpportunityPresenter < PagePresenter
     links = []
     if guides.length > 5
       links.push(h.link_to('Country guides',
-                           'https://www.great.gov.uk/markets/',
+                           "https://www.#{is_bgs_site?}/markets/",
                            target: '_blank', rel: 'noopener noreferrer', title: 'Opens in a new window'))
     else
       guides.each do |country|
