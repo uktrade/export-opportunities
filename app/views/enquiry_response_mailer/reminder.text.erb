@@ -24,4 +24,4 @@ Department for Business and Trade
 <%= presenter.content_with_inclusion 'contact_help', ['exportopportunities@trade.gsi.gov.uk'] %>
 
 
-<%= "www.#{ApplicationController.new.is_bgs_site?}" %>
+<%= "www.#{ApplicationController.new.fetch_domain}" %>

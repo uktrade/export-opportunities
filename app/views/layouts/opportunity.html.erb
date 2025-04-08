@@ -3,7 +3,7 @@
   <head>
     <% @page_type = 'OpportunityPage' %>
 
-    <title><%= @opportunity.title %> - <%= t('site_name') %> - <%= is_bgs_site? %> </title>
+    <title><%= @opportunity.title %> - <%= t('site_name') %> - <%= fetch_domain %> </title>
     <%= csrf_meta_tags %>
     <%= render partial: 'includes/transformation_head_tags' %>
     <%= render partial: 'includes/transformation_styles' %>

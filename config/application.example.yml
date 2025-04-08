@@ -6,7 +6,7 @@
 
 # Canonical URL
 DOMAIN: "http://localhost:3000"
-BGS_SITE_DOMAIN: "www.business.gov.uk"
+BGS_SITE: "https://www.business.gov.uk"
 
 # Sending email
 MAILER_HOST: "127.0.0.1"
