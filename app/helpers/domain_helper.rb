@@ -1,6 +1,6 @@
 module DomainHelper
-  def is_bgs_site?(title_only = false)
-    if Figaro.env.DOMAIN == Figaro.env.BGS_SITE_DOMAIN 
+  def fetch_domain(title_only = false)
+    if Figaro.env.DOMAIN == Figaro.env.BGS_SITE
       if title_only
         "Business"
       else

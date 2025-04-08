@@ -1,2 +1,2 @@
-<% privacy_cookie_domain = Figaro.env.PRIVACY_COOKIE_DOMAIN || ".#{is_bgs_site?}" %>
+<% privacy_cookie_domain = Figaro.env.PRIVACY_COOKIE_DOMAIN || ".#{fetch_domain}" %>
 <meta id="privacyCookieDomain" value="<%= privacy_cookie_domain %>">

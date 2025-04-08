@@ -34,19 +34,19 @@
 
       <p data-component="sharing-links" class="sharing-links">
         <span class="label">Share </span>
-        <%= link_to "https://twitter.com/intent/tweet?text=Welcome%20to%20the%20UK%20https://www.#{is_bgs_site?}/international/?lang=en-gb" do %>
+        <%= link_to "https://twitter.com/intent/tweet?text=Welcome%20to%20the%20UK%20https://www.#{fetch_domain}/international/?lang=en-gb" do %>
           <%= image_tag "logos/twitter.svg", :width=>"36px", :alt=>"with Twitter" %>
         <% end %>
         <span class="verbose">, </span>
-        <%= link_to "https://www.facebook.com/share.php?u=https://www.#{is_bgs_site?}/international/?lang=en-gb" do %>
+        <%= link_to "https://www.facebook.com/share.php?u=https://www.#{fetch_domain}/international/?lang=en-gb" do %>
           <%= image_tag "logos/facebook.svg", :width=>"36px", :alt=>"with Facebook" %>
         <% end %>
         <span class="verbose">, </span>
-        <%= link_to "https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.#{is_bgs_site?}/international/?lang=en-gb&amp;title=Welcome%20to%20the%20UK&amp;source=LinkedIn" do %>
+        <%= link_to "https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.#{fetch_domain}/international/?lang=en-gb&amp;title=Welcome%20to%20the%20UK&amp;source=LinkedIn" do %>
           <%= image_tag "logos/linkedin.svg", :width=>"36px", :alt=>"with LinkedIn" %>
         <% end %>
         <span class="verbose">, </span>
-        <%= link_to "mailto:?body=https://www.#{is_bgs_site?}/international/?lang=en-gb&amp;subject=Welcome%20to%20the%20UK" do %>
+        <%= link_to "mailto:?body=https://www.#{fetch_domain}/international/?lang=en-gb&amp;subject=Welcome%20to%20the%20UK" do %>
           <%= image_tag "logos/email.svg", :width=>"36px", :alt=>"by email" %>
         <% end %>
       </p>
