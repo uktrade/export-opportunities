@@ -24,6 +24,11 @@ module SvgHelper
         svg_content = svg_content.gsub(/fill="#0B0C0C"/, "fill=\"#{options[:fill_color]}\"")
       end
       
+      # Remove any script tags or on* attributes to prevent XSS attacks
+      # This is a basic approach since we're loading SVGs from our own assets directory
+      svg_content = svg_content.gsub(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/i, '')
+      svg_content = svg_content.gsub(/\bon\w+\s*=\s*["'][^"']*["']/i, '')
+      
       svg_content.html_safe
     else
       # Fallback to image tag if SVG file doesn't exist
