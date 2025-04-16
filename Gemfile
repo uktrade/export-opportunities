@@ -101,6 +101,9 @@ gem 'pragmatic_segmenter'
 # Govt Notify service API client
 gem 'notifications-ruby-client'
 
+# HTML/SVG sanitization
+gem 'sanitize'
+
 group :development, :test do
   gem 'bullet'
   gem 'byebug'

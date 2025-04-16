@@ -2024,6 +2024,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rspec
   rubyzip (~> 1.3.0)
+  sanitize
   sass-rails
   sdoc
   sentry-rails
