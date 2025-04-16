@@ -1,0 +1,140 @@
+<%
+  # Default values for parameters
+  site_href ||= '/'
+  hide_menu_on_desktop ||= false
+  global_header_classes ||= ''
+  sso_is_logged_in ||= false
+  is_authenticated ||= false
+  menu_items_list ||= [
+    {
+      icon: 'icons/start-icon.svg',
+      href: '/support-in-uk/pre-start/location/',
+      text: 'Starting a business',
+      overview_text: 'Get support and information',
+      description: 'Tell us about your plans and we\'ll connect you to expert guidance and support for setting up your business.'
+    },
+    {
+      icon: 'icons/run-icon.svg',
+      href: '/support-in-uk/existing/location/',
+      text: 'Running and growing a business',
+      overview_text: 'Get support and information',
+      description: 'Tell us a bit about your business and we\'ll link you up to the right resources to help it thrive.'
+    },
+    {
+      icon: 'icons/export-icon.svg',
+      href: '#',
+      text: 'Selling overseas from the UK',
+      overview_text: 'Start exporting',
+      children: [
+        { href: '/greatgovuk/markets/', text: 'Markets' },
+        { href: '/greatgovuk/export-support/', text: 'Export support' },
+        { href: '/greatgovuk/export-academy/', text: 'UK Export Academy' },
+        { href: '/greatgovuk/learn/categories/', text: 'Learn to export' },
+        { href: '/greatgovuk/services/', text: 'Export resources', requires_auth: true },
+        { href: '/greatgovuk/dashboard/', text: 'Export dashboard', requires_auth: true },
+        { href: '/where-to-export/', text: 'Where to export' },
+        { href: '/greatgovuk/export-plan/', text: 'Make an export plan', requires_auth: true },
+        { href: '/greatgovuk/profile/', text: 'Export account', requires_auth: true },
+        { href: '#', text: 'Sign out of export account services', attributes: 'onclick="signOut()"', button: true, requires_auth: true },
+        { href: '/login/', text: 'Sign in to export account services', button: true, requires_no_auth: true }
+      ]
+    },
+    {
+      icon: 'icons/expand-icon.svg',
+      href: '/greatgovuk/international/',
+      text: 'Investing and expanding in the UK',
+      overview_text: 'Start investing',
+      children: [
+        { href: '/greatgovuk/international/expand-your-business-in-the-uk/', text: 'Expand your business in the UK' },
+        { href: '/greatgovuk/international/investment/', text: 'Investment opportunities' },
+        { href: '/greatgovuk/international/buy-from-the-uk/', text: 'Buy from the UK' },
+        { href: '#', text: 'Sign out of expand your business in the UK', requires_auth: true, attributes: 'onclick="signOut()"' },
+        { href: '/international/expand-your-business-in-the-uk/login/', text: 'Sign in to expand your business in the UK', requires_no_auth: true }
+      ]
+    }
+  ]
+%>
+
+<header class="great-ds-header-bgs" id="header" role="banner" data-ga-section="header">
+  <div id="great-ds-masthead-header" class="great-ds-container great-ds-header-bgs__masthead <%= 'signed-in' if sso_is_logged_in %>">
+    <div class="great-ds-header-bgs__dbt-logo">
+      <a href="<%= site_href %>" class="great-ds-header-bgs__dbt-logo-link">
+        <%= inline_svg('logos/uk-gov-logo.svg', {
+          class: 'great-ds-header-bgs__dbt-logo-image great-ds-header-bgs__dbt-logo-image--ukgov',
+          role: 'img',
+          aria_label: 'UK Government logo',
+          fill_color: '#333333'
+        }) %>
+      </a>
+    </div>
+  </div>
+
+  <div class="great-ds-header-bgs__main">
+    <div class="great-ds-header-bgs__main-inner great-ds-container">
+      <div class="great-ds-header-bgs__logo-container">
+        <a id="header-logo-link" aria-label="Go to Business.gov.uk" class="great-ds-header-bgs__great-ds-logo" href="<%= site_href %>">
+          <span class="govuk-visually-hidden">Business.gov.uk</span>
+          <%= inline_svg('logos/bgs-logo.svg', {
+            class: 'great-ds-header__great-ds-logo-image',
+            role: 'img',
+            aria_label: 'UK Government logo',
+            fill_color: '#333333'
+          }) %>
+        </a>
+      </div>
+
+      <div class="great-ds-header-bgs__menu<%= ' great-ds-header-bgs__menu--hidden-on-desktop' if hide_menu_on_desktop %>">
+        <button class="great-ds-button great-ds-button--menu great-ds-button--inverted great-ds-button--icon-prefix great-ds-button--auto-width" data-great-ds-reveal-button aria-controls="header-menu">
+        <%= inline_svg('icons/bgs-menu.svg', {
+          class: 'great-ds-icon-svg great-ds-icon--menu',
+          role: 'img',
+          aria_label: 'Menu',
+          fill_color: '#333333'
+        }) %>
+          <span class="great-ds-button__text">Menu</span>
+        </button>
+      </div>
+    </div>
+
+    <% if menu_items_list.any? %>
+      <div class="great-ds-header-bgs__menu-wrapper" id="header-menu">
+        <div class="great-ds-header-bgs__menu-container">
+          <ul class="great-ds-header-bgs__menu-list">
+            <% menu_items_list.each_with_index do |item, index| %>
+              <li class="great-ds-header-bgs__menu-item">
+                <div class="great-ds-header-bgs__menu-item-inner">
+                  <% if item[:icon] %>
+                    <%= image_tag(item[:icon], class: 'great-ds-header-bgs__menu-item-icon', alt: "#{item[:text]} icon") %>
+                  <% end %>
+                  <% if item[:href] %>
+                    <button class="great-ds-header-bgs__menu-link--accordion" aria-controls="header-children-menu-<%= index + 1 %>" aria-expanded="false" data-great-ds-reveal-button aria-label="Open child menu"><%= item[:text] %></button>
+                    <a href="<%= item[:href] %>" <%= "#{item[:attributes]}" if item[:attributes] %> class="great-ds-header-bgs__menu-link great-ds-header-bgs-link<%= ' great-ds-header-bgs__menu-link--current' if item[:is_current] %>"><%= item[:text] %></a>
+                  <% else %>
+                    <%= item[:text] %>
+                  <% end %>
+                  <ul class="great-ds-header-bgs__menu-list-children" id="header-children-menu-<%= index + 1 %>">
+                    <li class="great-ds-header-bgs__menu-list-children-item">
+                      <% if item[:description] %>
+                        <p class="great-ds-header-bgs__menu-list-children-description"><%= item[:description] %></p>
+                      <% end %>
+                      <a class="great-ds-header-bgs__menu-list-children-link great-ds-header-bgs__menu-list-children-link--overview great-ds-header-bgs-link" href="<%= item[:href] %>"><%= item[:overview_text] || item[:text] %></a>
+                    </li>
+                    <% if item[:children] %>
+                      <% item[:children].each do |child_item| %>
+                        <% if (child_item[:requires_auth] && is_authenticated) || (child_item[:requires_no_auth] && !is_authenticated) || (!child_item[:requires_auth] && !child_item[:requires_no_auth]) %>
+                          <li class="great-ds-header-bgs__menu-list-children-item">
+                            <a <%= "#{child_item[:attributes]}" if child_item[:attributes] %> class="great-ds-header-bgs__menu-list-children-link great-ds-header-bgs-link<%= ' great-ds-header-bgs__menu-list-children-link--current' if child_item[:is_current] %>" href="<%= child_item[:href] %>"<%= " aria-current=\"#{child_item[:is_current] ? 'page' : 'true'}\"" %>><%= child_item[:text] %></a>
+                          </li>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                  </ul>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</header>

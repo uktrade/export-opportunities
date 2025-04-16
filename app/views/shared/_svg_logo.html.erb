@@ -1,0 +1,23 @@
+<%
+  # Get the SVG content from the asset pipeline
+  svg_path_full = asset_path(svg_path)
+  svg_content = Net::HTTP.get(URI.parse(svg_path_full)) rescue nil
+  
+  if svg_content.present?
+    # Extract the SVG tag attributes
+    svg_tag_match = svg_content.match(/<svg([^>]*)>/)
+    svg_attributes = svg_tag_match ? svg_tag_match[1] : ""
+    
+    # Create a new SVG tag with our custom attributes
+    new_svg_opening = "<svg#{svg_attributes} class=\"#{css_class}\" role=\"#{role}\" aria-label=\"#{aria_label}\""
+    
+    # Replace the original SVG opening tag with our new one
+    svg_content = svg_content.sub(/<svg[^>]*>/, new_svg_opening + ">")
+  end
+%>
+
+<% if svg_content.present? %>
+  <%= svg_content.html_safe %>
+<% else %>
+  <img src="<%= asset_path(svg_path) %>" class="<%= css_class %>" role="<%= role %>" aria-label="<%= aria_label %>" />
+<% end %>
