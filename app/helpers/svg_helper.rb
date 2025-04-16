@@ -24,12 +24,34 @@ module SvgHelper
         svg_content = svg_content.gsub(/fill="#0B0C0C"/, "fill=\"#{options[:fill_color]}\"")
       end
       
-      # Remove any script tags or on* attributes to prevent XSS attacks
-      # This is a basic approach since we're loading SVGs from our own assets directory
-      svg_content = svg_content.gsub(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/i, '')
-      svg_content = svg_content.gsub(/\bon\w+\s*=\s*["'][^"']*["']/i, '')
+      # Basic security measures for SVG files
+      # Since we're loading SVGs from our own assets directory, this approach should suffice
+      def sanitise_svg(content)
+        # Apply sanitisation repeatedly until no more changes are made
+        previous = nil
+        result = content
+        
+        # List of patterns to remove
+        patterns = [
+          /<script\b[^>]*>.*?<\/script(?:[\s\S][^>]*)?>/im,  # script tags with any whitespace/attributes
+          /<script\b[^>]*>/im,                  # orphaned script start tags
+          /<\/script(?:[\s\S][^>]*)?>/im,       # orphaned script end tags with any whitespace/attributes
+          /javascript:/im,                      # javascript protocol
+          /on\w+\s*=/im,                        # event handlers
+          /data:/im                             # data URIs
+        ]
+        
+        while result != previous
+          previous = result
+          patterns.each do |pattern|
+            result = result.gsub(pattern, '')
+          end
+        end
+        
+        result
+      end
       
-      svg_content.html_safe
+      sanitise_svg(svg_content).html_safe
     else
       # Fallback to image tag if SVG file doesn't exist
       image_tag(path, options)
