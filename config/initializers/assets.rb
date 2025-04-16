@@ -123,6 +123,10 @@ Rails.application.config.assets.precompile += %w[header-footer-bgs/main.scss]
 Rails.application.config.assets.precompile += %w[helpers/overlay.js]
 Rails.application.config.assets.precompile += %w[components/revealer.js]
 
+#SVG...
+Rails.application.config.assets.precompile += %w[icons/bgs-menu.svg icons/expand-icon.svg icons/export-icon.svg icons/run-icon.svg icons/start-icon.svg]
+Rails.application.config.assets.precompile += %w[logos/bgs-logo.svg logos/uk-gov-logo.svg]
+
 # Fonts
 # ---------------------------------
 Rails.application.config.assets.precompile += %w[*.ttf]

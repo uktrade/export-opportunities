@@ -62,16 +62,6 @@
       }
     }
     
-    &--third {
-      &:not(.great-ds-footer-bgs__subsection--lower):not(:last-child) {
-        border-bottom: 0;
-        padding-bottom: 0;
-      }
-      
-      @media (min-width: $breakpoint-mobile-md) {
-        width: 33%;
-      }
-    }
     
     @media (min-width: $breakpoint-mobile-md) {
       width: 25%;
@@ -180,12 +170,6 @@
     color: $color-text;
     line-height: 30px;
     margin: 0;
-  }
-  
-  &__logo-image {
-    @media (min-width: $breakpoint-mobile-md) {
-      height: 50px;
-    }
   }
 }
 
