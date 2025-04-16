@@ -8,7 +8,7 @@
     <%= render partial: 'includes/transformation_head_tags' %>
     <%= render partial: 'includes/transformation_styles' %>
     <%= render partial: 'includes/transformation_scripts' %>
-    <%= stylesheet_link_tag 'header-footer-bgs' if bgs_site? %>
+    <%= stylesheet_link_tag 'header-footer-bgs/main' if bgs_site? %>
 
     <%= stylesheet_link_tag 'transformation/pages/form' %>
     <%= stylesheet_link_tag 'transformation/pages/enquiries' %>
@@ -42,8 +42,9 @@
     </main>
     <%= render partial: 'shared/footer' %>
 
-<%= javascript_include_tag 'helpers/overlay' %>
-<%= javascript_include_tag 'components/revealer' %>
-</body>
-</html>
+    <% if bgs_site? %>
+      <%= javascript_include_tag 'helpers/overlay' %>
+      <%= javascript_include_tag 'components/revealer' %>
+    <% end %>
+  </body>
 </html>

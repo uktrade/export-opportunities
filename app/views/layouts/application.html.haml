@@ -27,7 +27,7 @@
       = stylesheet_link_tag 'transformation/main'
       = stylesheet_link_tag 'transformation/pages/form'
       = stylesheet_link_tag 'transformation/pages/enquiries'
-      = stylesheet_link_tag 'header-footer-bgs' if bgs_site?
+      = stylesheet_link_tag 'header-footer-bgs/main' if bgs_site?
 
     = stylesheet_link_tag 'application', media: 'all'
     /[if lte IE 9]
@@ -75,6 +75,7 @@
     = render partial: 'shared/footer'
 
     = javascript_include_tag 'modernizr.min', defer: true
-    = javascript_include_tag 'helpers/overlay'
-    = javascript_include_tag 'components/revealer'
+    - if bgs_site?
+      = javascript_include_tag 'helpers/overlay'
+      = javascript_include_tag 'components/revealer'
     = javascript_include_tag 'application'

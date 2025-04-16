@@ -117,7 +117,7 @@ Rails.application.config.assets.precompile += %w[hcsat/character_count.js]
 # 2025 Business.gov.uk files
 ###################################
 ## CSS...
-Rails.application.config.assets.precompile += %w[header-footer-bgs.css]
+Rails.application.config.assets.precompile += %w[header-footer-bgs/main.scss]
 
 # JS...
 Rails.application.config.assets.precompile += %w[helpers/overlay.js]

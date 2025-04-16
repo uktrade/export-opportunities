@@ -1,21 +1,20 @@
 <%
   # Default values for parameters
-  site_href ||= '/'
+  site_href ||= Figaro.env.BGS_SITE
   hide_menu_on_desktop ||= false
-  global_header_classes ||= ''
   sso_is_logged_in ||= false
   is_authenticated ||= false
   menu_items_list ||= [
     {
       icon: 'icons/start-icon.svg',
-      href: '/support-in-uk/pre-start/location/',
+      href: site_href + '/support-in-uk/pre-start/location/',
       text: 'Starting a business',
       overview_text: 'Get support and information',
       description: 'Tell us about your plans and we\'ll connect you to expert guidance and support for setting up your business.'
     },
     {
       icon: 'icons/run-icon.svg',
-      href: '/support-in-uk/existing/location/',
+      href: site_href + '/support-in-uk/existing/location/',
       text: 'Running and growing a business',
       overview_text: 'Get support and information',
       description: 'Tell us a bit about your business and we\'ll link you up to the right resources to help it thrive.'
@@ -26,30 +25,30 @@
       text: 'Selling overseas from the UK',
       overview_text: 'Start exporting',
       children: [
-        { href: '/greatgovuk/markets/', text: 'Markets' },
-        { href: '/greatgovuk/export-support/', text: 'Export support' },
-        { href: '/greatgovuk/export-academy/', text: 'UK Export Academy' },
-        { href: '/greatgovuk/learn/categories/', text: 'Learn to export' },
-        { href: '/greatgovuk/services/', text: 'Export resources', requires_auth: true },
-        { href: '/greatgovuk/dashboard/', text: 'Export dashboard', requires_auth: true },
-        { href: '/where-to-export/', text: 'Where to export' },
-        { href: '/greatgovuk/export-plan/', text: 'Make an export plan', requires_auth: true },
-        { href: '/greatgovuk/profile/', text: 'Export account', requires_auth: true },
-        { href: '#', text: 'Sign out of export account services', attributes: 'onclick="signOut()"', button: true, requires_auth: true },
-        { href: '/login/', text: 'Sign in to export account services', button: true, requires_no_auth: true }
+        { href: site_href + '/greatgovuk/markets/', text: 'Markets' },
+        { href: site_href + '/greatgovuk/export-support/', text: 'Export support' },
+        { href: site_href + '/greatgovuk/export-academy/', text: 'UK Export Academy' },
+        { href: site_href + '/greatgovuk/learn/categories/', text: 'Learn to export' },
+        { href: site_href + '/greatgovuk/services/', text: 'Export resources', requires_auth: true },
+        { href: site_href + '/greatgovuk/dashboard/', text: 'Export dashboard', requires_auth: true },
+        { href: site_href + '/where-to-export/', text: 'Where to export' },
+        { href: site_href + '/greatgovuk/export-plan/', text: 'Make an export plan', requires_auth: true },
+        { href: site_href + '/greatgovuk/profile/', text: 'Export account', requires_auth: true },
+        { href: '#', text: 'Sign out of export account services', attributes: 'onclick="signOut()"', requires_auth: true },
+        { href: site_href + '/login/', text: 'Sign in to export account services', requires_no_auth: true }
       ]
     },
     {
       icon: 'icons/expand-icon.svg',
-      href: '/greatgovuk/international/',
+      href: site_href + '/greatgovuk/international/',
       text: 'Investing and expanding in the UK',
       overview_text: 'Start investing',
       children: [
-        { href: '/greatgovuk/international/expand-your-business-in-the-uk/', text: 'Expand your business in the UK' },
-        { href: '/greatgovuk/international/investment/', text: 'Investment opportunities' },
-        { href: '/greatgovuk/international/buy-from-the-uk/', text: 'Buy from the UK' },
-        { href: '#', text: 'Sign out of expand your business in the UK', requires_auth: true, attributes: 'onclick="signOut()"' },
-        { href: '/international/expand-your-business-in-the-uk/login/', text: 'Sign in to expand your business in the UK', requires_no_auth: true }
+        { href: site_href + '/greatgovuk/international/expand-your-business-in-the-uk/', text: 'Expand your business in the UK' },
+        { href: site_href + '/greatgovuk/international/investment/', text: 'Investment opportunities' },
+        { href: site_href + '/greatgovuk/international/buy-from-the-uk/', text: 'Buy from the UK' },
+        { href: '#', text: 'Sign out of expand your business in the UK', attributes: 'onclick="signOut()"', requires_auth: true },
+        { href: site_href + '/international/expand-your-business-in-the-uk/login/', text: 'Sign in to expand your business in the UK', requires_no_auth: true }
       ]
     }
   ]
@@ -58,7 +57,7 @@
 <header class="great-ds-header-bgs" id="header" role="banner" data-ga-section="header">
   <div id="great-ds-masthead-header" class="great-ds-container great-ds-header-bgs__masthead <%= 'signed-in' if sso_is_logged_in %>">
     <div class="great-ds-header-bgs__dbt-logo">
-      <a href="<%= site_href %>" class="great-ds-header-bgs__dbt-logo-link">
+      <a href="https://www.gov.uk/" class="great-ds-header-bgs__dbt-logo-link">
         <%= inline_svg('logos/uk-gov-logo.svg', {
           class: 'great-ds-header-bgs__dbt-logo-image great-ds-header-bgs__dbt-logo-image--ukgov',
           role: 'img',
@@ -138,3 +137,20 @@
     <% end %>
   </div>
 </header>
+
+<%= javascript_tag do %>
+  function signOut() {
+    return fetch('<%= site_href %>/great-cms-sso/api/business-logout/', {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRFToken': '<%= form_authenticity_token %>',
+        'X-Requested-With': 'XMLHttpRequest',
+      },
+      body: JSON.stringify({})
+    }).then(function() {
+      window.location = '/';
+    });
+  }
+<% end %>
