@@ -26,6 +26,8 @@ Rails.application.config.assets.precompile += %w[jquery-3.3.1.min.js]
 # Rails.application.config.assets.paths << Emoji.images_path
 # Add Yarn node_modules folder to the asset load path.
 Rails.application.config.assets.paths << Rails.root.join('node_modules')
+# Add fonts directory to the asset load path
+Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
 Rails.application.config.assets.prefix = '/export-opportunities/assets'
 
 
@@ -109,3 +111,25 @@ Rails.application.config.assets.precompile += %w[dit.components.greatheader.js]
 Rails.application.config.assets.precompile += %w[green-tick.svg]
 Rails.application.config.assets.precompile += %w[hcsat/conditional_other_input.js]
 Rails.application.config.assets.precompile += %w[hcsat/character_count.js]
+
+
+###################################
+# 2025 Business.gov.uk files
+###################################
+## CSS...
+Rails.application.config.assets.precompile += %w[header-footer-bgs/main.scss]
+
+# JS...
+Rails.application.config.assets.precompile += %w[helpers/overlay.js]
+Rails.application.config.assets.precompile += %w[components/revealer.js]
+
+#SVG...
+Rails.application.config.assets.precompile += %w[icons/bgs-menu.svg icons/expand-icon.svg icons/export-icon.svg icons/run-icon.svg icons/start-icon.svg]
+Rails.application.config.assets.precompile += %w[logos/bgs-logo.svg logos/uk-gov-logo.svg]
+
+# Fonts
+# ---------------------------------
+Rails.application.config.assets.precompile += %w[*.ttf]
+
+# Add MIME types for fonts
+Rack::Mime::MIME_TYPES['.ttf'] = 'font/ttf'

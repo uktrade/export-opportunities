@@ -1,0 +1,9 @@
+// Main SCSS file for header-footer-bgs
+// This file imports all the partials
+
+// Import common styles first (variables, mixins, etc.)
+@import "common";
+
+// Import component styles
+@import "header";
+@import "footer";

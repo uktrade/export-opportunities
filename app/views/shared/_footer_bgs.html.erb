@@ -1,0 +1,161 @@
+<%
+  # Default values for parameters
+  site_href ||= Figaro.env.BGS_SITE
+  current_year ||= Time.current.year
+  upper_footer_section ||= [
+    [
+      {
+        href: site_href + '/support-in-uk/pre-start/location/',
+        text: 'Starting a business',
+        title: 'Starting a business',
+        is_heading: true,
+      }
+    ],
+    [
+      {
+        href: site_href + '/support-in-uk/existing/location/',
+        text: 'Running and growing a business',
+        title: 'Running and growing a business',
+        is_heading: true,
+      }
+    ],
+    [
+      {
+        href: '',
+        text: 'Selling overseas from the UK',
+        title: 'Selling overseas from the UK',
+        is_heading: true,
+      },
+      { href: site_href + '/export-from-uk/markets/', text: 'Markets', title: 'Markets' },
+      { href: site_href + '/export-from-uk/export-support/', text: 'Export support', title: 'Export support' },
+      {
+        href: site_href + '/export-from-uk/export-academy/',
+        text: 'UK Export Academy',
+        title: 'UK Export Academy',
+      },
+      {
+        href: site_href + '/export-from-uk/learn/categories/',
+        text: 'Learn to export',
+        title: 'Learn to export',
+      },
+      { href: site_href + '/export-from-uk/services', text: 'Export resources', title: 'Export resources' }
+    ],
+    [
+      {
+        href: site_href + '/invest-in-uk/',
+        text: 'Investing and expanding in the UK',
+        title: 'Investing and expanding in the UK',
+        is_heading: true,
+      },
+      {
+        href: site_href + '/invest-in-uk/expand-your-business-in-the-uk/',
+        text: 'Expand your business in the UK',
+        title: 'Expand your business in the UK',
+      },
+      {
+        href: site_href + '/invest-in-uk/investment/',
+        text: 'Investment opportunities',
+        title: 'Investment opportunities',
+      },
+      { href: site_href + '/invest-in-uk/buy-from-the-uk/', text: 'Buy from the UK', title: 'Buy from the UK' }
+    ]
+  ]
+  lower_footer_section ||= [
+    [
+      { href: site_href + '/privacy/', text: 'Privacy', title: 'Privacy' },
+      { href: site_href + '/cookies/', text: 'Cookies', title: 'Cookies' },
+      {
+        href: site_href + '/accessibility-statement/',
+        text: 'Accessibility statement',
+        title: 'Accessibility statement',
+      },
+    ],
+    [
+      { href: site_href + '/terms-and-conditions/', text: 'Terms and conditions', title: 'Terms and conditions' },
+      { href: site_href + '/sitemap/', text: 'Sitemap', title: 'Sitemap' },
+    ],
+    [
+      {href: site_href + '/support-in-uk/', text: 'About this website', title: 'About this website' },
+      {
+        href: site_href + '/help-using-this-website/',
+        text: 'Help using this website',
+        title: 'Help using this website',
+      }
+    ],
+    [
+      {
+        href: 'https://www.gov.uk/government/organisations/department-for-business-and-trade',
+        text: 'Department for Business and Trade on GOV.UK',
+        title: 'Department for Business and Trade on GOV.UK',
+        target: '_blank',
+        rel: 'noopener',
+      }
+    ]
+  ]
+%>
+
+<footer id="footer"
+  dir="ltr"
+  data-ga-section="footer"
+  class="great-ds-footer-bgs">
+  <div class="great-ds-footer-bgs__container">
+    <div class="great-ds-container">
+      <div class="great-ds-footer__sections-container">
+        <% if upper_footer_section.any? %>
+          <div class="great-ds-footer-bgs__section great-ds-footer-bgs__section--upper">
+            <% upper_footer_section.each do |section| %>
+              <div class="great-ds-footer-bgs__subsection great-ds-footer-bgs__subsection--upper">
+                <ul class="great-ds-footer-bgs__link-list">
+                  <% section.each do |link| %>
+                    <li class="great-ds-footer-bgs__link-list-item">
+                      <a class="great-ds-footer-bgs__link <%= 'great-ds-footer-bgs__link--heading' if link[:is_heading] %>"
+                        href="<%= link[:href] %>"
+                        title="<%= link[:title] %>">
+                        <%= link[:text] %>
+                      </a>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+        <% if lower_footer_section.any? %>
+          <div class="great-ds-footer-bgs__section great-ds-footer-bgs__section--lower">
+            <% lower_footer_section.each do |section| %>
+              <div class="great-ds-footer-bgs__subsection great-ds-footer-bgs__subsection--lower">
+                <ul class="great-ds-footer-bgs__link-list">
+                  <% section.each do |link| %>
+                    <li class="great-ds-footer-bgs__link-list-item">
+                      <a <%= 'id="footer-dit"' if link[:text] == 'Department for Business and Trade on GOV.UK' %>
+                        class="great-ds-footer-bgs__link"
+                        href="<%= link[:href] %>"
+                        title="<%= link[:title] %>"
+                        <%= "target=\"#{link[:target]}\"" if link[:target] %>
+                        <%= "rel=\"#{link[:rel]}\"" if link[:rel] %>>
+                        <%= link[:text] %>
+                      </a>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="great-ds-footer-bgs__copyright-container">
+    <div class="great-ds-container">
+      <a href="https://www.gov.uk/" class="great-ds-header-bgs__dbt-logo-link">
+        <%= inline_svg('logos/uk-gov-logo.svg', {
+          class: 'great-ds-header-bgs__dbt-logo-image great-ds-header-bgs__dbt-logo-image--ukgov',
+          role: 'img',
+          aria_label: 'UK Government logo',
+          fill_color: '#333333'
+        }) %>
+      </a>
+      <p id="great-footer-copyright" class="great-ds-footer-bgs__copyright">&copy; Crown copyright <%= current_year %>. All rights reserved.</p>
+    </div>
+  </div>
+</footer>

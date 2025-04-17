@@ -24,11 +24,4 @@ Department for Business and Trade
 <%= presenter.content_with_inclusion 'contact_help', ['exportopportunities@trade.gsi.gov.uk'] %>
 
 
-
-
-The Exporting is GREAT team
-
-www.great.gov.uk
-
-Exporting is GREAT
-
+<%= "www.#{ApplicationController.new.fetch_domain}" %>

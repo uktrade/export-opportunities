@@ -1,2 +1,2 @@
-<% privacy_cookie_domain = Figaro.env.PRIVACY_COOKIE_DOMAIN || '.great.gov.uk' %>
+<% privacy_cookie_domain = Figaro.env.PRIVACY_COOKIE_DOMAIN || ".#{fetch_domain}" %>
 <meta id="privacyCookieDomain" value="<%= privacy_cookie_domain %>">

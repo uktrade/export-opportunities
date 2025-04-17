@@ -31,7 +31,7 @@ class PagePresenter < BasePresenter
 
     def create_breadcrumbs
       [
-        { title: 'great.gov.uk', slug: Figaro.env.EXPORT_READINESS_URL },
+        { title: fetch_domain, slug: Figaro.env.EXPORT_READINESS_URL },
         { title: 'Export Opportunities', slug: Figaro.env.EXPORT_OPPORTUNITIES_URL },
       ]
     end

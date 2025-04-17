@@ -1,0 +1,175 @@
+// Variables
+$font-family-base: "Noto Sans", Arial, Helvetica, Verdana;
+$font-family-semibold: "Noto SemiBold", arial, sans-serif;
+$color-primary: #04043f;
+$color-secondary: #1e1348;
+$color-link: #1d70b8;
+$color-link-hover: #003078;
+$color-white: #ffffff;
+$color-black: #222222;
+$color-focus: #fd0;
+$color-text: #212427;
+$breakpoint-mobile-sm: 640px;
+$breakpoint-mobile-md: 768px;
+$breakpoint-tablet: 900px;
+$breakpoint-desktop: 1024px;
+
+/* Font declarations */
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('/export-opportunities/assets/NotoSans-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Noto SemiBold';
+  src: url('/export-opportunities/assets/NotoSans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+// Mixins
+@mixin focus-style {
+  outline: 3px solid rgba(0, 0, 0, 0);
+  color: $color-black;
+  background-color: $color-focus;
+  box-shadow: 0 -2px $color-focus, 0 4px $color-black;
+  text-decoration: none;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+// Container styles
+.great-ds-container {
+  max-width: 1290px;
+  margin: auto;
+  padding: 0 15px;
+  box-sizing: border-box;
+  
+  @media (min-width: $breakpoint-desktop) {
+    padding: 0 30px;
+  }
+}
+
+// Button styles
+.great-ds-button {
+  font-family: $font-family-base;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 8px 15px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background-color: $color-secondary;
+  color: $color-white;
+  
+  &--menu {
+    background-color: $color-white;
+    color: $color-secondary;
+    
+    .great-ds-icon--menu {
+      .great-ds-icon--menu-close {
+        opacity: 0;
+      }
+    }
+  }
+  
+  &--auto-width {
+    width: auto;
+  }
+  
+  &--inverted {
+    background-color: $color-primary;
+    color: $color-white;
+    border: 2px solid $color-white;
+    margin-bottom: 0;
+    font-family: "Noto Sans";
+    font-size: 18px;
+    line-height: 30px;
+    height: 50px;
+    padding: 0 15px;
+    
+    &:active {
+      top: 0;
+    }
+    
+    &.is-active {
+      background-color: #eef2f6 !important;
+      border-color: #eef2f6 !important;
+    }
+    
+    &:hover:not(:focus),
+    &:active,
+    &.is-active,
+    &:focus:active {
+      color: $color-primary;
+      background-color: $color-white;
+      border: 2px solid $color-white;
+      box-shadow: none;
+      text-decoration: none !important;
+    }
+    
+    &:focus:not(:active),
+    &:focus:hover:not(:active) {
+      color: $color-black;
+      border: 2px solid $color-focus;
+      box-shadow: none;
+      background-color: $color-focus;
+    }
+  }
+}
+
+[aria-expanded=true] {
+  &.great-ds-button--menu {
+    .great-ds-icon--menu {
+      .great-ds-icon--menu-close {
+        opacity: 1;
+      }
+      
+      .great-ds-icon--menu-bars {
+        opacity: 0;
+      }
+    }
+  }
+}
+
+// Icon styles
+.great-ds-icon-svg {
+  margin-right: 10px;
+}
+
+// Accessibility styles
+.govuk-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  border: 0;
+  white-space: nowrap;
+}
+
+// Link styles
+.great-ds-header-bgs-link {
+  text-decoration: none;
+  
+  &:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: .3em;
+    text-decoration-thickness: 10%;
+    color: $color-link-hover;
+  }
+  
+  &:focus,
+  &:focus:active {
+    @include focus-style;
+  }
+}
