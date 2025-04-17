@@ -27,7 +27,7 @@ Style/SymbolProc:
   Exclude:
     - spec/factories/*
 
-Layout/AlignParameters:
+Layout/ParameterAlignment:
   EnforcedStyle: with_fixed_indentation
 
 Layout/MultilineMethodCallIndentation:
@@ -51,8 +51,8 @@ Style/ClassAndModuleChildren:
 Style/GuardClause:
   Enabled: false
 
-Rails:
-  Enabled: true
+plugins:
+  - rubocop-rails
 
 Rails/HasAndBelongsToMany:
   Exclude:
@@ -62,9 +62,6 @@ Rails/HasAndBelongsToMany:
 Rails/HttpPositionalArguments:
   Enabled: false
 
-Rails/OutputSafety:
-   Exclude:
-    - config/application.rb
 
 Bundler/OrderedGems:
   Enabled: false
@@ -83,9 +80,9 @@ Style/IfUnlessModifier:
   Enabled: false
 
 Layout/IndentationConsistency:
-  EnforcedStyle: rails
+  EnforcedStyle: indented_internal_methods
 
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   Exclude:
     - app/controllers/api/activity_stream_controller.rb
 

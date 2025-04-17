@@ -1,0 +1,409 @@
+// Header styles - uses variables and mixins from common
+
+/* BGS Header Styles */
+.great-ds-header-bgs {
+  font-family: $font-family-base;
+  position: relative;
+  z-index: 10;
+  
+  &__masthead {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  &__dbt-logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  &__main {
+    background-color: $color-primary;
+    position: relative;
+    
+    &-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      
+      @media (min-width: $breakpoint-desktop) {
+        padding-top: 0;
+        padding-bottom: 0;
+        height: 100px;
+      }
+    }
+  }
+  
+  &__logo-container {
+    flex-shrink: 0;
+  }
+  
+  &__great-ds-logo {
+    display: flex;
+    align-items: center;
+    padding: 8px 2px 0;
+    margin-left: -2px;
+    margin-top: -3px;
+    border-bottom: 2px solid transparent;
+    width: 180px;
+    height: 27px;
+    text-decoration: none;
+    
+    &:hover:not(:focus) {
+      border-bottom: 2px solid $color-white;
+    }
+    
+    &:focus,
+    &:focus:active {
+      @include focus-style;
+      
+      .great-ds-header__great-ds-logo-path {
+        fill: $color-black;
+      }
+    }
+    
+    @media (min-width: $breakpoint-mobile-md) {
+      width: auto;
+      height: auto;
+      padding: 10px 3px 0;
+      margin-left: -3px;
+      margin-top: -7px;
+      border-bottom: 3px solid transparent;
+      
+      &:hover:not(:focus) {
+        border-bottom: 3px solid $color-white;
+      }
+    }
+  }
+  
+  &__menu {
+    color: $color-white;
+    position: relative;
+    margin-left: auto;
+    
+    &:has(.is-active)::after {
+      content: '';
+      position: absolute;
+      bottom: -34px;
+      left: 0;
+      width: 100%;
+      height: 34px;
+      background-color: #eef2f6;
+    }
+    
+    @media (min-width: $breakpoint-desktop) {
+      margin-left: 30px;
+    }
+    
+    &--hidden-on-desktop {
+      display: block;
+      
+      @media (min-width: $breakpoint-desktop) {
+        display: none;
+      }
+    }
+    
+    &-wrapper {
+      display: none;
+      background-color: #eef2f6;
+      border-bottom: 1px solid #d8d8d8;
+      
+      &.is-active {
+        display: block;
+      }
+    }
+    
+    &-container {
+      max-width: 1290px;
+      margin: auto;
+      box-sizing: border-box;
+      padding: 0 15px;
+      
+      @media (min-width: $breakpoint-mobile-md) {
+        padding: 40px 0;
+      }
+      
+      @media (min-width: $breakpoint-tablet) {
+        padding: 40px 0 0;
+      }
+    }
+    
+    &-list {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      
+      li::before {
+        all: unset;
+      }
+      
+      @media (min-width: $breakpoint-mobile-md) {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      
+      @media (min-width: $breakpoint-tablet) {
+        padding: 0 30px;
+      }
+    }
+    
+    &-item {
+      position: relative;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      
+      &:not(:last-child) {
+        border-bottom: 1px solid #d8d8d8;
+      }
+      
+      @media (min-width: $breakpoint-mobile-md) {
+        width: 50%;
+        padding-bottom: 40px;
+        
+        &:nth-last-child(1),
+        &:nth-last-child(2) {
+          border-bottom: none;
+          padding-top: 40px;
+          padding-bottom: 0;
+        }
+        
+        &:nth-child(odd) {
+          padding-left: 15px;
+          
+          .great-ds-header-bgs__menu-item-inner {
+            border-right: 1px solid #bcbcbc;
+            padding-right: 25px;
+            margin-right: 25px;
+          }
+        }
+        
+        &:nth-child(even) {
+          padding-right: 15px;
+        }
+      }
+      
+      @media (min-width: $breakpoint-tablet) {
+        width: 25%;
+        border-bottom: none;
+        
+        &:nth-child(even),
+        &:nth-child(odd),
+        &:first-child,
+        &:last-child {
+          padding-top: 0;
+          padding-bottom: 40px;
+          padding-left: 0;
+          padding-right: 0;
+        }
+        
+        .great-ds-header-bgs__menu-item-inner {
+          border-right: 1px solid #bcbcbc;
+          padding-right: 25px;
+          margin-right: 25px;
+          height: 100%;
+        }
+        
+        &:last-child .great-ds-header-bgs__menu-item-inner {
+          border-right: none;
+          padding-right: 50px;
+          margin-right: 0;
+        }
+      }
+      
+      &-inner {
+        height: 100%;
+        
+        @media (min-width: $breakpoint-mobile-md) {
+          padding-right: 30px;
+          margin-right: 30px;
+        }
+        
+        @media (min-width: $breakpoint-tablet) {
+          height: 100%;
+        }
+      }
+      
+      &-icon {
+        width: 80px;
+        height: 80px;
+        display: none;
+        
+        @media (min-width: $breakpoint-mobile-md) {
+          display: block;
+        }
+      }
+    }
+    
+    &-link {
+      font-size: 1.125rem;
+      line-height: 1.3888888889;
+      font-family: $font-family-semibold;
+      color: $color-link;
+      margin: 20px 0 30px;
+      display: none;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+      
+      &--current {
+        text-decoration: underline;
+        text-decoration-thickness: 3px;
+      }
+      
+      @media (min-width: $breakpoint-mobile-md) {
+        display: inline-block !important;
+        font-size: 1.5rem;
+        line-height: 1.25;
+      }
+      
+      &--accordion {
+        font-family: $font-family-semibold;
+        font-size: 1.125rem;
+        line-height: 1.3888888889;
+        color: $color-link;
+        padding: 0 0 0 30px;
+        margin: 20px 0;
+        outline: none;
+        border: none;
+        background: rgba(0, 0, 0, 0);
+        position: relative;
+        
+        @media (min-width: $breakpoint-mobile-md) {
+          display: none;
+        }
+        
+        &::before {
+          content: "";
+          left: 0;
+          top: 4px;
+          position: absolute;
+          width: 18px;
+          height: 19px;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='19' viewBox='0 0 18 19' fill='none'%3E%3Cpath d='M8.40324 13.9115L1.57087 7.07905C1.24135 6.74953 1.24135 6.2153 1.57087 5.88581L2.36776 5.08893C2.69671 4.75997 3.22986 4.75934 3.55959 5.08752L8.99988 10.5023L14.4401 5.08752C14.7699 4.75934 15.303 4.75997 15.632 5.08893L16.4288 5.88581C16.7584 6.21533 16.7584 6.74957 16.4288 7.07905L9.59651 13.9115C9.26699 14.2409 8.73276 14.2409 8.40324 13.9115Z' fill='%231D70b8'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: left center;
+          background-size: 18px 19px;
+        }
+        
+        &:focus {
+          @include focus-style;
+          
+          &::before {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='19' viewBox='0 0 18 19' fill='none'%3E%3Cpath d='M8.40324 13.9115L1.57087 7.07905C1.24135 6.74953 1.24135 6.2153 1.57087 5.88581L2.36776 5.08893C2.69671 4.75997 3.22986 4.75934 3.55959 5.08752L8.99988 10.5023L14.4401 5.08752C14.7699 4.75934 15.303 4.75997 15.632 5.08893L16.4288 5.88581C16.7584 6.21533 16.7584 6.74957 16.4288 7.07905L9.59651 13.9115C9.26699 14.2409 8.73276 14.2409 8.40324 13.9115Z' fill='%2304043F'/%3E%3C/svg%3E");
+          }
+        }
+        
+        &.is-active::before {
+          transform: rotate(180deg);
+        }
+      }
+    }
+    
+    &-list-children {
+      display: none;
+      background-color: #fff;
+      margin: 0 -20px;
+      padding: 0 20px;
+      font-size: 1.125rem;
+      line-height: 1.3888888889;
+      
+      @media (min-width: $breakpoint-mobile-md) {
+        display: block !important;
+        padding: 0;
+        background-color: transparent;
+        margin: 0;
+      }
+      
+      &-item {
+        padding: 20px 0;
+        margin: 0;
+        
+        &:not(:last-child) {
+          border-bottom: 1px solid #bcbcbc;
+        }
+        
+        @media (min-width: $breakpoint-mobile-md) {
+          border-bottom: none !important;
+          padding: 0 0 15px;
+          
+          &:has(.great-ds-header-bgs__menu-list-children-link--overview):not(:has(.great-ds-header-bgs__menu-list-children-description)) {
+            display: none;
+          }
+        }
+      }
+      
+      &-description {
+        font-size: 1.125rem;
+        line-height: 1.3888888889;
+        margin: 0 0 20px;
+        color: $color-text;
+      }
+      
+      &-link {
+        color: $color-link;
+        text-decoration: none;
+        font-size: 18px;
+      }
+    }
+  }
+  
+  // Logo styles
+  &__dbt-logo-link {
+    display: block;
+    line-height: 0;
+    outline: none;
+    
+    &:focus {
+      outline: none;
+    }
+    
+    &:hover:not(:focus) {
+      box-shadow: inset 0px -4px 0px $color-black;
+    }
+    
+    &:focus,
+    &:focus:active {
+      .great-ds-header-bgs__dbt-logo-image {
+        @include focus-style;
+        box-shadow: inset 0px -4px 0px $color-black;
+      }
+    }
+  }
+  
+  &__dbt-logo-image {
+    box-sizing: content-box;
+    width: 298px;
+    height: 30px;
+    margin: 10px 0 5px;
+    padding: 0 0 5px;
+    
+    &.great-ds-header-bgs__dbt-logo-image--ukgov {
+      width: 184px;
+      padding: 5px 0;
+      margin: 5px 0;
+    }
+  }
+}
+
+// JS-disabled styles
+body:not(.js-enabled) {
+  .great-ds-header-bgs {
+    &__menu-wrapper,
+    &__languages,
+    &__menu-list-children {
+      display: block;
+    }
+    
+    &__menu {
+      display: none;
+    }
+  }
+}
+

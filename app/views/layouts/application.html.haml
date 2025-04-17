@@ -27,6 +27,7 @@
       = stylesheet_link_tag 'transformation/main'
       = stylesheet_link_tag 'transformation/pages/form'
       = stylesheet_link_tag 'transformation/pages/enquiries'
+      = stylesheet_link_tag 'header-footer-bgs/main' if bgs_site?
 
     = stylesheet_link_tag 'application', media: 'all'
     /[if lte IE 9]
@@ -49,7 +50,7 @@
     = render 'shared/skip_link'
     = render 'shared/cookie_notice'
 
-    = render partial: 'shared/header', locals: { cookie_signed_in_user: user_signed_in_cookie? }
+    = render partial: 'shared/header', locals: { sso_is_logged_in: user_signed_in_cookie? }
 
     - if content_for?(:hero)
       .hero-header-wrapper
@@ -74,4 +75,7 @@
     = render partial: 'shared/footer'
 
     = javascript_include_tag 'modernizr.min', defer: true
+    - if bgs_site?
+      = javascript_include_tag 'helpers/overlay'
+      = javascript_include_tag 'components/revealer'
     = javascript_include_tag 'application'

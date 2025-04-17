@@ -54,3 +54,4 @@
 //= link export-components/main.css
 //= link csat/form.css
 //= link_tree ../fonts
+//= link header-footer-bgs/main.css
