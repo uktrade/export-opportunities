@@ -53,6 +53,28 @@ $breakpoint-desktop: 1024px;
 }
 
 // Button styles
+// Text input styles
+.great-ds-text-input {
+  &--borderless {
+    border-color: $color-white !important;
+  }
+  
+  &--search {
+    height: 50px;
+    width: 100%;
+    padding: 5px 10px 5px;
+    margin-top: 0;
+    font-family: "Noto Sans";
+    -webkit-font-smoothing: antialiased;
+    font-weight: 400;
+    font-size: 1.1875rem;
+    line-height: 1.5789473684;
+    box-sizing: border-box;
+    appearance: none;
+  }
+}
+
+// Button styles
 .great-ds-button {
   font-family: $font-family-base;
   font-size: 16px;
@@ -64,8 +86,9 @@ $breakpoint-desktop: 1024px;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  background-color: $color-secondary;
+  background-color: $color-link;
   color: $color-white;
+  box-shadow: 0 3px 0 $color-link-hover;
   
   &--menu {
     background-color: $color-white;
@@ -121,6 +144,47 @@ $breakpoint-desktop: 1024px;
       background-color: $color-focus;
     }
   }
+
+  &--icon {
+    display: inline-flex;
+    min-height: auto;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 10px 7px;
+
+    .great-ds-button__text {
+      display: none;
+    }
+
+    .great-ds-icon-svg {
+      margin-right: 0;
+      vertical-align: middle;
+      flex-shrink: 0;
+      align-self: center;
+    }
+  }
+
+  &--search {
+    margin: 0;
+    height: 50px;
+    width: 50px;
+    box-shadow: none;
+    padding: 9px 20px 11px;
+    
+    &:active {
+      top: 0px;
+    }
+    
+    &:focus {
+      z-index: 999;
+      background-color: $color-link-hover !important;
+      color: $color-white !important;
+      outline: 3px solid $color-focus;
+      outline-offset: 0;
+      border: 4px solid $color-black !important;
+      padding: 5px 20px;
+    }
+  }
 }
 
 [aria-expanded=true] {
@@ -133,6 +197,28 @@ $breakpoint-desktop: 1024px;
       .great-ds-icon--menu-bars {
         opacity: 0;
       }
+    }
+  }
+}
+
+// Form group styles
+.govuk-form-group {
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+}
+
+// Text input focus styles
+.great-ds-text-input {
+  &--search {
+    &:focus {
+      padding: 5px 5px 5px 10px !important;
+      border-width: 2px !important;
+      border-color: $color-primary !important;
+      color: inherit !important;
+      z-index: 2;
     }
   }
 }

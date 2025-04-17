@@ -2,6 +2,7 @@
   # Default values for parameters
   site_href ||= Figaro.env.BGS_SITE
   hide_menu_on_desktop ||= false
+  hide_search ||= false
   sso_is_logged_in ||= false
   is_authenticated ||= false
   menu_items_list ||= [
@@ -82,14 +83,33 @@
         </a>
       </div>
 
+      <% unless hide_search %>
+        <div class="great-ds-header-bgs__search">
+          <form id="great-ds-header-bgs-search-form" class="great-ds-header-bgs__search-form" action="<%=Figaro.env.DOMAIN %>/search/" method="GET">
+            <div class="govuk-form-group great-ds-header-bgs__search-form-group">
+              <input class="govuk-input great-ds-text-input--search great-ds-text-input--borderless" id="great-ds-header-bgs-search-input" name="q" type="text" placeholder="Search">
+            </div>
+            <button type="submit" class="great-ds-button great-ds-button--icon great-ds-button--search" data-module="great-ds-button" aria-label="Search">
+              <%= inline_svg('icons/bgs-search.svg', {
+                class: 'great-ds-icon-svg',
+                role: 'img',
+                aria_hidden: 'true',
+                fill_color: '#333333'
+              }) %>
+              <span class="great-ds-button__text">Search</span>
+            </button>
+          </form>                            
+        </div>
+      <% end %>
+
       <div class="great-ds-header-bgs__menu<%= ' great-ds-header-bgs__menu--hidden-on-desktop' if hide_menu_on_desktop %>">
         <button class="great-ds-button great-ds-button--menu great-ds-button--inverted great-ds-button--icon-prefix great-ds-button--auto-width" data-great-ds-reveal-button aria-controls="header-menu">
-        <%= inline_svg('icons/bgs-menu.svg', {
-          class: 'great-ds-icon-svg great-ds-icon--menu',
-          role: 'img',
-          aria_label: 'Menu',
-          fill_color: '#333333'
-        }) %>
+          <%= inline_svg('icons/bgs-menu.svg', {
+            class: 'great-ds-icon-svg great-ds-icon--menu',
+            role: 'img',
+            aria_label: 'Menu',
+            fill_color: '#333333'
+          }) %>
           <span class="great-ds-button__text">Menu</span>
         </button>
       </div>
