@@ -30,7 +30,7 @@
       padding-top: 15px;
       padding-bottom: 15px;
       
-      @media (min-width: $breakpoint-desktop) {
+      @media (min-width: $breakpoint-mobile-md) {
         padding-top: 0;
         padding-bottom: 0;
         height: 100px;
@@ -66,7 +66,7 @@
       }
     }
     
-    @media (min-width: $breakpoint-mobile-md) {
+    @media (min-width: $breakpoint-mobile-sm) {
       width: auto;
       height: auto;
       padding: 10px 3px 0;
@@ -79,11 +79,43 @@
       }
     }
   }
+
+  &__search {
+    width: 100%;
+    order: 1;
+    margin-top: 15px;
+
+    @media (min-width: $breakpoint-mobile-md) {
+      max-width: 290px;
+      margin-left: auto;
+      margin-top: 0;
+      order: 0;
+    }
+
+    .great-ds-header-bgs__main-inner:has(+ .great-ds-header-bgs__menu-wrapper.is-active) & {
+        display: none;
+        @media (min-width: $breakpoint-mobile-md) {
+            display: block;
+        }
+    }
+  }
+
+  .great-ds-header-bgs__search-form-group {
+    margin: 0;
+    width: 100%;
+    z-index: 999;
+  }
+
+  .great-ds-header-bgs__search-form {
+    display: flex;
+    align-items: center;
+    margin: 0
+  }
   
   &__menu {
     color: $color-white;
     position: relative;
-    margin-left: auto;
+    margin-left: 20px;
     
     &:has(.is-active)::after {
       content: '';
@@ -96,7 +128,7 @@
     }
     
     @media (min-width: $breakpoint-desktop) {
-      margin-left: 30px;
+      margin-left: 20px;
     }
     
     &--hidden-on-desktop {
@@ -396,7 +428,6 @@
 body:not(.js-enabled) {
   .great-ds-header-bgs {
     &__menu-wrapper,
-    &__languages,
     &__menu-list-children {
       display: block;
     }
