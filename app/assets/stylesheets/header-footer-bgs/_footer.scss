@@ -160,7 +160,8 @@
     }
     
     @media (min-width: $breakpoint-mobile-md) {
-      padding: 0 30px;
+      padding-top: 0;
+      padding-bottom: 0;
     }
   }
   
