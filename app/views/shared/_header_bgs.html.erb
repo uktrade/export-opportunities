@@ -8,26 +8,26 @@
   menu_items_list ||= [
     {
       icon: 'icons/start-icon.svg',
-      href: site_href + '/support-in-uk/pre-start/location/',
+      href: site_href + '/support/pre-start/location/',
       text: 'Starting a business',
-      overview_text: 'Get support and information',
+      overview_text: 'Get support and information<span class="govuk-visually-hidden"> for starting a business</span>',
       description: 'Tell us about your plans and we\'ll connect you to expert guidance and support for setting up your business.'
     },
     {
       icon: 'icons/run-icon.svg',
-      href: site_href + '/support-in-uk/existing/location/',
+      href: site_href + '/support/existing/location/',
       text: 'Running and growing a business',
-      overview_text: 'Get support and information',
+      overview_text: 'Get support and information<span class="govuk-visually-hidden"> for running and growing a business</span>',
       description: 'Tell us a bit about your business and we\'ll link you up to the right resources to help it thrive.'
     },
     {
       icon: 'icons/export-icon.svg',
-      href: '#',
+      href: site_href + '/export-from-uk/',
       text: 'Selling overseas from the UK',
       overview_text: 'Start exporting',
       children: [
-        { href: site_href + '/export-from-uk/markets/', text: 'Market Guides' },
-        { href: site_href + '/export-from-uk/export-support/', text: 'Export support' },
+        { href: site_href + '/export-from-uk/markets/', text: 'Market guides' },
+        { href: site_href + '/export-from-uk/support-topics/', text: 'Export support' },
         { href: site_href + '/export-from-uk/export-academy/', text: 'UK Export Academy' },
         { href: site_href + '/export-from-uk/learn/categories/', text: 'Learn to export' },
         { href: site_href + '/export-from-uk/services/', text: 'Export resources' },
@@ -41,7 +41,7 @@
     },
     {
       icon: 'icons/expand-icon.svg',
-      href: site_href + '/invest-in-uk/international/',
+      href: site_href + '/invest-in-uk/',
       text: 'Investing and expanding in the UK',
       overview_text: 'Start investing',
       children: [
@@ -126,7 +126,7 @@
                     <%= image_tag(item[:icon], class: 'great-ds-header-bgs__menu-item-icon', alt: "#{item[:text]} icon") %>
                   <% end %>
                   <% if item[:href] %>
-                    <button class="great-ds-header-bgs__menu-link--accordion" aria-controls="header-children-menu-<%= index + 1 %>" aria-expanded="false" data-great-ds-reveal-button aria-label="Open child menu"><%= item[:text] %></button>
+                    <button class="great-ds-header-bgs__menu-link--accordion" aria-controls="header-children-menu-<%= index + 1 %>" aria-expanded="false" data-great-ds-reveal-button aria-label="Open <%= item[:text] %> menu"><span class="great-ds-header-bgs__menu-link--accordion-text"><%= item[:text] %></span></button>
                     <a href="<%= item[:href] %>" <%= "#{item[:attributes]}" if item[:attributes] %> class="great-ds-header-bgs__menu-link great-ds-header-bgs-link<%= ' great-ds-header-bgs__menu-link--current' if item[:is_current] %>"><%= item[:text] %></a>
                   <% else %>
                     <%= item[:text] %>
@@ -136,7 +136,7 @@
                       <% if item[:description] %>
                         <p class="great-ds-header-bgs__menu-list-children-description"><%= item[:description] %></p>
                       <% end %>
-                      <a class="great-ds-header-bgs__menu-list-children-link great-ds-header-bgs__menu-list-children-link--overview great-ds-header-bgs-link" href="<%= item[:href] %>"><%= item[:overview_text] || item[:text] %></a>
+                      <a class="great-ds-header-bgs__menu-list-children-link great-ds-header-bgs__menu-list-children-link--overview great-ds-header-bgs-link" href="<%= item[:href] %>"><%= item[:overview_text].html_safe || item[:text] %></a>
                     </li>
                     <% if item[:children] %>
                       <% item[:children].each do |child_item| %>
