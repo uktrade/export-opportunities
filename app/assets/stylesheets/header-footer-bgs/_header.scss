@@ -314,7 +314,7 @@
 
         &-text {
           position: relative;
-        
+
           &::before {
             content: "";
             left: -30px;
@@ -349,7 +349,7 @@
             @include focus-style;
           }
         }
-        
+
         &.is-active {
           .great-ds-header-bgs__menu-link--accordion-text {
             &::before {
