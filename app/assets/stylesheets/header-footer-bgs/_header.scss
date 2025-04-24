@@ -222,7 +222,7 @@
       
       @media (min-width: $breakpoint-tablet) {
         width: 25%;
-        border-bottom: none;
+        border-bottom: none !important;
         
         &:nth-child(even),
         &:nth-child(odd),
@@ -314,7 +314,7 @@
 
         &-text {
           position: relative;
-        
+
           &::before {
             content: "";
             left: -30px;
@@ -349,7 +349,7 @@
             @include focus-style;
           }
         }
-        
+
         &.is-active {
           .great-ds-header-bgs__menu-link--accordion-text {
             &::before {
@@ -404,8 +404,18 @@
         color: $color-link;
         text-decoration: none;
         font-size: 18px;
+
+        &::after {
+          background: none;
+          bottom: 0;
+          content: "";
+          left: 0;
+          position: absolute;
+          right: 0;
+          top: 0;
+        }
         
-        @media (min-width: 768px) {
+        @media (min-width: $breakpoint-mobile-md) {
           &--overview {
             display: none;
           }
