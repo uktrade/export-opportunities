@@ -52,7 +52,6 @@ $breakpoint-desktop: 1024px;
   }
 }
 
-// Button styles
 // Text input styles
 .great-ds-text-input {
   &--borderless {
@@ -120,7 +119,7 @@ $breakpoint-desktop: 1024px;
       top: 0;
     }
     
-    &.is-active {
+    &.is-active:not(:focus) {
       background-color: #eef2f6 !important;
       border-color: #eef2f6 !important;
     }
@@ -138,6 +137,14 @@ $breakpoint-desktop: 1024px;
     
     &:focus:not(:active),
     &:focus:hover:not(:active) {
+      color: $color-black;
+      border: 2px solid $color-focus;
+      box-shadow: none;
+      background-color: $color-focus;
+    }
+
+    &:focus,
+    &:focus:hover {
       color: $color-black;
       border: 2px solid $color-focus;
       box-shadow: none;

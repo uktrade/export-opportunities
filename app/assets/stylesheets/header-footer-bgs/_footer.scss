@@ -109,10 +109,7 @@
     
     &:focus,
     &:focus:active {
-      outline: 3px solid #ffdd00;
-      outline-offset: 0;
-      box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c;
-      text-decoration: none;
+      @include focus-style;
     }
     
     &:visited:not(:focus) {

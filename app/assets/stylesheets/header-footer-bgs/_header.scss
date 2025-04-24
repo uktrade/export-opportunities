@@ -142,7 +142,7 @@
     &-wrapper {
       display: none;
       background-color: #eef2f6;
-      border-bottom: 1px solid #d8d8d8;
+      border-bottom: 1px solid #bcbcbc;
       
       &.is-active {
         display: block;
@@ -155,7 +155,7 @@
       box-sizing: border-box;
       padding: 0 15px;
       
-      @media (min-width: $breakpoint-mobile-md) {
+      @media (min-width: $breakpoint-mobile-sm) {
         padding: 40px 0;
       }
       
@@ -173,7 +173,7 @@
         all: unset;
       }
       
-      @media (min-width: $breakpoint-mobile-md) {
+      @media (min-width: $breakpoint-mobile-sm) {
         display: flex;
         flex-wrap: wrap;
       }
@@ -191,10 +191,10 @@
       box-sizing: border-box;
       
       &:not(:last-child) {
-        border-bottom: 1px solid #d8d8d8;
+        border-bottom: 1px solid #bcbcbc;
       }
       
-      @media (min-width: $breakpoint-mobile-md) {
+      @media (min-width: $breakpoint-mobile-sm) {
         width: 50%;
         padding-bottom: 40px;
         
@@ -266,7 +266,7 @@
         height: 80px;
         display: none;
         
-        @media (min-width: $breakpoint-mobile-md) {
+        @media (min-width: $breakpoint-mobile-sm) {
           display: block;
         }
       }
@@ -280,7 +280,7 @@
       margin: 20px 0 30px;
       display: none;
       
-      &:hover {
+      &:hover:not(:focus) {
         text-decoration: underline;
       }
       
@@ -289,7 +289,7 @@
         text-decoration-thickness: 3px;
       }
       
-      @media (min-width: $breakpoint-mobile-md) {
+      @media (min-width: $breakpoint-mobile-sm) {
         display: inline-block !important;
         font-size: 1.5rem;
         line-height: 1.25;
@@ -305,35 +305,57 @@
         outline: none;
         border: none;
         background: rgba(0, 0, 0, 0);
-        position: relative;
+        width: 100%;
+        text-align: left;
         
-        @media (min-width: $breakpoint-mobile-md) {
+        @media (min-width: $breakpoint-mobile-sm) {
           display: none;
         }
+
+        &-text {
+          position: relative;
         
-        &::before {
-          content: "";
-          left: 0;
-          top: 4px;
-          position: absolute;
-          width: 18px;
-          height: 19px;
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='19' viewBox='0 0 18 19' fill='none'%3E%3Cpath d='M8.40324 13.9115L1.57087 7.07905C1.24135 6.74953 1.24135 6.2153 1.57087 5.88581L2.36776 5.08893C2.69671 4.75997 3.22986 4.75934 3.55959 5.08752L8.99988 10.5023L14.4401 5.08752C14.7699 4.75934 15.303 4.75997 15.632 5.08893L16.4288 5.88581C16.7584 6.21533 16.7584 6.74957 16.4288 7.07905L9.59651 13.9115C9.26699 14.2409 8.73276 14.2409 8.40324 13.9115Z' fill='%231D70b8'/%3E%3C/svg%3E");
-          background-repeat: no-repeat;
-          background-position: left center;
-          background-size: 18px 19px;
-        }
-        
-        &:focus {
-          @include focus-style;
-          
           &::before {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='19' viewBox='0 0 18 19' fill='none'%3E%3Cpath d='M8.40324 13.9115L1.57087 7.07905C1.24135 6.74953 1.24135 6.2153 1.57087 5.88581L2.36776 5.08893C2.69671 4.75997 3.22986 4.75934 3.55959 5.08752L8.99988 10.5023L14.4401 5.08752C14.7699 4.75934 15.303 4.75997 15.632 5.08893L16.4288 5.88581C16.7584 6.21533 16.7584 6.74957 16.4288 7.07905L9.59651 13.9115C9.26699 14.2409 8.73276 14.2409 8.40324 13.9115Z' fill='%2304043F'/%3E%3C/svg%3E");
+            content: "";
+            left: -30px;
+            top: 4px;
+            position: absolute;
+            width: 18px;
+            height: 19px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='19' viewBox='0 0 18 19' fill='none'%3E%3Cpath d='M8.40324 13.9115L1.57087 7.07905C1.24135 6.74953 1.24135 6.2153 1.57087 5.88581L2.36776 5.08893C2.69671 4.75997 3.22986 4.75934 3.55959 5.08752L8.99988 10.5023L14.4401 5.08752C14.7699 4.75934 15.303 4.75997 15.632 5.08893L16.4288 5.88581C16.7584 6.21533 16.7584 6.74957 16.4288 7.07905L9.59651 13.9115C9.26699 14.2409 8.73276 14.2409 8.40324 13.9115Z' fill='%231D70b8'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: left center;
+            background-size: 18px 19px;
           }
         }
         
-        &.is-active::before {
-          transform: rotate(180deg);
+        &:hover {
+          cursor: pointer;
+          &:not(:focus) {
+            .great-ds-header-bgs__menu-link--accordion-text {
+              text-decoration: underline;
+              text-decoration-thickness: 10%;
+              color: $color-link-hover;
+              &::before {
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='19' viewBox='0 0 18 19' fill='none'%3E%3Cpath d='M8.40324 13.9115L1.57087 7.07905C1.24135 6.74953 1.24135 6.2153 1.57087 5.88581L2.36776 5.08893C2.69671 4.75997 3.22986 4.75934 3.55959 5.08752L8.99988 10.5023L14.4401 5.08752C14.7699 4.75934 15.303 4.75997 15.632 5.08893L16.4288 5.88581C16.7584 6.21533 16.7584 6.74957 16.4288 7.07905L9.59651 13.9115C9.26699 14.2409 8.73276 14.2409 8.40324 13.9115Z' fill='%23003078'/%3E%3C/svg%3E");
+              }
+            }
+          }
+        }
+        
+        &:focus,
+        &:focus:active {
+          .great-ds-header-bgs__menu-link--accordion-text {
+            @include focus-style;
+          }
+        }
+        
+        &.is-active {
+          .great-ds-header-bgs__menu-link--accordion-text {
+            &::before {
+              transform: rotate(180deg);
+            }
+          } 
         }
       }
     }
@@ -382,6 +404,12 @@
         color: $color-link;
         text-decoration: none;
         font-size: 18px;
+        
+        @media (min-width: 768px) {
+          &--overview {
+            display: none;
+          }
+        }
       }
     }
   }
@@ -437,4 +465,3 @@ body:not(.js-enabled) {
     }
   }
 }
-
