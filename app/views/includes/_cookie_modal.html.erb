@@ -11,12 +11,20 @@
 </div>
 
 <script>
-  var element = document.createElement('div');
-  document.body.appendChild(element);
-  reactComponents.CookiesModal({
-    element: element,
-    privacyCookiesUrl: '<%= Figaro.env.PRIVACY_AND_COOKIES_URL %>',
-    preferencesUrl: '<%= Figaro.env.PRIVACY_AND_COOKIES_PREFERENCES_URL %>',
-    isOpen: dit.components.cookieNotice.getPreferencesCookie() === null
-  })
+  document.addEventListener('DOMContentLoaded', function () {
+    var element = document.createElement('div');
+    document.body.appendChild(element);
+    reactComponents.CookiesModal({
+      element: element,
+      privacyCookiesUrl: '<%= Figaro.env.PRIVACY_AND_COOKIES_URL %>',
+      preferencesUrl: '<%= Figaro.env.PRIVACY_AND_COOKIES_PREFERENCES_URL %>',
+      isOpen: dit.components.cookieNotice.getPreferencesCookie() === null
+    });
+
+    var customClassElement = document.querySelector('.ReactModal__Content p.body-text');
+
+    if (customClassElement) {
+      customClassElement.innerHTML = customClassElement.innerHTML.replace('great.gov.uk', '<%= fetch_domain %>');
+    }
+  });
 </script>
