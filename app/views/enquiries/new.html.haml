@@ -118,5 +118,9 @@
 
           = f.text_area :company_explanation, {required: "required", rows: "8", maxlength: "1100"}
 
+      %p
+        = 'Read our'
+        = link_to 'privacy notice', "https://www.#{fetch_domain}/privacy", target: :blank
+        = 'to understand how we use your personal information.'
 
       = f.submit 'Submit', class: 'button'
