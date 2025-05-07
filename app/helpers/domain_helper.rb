@@ -2,7 +2,7 @@
 
 # Helper module for domain-related functionality
 module DomainHelper
-  HOTFIX_DOMAIN = 'www.hotfix.bgs.uktrade.digital'
+  HOTFIX_DOMAIN = 'https://www.hotfix.bgs.uktrade.digital'
 
   def bgs_site?
     Figaro.env.DOMAIN == Figaro.env.BGS_SITE

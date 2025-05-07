@@ -31,10 +31,10 @@ RSpec.describe DomainHelper do
 
       expect(fetch_domain(title_only: true)).to eq('Great')
     end
-
-    it 'returns hotfix domain if DOMAIN is www.hotfix.bgs.uktrade.digital' do
-      allow(Figaro.env).to receive(:DOMAIN).and_return('www.hotfix.bgs.uktrade.digital')
-      allow(Figaro.env).to receive(:BGS_SITE).and_return('www.hotfix.bgs.uktrade.digital')
+    
+    it 'returns hotfix domain if DOMAIN is https://www.hotfix.bgs.uktrade.digital' do
+      allow(Figaro.env).to receive(:DOMAIN).and_return('https://www.hotfix.bgs.uktrade.digital')
+      allow(Figaro.env).to receive(:BGS_SITE).and_return('https://www.hotfix.bgs.uktrade.digital')
 
       expect(fetch_domain).to eq('hotfix.bgs.uktrade.digital')
     end
