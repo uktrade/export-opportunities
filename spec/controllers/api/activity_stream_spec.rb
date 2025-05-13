@@ -804,7 +804,7 @@ RSpec.describe Api::ActivityStreamController, type: :controller do
         expect(item['type']).to eq('Update')
 
         expect(item_object['id']).to eq(feedback.id)
-        expect(item_object['created_at']).to eq(feedback.created_at.to_datetime.rfc3339)
+        expect(item_object['feedback_submission_date']).to eq(feedback.created_at.to_datetime.rfc3339)
         expect(item_object['type']).to eq('dit:exportOpportunities:HCSATFeedbackData')
         expect(item_object['url']).to eq('www.bob.com')
         expect(item_object['user_journey']).to eq('OPPORTUNITY')
