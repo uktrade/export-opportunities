@@ -211,7 +211,7 @@ module Api
 
         {
           'id': csat_feedback.id,
-          'created_at': csat_feedback.created_at.to_datetime.rfc3339,
+          'feedback_submission_date': csat_feedback.created_at.to_datetime.rfc3339,
           'type': prefix,
           'url': csat_feedback.url,
           'user_journey': csat_feedback.user_journey,
