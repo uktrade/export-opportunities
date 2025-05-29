@@ -99,9 +99,13 @@ class OpportunityPresenter < PagePresenter
                            target: '_blank', rel: 'noopener noreferrer', title: 'Opens in a new window'))
     else
       guides.each do |country|
+        # TODO: Remove this once all countries are updated with a rake task, so any references to great.gov.uk are replaced with business.gov.uk
+
+        guide_path = country.exporting_guide_path.gsub('great.gov.uk', fetch_domain)
+
         link = link_to(country.name,
-                       country.exporting_guide_path,
-                       target: '_blank', rel: 'noopener noreferrer', title: 'Opens in a new window')
+                         guide_path,
+                         target: '_blank', rel: 'noopener noreferrer', title: 'Opens in a new window')
         links.push(link.html_safe)
       end
     end
