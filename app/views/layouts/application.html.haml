@@ -51,6 +51,7 @@
     = render 'shared/cookie_notice'
 
     = render partial: 'shared/header', locals: { sso_is_logged_in: user_signed_in_cookie? }
+    = render partial: 'shared/migration_banner'
 
     - if content_for?(:hero)
       .hero-header-wrapper
