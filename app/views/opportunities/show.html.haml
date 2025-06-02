@@ -5,9 +5,6 @@
 - opportunity = OpportunityPresenter.new(self, @opportunity, @content)
 - page.add_breadcrumb_current(opportunity.title_with_country)
 
-%head
-  = canonical_tag(opportunities_url)
-
 .breadcrumb-container
   .container
     = render partial: 'components/breadcrumbs', locals: { breadcrumbs: page.breadcrumbs }
