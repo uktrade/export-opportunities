@@ -1,3 +1,6 @@
+- content_for :head do 
+  = canonical_tag(opportunities_url)
+
 - page = PagePresenter.new(@content)
 - opportunity = OpportunityPresenter.new(self, @opportunity, @content)
 - page.add_breadcrumb_current(opportunity.title_with_country)
